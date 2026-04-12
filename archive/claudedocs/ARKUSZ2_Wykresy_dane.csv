@@ -1,0 +1,14 @@
+── WYKRES 1: Status (donut) ────;;── WYKRES 2: Złożoność (pie) ────;;── WYKRES 3: SLA vs Czas (słupki grupowane) ────;;;;── WYKRES 4: Rundy poprawek (słupki) ──────;;── WYKRES 5: Trend miesięczny (linia) ──────;;
+Status;Liczba;;Złożoność;Liczba;;Projekt;SLA (h);Czas rzecz. (h);;Projekt;Rundy;Limit (2);;Miesiąc;Zakończone;Skumulowane
+Zakończona;=COUNTIF('Wdrożenia IdoB'!D2:D16,"Zakończona");;Niska;=COUNTIF('Wdrożenia IdoB'!H2:H16,"Niska");;CityApart Szczecin;56;8;;CityApart Szczecin;0;2;;Styczeń 2026;0;0
+W toku;=COUNTIF('Wdrożenia IdoB'!D2:D16,"W toku");;Średnia;=COUNTIF('Wdrożenia IdoB'!H2:H16,"Średnia");;WawaBed;80;20;;WawaBed;0;2;;Luty 2026;2;2
+Brief;=COUNTIF('Wdrożenia IdoB'!D2:D16,"Brief");;Wysoka;=COUNTIF('Wdrożenia IdoB'!H2:H16,"Wysoka");;Willa Kapitańska;112;30;;Willa Kapitańska;0;2;;Marzec 2026;5;7
+Poprawki po WD;=COUNTIF('Wdrożenia IdoB'!D2:D16,"Poprawki po WD");;Bardzo wysoka;=COUNTIF('Wdrożenia IdoB'!H2:H16,"Bardzo wysoka");;GoldenApartments;56;15;;GoldenApartments;2;2;;Kwiecień 2026;2;9
+;;;Brief - brak;=COUNTIF('Wdrożenia IdoB'!H2:H16,"Brief*");;MW Consulting;56;10;;MW Consulting;0;2;;Maj 2026 (plan);3;12
+;;;;;;GeoStay;80;14;;GeoStay;0;2;;Czerwiec 2026 (plan);3;15
+;;;;;;Mazurski Chill;56;12;;Mazurski Chill;1;2;;Lipiec-Grudzień (plan);5;20
+;;;;;;Madera Centrum;80;20;;Madera Centrum;3;2;;;
+;;;;;;Najmar;112;35;;Najmar;14;2;;;
+;;;;;;EcoCamping;112;28;;EcoCamping;2;2;;;
+;;;;;;WCA Wrocław;24;5;;WCA Wrocław;0;2;;;
+;;;;;;SORS Eagle Tower;112;22;;SORS Eagle Tower;2;2;;;

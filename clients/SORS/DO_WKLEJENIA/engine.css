@@ -1,0 +1,10 @@
+/* ==========================================================
+   SORS — Engine CSS (engine51651.idobooking.com)
+   Wklej do: Silnik rezerwacji → Arkusz stylów CSS
+   ========================================================== */
+
+/* ---- Ukryj sekcję "Dane właściciela" na stronie kontaktu ---- */
+.s-label.--small,
+.s-label.--small + .modal-contact-inner-container {
+  display: none !important;
+}

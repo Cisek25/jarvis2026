@@ -1,0 +1,900 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-04-12",
+  "platform": "IdoBooking / IdoSell CMS",
+  "notes": [
+    "HTML is injected into .cms-html (homepage) or .txt-text (subpages).",
+    "No <script> or <style> tags allowed — all CSS lives in the global stylesheet, all JS in body_bottom.",
+    "Placeholders: {{KEY}} for scalar values, {{#ITEMS}}...{{/ITEMS}} for repeatable blocks.",
+    "Within a repeater, item fields use {{ITEM_KEY}} notation.",
+    "The dashboard renderer must strip unreplaced {{...}} tokens before output.",
+    "IMG_URL fields should reference /images/ paths from the IdoSell panel media library."
+  ],
+  "components": [
+    {
+      "id": "hero",
+      "name": "Hero – baner powitalny",
+      "category": "layout",
+      "description": "Sekcja hero z tytułem, podtytułem i przyciskiem CTA. Nakładka na slider zdjęć systemu IdoBooking. Zawiera animację przewijania.",
+      "html": "<div class=\"ido-hero ido-reveal\">\n  <div class=\"ido-hero__content\">\n    <p class=\"ido-hero__eyebrow\">{{HERO_EYEBROW}}</p>\n    <h1 class=\"ido-hero__title\">{{HERO_TITLE}}</h1>\n    <p class=\"ido-hero__subtitle\">{{HERO_SUBTITLE}}</p>\n    <a href=\"{{HERO_CTA_URL}}\" class=\"ido-btn ido-hero__cta\">{{HERO_CTA_TEXT}}</a>\n  </div>\n  <div class=\"ido-hero__scroll\" aria-hidden=\"true\"></div>\n</div>",
+      "placeholders": [
+        {
+          "key": "HERO_EYEBROW",
+          "label": "Nadtytuł (mały tekst nad H1)",
+          "type": "text",
+          "default": "Witamy w naszym obiekcie",
+          "required": false
+        },
+        {
+          "key": "HERO_TITLE",
+          "label": "Tytuł główny (H1)",
+          "type": "text",
+          "default": "Twój wypoczynek zaczyna się tutaj",
+          "required": true
+        },
+        {
+          "key": "HERO_SUBTITLE",
+          "label": "Podtytuł / opis",
+          "type": "textarea",
+          "default": "Komfortowe noclegi w pięknej okolicy. Zarezerwuj już dziś.",
+          "required": false
+        },
+        {
+          "key": "HERO_CTA_URL",
+          "label": "Link przycisku CTA",
+          "type": "url",
+          "default": "/offers",
+          "required": true
+        },
+        {
+          "key": "HERO_CTA_TEXT",
+          "label": "Tekst przycisku CTA",
+          "type": "text",
+          "default": "Zobacz oferty",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "split",
+      "name": "Split – tekst + zdjęcie",
+      "category": "layout",
+      "description": "Dwukolumnowy układ: tekst po lewej, zdjęcie po prawej. Idealny do opisów lokalizacji, udogodnień lub wyróżnienia oferty.",
+      "html": "<section class=\"ido-split ido-reveal\">\n  <div class=\"ido-split__text\">\n    <p class=\"ido-split__eyebrow\">{{SPLIT_EYEBROW}}</p>\n    <h2 class=\"ido-split__title\">{{SPLIT_TITLE}}</h2>\n    <p class=\"ido-split__body\">{{SPLIT_BODY}}</p>\n    <a href=\"{{SPLIT_CTA_URL}}\" class=\"ido-btn ido-btn--outline\">{{SPLIT_CTA_TEXT}}</a>\n  </div>\n  <div class=\"ido-split__media\">\n    <img src=\"{{SPLIT_IMG_URL}}\" alt=\"{{SPLIT_IMG_ALT}}\" loading=\"lazy\" class=\"ido-split__img\" />\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "SPLIT_EYEBROW",
+          "label": "Nadtytuł sekcji",
+          "type": "text",
+          "default": "O nas",
+          "required": false
+        },
+        {
+          "key": "SPLIT_TITLE",
+          "label": "Nagłówek sekcji (H2)",
+          "type": "text",
+          "default": "Dlaczego warto wybrać nasz obiekt?",
+          "required": true
+        },
+        {
+          "key": "SPLIT_BODY",
+          "label": "Treść / opis",
+          "type": "textarea",
+          "default": "Oferujemy wyjątkowe warunki wypoczynku w sercu natury. Nasze apartamenty wyposażone są w najwyższym standardzie, a otoczenie zapewnia idealny relaks przez cały rok.",
+          "required": true
+        },
+        {
+          "key": "SPLIT_CTA_URL",
+          "label": "Link przycisku (opcjonalny)",
+          "type": "url",
+          "default": "/offers",
+          "required": false
+        },
+        {
+          "key": "SPLIT_CTA_TEXT",
+          "label": "Tekst przycisku (opcjonalny)",
+          "type": "text",
+          "default": "Dowiedz się więcej",
+          "required": false
+        },
+        {
+          "key": "SPLIT_IMG_URL",
+          "label": "URL zdjęcia",
+          "type": "url",
+          "default": "/images/frontpageGallery/pictures/large/0/0/1_full.jpg",
+          "required": true
+        },
+        {
+          "key": "SPLIT_IMG_ALT",
+          "label": "Opis alternatywny zdjęcia (alt)",
+          "type": "text",
+          "default": "Widok na obiekt",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "split-reverse",
+      "name": "Split odwrócony – zdjęcie + tekst",
+      "category": "layout",
+      "description": "Wariant układu split z zamienionymi kolumnami: zdjęcie po lewej, tekst po prawej. Stosuj naprzemiennie z komponentem split dla urozmaicenia strony.",
+      "html": "<section class=\"ido-split ido-split--reverse ido-reveal\">\n  <div class=\"ido-split__media\">\n    <img src=\"{{SPLIT_IMG_URL}}\" alt=\"{{SPLIT_IMG_ALT}}\" loading=\"lazy\" class=\"ido-split__img\" />\n  </div>\n  <div class=\"ido-split__text\">\n    <p class=\"ido-split__eyebrow\">{{SPLIT_EYEBROW}}</p>\n    <h2 class=\"ido-split__title\">{{SPLIT_TITLE}}</h2>\n    <p class=\"ido-split__body\">{{SPLIT_BODY}}</p>\n    <a href=\"{{SPLIT_CTA_URL}}\" class=\"ido-btn ido-btn--outline\">{{SPLIT_CTA_TEXT}}</a>\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "SPLIT_EYEBROW",
+          "label": "Nadtytuł sekcji",
+          "type": "text",
+          "default": "Lokalizacja",
+          "required": false
+        },
+        {
+          "key": "SPLIT_TITLE",
+          "label": "Nagłówek sekcji (H2)",
+          "type": "text",
+          "default": "Idealne położenie w samym sercu przyrody",
+          "required": true
+        },
+        {
+          "key": "SPLIT_BODY",
+          "label": "Treść / opis",
+          "type": "textarea",
+          "default": "Nasz obiekt położony jest w malowniczej okolicy, z dala od zgiełku miasta. W pobliżu znajdują się jeziora, szlaki turystyczne i liczne atrakcje regionu.",
+          "required": true
+        },
+        {
+          "key": "SPLIT_CTA_URL",
+          "label": "Link przycisku (opcjonalny)",
+          "type": "url",
+          "default": "/txt/1/Lokalizacja",
+          "required": false
+        },
+        {
+          "key": "SPLIT_CTA_TEXT",
+          "label": "Tekst przycisku (opcjonalny)",
+          "type": "text",
+          "default": "Zobacz mapę",
+          "required": false
+        },
+        {
+          "key": "SPLIT_IMG_URL",
+          "label": "URL zdjęcia",
+          "type": "url",
+          "default": "/images/frontpageGallery/pictures/large/0/0/2_full.jpg",
+          "required": true
+        },
+        {
+          "key": "SPLIT_IMG_ALT",
+          "label": "Opis alternatywny zdjęcia (alt)",
+          "type": "text",
+          "default": "Okolica obiektu",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "features",
+      "name": "Cechy – siatka udogodnień",
+      "category": "content",
+      "description": "Siatka 3–4 kafelków z ikoną, tytułem i opisem. Służy do prezentacji udogodnień obiektu, wyróżników oferty lub zalet lokalizacji.",
+      "html": "<section class=\"ido-features ido-reveal\">\n  <div class=\"ido-features__header\">\n    <p class=\"ido-features__eyebrow\">{{FEATURES_EYEBROW}}</p>\n    <h2 class=\"ido-features__title\">{{FEATURES_TITLE}}</h2>\n    <p class=\"ido-features__subtitle\">{{FEATURES_SUBTITLE}}</p>\n  </div>\n  <ul class=\"ido-features__grid\" role=\"list\">\n    {{#ITEMS}}\n    <li class=\"ido-features__item\">\n      <div class=\"ido-features__icon\" aria-hidden=\"true\">{{ITEM_ICON}}</div>\n      <h3 class=\"ido-features__item-title\">{{ITEM_TITLE}}</h3>\n      <p class=\"ido-features__item-desc\">{{ITEM_DESC}}</p>\n    </li>\n    {{/ITEMS}}\n  </ul>\n</section>",
+      "itemTemplate": "<li class=\"ido-features__item\">\n  <div class=\"ido-features__icon\" aria-hidden=\"true\">{{ITEM_ICON}}</div>\n  <h3 class=\"ido-features__item-title\">{{ITEM_TITLE}}</h3>\n  <p class=\"ido-features__item-desc\">{{ITEM_DESC}}</p>\n</li>",
+      "placeholders": [
+        {
+          "key": "FEATURES_EYEBROW",
+          "label": "Nadtytuł sekcji",
+          "type": "text",
+          "default": "Dlaczego my?",
+          "required": false
+        },
+        {
+          "key": "FEATURES_TITLE",
+          "label": "Nagłówek sekcji (H2)",
+          "type": "text",
+          "default": "Co oferujemy naszym gościom",
+          "required": true
+        },
+        {
+          "key": "FEATURES_SUBTITLE",
+          "label": "Podtytuł / opis sekcji",
+          "type": "textarea",
+          "default": "Stawiamy na komfort, spokój i bliski kontakt z naturą.",
+          "required": false
+        },
+        {
+          "key": "ITEMS",
+          "label": "Lista cech / udogodnień",
+          "type": "items",
+          "required": true,
+          "itemFields": [
+            {
+              "key": "ITEM_ICON",
+              "label": "Ikona (emoji lub SVG inline)",
+              "type": "text",
+              "default": "🏠"
+            },
+            {
+              "key": "ITEM_TITLE",
+              "label": "Tytuł cechy",
+              "type": "text",
+              "default": "Komfortowe wnętrza"
+            },
+            {
+              "key": "ITEM_DESC",
+              "label": "Opis cechy",
+              "type": "textarea",
+              "default": "Apartamenty wyposażone w wysokiej jakości meble i sprzęt AGD."
+            }
+          ],
+          "defaultItems": [
+            {
+              "ITEM_ICON": "🛏️",
+              "ITEM_TITLE": "Wygodne łóżka",
+              "ITEM_DESC": "Materace premium i pościel hotelowa dla najlepszego wypoczynku."
+            },
+            {
+              "ITEM_ICON": "🌲",
+              "ITEM_TITLE": "Blisko natury",
+              "ITEM_DESC": "Otoczeni lasami i jeziorami — idealne miejsce na aktywny wypoczynek."
+            },
+            {
+              "ITEM_ICON": "🍳",
+              "ITEM_TITLE": "Aneks kuchenny",
+              "ITEM_DESC": "W pełni wyposażona kuchnia, abyś mógł gotować jak w domu."
+            },
+            {
+              "ITEM_ICON": "📶",
+              "ITEM_TITLE": "Bezpłatne Wi-Fi",
+              "ITEM_DESC": "Szybkie łącze internetowe dostępne w całym obiekcie."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cards",
+      "name": "Karty ofert – siatka pokojów",
+      "category": "content",
+      "description": "Siatka kart ofert z okładką, tytułem, ceną i linkiem. Używaj do prezentacji wybranych pokojów lub apartamentów. Dla kart dynamicznych preferuj system wyróżnionych ofert IdoBooking.",
+      "html": "<section class=\"ido-cards ido-reveal\">\n  <div class=\"ido-cards__header\">\n    <p class=\"ido-cards__eyebrow\">{{CARDS_EYEBROW}}</p>\n    <h2 class=\"ido-cards__title\">{{CARDS_TITLE}}</h2>\n  </div>\n  <ul class=\"ido-cards__grid\" role=\"list\">\n    {{#ITEMS}}\n    <li class=\"ido-cards__item\">\n      <a href=\"{{ITEM_URL}}\" class=\"ido-cards__link\" aria-label=\"{{ITEM_TITLE}}\">\n        <div class=\"ido-cards__img-wrap\">\n          <img src=\"{{ITEM_IMG_URL}}\" alt=\"{{ITEM_IMG_ALT}}\" loading=\"lazy\" class=\"ido-cards__img\" />\n          <div class=\"ido-cards__overlay\" aria-hidden=\"true\"></div>\n        </div>\n        <div class=\"ido-cards__body\">\n          <h3 class=\"ido-cards__item-title\">{{ITEM_TITLE}}</h3>\n          <p class=\"ido-cards__item-desc\">{{ITEM_DESC}}</p>\n          <p class=\"ido-cards__price\"><span class=\"ido-cards__price-from\">od</span> {{ITEM_PRICE}} <span class=\"ido-cards__price-unit\">zł / noc</span></p>\n          <span class=\"ido-btn ido-cards__btn\">{{ITEM_BTN_TEXT}}</span>\n        </div>\n      </a>\n    </li>\n    {{/ITEMS}}\n  </ul>\n</section>",
+      "itemTemplate": "<li class=\"ido-cards__item\">\n  <a href=\"{{ITEM_URL}}\" class=\"ido-cards__link\" aria-label=\"{{ITEM_TITLE}}\">\n    <div class=\"ido-cards__img-wrap\">\n      <img src=\"{{ITEM_IMG_URL}}\" alt=\"{{ITEM_IMG_ALT}}\" loading=\"lazy\" class=\"ido-cards__img\" />\n      <div class=\"ido-cards__overlay\" aria-hidden=\"true\"></div>\n    </div>\n    <div class=\"ido-cards__body\">\n      <h3 class=\"ido-cards__item-title\">{{ITEM_TITLE}}</h3>\n      <p class=\"ido-cards__item-desc\">{{ITEM_DESC}}</p>\n      <p class=\"ido-cards__price\"><span class=\"ido-cards__price-from\">od</span> {{ITEM_PRICE}} <span class=\"ido-cards__price-unit\">zł / noc</span></p>\n      <span class=\"ido-btn ido-cards__btn\">{{ITEM_BTN_TEXT}}</span>\n    </div>\n  </a>\n</li>",
+      "placeholders": [
+        {
+          "key": "CARDS_EYEBROW",
+          "label": "Nadtytuł sekcji",
+          "type": "text",
+          "default": "Nasze oferty",
+          "required": false
+        },
+        {
+          "key": "CARDS_TITLE",
+          "label": "Nagłówek sekcji (H2)",
+          "type": "text",
+          "default": "Wybierz idealny apartament",
+          "required": true
+        },
+        {
+          "key": "ITEMS",
+          "label": "Lista kart ofert",
+          "type": "items",
+          "required": true,
+          "itemFields": [
+            {
+              "key": "ITEM_URL",
+              "label": "Link do oferty (np. /offer/123/Nazwa)",
+              "type": "url",
+              "default": "/offer/1/Apartament"
+            },
+            {
+              "key": "ITEM_IMG_URL",
+              "label": "URL zdjęcia okładki",
+              "type": "url",
+              "default": "/images/objects/pictures/large/0/0/1.jpg"
+            },
+            {
+              "key": "ITEM_IMG_ALT",
+              "label": "Opis alt zdjęcia",
+              "type": "text",
+              "default": "Widok apartamentu"
+            },
+            {
+              "key": "ITEM_TITLE",
+              "label": "Nazwa oferty",
+              "type": "text",
+              "default": "Apartament Standard"
+            },
+            {
+              "key": "ITEM_DESC",
+              "label": "Krótki opis (1–2 zdania)",
+              "type": "textarea",
+              "default": "Przytulny apartament dla 2–4 osób z widokiem na ogród."
+            },
+            {
+              "key": "ITEM_PRICE",
+              "label": "Cena od (liczba, bez zl)",
+              "type": "number",
+              "default": "350"
+            },
+            {
+              "key": "ITEM_BTN_TEXT",
+              "label": "Tekst przycisku karty",
+              "type": "text",
+              "default": "Szczegóły i rezerwacja"
+            }
+          ],
+          "defaultItems": [
+            {
+              "ITEM_URL": "/offer/1/Apartament-Standard",
+              "ITEM_IMG_URL": "/images/objects/pictures/large/0/0/1.jpg",
+              "ITEM_IMG_ALT": "Apartament Standard",
+              "ITEM_TITLE": "Apartament Standard",
+              "ITEM_DESC": "Przytulny apartament dla 2–4 osób z pełnym wyposażeniem.",
+              "ITEM_PRICE": "350",
+              "ITEM_BTN_TEXT": "Szczegóły i rezerwacja"
+            },
+            {
+              "ITEM_URL": "/offer/2/Apartament-Premium",
+              "ITEM_IMG_URL": "/images/objects/pictures/large/0/0/2.jpg",
+              "ITEM_IMG_ALT": "Apartament Premium",
+              "ITEM_TITLE": "Apartament Premium",
+              "ITEM_DESC": "Przestronny apartament z tarasem i widokiem na las.",
+              "ITEM_PRICE": "520",
+              "ITEM_BTN_TEXT": "Szczegóły i rezerwacja"
+            },
+            {
+              "ITEM_URL": "/offer/3/Dom-Letniskowy",
+              "ITEM_IMG_URL": "/images/objects/pictures/large/0/0/3.jpg",
+              "ITEM_IMG_ALT": "Dom Letniskowy",
+              "ITEM_TITLE": "Dom Letniskowy",
+              "ITEM_DESC": "Wolnostojący dom dla grup do 8 osób. Ogród, grill, sauna.",
+              "ITEM_PRICE": "900",
+              "ITEM_BTN_TEXT": "Szczegóły i rezerwacja"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cta",
+      "name": "CTA – sekcja kontaktowa",
+      "category": "content",
+      "description": "Sekcja wezwania do działania z nagłówkiem, numerem telefonu, adresem e-mail i przyciskiem. Jasne tło. Idealna do umieszczenia po sekcji ofert lub na dole strony.",
+      "html": "<section class=\"ido-cta ido-reveal\">\n  <div class=\"ido-cta__inner\">\n    <p class=\"ido-cta__eyebrow\">{{CTA_EYEBROW}}</p>\n    <h2 class=\"ido-cta__title\">{{CTA_TITLE}}</h2>\n    <p class=\"ido-cta__subtitle\">{{CTA_SUBTITLE}}</p>\n    <div class=\"ido-cta__contacts\">\n      <a href=\"tel:{{CTA_PHONE_HREF}}\" class=\"ido-cta__contact ido-cta__contact--phone\">{{CTA_PHONE_DISPLAY}}</a>\n      <a href=\"mailto:{{CTA_EMAIL}}\" class=\"ido-cta__contact ido-cta__contact--email\">{{CTA_EMAIL}}</a>\n    </div>\n    <a href=\"{{CTA_BTN_URL}}\" class=\"ido-btn ido-cta__btn\">{{CTA_BTN_TEXT}}</a>\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "CTA_EYEBROW",
+          "label": "Nadtytuł sekcji",
+          "type": "text",
+          "default": "Skontaktuj się z nami",
+          "required": false
+        },
+        {
+          "key": "CTA_TITLE",
+          "label": "Nagłówek CTA (H2)",
+          "type": "text",
+          "default": "Masz pytania? Jesteśmy do dyspozycji!",
+          "required": true
+        },
+        {
+          "key": "CTA_SUBTITLE",
+          "label": "Podtytuł / zachęta",
+          "type": "textarea",
+          "default": "Napisz lub zadzwoń — chętnie pomożemy wybrać najlepszą ofertę i odpowiemy na wszelkie pytania.",
+          "required": false
+        },
+        {
+          "key": "CTA_PHONE_HREF",
+          "label": "Numer telefonu do href (bez spacji, np. +48123456789)",
+          "type": "text",
+          "default": "+48123456789",
+          "required": true
+        },
+        {
+          "key": "CTA_PHONE_DISPLAY",
+          "label": "Numer telefonu do wyświetlenia",
+          "type": "text",
+          "default": "+48 123 456 789",
+          "required": true
+        },
+        {
+          "key": "CTA_EMAIL",
+          "label": "Adres e-mail",
+          "type": "text",
+          "default": "kontakt@obiekt.pl",
+          "required": true
+        },
+        {
+          "key": "CTA_BTN_URL",
+          "label": "Link przycisku",
+          "type": "url",
+          "default": "/offers",
+          "required": true
+        },
+        {
+          "key": "CTA_BTN_TEXT",
+          "label": "Tekst przycisku",
+          "type": "text",
+          "default": "Sprawdź dostępność",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "cta-dark",
+      "name": "CTA ciemny – sekcja kontaktowa (dark)",
+      "category": "content",
+      "description": "Wariant ciemnego tła sekcji CTA. Stosuj dla kontrastu wizualnego lub jako ostatnią sekcję przed stopką. Tekst automatycznie jasny dzięki klasie modyfikatora.",
+      "html": "<section class=\"ido-cta ido-cta--dark ido-reveal\">\n  <div class=\"ido-cta__inner\">\n    <p class=\"ido-cta__eyebrow\">{{CTA_EYEBROW}}</p>\n    <h2 class=\"ido-cta__title\">{{CTA_TITLE}}</h2>\n    <p class=\"ido-cta__subtitle\">{{CTA_SUBTITLE}}</p>\n    <div class=\"ido-cta__contacts\">\n      <a href=\"tel:{{CTA_PHONE_HREF}}\" class=\"ido-cta__contact ido-cta__contact--phone\">{{CTA_PHONE_DISPLAY}}</a>\n      <a href=\"mailto:{{CTA_EMAIL}}\" class=\"ido-cta__contact ido-cta__contact--email\">{{CTA_EMAIL}}</a>\n    </div>\n    <a href=\"{{CTA_BTN_URL}}\" class=\"ido-btn ido-btn--light ido-cta__btn\">{{CTA_BTN_TEXT}}</a>\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "CTA_EYEBROW",
+          "label": "Nadtytuł sekcji",
+          "type": "text",
+          "default": "Rezerwacja",
+          "required": false
+        },
+        {
+          "key": "CTA_TITLE",
+          "label": "Nagłówek CTA (H2)",
+          "type": "text",
+          "default": "Zarezerwuj swój pobyt już dziś",
+          "required": true
+        },
+        {
+          "key": "CTA_SUBTITLE",
+          "label": "Podtytuł / zachęta",
+          "type": "textarea",
+          "default": "Ograniczona liczba terminów. Nie zwlekaj — zadbaj o wymarzony urlop z wyprzedzeniem.",
+          "required": false
+        },
+        {
+          "key": "CTA_PHONE_HREF",
+          "label": "Numer telefonu do href (bez spacji)",
+          "type": "text",
+          "default": "+48123456789",
+          "required": true
+        },
+        {
+          "key": "CTA_PHONE_DISPLAY",
+          "label": "Numer telefonu do wyświetlenia",
+          "type": "text",
+          "default": "+48 123 456 789",
+          "required": true
+        },
+        {
+          "key": "CTA_EMAIL",
+          "label": "Adres e-mail",
+          "type": "text",
+          "default": "kontakt@obiekt.pl",
+          "required": true
+        },
+        {
+          "key": "CTA_BTN_URL",
+          "label": "Link przycisku",
+          "type": "url",
+          "default": "/offers",
+          "required": true
+        },
+        {
+          "key": "CTA_BTN_TEXT",
+          "label": "Tekst przycisku",
+          "type": "text",
+          "default": "Zarezerwuj teraz",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "stats",
+      "name": "Statystyki – pasek liczb",
+      "category": "content",
+      "description": "Pasek 3–4 dużych liczb z etykietami. Służy do podkreślenia skali działalności, doświadczenia lub wyróżników obiektu (np. lata doświadczenia, liczba gości, ocena).",
+      "html": "<section class=\"ido-stats ido-reveal\" aria-label=\"{{STATS_ARIA_LABEL}}\">\n  <div class=\"ido-stats__inner\">\n    <p class=\"ido-stats__heading\">{{STATS_HEADING}}</p>\n    <ul class=\"ido-stats__grid\" role=\"list\">\n      {{#ITEMS}}\n      <li class=\"ido-stats__item\">\n        <span class=\"ido-stats__number\" aria-label=\"{{ITEM_ARIA}}\">{{ITEM_VALUE}}</span>\n        <span class=\"ido-stats__label\">{{ITEM_LABEL}}</span>\n      </li>\n      {{/ITEMS}}\n    </ul>\n  </div>\n</section>",
+      "itemTemplate": "<li class=\"ido-stats__item\">\n  <span class=\"ido-stats__number\" aria-label=\"{{ITEM_ARIA}}\">{{ITEM_VALUE}}</span>\n  <span class=\"ido-stats__label\">{{ITEM_LABEL}}</span>\n</li>",
+      "placeholders": [
+        {
+          "key": "STATS_ARIA_LABEL",
+          "label": "Etykieta ARIA sekcji (dla czytników ekranu)",
+          "type": "text",
+          "default": "Nasze osiągnięcia w liczbach",
+          "required": false
+        },
+        {
+          "key": "STATS_HEADING",
+          "label": "Nagłówek sekcji statystyk",
+          "type": "text",
+          "default": "Nasze doświadczenie",
+          "required": false
+        },
+        {
+          "key": "ITEMS",
+          "label": "Lista statystyk",
+          "type": "items",
+          "required": true,
+          "itemFields": [
+            {
+              "key": "ITEM_VALUE",
+              "label": "Liczba / wartość",
+              "type": "text",
+              "default": "500+"
+            },
+            {
+              "key": "ITEM_LABEL",
+              "label": "Opis statystyki",
+              "type": "text",
+              "default": "Zadowolonych gości"
+            },
+            {
+              "key": "ITEM_ARIA",
+              "label": "Opis dla czytników ekranu (opcjonalnie)",
+              "type": "text"
+            }
+          ],
+          "defaultItems": [
+            {
+              "ITEM_VALUE": "20+",
+              "ITEM_LABEL": "Lat doświadczenia",
+              "ITEM_ARIA": "Dwadzieścia lub więcej lat doświadczenia"
+            },
+            {
+              "ITEM_VALUE": "15K+",
+              "ITEM_LABEL": "Zadowolonych gości",
+              "ITEM_ARIA": "Piętnaście tysięcy lub więcej zadowolonych gości"
+            },
+            {
+              "ITEM_VALUE": "4.9★",
+              "ITEM_LABEL": "Średnia ocena",
+              "ITEM_ARIA": "Cztery dziewięć na pięć gwiazdek"
+            },
+            {
+              "ITEM_VALUE": "365",
+              "ITEM_LABEL": "Dni otwarte rocznie",
+              "ITEM_ARIA": "Trzystu sześćdziesiąt pięć dni otwarte rocznie"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "name": "FAQ – zestaw pytań",
+      "category": "interactive",
+      "description": "Akordeon z rozwijalnymi pytaniami i odpowiedziami. Idealne do rozwiania wątpliwości gości dotyczących rezerwacji, warunków pobytu lub udogodnień obiektu.",
+      "html": "<section class=\"ido-faq ido-reveal\">\n  <div class=\"ido-faq__header\">\n    <h2 class=\"ido-faq__title\">{{FAQ_TITLE}}</h2>\n    <p class=\"ido-faq__subtitle\">{{FAQ_SUBTITLE}}</p>\n  </div>\n  <div class=\"ido-faq__items\">\n    {{#ITEMS}}\n    <div class=\"ido-faq__item\">\n      <button class=\"ido-faq__question\" aria-expanded=\"false\" aria-controls=\"faq-{{ITEM_ID}}\">\n        <span>{{ITEM_QUESTION}}</span>\n        <span class=\"ido-faq__icon\" aria-hidden=\"true\"></span>\n      </button>\n      <div class=\"ido-faq__answer\" id=\"faq-{{ITEM_ID}}\" hidden>\n        <p>{{ITEM_ANSWER}}</p>\n      </div>\n    </div>\n    {{/ITEMS}}\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "FAQ_TITLE",
+          "label": "Tytuł sekcji FAQ",
+          "type": "text",
+          "default": "Często zadawane pytania",
+          "required": true
+        },
+        {
+          "key": "FAQ_SUBTITLE",
+          "label": "Podtytuł sekcji",
+          "type": "textarea",
+          "default": "Znajdź odpowiedzi na pytania, które mogą Ci się pojawić.",
+          "required": false
+        },
+        {
+          "key": "ITEMS",
+          "label": "Pytania i odpowiedzi",
+          "type": "items",
+          "required": true,
+          "itemFields": [
+            {
+              "key": "ITEM_ID",
+              "label": "ID pytania (dla atrybutów HTML)",
+              "type": "text",
+              "default": "q1"
+            },
+            {
+              "key": "ITEM_QUESTION",
+              "label": "Pytanie",
+              "type": "text",
+              "default": "Ile czasu przed przyjazdem muszę dokonać rezerwacji?"
+            },
+            {
+              "key": "ITEM_ANSWER",
+              "label": "Odpowiedź",
+              "type": "textarea",
+              "default": "Zarezerwować można nawet w ostatniej chwili, ale polecamy zarezerwować minimum 7 dni wcześniej dla najlepszych dostępnych opcji."
+            }
+          ],
+          "defaultItems": [
+            {
+              "ITEM_ID": "q1",
+              "ITEM_QUESTION": "Czy termin rezerwacji można zmienić bez dodatkowych opłat?",
+              "ITEM_ANSWER": "Tak, rezerwacje można zmienić do 14 dni przed planowanym przyjazdem bez żadnych dodatkowych opłat."
+            },
+            {
+              "ITEM_ID": "q2",
+              "ITEM_QUESTION": "Czy obciążycie mnie kaucją przy przyjeździe?",
+              "ITEM_ANSWER": "Tak, pobieramy zwrotną kaucję w wysokości 500 PLN, którą zwracamy po wyjeździe, jeśli mieszkanie pozostanie w dobry stan."
+            },
+            {
+              "ITEM_ID": "q3",
+              "ITEM_QUESTION": "Czy mogę przynieść zwierzęta domowe?",
+              "ITEM_ANSWER": "Zwierzęta domowe są dozwolone w wybranych apartamentach za dodatkową opłatą 50 PLN za noc."
+            },
+            {
+              "ITEM_ID": "q4",
+              "ITEM_QUESTION": "Czy parking jest darmowy?",
+              "ITEM_ANSWER": "Tak, każdy gość ma dostęp do bezpłatnego parkingu na terenie obiektu."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gallery",
+      "name": "Galeria – siatka zdjęć",
+      "category": "content",
+      "description": "Siatka zdjęć z lightboxem. Pozwala gościom przejrzeć zdjęcia obiektu w powiększonym formacie.",
+      "html": "<section class=\"ido-gallery ido-reveal\">\n  <div class=\"ido-gallery__header\">\n    <h2 class=\"ido-gallery__title\">{{GALLERY_TITLE}}</h2>\n    <p class=\"ido-gallery__subtitle\">{{GALLERY_SUBTITLE}}</p>\n  </div>\n  <div class=\"ido-gallery__grid\">\n    {{#ITEMS}}\n    <a href=\"{{ITEM_FULL_URL}}\" class=\"ido-gallery__item\" data-lightbox=\"gallery\" title=\"{{ITEM_CAPTION}}\">\n      <img src=\"{{ITEM_THUMB_URL}}\" alt=\"{{ITEM_ALT}}\" loading=\"lazy\" class=\"ido-gallery__img\" />\n      <div class=\"ido-gallery__overlay\" aria-hidden=\"true\"></div>\n    </a>\n    {{/ITEMS}}\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "GALLERY_TITLE",
+          "label": "Tytuł sekcji galerii",
+          "type": "text",
+          "default": "Galeria zdjęć",
+          "required": true
+        },
+        {
+          "key": "GALLERY_SUBTITLE",
+          "label": "Podtytuł sekcji",
+          "type": "textarea",
+          "default": "Przejrzyj nasze zdjęcia i przekonaj się o pięknie naszego obiektu.",
+          "required": false
+        },
+        {
+          "key": "ITEMS",
+          "label": "Zdjęcia w galerii",
+          "type": "items",
+          "required": true,
+          "itemFields": [
+            {
+              "key": "ITEM_THUMB_URL",
+              "label": "URL miniaturki",
+              "type": "url",
+              "default": "/images/gallery/thumb_001.jpg"
+            },
+            {
+              "key": "ITEM_FULL_URL",
+              "label": "URL pełnej rezolucji",
+              "type": "url",
+              "default": "/images/gallery/full_001.jpg"
+            },
+            {
+              "key": "ITEM_ALT",
+              "label": "Tekst alternatywny",
+              "type": "text",
+              "default": "Pokój w hotelu"
+            },
+            {
+              "key": "ITEM_CAPTION",
+              "label": "Podpis zdjęcia (opcjonalnie)",
+              "type": "text"
+            }
+          ],
+          "defaultItems": [
+            {
+              "ITEM_THUMB_URL": "/images/frontpageGallery/pictures/medium/0/0/1.jpg",
+              "ITEM_FULL_URL": "/images/frontpageGallery/pictures/large/0/0/1.jpg",
+              "ITEM_ALT": "Widok apartamentu Standard",
+              "ITEM_CAPTION": "Apartament Standard"
+            },
+            {
+              "ITEM_THUMB_URL": "/images/frontpageGallery/pictures/medium/0/0/2.jpg",
+              "ITEM_FULL_URL": "/images/frontpageGallery/pictures/large/0/0/2.jpg",
+              "ITEM_ALT": "Sypialnia w apartamencie",
+              "ITEM_CAPTION": "Przytulna sypialnia"
+            },
+            {
+              "ITEM_THUMB_URL": "/images/frontpageGallery/pictures/medium/0/0/3.jpg",
+              "ITEM_FULL_URL": "/images/frontpageGallery/pictures/large/0/0/3.jpg",
+              "ITEM_ALT": "Salon ze widokiem",
+              "ITEM_CAPTION": "Nowoczesny salon"
+            },
+            {
+              "ITEM_THUMB_URL": "/images/frontpageGallery/pictures/medium/0/0/4.jpg",
+              "ITEM_FULL_URL": "/images/frontpageGallery/pictures/large/0/0/4.jpg",
+              "ITEM_ALT": "Widok z tarasu na okolicę",
+              "ITEM_CAPTION": "Widok z tarasu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "name": "O nas – sekcja opisowa",
+      "category": "content",
+      "description": "Sekcja narracyjna z informacjami o obiekcie, historii i wyróżnikach. Może zawierać dodatkowe punkty wiodące.",
+      "html": "<section class=\"ido-about ido-reveal\">\n  <div class=\"ido-about__container\">\n    <div class=\"ido-about__header\">\n      <h2 class=\"ido-about__title\">{{ABOUT_TITLE}}</h2>\n      <p class=\"ido-about__subtitle\">{{ABOUT_SUBTITLE}}</p>\n    </div>\n    <div class=\"ido-about__content\">\n      <div class=\"ido-about__text\">\n        <p>{{ABOUT_TEXT}}</p>\n      </div>\n      {{#ABOUT_HIGHLIGHTS}}\n      <div class=\"ido-about__highlights\">\n        {{#ITEMS}}\n        <div class=\"ido-about__highlight\">\n          <h3 class=\"ido-about__highlight-title\">{{ITEM_TITLE}}</h3>\n          <p class=\"ido-about__highlight-text\">{{ITEM_DESC}}</p>\n        </div>\n        {{/ITEMS}}\n      </div>\n      {{/ABOUT_HIGHLIGHTS}}\n    </div>\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "ABOUT_TITLE",
+          "label": "Tytuł sekcji O nas",
+          "type": "text",
+          "default": "Poznaj naszą historię",
+          "required": true
+        },
+        {
+          "key": "ABOUT_SUBTITLE",
+          "label": "Podtytuł",
+          "type": "text",
+          "default": "Jak się zaczęło wszystko",
+          "required": false
+        },
+        {
+          "key": "ABOUT_TEXT",
+          "label": "Główna zawartość tekstowa",
+          "type": "textarea",
+          "default": "Nasz obiekt został założony 20 lat temu z pasji do gościnności i miłości do tego pięknego regionu. Przez wszystkie te lata stawialiśmy na najwyższą jakość i komfort dla naszych gości.",
+          "required": true
+        },
+        {
+          "key": "ABOUT_HIGHLIGHTS",
+          "label": "Czy wyświetlić punkty wiodące?",
+          "type": "boolean",
+          "default": true,
+          "required": false
+        },
+        {
+          "key": "ITEMS",
+          "label": "Punkty wiodące",
+          "type": "items",
+          "required": false,
+          "itemFields": [
+            {
+              "key": "ITEM_TITLE",
+              "label": "Tytuł punktu",
+              "type": "text"
+            },
+            {
+              "key": "ITEM_DESC",
+              "label": "Opis punktu",
+              "type": "textarea"
+            }
+          ],
+          "defaultItems": [
+            {
+              "ITEM_TITLE": "Naturalnie",
+              "ITEM_DESC": "Otoczeni piękną naturą w każdej porze roku."
+            },
+            {
+              "ITEM_TITLE": "Rodzinnie",
+              "ITEM_DESC": "Obiekt przyjazny dla całych rodzin, z bogatą ofertą dla dzieci."
+            },
+            {
+              "ITEM_TITLE": "Niezapomnialnie",
+              "ITEM_DESC": "Każdy pobyt zostaje na długo w pamięci naszych gości."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "map",
+      "name": "Mapa – lokalizacja obiektu",
+      "category": "content",
+      "description": "Osadzona mapa (Google Maps lub inne) z lokalizacją obiektu i informacjami adresowymi.",
+      "html": "<section class=\"ido-map ido-reveal\">\n  <div class=\"ido-map__header\">\n    <h2 class=\"ido-map__title\">{{MAP_TITLE}}</h2>\n    <p class=\"ido-map__subtitle\">{{MAP_SUBTITLE}}</p>\n  </div>\n  <div class=\"ido-map__container\">\n    <iframe\n      class=\"ido-map__iframe\"\n      src=\"{{MAP_EMBED_URL}}\"\n      allowfullscreen=\"\"\n      loading=\"lazy\"\n      referrerpolicy=\"no-referrer-when-downgrade\"\n      title=\"Mapa lokalizacji obiektu\">\n    </iframe>\n  </div>\n  {{#MAP_ADDRESS}}\n  <div class=\"ido-map__info\">\n    <p class=\"ido-map__address\">{{MAP_ADDRESS}}</p>\n  </div>\n  {{/MAP_ADDRESS}}\n</section>",
+      "placeholders": [
+        {
+          "key": "MAP_TITLE",
+          "label": "Tytuł sekcji mapy",
+          "type": "text",
+          "default": "Odwiedź nas",
+          "required": true
+        },
+        {
+          "key": "MAP_SUBTITLE",
+          "label": "Podtytuł sekcji",
+          "type": "text",
+          "default": "Jesteśmy tutaj",
+          "required": false
+        },
+        {
+          "key": "MAP_EMBED_URL",
+          "label": "URL osadzonej mapy (Google Maps embed lub inna)",
+          "type": "url",
+          "default": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.5!2d19.456!3d51.749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768",
+          "required": true
+        },
+        {
+          "key": "MAP_ADDRESS",
+          "label": "Adres obiektu (wyświetlany pod mapą)",
+          "type": "textarea",
+          "default": "ul. Przykładowa 123\n00-000 Warszawa\nPolska\nTel: +48 123 456 789\nEmail: kontakt@obiekt.pl",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "testimonials",
+      "name": "Opinie gości – karuzela",
+      "category": "content",
+      "description": "Karuzela z opiniami i recenzjami gości. Wyświetla nazwę, zdjęcie (opcjonalnie), rating i treść opinii.",
+      "html": "<section class=\"ido-testimonials ido-reveal\">\n  <div class=\"ido-testimonials__header\">\n    <h2 class=\"ido-testimonials__title\">{{TESTIMONIALS_TITLE}}</h2>\n    <p class=\"ido-testimonials__subtitle\">{{TESTIMONIALS_SUBTITLE}}</p>\n  </div>\n  <div class=\"ido-testimonials__carousel\">\n    {{#ITEMS}}\n    <div class=\"ido-testimonials__item\">\n      {{#ITEM_RATING}}\n      <div class=\"ido-testimonials__rating\" aria-label=\"{{ITEM_RATING}} na 5 gwiazdek\">\n        {{#ITEM_STARS}}<span class=\"ido-testimonials__star\" aria-hidden=\"true\">★</span>{{/ITEM_STARS}}\n      </div>\n      {{/ITEM_RATING}}\n      <p class=\"ido-testimonials__text\">{{ITEM_TEXT}}</p>\n      <div class=\"ido-testimonials__author\">\n        {{#ITEM_AVATAR}}\n        <img src=\"{{ITEM_AVATAR}}\" alt=\"{{ITEM_AUTHOR}}\" class=\"ido-testimonials__avatar\" />\n        {{/ITEM_AVATAR}}\n        <div class=\"ido-testimonials__author-info\">\n          <p class=\"ido-testimonials__author-name\">{{ITEM_AUTHOR}}</p>\n          {{#ITEM_DATE}}<p class=\"ido-testimonials__date\">{{ITEM_DATE}}</p>{{/ITEM_DATE}}\n        </div>\n      </div>\n    </div>\n    {{/ITEMS}}\n  </div>\n</section>",
+      "placeholders": [
+        {
+          "key": "TESTIMONIALS_TITLE",
+          "label": "Tytuł sekcji opinii",
+          "type": "text",
+          "default": "Co mówią nasi goście",
+          "required": true
+        },
+        {
+          "key": "TESTIMONIALS_SUBTITLE",
+          "label": "Podtytuł sekcji",
+          "type": "text",
+          "default": "Przeczytaj opinie osób, które już do nas przyjechały",
+          "required": false
+        },
+        {
+          "key": "ITEMS",
+          "label": "Opinie gości",
+          "type": "items",
+          "required": true,
+          "itemFields": [
+            {
+              "key": "ITEM_RATING",
+              "label": "Liczba gwiazdek (1-5)",
+              "type": "number",
+              "default": "5"
+            },
+            {
+              "key": "ITEM_STARS",
+              "label": "Powtórzenia dla każdej gwiazdki",
+              "type": "repeater"
+            },
+            {
+              "key": "ITEM_TEXT",
+              "label": "Treść opinii",
+              "type": "textarea",
+              "default": "Wspaniały pobyt w pięknym obiekcie. Obsługa na najwyższym poziomie, pokoje czyste i wygodne. Zdecydowanie wrócimy!"
+            },
+            {
+              "key": "ITEM_AVATAR",
+              "label": "Zdjęcie profilowe (opcjonalnie)",
+              "type": "image"
+            },
+            {
+              "key": "ITEM_AUTHOR",
+              "label": "Imię autora opinii",
+              "type": "text",
+              "default": "Jan Kowalski"
+            },
+            {
+              "key": "ITEM_DATE",
+              "label": "Data opinii (opcjonalnie)",
+              "type": "text",
+              "default": "kwiecień 2026"
+            }
+          ],
+          "defaultItems": [
+            {
+              "ITEM_RATING": "5",
+              "ITEM_TEXT": "Niesamowite miejsce! Całkowity spokój, piękna natura i bardzo miła obsługa. Polecam wszystkim, którzy chcą odpocząć w harmonii z przyrodą.",
+              "ITEM_AUTHOR": "Maria Nowak",
+              "ITEM_DATE": "marzec 2026"
+            },
+            {
+              "ITEM_RATING": "5",
+              "ITEM_TEXT": "Drugi raz jesteśmy u Was i znowu się zakochaliśmy! Idealne miejsce na urlop rodzinny. Dzieci były zachwycone, dorośli się zrelaksowali.",
+              "ITEM_AUTHOR": "Piotr Lewandowski",
+              "ITEM_DATE": "luty 2026"
+            },
+            {
+              "ITEM_RATING": "5",
+              "ITEM_TEXT": "Profesjonalna obsługa, czyszczenie na najwyższym poziomie, a widoki... zapamiętamy je na zawsze! To miejsce ma coś specjalnego.",
+              "ITEM_AUTHOR": "Anna Wieliczka",
+              "ITEM_DATE": "styczeń 2026"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

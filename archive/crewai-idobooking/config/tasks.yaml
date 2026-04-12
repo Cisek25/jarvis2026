@@ -1,0 +1,127 @@
+# ============================================================
+# CrewAI IdoBooking — ZADANIA
+# Pipeline: Paleta → Tresc → HTML → Audit → Deploy
+# ============================================================
+
+design_palette:
+  description: >
+    Zaprojektuj palete kolorow i design tokeny CSS dla projektu {project_name}.
+
+    Kontekst obiektu: {property_description}
+    Styl: {design_style}
+    Istniejace kolory marki (jesli sa): {brand_colors}
+
+    WYMAGANIA:
+    1. Cale :root z design tokenami (prefix: {css_prefix})
+    2. Wariant jasny (glowny) i ciemny (sekcje kontrastowe)
+    3. Paleta musi pasowac do zdjec noclegowych (wnetrza, sypialnie)
+    4. Kontrast WCAG AA na wszystkich kombinacjach tlo/tekst
+    5. Kolory akcentu do CTA przyciskow
+    6. Wariant zloty/kolorowy dla sekcji specjalnych
+
+    OUTPUT: Plik {css_prefix}-tokens.css z pelnym :root
+  expected_output: >
+    Plik CSS z design tokenami w :root, gotowy do wklejenia w custom.css
+  agent: css_architect
+  output_file: "output/{project_name}/tokens.css"
+
+write_content:
+  description: >
+    Napisz tresci dla strony {page_name} projektu {project_name}.
+
+    Typ strony: {page_type}
+    Jezyk: {language}
+    Informacje o obiekcie: {property_info}
+    Sekcje do napisania: {sections}
+
+    WYMAGANIA:
+    1. Kazda sekcja: md-label (kicker) + md-h2 (naglowek) + md-lead/md-intro (opis)
+    2. Listy cech jako md-features (krotkie, zwiezle punkty)
+    3. CTA z przekonujacym tekstem (link do rezerwacji bezposredniej)
+    4. SEO: naglowek H1 w hero, H2 w sekcjach, naturalne slowa kluczowe
+    5. Ton: profesjonalny, ciply, goscinny — bez marketingowego pustoslowia
+    6. Jesli PL+EN: oba jezyki w jednym outputcie, oznaczone komentarzami
+
+    OUTPUT: Tekst w formacie YAML z trescia kazdej sekcji
+  expected_output: >
+    YAML z trescia sekcji gotowa do wstawienia w HTML
+  agent: content_writer
+  output_file: "output/{project_name}/{page_name}_content.yaml"
+
+build_html:
+  description: >
+    Zbuduj strone HTML {page_name} dla projektu {project_name}.
+
+    Klasy CSS: prefix {css_prefix}-*
+    Tresc: z pliku output/{project_name}/{page_name}_content.yaml
+    Szablon sekcji: {section_template}
+
+    WYMAGANIA:
+    1. Kazda sekcja opakowana w: <div class="{css_prefix}-full"><div class="{css_prefix}-section">
+    2. Wewnetrzny kontener: <div class="{css_prefix}-inner">
+    3. Sekcje alternuja: normalna → muted → normalna → dark
+    4. Obrazki z Unsplash placeholderami + komentarzem "WSTAW URL ZDJECIA"
+    5. SVG ikony inline (stroke="currentColor", 22x22)
+    6. Lightbox na koncu (jesli galeria)
+    7. CTA bar na samym dole
+    8. Lazy loading na wszystkich obrazkach
+    9. Komentarze sekcji: <!-- §1 NAZWA -->
+
+    OUTPUT: Pelny plik HTML gotowy do wklejenia w CMS
+  expected_output: >
+    Kompletny plik HTML z sekcjami, gotowy do panelu IdoSell
+  agent: html_builder
+  output_file: "output/{project_name}/{page_name}.html"
+  context:
+    - write_content
+
+audit_ux:
+  description: >
+    Przeprowadz pelny audit UX strony {page_name} projektu {project_name}.
+
+    Pliki do audytu:
+    - CSS: output/{project_name}/tokens.css
+    - HTML: output/{project_name}/{page_name}.html
+
+    CHECKLIST:
+    1. Kontrast tekst/tlo na KAZDEJ sekcji (normalna, muted, dark, gold, CTA)
+    2. Widocznosc przyciskow (solid + ghost) na kazdym tle
+    3. SVG ikony — czy currentColor dziedziczy poprawny kolor
+    4. Hover states — widoczna zmiana na wszystkich interaktywnych elementach
+    5. Responsywnosc: czy grid sie sklada na mobile (1 kolumna)
+    6. Typografia: czy naglowki, body, labels sa czytelne
+    7. Lightbox: czy overlay, nawigacja, close, counter sa widoczne
+    8. Dostepnosc: aria-labels, alt na img, focus states
+
+    OUTPUT: Raport z priorytetami CRITICAL / WARNING / INFO
+  expected_output: >
+    Raport UX z lista problemow i sugerowanymi poprawkami
+  agent: ux_auditor
+  output_file: "output/{project_name}/{page_name}_ux_report.md"
+  context:
+    - design_palette
+    - build_html
+
+prepare_deploy:
+  description: >
+    Przygotuj pliki deploymentowe dla strony {page_name} projektu {project_name}.
+
+    Zrodlo: output/{project_name}/{page_name}.html
+    Panel: client{client_id}.idosell.com
+    Podstrona: {subpage_id}
+
+    KROKI:
+    1. Podziel HTML: wszystko przed <script> → {page_name}__body_top.html
+    2. Od <script> do konca → {page_name}__body_bottom.html
+    3. Wersja PL i EN jesli dostepne
+    4. Wygeneruj INSTRUKCJA.txt z dokladnymi krokami wklejania
+    5. Sprawdz czy pliki nie przekraczaja limitu pola CMS (~64KB)
+
+    OUTPUT: Folder DO_WKLEJENIA/ z plikami + instrukcja
+  expected_output: >
+    Pliki body_top + body_bottom + INSTRUKCJA.txt gotowe do wklejenia
+  agent: deploy_manager
+  output_file: "output/{project_name}/DO_WKLEJENIA/INSTRUKCJA.txt"
+  context:
+    - build_html
+    - audit_ux

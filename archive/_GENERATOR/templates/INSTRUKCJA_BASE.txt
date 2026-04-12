@@ -1,0 +1,82 @@
+══════════════════════════════════════════════════════════
+  {{BRAND}}
+  INSTRUKCJA WDROZENIA
+══════════════════════════════════════════════════════════
+
+PALETA: {{COLOR_WHITE}} / {{COLOR_ACCENT}} / {{COLOR_ACCENT_LIGHT}} / {{COLOR_TEXT}}
+FONTY:  {{FONT_HEAD}} + {{FONT_BODY}} (Google Fonts @import)
+PREFIX: {{PREFIX}}-
+ENGINE: {{ENGINE_URL}}
+
+
+── KROK 1: CSS ────────────────────────────────────────────
+Panel → Wyglad → Arkusz stylów CSS
+→ Wklej: CSS_EDYTOR.css
+→ Zapisz
+
+
+── KROK 2: STRONA GLOWNA ─────────────────────────────────
+Panel → Wyglad → Strona glowna → Edytor tresci → HTML
+→ Wklej: GLOWNA_PL__body_top.html
+→ Zapisz
+
+
+── KROK 3: GLOBAL JS ──────────────────────────────────────
+Panel → Ustawienia → Kody sledzace → Koniec sekcji BODY
+→ Wklej: KONIEC_BODY.html
+→ Zapisz
+
+⚠️  BODY BOTTOM, nie body_top! CMS stripuje <script>.
+
+
+── KROK 4: PODSTRONY ──────────────────────────────────────
+Panel → Tresci → Strony tekstowe → Nowa
+
+  [UZUPELNIJ podstrony z config.json → subpages]
+
+⚠️  /kontakt/ → NIE MA pliku HTML — CSS-only!
+
+
+── KROK 5: MENU ───────────────────────────────────────────
+Panel → Wyglad → Menu
+
+  [UZUPELNIJ menu z config.json → menu]
+
+⚠️  REZERWUJ button dodawany automatycznie przez JS.
+
+
+── KROK 6: WYROZNIONE OFERTY ─────────────────────────────
+Panel → Oferty → Wyroznij: [wybierz oferty do pokazania]
+→ JS zbuduje karty automatycznie z .container-hotspot
+
+
+── KROK 7: SLIDER ─────────────────────────────────────────
+Panel → Wyglad → Slider
+→ 2-3 zdjecia (1920x1080+)
+→ Zdjecia klienta lub z Wikimedia Commons (max 600px thumbnails!)
+
+
+── KROK 8: DANE FOOTER ────────────────────────────────────
+Panel → Wizytowka → Konfiguracja
+→ Uzupelnij: adres, telefon ({{PHONE}}), email ({{EMAIL}})
+
+
+══════════════════════════════════════════════════════════
+  PLIKI
+══════════════════════════════════════════════════════════
+
+  CSS_EDYTOR.css              Kompletny CSS (26 sekcji)
+  KONIEC_BODY.html            JS (14 modulow)
+  GLOWNA_PL__body_top.html    Homepage PL
+  INSTRUKCJA.txt              Ten plik
+
+
+══════════════════════════════════════════════════════════
+  TODO PO WDROZENIU
+══════════════════════════════════════════════════════════
+
+  [ ] Zdjecia klienta (Google Drive)
+  [ ] Logo — weryfikacja jakosci
+  [ ] EN version
+  [ ] Dane kontaktowe w footerze
+  [ ] Oferty wyroznione w panelu

@@ -1,0 +1,562 @@
+/* ═══════════════════════════════════════════════════════════════
+   [BRAND] — Master Stylesheet
+   IdoSell / IdoBooking
+   Generated: [DATE]
+   ═══════════════════════════════════════════════════════════════
+
+   INSTRUKCJA: Zamień wszystkie [PLACEHOLDER] na wartości klienta:
+   - [PREFIX]     → 2-3 literowy prefix BEM (np. nj-, ec-, mc-)
+   - [BRAND]      → Nazwa brandu
+   - [COLOR_1]    → Kolor główny hex (np. #4A6741)
+   - [COLOR_2]    → Kolor jasniejszy hex
+   - [COLOR_3]    → Kolor akcentowy hex
+   - [COLOR_BG]   → Kolor tła hex (np. #F7F5F0)
+   - [COLOR_DARK] → Kolor ciemny hex (np. #2C2C2C)
+   - [FONT_HEAD]  → Font nagłówków (np. 'Merriweather')
+   - [FONT_BODY]  → Font body (np. 'Inter')
+   - [HEADER_H]   → Wysokość headera w px (zmierz na live!)
+
+   SECTIONS:
+   §0  CSS Variables & Reset
+   §1  System Trap Fixes (KRYTYCZNE — NIE USUWAĆ!)
+   §2  Typography
+   §3  Header & Navigation
+   §4  Hero / Slider
+   §5  Search Widget
+   §6  Homepage Sections
+   §7  /offers Page
+   §8  /offer Detail Page
+   §9  /contact Page
+   §10 /txt Subpages
+   §11 Footer Override
+   §12 System Elements Override
+   §13 Responsive
+   §14 Animations
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════
+   §0 — CSS Variables & Reset
+   ═══════════════════════════════════════ */
+:root {
+  --[PREFIX]color-1: [COLOR_1];
+  --[PREFIX]color-2: [COLOR_2];
+  --[PREFIX]color-3: [COLOR_3];
+  --[PREFIX]bg: [COLOR_BG];
+  --[PREFIX]dark: [COLOR_DARK];
+  --[PREFIX]font-heading: [FONT_HEAD], Georgia, serif;
+  --[PREFIX]font-body: [FONT_BODY], system-ui, sans-serif;
+  --[PREFIX]radius: 12px;
+  --[PREFIX]shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --[PREFIX]header-h: [HEADER_H]px;
+}
+
+/* ═══════════════════════════════════════
+   §1 — System Trap Fixes (33 root causes)
+   KRYTYCZNE — NIE USUWAĆ!
+   ═══════════════════════════════════════ */
+
+/* TRAP #1: Body font-size 22.4px → 16px
+   IdoSell sets 140% of 16px html = 22.4px. Without reset ALL text 40% too large */
+body {
+  font-size: 16px !important;
+  font-family: var(--[PREFIX]font-body) !important;
+  color: var(--[PREFIX]dark) !important;
+  background: var(--[PREFIX]bg) !important;
+}
+
+/* TRAP #2: System orange #AD5009 → brand color
+   Default on .btn, filters, links, /offers, /contact */
+.btn:not(.slick-arrow) {
+  background-color: var(--[PREFIX]color-1) !important;
+  border-color: var(--[PREFIX]color-1) !important;
+  color: #fff !important;
+}
+.btn:not(.slick-arrow):hover {
+  background-color: var(--[PREFIX]color-2) !important;
+  border-color: var(--[PREFIX]color-2) !important;
+}
+
+/* TRAP #3: System H1 "big-label" */
+h1.big-label { display: none !important; }
+
+/* TRAP #4: System H2 "IdoBooking" in .index-info */
+.index-info h2,
+.section.parallax h2 {
+  display: none !important;
+}
+
+/* TRAP #5: Dark overlay on slider — TWO pseudo-elements */
+.parallax-slider::before,
+.parallax-image::after {
+  background: transparent !important;
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* TRAP #6: Header position fixed (NOT sticky — sticky creates gap) */
+.defaultsb,
+#defaultsb,
+.default13,
+.navbar-wrapper,
+header.header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1100 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+/* TRAP #7: Subpage padding-top (compensate fixed header) */
+body.page-offers,
+body.page-offer,
+body.page-contact,
+body.page-txt {
+  padding-top: var(--[PREFIX]header-h) !important;
+}
+
+/* TRAP #8: Stacking context — slick slider z-index: 999 */
+.index-info {
+  z-index: 1000 !important;
+  overflow: visible !important;
+}
+
+/* TRAP #9: System z-index: -1 on form inputs */
+#iai_book_form input,
+#iai_book_form select,
+#iai_book_form .widget__option {
+  z-index: 2 !important;
+}
+
+/* TRAP #10: System inline positioning on .index-info */
+.index-info {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+/* TRAP #11: Litepicker calendar too wide (944px default) */
+.litepicker {
+  width: fit-content !important;
+}
+
+/* TRAP #12: Ghost booking form on /offer pages */
+body.page-offer #iai_book_form.d-none {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* TRAP #13: .iai-search MUST be hidden on /offers (has own search) */
+body.page-offers .iai-search {
+  display: none !important;
+}
+
+/* TRAP #14: FontAwesome NOT loaded — FA icons are invisible 0x0 */
+body.page-offers .filter_header .fa-angle-down,
+body.page-offers .filter_header .fa {
+  display: none !important;
+}
+
+/* TRAP #15: Gradient overlay on .section.parallax (NOT .index-info — 1170px edges!) */
+.section.parallax::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0.85) 0%,
+    rgba(255,255,255,0.4) 12%,
+    rgba(255,255,255,0) 22%,
+    rgba(0,0,0,0) 60%,
+    rgba(0,0,0,0.35) 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.index-info::after {
+  display: none !important;
+  content: none !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §2 — Typography
+   ═══════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--[PREFIX]font-heading) !important;
+  color: var(--[PREFIX]dark) !important;
+}
+
+a {
+  color: var(--[PREFIX]color-1);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--[PREFIX]color-2);
+}
+
+
+/* ═══════════════════════════════════════
+   §3 — Header & Navigation
+   ═══════════════════════════════════════ */
+/* Position already set in §1 traps */
+.navbar-brand img {
+  max-height: 55px;
+  width: auto;
+}
+
+.navbar-nav .nav-link {
+  font-family: var(--[PREFIX]font-body) !important;
+  font-weight: 500 !important;
+  font-size: 15px !important;
+  color: var(--[PREFIX]dark) !important;
+  padding: 8px 16px !important;
+  transition: color 0.2s ease !important;
+}
+.navbar-nav .nav-link:hover {
+  color: var(--[PREFIX]color-1) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §4 — Hero / Slider
+   ═══════════════════════════════════════ */
+.section.parallax {
+  position: relative;
+  min-height: 85vh;
+}
+
+/* Slider arrows styling */
+.parallax-slider .slick-arrow {
+  z-index: 10 !important;
+  width: 44px !important;
+  height: 44px !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §5 — Search Widget
+   ═══════════════════════════════════════ */
+/* Override system absolute positioning — already done in §1 traps */
+/* Customize appearance per client here: */
+.iai-search,
+#iai_book_form {
+  font-family: var(--[PREFIX]font-body) !important;
+}
+
+/* Search button */
+.formbutton,
+#iai_book_form .formbutton {
+  background: [COLOR_1] !important;  /* HARDCODED — CSS vars may not work on system elements */
+  color: #fff !important;
+  border: none !important;
+  border-radius: var(--[PREFIX]radius) !important;
+  font-family: var(--[PREFIX]font-body) !important;
+  cursor: pointer !important;
+}
+.formbutton:hover {
+  background: [COLOR_2] !important;
+}
+
+/* Persons dropdown chevron fix (system button is 8x8 invisible) */
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn {
+  position: absolute !important;
+  top: 50% !important;
+  right: 16px !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  opacity: 1 !important;
+  font-size: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn::after {
+  content: '' !important;
+  display: block !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-right: 2px solid var(--[PREFIX]dark) !important;
+  border-bottom: 2px solid var(--[PREFIX]dark) !important;
+  transform: rotate(45deg) !important;
+  margin: 2px auto 0 !important;
+}
+#iai_book_form .widget__option.iai_input-small {
+  padding-right: 44px !important;
+}
+
+/* Persons dropdown list */
+.persons_list {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §6 — Homepage Sections
+   ═══════════════════════════════════════ */
+/* [CUSTOMIZE PER CLIENT — offer cards, features, CTA, etc.] */
+
+/* News container — hide on homepage (blog lives at /news) */
+body.page-index .news-container {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §7 — /offers Page
+   ═══════════════════════════════════════ */
+
+/* System orange override */
+body.page-offers h4,
+body.page-offers .sidebar h4 {
+  color: var(--[PREFIX]color-1) !important;
+  font-family: var(--[PREFIX]font-heading) !important;
+}
+
+body.page-offers .btn,
+body.page-offers button.btn,
+body.page-offers a.btn {
+  background: var(--[PREFIX]color-1) !important;
+  color: #fff !important;
+  border: none !important;
+}
+body.page-offers .btn:hover {
+  background: var(--[PREFIX]color-2) !important;
+}
+
+/* Filter sidebar — collapse/toggle */
+body.page-offers .filter_content.collapse:not(.show) {
+  display: none;
+}
+body.page-offers .filter_content.collapse.show {
+  display: block;
+}
+
+/* Filter header — flex layout with CSS chevron */
+body.page-offers .filter_header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  padding: 10px 16px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  margin-bottom: 8px !important;
+  transition: background 0.2s ease !important;
+}
+body.page-offers .filter_header:hover {
+  background: rgba(0,0,0,0.03) !important;
+}
+
+/* CSS-only chevron (FontAwesome NOT loaded in IdoSell!) */
+body.page-offers .filter_header::after {
+  content: "" !important;
+  display: inline-block !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-right: 2px solid var(--[PREFIX]color-1) !important;
+  border-bottom: 2px solid var(--[PREFIX]color-1) !important;
+  transform: rotate(45deg) !important;
+  transition: transform 0.3s ease !important;
+  flex-shrink: 0 !important;
+  margin-left: 12px !important;
+  margin-top: -3px !important;
+}
+body.page-offers .filter_header[aria-expanded="true"]::after {
+  transform: rotate(-135deg) !important;
+  margin-top: 3px !important;
+}
+
+/* SZCZEGOLY button centering */
+.accommodation-buttons > a > span.btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §8 — /offer Detail Page
+   ═══════════════════════════════════════ */
+
+/* Price circle — force circular (system makes oval 244x161) */
+.offer-price {
+  width: 150px !important;
+  height: 150px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--[PREFIX]color-1) !important;
+  color: #fff !important;
+  padding: 0 !important;
+}
+.offer-price small {
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+}
+.offer-price span {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+/* ZAREZERWUJ button */
+.accommodation-leftbutton {
+  background: var(--[PREFIX]color-1) !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  padding: 12px 24px !important;
+  border-radius: var(--[PREFIX]radius) !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+.accommodation-leftbutton:hover {
+  background: var(--[PREFIX]color-2) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §9 — /contact Page
+   ═══════════════════════════════════════ */
+body.page-contact a {
+  color: var(--[PREFIX]color-1) !important;
+}
+body.page-contact .btn {
+  background: var(--[PREFIX]color-1) !important;
+  border-color: var(--[PREFIX]color-1) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §10 — /txt Subpages
+   ═══════════════════════════════════════ */
+/* Hide search widget on text subpages */
+body.page-txt .iai-search {
+  display: none !important;
+}
+
+.txt-text {
+  font-family: var(--[PREFIX]font-body) !important;
+  line-height: 1.7 !important;
+  color: var(--[PREFIX]dark) !important;
+}
+.txt-text h2,
+.txt-text h3 {
+  font-family: var(--[PREFIX]font-heading) !important;
+  color: var(--[PREFIX]color-1) !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §11 — Footer Override (SYSTEM-GENERATED — CSS only!)
+   ═══════════════════════════════════════ */
+footer,
+.footer-wrapper {
+  background: var(--[PREFIX]dark) !important;
+  color: #fff !important;
+  font-family: var(--[PREFIX]font-body) !important;
+}
+footer a {
+  color: var(--[PREFIX]color-3) !important;
+}
+footer a:hover {
+  color: var(--[PREFIX]color-2) !important;
+}
+.powered_by {
+  opacity: 0.7 !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §12 — System Elements Override
+   HARDCODED HEX (CSS vars may not work!)
+   ═══════════════════════════════════════ */
+
+/* Scroll arrow */
+#bounce {
+  background-color: [COLOR_1] !important;
+  background: [COLOR_1] !important;
+  left: auto !important;
+  right: 32px !important;
+  transform: none !important;
+  margin-left: 0 !important;
+}
+
+/* Back-to-top button */
+#backTop {
+  background: [COLOR_1] !important;
+}
+
+/* Cookie banner */
+.ck_dsclr__btn_v2 {
+  background: [COLOR_1] !important;
+}
+.ck_dsclr__btn_v2:hover {
+  background: [COLOR_2] !important;
+}
+.ck_dsclr_v2 a {
+  color: [COLOR_3] !important;
+}
+.ck_dsclr_x_v2 {
+  color: [COLOR_3] !important;
+}
+
+/* Skip link */
+.skip_link {
+  background: [COLOR_1] !important;
+}
+
+
+/* ═══════════════════════════════════════
+   §13 — Responsive
+   ═══════════════════════════════════════ */
+@media (max-width: 991px) {
+  .navbar-brand img {
+    max-height: 45px;
+  }
+}
+
+@media (max-width: 767px) {
+  .section.parallax {
+    min-height: 60vh;
+  }
+  .offer-price {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  .offer-price span {
+    font-size: 22px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .section.parallax {
+    min-height: 50vh;
+  }
+}
+
+
+/* ═══════════════════════════════════════
+   §14 — Animations
+   ═══════════════════════════════════════ */
+.[PREFIX]reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.[PREFIX]revealed {
+  opacity: 1;
+  transform: translateY(0);
+}

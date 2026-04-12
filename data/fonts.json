@@ -1,0 +1,10 @@
+{
+  "1": { "name": "Elegancki Luxury", "heading": "Playfair Display", "body": "Inter", "google": "family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600" },
+  "2": { "name": "Klasyczny Ciepły", "heading": "Merriweather", "body": "Inter", "google": "family=Merriweather:wght@400;700&family=Inter:wght@300;400;500;600" },
+  "3": { "name": "Nowoczesna Elegancja", "heading": "DM Serif Display", "body": "Inter", "google": "family=DM+Serif+Display&family=Inter:wght@300;400;500;600" },
+  "4": { "name": "Wyrafinowany", "heading": "Cormorant Garamond", "body": "Lato", "google": "family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@300;400;700" },
+  "5": { "name": "Nowoczesny Czysty", "heading": "Montserrat", "body": "Open Sans", "google": "family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600" },
+  "6": { "name": "Tradycyjny", "heading": "Libre Baskerville", "body": "Source Sans 3", "google": "family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;600" },
+  "7": { "name": "Miękki", "heading": "Lora", "body": "Nunito", "google": "family=Lora:wght@400;600;700&family=Nunito:wght@300;400;600" },
+  "8": { "name": "Monumentalny", "heading": "Cinzel", "body": "Raleway", "google": "family=Cinzel:wght@400;700&family=Raleway:wght@300;400;500;600" }
+}

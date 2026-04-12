@@ -1,0 +1,66 @@
+# WawaBed v2 — URLs zdjęć z Google Drive
+# Format: https://lh3.googleusercontent.com/d/{FILE_ID}
+
+## Pokoje i wnętrza (numerowane)
+6.jpg  = https://lh3.googleusercontent.com/d/1dRSKABUCrHpntAGik2Mf6JfOpmnNu8e5
+7.jpg  = https://lh3.googleusercontent.com/d/1JGebKh7vcdq5n83aQUfCDjJ3r63TU2Jk
+8.jpg  = https://lh3.googleusercontent.com/d/1FzuU7ic_SBAyFcl4XGzSIzB3Bq5Hi1_u
+9.jpg  = https://lh3.googleusercontent.com/d/1GpQP-BQCn3hY_S4TzcDng5pgmopqH_lg
+12.jpg = https://lh3.googleusercontent.com/d/1mO5Kg1xUpmuGiQje7kAYLbVFBd4GjLQ5
+13.jpg = https://lh3.googleusercontent.com/d/1KKAuY5OiLqE2vLdYUssNaBNLEYUavavP
+14.jpg = https://lh3.googleusercontent.com/d/15KvH3SLisAUMWYt20jg0WR1IiIlRJ1Ob
+15.jpg = https://lh3.googleusercontent.com/d/1gs2aCsH-kN3zQoilU2Rbvi_o8YFDCAgK
+16.jpg = https://lh3.googleusercontent.com/d/12jk-s-AqBQPlDvrCZ-t7WMD4fSFM5JnC
+17.jpg = https://lh3.googleusercontent.com/d/1vro47BljDZXht0y1jOmwLkZUA_3R17PZ
+19.jpg = https://lh3.googleusercontent.com/d/19UD049bdCTETSFLvexFFDAXw7ADzo9BO
+20.jpg = https://lh3.googleusercontent.com/d/1pmJzfy-XCWad-mxhHDg80Wo8LEVem1zO
+21.jpg = https://lh3.googleusercontent.com/d/1_zj3vbo_mCDoUel0ARDLTsGSlMDtOIFy
+22.jpg = https://lh3.googleusercontent.com/d/17GumTwao3QHmsYi4nCD26deSDUYcZt8q
+24.jpg = https://lh3.googleusercontent.com/d/1FqCYSS-TX_WEGrtcL8SbaZ2tOPjUwi74
+25.jpg = https://lh3.googleusercontent.com/d/1oQ_8G-tgQz7NAUIOa7-7ohaYIgdTDjmt
+26.jpg = https://lh3.googleusercontent.com/d/1fwGmUJin_BOdehiwmUPmhFqmIgBCANjv
+48.jpg = https://lh3.googleusercontent.com/d/1XldL1OOss-T_PgTnVYm0IfOrV5gURs48
+51.jpg = https://lh3.googleusercontent.com/d/1BQBJoRsku8l-efwREYuz1aa5nFLDHmO5
+53.jpg = https://lh3.googleusercontent.com/d/1llw45et7DYK02QAREp3DA6ehFy6Ovk-o
+54.jpg = https://lh3.googleusercontent.com/d/13kJiNrOg_QZhwHmh70ioVPnfWf6SRckn
+55.jpg = https://lh3.googleusercontent.com/d/1Xt_ev80Ro2-i3CLoCNtUGpd5pyeaXzTK
+56.jpg = https://lh3.googleusercontent.com/d/16KqLkF8qniv4Rn2BsgWrrG5wpw60lIh7
+58.jpg = https://lh3.googleusercontent.com/d/1QKcycKrQBafDq2R3iqCxkvF3tuALSs3h
+59.jpg = https://lh3.googleusercontent.com/d/1xk-f-mr68CR7-gst8uLRPZLVxoIaC4_A
+60.jpg = https://lh3.googleusercontent.com/d/1-xFs1gWEGpQf3wYG3SAdaKtMxNULCSUL
+62.jpg = https://lh3.googleusercontent.com/d/12_luvkJy53VZcQ4nNTBUYBdJYQ2sk0pX
+63.jpg = https://lh3.googleusercontent.com/d/1kM62VY7ZMMxcWO5_5xP_Loc4XyOPLdDJ
+64.jpg = https://lh3.googleusercontent.com/d/1L4IxmEVyaDaBaotkz_IatlMcIVRNsfk4
+66.jpg = https://lh3.googleusercontent.com/d/1LMFI778PDHJAs3RvOceNBOeeBfIctxLX
+68.jpg = https://lh3.googleusercontent.com/d/15fqIFEFKUg5tu0HTpj0laXfeWYTelA0Q
+69.jpg = https://lh3.googleusercontent.com/d/1PkLGF5tCOXw8j9uHAgDX-_Jbq-qgv7_c
+70.jpg = https://lh3.googleusercontent.com/d/1TgHHFeunyqVpudbcYQxZmHiQHXRp5Em3
+73.jpg = https://lh3.googleusercontent.com/d/1l0T9okrQkSjRyDED7rdK3uerNAKcXxox
+75.jpg = https://lh3.googleusercontent.com/d/1jZgdVgu8XkEZTuB9oFamVmLs3gLuOhh_
+76.jpg = https://lh3.googleusercontent.com/d/1TmxSdDeWrWoUtlmaOItaokae8NB7Ch-L
+79.jpg = https://lh3.googleusercontent.com/d/1wEWd58SNS1AJA78cvUa2a3Y7A1r7HrBR
+80.jpg = https://lh3.googleusercontent.com/d/1NPd-2JmuS8SqGF7gQbBqCDp3Ydr3OmNz
+81.jpg = https://lh3.googleusercontent.com/d/16xjAhg7zmU5sQvOzxSOrhldmYX6NycOC
+82.jpg = https://lh3.googleusercontent.com/d/1qeZMywOeeWXuNWOYrwj-e2yRNuq-bVPx
+83.jpg = https://lh3.googleusercontent.com/d/19FifFM9psHb7xGcfHNjcBpGWh_hQ3k5r
+
+## Nazwane zdjęcia
+Entrance.jpg       = https://lh3.googleusercontent.com/d/1-3dnFzPhWbD3yJJJphOy2ULl6g_YosMa
+Hall 1st floor.jpg = https://lh3.googleusercontent.com/d/1W7UYr2V7rgB9Wlhk2M48GRA6dcs7YcbY
+Hall 3rd floor.jpg = https://lh3.googleusercontent.com/d/1F5JZPino7o59z2g1px8hNCRV1klLHImY
+Room 2 B.jpg       = https://lh3.googleusercontent.com/d/1cs-zSpLo9x6fxpwCIQ3noWprIg8TC_1v
+Room 2 C.jpg       = https://lh3.googleusercontent.com/d/1VU6XBLs3aGb6sNSbyqU3Mjcdu9S1tiNC
+Room 2 D.jpg       = https://lh3.googleusercontent.com/d/17nY3byQV7nhfCYjCHCemmJO-4pIlsnQC
+Room 2.jpg         = https://lh3.googleusercontent.com/d/1oZAvo_54V3_mknEwNI8Aq_YzqnvVPnTz
+
+## Atrakcje Warszawy (używane w sekcjach)
+Las Bielański      = 73.jpg (1l0T9okrQkSjRyDED7rdK3uerNAKcXxox)
+Stare Miasto       = 75.jpg (1jZgdVgu8XkEZTuB9oFamVmLs3gLuOhh_)
+Łazienki           = 76.jpg (1TmxSdDeWrWoUtlmaOItaokae8NB7Ch-L)
+CNK                = 79.jpg (1wEWd58SNS1AJA78cvUa2a3Y7A1r7HrBR)
+Cytadela           = 80.jpg (1NPd-2JmuS8SqGF7gQbBqCDp3Ydr3OmNz)
+Bulwary            = 81.jpg (16xjAhg7zmU5sQvOzxSOrhldmYX6NycOC)
+Muzeum Powstania   = 82.jpg (1qeZMywOeeWXuNWOYrwj-e2yRNuq-bVPx)
+Pałac Wilanów      = 83.jpg (19FifFM9psHb7xGcfHNjcBpGWh_hQ3k5r)
+POLIN              = 48.jpg (1XldL1OOss-T_PgTnVYm0IfOrV5gURs48)
+Krakowskie Przedm. = 51.jpg (1BQBJoRsku8l-efwREYuz1aa5nFLDHmO5)

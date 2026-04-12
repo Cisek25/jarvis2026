@@ -1,0 +1,124 @@
+<!-- ============================================
+     GeoStay — Галерея JS (RU)
+     Вставить в: подстраница /txt/201/ — поле "body_bottom"
+     ПРИМЕЧАНИЕ: Скрипт языконезависимый — можно
+     использовать тот же файл 01_GALERIA_JS.html.
+     ============================================ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ─── ФИЛЬТРЫ ─── */
+  var tabs  = document.querySelectorAll('.gs-gallery-tab');
+  var items = document.querySelectorAll('.gs-gallery-item');
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var filter = this.getAttribute('data-filter');
+
+      tabs.forEach(function(t) { t.classList.remove('active'); });
+      this.classList.add('active');
+
+      items.forEach(function(item) {
+        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+          item.classList.remove('gs-hidden');
+        } else {
+          item.classList.add('gs-hidden');
+        }
+      });
+    });
+  });
+
+  /* ─── ЛАЙТБОКС ─── */
+  var lightbox = document.getElementById('gs-lightbox');
+  var lbImg    = document.getElementById('gs-lb-img');
+  var lbLabel  = document.getElementById('gs-lb-label');
+  var lbCount  = document.getElementById('gs-lb-counter');
+  var lbClose  = document.getElementById('gs-lb-close');
+  var lbPrev   = document.getElementById('gs-lb-prev');
+  var lbNext   = document.getElementById('gs-lb-next');
+  var current  = 0;
+
+  function getVisibleImages() {
+    var visible = [];
+    items.forEach(function(item) {
+      if (!item.classList.contains('gs-hidden')) {
+        var img = item.querySelector('img');
+        if (img) visible.push({ src: img.src, alt: img.alt });
+      }
+    });
+    return visible;
+  }
+
+  function showImage(index) {
+    var pool = getVisibleImages();
+    if (!pool.length) return;
+    if (index < 0) index = pool.length - 1;
+    if (index >= pool.length) index = 0;
+    current = index;
+    lbImg.src = pool[current].src;
+    lbImg.alt = pool[current].alt;
+    lbLabel.textContent = pool[current].alt;
+    lbCount.textContent = (current + 1) + ' / ' + pool.length;
+  }
+
+  function openLightbox(index) {
+    showImage(index);
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  /* Клик по фото открывает лайтбокс */
+  items.forEach(function(item, i) {
+    item.addEventListener('click', function() {
+      /* Найти индекс среди видимых */
+      var pool = getVisibleImages();
+      var img  = this.querySelector('img');
+      if (!img) return;
+      var idx = 0;
+      for (var j = 0; j < pool.length; j++) {
+        if (pool[j].src === img.src) { idx = j; break; }
+      }
+      openLightbox(idx);
+    });
+  });
+
+  /* Кнопки лайтбокса */
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', function(e) { e.stopPropagation(); showImage(current - 1); });
+  lbNext.addEventListener('click', function(e) { e.stopPropagation(); showImage(current + 1); });
+
+  /* Клик по фону закрывает */
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  /* Клавиатура */
+  document.addEventListener('keydown', function(e) {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  showImage(current - 1);
+    if (e.key === 'ArrowRight') showImage(current + 1);
+  });
+
+  /* Свайп на мобильных */
+  var touchStartX = 0;
+  lightbox.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', function(e) {
+    var diff = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) showImage(current - 1);
+      else showImage(current + 1);
+    }
+  }, { passive: true });
+
+})();
+</script>

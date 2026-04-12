@@ -1,0 +1,67 @@
+{
+  "client_id": "57060",
+  "brand": "Mountain Prestige",
+  "prefix": "mp",
+  "domain": "",
+  "engine_url": "client57060.idobooking.com",
+  "contact": {
+    "phone": "535267585",
+    "email": "mtn@gmail.com"
+  },
+  "palette": {
+    "white": "#FAF6EF",
+    "cream": "#EDE5D5",
+    "cream2": "#E4DACB",
+    "cream3": "#D8CDB9",
+    "accent": "#A67C52",
+    "accent_light": "#C8A97D",
+    "accent_dark": "#8A6540",
+    "accent_rgb": "166,124,82",
+    "text": "#2A2118",
+    "text_soft": "#4A3F34",
+    "text_muted": "#6B5D4F",
+    "text_light": "#9A8D7F",
+    "dark": "#2A2118",
+    "dark2": "#1E1810"
+  },
+  "fonts": {
+    "heading": "Cormorant Garamond",
+    "body": "DM Sans",
+    "google_import": "Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400"
+  },
+  "hero": {
+    "subtitle_pl": "Apartamenty Premium w\u00a0G\u00f3rach",
+    "subtitle_en": "Premium Mountain Apartments",
+    "title_html": "<strong>Mountain</strong> Prestige",
+    "cta1_text_pl": "NASZE APARTAMENTY",
+    "cta1_text_en": "OUR APARTMENTS",
+    "cta1_href": "/offers",
+    "cta2_text_pl": "ODKRYJ",
+    "cta2_text_en": "DISCOVER",
+    "cta2_href": "#mp-about"
+  },
+  "booking": {
+    "url": "/offers",
+    "use_modal": false
+  },
+  "nav_book_text_pl": "REZERWUJ",
+  "nav_book_text_en": "BOOK",
+  "nav_book_href": "/offers",
+  "featured_offers": {
+    "heading_pl": "Nasze apartamenty",
+    "heading_en": "Our Apartments",
+    "subtitle_pl": "Apartamenty premium w\u00a0g\u00f3rach",
+    "subtitle_en": "Premium mountain accommodation"
+  },
+  "contact_css_only": true,
+  "menu": [
+    { "label": "Oferta", "href": "/offers" },
+    { "label": "Lokalizacja", "href": "/txt/202/" },
+    { "label": "Wsp\u00f3\u0142praca", "href": "/txt/201/" },
+    { "label": "Kontakt", "href": "/contact" }
+  ],
+  "subpages": [
+    { "slug": "/txt/201/", "name": "Wsp\u00f3\u0142praca" },
+    { "slug": "/txt/202/", "name": "Lokalizacja" }
+  ]
+}

@@ -1,0 +1,158 @@
+===============================================================
+ MAZURSKI CHILL — INSTRUKCJA WKLEJANIA DO PANELU IdoBooking
+ Panel: https://client57689.idosell.com/
+ Data: 07.04.2026 (aktualizacja: wyszukiwarka, featured offers)
+===============================================================
+
+PLIKI W TYM FOLDERZE:
+─────────────────────
+1.  MC_ARKUSZ_STYLOW.css         (CSS — arkusz stylów globalny)
+2.  MC_HEAD.html                 (HEAD — meta tagi, OG, Schema, fonty)
+3.  GLOWNA_PL__cms.html          (Strona główna — treść CMS)
+4.  GLOWNA_PL__body_bottom.html  (Strona główna — JavaScript)
+5.  O_NAS_PL__body_top.html      (Podstrona O nas)
+6.  ATRAKCJE_PL__body_top.html   (Podstrona Atrakcje)
+7.  GALERIA_PL__body_top.html    (Podstrona Galeria)
+8.  CENNIK_PL__body_top.html     (Podstrona Cennik — NOWA)
+9.  KONTAKT_PL__body_top.html    (Podstrona Kontakt — NOWA)
+
+
+KOLEJNOŚĆ WKLEJANIA:
+─────────────────────
+
+KROK 1 — CSS (ARKUSZ STYLÓW)
+  Panel → Wygląd → Arkusz stylów CSS
+  Wklej CAŁĄ zawartość: MC_ARKUSZ_STYLOW.css
+  ⚠ NADPISUJE cały dotychczasowy CSS!
+  → Zapisz
+
+KROK 2 — HEAD (KODY ŚLEDZĄCE)
+  Panel → Ustawienia → Kody śledzące → Sekcja Head
+  Wklej CAŁĄ zawartość: MC_HEAD.html
+  → Zapisz
+
+KROK 3 — STRONA GŁÓWNA (TREŚĆ CMS)
+  Panel → Wygląd → Strona główna → Edytor treści
+  ⚠ Przełącz na tryb HTML (ikona </>)
+  Wklej CAŁĄ zawartość: GLOWNA_PL__cms.html
+  → Zapisz
+
+  UWAGA: Treść CMS wyświetla się PONIŻEJ slidera z karuzelą zdjęć.
+  Slider jest systemowy i działa automatycznie ze zdjęciami z galerii frontpage.
+
+KROK 4 — STRONA GŁÓWNA (JAVASCRIPT)
+  Panel → Ustawienia → Kody śledzące → Koniec sekcji Body
+  Wklej CAŁĄ zawartość: GLOWNA_PL__body_bottom.html
+  → Zapisz
+
+KROK 5 — UTWÓRZ PODSTRONY (jeśli jeszcze nie istnieją)
+  Panel → Treści → Strony tekstowe → Dodaj stronę
+
+  Utwórz te podstrony (jeśli brak):
+  a) O nas         (ID sugerowany: /txt/201/O-nas)
+  b) Atrakcje      (ID sugerowany: /txt/202/Atrakcje)
+  c) Galeria       (ID sugerowany: /txt/203/Galeria)
+  d) Cennik        (ID sugerowany: /txt/204/Cennik)        ← NOWA!
+  e) Kontakt       (ID sugerowany: /txt/205/Kontakt)       ← NOWA!
+
+KROK 6 — WKLEJ PODSTRONY
+  Dla KAŻDEJ podstrony: otwórz → edytuj → sekcja "Początek sekcji Body"
+  ⚠ Przełącz na tryb HTML (ikona </>)
+
+  6a) O nas       → wklej O_NAS_PL__body_top.html
+  6b) Atrakcje    → wklej ATRAKCJE_PL__body_top.html
+  6c) Galeria     → wklej GALERIA_PL__body_top.html
+  6d) Cennik      → wklej CENNIK_PL__body_top.html
+  6e) Kontakt     → wklej KONTAKT_PL__body_top.html
+  → Zapisz każdą
+
+KROK 7 — MENU
+  Panel → Treści → Menu → Edytuj menu główne
+  Dodaj pozycje:
+    O nas       → /txt/201/O-nas
+    Atrakcje    → /txt/202/Atrakcje
+    Galeria     → /txt/203/Galeria
+    Cennik      → /txt/204/Cennik
+    Kontakt     → /txt/205/Kontakt
+    Rezerwuj    → /offers (lub link do wyszukiwarki)
+
+KROK 8 — SLIDER / KARUZELA
+  Panel → Wygląd → Strona główna → Galeria na stronie głównej
+  Upewnij się, że zdjęcia są AKTYWNE (nie wyłączone).
+  Obrazy powinny być widoczne w sliderze po zastosowaniu nowego CSS.
+  Jeśli slider nadal czarny — sprawdź czy zdjęcia mają status "aktywne".
+
+KROK 9 — WYRÓŻNIONE OFERTY (Nasze Domki slider)
+  Panel → Oferty → Wyróżnione Oferty
+  Upewnij się, że obiekty (Stodoła 1, Stodoła 2) są dodane.
+  System automatycznie renderuje slider ".container-hotspot" na stronie głównej.
+  CSS (§33) styluje go z ciemnym tłem, złotymi akcentami i okrągłymi strzałkami.
+  ⚠ NIE dodawaj statycznego HTML z kartami domków — system je generuje!
+
+KROK 10 — WERYFIKACJA
+  Odśwież stronę (Ctrl+Shift+R) i sprawdź:
+  ☐ Slider/karuzela ze zdjęciami działa
+  ☐ Menu widoczne i działa
+  ☐ Stopka systemowa widoczna ("Powered by IdoBooking")
+  ☐ Wyszukiwarka w hero — pola poziomo, złoty przycisk SZUKAJ
+  ☐ Litepicker (kalendarz) otwiera się prawidłowo (nie rozciąga na 100%)
+  ☐ Sekcja "Nasze Domki" — featured offers slider z kartami
+  ☐ Sekcja "O nas" z okrągłymi miniaturkami
+  ☐ Sekcja "Nasze Stodoły" z kartami
+  ☐ Opinie gości wycentrowane
+  ☐ Wszystkie podstrony otwierają się poprawnie
+  ☐ Cennik wyświetla ceny prawidłowo
+  ☐ Kontakt z mapą Google
+  ☐ Galeria z lightboxem
+  ☐ Mobile — sprawdź na telefonie
+
+
+UWAGI TECHNICZNE:
+─────────────────
+• Stopka systemowa NIE jest ukrywana — "Powered by IdoBooking" zostaje.
+  Stopka jest ostylowana na ciemny motyw (czarne tło, złote akcenty).
+
+• Obrazy: Wszystkie pliki używają ścieżek z panelu galerii:
+  /images/frontpageGallery/pictures/large/0/0/X_full.jpg (X = 3-15)
+  Łącznie 13 zdjęć dostępnych w panelu.
+
+• Podstrony NIE mają inline CSS — wszystkie style (cennik, atrakcje,
+  o nas, galeria, kontakt, strona główna) są w jednym pliku
+  MC_ARKUSZ_STYLOW.css. Wklej go raz w Wygląd → Arkusz stylów CSS.
+
+• Systemowe elementy (scroll arrow, back-to-top, cookie banner)
+  są przekolorowane na złoty (#C8A45C) — wartości hardcoded.
+
+• Wyszukiwarka na stronie /offers jest UKRYTA CSS-em
+  (ma własną wbudowaną).
+
+• Wyszukiwarka na stronie głównej (§32 CSS):
+  - Layout: .iai_frontpage flex row z polami Przyjazd, Wyjazd, Osoby
+  - Przycisk: złoty gradient, czarny tekst "SZUKAJ" / "ZAREZERWUJ"
+  - Litepicker: width:fit-content (krytyczna naprawa §31)
+  - Mobile: flex-wrap, 2 kolumny → 1 kolumna
+
+• Wyróżnione Oferty (§33 CSS):
+  - .container-hotspot: ciemne tło #141410, heading "Nasze Domki" (CSS ::before)
+  - Karty: #1a1a1a, rounded-12, hover lift, złote strzałki, circular slick arrows
+  - Slick dots: złote
+
+• Cennik: ceny za 2026, min. pobyt 3 doby, kaucja 1500 zł.
+  Zweryfikuj ceny z klientem przed publikacją!
+
+• Telefon: +48 693 080 806
+  Zweryfikuj czy aktualny!
+
+
+CO DALEJ (TODO):
+────────────────
+□ Wersja EN (angielska) wszystkich podstron
+□ Nasze Ville — dedykowana podstrona z opisem każdego domku
+□ Prawdziwe zdjęcia nieruchomości (zamiast renderów/placeholderów)
+□ Dokładny adres i współrzędne Google Maps
+□ Google Analytics / GTM
+□ SEO: meta description dla każdej podstrony
+□ Embed spaceru wirtualnego (gdy gotowy)
+□ Integracja z social media (Facebook, Instagram)
+
+===============================================================

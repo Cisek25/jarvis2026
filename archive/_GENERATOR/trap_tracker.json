@@ -1,0 +1,167 @@
+{
+  "_description": "Tracker trapow systemowych IdoBooking. Kazdy trap z >= 2 klientami trafia do CSS_BASE.css",
+  "_updated": "2026-04-10",
+  "traps": [
+    {
+      "id": "body-font-size",
+      "selector": "body { font-size:16px!important }",
+      "reason": "System daje 22.4px",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "index-info-block",
+      "selector": ".index-info { pointer-events:none!important; z-index:1!important }",
+      "reason": "Blokuje hero (z-index:1000, position:absolute)",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "parallax-overlay-hide",
+      "selector": ".parallax-slider::before { display:none!important }",
+      "reason": "Ciemny overlay na sliderze",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "input-zindex",
+      "selector": "input,select,textarea { z-index:2!important }",
+      "reason": "System daje z-index:-1 na inputach",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "golden", "mountainprestige"]
+    },
+    {
+      "id": "litepicker-width",
+      "selector": ".litepicker { width:fit-content!important }",
+      "reason": "Datepicker rozjeżdża sie",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "golden", "mountainprestige"]
+    },
+    {
+      "id": "leaflet-overflow",
+      "selector": ".leaflet-container { overflow:hidden!important }",
+      "reason": "Wildcard [class*=map] ucina kafelki",
+      "in_base": true,
+      "clients": ["najmar", "madera", "mountainprestige"]
+    },
+    {
+      "id": "span-btn-offers",
+      "selector": ".page-offers span.btn { line-height:1.4!important; height:auto!important }",
+      "reason": "System line-height:49px robi button ogromny",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "mountainprestige"]
+    },
+    {
+      "id": "contact-btn-center",
+      "selector": ".contact__btn { justify-content:center!important }",
+      "reason": "System default justify-content:normal",
+      "in_base": true,
+      "clients": ["najmar", "madera", "golden", "mountainprestige"]
+    },
+    {
+      "id": "tabs-span-font",
+      "selector": ".tabs__item>span { font-size:13px!important }",
+      "reason": "System 1.3rem na span child",
+      "in_base": true,
+      "clients": ["mazurski", "mountainprestige"]
+    },
+    {
+      "id": "tabs-fixed-class",
+      "selector": ".tabs.--fixed { left:0!important; width:100vw!important }",
+      "reason": "System JS dodaje --fixed (nie .sticky)",
+      "in_base": true,
+      "clients": ["mazurski", "mountainprestige"]
+    },
+    {
+      "id": "big-label-hidden",
+      "selector": ".big-label { display:block!important; visibility:visible!important }",
+      "reason": "System ukrywa H1 na offer pages",
+      "in_base": true,
+      "clients": ["mazurski", "mountainprestige"]
+    },
+    {
+      "id": "footer-baner-bg",
+      "selector": ".footer-contact-baner { background:DARK2!important }",
+      "reason": "VISA/MC strip default #3E475E",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "offers-container-dark",
+      "selector": ".offers-container { background:WHITE!important }",
+      "reason": "Default bg #292929 ciemne",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "golden", "mountainprestige"]
+    },
+    {
+      "id": "btn-success-brand",
+      "selector": ".btn-success { background:ACCENT!important }",
+      "reason": "ZAREZERWUJ TERAZ buttony zielone",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "system-scheme-vars",
+      "selector": "html:root { --maincolor1: ACCENT!important }",
+      "reason": "333333.css.gz definiuje green #4ADE80 i orange",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "system-h2-price-size",
+      "selector": ".price { font-size:20px!important }",
+      "reason": "Default13 h2=36px, price=32px za duze",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "golden", "mountainprestige"]
+    },
+    {
+      "id": "parallax-slider-zindex",
+      "selector": "Hero overlay append to .section.parallax NOT .parallax-slider",
+      "reason": ".parallax-slider ma z-index:-2, overlay trapped",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "cms-strips-script",
+      "selector": "JS MUST go in body_bottom",
+      "reason": "CMS body_top stripuje <script> tagi",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "header-fixed-not-sticky",
+      "selector": "header { position:fixed!important }",
+      "reason": "Fixed (nie sticky) + padding-top na podstronach",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "sors", "mountainprestige"]
+    },
+    {
+      "id": "container-hotspot-hide",
+      "selector": ".container-hotspot { display:none!important }",
+      "reason": "JS rebuilds featured offers cards",
+      "in_base": true,
+      "clients": ["madera", "mountainprestige"]
+    },
+    {
+      "id": "iai-search-hide",
+      "selector": ".page-index .iai-search { display:none!important }",
+      "reason": "Search bar na homepage/offers",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "mazurski", "golden", "mountainprestige"]
+    },
+    {
+      "id": "filter-no-toggle-js",
+      "selector": "Custom JS needed for /offers filter toggle",
+      "reason": "System NIE MA toggle JS dla filtrow",
+      "in_base": true,
+      "clients": ["najmar", "ecocamping", "madera", "golden", "mountainprestige"]
+    },
+    {
+      "id": "osoby-toggle-trap",
+      "selector": ".visible { display:block!important }",
+      "reason": "togglePersonsList vs handlePersonSelection inline display:none conflict",
+      "in_base": false,
+      "clients": ["golden"]
+    }
+  ]
+}

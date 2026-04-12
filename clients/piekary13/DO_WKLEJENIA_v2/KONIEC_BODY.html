@@ -1,0 +1,532 @@
+<script>
+(function(){
+  'use strict';
+
+  /* Booking URL — filtered to Piekary 1-3 locations only (16,23) */
+  var BOOKING_URL = 'https://client23326.idobooking.com/book-now/booking/defaultchoice/currency/0/language/0/location/16,23&showOtherOffers=1&transparentbackground=1&from_own_button=1';
+
+  /* ───────────────────────────────────────────────────────
+     1. PAGE LOADER
+     ─────────────────────────────────────────────────────── */
+  function initPageLoader(){
+    var loader = document.createElement('div');
+    loader.className = 'pk-page-loader';
+    loader.innerHTML = '<div class="pk-page-loader__spinner"></div>';
+    document.body.appendChild(loader);
+    window.addEventListener('load', function(){
+      setTimeout(function(){ loader.classList.add('loaded'); }, 300);
+      setTimeout(function(){ if(loader.parentNode) loader.parentNode.removeChild(loader); }, 1200);
+    });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     2. SCROLL PROGRESS BAR
+     ─────────────────────────────────────────────────────── */
+  function initScrollProgress(){
+    var bar = document.createElement('div');
+    bar.className = 'pk-scroll-progress';
+    document.body.appendChild(bar);
+    window.addEventListener('scroll', function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = h > 0 ? (window.pageYOffset / h) * 100 : 0;
+      bar.style.width = pct + '%';
+    }, {passive: true});
+  }
+
+  /* ───────────────────────────────────────────────────────
+     3. HEADER — Transparent → Solid on Scroll
+     ─────────────────────────────────────────────────────── */
+  function initHeaderScroll(){
+    var hdr = document.querySelector('header.default13');
+    if(!hdr) return;
+    var threshold = 80;
+    function update(){
+      if(window.pageYOffset > threshold){
+        hdr.classList.add('pk-scrolled');
+      } else {
+        hdr.classList.remove('pk-scrolled');
+      }
+    }
+    window.addEventListener('scroll', update, {passive: true});
+    update();
+  }
+
+  /* ───────────────────────────────────────────────────────
+     4. HERO OVERLAY — Title + CTA + Scroll Indicator
+     ─────────────────────────────────────────────────────── */
+  function initHeroOverlay(){
+    /* CRITICAL: Append to .section.parallax, NOT to .parallax-slider!
+       .parallax-slider has z-index:-2 (system) which traps everything
+       inside it below .fp-tableCell in the stacking context.
+       By appending to .section.parallax (the parent), the overlay
+       sits at the correct stacking level and buttons are clickable. */
+    var section = document.querySelector('.section.parallax');
+    if(!section) return;
+    if(document.querySelector('.pk-hero-overlay')) return;
+
+    var isEN = document.documentElement.lang === 'en' || window.location.search.indexOf('language=2') !== -1;
+
+    var o = document.createElement('div');
+    o.className = 'pk-hero-overlay';
+    o.innerHTML =
+      '<div class="pk-hero-overlay__inner">' +
+        '<p class="pk-hero-overlay__sub">' + (isEN ? 'Historic Apartments in Toru\u0144' : 'Apartamenty w\u00a0zabytkowej kamienicy') + '</p>' +
+        '<h1><span class="pk-hero-title-spread">' + (isEN ? 'P I E K A R Y' : 'P I E K A R Y') + '</span><br>' +
+          '<strong>' + (isEN ? 'Seven Centuries' : 'Siedem wiek\u00f3w') + '</strong> ' + (isEN ? 'of History' : 'historii') +
+        '</h1>' +
+        '<div class="pk-hero-overlay__line"></div>' +
+        '<a href="javascript:void(0)" class="pk-hero-cta" onclick="window.pkOpenBooking()">' + (isEN ? 'BOOK NOW' : 'REZERWUJ') + '</a>' +
+        '<a href="#pk-about" class="pk-hero-cta pk-hero-cta--ghost">' + (isEN ? 'DISCOVER' : 'ODKRYJ') + '</a>' +
+      '</div>';
+
+    /* Scroll indicator */
+    var ind = document.createElement('div');
+    ind.className = 'pk-scroll-indicator';
+    ind.innerHTML =
+      '<span class="pk-scroll-indicator__text">SCROLL</span>' +
+      '<span class="pk-scroll-indicator__arrow"></span>';
+    o.appendChild(ind);
+
+    section.appendChild(o);
+  }
+
+  /* ───────────────────────────────────────────────────────
+     5. SCROLL REVEAL — IntersectionObserver
+     ─────────────────────────────────────────────────────── */
+  function initScrollReveal(){
+    var selectors = '.pk-reveal, .pk-reveal-left, .pk-reveal-right, .pk-reveal-scale';
+    var els = document.querySelectorAll(selectors);
+    if(!els.length) return;
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('pk-in'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('pk-in');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function(el){ obs.observe(el); });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     6. STAGGERED CARDS — Delay based on position
+     ─────────────────────────────────────────────────────── */
+  function initStaggeredCards(){
+    var grids = document.querySelectorAll('.pk-offers__grid, .pk-features, .pk-attractions, .pk-facts, .pk-gallery');
+    grids.forEach(function(grid){
+      var cards = grid.querySelectorAll('.pk-reveal, .pk-reveal-scale');
+      cards.forEach(function(card, i){
+        card.style.setProperty('--pk-stagger-delay', (i * 120) + 'ms');
+        card.style.transitionDelay = (i * 120) + 'ms';
+      });
+    });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     7. COUNTER ANIMATION — Numbers count up
+     ─────────────────────────────────────────────────────── */
+  function initCounters(){
+    var counters = document.querySelectorAll('[data-pk-count]');
+    if(!counters.length) return;
+    if(!('IntersectionObserver' in window)){
+      counters.forEach(function(el){
+        el.textContent = el.getAttribute('data-pk-count');
+      });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function(el){ obs.observe(el); });
+
+    function animateCounter(el){
+      var target = parseInt(el.getAttribute('data-pk-count'), 10);
+      var suffix = el.getAttribute('data-pk-suffix') || '';
+      var prefix = el.getAttribute('data-pk-prefix') || '';
+      var duration = 2000;
+      var start = 0;
+      var startTime = null;
+
+      function step(timestamp){
+        if(!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(eased * target);
+        el.textContent = prefix + current.toLocaleString('pl-PL') + suffix;
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+  }
+
+  /* ───────────────────────────────────────────────────────
+     8. PARALLAX — Subtle depth effect on scroll
+     ─────────────────────────────────────────────────────── */
+  function initParallax(){
+    var els = document.querySelectorAll('[data-pk-parallax]');
+    if(!els.length) return;
+    if(window.innerWidth < 768) return; /* Skip on mobile */
+    window.addEventListener('scroll', function(){
+      var scroll = window.pageYOffset;
+      els.forEach(function(el){
+        var speed = parseFloat(el.getAttribute('data-pk-parallax')) || 0.3;
+        var rect = el.getBoundingClientRect();
+        if(rect.bottom > 0 && rect.top < window.innerHeight){
+          var offset = (scroll - el.offsetTop + window.innerHeight) * speed;
+          el.style.transform = 'translate3d(0,' + offset + 'px,0)';
+        }
+      });
+    }, {passive: true});
+  }
+
+  /* ───────────────────────────────────────────────────────
+     9. GALLERY LIGHTBOX
+     ─────────────────────────────────────────────────────── */
+  function initLightbox(){
+    var items = document.querySelectorAll('.pk-gallery__item');
+    if(!items.length) return;
+
+    var images = [];
+    items.forEach(function(item){
+      var img = item.querySelector('img');
+      if(img) images.push(img.src);
+    });
+
+    var lightbox = document.createElement('div');
+    lightbox.className = 'pk-lightbox';
+    lightbox.innerHTML =
+      '<img class="pk-lightbox__img" src="" alt="">' +
+      '<button class="pk-lightbox__close" aria-label="Zamknij">&times;</button>' +
+      '<button class="pk-lightbox__nav pk-lightbox__nav--prev" aria-label="Poprzednie">&#8249;</button>' +
+      '<button class="pk-lightbox__nav pk-lightbox__nav--next" aria-label="Nastepne">&#8250;</button>' +
+      '<div class="pk-lightbox__counter"></div>';
+    document.body.appendChild(lightbox);
+
+    var imgEl = lightbox.querySelector('.pk-lightbox__img');
+    var counter = lightbox.querySelector('.pk-lightbox__counter');
+    var current = 0;
+
+    function show(idx){
+      current = idx;
+      imgEl.src = images[current];
+      counter.textContent = (current + 1) + ' / ' + images.length;
+      lightbox.classList.add('pk-active');
+      document.body.style.overflow = 'hidden';
+    }
+    function hide(){
+      lightbox.classList.remove('pk-active');
+      document.body.style.overflow = '';
+    }
+    function next(){ show((current + 1) % images.length); }
+    function prev(){ show((current - 1 + images.length) % images.length); }
+
+    items.forEach(function(item, i){
+      item.addEventListener('click', function(){ show(i); });
+    });
+    lightbox.querySelector('.pk-lightbox__close').addEventListener('click', hide);
+    lightbox.querySelector('.pk-lightbox__nav--prev').addEventListener('click', prev);
+    lightbox.querySelector('.pk-lightbox__nav--next').addEventListener('click', next);
+    lightbox.addEventListener('click', function(e){
+      if(e.target === lightbox) hide();
+    });
+    document.addEventListener('keydown', function(e){
+      if(!lightbox.classList.contains('pk-active')) return;
+      if(e.key === 'Escape') hide();
+      if(e.key === 'ArrowLeft') prev();
+      if(e.key === 'ArrowRight') next();
+    });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     10. BOOKING MODAL — Iframe overlay
+     ─────────────────────────────────────────────────────── */
+  function initBookingModal(){
+    var modal = document.createElement('div');
+    modal.className = 'pk-booking-modal';
+    modal.id = 'pk-booking-modal';
+    modal.innerHTML =
+      '<div class="pk-booking-modal__frame">' +
+        '<button class="pk-booking-modal__close" aria-label="Zamknij">&times;</button>' +
+        '<iframe class="pk-booking-modal__iframe" src="" title="Rezerwacja"></iframe>' +
+      '</div>';
+    document.body.appendChild(modal);
+
+    var iframe = modal.querySelector('.pk-booking-modal__iframe');
+    var closeBtn = modal.querySelector('.pk-booking-modal__close');
+
+    window.pkOpenBooking = function(customUrl){
+      var url = customUrl || BOOKING_URL;
+      iframe.src = url;
+      modal.classList.add('pk-active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.pkCloseBooking = function(){
+      modal.classList.remove('pk-active');
+      document.body.style.overflow = '';
+      setTimeout(function(){ iframe.src = ''; }, 400);
+    };
+
+    closeBtn.addEventListener('click', window.pkCloseBooking);
+    modal.addEventListener('click', function(e){
+      if(e.target === modal) window.pkCloseBooking();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && modal.classList.contains('pk-active')){
+        window.pkCloseBooking();
+      }
+    });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     11. NAV BOOKING BUTTON — Add to header
+     ─────────────────────────────────────────────────────── */
+  function initNavBookButton(){
+    var nav = document.querySelector('header.default13 nav, header.default13 .menu');
+    if(!nav) return;
+    var isEN = document.documentElement.lang === 'en' || window.location.search.indexOf('language=2') !== -1;
+    var btn = document.createElement('button');
+    btn.className = 'pk-nav-book';
+    btn.textContent = isEN ? 'BOOK NOW' : 'REZERWUJ';
+    btn.addEventListener('click', function(){ window.pkOpenBooking(); });
+    nav.appendChild(btn);
+  }
+
+  /* ───────────────────────────────────────────────────────
+     12. FEATURED OFFERS — Custom cards from .container-hotspot
+     ─────────────────────────────────────────────────────── */
+  function initFeaturedOffers(){
+    var hotspot = document.querySelector('.container-hotspot');
+    if(!hotspot) return;
+
+    var iconArea = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>';
+    var iconGuests = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/></svg>';
+
+    var seen = {};
+    var offers = [];
+    hotspot.querySelectorAll('.offer').forEach(function(el){
+      var a = el.querySelector('a.object-icon');
+      if(!a) return;
+      var href = a.getAttribute('href');
+      if(seen[href]) return;
+      seen[href] = true;
+
+      var img = el.querySelector('.object-icon img');
+      var title = el.querySelector('h3 a');
+      var desc = el.querySelector('.offer__description');
+      var infoEl = el.querySelector('.offer__info');
+      var infoText = infoEl ? infoEl.textContent.replace(/\s+/g,' ').trim() : '';
+
+      var area = '', guests = '';
+      var am = infoText.match(/([\d,.]+)\s*m2/i);
+      if(am) area = am[1].replace(',00','');
+      var parts = infoText.split(/m2/i);
+      if(parts[1]){ var g = parts[1].trim(); if(g) guests = g; }
+
+      offers.push({
+        href: href,
+        img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+        alt: img ? (img.alt || '').trim() : '',
+        title: title ? title.textContent.trim() : '',
+        desc: desc ? desc.textContent.trim() : '',
+        area: area,
+        guests: guests
+      });
+    });
+
+    if(!offers.length) return;
+
+    var isEN = document.documentElement.lang === 'en' || window.location.search.indexOf('language=2') !== -1;
+    var heading = isEN ? 'Our Apartments' : 'Apartamenty w\u00a0kamienicy';
+    var subtitle = isEN ? 'Piekary 1\u20113 \u2014 historic building in the heart of Toru\u0144 Old Town' : 'Piekary 1\u20113 \u2014 zabytkowa kamienica w\u00a0sercu toru\u0144skiego Starego Miasta';
+    var ctaText = isEN ? 'View details \u2192' : 'Zobacz szczeg\u00f3\u0142y \u2192';
+
+    function buildCard(o, i){
+      var meta = '';
+      if(o.area) meta += '<span>' + iconArea + ' ' + o.area + ' m\u00b2</span>';
+      if(o.guests) meta += '<span>' + iconGuests + ' ' + o.guests + '</span>';
+
+      return '<a href="' + o.href + '" class="pk-offer-card pk-reveal" style="--pk-stagger-delay:' + (i * 120) + 'ms; transition-delay:' + (i * 120) + 'ms">' +
+        '<div class="pk-offer-card__img">' +
+          (o.img ? '<img src="' + o.img + '" alt="' + o.alt + '" loading="lazy">' : '') +
+        '</div>' +
+        '<div class="pk-offer-card__body">' +
+          '<h3 class="pk-offer-card__name">' + o.title + '</h3>' +
+          (o.desc ? '<p class="pk-offer-card__desc">' + o.desc + '</p>' : '') +
+          (meta ? '<div class="pk-offer-card__meta">' + meta + '</div>' : '') +
+          '<span class="pk-offer-card__cta">' + ctaText + '</span>' +
+        '</div>' +
+      '</a>';
+    }
+
+    var cards = offers.map(function(o, i){ return buildCard(o, i); }).join('');
+
+    var section = document.createElement('div');
+    section.className = 'pk-offers-section';
+    section.innerHTML =
+      '<div class="pk-offers__inner">' +
+        '<h2 class="pk-offers__title pk-reveal">' + heading + '</h2>' +
+        '<p class="pk-offers__subtitle pk-reveal">' + subtitle + '</p>' +
+        '<div class="pk-offers__line"></div>' +
+        '<div class="pk-offers__grid">' + cards + '</div>' +
+      '</div>';
+
+    hotspot.style.display = 'none';
+    hotspot.parentNode.insertBefore(section, hotspot.nextSibling);
+  }
+
+  /* ───────────────────────────────────────────────────────
+     13. /OFFERS FILTERS — Toggle button
+     ─────────────────────────────────────────────────────── */
+  function initOffersFilters(){
+    if(!document.body.classList.contains('page-offers')) return;
+    var filterForm = document.querySelector('#menu_filter');
+    if(!filterForm) return;
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pk-filters-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>' +
+      '<span>Poka\u017c filtry</span>';
+    filterForm.parentNode.insertBefore(btn, filterForm);
+
+    btn.addEventListener('click', function(){
+      var isOpen = filterForm.classList.toggle('pk-filters-open');
+      btn.classList.toggle('pk-open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      btn.querySelector('span').textContent = isOpen ? 'Ukryj filtry' : 'Poka\u017c filtry';
+    });
+
+    document.addEventListener('click', function(e){
+      var header = e.target.closest('.filter_header');
+      if(!header) return;
+      var content = header.nextElementSibling;
+      if(!content || !content.classList.contains('filter_content')) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if(content.classList.contains('pk-open')){
+        content.classList.remove('pk-open');
+        content.style.cssText = 'display:none !important;';
+        header.classList.remove('pk-active');
+      } else {
+        content.classList.add('pk-open');
+        content.classList.remove('collapse');
+        content.style.cssText = 'display:block !important; height:auto !important; overflow:visible !important;';
+        header.classList.add('pk-active');
+      }
+    }, true);
+  }
+
+  /* ───────────────────────────────────────────────────────
+     14. FAQ ACCORDION
+     ─────────────────────────────────────────────────────── */
+  function initFaqAccordion(){
+    var items = document.querySelectorAll('.pk-faq__item');
+    items.forEach(function(item){
+      var q = item.querySelector('.pk-faq__question');
+      if(!q) return;
+      q.addEventListener('click', function(){
+        var wasOpen = item.classList.contains('pk-open');
+        /* Close all */
+        items.forEach(function(it){ it.classList.remove('pk-open'); });
+        /* Open clicked if wasn't open */
+        if(!wasOpen) item.classList.add('pk-open');
+      });
+    });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     15. SMOOTH SCROLL — Anchor links
+     ─────────────────────────────────────────────────────── */
+  function initSmoothScroll(){
+    document.addEventListener('click', function(e){
+      var link = e.target.closest('a[href^="#"]');
+      if(!link) return;
+      var target = document.querySelector(link.getAttribute('href'));
+      if(!target) return;
+      e.preventDefault();
+      var offset = 80;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     16. SLIDER FIX — Hide duplicates if 1 image
+     ─────────────────────────────────────────────────────── */
+  function initSliderFix(){
+    var slides = document.querySelectorAll('.parallax-slider .slick-slide');
+    if(slides.length <= 1) return;
+    var srcs = [];
+    slides.forEach(function(s){
+      var img = s.querySelector('img');
+      if(img) srcs.push(img.src);
+    });
+    var unique = srcs.filter(function(v, i, a){ return a.indexOf(v) === i; });
+    if(unique.length <= 1){
+      var arrows = document.querySelectorAll('.parallax-slider .slick-arrow, .parallax-slider .slick-dots');
+      arrows.forEach(function(a){ a.style.display = 'none'; });
+    }
+  }
+
+  /* ───────────────────────────────────────────────────────
+     17. INTERCEPT ENGINE LINKS — Redirect to iframe modal
+     Catches any links pointing to the booking engine
+     and opens them in the iframe modal instead.
+     ─────────────────────────────────────────────────────── */
+  function initEngineIntercept(){
+    document.addEventListener('click', function(e){
+      var link = e.target.closest('a[href]');
+      if(!link) return;
+      var href = link.getAttribute('href') || '';
+      if(href.indexOf('engine23326.idobooking.com') !== -1 ||
+         href.indexOf('client23326.idobooking.com') !== -1){
+        e.preventDefault();
+        window.pkOpenBooking();
+      }
+    });
+  }
+
+  /* ───────────────────────────────────────────────────────
+     INIT — Run on DOM ready
+     ─────────────────────────────────────────────────────── */
+  initPageLoader();
+  initScrollProgress();
+
+  function onReady(){
+    initHeaderScroll();
+    initHeroOverlay();
+    initBookingModal();
+    initNavBookButton();
+    initFeaturedOffers();
+    initScrollReveal();
+    initStaggeredCards();
+    initCounters();
+    initParallax();
+    initLightbox();
+    initOffersFilters();
+    initFaqAccordion();
+    initSmoothScroll();
+    initSliderFix();
+    initEngineIntercept();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', onReady);
+  } else {
+    onReady();
+  }
+
+})();
+</script>

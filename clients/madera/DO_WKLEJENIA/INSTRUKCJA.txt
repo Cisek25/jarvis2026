@@ -1,0 +1,267 @@
+=====================================================
+  MADERA CENTRUM - INSTRUKCJA WKLEJANIA DO CMS
+  AKTUALIZACJA: Kwiecien 2026
+=====================================================
+
+Panel CMS: https://client45553.idosell.com/panel
+
+WAŻNE — CO SIE ZMIENILO:
+  1. NOWY CSS — trzeba go ponownie wklejac (zob. KROK 0)
+     CSS teraz UKRYWA systemowe "Wyroznione Oferty" i styluje
+     wlasne karty obiektow generowane przez JavaScript
+  2. NOWE pliki HOMEPAGE (body_top + body_bottom) — PL + EN
+     body_bottom zawiera SKRYPT ktory automatycznie czyta dane
+     z systemowych "Wyroznionych Ofert" i buduje wlasne, ladne karty.
+     Zdjecia i opisy ciagnie z panelu — nie trzeba nic wklejac recznie!
+  3. Zaktualizowane ATRAKCJE — nowe odleglosci
+  4. NOWA GALERIA (PL + EN) — zdjecia poprawione!
+     Przebudowana struktura: zamiast "Pokoj 1-12" teraz uzywa nazw
+     typow ofert (Pokoj, Apartament Delux, Loft itp.) z poprawnymi
+     zdjeciami pobranymi bezposrednio z kazdej oferty na stronie.
+     TRZEBA PONOWNIE WKLEJAC pliki galerii (KROK 5 + KROK 6)
+  5. Momenti — bez zmian
+
+Pliki sa podzielone na 2 czesci:
+  __body_top.html   = czysty HTML (bez JavaScript)
+  __body_bottom.html = JavaScript w <script></script>
+
+Kazdy plik wklejasz do INNEGO pola w edytorze podstrony.
+
+
+=====================================================
+KROK 0: CSS — ZAKTUALIZOWANY ARKUSZ STYLOW
+=====================================================
+1. Idz do: /panel/frontpage/edit → Edytor CSS (ACE editor)
+2. Zaznacz CALA stara tresc (Ctrl+A) i USUN
+3. Otworz: madera.css (plik POZA folderem DO_WKLEJENIA)
+4. Skopiuj CALA zawartosc (Ctrl+A, Ctrl+C)
+5. Wklej (Ctrl+V)
+6. Kliknij "Zapisz"
+
+UWAGA: Ten krok jest WYMAGANY — w CSS dodano:
+  - ukrywanie systemowych "Wyroznionych Ofert" (display: none)
+  - style dla wlasnych kart obiektow (#md-offers) generowanych przez JS
+  - klasy sekcji emocjonalnej "Wyobraz sobie"
+
+
+=====================================================
+KROK 1: STRONA GLOWNA — POLSKI
+=====================================================
+1. Idz do: /panel/frontpage/edit
+2. Kliknij zakladke "polski"
+3. Przewin do "Dodaj wlasny kod HTML/JavaScript"
+
+POLE "Poczatek sekcji Body":
+  → Zaznacz CALA stara tresc (Ctrl+A) i USUN
+  → Otworz: HOMEPAGE_PL__body_top.html
+  → Skopiuj CALA zawartosc (Ctrl+A, Ctrl+C)
+  → Wklej (Ctrl+V)
+
+POLE "Koniec sekcji Body":
+  → Zaznacz CALA stara tresc (Ctrl+A) i USUN
+  → Otworz: HOMEPAGE_PL__body_bottom.html
+  → Skopiuj CALA zawartosc (Ctrl+A, Ctrl+C)
+  → Wklej (Ctrl+V)
+
+4. Kliknij "Zapisz zmiany"
+
+  INFORMACJA: Skrypt w body_bottom automatycznie:
+  1) Czyta dane z systemowej sekcji "Wyroznione Oferty" (ukrytej przez CSS)
+  2) Buduje wlasne, ladne karty obiektow z tytulami, opisami,
+     zdjeciami, metraza i liczba gosci
+  3) Wstawia je na strone jako sekcje "Nasze apartamenty"
+
+  Zdjecia i opisy bierze z panelu (Pokoje → lista pokoi).
+  Nie trzeba recznie wklejac zadnych zdjec ani HTML!
+  Aby zmienic ktore pokoje sie pokazuja:
+  Panel → Pokoje → lista pokoi → zaznacz "wyrozniony"
+
+
+=====================================================
+KROK 2: STRONA GLOWNA — ANGIELSKI
+=====================================================
+1. Na tej samej stronie kliknij zakladke "angielski"
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: HOMEPAGE_EN__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: HOMEPAGE_EN__body_bottom.html
+
+2. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+KROK 3: ATRAKCJE — POLSKI (podstrona 201)
+=====================================================
+1. Idz do: /panel/frontpage/editsubpage/id/201
+2. Kliknij zakladke "polski"
+
+POLE "Poczatek sekcji Body":
+  → Zaznacz CALA stara tresc i USUN
+  → Wklej z: ATRAKCJE_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: ATRAKCJE_PL__body_bottom.html
+
+3. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+KROK 4: ATRAKCJE — ANGIELSKI (podstrona 201)
+=====================================================
+1. Kliknij zakladke "angielski"
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: ATRAKCJE_EN__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: ATRAKCJE_EN__body_bottom.html
+
+2. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+KROK 5: GALERIA — POLSKI (podstrona 202)
+=====================================================
+1. Idz do: /panel/frontpage/editsubpage/id/202
+2. Kliknij zakladke "polski"
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: GALERIA_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: GALERIA_PL__body_bottom.html
+
+3. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+KROK 6: GALERIA — ANGIELSKI (podstrona 202)
+=====================================================
+1. Kliknij zakladke "angielski"
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: GALERIA_EN__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: GALERIA_EN__body_bottom.html
+
+2. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+KROK 7: MOMENTI PICCANTI — POLSKI (podstrona 203)
+=====================================================
+1. Idz do: /panel/frontpage/editsubpage/id/203
+2. Kliknij zakladke "polski"
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: MOMENTI_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: MOMENTI_PL__body_bottom.html
+
+3. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+KROK 8: MOMENTI PICCANTI — ANGIELSKI (podstrona 203)
+=====================================================
+1. Kliknij zakladke "angielski"
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: MOMENTI_EN__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: MOMENTI_EN__body_bottom.html
+
+2. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+DODATKOWE ZMIANY W PANELU (bez plikow)
+=====================================================
+
+A) TEKST NA SLIDERZE (hero):
+   /panel/frontpage/edit → Slider/Banner
+   Zmien "NOCLEGI KATOWICE" na np. "MADERA CENTRUM"
+   Zmien "ZAPRASZAMY" na "Apartamenty przy Parku Slaskim"
+
+B) KOD POCZTOWY:
+   /panel → Ustawienia → Dane obiektu → Adres
+   Zmien "00-000" na "40-149"
+
+C) NAZWA FIRMY (usun imie):
+   /panel → Ustawienia → Dane firmy
+   Zmien "MADERA AGNIESZKA KAWECKA" na "MADERA" lub "MADERA CENTRUM"
+
+D) DANE BANKOWE (usun imie):
+   /panel → Ustawienia → Platnosci → Dane bankowe
+   Zmien nazwe na koncie na "MADERA" (bez imienia)
+
+
+=====================================================
+CO GDZIE IDZIE — PODSUMOWANIE
+=====================================================
+
+EDYTOR CSS:
+  → madera.css (ZAKTUALIZOWANY — ponownie wklejac!)
+
+STRONA GLOWNA:
+  → HOMEPAGE_PL__body_top.html   → body_top PL
+  → HOMEPAGE_PL__body_bottom.html → body_bottom PL
+  → HOMEPAGE_EN__body_top.html   → body_top EN
+  → HOMEPAGE_EN__body_bottom.html → body_bottom EN
+
+ATRAKCJE (podstrona 201):
+  → ATRAKCJE_PL__body_top.html   → body_top PL (ZAKTUALIZOWANE)
+  → ATRAKCJE_PL__body_bottom.html → body_bottom PL
+  → ATRAKCJE_EN__body_top.html   → body_top EN (ZAKTUALIZOWANE)
+  → ATRAKCJE_EN__body_bottom.html → body_bottom EN
+
+GALERIA (podstrona 202):
+  → GALERIA_PL__body_top.html    → body_top PL
+  → GALERIA_PL__body_bottom.html → body_bottom PL
+  → GALERIA_EN__body_top.html    → body_top EN
+  → GALERIA_EN__body_bottom.html → body_bottom EN
+
+MOMENTI PICCANTI (podstrona 203):
+  → MOMENTI_PL__body_top.html    → body_top PL
+  → MOMENTI_PL__body_bottom.html → body_bottom PL
+  → MOMENTI_EN__body_top.html    → body_top EN
+  → MOMENTI_EN__body_bottom.html → body_bottom EN
+
+GLOBALNY HEAD (wszystkie strony):
+  → OFFERS_head.html             → GLOBALNY Head (Edytor → Head strony)
+  (Skrypt dziala TYLKO na /offers — na innych stronach nie robi nic)
+
+DODATKOWE:
+  → ODPOWIEDZ_DLA_KLIENTKI.md   → pelna odpowiedz na feedback
+
+
+=====================================================
+PLIKI W TYM FOLDERZE (17 + instrukcja + odpowiedz)
+=====================================================
+HOMEPAGE_PL__body_top.html      Homepage PL → "Poczatek sekcji Body"
+HOMEPAGE_PL__body_bottom.html   Homepage PL → "Koniec sekcji Body"
+HOMEPAGE_EN__body_top.html      Homepage EN → "Poczatek sekcji Body"
+HOMEPAGE_EN__body_bottom.html   Homepage EN → "Koniec sekcji Body"
+ATRAKCJE_PL__body_top.html      Atrakcje PL → "Poczatek sekcji Body"
+ATRAKCJE_PL__body_bottom.html   Atrakcje PL → "Koniec sekcji Body"
+ATRAKCJE_EN__body_top.html      Atrakcje EN → "Poczatek sekcji Body"
+ATRAKCJE_EN__body_bottom.html   Atrakcje EN → "Koniec sekcji Body"
+GALERIA_PL__body_top.html       Galeria PL → "Poczatek sekcji Body"
+GALERIA_PL__body_bottom.html    Galeria PL → "Koniec sekcji Body"
+GALERIA_EN__body_top.html       Galeria EN → "Poczatek sekcji Body"
+GALERIA_EN__body_bottom.html    Galeria EN → "Koniec sekcji Body"
+MOMENTI_PL__body_top.html       Momenti PL → "Poczatek sekcji Body"
+MOMENTI_PL__body_bottom.html    Momenti PL → "Koniec sekcji Body"
+MOMENTI_EN__body_top.html       Momenti EN → "Poczatek sekcji Body"
+MOMENTI_EN__body_bottom.html    Momenti EN → "Koniec sekcji Body"
+OFFERS_head.html                GLOBALNY Head (dziala tylko na /offers)
+INSTRUKCJA.txt                  Ten plik
+ODPOWIEDZ_DLA_KLIENTKI.md      Pelna odpowiedz na feedback
+
+WAZNE: Kopiuj CALA zawartosc kazdego pliku (Ctrl+A),
+nie wybieraj fragmentow!

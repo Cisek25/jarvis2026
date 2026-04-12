@@ -1,0 +1,66 @@
+═══════════════════════════════════════════════════════════
+  PIEKARY 1-3 — INSTRUKCJA WKLEJENIA DO PANELU
+  client23326.idobooking.com
+═══════════════════════════════════════════════════════════
+
+KROK 1: CSS
+───────────────────────────────────────────
+Panel → Wygląd → Arkusz stylów CSS
+→ Wklej CAŁĄ zawartość: CSS_EDYTOR.css
+
+KROK 2: STRONA GŁÓWNA — body_top
+───────────────────────────────────────────
+Panel → Wygląd → Strona główna → Edytor treści → tryb HTML
+→ Wklej CAŁĄ zawartość: GLOWNA_PL__body_top.html
+
+KROK 3: GLOBALNY JS — koniec body
+───────────────────────────────────────────
+Panel → Ustawienia → Kody śledzące → Koniec sekcji Body
+→ Wklej CAŁĄ zawartość: KONIEC_BODY.html (z tagami <script>)
+
+KROK 4: PODSTRONY
+───────────────────────────────────────────
+Utwórz podstrony w panelu (Treści → Strony tekstowe → Dodaj):
+
+a) Historia Kamienicy (/txt/XXX/Historia-Kamienicy)
+   → Początek sekcji Body: HISTORIA_PL__body_top.html
+
+b) O Nas (/txt/XXX/O-nas)
+   → TODO: będzie w kolejnej wersji
+
+c) Kontakt (/txt/XXX/Kontakt)
+   → Stylowany przez CSS, nie wymaga custom HTML
+
+KROK 5: MENU
+───────────────────────────────────────────
+Panel → Wygląd → Menu → Dodaj pozycje:
+1. Strona Główna → /
+2. Oferta → /offers
+3. Historia → /txt/XXX/Historia-Kamienicy
+4. Kontakt → /contact
+5. Rezerwuj (wyróżniony) → /offers
+
+KROK 6: WYRÓŻNIONE OFERTY
+───────────────────────────────────────────
+Panel → Oferty → wybierz apartamenty z Piekary 1-3
+→ Zaznacz "Wyróżniona oferta" (TYLKO apartamenty z ul. Piekary!)
+→ Wyróżnione pojawią się automatycznie na stronie głównej
+
+KROK 7: SLIDER / ZDJĘCIA
+───────────────────────────────────────────
+Panel → Wygląd → Slider
+→ Dodaj 1-3 zdjęcia kamienicy z zewnątrz lub wnętrz
+→ JS automatycznie doda overlay z tekstem
+
+KROK 8: LOGO
+───────────────────────────────────────────
+Panel → Wygląd → Logo
+→ Wgraj logo gdy będzie gotowe od projektanta
+→ CSS automatycznie odwróci kolory na białe (filter: invert)
+
+═══════════════════════════════════════════════════════════
+  WAŻNE:
+  - WYRÓŻNIJ TYLKO apartamenty z Piekary 1-3 (nie wszystkie 100+)
+  - Zdjęcia tymczasowe OK, podmienimy na profesjonalne później
+  - Logo placeholder wystarczy na start
+═══════════════════════════════════════════════════════════

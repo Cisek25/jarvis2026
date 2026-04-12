@@ -1,0 +1,141 @@
+================================================================
+  EAGLE TOWER — SORS  |  INSTRUKCJA WKLEJANIA
+  Data: 2026-04-01
+================================================================
+
+STRUKTURA FOLDERU:
+  00_CUSTOM_CSS_v3.css .... CSS panelu (client51651.idosell.com)
+  engine.css .............. CSS engine (engine51651.idobooking.com)
+  01_GLOWNA/ .............. Strona glowna (4 jezyki)
+  02_APARTAMENTY/ ......... Apartamenty (4 jezyki)
+  03_EAGLE_TOWER/ ......... Eagle Tower & Udogodnienia (4 jezyki)
+  04_GALERIA_INDEX/ ....... Galeria — spis albumow (4 jezyki)
+  05_GALERIA_ZDJECIA/ ..... Galeria — zdjecia (4 jezyki)
+
+================================================================
+  KROK 1: CSS PANELU
+================================================================
+
+  Panel: client51651.idosell.com
+  Miejsce: Ustawienia witryny → Wlasny CSS
+  Plik: 00_CUSTOM_CSS_v3.css
+
+  → Wklej CALA zawartosc pliku (zastap poprzedni CSS)
+  → Ten jeden plik obsluguje WSZYSTKIE podstrony panelu
+
+================================================================
+  KROK 2: CSS ENGINE
+================================================================
+
+  Engine: engine51651.idobooking.com
+  Miejsce: Panel → Konfiguracja → Wlasny CSS engine
+  Plik: engine.css
+
+  → Wklej zawartosc (ukrywa "dane wlasciciela" na stronie kontaktu)
+
+================================================================
+  KROK 3: STRONY CMS — WKLEJANIE HTML
+================================================================
+
+  Kazda strona CMS ma 4 wersje jezykowe (PL, EN, DE, ES).
+  Wklej kazdy plik do odpowiedniej wersji jezykowej strony.
+
+  Panel → Strony → [nazwa strony] → Tresc
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │ 01_GLOWNA/                                                  │
+  │   Strona: Strona Glowna                                    │
+  │   PL: glowna_PL.html                                       │
+  │   EN: glowna_EN.html                                       │
+  │   DE: glowna_DE.html                                       │
+  │   ES: glowna_ES.html                                       │
+  ├─────────────────────────────────────────────────────────────┤
+  │ 02_APARTAMENTY/                                             │
+  │   Strona: Apartamenty (np. /txt/201)                        │
+  │   PL: apartamenty_PL.html                                   │
+  │   EN: apartamenty_EN.html                                   │
+  │   DE: apartamenty_DE.html                                   │
+  │   ES: apartamenty_ES.html                                   │
+  ├─────────────────────────────────────────────────────────────┤
+  │ 03_EAGLE_TOWER/                                             │
+  │   Strona: Eagle Tower & Udogodnienia (np. /txt/200)         │
+  │   PL: eagle_tower_PL.html                                   │
+  │   EN: eagle_tower_EN.html                                   │
+  │   DE: eagle_tower_DE.html                                   │
+  │   ES: eagle_tower_ES.html                                   │
+  │                                                             │
+  │   ⚠ UWAGA: Pliki zawieraja placeholder __KOLAZ_1__ do      │
+  │   __KOLAZ_4__. Przed wklejeniem:                            │
+  │   1. Wgraj 4 kolaże do galerii frontowej panelu             │
+  │   2. Zanotuj przydzielone ID (numery) kazdego obrazka       │
+  │   3. W pliku: Ctrl+H zamien __KOLAZ_1__ na numer ID itd.   │
+  │                                                             │
+  │   Kolaże (pliki w Downloads):                               │
+  │     __KOLAZ_1__ = 1eagle-tower-apartament-benidorm.webp     │
+  │     __KOLAZ_2__ = 2apartament-basen-jacuzzi-wakacje.webp    │
+  │     __KOLAZ_3__ = 3noclegi-silownia-boisko-kort-padel.webp  │
+  │     __KOLAZ_4__ = 4eagle-tower-duzy-apartament-last.webp    │
+  ├─────────────────────────────────────────────────────────────┤
+  │ 04_GALERIA_INDEX/                                           │
+  │   Strona: Galeria (spis albumow)                            │
+  │   PL: galeria_index_PL.html                                 │
+  │   EN: galeria_index_EN.html                                 │
+  │   DE: galeria_index_DE.html                                 │
+  │   ES: galeria_index_ES.html                                 │
+  │                                                             │
+  │   ⚠ UWAGA: Linki zawieraja __GALERIA_ZDJECIA_URL__         │
+  │   Zamien na URL strony ze zdjeciami, np.:                   │
+  │     PL: /txt/XXX/Galeria-zdjecia                            │
+  │     EN: /en/txt/XXX/Gallery-photos                          │
+  │     DE: /de/txt/XXX/Galerie-Fotos                           │
+  │     ES: /es/txt/XXX/Galeria-fotos                           │
+  │   (gdzie XXX = numer strony CMS ze zdjeciami)               │
+  ├─────────────────────────────────────────────────────────────┤
+  │ 05_GALERIA_ZDJECIA/                                         │
+  │   Strona: Galeria — Zdjecia (nowa strona CMS)              │
+  │   PL: galeria_zdjecia_PL.html                               │
+  │   EN: galeria_zdjecia_EN.html                               │
+  │   DE: galeria_zdjecia_DE.html                               │
+  │   ES: galeria_zdjecia_ES.html                               │
+  │                                                             │
+  │   Zdjecia uzywa istniejacych ID 24-81 z galerii frontowej. │
+  │   4 albumy: Eagle Nest (24-36), Eagle View (37-50),         │
+  │   Strefa relaksu (51-68), Okolica (69-81).                  │
+  └─────────────────────────────────────────────────────────────┘
+
+================================================================
+  KROK 4: NOWE ZDJECIA GALERII (opcjonalnie)
+================================================================
+
+  Jesli masz nowe zdjecia w folderach:
+    Downloads/6. GALERIA - Album 1/  (13 zdjec)
+    Downloads/6. GALERIA - Album 2/  (14 zdjec)
+    Downloads/6. GALERIA - Album 3/  (18 zdjec)
+    Downloads/6. GALERIA - Album 4/  (13 zdjec)
+
+  → Wgraj je do galerii frontowej panelu
+  → Zanotuj nowe ID
+  → Zaktualizuj ID w plikach 05_GALERIA_ZDJECIA
+
+================================================================
+  KOLEJNOSC WKLEJANIA (zalecana)
+================================================================
+
+  1. CSS panelu (00_CUSTOM_CSS_v3.css)
+  2. CSS engine (engine.css)
+  3. Upload kolaży → zanotuj ID → podmien placeholdery
+  4. Strona glowna (01)
+  5. Apartamenty (02)
+  6. Eagle Tower (03) — z podmienionymi ID kolaży
+  7. Galeria zdjecia (05) — stworz nowa strone CMS
+  8. Galeria index (04) — podmien __GALERIA_ZDJECIA_URL__
+
+================================================================
+  PODSUMOWANIE PLIKOW
+================================================================
+
+  CSS:     2 pliki (panel + engine)
+  HTML:   20 plikow (5 stron x 4 jezyki)
+  Razem:  22 pliki do wklejenia
+
+================================================================

@@ -1,0 +1,880 @@
+<!-- ============================================
+     CityApart Szczecin — BLOG
+     Wklej do: CMS > txt/202 > Blog (body)
+     ============================================ -->
+
+<style>
+/* ============================
+   CITY APARTHOTEL BLOG
+   ============================ */
+
+/* Reset CMS margins */
+.ca-blog * { box-sizing: border-box; }
+
+.ca-blog {
+  max-width: 900px;
+  margin: 0 auto 4rem auto;
+  padding: 0 1.25rem;
+  font-family: 'Signika', sans-serif;
+  color: #334155;
+  line-height: 1.75;
+}
+
+/* --- Intro sekcja bloga --- */
+.ca-blog-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.ca-blog-intro p {
+  color: #64748b;
+  font-size: 1.05rem;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* --- Artykuł --- */
+.ca-article {
+  margin-bottom: 3.5rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.ca-article:last-child {
+  border-bottom: none;
+  margin-bottom: 1rem;
+}
+
+/* Nagłówek artykułu */
+.ca-article-header {
+  margin-bottom: 1.5rem;
+}
+
+.ca-article-tag {
+  display: inline-block;
+  background: linear-gradient(135deg, #1a365d, #2563eb);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+}
+
+.ca-article h2 {
+  font-family: 'Signika', sans-serif;
+  color: #1a365d;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0.5rem 0 0.75rem 0;
+}
+
+.ca-article-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.ca-article-meta svg {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+  margin-right: 3px;
+  fill: #94a3b8;
+}
+
+/* Zdjęcie w artykule */
+.ca-article-img {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(26,54,93,0.10);
+}
+
+.ca-article-img img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.ca-article-img:hover img {
+  transform: scale(1.03);
+}
+
+/* Treść artykułu */
+.ca-article p {
+  margin-bottom: 1rem;
+  font-size: 0.98rem;
+}
+
+.ca-article strong {
+  color: #1a365d;
+}
+
+/* Nagłówki sekcji w artykule */
+.ca-article h3 {
+  font-family: 'Signika', sans-serif;
+  color: #1a365d;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem 0;
+  padding-left: 14px;
+  border-left: 3px solid #2563eb;
+}
+
+/* Listy */
+.ca-article ul,
+.ca-article ol {
+  margin: 1rem 0 1.5rem 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.ca-article ul li,
+.ca-article ol li {
+  position: relative;
+  padding: 0.6rem 0 0.6rem 2.5rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ca-article ul li:last-child,
+.ca-article ol li:last-child {
+  border-bottom: none;
+}
+
+.ca-article ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #2563eb;
+  border-radius: 50%;
+}
+
+.ca-article ol {
+  counter-reset: ca-counter;
+}
+
+.ca-article ol li {
+  counter-increment: ca-counter;
+}
+
+.ca-article ol li::before {
+  content: counter(ca-counter);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #1a365d, #2563eb);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Highlight box */
+.ca-highlight {
+  background: linear-gradient(135deg, #eff6ff, #f0f4ff);
+  border-left: 4px solid #2563eb;
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  color: #1e40af;
+}
+
+.ca-highlight strong {
+  color: #1e40af;
+}
+
+/* Info grid (ikonki z tekstem) */
+.ca-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.ca-info-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.ca-info-card:hover {
+  box-shadow: 0 4px 16px rgba(26,54,93,0.08);
+  transform: translateY(-2px);
+}
+
+.ca-info-card .ca-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.ca-info-card h4 {
+  font-family: 'Signika', sans-serif;
+  color: #1a365d;
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem 0;
+}
+
+.ca-info-card p {
+  font-size: 0.84rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* CTA box */
+.ca-cta {
+  background: linear-gradient(135deg, #1a365d, #1e3a6e);
+  color: #fff;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.ca-cta h3 {
+  color: #fff;
+  border-left: none;
+  padding-left: 0;
+  font-size: 1.3rem;
+  margin-top: 0;
+}
+
+.ca-cta p {
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 1.25rem;
+}
+
+.ca-cta-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.ca-cta-btn:hover {
+  background: #3b82f6;
+  transform: translateY(-2px);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Separator dekoracyjny */
+.ca-sep {
+  text-align: center;
+  margin: 0.5rem 0;
+  color: #cbd5e1;
+  font-size: 1.2rem;
+  letter-spacing: 0.3em;
+}
+
+/* ============================
+   RESPONSYWNOŚĆ
+   ============================ */
+@media (max-width: 768px) {
+  .ca-blog {
+    padding: 0 1rem;
+  }
+  .ca-article h2 {
+    font-size: 1.35rem;
+  }
+  .ca-article-img img {
+    height: 240px;
+  }
+  .ca-info-grid {
+    grid-template-columns: 1fr;
+  }
+  .ca-cta {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ca-article h2 {
+    font-size: 1.2rem;
+  }
+  .ca-article-img img {
+    height: 200px;
+  }
+  .ca-article-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+  }
+}
+</style>
+
+<!-- ============================
+     BLOG CONTENT
+     ============================ -->
+
+<div class="ca-blog">
+
+  <div class="ca-blog-intro">
+    <p>Praktyczne porady, inspiracje podróżnicze i wszystko, co warto wiedzieć o pobycie w Szczecinie. Odkrywaj miasto razem z City Aparthotel!</p>
+  </div>
+
+  <!-- =====================
+       ARTYKUŁ 1 — GŁÓWNY
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Apartamenty</span>
+      <h2>Wynajem apartamentów w Szczecinie – dlaczego City Aparthotel to najlepszy wybór na Twój pobyt?</h2>
+      <div class="ca-article-meta">
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg> 24 marca 2026</span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 8 min czytania</span>
+      </div>
+    </div>
+
+    <div class="ca-article-img">
+      <img src="/images/frontpageGallery/pictures/large/0/0/27.jpg" alt="Widok z apartamentu City Aparthotel na panoramę Szczecina">
+    </div>
+
+    <p>Szczecin to miasto o niezwykłym uroku, łączące w sobie bogatą, ponad 400-letnią historię z nowoczesną architekturą i bliskością natury. Niezależnie od tego, czy w planach jest weekendowy wyjazd turystyczny, czy wielotygodniowa podróż służbowa, kluczem do udanego wyjazdu jest odpowiedni <strong>nocleg</strong>. Wynajem apartamentów w Szczecinie to coraz popularniejsza i znacznie wygodniejsza alternatywa dla tradycyjnych pokoi hotelowych.</p>
+
+    <h3>Komfort i domowa niezależność – apartamenty w centrum Szczecina</h3>
+
+    <p>Wybierając <strong>noclegi w Szczecinie</strong>, warto postawić na miejsca, które gwarantują swobodę, przestrzeń i domową atmosferę. <strong>City Aparthotel</strong>, zlokalizowany przy ul.&nbsp;Andrzeja Małkowskiego&nbsp;30, to nowoczesny obiekt, w którym wygoda obsługi hotelowej spotyka się z pełną funkcjonalnością własnego mieszkania.</p>
+
+    <p>Co wyróżnia tę ofertę na tle innych obiektów na mapie miasta?</p>
+
+    <div class="ca-info-grid">
+      <div class="ca-info-card">
+        <div class="ca-icon">🏠</div>
+        <h4>Przestronne wnętrza</h4>
+        <p>Lokale od 32&nbsp;m² do aż 80&nbsp;m², komfortowo gościące od 2 do 6 osób. W ofercie klimatyczne Lofty, kameralne Studia z tarasem oraz Apartamenty DELUXE z dwiema sypialniami.</p>
+      </div>
+      <div class="ca-info-card">
+        <div class="ca-icon">🍳</div>
+        <h4>Pełne wyposażenie</h4>
+        <p>Funkcjonalny aneks kuchenny (lodówka, płyta, mikrofalówka, czajnik, naczynia), darmowe Wi-Fi, Smart&nbsp;TV, a większość lokali dysponuje pralką.</p>
+      </div>
+      <div class="ca-info-card">
+        <div class="ca-icon">📅</div>
+        <h4>Elastyczność pobytu</h4>
+        <p>Idealne rozwiązanie na krótki wypad weekendowy lub najem na kilka miesięcy — oferta dopasowana dla biznesu i pracowników kontraktowych.</p>
+      </div>
+      <div class="ca-info-card">
+        <div class="ca-icon">🛗</div>
+        <h4>Wygodne udogodnienia</h4>
+        <p>Winda w budynku, parking w pobliżu oraz możliwość wykupienia śniadań w partnerskiej restauracji.</p>
+      </div>
+    </div>
+
+    <h3>Co zobaczyć w Szczecinie? Największe atrakcje na wyciągnięcie ręki</h3>
+
+    <p>Zatrzymując się w <strong>apartamentach w samym centrum Szczecina</strong>, zyskujesz doskonałą bazę wypadową do zwiedzania. Zaledwie krótki spacer dzieli obiekt od najważniejszych punktów na turystycznej mapie miasta:</p>
+
+    <ol>
+      <li><strong>Wały Chrobrego i Bulwary nad Odrą</strong> — reprezentacyjny taras widokowy z imponującą architekturą i wspaniałym widokiem na rzekę. Tuż obok tętniące życiem bulwary, idealne na relaksujący spacer.</li>
+      <li><strong>Dźwigozaury na Łasztowni</strong> — kultowe, podświetlane żurawie portowe, które stały się nowym symbolem miasta i przypominają o jego industrialnym dziedzictwie.</li>
+      <li><strong>Filharmonia Szczecińska</strong> — ikona nowoczesnej architektury. Futurystyczna, lodowa bryła zachwyca w dzień, a po zmroku przyciąga wzrok efektownym podświetleniem.</li>
+      <li><strong>Zamek Książąt Pomorskich</strong> — renesansowa rezydencja o wielowiekowej historii, obowiązkowy punkt programu każdego miłośnika przeszłości.</li>
+      <li><strong>Jasne Błonia i Zielony Szczecin</strong> — ponad 20-hektarowy plac, który w połączeniu z Parkiem Kasprowicza tworzy zielone płuca miasta — idealne na poranny jogging lub popołudniowy relaks.</li>
+    </ol>
+
+    <div class="ca-cta">
+      <h3>Zarezerwuj pobyt w najlepszej cenie!</h3>
+      <p>Rezerwując bezpośrednio przez naszą stronę, zyskujesz gwarancję najniższej ceny, sprawny kontakt z obsługą oraz pewność bezproblemowego zakwaterowania.</p>
+      <a href="/offers" class="ca-cta-btn">Sprawdź dostępność →</a>
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 2
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Poradnik</span>
+      <h2>Apartament czy hotel w Szczecinie? 7 powodów, dla których turyści coraz częściej wybierają wynajem krótkoterminowy</h2>
+      <div class="ca-article-meta">
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg> 18 marca 2026</span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 5 min czytania</span>
+      </div>
+    </div>
+
+    <div class="ca-article-img">
+      <img src="/images/frontpageGallery/pictures/large/0/0/16.jpg" alt="Wnętrze apartamentu w City Aparthotel Szczecin — sypialnia">
+    </div>
+
+    <p>Rynek <strong>noclegów w Szczecinie</strong> dynamicznie się zmienia. Coraz więcej podróżnych — zarówno turystów, jak i osób w delegacjach — rezygnuje z klasycznych hoteli na rzecz w pełni wyposażonych apartamentów. Co za tym stoi?</p>
+
+    <ol>
+      <li><strong>Więcej przestrzeni za podobną cenę</strong> — standardowy pokój hotelowy to ok. 18–22&nbsp;m². Apartament w City Aparthotel zaczyna się od 32&nbsp;m² i sięga aż 80&nbsp;m², oferując salon, kuchnię i osobną sypialnię.</li>
+      <li><strong>Własna kuchnia = oszczędność na jedzeniu</strong> — możliwość samodzielnego gotowania to realne obniżenie kosztów wyżywienia, szczególnie przy dłuższym pobycie z rodziną.</li>
+      <li><strong>Prywatność i cisza</strong> — w apartamencie nie musisz dostosowywać się do hotelowego harmonogramu. Śniadanie o 6:00 lub o 13:00? Ty decydujesz.</li>
+      <li><strong>Idealne dla rodzin i grup</strong> — apartament na 4–6 osób jest po prostu wygodniejszy niż dwa osobne pokoje hotelowe na różnych piętrach.</li>
+      <li><strong>Pralka, suszarka, żelazko</strong> — przy wyjeździe dłuższym niż tydzień to ogromna wygoda i brak konieczności pakowania dodatkowych ubrań.</li>
+      <li><strong>Kameralny charakter obiektu</strong> — brak tłumów, recepcja przyjmująca gości indywidualnie, osobisty kontakt z obsługą to coś, czego duże sieci nie zapewniają.</li>
+      <li><strong>Lokalizacja w centrum</strong> — City Aparthotel przy ul.&nbsp;Małkowskiego&nbsp;30 to dosłownie kilka minut spacerem od Wałów Chrobrego, Zamku Książąt Pomorskich i głównego deptaka.</li>
+    </ol>
+
+    <div class="ca-highlight">
+      <strong>💡 Wskazówka:</strong> Rezerwując bezpośrednio na stronie <strong>cityapartszczecin.pl</strong>, masz pewność najniższej dostępnej ceny — bez prowizji portali pośredniczących.
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 3
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Przewodnik</span>
+      <h2>Szczecin na weekend — kompletny plan zwiedzania miasta w 48 godzin</h2>
+      <div class="ca-article-meta">
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg> 10 marca 2026</span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 6 min czytania</span>
+      </div>
+    </div>
+
+    <div class="ca-article-img">
+      <img src="/images/frontpageGallery/pictures/large/0/0/26.jpg" alt="Panorama Szczecina — widok na Wały Chrobrego">
+    </div>
+
+    <p>Dwa dni w Szczecinie to wystarczająco dużo czasu, żeby poznać najważniejsze atrakcje miasta, skosztować regionalnej kuchni i poczuć niepowtarzalny klimat stolicy Pomorza Zachodniego. Oto nasz sprawdzony plan na <strong>weekend w Szczecinie</strong>!</p>
+
+    <h3>Dzień 1 — Stare Miasto i nabrzeże</h3>
+
+    <ul>
+      <li><strong>Poranek:</strong> Śniadanie w apartamencie (lub w partnerskiej restauracji). Spacer do Zamku Książąt Pomorskich — warto wejść na wieżę widokową, by zobaczyć panoramę miasta.</li>
+      <li><strong>Południe:</strong> Przejście przez Stare Miasto do Katedry św.&nbsp;Jakuba — największej w regionie. Lunch w jednej z restauracji przy ul.&nbsp;Bogusława.</li>
+      <li><strong>Popołudnie:</strong> Wały Chrobrego — najpiękniejsza promenada w północnej Polsce. Spacer bulwarami nad Odrą aż do Łasztowni i kultowych Dźwigozaurów.</li>
+      <li><strong>Wieczór:</strong> Kolacja w modnej dzielnicy portowej, powrót do apartamentu na relaks.</li>
+    </ul>
+
+    <h3>Dzień 2 — Natura i nowoczesny Szczecin</h3>
+
+    <ul>
+      <li><strong>Poranek:</strong> Jasne Błonia — rozległy park idealny na poranny spacer lub jogging. W drodze powrotnej — kawa w jednej z kawiarni przy Alei Papieża Jana Pawła II.</li>
+      <li><strong>Południe:</strong> Centrum Dialogu Przełomy — jedno z najciekawszych muzeów w Polsce, opowiadające o powojennej historii regionu. Tuż obok Filharmonia Szczecińska — nawet jeśli nie masz czasu na koncert, sama bryła architektoniczna robi ogromne wrażenie.</li>
+      <li><strong>Popołudnie:</strong> Trasa do Puszczy Bukowej — jednego z największych kompleksów leśnych na obrzeżach europejskiego miasta (UNESCO). Lub rejs statkiem po Odrze.</li>
+      <li><strong>Wieczór:</strong> Powrót do apartamentu, pakowanie, ewentualnie kolacja na mieście.</li>
+    </ul>
+
+    <div class="ca-highlight">
+      <strong>📍 Baza wypadowa:</strong> Z City Aparthotel przy ul.&nbsp;Małkowskiego 30 do wszystkich wymienionych atrakcji dotrzesz w mniej niż 15 minut pieszo lub komunikacją miejską.
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 4
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Biznes</span>
+      <h2>Delegacja w Szczecinie — jak wybrać nocleg na dłuższy pobyt służbowy?</h2>
+      <div class="ca-article-meta">
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg> 3 marca 2026</span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 4 min czytania</span>
+      </div>
+    </div>
+
+    <div class="ca-article-img">
+      <img src="/images/frontpageGallery/pictures/large/0/0/19.jpg" alt="Aneks kuchenny w apartamencie City Aparthotel — idealne dla delegacji">
+    </div>
+
+    <p>Szczecin to prężnie rozwijające się centrum biznesowe Pomorza Zachodniego. Coraz więcej firm z branży IT, logistycznej i budowlanej wysyła tu pracowników na wielotygodniowe kontrakty. Jak wybrać <strong>nocleg na dłuższą delegację</strong>, żeby połączyć komfort z rozsądnym budżetem?</p>
+
+    <h3>Na co zwrócić uwagę przy wynajmie długoterminowym?</h3>
+
+    <div class="ca-info-grid">
+      <div class="ca-info-card">
+        <div class="ca-icon">💰</div>
+        <h4>Koszt za dobę vs. miesięcznie</h4>
+        <p>Przy pobytach powyżej 2 tygodni warto negocjować stawki miesięczne. W City Aparthotel oferta długoterminowa jest znacznie korzystniejsza niż cena doby z portalu.</p>
+      </div>
+      <div class="ca-info-card">
+        <div class="ca-icon">🍽️</div>
+        <h4>Kuchnia = oszczędność</h4>
+        <p>Przy delegacji trwającej miesiąc, samodzielne gotowanie to oszczędność nawet 2000–3000&nbsp;zł w porównaniu do jedzenia w restauracjach.</p>
+      </div>
+      <div class="ca-info-card">
+        <div class="ca-icon">📶</div>
+        <h4>Szybkie Wi-Fi</h4>
+        <p>Praca zdalna wymaga stabilnego łącza. Każdy apartament wyposażony jest w szybkie Wi-Fi, wystarczające do wideokonferencji i przesyłania dużych plików.</p>
+      </div>
+      <div class="ca-info-card">
+        <div class="ca-icon">🧺</div>
+        <h4>Pralka w apartamencie</h4>
+        <p>Przy dłuższym pobycie to podstawa — brak konieczności szukania pralni chemicznej lub pakowania kilkunastu zestawów ubrań.</p>
+      </div>
+    </div>
+
+    <h3>Dla kogo jest oferta długoterminowa?</h3>
+
+    <ul>
+      <li><strong>Pracownicy kontraktowi</strong> — IT, budownictwo, logistyka, consulting — wielotygodniowe projekty wymagające stabilnej bazy noclegowej.</li>
+      <li><strong>Firmy delegujące zespoły</strong> — możliwość wynajmu kilku apartamentów w jednym budynku, z elastycznymi terminami i fakturą VAT.</li>
+      <li><strong>Specjaliści na stażach i szkoleniach</strong> — komfortowa alternatywa dla akademików czy pokoi gościnnych.</li>
+      <li><strong>Osoby w trakcie relokacji</strong> — oczekujące na wykończenie własnego mieszkania lub szukające stałego lokum w Szczecinie.</li>
+    </ul>
+
+    <div class="ca-cta">
+      <h3>Potrzebujesz oferty długoterminowej?</h3>
+      <p>Skontaktuj się z nami bezpośrednio — przygotujemy indywidualną wycenę dopasowaną do czasu Twojego pobytu. Faktura VAT w cenie.</p>
+      <a href="/contact" class="ca-cta-btn">Zapytaj o wycenę →</a>
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 5
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Gastronomia</span>
+      <h2>Gdzie zjeść w Szczecinie? Top 8 miejsc blisko City Aparthotel</h2>
+      <div class="ca-article-meta">
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg> 25 lutego 2026</span>
+        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg> 5 min czytania</span>
+      </div>
+    </div>
+
+    <div class="ca-article-img">
+      <img src="/images/frontpageGallery/pictures/large/0/0/21.jpg" alt="Kuchnia w apartamencie City Aparthotel Szczecin">
+    </div>
+
+    <p>Jedną z wielkich zalet <strong>apartamentu z kuchnią w Szczecinie</strong> jest możliwość samodzielnego gotowania. Ale czasem po prostu chce się wyjść i poznać lokalną scenę gastronomiczną! Oto nasze subiektywne zestawienie miejsc, do których wracamy z przyjemnością:</p>
+
+    <ol>
+      <li><strong>Restauracja Stara Rzeźnia</strong> — kultowe miejsce na Łasztowni, w odrestaurowanej rzeźni portowej. Kuchnia polska w nowoczesnym wydaniu, fantastyczny widok na Odrę.</li>
+      <li><strong>Pasztecik Szczeciński</strong> — żadna wizyta w Szczecinie nie jest kompletna bez legendarnego pasztecika! Bar przy al.&nbsp;Wojska Polskiego serwuje je od 1969 roku.</li>
+      <li><strong>Chief Restaurant &amp; Bar</strong> — elegancki lokal w centrum z autorską kuchnią fusion. Idealny na biznesową kolację lub romantyczną randkę.</li>
+      <li><strong>Gospoda Tawerna</strong> — obfite dania kuchni polskiej w przystępnych cenach. Popularna wśród mieszkańców, co zawsze jest dobrą rekomendacją.</li>
+      <li><strong>Karczma Pod Kogutem</strong> — regionalna kuchnia pomorska, solidne porcje i rustykalna atmosfera. Doskonała na rodzinny obiad.</li>
+      <li><strong>Café 22</strong> — kawiarnia na 22. piętrze wieżowca Pazim z panoramicznym widokiem na miasto. Idealna na kawę ze spektakularną perspektywą.</li>
+      <li><strong>Brama Jazz Café</strong> — klimatyczny lokal przy Bramie Portowej, łączący dobrą kuchnię z jazzową atmosferą. Wieczorne koncerty na żywo.</li>
+      <li><strong>Browary Szczecińskie</strong> — restauracja z własnym browarem rzemieślniczym. Piwo warzone na miejscu i menu dopasowane do sezonowych ingrediencji.</li>
+    </ol>
+
+    <div class="ca-highlight">
+      <strong>🛒 Zakupy do apartamentu:</strong> Najbliższy supermarket (Żabka, Biedronka) znajdziesz w odległości 2–3 minut spacerem od City Aparthotel. Idealne na szybkie zakupy do śniadania!
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 6
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Transport</span>
+      <h2>Jak dojechać do Szczecina? Praktyczny przewodnik komunikacyjny dla turystów i podróżnych służbowych</h2>
+      <div class="ca-article-meta">
+        <span>18 lutego 2026</span>
+        <span>6 min czytania</span>
+      </div>
+    </div>
+
+    <p>Szczecin leży na skrzyżowaniu ważnych szlaków komunikacyjnych — zarówno krajowych, jak i międzynarodowych. Do stolicy Pomorza Zachodniego można dotrzeć wygodnie niezależnie od wybranego środka transportu.</p>
+
+    <h3>Samochodem</h3>
+
+    <p>Szczecin jest doskonale skomunikowany z resztą Polski dzięki ekspresowej trasie S3 (z południa) oraz autostradzie A6 (z Berlina i Poznania). Z Warszawy podróż trwa ok. 5,5 godziny, z Poznania ok. 2,5 godziny, a z Wrocławia ok. 4,5 godziny. City Aparthotel przy ul. Małkowskiego 30 oferuje gościom dostęp do parkingu w pobliżu budynku, co eliminuje stres związany z szukaniem miejsca postojowego w centrum.</p>
+
+    <h3>Pociągiem</h3>
+
+    <p><strong>Szczecin Główny</strong> to jeden z najważniejszych węzłów kolejowych północno-zachodniej Polski. PKP Intercity obsługuje bezpośrednie połączenia z Warszawą (ok. 5h), Poznaniem (ok. 2,5h), Gdańskiem (ok. 5h) i Wrocławiem (ok. 5h). Dworzec znajduje się zaledwie 10 minut komunikacją miejską od City Aparthotel.</p>
+
+    <h3>Samolotem</h3>
+
+    <p>Lotnisko Szczecin-Goleniów (SZZ) obsługuje loty krajowe i międzynarodowe. Port lotniczy leży ok. 45 km od centrum — dojazd autobusem lub taxi zajmuje ok. 45–50 minut. Warto również rozważyć lotnisko Berlin-Brandenburg (BER), oddalone ok. 160 km, które oferuje zdecydowanie więcej połączeń międzynarodowych.</p>
+
+    <h3>Komunikacja miejska w Szczecinie</h3>
+
+    <p>Sieć tramwajowa i autobusowa w Szczecinie jest dobrze rozwinięta. Bilet jednorazowy kosztuje ok. 4,60 zł (2026), a bilet 24-godzinny ok. 14 zł. Większość atrakcji turystycznych jest jednak dostępna pieszo z City Aparthotel — Wały Chrobrego, Zamek, Stare Miasto — wszystko w promieniu 15 minut spaceru.</p>
+
+    <div class="ca-highlight">
+      <strong>Wskazówka dla kierowców:</strong> Strefa Płatnego Parkowania w Szczecinie obowiązuje w dni robocze 8:00–17:00. W weekendy i święta parkowanie w centrum jest bezpłatne.
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 7
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Rodzina</span>
+      <h2>Szczecin z dziećmi — najlepsze atrakcje dla rodzin i sprawdzone miejsca przyjazne najmłodszym</h2>
+      <div class="ca-article-meta">
+        <span>10 lutego 2026</span>
+        <span>7 min czytania</span>
+      </div>
+    </div>
+
+    <p>Wyjazd z dziećmi do Szczecina to gwarancja dobrej zabawy dla całej rodziny. Miasto oferuje mnóstwo atrakcji dostosowanych do najmłodszych — od interaktywnych muzeów po rozległe parki i place zabaw. Dodając do tego komfortowy <strong>apartament z pełnym wyposażeniem kuchni</strong>, rodzinny wypad staje się prosty i bezstresowy.</p>
+
+    <h3>Atrakcje dla dzieci w Szczecinie</h3>
+
+    <ul>
+      <li><strong>Centrum Dialogu Przełomy</strong> — podziemne muzeum z interaktywnymi ekspozycjami, które fascynują zarówno dzieci, jak i dorosłych. Wstęp dla rodzin w przystępnej cenie.</li>
+      <li><strong>Ogród Różany i Park Kasprowicza</strong> — ogromna przestrzeń zielona z placami zabaw, stawami z kaczkami i ścieżkami rowerowymi. Dzieci mogą biegać do woli.</li>
+      <li><strong>Muzeum Techniki i Komunikacji</strong> — zabytkowe tramwaje, samochody i motory. Dla małych fanów pojazdów — absolutny raj.</li>
+      <li><strong>Floating Garden</strong> — spektakularny ogród wertykalny i punkt widokowy przy Wałach Chrobrego. Dzieci uwielbiają tarasowe konstrukcje i widok z góry.</li>
+      <li><strong>Rejs statkiem po Odrze</strong> — godzinna wycieczka po rzece to niezapomniane przeżycie dla dzieci w każdym wieku. Statki kursują od maja do września.</li>
+      <li><strong>Deep Park Szczecin</strong> — park trampolin i rozrywki, idealny na deszczowe dni. Strefy podzielone wiekowo, więc i maluchy, i nastolatki znajdą coś dla siebie.</li>
+      <li><strong>Puszcza Bukowa</strong> — leśne ścieżki edukacyjne, wieża widokowa na Wzgórzu Zielonczyn i możliwość obserwacji dzikiej przyrody. Idealna na rodzinny piknik.</li>
+    </ul>
+
+    <h3>Dlaczego apartament jest lepszy niż hotel dla rodziny?</h3>
+
+    <p>Z dziećmi liczy się przede wszystkim przestrzeń i niezależność. W apartamencie City Aparthotel możesz przygotować posiłek o dowolnej porze, rozłożyć zabawki, położyć malucha na drzemkę bez obaw o hotelowy harmonogram. Lokale o powierzchni do 80 m² z dwoma sypialniami zapewniają komfort nawet dla rodziny 2+3.</p>
+
+    <div class="ca-highlight">
+      <strong>Dla rodziców:</strong> W pobliżu City Aparthotel znajdują się apteki, przychodnie i sklepy z artykułami dziecięcymi. Pobliski Biedronka i Żabka to idealne miejsce na szybkie zakupy mleka, przekąsek czy pieluszek.
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 8
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Natura</span>
+      <h2>Zielony Szczecin — parki, lasy i tereny rekreacyjne, które warto odwiedzić podczas pobytu</h2>
+      <div class="ca-article-meta">
+        <span>2 lutego 2026</span>
+        <span>5 min czytania</span>
+      </div>
+    </div>
+
+    <p>Szczecin to jedno z najzieleńszych dużych miast w Polsce. Ponad 30% powierzchni miasta zajmują tereny zielone — parki, lasy, ogrody i rezerwaty. Dla miłośników natury i aktywnego wypoczynku to prawdziwy raj, a bliskość zieleni z centrum miasta sprawia, że wystarczy kilka minut, by znaleźć się w otoczeniu przyrody.</p>
+
+    <h3>Najpiękniejsze tereny zielone Szczecina</h3>
+
+    <ol>
+      <li><strong>Puszcza Bukowa (rezerwat biosfery UNESCO)</strong> — ponad 1700 hektarów bukowego lasu na obrzeżach miasta. Ścieżki piesze, rowerowe i nordic walking. Jezioro Szmaragdowe z turkusową wodą to hit Instagramu i obowiązkowy punkt wycieczki.</li>
+      <li><strong>Park Kasprowicza</strong> — największy park w centrum Szczecina. Amfiteatr, Ogród Różany z setkami odmian róż, stawy, alejki spacerowe i place zabaw. Idealne miejsce na poranny jogging lub wieczorny spacer.</li>
+      <li><strong>Jasne Błonia</strong> — monumentalny, 20-hektarowy plac otoczony aleją kasztanowców. W weekendy tętni życiem — pikniki, frisbee, rolki. Zimą zamienia się w przestrzeń do zimowych spacerów.</li>
+      <li><strong>Arboretum Leśne w Zdroju</strong> — kolekcja ponad 200 gatunków drzew i krzewów z całego świata. Cicha, spokojna oaza z drewnianymi kładkami i tablicami edukacyjnymi.</li>
+      <li><strong>Bulwary nad Odrą</strong> — kilkukilometrowy ciąg spacerowy wzdłuż rzeki, od Wałów Chrobrego aż po Łasztownię. Ławki, punkty widokowe, food trucki w sezonie. Wieczorem nastrojowe oświetlenie.</li>
+      <li><strong>Wzgórza Bukowe i Jezioro Szmaragdowe</strong> — dawny kamieniołom, który natura zamieniła w bajkowe jezioro o intensywnie turkusowym kolorze. Wycieczka piesza z parkingu trwa ok. 20 minut.</li>
+    </ol>
+
+    <h3>Aktywny wypoczynek w Szczecinie</h3>
+
+    <p>Oprócz spacerów, Szczecin oferuje bogatą infrastrukturę dla osób aktywnych: ścieżki rowerowe (ponad 120 km), system roweru miejskiego Bike_S, kajaki i żeglarstwo na Odrze, a zimą lodowiska miejskie. Z City Aparthotel przy ul. Małkowskiego 30 do wypożyczalni rowerów jest dosłownie kilka kroków.</p>
+
+    <div class="ca-highlight">
+      <strong>Sezonowa wskazówka:</strong> Najlepszy czas na wizytę w Puszczy Bukowej to maj–czerwiec (kwitnienie) oraz październik (spektakularne kolory jesieni). Jezioro Szmaragdowe najpiękniej prezentuje się w słoneczne dni, kiedy woda nabiera intensywnego turkusu.
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 9
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Eventy</span>
+      <h2>Kalendarz wydarzeń w Szczecinie — kiedy warto przyjechać i co Cię czeka?</h2>
+      <div class="ca-article-meta">
+        <span>25 stycznia 2026</span>
+        <span>5 min czytania</span>
+      </div>
+    </div>
+
+    <p>Szczecin to miasto, które żyje kulturą i wydarzeniami przez cały rok. Planując <strong>pobyt w Szczecinie</strong>, warto sprawdzić kalendarz imprez — wiele z nich przyciąga odwiedzających z całej Polski i Europy. Oto przegląd najważniejszych wydarzeń w ciągu roku.</p>
+
+    <h3>Wiosna (marzec–maj)</h3>
+
+    <ul>
+      <li><strong>Szczecin Jazz Festival</strong> — jeden z najstarszych festiwali jazzowych w Polsce, z koncertami w Filharmonii i klubach. Przyciąga artystów światowej klasy.</li>
+      <li><strong>Dni Morza</strong> — widowiskowe święto żeglarstwa z paradą tall shipów na Odrze, pokazami marynarki i strefami gastronomicznymi na nabrzeżu.</li>
+      <li><strong>Wiosenny Jarmark na Zamku</strong> — rękodzieło, regionalna kuchnia i koncerty na dziedzińcu Zamku Książąt Pomorskich.</li>
+    </ul>
+
+    <h3>Lato (czerwiec–sierpień)</h3>
+
+    <ul>
+      <li><strong>Pyromagic — Festiwal Sztucznych Ogni</strong> — spektakularny pokaz fajerwerków nad Odrą, widoczny z Wałów Chrobrego. Jedno z największych takich wydarzeń w Europie.</li>
+      <li><strong>Tall Ships Races</strong> — co kilka lat Szczecin gości największe żaglowce świata. Milion odwiedzających, koncerty, festiwal uliczny.</li>
+      <li><strong>Letnie kina plenerowe</strong> — seanse filmowe na zamku, w parkach i na bulwarach. Wstęp często bezpłatny.</li>
+      <li><strong>Festiwal Muzyki Organowej</strong> — koncerty w historycznych kościołach Szczecina, w tym w Katedrze św. Jakuba z jednymi z największych organów w regionie.</li>
+    </ul>
+
+    <h3>Jesień (wrzesień–listopad)</h3>
+
+    <ul>
+      <li><strong>Międzynarodowy Festiwal Filmowy Szczecin Film Fest</strong> — kino niezależne, spotkania z reżyserami, warsztaty filmowe.</li>
+      <li><strong>Noc Muzeów</strong> — darmowy wstęp do wszystkich muzeów i galerii do późnych godzin nocnych. Tłumy, ale warto!</li>
+      <li><strong>Jesienny Jarmark Rzemiosła</strong> — lokalni rzemieślnicy, ręcznie robiona biżuteria, ceramika i produkty regionalne.</li>
+    </ul>
+
+    <h3>Zima (grudzień–luty)</h3>
+
+    <ul>
+      <li><strong>Szczeciński Jarmark Bożonarodzeniowy</strong> — jeden z najładniejszych w Polsce. Drewniane domki, grzane wino, lokalne przysmaki i świąteczna atmosfera na Placu Lotników.</li>
+      <li><strong>Sylwester na Wałach Chrobrego</strong> — miejska impreza sylwestrowa z koncertami i fajerwerkami nad Odrą. Darmowy wstęp.</li>
+      <li><strong>Zimowe lodowisko w centrum</strong> — sezonowe lodowisko plenerowe, idealne dla rodzin i par.</li>
+    </ul>
+
+    <div class="ca-highlight">
+      <strong>Rezerwuj wcześniej!</strong> W czasie dużych wydarzeń (Tall Ships, Pyromagic, Jarmark Bożonarodzeniowy) apartamenty w centrum Szczecina rozchodzą się bardzo szybko. Warto zarezerwować nocleg z kilkutygodniowym wyprzedzeniem.
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 10
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Wycieczki</span>
+      <h2>Okolice Szczecina — najciekawsze jednodniowe wycieczki z bazy w City Aparthotel</h2>
+      <div class="ca-article-meta">
+        <span>15 stycznia 2026</span>
+        <span>6 min czytania</span>
+      </div>
+    </div>
+
+    <p>Szczecin to nie tylko atrakcje w granicach miasta — okolice kryją mnóstwo fascynujących miejsc, do których dotrzesz samochodem w mniej niż godzinę. Mając bazę w <strong>City Aparthotel w centrum Szczecina</strong>, możesz codziennie odkrywać inny kierunek.</p>
+
+    <h3>Wycieczki do 30 minut jazdy</h3>
+
+    <ol>
+      <li><strong>Jezioro Miedwie</strong> (25 km) — trzecie co do wielkości jezioro w Polsce. Plaże, kąpieliska, windsurfing i żeglarstwo. Latem idealne na całodniowy wypoczynek nad wodą.</li>
+      <li><strong>Police — Kanał Policki</strong> (20 km) — klimatyczne miasteczko z dostępem do wody. Możliwość wypożyczenia kajaków i spływu kanałem wśród nadodrzańskiej przyrody.</li>
+      <li><strong>Wkrzańska Puszcza</strong> (15 km) — rozległy kompleks leśny na północ od Szczecina. Grzybobranie jesienią, ścieżki rowerowe latem, spokój przez cały rok.</li>
+    </ol>
+
+    <h3>Wycieczki do 60 minut jazdy</h3>
+
+    <ol>
+      <li><strong>Międzyzdroje i Wolin</strong> (90 km) — nadmorski kurort z promenadą, Wolińskim Parkiem Narodowym i słynnymi klifami. Jedne z najwyższych klifów nad Bałtykiem.</li>
+      <li><strong>Świnoujście</strong> (110 km) — uzdrowisko z najszerszą plażą w Polsce, fortami napoleońskimi i przeprawą promową. Można połączyć z wizytą po niemieckiej stronie Usedom.</li>
+      <li><strong>Stargard</strong> (35 km) — gotycka perła Pomorza z imponującymi murami obronnymi, Kolegiatą NMP i Bastą — jednym z najlepiej zachowanych średniowiecznych bastionów w Polsce.</li>
+      <li><strong>Gryfino</strong> (30 km) — tu znajduje się słynny Krzywy Las — tajemnicza grupa krzywo rosnących sosen, która fascynuje turystów z całego świata.</li>
+      <li><strong>Berlin</strong> (150 km) — tak, stolica Niemiec jest zaledwie 1,5h jazdy od Szczecina! Idealna jednodniowa wycieczka na zakupy, do muzeum lub na koncert.</li>
+    </ol>
+
+    <div class="ca-highlight">
+      <strong>Z City Aparthotel łatwo planować wycieczki</strong> — centralna lokalizacja przy ul. Małkowskiego 30 oznacza szybki wyjazd na S3 i A6. Wracając wieczorem, masz gotową bazę z kuchnią, prysznicem i wygodnym łóżkiem — bez stresu szukania noclegu w terenie.
+    </div>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 11
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Porady</span>
+      <h2>Pierwsza wizyta w Szczecinie — 10 rzeczy, które warto wiedzieć przed przyjazdem</h2>
+      <div class="ca-article-meta">
+        <span>5 stycznia 2026</span>
+        <span>5 min czytania</span>
+      </div>
+    </div>
+
+    <p>Planujesz pierwszą wizytę w Szczecinie? Niezależnie od tego, czy przyjeżdżasz turystycznie, służbowo czy na dłuższy pobyt — oto zbiór praktycznych informacji, które ułatwią Ci start i pomogą uniknąć typowych niespodzianek.</p>
+
+    <ol>
+      <li><strong>Szczecin jest bliżej Berlina niż Warszawy</strong> — do stolicy Niemiec jest 150 km, do Warszawy ponad 500 km. Warto o tym pamiętać planując loty i przesiadki.</li>
+      <li><strong>Centrum jest kompaktowe</strong> — większość atrakcji mieści się w promieniu 2 km. Z City Aparthotel przy ul. Małkowskiego 30 wszędzie dojdziesz pieszo.</li>
+      <li><strong>Parkowanie w centrum jest płatne w dni robocze</strong> — Strefa Płatnego Parkowania obowiązuje pon.–pt. 8:00–17:00. W weekendy parkujesz za darmo.</li>
+      <li><strong>Karta turystyczna Szczecin Tourist Card</strong> — warto kupić, jeśli planujesz intensywne zwiedzanie. Daje zniżki w muzeach, restauracjach i na komunikację miejską.</li>
+      <li><strong>Pasztecik Szczeciński to obowiązkowy punkt</strong> — nie wyjeżdżaj ze Szczecina bez spróbowania tego kultowego przekąsu. Kolejka przy al. Wojska Polskiego jest częścią doświadczenia.</li>
+      <li><strong>Nad wodą jest pięknie</strong> — Szczecin leży nad Odrą i ma rozbudowane nabrzeża. Spacer bulwarami wieczorem to jeden z najpiękniejszych widoków w mieście.</li>
+      <li><strong>Pogoda bywa kapryśna</strong> — bliskość morza i rzeki sprawia, że pogoda potrafi się szybko zmienić. Zawsze miej ze sobą kurtkę przeciwdeszczową, nawet latem.</li>
+      <li><strong>Niemcy na wyciągnięcie ręki</strong> — granica z Niemcami jest kilkanaście km od centrum. Można skoczyć na zakupy do Löcknitz czy Pasewalk bez większego planowania.</li>
+      <li><strong>Rower to świetny środek transportu</strong> — Szczecin ma ponad 120 km ścieżek rowerowych i system roweru miejskiego Bike_S. Stacje są rozmieszczone w całym centrum.</li>
+      <li><strong>Rezerwuj nocleg bezpośrednio</strong> — portale pośredniczące doliczają prowizję, która podwyższa cenę. Na stronie cityapartszczecin.pl zawsze znajdziesz najniższą dostępną stawkę za apartament.</li>
+    </ol>
+  </article>
+
+  <div class="ca-sep">· · ·</div>
+
+  <!-- =====================
+       ARTYKUŁ 12
+       ===================== -->
+  <article class="ca-article">
+    <div class="ca-article-header">
+      <span class="ca-article-tag">Sezonowo</span>
+      <h2>Szczecin zimą — dlaczego warto odwiedzić miasto poza sezonem turystycznym?</h2>
+      <div class="ca-article-meta">
+        <span>20 grudnia 2025</span>
+        <span>4 min czytania</span>
+      </div>
+    </div>
+
+    <p>Większość turystów odwiedza Szczecin latem, gdy nabrzeża tętnią życiem, a pogoda zachęca do długich spacerów. Tymczasem <strong>zimowy Szczecin</strong> ma swój niepowtarzalny charakter — mniej tłumów, niższe ceny i wyjątkowa atmosfera, która potrafi zaskoczyć nawet doświadczonych podróżników.</p>
+
+    <h3>Co robić w Szczecinie zimą?</h3>
+
+    <ul>
+      <li><strong>Jarmark Bożonarodzeniowy</strong> — jeden z najpiękniejszych w Polsce. Drewniane domki z rzemiosłem, grzane wino, pierogi i świąteczne dekoracje tworzą magiczną atmosferę na Placu Lotników.</li>
+      <li><strong>Muzea i galerie bez tłumów</strong> — Centrum Dialogu Przełomy, Muzeum Narodowe, Zamek Książąt Pomorskich — zimą zwiedzasz w spokoju, bez kolejek i ścisku.</li>
+      <li><strong>Lodowisko w centrum</strong> — sezonowe lodowisko plenerowe to świetna atrakcja zarówno dla par, jak i rodzin z dziećmi.</li>
+      <li><strong>Kawiarnie i restauracje</strong> — zimą szczecińska scena gastronomiczna świeci pełnym blaskiem. Ciepłe wnętrza, sezonowe menu i lokalna kuchnia rozgrzewają lepiej niż jakikolwiek grzaniec.</li>
+      <li><strong>Spacer po Puszczy Bukowej w śniegu</strong> — ośnieżony las bukowy wygląda jak z bajki. Cisza, świeże powietrze i brak tłumów — idealne antidotum na miejski zgiełk.</li>
+      <li><strong>Filharmonia Szczecińska</strong> — zimowy sezon koncertowy to najlepszy czas na wizytę w tym architektonicznym klejnocie. Koncerty symfoniczne, kameralne i jazzowe.</li>
+    </ul>
+
+    <h3>Zalety pobytu poza sezonem</h3>
+
+    <p>Poza oczywistym brakiem tłumów, zimowy pobyt w Szczecinie to także <strong>niższe ceny noclegów</strong>. Apartamenty w City Aparthotel poza szczytem sezonu oferują atrakcyjne stawki, a przy dłuższym pobycie — dodatkowe rabaty. Warto również wspomnieć, że zimą łatwiej o rezerwację w popularnych restauracjach i dostęp do atrakcji bez wcześniejszego planowania.</p>
+
+    <div class="ca-highlight">
+      <strong>Zimowa oferta:</strong> Sprawdź aktualne promocje na stronie cityapartszczecin.pl — w sezonie zimowym regularnie oferujemy specjalne pakiety pobytowe z obniżoną stawką za dobę.
+    </div>
+  </article>
+
+  <!-- =====================
+       CTA KOŃCOWY
+       ===================== -->
+  <div class="ca-cta" style="margin-top: 2rem;">
+    <h3>Zaplanuj swój wyjazd już dziś!</h3>
+    <p>Wybierz City Aparthotel Szczecin — Twoją komfortową bazę wypadową w sercu tętniącego życiem miasta. Najlepsza cena gwarantowana tylko przy rezerwacji bezpośredniej.</p>
+    <a href="/offers" class="ca-cta-btn">Rezerwuj bezpośrednio →</a>
+  </div>
+
+</div>

@@ -1,0 +1,22 @@
+<!-- MADERA — toggle filtrów /offers — wkleić do: GLOBALNY Head (działa na wszystkich stronach) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    /* Uruchom TYLKO na /offers */
+    if (!document.body.classList.contains('page-offers')) return;
+
+    var filterBtn = document.getElementById('show_filters');
+    var filterPanel = document.getElementById('menu_filter');
+    if (!filterBtn || !filterPanel) return;
+
+    /* Clone button to remove system's one-way handler */
+    var newBtn = filterBtn.cloneNode(true);
+    filterBtn.parentNode.replaceChild(newBtn, filterBtn);
+
+    var filtersOpen = false;
+    newBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        filtersOpen = !filtersOpen;
+        filterPanel.style.display = filtersOpen ? 'block' : 'none';
+    });
+});
+</script>

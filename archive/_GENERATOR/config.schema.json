@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IdoBooking Website Config",
+  "description": "Per-client configuration for IdoBooking default13 template generator",
+  "type": "object",
+  "required": ["client_id", "brand", "prefix", "palette", "fonts", "hero"],
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "IdoBooking client ID, e.g. '57060'"
+    },
+    "brand": {
+      "type": "string",
+      "description": "Brand name displayed in header/hero, e.g. 'Mountain Prestige'"
+    },
+    "prefix": {
+      "type": "string",
+      "pattern": "^[a-z]{2,4}$",
+      "description": "CSS/JS prefix (2-4 lowercase chars), e.g. 'mp'"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Custom domain if exists, e.g. 'mountainprestige.pl'"
+    },
+    "engine_url": {
+      "type": "string",
+      "description": "IdoBooking engine URL, e.g. 'engine57060.idobooking.com'"
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "phone": { "type": "string", "description": "Phone number (digits only)" },
+        "email": { "type": "string", "description": "Contact email" }
+      }
+    },
+    "palette": {
+      "type": "object",
+      "required": ["white", "cream", "accent", "accent_light", "accent_dark", "text", "dark"],
+      "properties": {
+        "white":        { "type": "string", "description": "Page background, e.g. '#FAF6EF'" },
+        "cream":        { "type": "string", "description": "Alternate section bg, e.g. '#EDE5D5'" },
+        "cream2":       { "type": "string", "description": "Darker cream for borders (auto-generated if omitted)" },
+        "cream3":       { "type": "string", "description": "Even darker cream for dividers (auto-generated if omitted)" },
+        "accent":       { "type": "string", "description": "Primary brand color, e.g. '#A67C52'" },
+        "accent_light": { "type": "string", "description": "Lighter accent, e.g. '#C8A97D'" },
+        "accent_dark":  { "type": "string", "description": "Darker accent for hovers, e.g. '#8A6540'" },
+        "accent_rgb":   { "type": "string", "description": "Accent as R,G,B for rgba(). Auto-generated if omitted" },
+        "text":         { "type": "string", "description": "Primary text color, e.g. '#2A2118'" },
+        "text_soft":    { "type": "string", "description": "Secondary text (auto-generated if omitted)" },
+        "text_muted":   { "type": "string", "description": "Muted text (auto-generated if omitted)" },
+        "text_light":   { "type": "string", "description": "Lightest text (auto-generated if omitted)" },
+        "dark":         { "type": "string", "description": "Dark bg (footer, cards), e.g. '#2A2118'" },
+        "dark2":        { "type": "string", "description": "Darker dark bg (auto-generated if omitted)" }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "required": ["heading", "body", "google_import"],
+      "properties": {
+        "heading":       { "type": "string", "description": "Heading font family, e.g. 'Cormorant Garamond'" },
+        "body":          { "type": "string", "description": "Body font family, e.g. 'DM Sans'" },
+        "google_import": { "type": "string", "description": "Google Fonts URL param after family=, e.g. 'Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;500;700'" }
+      }
+    },
+    "hero": {
+      "type": "object",
+      "required": ["title_html"],
+      "properties": {
+        "subtitle_pl":  { "type": "string", "default": "Apartamenty Premium" },
+        "subtitle_en":  { "type": "string", "default": "Premium Apartments" },
+        "title_html":   { "type": "string", "description": "Hero H1 as HTML, e.g. '<strong>Mountain</strong> Prestige'" },
+        "cta1_text_pl": { "type": "string", "default": "NASZE APARTAMENTY" },
+        "cta1_text_en": { "type": "string", "default": "OUR APARTMENTS" },
+        "cta1_href":    { "type": "string", "default": "/offers" },
+        "cta2_text_pl": { "type": "string", "default": "ODKRYJ" },
+        "cta2_text_en": { "type": "string", "default": "DISCOVER" },
+        "cta2_href":    { "type": "string", "default": "#{{PREFIX}}-about" }
+      }
+    },
+    "booking": {
+      "type": "object",
+      "properties": {
+        "url":       { "type": "string", "description": "Booking URL if external, empty = /offers" },
+        "use_modal": { "type": "boolean", "default": false }
+      }
+    },
+    "nav_book_text_pl": { "type": "string", "default": "REZERWUJ" },
+    "nav_book_text_en": { "type": "string", "default": "BOOK" },
+    "nav_book_href":    { "type": "string", "default": "/offers" },
+    "featured_offers": {
+      "type": "object",
+      "properties": {
+        "heading_pl":  { "type": "string", "default": "Nasze apartamenty" },
+        "heading_en":  { "type": "string", "default": "Our Apartments" },
+        "subtitle_pl": { "type": "string" },
+        "subtitle_en": { "type": "string" }
+      }
+    },
+    "contact_css_only": {
+      "type": "boolean",
+      "default": true,
+      "description": "true = /contact page styled by CSS only, no custom HTML"
+    },
+    "container_hotspot_hide": {
+      "type": "boolean",
+      "default": true,
+      "description": "Hide original .container-hotspot (JS rebuilds cards)"
+    },
+    "menu": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": { "type": "string" },
+          "href":  { "type": "string" }
+        }
+      }
+    },
+    "subpages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "slug": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      }
+    }
+  }
+}

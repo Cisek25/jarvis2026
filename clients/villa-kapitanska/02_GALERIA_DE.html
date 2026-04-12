@@ -1,0 +1,36 @@
+<!-- ═══════════════════════════════════════════════════════════
+     VILLA KAPITAŃSKA — GALERIA (PL)
+     Wklej do: podstrona Galeria (txt/202) → pole "Treść (HTML)"
+     JS wklej OSOBNO do pola "Skrypt strony" / body_bottom
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- Hero -->
+<div class="vk-galeria-hero">
+  <div class="vk-galeria-hero-content">
+    <span class="vk-galeria-eyebrow">Villa Kapitańska<sup>&reg;</sup></span>
+    <h1 class="vk-galeria-title">Galeria</h1>
+    <p class="vk-galeria-sub">Entdecken Sie die Schönheit unserer Villa und des charmanten Kołobrzeg</p>
+    <div class="vk-galeria-divider">
+      <span class="vk-galeria-divider-line"></span>
+      <span class="vk-galeria-divider-icon">⚓</span>
+      <span class="vk-galeria-divider-line"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Kontener na przebudowaną galerię — JS wypełni -->
+<div class="vk-gallery-grid" id="vkGalleryGrid"></div>
+
+<!-- Lightbox -->
+<div class="vk-lightbox" id="vkLightbox" role="dialog" aria-modal="true">
+  <button class="vk-lightbox-close" id="vkLbClose" aria-label="Schließen">&times;</button>
+  <button class="vk-lightbox-prev" id="vkLbPrev" aria-label="Zurück">&#8592;</button>
+  <button class="vk-lightbox-next" id="vkLbNext" aria-label="Weiter">&#8594;</button>
+  <div class="vk-lightbox-inner">
+    <img class="vk-lightbox-img" id="vkLbImg" src="" alt="" />
+    <div class="vk-lightbox-counter" id="vkLbCounter"></div>
+  </div>
+</div>
+
+<!-- Pułapka na systemowe zdjęcia (celowo bez zamknięcia) -->
+<div style="display:none !important; height:0; overflow:hidden;">

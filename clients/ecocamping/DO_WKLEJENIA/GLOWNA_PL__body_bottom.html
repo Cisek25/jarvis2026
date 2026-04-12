@@ -1,0 +1,479 @@
+<script>
+/* ═══════════════════════════════════════════════════════
+   ECO CAMPING SPYTKOWICE — STRONA GŁÓWNA (body_bottom)
+   Widget relocation + Scroll animations + Pop-up logic
+   ═══════════════════════════════════════════════════════ */
+
+(function(){
+  'use strict';
+
+  /* ─── §1 BOOKING WIDGET RELOCATION ───
+     Przenosi systemowy .iai-search z .index-info
+     do wlasnego containera #ec-search-dock wewnatrz hero slidera.
+     Zachowuje caly JS IdoBooking (Litepicker, walidacja, submit).
+     UWAGA: IdoBooking moze reinicjalizowac widget po naszym przeniesieniu,
+     dlatego skrypt monitoruje i ponownie przenosi jesli to konieczne. */
+
+  function relocateWidget() {
+    var widget = document.querySelector('.iai-search');
+    var hero = document.querySelector('.section.parallax');
+    if (!widget || !hero) return false;
+
+    var dock = document.getElementById('ec-search-dock');
+
+    // Widget juz w docku? Gotowe.
+    if (dock && dock.contains(widget)) return true;
+
+    // Stworz dock jesli nie istnieje
+    if (!dock) {
+      dock = document.createElement('div');
+      dock.id = 'ec-search-dock';
+      hero.appendChild(dock);
+    }
+
+    // Przenies widget do docka
+    dock.appendChild(widget);
+
+    // Wymusz wyswietlenie formularza (system ustawia display:none inline)
+    var form = document.getElementById('iai_book_form');
+    if (form) {
+      form.style.display = 'flex';
+    }
+
+    // Ukryj index-info — hotspot zostaje w srodku (CSS: display:none),
+    // §5 JS czyta dane z hotspota i buduje custom sekcje
+    var indexInfo = document.querySelector('.index-info');
+    if (indexInfo) {
+      indexInfo.style.display = 'none';
+    }
+
+    return true;
+  }
+
+  // Proba natychmiastowa
+  relocateWidget();
+
+  // Monitoruj przez 15s — IdoBooking moze przeladowac widget asynchronicznie
+  var checks = 0;
+  var interval = setInterval(function() {
+    checks++;
+    relocateWidget();
+    if (checks > 75) { clearInterval(interval); } // 75 × 200ms = 15s
+  }, 200);
+
+
+  /* ─── §1a BLOKADA AUTO-SUBMIT PO WYBORZE DAT ───
+     IdoBooking/Litepicker automatycznie submituje formularz
+     po wyborze zakresu dat. Blokujemy to — user musi sam
+     kliknac "Sprawdz dostepnosc". */
+
+  function blockAutoSubmit() {
+    var form = document.getElementById('iai_book_form');
+    if (!form) return false;
+    if (form.dataset.ecAutoBlock) return true;
+
+    // Przechwytuj submit na formularzu
+    form.addEventListener('submit', function(e) {
+      // Jesli submit nie pochodzi od naszego przycisku, blokuj
+      if (!form.dataset.ecManualSubmit) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+      }
+      // Reset flagi po przepuszczeniu
+      delete form.dataset.ecManualSubmit;
+    }, true); // capture phase — lapiemy przed handlerem IdoBooking
+
+    // Nadpisz tez iai_browser_submit zeby lapac programatyczny submit
+    var origSubmit = window.iai_browser_submit;
+    window.iai_browser_submit = function(btn) {
+      if (form.dataset.ecManualSubmit) {
+        delete form.dataset.ecManualSubmit;
+        if (origSubmit) origSubmit(btn);
+      }
+      // W przeciwnym razie — ignorujemy (auto-submit po dacie)
+    };
+
+    form.dataset.ecAutoBlock = '1';
+    return true;
+  }
+
+  // Probuj podpiac blokade jak najwczesniej
+  blockAutoSubmit();
+  var autoBlockChecks = 0;
+  var autoBlockInterval = setInterval(function() {
+    autoBlockChecks++;
+    if (blockAutoSubmit() || autoBlockChecks > 50) {
+      clearInterval(autoBlockInterval);
+    }
+  }, 200);
+
+
+  /* ─── §1b WALIDACJA DAT PRZED SUBMITEM ───
+     Bez dat silnik IdoBooking pokazuje biala strone.
+     Przechwytujemy submit i wymuszamy wybor dat. */
+
+  function setupDateValidation() {
+    var form = document.getElementById('iai_book_form');
+    if (!form) return false;
+    if (form.dataset.ecValidation) return true; // juz podpiete
+
+    var submitBtn = form.querySelector('button[type="submit"]');
+    if (!submitBtn) return false;
+
+    // Nadpisz onclick — najpierw walidacja, potem oryginalny submit
+    var origOnclick = submitBtn.getAttribute('onclick') || '';
+    submitBtn.setAttribute('onclick', ''); // usun oryginalny
+    submitBtn.removeAttribute('onclick');
+
+    submitBtn.addEventListener('click', function(e) {
+      var dateFrom = document.getElementById('iai_booking_date_from');
+      var dateTo = document.getElementById('iai_booking_date_to');
+
+      var fromEmpty = !dateFrom || !dateFrom.value.trim();
+      var toEmpty = !dateTo || !dateTo.value.trim();
+
+      // Reset error
+      var opts = form.querySelectorAll('.widget__option');
+      opts.forEach(function(o) { o.classList.remove('ec-field-error'); });
+
+      if (fromEmpty || toEmpty) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Podswietl puste pola
+        if (fromEmpty && dateFrom) {
+          var p = dateFrom.closest('.widget__option');
+          if (p) p.classList.add('ec-field-error');
+          dateFrom.setAttribute('placeholder', 'Wybierz datę!');
+        }
+        if (toEmpty && dateTo) {
+          var p2 = dateTo.closest('.widget__option');
+          if (p2) p2.classList.add('ec-field-error');
+          dateTo.setAttribute('placeholder', 'Wybierz datę!');
+        }
+
+        // Kliknij pole daty zeby otworzyc Litepicker
+        if (fromEmpty && dateFrom) { dateFrom.click(); }
+        else if (toEmpty && dateTo) { dateTo.click(); }
+
+        // Usun error po 3s
+        setTimeout(function() {
+          opts.forEach(function(o) { o.classList.remove('ec-field-error'); });
+        }, 3000);
+
+        return false;
+      }
+
+      // Daty wypelnione — oznacz jako reczny submit i wywolaj
+      form.dataset.ecManualSubmit = '1';
+      if (typeof window.iai_browser_submit === 'function') {
+        window.iai_browser_submit(submitBtn);
+      } else {
+        form.dataset.ecManualSubmit = '1';
+        form.submit();
+      }
+      return false;
+    });
+
+    form.dataset.ecValidation = '1';
+    return true;
+  }
+
+  // Podepnij walidacje po relokacji
+  setTimeout(function() {
+    if (!setupDateValidation()) {
+      var valChecks = 0;
+      var valInterval = setInterval(function() {
+        valChecks++;
+        if (setupDateValidation() || valChecks > 50) {
+          clearInterval(valInterval);
+        }
+      }, 300);
+    }
+  }, 2000);
+
+
+  /* ─── §2 Scroll Reveal (IntersectionObserver) ─── */
+  var fadeEls = document.querySelectorAll('.ec-fade-up');
+  if ('IntersectionObserver' in window && fadeEls.length) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('ec-visible');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.01, rootMargin: '0px 0px -20px 0px' });
+    fadeEls.forEach(function(el) { obs.observe(el); });
+    // Fallback: jesli po 4s elementy nadal niewidoczne, wymus
+    setTimeout(function() {
+      document.querySelectorAll('.ec-fade-up:not(.ec-visible)').forEach(function(el) {
+        el.classList.add('ec-visible');
+      });
+    }, 4000);
+  } else {
+    fadeEls.forEach(function(el) { el.classList.add('ec-visible'); });
+  }
+
+
+  /* ─── §3 Pop-up z rabatem + mini przycisk ─── */
+  var popup = document.getElementById('ecPopup');
+  var closeBtn = document.getElementById('ecPopupClose');
+  var miniBtn = document.getElementById('ecRabatMini');
+  var POPUP_KEY = 'ec_popup_dismissed';
+
+  function showPopup() {
+    if (popup && !sessionStorage.getItem(POPUP_KEY)) {
+      popup.classList.add('ec-popup--active');
+    } else if (miniBtn) {
+      // Popup juz byl zamkniety w tej sesji — pokaz mini przycisk
+      miniBtn.classList.add('ec-rabat-mini--visible');
+    }
+  }
+
+  function hidePopup() {
+    if (popup) {
+      popup.classList.remove('ec-popup--active');
+      sessionStorage.setItem(POPUP_KEY, '1');
+    }
+    // Pokaz mini przycisk po zamknieciu
+    if (miniBtn) {
+      setTimeout(function() {
+        miniBtn.classList.add('ec-rabat-mini--visible');
+      }, 300);
+    }
+  }
+
+  function reopenPopup() {
+    if (popup) {
+      popup.classList.add('ec-popup--active');
+    }
+  }
+
+  // Show after 5 seconds (dajemy chwile na zaladowanie widgetu)
+  setTimeout(showPopup, 5000);
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', hidePopup);
+  }
+  if (popup) {
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) hidePopup();
+    });
+  }
+
+  // Mini przycisk otwiera popup ponownie
+  if (miniBtn) {
+    miniBtn.addEventListener('click', reopenPopup);
+  }
+
+  // ESC key closes popup
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hidePopup();
+  });
+
+
+  /* ─── §3b Interactive Map — zone detail panel ─── */
+  var zonePanel = document.getElementById('ecZonePanel');
+  var zonePins = document.querySelectorAll('.ec-map-pin[data-ec-zone]');
+  var zoneCards = document.querySelectorAll('.ec-zone-card[data-zone]');
+
+  function openZone(zoneId) {
+    if (!zonePanel) return;
+    // Deactivate all pins
+    zonePins.forEach(function(p) { p.classList.remove('ec-pin--active'); });
+    // Hide all cards
+    zoneCards.forEach(function(c) { c.classList.remove('ec-zone-card--visible'); });
+    // Find matching pin and card
+    var pin = document.querySelector('.ec-map-pin[data-ec-zone="' + zoneId + '"]');
+    var card = document.querySelector('.ec-zone-card[data-zone="' + zoneId + '"]');
+    if (pin) pin.classList.add('ec-pin--active');
+    if (card) {
+      card.classList.add('ec-zone-card--visible');
+      zonePanel.classList.add('ec-zone-panel--open');
+      // Smooth scroll to panel
+      setTimeout(function() {
+        zonePanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+  }
+
+  function closeZone() {
+    if (!zonePanel) return;
+    zonePins.forEach(function(p) { p.classList.remove('ec-pin--active'); });
+    zoneCards.forEach(function(c) { c.classList.remove('ec-zone-card--visible'); });
+    zonePanel.classList.remove('ec-zone-panel--open');
+  }
+
+  // Pin click handlers
+  zonePins.forEach(function(pin) {
+    pin.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var zone = pin.getAttribute('data-ec-zone');
+      // Toggle: if already active, close
+      if (pin.classList.contains('ec-pin--active')) {
+        closeZone();
+      } else {
+        openZone(zone);
+      }
+    });
+  });
+
+  // Close button handlers
+  document.querySelectorAll('.ec-zone-card__close').forEach(function(btn) {
+    btn.addEventListener('click', closeZone);
+  });
+
+  // ESC closes zone panel too
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeZone();
+  });
+
+
+  /* ─── §4 Language dropdown — click toggle fix ─── */
+  var langToggler = document.querySelector('.language__toggler');
+  var langContainer = document.querySelector('.page-top__language');
+  if (langToggler && langContainer) {
+    langToggler.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var isOpen = langContainer.classList.toggle('ec-lang-open');
+      langToggler.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    // Close on outside click
+    document.addEventListener('click', function(e) {
+      if (!langContainer.contains(e.target)) {
+        langContainer.classList.remove('ec-lang-open');
+        langToggler.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  /* ─── §VIDEO — Film promocyjny z Google Drive ─── */
+  (function injectVideo() {
+    if (!document.body.classList.contains('page-index')) return;
+    var cta = document.querySelector('.ec-section--green');
+    if (!cta) return;
+    var wrapper = document.createElement('div');
+    wrapper.className = 'ec-full';
+    wrapper.innerHTML = '<div class="ec-section ec-section--cream" style="text-align:center;padding:60px 0;">' +
+      '<div class="ec-inner ec-fade-up">' +
+      '<span class="ec-kicker">Zobacz nas</span>' +
+      '<h2 class="ec-h2">Film z Eco Campingu</h2>' +
+      '<hr class="ec-rule" style="margin:16px auto 32px;">' +
+      '<div style="max-width:1100px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.12);position:relative;padding-bottom:56.25%;height:0;">' +
+      '<iframe src="https://drive.google.com/file/d/1UzGjjunQTt96jBGzJVPVZkiQB6c8IwTt/preview" ' +
+      'allow="autoplay" allowfullscreen style="border:0;position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>' +
+      '</div></div></div>';
+    cta.parentNode.insertBefore(wrapper, cta);
+  })();
+
+
+  /* ─── §5 WYRÓŻNIONE OFERTY — Madera approach ───
+     Czyta dane z ukrytego .container-hotspot (system-generated),
+     buduje custom ec-offer-card i wstawia sekcje na strone glowna.
+     Hotspot jest ukryty przez CSS display:none, ale JS czyta DOM. */
+
+  function buildFeaturedOffers() {
+    if (!document.body.classList.contains('page-index')) return true;
+    if (document.querySelector('.ec-offers-section')) return true; // juz zbudowane
+
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot || !hotspot.querySelector('.offer')) return false;
+
+    var iconArea = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>';
+    var iconGuests = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>';
+
+    /* Deduplicate — slick carousel creates clones */
+    var seen = {};
+    var offers = [];
+    hotspot.querySelectorAll('.offer').forEach(function(el) {
+      var a = el.querySelector('a.object-icon') || el.querySelector('a[href*="offer"]');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || seen[href]) return;
+      seen[href] = true;
+
+      var img = el.querySelector('.object-icon img') || el.querySelector('img');
+      var titleEl = el.querySelector('.offer-name a') || el.querySelector('h3 a') || el.querySelector('h2 a');
+      var desc = el.querySelector('.offer__description');
+      var infoEl = el.querySelector('.offer__info');
+      var priceEl = el.querySelector('.amount') || el.querySelector('[class*="price"]');
+      var infoText = infoEl ? infoEl.textContent.replace(/\s+/g, ' ').trim() : '';
+
+      /* Parse "35,00 m2 4" → area + guests */
+      var area = '', guests = '';
+      var am = infoText.match(/([\d,.]+)\s*m2/i);
+      if (am) area = am[1].replace(',00', '').replace('.00', '');
+      var parts = infoText.split(/m2/i);
+      if (parts[1]) { var g = parts[1].trim(); if (g) guests = g; }
+
+      offers.push({
+        href: href,
+        img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+        alt: img ? (img.alt || '').trim() : '',
+        title: titleEl ? titleEl.textContent.trim() : '',
+        desc: desc ? desc.textContent.trim() : '',
+        area: area,
+        guests: guests,
+        price: priceEl ? priceEl.textContent.trim() : ''
+      });
+    });
+
+    if (!offers.length) return false;
+
+    /* Build cards HTML */
+    var cardsHTML = '';
+    offers.forEach(function(o) {
+      var meta = '';
+      if (o.area) meta += '<span>' + iconArea + ' ' + o.area + ' m\u00B2</span>';
+      if (o.guests) meta += '<span>' + iconGuests + ' ' + o.guests + ' os.</span>';
+
+      cardsHTML += '<a href="' + o.href + '" class="ec-offer-card">' +
+        '<div class="ec-offer-card__img">' +
+          '<img src="' + o.img + '" alt="' + o.alt + '" loading="lazy">' +
+        '</div>' +
+        '<div class="ec-offer-card__body">' +
+          '<h3 class="ec-offer-card__name">' + o.title + '</h3>' +
+          (o.desc ? '<p class="ec-offer-card__desc">' + o.desc + '</p>' : '') +
+          (meta ? '<div class="ec-offer-card__meta">' + meta + '</div>' : '') +
+          (o.price ? '<div class="ec-offer-card__price">' + o.price + '</div>' : '') +
+          '<span class="ec-offer-card__cta">Sprawdź dostępność</span>' +
+        '</div>' +
+      '</a>';
+    });
+
+    /* Build section */
+    var section = document.createElement('div');
+    section.className = 'ec-offers-section ec-fade-up';
+    section.innerHTML = '<div class="ec-offers__inner">' +
+      '<span class="ec-kicker">Nasze namioty</span>' +
+      '<h2 class="ec-h2">Wyróżnione oferty</h2>' +
+      '<hr class="ec-rule">' +
+      '<div class="ec-offers__grid">' + cardsHTML + '</div>' +
+      '</div>';
+
+    /* Insert before CTA green section or video */
+    var anchor = document.querySelector('.ec-section--green');
+    if (anchor) {
+      anchor.parentNode.insertBefore(section, anchor);
+    }
+    return true;
+  }
+
+  /* Retry — hotspot laduje asynchronicznie */
+  setTimeout(function() {
+    if (!buildFeaturedOffers()) {
+      var offerChecks = 0;
+      var offerInterval = setInterval(function() {
+        offerChecks++;
+        if (buildFeaturedOffers() || offerChecks > 50) {
+          clearInterval(offerInterval);
+        }
+      }, 300);
+    }
+  }, 2000);
+
+})();
+</script>

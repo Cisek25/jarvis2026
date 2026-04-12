@@ -1,0 +1,162 @@
+<!-- ==========================================================
+   SORS — Apartamenty: Embed offers (obrazki + ceny) into et-apt cards
+   WKLEIĆ NA PODSTRONIE APARTAMENTY (txt/201) — na dole treści
+   ========================================================== -->
+
+<style>
+/* --- Obrazek w karcie apartamentu --- */
+.et-apt__img {
+  display: block;
+  margin: -56px -48px 32px;
+  overflow: hidden;
+  border-radius: 0;
+  line-height: 0;
+}
+.et-apt__img img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 6s ease-out;
+}
+@media (min-width: 861px) {
+  .et-apt__img img { height: 340px; }
+}
+.et-apt__item:hover .et-apt__img img {
+  transform: scale(1.06);
+}
+
+/* --- Pasek ceny --- */
+.et-apt__pricebar {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding: 16px 0;
+  border-top: 1px solid #e0e0e0;
+}
+.et-section--muted .et-apt__pricebar { border-color: #c8dff0; }
+.et-apt__price-label {
+  font-size: 12px;
+  color: #888;
+  text-transform: lowercase;
+}
+.et-apt__price-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #00579E;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.et-apt__price-suffix {
+  font-size: 13px;
+  color: #888;
+}
+
+/* --- Responsywność na mobile --- */
+@media (max-width: 860px) {
+  .et-apt__img { margin: -56px -48px 24px; }
+}
+@media (max-width: 768px) {
+  .et-apt__img { margin: 0 0 24px; }
+  .et-apt__img img { height: 220px; border-radius: 8px; }
+  .et-apt__price-value { font-size: 24px; }
+}
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  function embedOffers() {
+    var hotspot = document.querySelector('.cmshotspot');
+    if (!hotspot) return;
+
+    var offers = hotspot.querySelectorAll('.offer');
+    if (!offers.length) return;
+
+    var aptItems = document.querySelectorAll('.et-apt__item');
+    if (!aptItems.length) return;
+
+    // Map: offer keyword → data
+    var offerMap = {};
+    offers.forEach(function (offer) {
+      var link = offer.querySelector('a.object-icon');
+      var href = link ? link.getAttribute('href') : '';
+      var img = offer.querySelector('img');
+      var price = offer.querySelector('.offer__price .price');
+
+      var key = '';
+      if (href.toLowerCase().indexOf('eagle-nest') > -1) key = 'nest';
+      if (href.toLowerCase().indexOf('eagle-view') > -1) key = 'view';
+
+      if (key) {
+        offerMap[key] = {
+          href: href,
+          imgSrc: img ? (img.getAttribute('data-src') || img.getAttribute('src')) : '',
+          imgAlt: img ? img.getAttribute('alt') : '',
+          price: price ? price.textContent.trim().replace(/\s+/g, ' ') : '',
+        };
+      }
+    });
+
+    // Match each card to its offer
+    aptItems.forEach(function (card) {
+      // Guard: skip if already embedded (prevents double execution)
+      if (card.querySelector('.et-apt__img')) return;
+
+      var nameEl = card.querySelector('.et-apt__name');
+      if (!nameEl) return;
+      var name = nameEl.textContent.trim().toLowerCase();
+
+      var offer = null;
+      if (name.indexOf('nest') > -1) offer = offerMap['nest'];
+      else if (name.indexOf('view') > -1) offer = offerMap['view'];
+      if (!offer) return;
+
+      // Fix link
+      var btn = card.querySelector('.et-btn');
+      if (btn && offer.href) btn.setAttribute('href', offer.href);
+
+      // Insert image
+      if (offer.imgSrc) {
+        var imgWrap = document.createElement('a');
+        imgWrap.className = 'et-apt__img';
+        imgWrap.href = offer.href;
+        var img = document.createElement('img');
+        img.src = offer.imgSrc;
+        img.alt = offer.imgAlt || '';
+        img.loading = 'lazy';
+        imgWrap.appendChild(img);
+
+        var numEl = card.querySelector('.et-apt__num');
+        if (numEl) card.insertBefore(imgWrap, numEl);
+        else card.insertBefore(imgWrap, card.firstChild);
+      }
+
+      // Insert price bar
+      if (offer.price) {
+        var priceBar = document.createElement('div');
+        priceBar.className = 'et-apt__pricebar';
+        priceBar.innerHTML =
+          '<span class="et-apt__price-label">od</span>' +
+          '<span class="et-apt__price-value">' + offer.price + '</span>' +
+          '<span class="et-apt__price-suffix">/ noc</span>';
+        if (btn) btn.parentNode.insertBefore(priceBar, btn);
+        else card.appendChild(priceBar);
+      }
+    });
+
+    // Hide original "Wyróżnione Oferty" section
+    hotspot.style.display = 'none';
+  }
+
+  // Run after page loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(embedOffers, 300);
+    });
+  } else {
+    setTimeout(embedOffers, 300);
+  }
+})();
+</script>

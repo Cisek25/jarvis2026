@@ -1,0 +1,13 @@
+{
+  "name": "jarvis-idobooking",
+  "version": "1.0.0",
+  "description": "JARVIS — automatyczny system tworzenia stron IdoBooking",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "author": "Damian Cisowski / IAISA",
+  "license": "UNLICENSED",
+  "private": true
+}

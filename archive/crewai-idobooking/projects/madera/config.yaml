@@ -1,0 +1,51 @@
+# ============================================================
+# Projekt: Madera Centrum Katowice
+# Panel: client45553.idosell.com
+# Silnik: engine45553.idobooking.com
+# ============================================================
+
+project_name: madera
+css_prefix: md
+client_id: "45553"
+language: pl
+
+# Opis obiektu
+property_description: >
+  Madera Centrum — luksusowe apartamenty w centrum Katowic.
+  3 marki: Madera House (premium), Flores (przytulne), Rooms Silesia (ekonomiczne).
+  Romansowy pokoj Momenti Piccanti z jacuzzi i kominkiem.
+  Lokalizacja: serce Katowic, blisko Spodka i Strefy Kultury.
+
+property_info: >
+  Apartamenty Madera Centrum, ul. Sokolska, Katowice.
+  3 marki noclegowe + pokoj tematyczny Momenti Piccanti.
+  Udogodnienia: smart lock, Netflix, ekspres do kawy, parking.
+  Bezposrednie rezerwacje: maderacentrum.pl / engine45553.idobooking.com
+
+# Styl
+design_style: "ciepla biel, drewno, naturalne materialy — styl skandynawski z polska goscinnoscia"
+brand_colors: "#8B6914 (zloto drewna), #FAF6F0 (ciepla biel), #2C2416 (ciemny orzech)"
+
+# Strony do zbudowania
+pages:
+  - name: strona_glowna
+    type: landing
+    subpage_id: ""
+    sections: "hero, intro, 3-marki, usp, udogodnienia, lokalizacja, facebook, cta"
+  - name: atrakcje
+    type: informational
+    subpage_id: ""
+    sections: "hero, intro, okolica, centrum-katowic, wycieczki, transport, cta"
+  - name: galeria
+    type: gallery
+    subpage_id: ""
+    sections: "hero, album-madera-house, album-flores, album-rooms-silesia, album-czesci-wspolne, cta"
+  - name: momenti_piccanti
+    type: product
+    subpage_id: ""
+    sections: "hero, intro, udogodnienia, okazje, specyfikacja, galeria, prywatnosc, cta"
+
+default_page: strona_glowna
+page_type: landing
+sections: "hero, intro, features, gallery, cta"
+section_template: standard

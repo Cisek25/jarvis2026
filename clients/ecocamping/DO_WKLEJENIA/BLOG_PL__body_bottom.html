@@ -1,0 +1,41 @@
+<script>
+(function(){
+  'use strict';
+  var fadeEls = document.querySelectorAll('.ec-fade-up');
+  if ('IntersectionObserver' in window && fadeEls.length) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('ec-visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.01, rootMargin: '0px 0px -20px 0px' });
+    fadeEls.forEach(function(el) { obs.observe(el); });
+    // Fallback: jesli po 4s elementy nadal niewidoczne, wymus
+    setTimeout(function() {
+      document.querySelectorAll('.ec-fade-up:not(.ec-visible)').forEach(function(el) {
+        el.classList.add('ec-visible');
+      });
+    }, 4000);
+  } else {
+    fadeEls.forEach(function(el) { el.classList.add('ec-visible'); });
+  }
+
+  /* --- Language dropdown click toggle fix --- */
+  var langToggler = document.querySelector('.language__toggler');
+  var langContainer = document.querySelector('.page-top__language');
+  if (langToggler && langContainer) {
+    langToggler.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var isOpen = langContainer.classList.toggle('ec-lang-open');
+      langToggler.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    document.addEventListener('click', function(e) {
+      if (!langContainer.contains(e.target)) {
+        langContainer.classList.remove('ec-lang-open');
+        langToggler.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+})();
+</script>

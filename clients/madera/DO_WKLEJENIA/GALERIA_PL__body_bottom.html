@@ -1,0 +1,106 @@
+<script>
+(function () {
+  'use strict';
+
+  /* ── Ukryj zepsute zdjęcia (404 na CDN) ── */
+  var rawPhotos = Array.from(document.querySelectorAll('.md-photo'));
+  rawPhotos.forEach(function(photo) {
+    var img = photo.querySelector('img');
+    if (!img) return;
+    function checkBroken() {
+      if (img.complete && img.naturalHeight === 0) {
+        photo.classList.add('md-photo--broken');
+        photo.style.display = 'none';
+      }
+    }
+    checkBroken();
+    img.addEventListener('error', function() {
+      photo.classList.add('md-photo--broken');
+      photo.style.display = 'none';
+    });
+  });
+
+  /* Zbierz tylko działające zdjęcia */
+  var allPhotos = rawPhotos.filter(function(p) {
+    return !p.classList.contains('md-photo--broken');
+  });
+  var lb        = document.getElementById('md-lightbox');
+  var lbImg     = document.getElementById('md-lb-img');
+  var lbLabel   = document.getElementById('md-lb-label');
+  var lbCounter = document.getElementById('md-lb-counter');
+  var current   = 0;
+
+  /* ── Lightbox helpers ── */
+  function openLB(idx) {
+    current = idx;
+    render();
+    lb.classList.add('md-lightbox--open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLB() {
+    lb.classList.remove('md-lightbox--open');
+    document.body.style.overflow = '';
+  }
+
+  function nav(dir) {
+    current = (current + dir + allPhotos.length) % allPhotos.length;
+    render();
+  }
+
+  function render() {
+    var photo = allPhotos[current];
+    lbImg.src   = photo.getAttribute('href');
+    lbImg.alt   = photo.querySelector('img').getAttribute('alt');
+    lbLabel.textContent   = photo.getAttribute('data-label') || '';
+    lbCounter.textContent = (current + 1) + ' / ' + allPhotos.length;
+  }
+
+  /* ── Bind click na każde zdjęcie ── */
+  allPhotos.forEach(function (photo, idx) {
+    photo.addEventListener('click', function (e) {
+      e.preventDefault();
+      openLB(idx);
+    });
+  });
+
+  /* ── Kontrolki lightboxa ── */
+  document.getElementById('md-lb-close').addEventListener('click', function (e) {
+    e.stopPropagation();
+    closeLB();
+  });
+  document.getElementById('md-lb-prev').addEventListener('click', function (e) {
+    e.stopPropagation();
+    nav(-1);
+  });
+  document.getElementById('md-lb-next').addEventListener('click', function (e) {
+    e.stopPropagation();
+    nav(1);
+  });
+  lb.addEventListener('click', function (e) {
+    if (e.target === lb) closeLB();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('md-lightbox--open')) return;
+    if (e.key === 'Escape')      closeLB();
+    if (e.key === 'ArrowLeft')   nav(-1);
+    if (e.key === 'ArrowRight')  nav(1);
+  });
+
+  /* ── Responsive grid columns ── */
+  function setCols() {
+    var grids = document.querySelectorAll('.md-photos');
+    var w = window.innerWidth;
+    var cols = w <= 480  ? '1fr'
+             : w <= 768  ? 'repeat(2,1fr)'
+             : w <= 1024 ? 'repeat(3,1fr)'
+             :              'repeat(4,1fr)';
+    grids.forEach(function (g) {
+      g.style.gridTemplateColumns = cols;
+    });
+  }
+  setCols();
+  window.addEventListener('resize', setCols);
+
+})();
+</script>

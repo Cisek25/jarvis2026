@@ -1,0 +1,2991 @@
+/* ═══════════════════════════════════════════════════════════════
+   WAWABED BED & BREAKFAST — Arkusz stylów
+   Warm Vintage · Cream & Forest Green · Cozy B&B
+   Pole CMS: custom_style_1_input
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── §0  ZMIENNE GLOBALNE ─────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* ── Kolory — oczyszczona paleta ── */
+  --wb-green: #2B3D35;
+  --wb-green-light: #3E5B4E;
+  --wb-green-dark: #1A2B23;
+  --wb-brown: #8B7355;
+  --wb-brown-light: #A8916E;
+  --wb-brown-dark: #6D5A42;
+  --wb-gold: #C19A6B;
+  --wb-gold-light: #D4B48A;
+  --wb-cream: #F2EDE5;
+  --wb-cream-alt: #EAE4DA;
+  --wb-cream-dark: #DDD7CC;
+  --wb-white: #FFFFFF;
+  --wb-warm-white: #FAF8F4;
+  --wb-text: #1E1E1E;
+  --wb-text-light: #4A4A4A;
+  --wb-text-muted: #7A7A7A;
+  --wb-border: #E0DBD3;
+  --wb-border-light: #EDE8E0;
+
+  /* ── Typografia ─────────── */
+  --wb-font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --wb-font-body: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ── Rozmiary tekstu ────── */
+  --wb-text-xs: 1.15rem;
+  --wb-text-sm: 1.3rem;
+  --wb-text-base: 1.5rem;
+  --wb-text-lg: 1.75rem;
+  --wb-text-xl: 2.15rem;
+  --wb-text-2xl: 2.75rem;
+  --wb-text-3xl: 3.5rem;
+  --wb-text-4xl: 4.25rem;
+  --wb-text-5xl: 5.25rem;
+
+  /* ── Przestrzenie ────────── */
+  --wb-space-xs: 0.625rem;
+  --wb-space-sm: 1.25rem;
+  --wb-space-md: 2rem;
+  --wb-space-lg: 3rem;
+  --wb-space-xl: 5rem;
+  --wb-space-2xl: 7rem;
+  --wb-space-section: 6rem;
+
+  /* ── Cienie ─────────────── */
+  --wb-shadow-sm: 0 1px 3px rgba(61,43,31,0.06);
+  --wb-shadow-md: 0 4px 12px rgba(61,43,31,0.08);
+  --wb-shadow-lg: 0 8px 30px rgba(61,43,31,0.10);
+  --wb-shadow-xl: 0 16px 50px rgba(61,43,31,0.12);
+
+  /* ── Zaokrąglenia ───────── */
+  --wb-radius-sm: 6px;
+  --wb-radius-md: 10px;
+  --wb-radius-lg: 16px;
+  --wb-radius-xl: 24px;
+  --wb-radius-full: 9999px;
+
+  /* ── Przejścia ──────────── */
+  --wb-transition: 0.3s ease;
+  --wb-transition-slow: 0.5s ease;
+
+  /* ── Layout ─────────────── */
+  --wb-max-width: 1200px;
+  --wb-narrow-width: 900px;
+}
+
+/* ─── §1  RESET I BAZA ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--wb-font-body);
+  color: var(--wb-text);
+  background-color: var(--wb-warm-white);
+  line-height: 1.75;
+  font-size: var(--wb-text-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--wb-font-heading);
+  color: var(--wb-green);
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+a {
+  color: var(--wb-green);
+  text-decoration: none;
+  transition: color var(--wb-transition);
+}
+a:hover { color: var(--wb-brown); }
+
+img { max-width: 100%; height: auto; }
+
+/* ─── §1b PARALLAX & BACKGROUND FIX ──────────────────── */
+/* The template's .parallax-slider is position:fixed z-index:-2, which
+   bleeds through all sections below the hero.
+   Fix: adding transform to .section.parallax changes the containing block
+   for the fixed child, making overflow:hidden actually clip it.
+   This confines the parallax image to the hero only. */
+
+html {
+  background-color: var(--wb-warm-white) !important;
+}
+
+/* Confine parallax to hero section */
+.section.parallax {
+  transform: translateZ(0);
+  overflow: hidden;
+}
+
+main.page {
+  position: relative;
+  z-index: 1;
+  background-color: var(--wb-warm-white);
+}
+
+.about-main-description {
+  position: relative;
+  background-color: var(--wb-warm-white);
+}
+
+/* Template's ::before is a dark (rgb(18,18,18)) full-viewport overlay
+   meant for the original dark theme.  Override to warm-white. */
+.about-main-description::before {
+  background-color: var(--wb-warm-white) !important;
+}
+
+.cmsbenefits__w100,
+main.page > .container {
+  position: relative;
+  background-color: var(--wb-warm-white);
+}
+
+footer,
+.footer,
+[class*="footer"] {
+  position: relative;
+}
+
+/* ─── §2  HERO / PARALLAX ──────────────────────────────────── */
+.index-info { display: none !important; }
+
+.wb-hero {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--wb-green-dark);
+}
+
+.wb-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scale(1.05);
+  transition: transform 8s ease-out;
+}
+.wb-hero-bg.loaded { transform: scale(1); }
+
+.wb-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(30,53,41,0.35) 0%,
+    rgba(30,53,41,0.50) 50%,
+    rgba(30,53,41,0.70) 100%
+  );
+}
+
+.wb-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: var(--wb-space-lg);
+  max-width: 800px;
+}
+
+.wb-hero-badge {
+  display: inline-block;
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-sm);
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--wb-gold-light);
+  margin-bottom: var(--wb-space-md);
+  padding: 0.4em 1.2em;
+  border: 1px solid rgba(196,162,101,0.4);
+  border-radius: var(--wb-radius-full);
+}
+
+.wb-hero h1 {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-5xl);
+  font-weight: 700;
+  color: var(--wb-white);
+  margin: 0 0 var(--wb-space-sm);
+  line-height: 1.15;
+}
+
+.wb-hero p {
+  font-size: var(--wb-text-xl);
+  color: rgba(253,252,250,0.85);
+  font-weight: 300;
+  margin: 0 0 var(--wb-space-lg);
+  line-height: 1.6;
+}
+
+.wb-hero-scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 28px;
+  height: 44px;
+  border: 2px solid rgba(253,252,250,0.4);
+  border-radius: 14px;
+  cursor: pointer;
+}
+.wb-hero-scroll::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: rgba(253,252,250,0.6);
+  border-radius: 2px;
+  animation: scrollDot 2s ease-in-out infinite;
+}
+@keyframes scrollDot {
+  0%, 100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.3; transform: translateX(-50%) translateY(12px); }
+}
+
+/* ─── §3  WYSZUKIWARKA ─────────────────────────────────────── */
+.wb-search-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 100%;
+  max-width: 900px;
+  padding: 0 var(--wb-space-sm);
+}
+
+.wb-search-bar {
+  background: var(--wb-white);
+  border-radius: var(--wb-radius-lg) var(--wb-radius-lg) 0 0;
+  padding: var(--wb-space-md) var(--wb-space-lg);
+  box-shadow: var(--wb-shadow-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--wb-space-md);
+  flex-wrap: wrap;
+}
+
+.wb-search-bar .iai-search {
+  width: 100%;
+}
+
+.wb-search-bar input,
+.wb-search-bar select {
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-base);
+  color: var(--wb-text);
+  border: 1px solid var(--wb-border);
+  border-radius: var(--wb-radius-sm);
+  padding: 0.75em 1em;
+  background: var(--wb-warm-white);
+  transition: border-color var(--wb-transition);
+}
+.wb-search-bar input:focus,
+.wb-search-bar select:focus {
+  outline: none;
+  border-color: var(--wb-green);
+  box-shadow: 0 0 0 3px rgba(44,74,62,0.1);
+}
+
+.wb-search-bar button,
+.wb-search-bar .iai-search__submit {
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-base);
+  font-weight: 600;
+  background: var(--wb-green);
+  color: var(--wb-white);
+  border: none;
+  border-radius: var(--wb-radius-sm);
+  padding: 0.75em 2em;
+  cursor: pointer;
+  transition: all var(--wb-transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.wb-search-bar button:hover,
+.wb-search-bar .iai-search__submit:hover {
+  background: var(--wb-green-light);
+  transform: translateY(-1px);
+  box-shadow: var(--wb-shadow-md);
+}
+
+/* ─── §4  FULL-WIDTH WRAPPERY ──────────────────────────────── */
+.projector_navigation + div,
+.container-fluid,
+.row-full {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ── Każdy kontener IdoSell powyżej treści CMS:
+   musi przepuszczać full-width dzieci i nie obcinać ── */
+.cms_rte,
+.text-page-content,
+.projector_longdescription,
+#projector_longdescription,
+.projector_longdescription > div,
+.cms_rte > div,
+[class*="description_section"],
+[id*="description_section"],
+.container,
+.container-fluid,
+.row,
+.col,
+[class*="col-"],
+main,
+#content,
+.content,
+.main-content,
+.page-content,
+.wrapper,
+.inner-wrapper,
+.site-content {
+  overflow: visible !important;
+}
+
+/* Kontenery IdoSell z max-width — wyłącz ograniczenia
+   dla sekcji z wb-fullwidth w środku */
+.wb-fullwidth {
+  width: 100vw !important;
+  max-width: none !important;
+  margin-left: 50% !important;
+  transform: translateX(-50%) !important;
+  position: relative !important;
+  box-sizing: border-box !important;
+}
+
+/* ─── §5  SEKCJE ───────────────────────────────────────────── */
+.wb-section {
+  padding: var(--wb-space-section) var(--wb-space-sm);
+}
+
+.wb-section-cream,
+.wb-cream-section {
+  background-color: var(--wb-cream);
+}
+
+.wb-section-white,
+.wb-section--white {
+  background-color: var(--wb-white);
+}
+
+.wb-section-green,
+.wb-dark-section {
+  background-color: var(--wb-green);
+  color: var(--wb-cream);
+}
+.wb-section-green h2,
+.wb-section-green h3,
+.wb-dark-section h2,
+.wb-dark-section h3 {
+  color: var(--wb-white);
+}
+.wb-section-green p,
+.wb-dark-section p {
+  color: rgba(245,240,232,0.85);
+}
+.wb-dark-section .wb-label {
+  color: var(--wb-gold);
+}
+.wb-dark-section .wb-gold-line {
+  background: var(--wb-gold);
+}
+
+.wb-inner {
+  max-width: var(--wb-max-width);
+  margin: 0 auto;
+  padding: 0 var(--wb-space-md);
+  position: relative;
+  z-index: 1;
+}
+
+.wb-container {
+  max-width: var(--wb-max-width);
+  margin: 0 auto;
+  padding: 0 var(--wb-space-md);
+}
+
+.wb-container-narrow {
+  max-width: var(--wb-narrow-width);
+  margin: 0 auto;
+  padding: 0 var(--wb-space-md);
+}
+
+/* ─── §6  NAGŁÓWKI SEKCJI ──────────────────────────────────── */
+.wb-section-header {
+  text-align: center;
+  margin-bottom: var(--wb-space-xl);
+}
+
+.wb-section-header h2 {
+  font-size: var(--wb-text-4xl);
+  font-weight: 700;
+  color: var(--wb-green);
+  margin: 0 0 var(--wb-space-xs);
+}
+
+.wb-section-subtitle {
+  font-size: var(--wb-text-lg);
+  color: var(--wb-text-light);
+  font-weight: 300;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.wb-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: var(--wb-space-sm) auto;
+}
+.wb-ornament::before,
+.wb-ornament::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--wb-brown-light);
+}
+.wb-ornament-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--wb-gold);
+  border-radius: 50%;
+}
+
+/* ─── §7  O NAS — SPLIT LAYOUT ─────────────────────────────── */
+.wb-about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--wb-space-xl);
+  align-items: center;
+}
+
+.wb-about-image {
+  position: relative;
+  border-radius: var(--wb-radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.wb-about-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--wb-transition-slow);
+}
+.wb-about-image:hover img {
+  transform: scale(1.03);
+}
+
+.wb-about-image-frame {
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(196,162,101,0.3);
+  border-radius: var(--wb-radius-md);
+  pointer-events: none;
+}
+
+.wb-about-text h2 {
+  font-size: var(--wb-text-3xl);
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-about-text p {
+  font-size: var(--wb-text-lg);
+  color: var(--wb-text-light);
+  line-height: 1.8;
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-about-signature {
+  font-family: var(--wb-font-heading);
+  font-style: italic;
+  font-size: var(--wb-text-xl);
+  color: var(--wb-brown);
+  margin-top: var(--wb-space-md);
+}
+
+/* ─── §8  SEPARATOR / OZDOBA ───────────────────────────────── */
+.wb-divider {
+  text-align: center;
+  padding: var(--wb-space-lg) 0;
+}
+.wb-divider-line {
+  display: inline-block;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--wb-gold), transparent);
+}
+
+.wb-vintage-divider {
+  text-align: center;
+  padding: var(--wb-space-md) 0;
+  font-size: 1.5rem;
+  color: var(--wb-gold);
+  letter-spacing: 8px;
+  opacity: 0.6;
+}
+
+/* ─── §8b  POKOJE CAROUSEL — WIDOCZNA ── */
+/* UWAGA: Usunięto display:none — sekcja DLACZEGO MY była przypadkowo ukryta!
+   Jeśli trzeba ukryć konkretną sekcję, użyj klasy zamiast nth-child. */
+
+/* ─── §9  POKOJE / CAROUSEL (hidden — kept for reference) ──── */
+.wb-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-space-lg);
+}
+
+.wb-room-card {
+  background: var(--wb-white);
+  border-radius: var(--wb-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--wb-shadow-md);
+  transition: all var(--wb-transition);
+  border: 1px solid var(--wb-border-light);
+}
+.wb-room-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--wb-shadow-lg);
+}
+
+.wb-room-card-image {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+}
+.wb-room-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--wb-transition-slow);
+}
+.wb-room-card:hover .wb-room-card-image img {
+  transform: scale(1.05);
+}
+
+.wb-room-card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(44,74,62,0.88);
+  color: var(--wb-white);
+  font-size: var(--wb-text-xs);
+  font-weight: 600;
+  padding: 0.35em 0.85em;
+  border-radius: var(--wb-radius-sm);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.wb-room-card-body {
+  padding: var(--wb-space-md);
+}
+
+.wb-room-card-body h3 {
+  font-size: var(--wb-text-xl);
+  font-weight: 600;
+  margin: 0 0 0.5em;
+  color: var(--wb-green);
+}
+
+.wb-room-card-meta {
+  display: flex;
+  gap: var(--wb-space-sm);
+  margin-bottom: var(--wb-space-sm);
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-muted);
+}
+.wb-room-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wb-room-card-desc {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-light);
+  line-height: 1.6;
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-room-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--wb-space-sm);
+  border-top: 1px solid var(--wb-border-light);
+}
+
+.wb-room-price {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-2xl);
+  font-weight: 700;
+  color: var(--wb-green);
+}
+.wb-room-price-suffix {
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-sm);
+  font-weight: 400;
+  color: var(--wb-text-muted);
+}
+
+/* ─── §10  PASEK UDOGODNIEŃ (EXTRAS) ──────────────────────── */
+.wb-extras-bar {
+  display: flex;
+  justify-content: center;
+  gap: var(--wb-space-xl);
+  flex-wrap: wrap;
+  padding: var(--wb-space-lg) 0;
+}
+
+.wb-extra-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  text-align: center;
+}
+
+.wb-extra-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--wb-cream);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  color: var(--wb-green);
+  border: 1px solid var(--wb-border);
+  transition: all var(--wb-transition);
+}
+.wb-extra-item:hover .wb-extra-icon {
+  background: var(--wb-green);
+  color: var(--wb-white);
+  border-color: var(--wb-green);
+}
+
+.wb-extra-label {
+  font-size: var(--wb-text-sm);
+  font-weight: 600;
+  color: var(--wb-text);
+}
+.wb-extra-sublabel {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+}
+
+/* ─── §11  CECHY / FEATURES GRID ──────────────────────────── */
+.wb-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-space-lg);
+}
+
+.wb-feature-card {
+  text-align: center;
+  padding: var(--wb-space-lg);
+  background: var(--wb-white);
+  border-radius: var(--wb-radius-lg);
+  border: 1px solid var(--wb-border-light);
+  transition: all var(--wb-transition);
+}
+.wb-feature-card:hover {
+  border-color: var(--wb-green);
+  box-shadow: var(--wb-shadow-md);
+  transform: translateY(-3px);
+}
+
+.wb-feature-icon {
+  font-size: 3.5rem;
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-feature-card h3 {
+  font-size: var(--wb-text-xl);
+  margin-bottom: 0.5em;
+  color: var(--wb-green) !important;
+}
+
+.wb-feature-card p {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-light);
+  line-height: 1.6;
+}
+
+/* ─── §12  ATRAKCJE ────────────────────────────────────────── */
+.wb-attractions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-space-md);
+}
+
+.wb-attraction-card {
+  position: relative;
+  border-radius: var(--wb-radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+}
+
+.wb-attraction-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--wb-transition-slow);
+  filter: none !important;
+}
+.wb-attraction-card:hover img {
+  transform: scale(1.08);
+}
+
+.wb-attraction-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(30,53,41,0.85) 0%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--wb-space-md);
+  transition: background var(--wb-transition);
+}
+.wb-attraction-card:hover .wb-attraction-overlay {
+  background: linear-gradient(0deg, rgba(30,53,41,0.9) 0%, rgba(30,53,41,0.2) 60%);
+}
+
+.wb-attraction-overlay h3 {
+  font-size: var(--wb-text-lg);
+  color: var(--wb-white);
+  margin: 0 0 0.25em;
+}
+.wb-attraction-overlay p {
+  font-size: var(--wb-text-sm);
+  color: rgba(245,240,232,0.75);
+  margin: 0;
+}
+
+/* ─── §13  LOKALIZACJA ─────────────────────────────────────── */
+.wb-location {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--wb-space-xl);
+  align-items: start;
+}
+
+.wb-location-info h2 {
+  font-size: var(--wb-text-3xl);
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-location-info p {
+  font-size: var(--wb-text-lg);
+  color: var(--wb-text-light);
+  line-height: 1.8;
+}
+
+.wb-location-address {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75em;
+  font-size: var(--wb-text-lg);
+  color: var(--wb-text);
+  margin-top: var(--wb-space-md);
+  padding: var(--wb-space-sm) var(--wb-space-md);
+  background: var(--wb-cream);
+  border-radius: var(--wb-radius-md);
+  border-left: 3px solid var(--wb-green);
+}
+
+.wb-location-map {
+  border-radius: var(--wb-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--wb-shadow-lg);
+  aspect-ratio: 4/3;
+}
+.wb-location-map iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ─── §14  KONTAKT ─────────────────────────────────────────── */
+.wb-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-space-lg);
+}
+
+.wb-contact-card {
+  text-align: center;
+  padding: var(--wb-space-lg);
+  background: var(--wb-white);
+  border-radius: var(--wb-radius-lg);
+  border: 1px solid var(--wb-border-light);
+  transition: all var(--wb-transition);
+}
+.wb-contact-card:hover {
+  box-shadow: var(--wb-shadow-md);
+  border-color: var(--wb-green);
+}
+
+.wb-contact-icon {
+  font-size: 2rem;
+  color: var(--wb-green);
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-contact-card h3 {
+  font-size: var(--wb-text-lg);
+  margin-bottom: 0.5em;
+}
+
+.wb-contact-card p,
+.wb-contact-card a {
+  font-size: var(--wb-text-base);
+  color: var(--wb-text-light);
+}
+.wb-contact-card a:hover {
+  color: var(--wb-green);
+}
+
+/* ─── §15  CTA / WEZWANIE DO DZIAŁANIA ─────────────────────── */
+.wb-cta {
+  text-align: center;
+  padding: var(--wb-space-2xl) var(--wb-space-md);
+  background: var(--wb-green);
+  color: var(--wb-white);
+  position: relative;
+  overflow: hidden;
+}
+
+.wb-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.wb-cta h2 {
+  font-size: var(--wb-text-4xl);
+  color: var(--wb-white);
+  margin-bottom: var(--wb-space-xs);
+  position: relative;
+}
+
+.wb-cta p {
+  font-size: var(--wb-text-xl);
+  color: rgba(245,240,232,0.8);
+  margin-bottom: var(--wb-space-lg);
+  position: relative;
+}
+
+/* ─── §16  PRZYCISKI ───────────────────────────────────────── */
+.wb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-base);
+  font-weight: 600;
+  padding: 0.85em 2em;
+  border-radius: var(--wb-radius-sm);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--wb-transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.wb-btn-primary {
+  background: var(--wb-green);
+  color: var(--wb-white);
+  border-color: var(--wb-green);
+}
+.wb-btn-primary:hover {
+  background: var(--wb-green-light);
+  border-color: var(--wb-green-light);
+  color: var(--wb-white);
+  transform: translateY(-2px);
+  box-shadow: var(--wb-shadow-md);
+}
+
+.wb-btn-secondary {
+  background: transparent;
+  color: var(--wb-green);
+  border-color: var(--wb-green);
+}
+.wb-btn-secondary:hover {
+  background: var(--wb-green);
+  color: var(--wb-white);
+  transform: translateY(-2px);
+  box-shadow: var(--wb-shadow-md);
+}
+
+.wb-btn-white {
+  background: var(--wb-white);
+  color: var(--wb-green);
+  border-color: var(--wb-white);
+}
+.wb-btn-white:hover {
+  background: var(--wb-cream);
+  border-color: var(--wb-cream);
+  color: var(--wb-green);
+  transform: translateY(-2px);
+  box-shadow: var(--wb-shadow-lg);
+}
+
+.wb-btn-ghost {
+  background: transparent;
+  color: var(--wb-white);
+  border-color: rgba(253,252,250,0.5);
+}
+.wb-btn-ghost:hover {
+  background: rgba(253,252,250,0.1);
+  border-color: var(--wb-white);
+  color: var(--wb-white);
+}
+
+.wb-btn-sm {
+  font-size: var(--wb-text-sm);
+  padding: 0.6em 1.4em;
+}
+
+.wb-btn-lg {
+  font-size: var(--wb-text-lg);
+  padding: 1em 2.5em;
+}
+
+/* ─── §17  ANIMACJE ────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.wb-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.wb-animate.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wb-animate-delay-1 { transition-delay: 0.1s; }
+.wb-animate-delay-2 { transition-delay: 0.2s; }
+.wb-animate-delay-3 { transition-delay: 0.3s; }
+.wb-animate-delay-4 { transition-delay: 0.4s; }
+
+/* ─── §18  SCROLL PROGRESS ─────────────────────────────────── */
+.wb-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wb-green), var(--wb-gold));
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* ─── §19  BACK TO TOP ─────────────────────────────────────── */
+.wb-back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  background: var(--wb-green);
+  color: var(--wb-white);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--wb-transition);
+  box-shadow: var(--wb-shadow-md);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wb-back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+.wb-back-to-top:hover {
+  background: var(--wb-green-light);
+  transform: translateY(-3px);
+  box-shadow: var(--wb-shadow-lg);
+}
+
+/* ─── §20  NAWIGACJA ───────────────────────────────────────── */
+header,
+header.defaultsb,
+header.defaultsb .navbar {
+  background: var(--wb-white) !important;
+  border-bottom: 1px solid var(--wb-border-light) !important;
+  box-shadow: none !important;
+  transition: all var(--wb-transition);
+}
+
+header.defaultsb.scrolled,
+header.defaultsb.scrolled .navbar {
+  box-shadow: var(--wb-shadow-sm) !important;
+}
+
+/* Top bar links (phone, email) */
+header.defaultsb .page-top a,
+header.defaultsb .page-top__contact a,
+header.defaultsb .footer-contact a {
+  color: var(--wb-text) !important;
+  font-family: var(--wb-font-body) !important;
+  font-size: 1.1rem !important;
+  transition: color var(--wb-transition) !important;
+}
+header.defaultsb .page-top a:hover,
+header.defaultsb .page-top__contact a:hover {
+  color: var(--wb-green) !important;
+}
+
+/* Main nav links */
+header.defaultsb #navbar a,
+header.defaultsb .navbar-nav > li > a,
+header.defaultsb .nav-link {
+  font-family: var(--wb-font-body) !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: var(--wb-text) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  padding: 1em 1.5em !important;
+  transition: color var(--wb-transition) !important;
+}
+header.defaultsb #navbar a:hover,
+header.defaultsb .navbar-nav > li > a:hover,
+header.defaultsb .nav-link:hover {
+  color: var(--wb-green) !important;
+}
+
+/* Language toggler */
+header.defaultsb .language__toggler {
+  color: var(--wb-text) !important;
+}
+
+header.defaultsb .navbar-brand img,
+header.defaultsb .logo_shop img {
+  max-height: 60px;
+  transition: opacity var(--wb-transition);
+}
+
+/* ─── §21  MENU MOBILNE ────────────────────────────────────── */
+.navbar-toggler {
+  border: 1px solid var(--wb-border) !important;
+  border-radius: var(--wb-radius-sm) !important;
+  padding: 6px 10px !important;
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%233D2B1F' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+@media (max-width: 991px) {
+  header.defaultsb .navbar-collapse {
+    background: var(--wb-white);
+    border-top: 1px solid var(--wb-border-light);
+    padding: var(--wb-space-sm) 0;
+  }
+}
+
+/* ─── §22  STRONA OFERT ────────────────────────────────────── */
+.offers-page .offer,
+.offerslist .offer {
+  background: var(--wb-white);
+  border-radius: var(--wb-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--wb-border-light);
+  transition: all var(--wb-transition);
+}
+.offers-page .offer:hover,
+.offerslist .offer:hover {
+  box-shadow: var(--wb-shadow-md);
+  transform: translateY(-3px);
+}
+
+.offers-page .offer h3 a,
+.offerslist .offer h3 a {
+  font-family: var(--wb-font-heading);
+  color: var(--wb-green);
+  font-weight: 600;
+}
+.offers-page .offer h3 a:hover,
+.offerslist .offer h3 a:hover {
+  color: var(--wb-brown);
+}
+
+.offer__price .price {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-2xl);
+  font-weight: 700;
+  color: var(--wb-green);
+}
+
+/* ─── §23  WYRÓŻNIONE OFERTY (HOTSPOT) ────────────────────── */
+.cmshotspot {
+  padding: var(--wb-space-section) 0 !important;
+  background: var(--wb-cream) !important;
+  overflow: visible !important;
+}
+
+/* Carousel parent containers — allow arrows to show */
+.cmshotspot .col-12,
+.cmshotspot .container,
+.cmshotspot .row {
+  overflow: visible !important;
+}
+
+.cmshotspot .offerslist {
+  padding: 0 60px !important;
+  position: relative !important;
+}
+
+.cmshotspot .big-label,
+.cmshotspot h2 {
+  font-family: var(--wb-font-heading) !important;
+  font-size: var(--wb-text-4xl) !important;
+  color: var(--wb-green) !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+  margin-bottom: var(--wb-space-lg) !important;
+}
+
+/* Show native offers slider */
+.cmshotspot .offerslist {
+  display: block !important;
+}
+
+/* Slick slider fixes for offers */
+.cmshotspot .slick-list {
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+.cmshotspot .slick-track {
+  display: flex !important;
+}
+.cmshotspot .slick-slide {
+  padding: 0 15px !important;
+}
+
+/* Offer card styling */
+.cmshotspot .offer {
+  background: var(--wb-white) !important;
+  border-radius: var(--wb-radius-lg) !important;
+  overflow: visible !important;
+  border: 1px solid var(--wb-border-light) !important;
+  box-shadow: var(--wb-shadow-sm) !important;
+  transition: all 0.35s ease !important;
+  padding: 0 0 20px !important;
+  margin: 10px 0 30px !important;
+}
+.cmshotspot .offer:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: var(--wb-shadow-lg) !important;
+}
+
+/* Offer image */
+.cmshotspot .offer .object-icon {
+  display: block !important;
+  overflow: hidden !important;
+  border-radius: var(--wb-radius-lg) var(--wb-radius-lg) 0 0 !important;
+  height: 280px !important;
+}
+.cmshotspot .offer .object-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.5s ease !important;
+}
+.cmshotspot .offer:hover .object-icon img {
+  transform: scale(1.05) !important;
+}
+
+/* Price badge on image */
+.cmshotspot .offer .offer__price-badge,
+.cmshotspot .offer .label-price {
+  background: rgba(44,74,62,0.9) !important;
+  color: #fff !important;
+  font-family: var(--wb-font-body) !important;
+  font-size: var(--wb-text-sm) !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  border-radius: var(--wb-radius-sm) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Offer title h3 — override inline height */
+.cmshotspot .offer h3 {
+  height: auto !important;
+  min-height: auto !important;
+  padding: 20px 25px 10px !important;
+  margin: 0 !important;
+  overflow: visible !important;
+}
+.cmshotspot .offer h3 a {
+  font-family: var(--wb-font-heading) !important;
+  font-size: var(--wb-text-xl) !important;
+  font-weight: 600 !important;
+  color: var(--wb-green) !important;
+  line-height: 1.3 !important;
+  text-decoration: none !important;
+}
+.cmshotspot .offer h3 a:hover {
+  color: var(--wb-brown) !important;
+}
+
+/* Offer info box — override inline height: 0 */
+.cmshotspot .offer .offer__box {
+  height: auto !important;
+  min-height: auto !important;
+  padding: 0 25px 10px !important;
+  overflow: visible !important;
+}
+
+/* Offer info row (m², persons) */
+.cmshotspot .offer .offer__info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  padding: 8px 0 !important;
+  font-size: var(--wb-text-base) !important;
+  color: var(--wb-text-light) !important;
+}
+
+/* Offer description */
+.cmshotspot .offer .offer__description {
+  font-size: var(--wb-text-base) !important;
+  color: var(--wb-text-light) !important;
+  line-height: 1.6 !important;
+  padding: 5px 0 !important;
+}
+
+/* Offer price */
+.cmshotspot .offer .offer__price {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 4px !important;
+  padding: 10px 0 5px !important;
+  font-size: var(--wb-text-2xl) !important;
+}
+.cmshotspot .offer .offer__price .price {
+  font-family: var(--wb-font-heading) !important;
+  font-size: var(--wb-text-2xl) !important;
+  font-weight: 700 !important;
+  color: var(--wb-green) !important;
+}
+.cmshotspot .offer .offer__price small {
+  font-size: var(--wb-text-sm) !important;
+  color: var(--wb-text-muted) !important;
+}
+
+/* Check availability button */
+.cmshotspot .offer .offer__link,
+.cmshotspot .offer a[class*="check"],
+.cmshotspot .offer .btn {
+  display: inline-block !important;
+  font-family: var(--wb-font-body) !important;
+  font-size: var(--wb-text-sm) !important;
+  font-weight: 600 !important;
+  color: var(--wb-green) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Slick arrows */
+.cmshotspot .slick-prev,
+.cmshotspot .slick-next {
+  width: 48px !important;
+  height: 48px !important;
+  background: var(--wb-white) !important;
+  border: 1px solid var(--wb-border) !important;
+  border-radius: 50% !important;
+  z-index: 5 !important;
+  box-shadow: var(--wb-shadow-sm) !important;
+  opacity: 1 !important;
+}
+.cmshotspot .slick-prev:hover,
+.cmshotspot .slick-next:hover {
+  background: var(--wb-green) !important;
+  border-color: var(--wb-green) !important;
+}
+.cmshotspot .slick-prev {
+  left: 10px !important;
+}
+.cmshotspot .slick-next {
+  right: 10px !important;
+}
+
+/* Slick dots */
+.cmshotspot .slick-dots li button:before {
+  color: var(--wb-green) !important;
+  font-size: 12px !important;
+}
+.cmshotspot .slick-dots li.slick-active button:before {
+  color: var(--wb-green) !important;
+}
+
+/* Wymuś widoczność systemowej karuzeli ofert (JS ustawia inline display:none) */
+.cmshotspot {
+  display: block !important;
+}
+
+/* Ukryj custom statyczny carousel — system .cmshotspot wyświetla prawdziwe oferty */
+.wb-carousel-wrap {
+  display: none !important;
+}
+
+/* Fallback obrazek na kartach ofert bez zdjęć */
+.cmshotspot .offer .object-icon {
+  background: linear-gradient(135deg, var(--wb-cream) 0%, var(--wb-cream-alt) 100%) !important;
+  position: relative !important;
+}
+.cmshotspot .offer .object-icon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='%23C4A265' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpath d='m21 15-5-5L5 21'/%3E%3C/svg%3E") no-repeat center center;
+  background-size: 60px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── Grid wyróżnionych ofert ── */
+.wb-offers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-space-lg);
+  max-width: var(--wb-max-width);
+  margin: 0 auto;
+  padding: 0 var(--wb-space-md);
+}
+
+.wb-offer-card {
+  background: var(--wb-white);
+  border-radius: var(--wb-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--wb-shadow-sm);
+  border: 1px solid var(--wb-border-light);
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+.wb-offer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--wb-shadow-lg);
+}
+
+.wb-offer-card .object-icon {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/10;
+}
+.wb-offer-card .object-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.wb-offer-card:hover .object-icon img {
+  transform: scale(1.05);
+}
+
+.wb-offer-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 6px;
+}
+.wb-offer-badge {
+  background: rgba(44,74,62,0.88);
+  color: var(--wb-white);
+  padding: 5px 12px;
+  border-radius: var(--wb-radius-sm);
+  font-size: var(--wb-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(4px);
+}
+
+.wb-offer-card-content {
+  padding: var(--wb-space-md);
+}
+
+.wb-offer-card-content h3 {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-xl);
+  font-weight: 600;
+  color: var(--wb-green);
+  margin: 0 0 0.5em;
+}
+
+.wb-offer-card-content .wb-offer-desc {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-light);
+  line-height: 1.6;
+  margin-bottom: var(--wb-space-sm);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wb-offer-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--wb-space-sm);
+  border-top: 1px solid var(--wb-border-light);
+}
+
+.wb-offer-price {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-2xl);
+  font-weight: 700;
+  color: var(--wb-green);
+}
+.wb-offer-price-prefix {
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-xs);
+  font-weight: 400;
+  color: var(--wb-text-muted);
+  display: block;
+}
+
+.wb-offer-cta {
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-sm);
+  font-weight: 600;
+  color: var(--wb-green);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  transition: all var(--wb-transition);
+}
+.wb-offer-cta::after {
+  content: '→';
+  transition: transform var(--wb-transition);
+}
+.wb-offer-card:hover .wb-offer-cta::after {
+  transform: translateX(4px);
+}
+
+/* Przycisk "Zobacz wszystkie" */
+.wb-hotspot-btn {
+  text-align: center;
+  margin-top: var(--wb-space-lg);
+}
+
+/* ─── §24  OPINIE / TESTIMONIALS ───────────────────────────── */
+.wb-testimonials {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-space-lg);
+}
+
+.wb-testimonial-card {
+  background: var(--wb-white);
+  border-radius: var(--wb-radius-lg);
+  padding: var(--wb-space-lg);
+  border: 1px solid var(--wb-border-light);
+  position: relative;
+}
+
+.wb-testimonial-card::before {
+  content: '"';
+  font-family: var(--wb-font-heading);
+  font-size: 4rem;
+  color: var(--wb-gold);
+  opacity: 0.3;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  line-height: 1;
+}
+
+.wb-testimonial-text {
+  font-size: var(--wb-text-base);
+  color: var(--wb-text-light);
+  line-height: 1.8;
+  font-style: italic;
+  margin-bottom: var(--wb-space-sm);
+  position: relative;
+  z-index: 1;
+}
+
+.wb-testimonial-author {
+  font-weight: 600;
+  color: var(--wb-text);
+  font-size: var(--wb-text-sm);
+}
+
+.wb-testimonial-source {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+}
+
+.wb-testimonial-stars {
+  color: var(--wb-gold);
+  font-size: var(--wb-text-sm);
+  margin-bottom: var(--wb-space-xs);
+}
+
+/* ─── §25  BRANDING NAGŁÓWKA ───────────────────────────────── */
+.logo_shop,
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo_shop img,
+.navbar-brand img {
+  max-height: 60px;
+  width: auto;
+}
+
+/* ─── §26  STOPKA ──────────────────────────────────────────── */
+footer,
+.footer,
+#footer {
+  background: var(--wb-green-dark) !important;
+  color: var(--wb-cream) !important;
+  padding: var(--wb-space-xl) 0 var(--wb-space-md) !important;
+}
+
+footer a,
+.footer a,
+#footer a {
+  color: var(--wb-gold-light) !important;
+  transition: color var(--wb-transition);
+}
+footer a:hover,
+.footer a:hover,
+#footer a:hover {
+  color: var(--wb-white) !important;
+}
+
+footer h5, footer h4, footer h3,
+.footer h5, .footer h4, .footer h3 {
+  font-family: var(--wb-font-heading);
+  color: var(--wb-white) !important;
+  font-size: var(--wb-text-lg);
+  margin-bottom: var(--wb-space-sm);
+}
+
+footer p,
+.footer p {
+  color: rgba(245,240,232,0.7) !important;
+  font-size: var(--wb-text-sm);
+}
+
+/* Ukryj systemową stopkę IdoSell — zostaje custom CTA jako stopka */
+body > footer,
+body > .footer,
+#footer,
+.footer-main,
+.footer-bottom,
+footer:not(.wb-section) {
+  display: none !important;
+}
+/* Fallback: ukryj duplikat stopki */
+footer + footer,
+.footer + .footer {
+  display: none !important;
+}
+
+/* ─── §27  CIASTECZKA / INNE ───────────────────────────────── */
+.cookies-bar,
+.ck_dsclr_v2 {
+  background: var(--wb-white) !important;
+  border-top: 1px solid var(--wb-border) !important;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08) !important;
+}
+
+.cookies-bar a,
+.ck_dsclr_v2 a {
+  color: var(--wb-green) !important;
+}
+
+/* ─── §28  VINTAGE DEKORACJE ───────────────────────────────── */
+.wb-vintage-frame {
+  border: 1px solid var(--wb-border);
+  padding: 4px;
+  border-radius: var(--wb-radius-md);
+}
+.wb-vintage-frame-inner {
+  border: 1px solid var(--wb-border-light);
+  border-radius: calc(var(--wb-radius-md) - 4px);
+  overflow: hidden;
+}
+
+.wb-leaf-accent {
+  position: relative;
+}
+.wb-leaf-accent::after {
+  content: '🌿';
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.15;
+}
+
+/* ─── §29  LICZNIK / STATS ─────────────────────────────────── */
+.wb-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--wb-space-2xl);
+  flex-wrap: wrap;
+}
+
+.wb-stat {
+  text-align: center;
+}
+
+.wb-stat-number {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-4xl);
+  font-weight: 700;
+  color: var(--wb-green);
+  line-height: 1.2;
+}
+
+.wb-stat-label {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ─── §30  RESPONSIVE ──────────────────────────────────────── */
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  :root {
+    --wb-text-5xl: 3rem;
+    --wb-text-4xl: 2.5rem;
+    --wb-text-3xl: 2rem;
+    --wb-text-2xl: 1.75rem;
+    --wb-space-section: 3.5rem;
+  }
+
+  .wb-about { grid-template-columns: 1fr; gap: var(--wb-space-lg); }
+  .wb-rooms-grid { grid-template-columns: repeat(2, 1fr); }
+  .wb-features-grid { grid-template-columns: repeat(2, 1fr); }
+  .wb-attractions-grid { grid-template-columns: repeat(2, 1fr); }
+  .wb-location { grid-template-columns: 1fr; }
+  .wb-contact-grid { grid-template-columns: repeat(2, 1fr); }
+  .wb-offers-grid { grid-template-columns: repeat(2, 1fr); }
+  .wb-testimonials { grid-template-columns: repeat(2, 1fr); }
+  .wb-stats { gap: var(--wb-space-xl); }
+
+  .wb-search-wrapper { max-width: 100%; }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  :root {
+    --wb-text-5xl: 2.5rem;
+    --wb-text-4xl: 2rem;
+    --wb-text-3xl: 1.75rem;
+    --wb-text-2xl: 1.5rem;
+    --wb-space-section: 3rem;
+  }
+
+  .wb-hero { min-height: 70vh; }
+  .wb-hero h1 { font-size: var(--wb-text-4xl); }
+  .wb-hero p { font-size: var(--wb-text-base); }
+
+  .wb-rooms-grid { grid-template-columns: 1fr; }
+  .wb-features-grid { grid-template-columns: 1fr; }
+  .wb-attractions-grid { grid-template-columns: 1fr; }
+  .wb-contact-grid { grid-template-columns: 1fr; }
+  .wb-offers-grid { grid-template-columns: 1fr; }
+  .wb-testimonials { grid-template-columns: 1fr; }
+
+  .wb-extras-bar { gap: var(--wb-space-md); }
+
+  .wb-search-bar {
+    flex-direction: column;
+    padding: var(--wb-space-sm);
+  }
+
+  .wb-stats { gap: var(--wb-space-lg); }
+}
+
+/* ── Small mobile ── */
+@media (max-width: 480px) {
+  :root {
+    --wb-text-5xl: 2rem;
+    --wb-text-4xl: 1.75rem;
+    --wb-text-3xl: 1.5rem;
+    --wb-space-section: 2.5rem;
+  }
+
+  .wb-hero { min-height: 60vh; }
+  .wb-hero-badge { font-size: var(--wb-text-xs); }
+  .wb-section { padding: var(--wb-space-section) 0.75rem; }
+}
+
+/* ─── §31  STRONA GALERIA ──────────────────────────────────── */
+.wb-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--wb-space-sm);
+}
+
+.wb-gallery-item {
+  border-radius: var(--wb-radius-md);
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+}
+.wb-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--wb-transition-slow);
+  image-rendering: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  filter: none !important;
+}
+.wb-gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Lightbox */
+.wb-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(30,53,41,0.95);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--wb-transition);
+}
+.wb-lightbox.active {
+  opacity: 1;
+  visibility: visible;
+}
+.wb-lightbox img {
+  max-width: 90%;
+  max-height: 90vh;
+  border-radius: var(--wb-radius-md);
+  box-shadow: var(--wb-shadow-xl);
+}
+.wb-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--wb-transition);
+}
+.wb-lightbox-close:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 768px) {
+  .wb-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .wb-gallery-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── §31b  UKRYJ AUTO-GENEROWANY H1 NA PODSTRONACH ──────── */
+/* Panel IdoSell generuje H1 z nazwy strony (np. "Atrakcje Warszawy") */
+.cms_rte > h1:first-child,
+.text-page-content > h1:first-child,
+.projector_longdescription > h1:first-child,
+#projector_longdescription > h1:first-child,
+.projector_header h1,
+.text_page_header h1 {
+  display: none !important;
+}
+
+/* ─── §32  PODSTRONA ATRAKCJE ──────────────────────────────── */
+.wb-subpage-header {
+  text-align: center;
+  padding: var(--wb-space-2xl) var(--wb-space-md) var(--wb-space-xl);
+  background: var(--wb-cream);
+}
+
+.wb-subpage-header h1 {
+  font-size: var(--wb-text-4xl);
+  color: var(--wb-green);
+  margin-bottom: var(--wb-space-xs);
+}
+
+.wb-subpage-header p {
+  font-size: var(--wb-text-lg);
+  color: var(--wb-text-light);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.wb-subpage-content {
+  max-width: var(--wb-max-width);
+  margin: 0 auto;
+  padding: var(--wb-space-xl) var(--wb-space-md);
+}
+
+/* ─── §33  STRONA KONTAKT ──────────────────────────────────── */
+.wb-contact-page {
+  max-width: var(--wb-max-width);
+  margin: 0 auto;
+  padding: var(--wb-space-xl) var(--wb-space-md);
+}
+
+.wb-contact-form input,
+.wb-contact-form textarea,
+.wb-contact-form select {
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-base);
+  color: var(--wb-text);
+  border: 1px solid var(--wb-border);
+  border-radius: var(--wb-radius-sm);
+  padding: 0.75em 1em;
+  width: 100%;
+  background: var(--wb-warm-white);
+  transition: border-color var(--wb-transition);
+}
+.wb-contact-form input:focus,
+.wb-contact-form textarea:focus {
+  outline: none;
+  border-color: var(--wb-green);
+  box-shadow: 0 0 0 3px rgba(44,74,62,0.1);
+}
+
+/* ─── §34  RESPONSIVE PODSTRONY ────────────────────────────── */
+@media (max-width: 768px) {
+  .wb-subpage-header {
+    padding: var(--wb-space-xl) var(--wb-space-sm) var(--wb-space-lg);
+  }
+  .wb-subpage-header h1 {
+    font-size: var(--wb-text-3xl);
+  }
+}
+
+/* ─── §35  DRUK ────────────────────────────────────────────── */
+@media print {
+  .wb-hero,
+  .wb-back-to-top,
+  .wb-scroll-progress,
+  .projector_navigation,
+  footer { display: none !important; }
+  body {
+    color: #000;
+    background: #fff;
+    font-size: 12pt;
+  }
+}
+
+/* ─── §36  TYPOGRAPHY CLASSES (wb-label, wb-h2, etc.) ──────── */
+.wb-label {
+  font-family: var(--wb-font-body);
+  font-size: var(--wb-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--wb-gold);
+  margin-bottom: 0.5em;
+  display: block;
+}
+
+.wb-h2 {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-3xl);
+  font-weight: 600;
+  color: var(--wb-green);
+  line-height: 1.3;
+  margin: 0 0 0.5em;
+}
+
+.wb-lead {
+  font-size: 1.5rem;
+  color: var(--wb-text-light);
+  line-height: 1.8;
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-body {
+  font-size: 1.3rem;
+  color: var(--wb-text-light);
+  line-height: 1.7;
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-gold-line {
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--wb-gold), var(--wb-gold-light));
+  border: none;
+  margin: var(--wb-space-sm) 0;
+  border-radius: 2px;
+}
+.wb-gold-line--center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ─── §37  SECTION HEADER ──────────────────────────────────── */
+.wb-section-header {
+  margin-bottom: var(--wb-space-lg);
+}
+
+.wb-section-header--center {
+  text-align: center;
+}
+.wb-section-header--center .wb-gold-line {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wb-section-sub {
+  font-size: var(--wb-text-lg);
+  color: var(--wb-text-light);
+  max-width: 700px;
+  line-height: 1.7;
+}
+.wb-section-header--center .wb-section-sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ─── §38  SPLIT LAYOUT (O NAS) ───────────────────────────── */
+.wb-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--wb-space-xl);
+  align-items: center;
+}
+
+.wb-split__text {
+  position: relative;
+  z-index: 1;
+}
+
+.wb-split__text .wb-label { }
+.wb-split__text .wb-h2 { }
+.wb-split__text .wb-lead { }
+
+.wb-split__deco {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── §39  DECO FRAME (SVG ornament) ──────────────────────── */
+.wb-deco-frame {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  max-height: 500px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wb-deco-frame svg {
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  display: block;
+}
+
+.wb-deco-frame__inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--wb-space-lg);
+  pointer-events: none;
+}
+
+.wb-deco-ornament {
+  font-size: 2.5rem;
+  margin-bottom: var(--wb-space-sm);
+  opacity: 0.6;
+  color: var(--wb-gold);
+}
+
+.wb-deco-stat {
+  margin-bottom: var(--wb-space-sm);
+  text-align: center;
+}
+
+.wb-deco-stat__num {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-4xl);
+  font-weight: 700;
+  color: var(--wb-green);
+  line-height: 1.1;
+  display: block;
+}
+
+.wb-deco-stat__txt {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.wb-deco-visible {
+  opacity: 1;
+}
+
+/* ─── §40  CAROUSEL (pokoje) ───────────────────────────────── */
+.wb-carousel-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.wb-carousel-inner {
+  overflow: hidden;
+}
+
+.wb-carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+  gap: var(--wb-space-lg);
+}
+
+.wb-carousel-track > * {
+  flex: 0 0 calc(33.333% - var(--wb-space-lg) * 2/3);
+  min-width: 0;
+}
+
+.wb-carousel-btn,
+.wb-carousel-prev,
+.wb-carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: var(--wb-white);
+  border: 1px solid var(--wb-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--wb-green);
+  cursor: pointer;
+  transition: all var(--wb-transition);
+  z-index: 5;
+  box-shadow: var(--wb-shadow-sm);
+}
+.wb-carousel-btn:hover,
+.wb-carousel-prev:hover,
+.wb-carousel-next:hover {
+  background: var(--wb-green);
+  color: var(--wb-white);
+  border-color: var(--wb-green);
+  box-shadow: var(--wb-shadow-md);
+}
+
+.wb-carousel-btn--prev,
+.wb-carousel-prev {
+  left: -24px;
+}
+.wb-carousel-btn--next,
+.wb-carousel-next {
+  right: -24px;
+}
+
+.wb-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: var(--wb-space-md);
+}
+
+.wb-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--wb-border);
+  border: none;
+  cursor: pointer;
+  transition: all var(--wb-transition);
+  padding: 0;
+}
+.wb-carousel-dot--active,
+.wb-carousel-dot.wb-dot-active {
+  background: var(--wb-green);
+  transform: scale(1.2);
+}
+
+/* ─── §41  EXTRAS BAR (BEM variants) ──────────────────────── */
+.wb-extras-bar__item {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  font-size: var(--wb-text-sm);
+  font-weight: 500;
+  color: var(--wb-text);
+}
+.wb-extras-bar__item svg,
+.wb-extras-bar__item i {
+  font-size: 1.25rem;
+  color: var(--wb-green);
+}
+
+.wb-extras-bar__sep {
+  width: 1px;
+  height: 24px;
+  background: var(--wb-border);
+}
+
+/* ─── §42  FEATURE CARD (BEM variants) ────────────────────── */
+.wb-feature-card__icon {
+  font-size: 3.5rem;
+  margin-bottom: var(--wb-space-sm);
+  display: block;
+  text-align: center;
+}
+
+/* Bigger SVG icons in feature cards */
+.wb-feature-card__icon svg,
+.wb-feature-card .wb-feature-card__icon svg {
+  width: 80px !important;
+  height: 80px !important;
+  opacity: 1;
+  color: var(--wb-gold) !important;
+  stroke: var(--wb-gold) !important;
+  stroke-width: 1.5 !important;
+}
+
+.wb-feature-card__title {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-xl);
+  font-weight: 600;
+  color: var(--wb-green);
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.wb-feature-card__desc {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-light);
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ─── §43  ATTRACTION CARD (BEM variants) ─────────────────── */
+.wb-attraction-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  border-radius: var(--wb-radius-lg);
+}
+.wb-attraction-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--wb-transition-slow);
+  filter: none !important;
+}
+.wb-attraction-card:hover .wb-attraction-card__img-wrap img {
+  transform: scale(1.08);
+}
+
+.wb-attraction-card__body {
+  padding: var(--wb-space-sm) 0;
+}
+
+.wb-attraction-card__title {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-lg);
+  font-weight: 600;
+  color: var(--wb-green);
+  margin: 0 0 0.25em;
+}
+
+.wb-attraction-card__desc {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.wb-attraction-card__dist {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+  font-weight: 600;
+  margin-top: 0.25em;
+}
+
+/* ─── §44  LOCATION LAYOUT (BEM variants) ─────────────────── */
+.wb-location-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--wb-space-xl);
+  align-items: start;
+}
+
+.wb-location-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75em;
+  padding: var(--wb-space-sm) 0;
+}
+
+.wb-location-block__icon {
+  font-size: 1.5rem;
+  color: var(--wb-green);
+  flex-shrink: 0;
+  margin-top: 0.1em;
+}
+
+.wb-location-block__label {
+  font-size: var(--wb-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--wb-text-muted);
+  margin-bottom: 0.15em;
+  display: block;
+}
+
+.wb-location-block__val {
+  font-size: var(--wb-text-base);
+  color: var(--wb-text);
+  font-weight: 500;
+}
+
+.wb-location-block__note {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+  margin-top: 0.15em;
+}
+
+.wb-map-frame {
+  border-radius: var(--wb-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--wb-shadow-lg);
+  aspect-ratio: 4/3;
+}
+.wb-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ─── §45  CONTACT CARD (BEM variants) ────────────────────── */
+.wb-contact-card__icon {
+  font-size: 2rem;
+  color: var(--wb-green);
+  margin-bottom: var(--wb-space-sm);
+  display: block;
+  text-align: center;
+}
+
+.wb-contact-card__title {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-lg);
+  font-weight: 600;
+  color: var(--wb-green);
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+.wb-contact-card__val {
+  font-size: var(--wb-text-base);
+  color: var(--wb-text);
+  text-align: center;
+  display: block;
+}
+
+.wb-contact-card__link {
+  color: var(--wb-green);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--wb-transition);
+  display: block;
+  text-align: center;
+}
+.wb-contact-card__link:hover {
+  color: var(--wb-brown);
+}
+
+.wb-contact-card__note {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+  text-align: center;
+  margin-top: 0.25em;
+}
+
+/* ─── §46  CTA SECTION (BEM variants) ─────────────────────── */
+/* Ukryta — zachowujemy TYLKO systemową stopkę IdoSell */
+.wb-cta-section {
+  display: none !important;
+}
+.wb-cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.wb-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--wb-narrow-width);
+  margin: 0 auto;
+}
+
+.wb-cta-deco {
+  font-size: 2rem;
+  opacity: 0.4;
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-cta-heading {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-4xl);
+  font-weight: 700;
+  color: var(--wb-white);
+  margin-bottom: var(--wb-space-xs);
+}
+
+.wb-cta-sub {
+  font-size: var(--wb-text-xl);
+  color: rgba(245,240,232,0.8);
+  margin-bottom: var(--wb-space-lg);
+}
+
+.wb-cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--wb-space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--wb-space-md);
+}
+
+.wb-cta-contacts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--wb-space-sm);
+  flex-wrap: wrap;
+}
+
+.wb-cta-contact {
+  font-size: var(--wb-text-base);
+  color: rgba(245,240,232,0.75);
+}
+.wb-cta-contact a {
+  color: var(--wb-gold-light);
+  text-decoration: none;
+}
+.wb-cta-contact a:hover {
+  color: var(--wb-white);
+}
+
+.wb-cta-contact-sep {
+  width: 1px;
+  height: 18px;
+  background: rgba(245,240,232,0.25);
+}
+
+/* ─── §47  OFFERS CAROUSEL (homepage bottom) ───────────────── */
+.wb-offers-carousel {
+  padding: var(--wb-space-section) 0;
+  background: var(--wb-warm-white);
+  position: relative;
+  z-index: 2;
+}
+
+.wb-offers-carousel .wb-carousel-wrap {
+  max-width: var(--wb-max-width);
+  margin: 0 auto;
+  padding: 0 var(--wb-space-md);
+}
+
+/* Offer card BEM variants (carousel version) */
+.wb-offer-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/10;
+}
+.wb-offer-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--wb-transition-slow);
+}
+.wb-offer-card:hover .wb-offer-card__img-wrap img {
+  transform: scale(1.05);
+}
+
+.wb-offer-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(44,74,62,0.88);
+  color: var(--wb-white);
+  padding: 5px 12px;
+  border-radius: var(--wb-radius-sm);
+  font-size: var(--wb-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(4px);
+}
+
+.wb-offer-card__body {
+  padding: var(--wb-space-md);
+}
+
+.wb-offer-card__name,
+.wb-offer-name {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-xl);
+  font-weight: 600;
+  color: var(--wb-green);
+  margin: 0 0 0.5em;
+}
+
+.wb-offer-card__desc,
+.wb-offer-desc {
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-light);
+  line-height: 1.6;
+  margin-bottom: var(--wb-space-sm);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wb-offer-card__specs,
+.wb-offer-details {
+  display: flex;
+  gap: var(--wb-space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--wb-space-sm);
+}
+
+.wb-offer-card__spec,
+.wb-offer-detail {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wb-offer-card__price,
+.wb-offer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--wb-space-sm);
+  border-top: 1px solid var(--wb-border-light);
+}
+
+.wb-offer-img {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16/10;
+}
+.wb-offer-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wb-price-from {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+  display: block;
+}
+.wb-price-val {
+  font-family: var(--wb-font-heading);
+  font-size: var(--wb-text-2xl);
+  font-weight: 700;
+  color: var(--wb-green);
+}
+.wb-price-unit {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+}
+
+.wb-offer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: var(--wb-text-sm);
+  font-weight: 600;
+  color: var(--wb-green);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all var(--wb-transition);
+}
+.wb-offer-btn:hover {
+  color: var(--wb-brown);
+}
+
+/* ─── §48  PARTICLES CANVAS ────────────────────────────────── */
+.wb-particles-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ─── §49  UTILITY CLASSES ─────────────────────────────────── */
+.wb-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.wb-reveal.wb-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wb-separator {
+  text-align: center;
+  padding: var(--wb-space-md) 0;
+  color: var(--wb-gold);
+  font-size: 1.2rem;
+  letter-spacing: 6px;
+  opacity: 0.5;
+}
+
+.wb-skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--wb-green);
+  color: var(--wb-white);
+  padding: 0.5em 1em;
+  z-index: 10000;
+  font-size: var(--wb-text-sm);
+  transition: top var(--wb-transition);
+}
+.wb-skip-link:focus {
+  top: 0;
+}
+
+.wb-operator-note {
+  font-size: var(--wb-text-xs);
+  color: var(--wb-text-muted);
+  text-align: center;
+  margin-top: var(--wb-space-sm);
+  font-style: italic;
+}
+
+.wb-nav-scrolled {
+  box-shadow: var(--wb-shadow-sm) !important;
+}
+
+/* Generic wb-section spacing */
+.wb-section,
+.wb-fullwidth {
+  padding: var(--wb-space-section) 0;
+}
+
+/* ─── §50  RESPONSIVE ADDITIONS ────────────────────────────── */
+@media (max-width: 1024px) {
+  .wb-split { grid-template-columns: 1fr; gap: var(--wb-space-lg); }
+  .wb-split__deco { max-width: 400px; margin: 0 auto; }
+  .wb-location-layout { grid-template-columns: 1fr; }
+  .wb-carousel-track > * {
+    flex: 0 0 calc(50% - var(--wb-space-lg) / 2);
+  }
+  .wb-carousel-btn--prev, .wb-carousel-prev { left: 0; }
+  .wb-carousel-btn--next, .wb-carousel-next { right: 0; }
+}
+
+@media (max-width: 768px) {
+  .wb-split { gap: var(--wb-space-md); }
+  .wb-deco-frame { max-width: 320px; max-height: 360px; }
+  .wb-cta-heading { font-size: var(--wb-text-3xl); }
+  .wb-cta-actions { flex-direction: column; align-items: center; }
+  .wb-cta-contacts { flex-direction: column; }
+  .wb-cta-contact-sep { display: none; }
+  .wb-carousel-track > * { flex: 0 0 100%; }
+  .wb-location-layout { grid-template-columns: 1fr; }
+  .wb-extras-bar { flex-direction: column; align-items: center; }
+  .wb-extras-bar__sep { width: 40px; height: 1px; }
+}
+
+@media (max-width: 480px) {
+  .wb-deco-frame { max-width: 260px; max-height: 300px; }
+  .wb-deco-stat__num { font-size: var(--wb-text-3xl); }
+}
+
+/* ─── §36  IDOSELL SYSTEM OVERRIDES ────────────────────────── */
+
+/* Nadpisanie systemowych stylów */
+.container { max-width: var(--wb-max-width); }
+
+/* Nagłówek strony — białe tło */
+.top-bar,
+.header-top {
+  background: var(--wb-warm-white) !important;
+  border-bottom: 1px solid var(--wb-border-light) !important;
+}
+
+/* Breadcrumbs */
+.breadcrumbs,
+.breadcrumb {
+  background: transparent;
+  font-size: var(--wb-text-sm);
+  color: var(--wb-text-muted);
+  padding: var(--wb-space-sm) 0;
+}
+.breadcrumbs a,
+.breadcrumb a {
+  color: var(--wb-green);
+}
+
+/* Formularze systemowe */
+.form-control {
+  font-family: var(--wb-font-body);
+  border: 1px solid var(--wb-border);
+  border-radius: var(--wb-radius-sm);
+  color: var(--wb-text);
+}
+.form-control:focus {
+  border-color: var(--wb-green);
+  box-shadow: 0 0 0 3px rgba(44,74,62,0.1);
+}
+
+/* Systemowe buttony */
+.btn-primary,
+.btn-success {
+  background: var(--wb-green) !important;
+  border-color: var(--wb-green) !important;
+  font-family: var(--wb-font-body);
+  font-weight: 600;
+  border-radius: var(--wb-radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn-primary:hover,
+.btn-success:hover {
+  background: var(--wb-green-light) !important;
+  border-color: var(--wb-green-light) !important;
+}
+
+/* Offer detail page */
+.offer-page h1,
+.projector_offer h1 {
+  font-family: var(--wb-font-heading);
+  color: var(--wb-green);
+}
+
+.offer-page .price,
+.projector_offer .price {
+  font-family: var(--wb-font-heading);
+  color: var(--wb-green);
+  font-weight: 700;
+}
+
+/* Kalendarz / datepicker */
+.datepicker,
+.ui-datepicker {
+  border-radius: var(--wb-radius-md);
+  border: 1px solid var(--wb-border);
+  box-shadow: var(--wb-shadow-lg);
+  font-family: var(--wb-font-body);
+}
+
+.datepicker .active,
+.ui-datepicker .ui-state-active {
+  background: var(--wb-green) !important;
+  color: var(--wb-white) !important;
+  border-radius: var(--wb-radius-sm);
+}
+
+/* Paginacja */
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--wb-green);
+  border-color: var(--wb-border);
+  font-family: var(--wb-font-body);
+}
+.pagination > .active > a {
+  background: var(--wb-green);
+  border-color: var(--wb-green);
+}
+
+/* Alerts */
+.alert {
+  border-radius: var(--wb-radius-md);
+  font-family: var(--wb-font-body);
+}
+.alert-success {
+  background: rgba(44,74,62,0.08);
+  border-color: rgba(44,74,62,0.2);
+  color: var(--wb-green);
+}
+
+/* Search results */
+.search-results .offer,
+.search-results .offerslist .offer {
+  border-radius: var(--wb-radius-lg);
+  border: 1px solid var(--wb-border-light);
+  transition: all var(--wb-transition);
+}
+
+/* CMS content sections */
+.cms_rte,
+.text-page-content {
+  font-family: var(--wb-font-body);
+  color: var(--wb-text);
+  line-height: 1.8;
+}
+.cms_rte h2,
+.text-page-content h2 {
+  font-family: var(--wb-font-heading);
+  color: var(--wb-green);
+  font-size: var(--wb-text-3xl);
+  margin-top: var(--wb-space-lg);
+  margin-bottom: var(--wb-space-sm);
+}
+.cms_rte h3,
+.text-page-content h3 {
+  font-family: var(--wb-font-heading);
+  color: var(--wb-green);
+  font-size: var(--wb-text-2xl);
+}
+.cms_rte img,
+.text-page-content img {
+  border-radius: var(--wb-radius-md);
+  margin: var(--wb-space-sm) 0;
+}
+
+/* ─── §37  STRONA OFERT /offers — IdoBooking3oferty ───────── */
+
+/* Tło strony ofert */
+.IdoBooking3oferty {
+  background: var(--wb-cream) !important;
+  padding: var(--wb-space-xl) 0 !important;
+  font-family: var(--wb-font-body) !important;
+}
+
+/* Nagłówek strony ofert */
+.IdoBooking3oferty h1,
+.IdoBooking3oferty > h1 {
+  font-family: var(--wb-font-heading) !important;
+  color: var(--wb-green) !important;
+  font-size: var(--wb-text-3xl) !important;
+  text-align: center !important;
+  margin-bottom: var(--wb-space-lg) !important;
+}
+
+/* Grid ofert */
+.IdoBooking3oferty > div {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+  gap: var(--wb-space-lg) !important;
+  max-width: var(--wb-max-width) !important;
+  margin: 0 auto !important;
+  padding: 0 var(--wb-space-md) !important;
+}
+
+/* Pojedyncza karta oferty */
+.IdoBooking3oferty > div > div {
+  background: var(--wb-white) !important;
+  border-radius: var(--wb-radius-lg) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--wb-border-light) !important;
+  box-shadow: var(--wb-shadow-sm) !important;
+  transition: all var(--wb-transition) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.IdoBooking3oferty > div > div:hover {
+  box-shadow: var(--wb-shadow-lg) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* Zdjęcie oferty */
+.IdoBooking3oferty img {
+  width: 100% !important;
+  height: 240px !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+
+/* Nazwa pokoju */
+.IdoBooking3oferty h3 {
+  font-family: var(--wb-font-heading) !important;
+  color: var(--wb-green) !important;
+  font-size: var(--wb-text-xl) !important;
+  padding: var(--wb-space-sm) var(--wb-space-sm) 0 !important;
+  margin: 0 !important;
+}
+.IdoBooking3oferty h3 a {
+  color: var(--wb-green) !important;
+  text-decoration: none !important;
+}
+.IdoBooking3oferty h3 a:hover {
+  color: var(--wb-brown) !important;
+}
+
+/* Treść karty — paragrafy */
+.IdoBooking3oferty p {
+  padding: 0 var(--wb-space-sm) !important;
+  margin: 0.4em 0 !important;
+  font-size: var(--wb-text-sm) !important;
+  color: var(--wb-text-light) !important;
+  line-height: 1.6 !important;
+}
+
+/* Cena */
+.IdoBooking3oferty span {
+  font-family: var(--wb-font-heading) !important;
+  font-weight: 700 !important;
+  color: var(--wb-green) !important;
+  font-size: var(--wb-text-lg) !important;
+}
+
+/* Przycisk SZCZEGÓŁY */
+.IdoBooking3oferty > div > div > a:last-child {
+  display: inline-block !important;
+  background: var(--wb-green) !important;
+  color: var(--wb-white) !important;
+  padding: 0.7em 2em !important;
+  margin: auto var(--wb-space-sm) var(--wb-space-sm) !important;
+  border-radius: var(--wb-radius-full) !important;
+  font-family: var(--wb-font-body) !important;
+  font-size: var(--wb-text-xs) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  transition: all var(--wb-transition) !important;
+}
+.IdoBooking3oferty > div > div > a:last-child:hover {
+  background: var(--wb-green-light) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: var(--wb-shadow-md) !important;
+}
+
+/* ─── Filtry ───────────────────────────────────────────────── */
+#menu_filter {
+  background: var(--wb-white) !important;
+  border-radius: var(--wb-radius-lg) !important;
+  padding: var(--wb-space-md) !important;
+  margin-bottom: var(--wb-space-lg) !important;
+  border: 1px solid var(--wb-border-light) !important;
+  box-shadow: var(--wb-shadow-sm) !important;
+  max-width: var(--wb-max-width) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#menu_filter h4 {
+  font-family: var(--wb-font-heading) !important;
+  color: var(--wb-green) !important;
+  font-size: var(--wb-text-xl) !important;
+  margin-bottom: var(--wb-space-sm) !important;
+}
+#menu_filter h5 {
+  font-family: var(--wb-font-body) !important;
+  color: var(--wb-text) !important;
+  font-size: var(--wb-text-sm) !important;
+  font-weight: 600 !important;
+  margin: var(--wb-space-sm) 0 0.4em !important;
+}
+#menu_filter label {
+  font-family: var(--wb-font-body) !important;
+  color: var(--wb-text-light) !important;
+  font-size: var(--wb-text-sm) !important;
+  cursor: pointer !important;
+}
+#menu_filter button {
+  background: var(--wb-green) !important;
+  color: var(--wb-white) !important;
+  border: none !important;
+  border-radius: var(--wb-radius-full) !important;
+  padding: 0.6em 2em !important;
+  font-family: var(--wb-font-body) !important;
+  font-size: var(--wb-text-xs) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  cursor: pointer !important;
+  transition: all var(--wb-transition) !important;
+  margin-top: var(--wb-space-sm) !important;
+}
+#menu_filter button:hover {
+  background: var(--wb-green-light) !important;
+}
+
+/* ─── Mapa ─────────────────────────────────────────────────── */
+#map_container {
+  border-radius: var(--wb-radius-lg) !important;
+  overflow: hidden !important;
+  box-shadow: var(--wb-shadow-md) !important;
+  margin: var(--wb-space-lg) auto !important;
+  max-width: var(--wb-max-width) !important;
+}
+
+/* ─── Responsive /offers ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .IdoBooking3oferty > div {
+    grid-template-columns: 1fr !important;
+    padding: 0 var(--wb-space-sm) !important;
+  }
+  .IdoBooking3oferty img {
+    height: 200px !important;
+  }
+}

@@ -1,0 +1,2251 @@
+/* ══════════════════════════════════════════════════════════════════════
+   PIEKARY 1-3 — Toruńskie Apartamenty  |  v2.0 "Toruńska Elegancja"
+   Prefix: pk-  |  Template: default13 (IdoBooking)
+   Paleta: #FAFAF5 / #1A1A1A / #722F37 / #C4A882 / #F2EDE4
+   Fonty:  Playfair Display + DM Sans
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ──────────────────────────────────────────────────────────
+   0a. GOOGLE FONTS
+   ────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
+
+/* ──────────────────────────────────────────────────────────
+   0b. SYSTEM SCHEME OVERRIDE — CRITICAL
+   System scheme 333333.css defines:
+   --maincolor1: #4ADE80 (green), --supportcolor1: #fe701a (orange)
+   Must override BEFORE anything else.
+   ────────────────────────────────────────────────────────── */
+html:root {
+  --maincolor1: #722F37 !important;
+  --maincolor1_rgba: 114, 47, 55 !important;
+  --supportcolor1: #C4A882 !important;
+  --maincolor2: #1A1A1A !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   0c. DESIGN TOKENS
+   ────────────────────────────────────────────────────────── */
+:root {
+  /* Core palette */
+  --pk-white:        #FAFAF5;
+  --pk-cream:        #F2EDE4;
+  --pk-cream2:       #EDE6DA;
+  --pk-cream3:       #E5DDD0;
+
+  /* Text */
+  --pk-text:         #1A1A1A;
+  --pk-text-soft:    #3A3A3A;
+  --pk-text-muted:   #6B6B6B;
+  --pk-text-light:   #9A9A9A;
+
+  /* Accent — burgundy */
+  --pk-burgundy:     #722F37;
+  --pk-burgundy-light: #8B3A44;
+  --pk-burgundy-dark: #5A252C;
+  --pk-burgundy-soft: rgba(114, 47, 55, 0.08);
+  --pk-burgundy-mid: rgba(114, 47, 55, 0.15);
+
+  /* Gold — warm accent */
+  --pk-gold:         #C4A882;
+  --pk-gold-light:   #D4BC9A;
+  --pk-gold-dark:    #A89070;
+  --pk-gold-soft:    rgba(196, 168, 130, 0.15);
+
+  /* Functional */
+  --pk-overlay:      rgba(26, 26, 26, 0.6);
+  --pk-overlay-deep: rgba(26, 26, 26, 0.85);
+  --pk-shadow:       0 4px 30px rgba(26, 26, 26, 0.08);
+  --pk-shadow-lg:    0 12px 40px rgba(26, 26, 26, 0.12);
+  --pk-shadow-hover: 0 16px 50px rgba(26, 26, 26, 0.16);
+
+  /* Spacing */
+  --pk-gap:          clamp(24px, 4vw, 48px);
+  --pk-inner-max:    1140px;
+  --pk-section-py:   clamp(60px, 8vw, 120px);
+
+  /* Radius */
+  --pk-radius:       8px;
+  --pk-radius-lg:    16px;
+  --pk-radius-xl:    24px;
+
+  /* Transition */
+  --pk-ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --pk-ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+  --pk-duration:     0.4s;
+  --pk-duration-slow: 0.8s;
+
+  /* Typography */
+  --pk-font-heading: 'Playfair Display', Georgia, serif;
+  --pk-font-body:    'DM Sans', -apple-system, sans-serif;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   1. BASE RESET & TYPOGRAPHY
+   ────────────────────────────────────────────────────────── */
+body {
+  font-family: var(--pk-font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  color: var(--pk-text) !important;
+  background: var(--pk-white) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.pk-heading {
+  font-family: var(--pk-font-heading) !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  color: var(--pk-text) !important;
+}
+
+h1 { font-size: clamp(36px, 5vw, 64px) !important; }
+h2 { font-size: clamp(28px, 3.5vw, 48px) !important; }
+h3 { font-size: clamp(20px, 2vw, 28px) !important; }
+h4 { font-size: clamp(18px, 1.5vw, 22px) !important; }
+
+p {
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.8;
+  color: var(--pk-text-soft);
+}
+
+a {
+  color: var(--pk-burgundy);
+  text-decoration: none;
+  transition: color var(--pk-duration) var(--pk-ease);
+}
+a:hover { color: var(--pk-burgundy-dark); }
+
+strong { font-weight: 600; color: var(--pk-text); }
+
+::selection {
+  background: var(--pk-burgundy);
+  color: #fff;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   2. SYSTEM OVERRIDES — ALL KNOWN TRAPS
+   ────────────────────────────────────────────────────────── */
+
+/* 2a. Parallax slider dark overlay — HIDE */
+.parallax-slider::before { display: none !important; }
+
+/* 2a2. INDEX-INFO — CRITICAL HERO CLICK BLOCKER
+   System .index-info has position:absolute + z-index:1000.
+   Contains H1 placeholder + H2 "IdoBooking" + system booking button.
+   BLOCKS all hero overlay clicks! Must disable pointer-events. */
+.index-info {
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.index-info * {
+  pointer-events: none !important;
+}
+.index-info h1,
+.index-info h2,
+.index-info button,
+.index-info .navbar-reservation {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 2a3. SYSTEM SEARCH BAR — HIDE on homepage AND all pages */
+.page-index .iai-search,
+.page-index .search-engine,
+.page-index .index-search,
+.page-index #iai_book_se,
+.page-index #iai_book_form,
+.page-index .iai_book_trigger,
+.page-index .iai_frontpage,
+.page-offer .iai-search,
+.iai_book_trigger {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 2a4. SYSTEM PLACEHOLDER TEXT — HIDE "WYPEŁNIJ TO POLE..." */
+.description_place,
+.index-description,
+.section-description {
+  display: none !important;
+}
+
+/* 2a4. System green button — AGGRESSIVE color override
+   System uses --maincolor1 for buttons, sometimes inline */
+.search-engine button,
+.search-engine .btn,
+.index-search button,
+button[style*="background"],
+.ta-search-bar button,
+.btn-success,
+.iai-search button,
+input[type="submit"] {
+  background: var(--pk-burgundy) !important;
+  background-color: var(--pk-burgundy) !important;
+  border-color: var(--pk-burgundy) !important;
+  color: #fff !important;
+}
+
+/* 2a5. VISA/MASTERCARD FOOTER STRIP — ALWAYS style!
+   Exact selector: .footer-contact-baner (system default bg: #3E475E = WRONG)
+   Must ALWAYS match footer dark bg. */
+.footer-contact-baner,
+.footer__strip,
+.footer .footer__strip,
+footer .footer__strip,
+.footer__bottom,
+.footer-bottom,
+.footer__payment,
+.payment-icons,
+.payment-methods {
+  background: var(--pk-text) !important;
+  background-color: #1A1A1A !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
+}
+.footer-contact-baner svg,
+.footer-contact-baner img,
+.footer__strip img,
+.footer__strip svg,
+.payment-icons img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.4 !important;
+}
+.footer-contact-baner span,
+.footer-contact-baner a,
+.footer__strip a,
+.footer__strip span,
+.footer-bottom a {
+  color: rgba(255,255,255,0.3) !important;
+  font-size: 12px !important;
+}
+/* powered_by logo — match footer bg */
+.powered_by,
+.powered_by_logo {
+  background: transparent !important;
+}
+.powered_by_logo img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.3 !important;
+}
+
+/* 2b. Index info overflow trap */
+.index-info { z-index: 1000 !important; overflow: visible !important; }
+
+/* 2c. System search — hide on offers */
+.page-offers .iai-search,
+.iai_book_trigger { display: none !important; }
+
+/* 2d. System h2/h3/.price too large */
+.default13 h2,
+body h2 { font-size: clamp(28px, 3.5vw, 48px) !important; }
+.price,
+.offer .price { font-size: 20px !important; font-weight: 600 !important; }
+
+/* 2e. System font-size override */
+body.default13 { font-size: 16px !important; }
+
+/* 2f. Input z-index trap */
+input, select, textarea { z-index: 2 !important; position: relative; }
+
+/* 2g. System orange override */
+.btn-primary,
+a.btn-primary,
+.default13 .btn-primary {
+  background: var(--pk-burgundy) !important;
+  border-color: var(--pk-burgundy) !important;
+  color: #fff !important;
+}
+.btn-primary:hover {
+  background: var(--pk-burgundy-dark) !important;
+  border-color: var(--pk-burgundy-dark) !important;
+}
+
+/* 2h. Litepicker width */
+.litepicker { width: fit-content !important; }
+
+/* 2i. Leaflet protection — NO wildcards! */
+.leaflet-container { overflow: hidden !important; }
+.leaflet-container * { box-sizing: content-box; }
+
+/* 2j. span.btn on /offers — system line-height conflict */
+.page-offers span.btn,
+.offer span.btn {
+  line-height: 1.4 !important;
+  height: auto !important;
+  padding: 10px 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: var(--pk-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  background: var(--pk-burgundy) !important;
+  color: #fff !important;
+  border-radius: var(--pk-radius) !important;
+  border: none !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+}
+.page-offers span.btn:hover,
+.offer span.btn:hover {
+  background: var(--pk-burgundy-dark) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--pk-shadow);
+}
+
+/* 2k. .contact__btn centering */
+.contact__btn {
+  justify-content: center !important;
+  font-family: var(--pk-font-body) !important;
+}
+
+/* 2l. Offer tabs span trap */
+.tabs__item > span {
+  font-size: 14px !important;
+  font-family: var(--pk-font-body) !important;
+  font-weight: 500 !important;
+}
+
+/* 2m. Sticky tabs --fixed class */
+.tabs.--fixed {
+  left: 0 !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  background: var(--pk-white) !important;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08) !important;
+  z-index: 999 !important;
+}
+
+/* 2n. H1 big-label hidden on offer pages */
+.big-label {
+  display: block !important;
+  visibility: visible !important;
+  font-family: var(--pk-font-heading) !important;
+}
+
+/* 2o. Bootstrap collapse filter fix */
+.filter_content.collapse:not(.pk-open) { display: none !important; }
+.filter_content.pk-open { display: block !important; height: auto !important; overflow: visible !important; }
+
+
+/* ──────────────────────────────────────────────────────────
+   3. HEADER & NAVIGATION — Transparent → Solid
+   ────────────────────────────────────────────────────────── */
+header.default13 {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  background: rgba(250, 250, 245, 0.97) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.06) !important;
+  box-shadow: 0 1px 20px rgba(0,0,0,0.04) !important;
+  transition: box-shadow var(--pk-duration) var(--pk-ease) !important;
+}
+
+/* Scrolled state — slightly stronger shadow */
+header.default13.pk-scrolled {
+  box-shadow: 0 2px 24px rgba(0,0,0,0.06) !important;
+}
+
+/* Nav links — ALWAYS dark (header is always light) */
+body header.default13 .menu a,
+body header.default13 .menu .menu-item a,
+header.default13 nav a {
+  color: var(--pk-text) !important;
+  font-family: var(--pk-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  transition: color var(--pk-duration) var(--pk-ease) !important;
+}
+body header.default13 .menu a:hover,
+header.default13 nav a:hover {
+  color: var(--pk-burgundy) !important;
+}
+
+/* Logo — NEVER invert (header always light, logo is dark) */
+header.default13 .logo img {
+  filter: none !important;
+}
+
+/* Hamburger — dark */
+header.default13 .th-menu-toggle span,
+header.default13 .th-menu-toggle span::before,
+header.default13 .th-menu-toggle span::after {
+  background: var(--pk-text) !important;
+}
+
+/* Language switcher — dark */
+header.default13 .lang_sel a,
+header.default13 .language a,
+header.default13 .page-top__language a {
+  color: var(--pk-text) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+/* Padding-top for content below fixed header */
+body:not(.page-index) .content-wrapper,
+body:not(.page-index) .main-content,
+body:not(.page-index) main {
+  padding-top: 80px !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   4. PAGE LOADER
+   ────────────────────────────────────────────────────────── */
+.pk-page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--pk-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s var(--pk-ease), visibility 0.6s;
+}
+.pk-page-loader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.pk-page-loader__spinner {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--pk-cream);
+  border-top-color: var(--pk-burgundy);
+  border-radius: 50%;
+  animation: pk-spin 0.8s linear infinite;
+}
+@keyframes pk-spin { to { transform: rotate(360deg); } }
+
+
+/* ──────────────────────────────────────────────────────────
+   5. SCROLL PROGRESS BAR
+   ────────────────────────────────────────────────────────── */
+.pk-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--pk-burgundy), var(--pk-gold));
+  z-index: 99998;
+  transition: width 0.1s linear;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   6. HERO SECTION — Full Viewport + Animated Title
+   ────────────────────────────────────────────────────────── */
+.parallax-slider,
+.section.parallax {
+  height: 100vh !important;
+  min-height: 600px !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+.parallax-slider .slick-list,
+.parallax-slider .slick-track,
+.parallax-slider .slick-slide,
+.parallax-slider .slick-slide > div {
+  height: 100vh !important;
+  min-height: 600px !important;
+}
+.parallax-slider .slick-slide img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Hero overlay — text + CTA */
+.pk-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(26,26,26,0.1) 0%,
+    rgba(26,26,26,0.3) 50%,
+    rgba(26,26,26,0.5) 100%
+  );
+  pointer-events: none;
+}
+.pk-hero-overlay__inner {
+  pointer-events: auto;
+  max-width: 800px;
+  padding: 0 24px;
+}
+.pk-hero-overlay__sub {
+  font-family: var(--pk-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 4px !important;
+  text-transform: uppercase !important;
+  color: var(--pk-gold-light) !important;
+  margin-bottom: 16px !important;
+  opacity: 0;
+  animation: pk-fadeUp 1s var(--pk-ease-out) 0.3s forwards;
+}
+.pk-hero-overlay h1 {
+  font-family: var(--pk-font-heading) !important;
+  font-size: clamp(40px, 6vw, 80px) !important;
+  font-weight: 400 !important;
+  color: #fff !important;
+  line-height: 1.1 !important;
+  margin-bottom: 8px !important;
+  opacity: 0;
+  animation: pk-fadeUp 1s var(--pk-ease-out) 0.6s forwards;
+}
+.pk-hero-overlay h1 strong {
+  font-weight: 600 !important;
+  color: #fff !important;
+  font-style: italic;
+}
+
+/* Animated title — letter spread */
+.pk-hero-title-spread {
+  display: inline-block;
+  letter-spacing: 0;
+  animation: pk-spreadTitle 2s var(--pk-ease-out) 0.8s forwards;
+}
+@keyframes pk-spreadTitle {
+  from { letter-spacing: 0; opacity: 0.3; }
+  to { letter-spacing: 12px; opacity: 1; }
+}
+
+.pk-hero-overlay__line {
+  width: 60px;
+  height: 1px;
+  background: var(--pk-gold);
+  margin: 24px auto;
+  opacity: 0;
+  animation: pk-fadeUp 1s var(--pk-ease-out) 0.9s forwards;
+}
+
+/* Hero CTA buttons */
+.pk-hero-cta {
+  display: inline-block;
+  padding: 14px 36px;
+  font-family: var(--pk-font-body) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2.5px !important;
+  text-transform: uppercase !important;
+  color: #fff !important;
+  background: var(--pk-burgundy) !important;
+  border: 2px solid var(--pk-burgundy) !important;
+  border-radius: 0 !important;
+  text-decoration: none !important;
+  margin: 6px 8px;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+  opacity: 0;
+  animation: pk-fadeUp 1s var(--pk-ease-out) 1.2s forwards;
+}
+.pk-hero-cta:hover {
+  background: var(--pk-burgundy-dark) !important;
+  border-color: var(--pk-burgundy-dark) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(114, 47, 55, 0.3);
+}
+.pk-hero-cta--ghost {
+  background: transparent !important;
+  border-color: rgba(255,255,255,0.5) !important;
+  color: #fff !important;
+}
+.pk-hero-cta--ghost:hover {
+  background: rgba(255,255,255,0.1) !important;
+  border-color: #fff !important;
+  color: #fff !important;
+}
+
+/* Scroll indicator — bouncing arrow */
+.pk-scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  text-align: center;
+  opacity: 0;
+  animation: pk-fadeUp 1s var(--pk-ease-out) 1.8s forwards;
+}
+.pk-scroll-indicator__text {
+  display: block;
+  font-family: var(--pk-font-body);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 8px;
+}
+.pk-scroll-indicator__arrow {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 0 auto;
+  border-left: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  transform: rotate(-45deg);
+  animation: pk-bounce 2s infinite;
+}
+@keyframes pk-bounce {
+  0%, 20%, 50%, 80%, 100% { transform: rotate(-45deg) translateY(0); }
+  40% { transform: rotate(-45deg) translateY(8px); }
+  60% { transform: rotate(-45deg) translateY(4px); }
+}
+
+/* Slider arrows — subtle */
+.parallax-slider .slick-arrow {
+  z-index: 12 !important;
+  width: 50px !important;
+  height: 50px !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  border-radius: 50% !important;
+  background: rgba(26,26,26,0.2) !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+}
+.parallax-slider .slick-arrow:hover {
+  background: rgba(26,26,26,0.5) !important;
+  border-color: rgba(255,255,255,0.6) !important;
+}
+.parallax-slider .slick-dots li button::before {
+  color: #fff !important;
+  font-size: 8px !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   7. SECTION SYSTEM — Alternating backgrounds
+   ────────────────────────────────────────────────────────── */
+.pk-section {
+  padding: var(--pk-section-py) 24px;
+}
+.pk-section--white { background: var(--pk-white); }
+.pk-section--cream { background: var(--pk-cream); }
+.pk-section--dark {
+  background: var(--pk-text);
+  color: #fff;
+}
+.pk-section--dark h2,
+.pk-section--dark h3,
+.pk-section--dark h4,
+.pk-section--dark p,
+.pk-section--dark strong { color: #fff !important; }
+.pk-section--dark p { color: rgba(255,255,255,0.75) !important; }
+
+.pk-section--burgundy {
+  background: var(--pk-burgundy);
+  color: #fff;
+}
+.pk-section--burgundy h2,
+.pk-section--burgundy p { color: #fff !important; }
+.pk-section--burgundy p { color: rgba(255,255,255,0.8) !important; }
+
+.pk-inner {
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+}
+
+/* Section header — centered with gold line */
+.pk-section-header {
+  text-align: center;
+  margin-bottom: clamp(32px, 5vw, 64px);
+}
+.pk-section-header h2 {
+  margin-bottom: 12px;
+}
+.pk-section-header p {
+  max-width: 600px;
+  margin: 0 auto 20px;
+  font-size: 16px;
+  color: var(--pk-text-muted);
+}
+.pk-section-header__line {
+  width: 60px;
+  height: 2px;
+  background: var(--pk-gold);
+  margin: 0 auto;
+}
+.pk-section--dark .pk-section-header p { color: rgba(255,255,255,0.6) !important; }
+.pk-section--dark .pk-section-header__line { background: var(--pk-gold-light); }
+
+
+/* ──────────────────────────────────────────────────────────
+   8. ASYMMETRIC LAYOUT — Profitroom-style photo + text
+   ────────────────────────────────────────────────────────── */
+.pk-asym {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: center;
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+}
+.pk-asym--reverse { direction: rtl; }
+.pk-asym--reverse > * { direction: ltr; }
+
+.pk-asym__img {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--pk-radius-lg);
+  aspect-ratio: 3/4;
+}
+.pk-asym__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--pk-ease);
+}
+.pk-asym:hover .pk-asym__img img {
+  transform: scale(1.05);
+}
+/* Gold accent corner */
+.pk-asym__img::after {
+  content: '';
+  position: absolute;
+  top: -1px; right: -1px;
+  width: 80px;
+  height: 80px;
+  border-top: 2px solid var(--pk-gold);
+  border-right: 2px solid var(--pk-gold);
+  pointer-events: none;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-asym:hover .pk-asym__img::after {
+  width: 100px;
+  height: 100px;
+}
+
+.pk-asym__text h2 {
+  margin-bottom: 16px;
+}
+.pk-asym__text p {
+  margin-bottom: 16px;
+  line-height: 1.9;
+}
+.pk-asym__text .pk-section-header__line {
+  margin: 0 0 24px;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   9. FEATURE GRID — Amenities with icons
+   ────────────────────────────────────────────────────────── */
+.pk-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+}
+
+.pk-feature {
+  text-align: center;
+  padding: 40px 24px;
+  background: var(--pk-white);
+  border-radius: var(--pk-radius-lg);
+  border: 1px solid rgba(26,26,26,0.04);
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-feature:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--pk-shadow-hover);
+  border-color: transparent;
+}
+
+.pk-feature__icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pk-burgundy-soft);
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 1;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-feature:hover .pk-feature__icon {
+  background: var(--pk-burgundy);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.pk-feature h3 {
+  font-size: 18px !important;
+  margin-bottom: 8px;
+}
+.pk-feature p {
+  font-size: 14px;
+  color: var(--pk-text-muted);
+  line-height: 1.7;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   10. OFFER CARDS — Staggered entry, hover effects
+   ────────────────────────────────────────────────────────── */
+.pk-offers-section {
+  padding: var(--pk-section-py) 24px;
+  background: var(--pk-cream);
+}
+.pk-offers__inner {
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+}
+.pk-offers__title {
+  text-align: center;
+  margin-bottom: 8px;
+}
+.pk-offers__subtitle {
+  text-align: center;
+  color: var(--pk-text-muted);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+.pk-offers__line {
+  width: 60px;
+  height: 2px;
+  background: var(--pk-gold);
+  margin: 0 auto 48px;
+}
+
+.pk-offers__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.pk-offer-card {
+  display: block;
+  background: #fff;
+  border-radius: var(--pk-radius-lg);
+  overflow: hidden;
+  text-decoration: none !important;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-offer-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--pk-shadow-hover);
+}
+
+/* Stagger animation — set by JS via --pk-stagger-delay */
+.pk-offer-card.pk-reveal {
+  transition-delay: var(--pk-stagger-delay, 0ms);
+}
+
+.pk-offer-card__img {
+  position: relative;
+  padding-bottom: 65%;
+  overflow: hidden;
+}
+.pk-offer-card__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--pk-ease);
+}
+.pk-offer-card:hover .pk-offer-card__img img {
+  transform: scale(1.08);
+}
+/* Hover overlay */
+.pk-offer-card__img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(26,26,26,0.4) 100%);
+  opacity: 0;
+  transition: opacity var(--pk-duration) var(--pk-ease);
+}
+.pk-offer-card:hover .pk-offer-card__img::after {
+  opacity: 1;
+}
+
+.pk-offer-card__body {
+  padding: 20px 24px 24px;
+}
+.pk-offer-card__name {
+  font-size: 20px !important;
+  color: var(--pk-text) !important;
+  margin-bottom: 6px;
+  font-weight: 500 !important;
+}
+.pk-offer-card__desc {
+  font-size: 14px;
+  color: var(--pk-text-muted);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pk-offer-card__meta {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--pk-text-light);
+  margin-bottom: 16px;
+}
+.pk-offer-card__meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pk-offer-card__meta svg { opacity: 0.5; }
+
+.pk-offer-card__cta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pk-burgundy);
+  letter-spacing: 0.5px;
+  transition: color var(--pk-duration) var(--pk-ease);
+}
+.pk-offer-card:hover .pk-offer-card__cta {
+  color: var(--pk-burgundy-dark);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   11. COUNTER SECTION — Animated numbers
+   ────────────────────────────────────────────────────────── */
+.pk-counters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+  text-align: center;
+}
+.pk-counter__number {
+  font-family: var(--pk-font-heading);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 600;
+  color: var(--pk-burgundy);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.pk-section--dark .pk-counter__number { color: var(--pk-gold-light) !important; }
+
+.pk-counter__label {
+  font-size: 14px;
+  color: var(--pk-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.pk-section--dark .pk-counter__label { color: rgba(255,255,255,0.5) !important; }
+
+
+/* ──────────────────────────────────────────────────────────
+   12. GALLERY — Grid + Modal Lightbox
+   ────────────────────────────────────────────────────────── */
+.pk-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.pk-gallery--asym {
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 200px;
+}
+.pk-gallery--asym > :nth-child(1) { grid-column: span 3; grid-row: span 2; }
+.pk-gallery--asym > :nth-child(2) { grid-column: span 3; }
+.pk-gallery--asym > :nth-child(3) { grid-column: span 3; }
+.pk-gallery--asym > :nth-child(4) { grid-column: span 2; grid-row: span 2; }
+.pk-gallery--asym > :nth-child(5) { grid-column: span 2; }
+.pk-gallery--asym > :nth-child(6) { grid-column: span 2; }
+
+.pk-gallery__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--pk-radius);
+  cursor: pointer;
+}
+.pk-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--pk-ease);
+}
+.pk-gallery__item:hover img {
+  transform: scale(1.08);
+}
+.pk-gallery__item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(114, 47, 55, 0);
+  transition: background var(--pk-duration) var(--pk-ease);
+}
+.pk-gallery__item:hover::after {
+  background: rgba(114, 47, 55, 0.15);
+}
+
+/* Lightbox modal */
+.pk-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--pk-overlay-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-lightbox.pk-active {
+  opacity: 1;
+  visibility: visible;
+}
+.pk-lightbox__img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: var(--pk-radius);
+  animation: pk-fadeIn 0.4s var(--pk-ease-out);
+}
+.pk-lightbox__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-lightbox__close:hover {
+  background: rgba(255,255,255,0.2);
+}
+.pk-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-lightbox__nav:hover { background: rgba(255,255,255,0.2); }
+.pk-lightbox__nav--prev { left: 24px; }
+.pk-lightbox__nav--next { right: 24px; }
+.pk-lightbox__counter {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--pk-font-body);
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 2px;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   13. TIMELINE — History page
+   ────────────────────────────────────────────────────────── */
+.pk-timeline {
+  position: relative;
+  max-width: 700px;
+  margin: 0 auto;
+  padding-left: 40px;
+}
+.pk-timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--pk-cream3);
+}
+
+.pk-timeline__item {
+  position: relative;
+  padding-bottom: 48px;
+}
+.pk-timeline__item::before {
+  content: '';
+  position: absolute;
+  left: -29px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--pk-burgundy);
+  border: 2px solid var(--pk-white);
+  box-shadow: 0 0 0 3px var(--pk-burgundy-soft);
+}
+
+.pk-timeline__year {
+  font-family: var(--pk-font-heading);
+  font-size: 14px;
+  color: var(--pk-burgundy);
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.pk-timeline__title {
+  font-size: 20px !important;
+  margin-bottom: 8px !important;
+}
+.pk-timeline__text {
+  font-size: 15px;
+  color: var(--pk-text-soft);
+  line-height: 1.8;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   14. CTA SECTION
+   ────────────────────────────────────────────────────────── */
+.pk-cta-section {
+  padding: clamp(60px, 8vw, 100px) 24px;
+  text-align: center;
+  background: var(--pk-text);
+  position: relative;
+  overflow: hidden;
+}
+.pk-cta-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(114,47,55,0.1), transparent 50%);
+  pointer-events: none;
+}
+.pk-cta-section h2 {
+  color: #fff !important;
+  margin-bottom: 12px;
+}
+.pk-cta-section p {
+  color: rgba(255,255,255,0.6) !important;
+  max-width: 500px;
+  margin: 0 auto 32px;
+}
+.pk-cta-section .pk-section-header__line {
+  background: var(--pk-gold);
+}
+
+.pk-btn {
+  display: inline-block;
+  padding: 16px 42px;
+  font-family: var(--pk-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  border: 2px solid;
+  border-radius: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-btn--primary {
+  background: var(--pk-burgundy);
+  border-color: var(--pk-burgundy);
+  color: #fff;
+}
+.pk-btn--primary:hover {
+  background: var(--pk-burgundy-dark);
+  border-color: var(--pk-burgundy-dark);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(114, 47, 55, 0.3);
+}
+.pk-btn--outline {
+  background: transparent;
+  border-color: var(--pk-burgundy);
+  color: var(--pk-burgundy);
+}
+.pk-btn--outline:hover {
+  background: var(--pk-burgundy);
+  color: #fff;
+}
+.pk-btn--gold {
+  background: var(--pk-gold);
+  border-color: var(--pk-gold);
+  color: var(--pk-text);
+}
+.pk-btn--gold:hover {
+  background: var(--pk-gold-dark);
+  border-color: var(--pk-gold-dark);
+}
+.pk-btn--white-outline {
+  background: transparent;
+  border-color: rgba(255,255,255,0.4);
+  color: #fff;
+}
+.pk-btn--white-outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+  color: #fff;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   15. BOOKING MODAL — Iframe overlay
+   ────────────────────────────────────────────────────────── */
+.pk-booking-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s var(--pk-ease);
+}
+.pk-booking-modal.pk-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pk-booking-modal__frame {
+  position: relative;
+  width: 95vw;
+  max-width: 1100px;
+  height: 85vh;
+  background: #fff;
+  border-radius: var(--pk-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+  transform: scale(0.95) translateY(20px);
+  transition: transform 0.4s var(--pk-ease-out);
+}
+.pk-booking-modal.pk-active .pk-booking-modal__frame {
+  transform: scale(1) translateY(0);
+}
+
+.pk-booking-modal__iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.pk-booking-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  background: var(--pk-white);
+  border: 1px solid var(--pk-cream3);
+  border-radius: 50%;
+  color: var(--pk-text);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all var(--pk-duration) var(--pk-ease);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.pk-booking-modal__close:hover {
+  background: var(--pk-burgundy);
+  color: #fff;
+  border-color: var(--pk-burgundy);
+}
+
+/* NAV booking button */
+.pk-nav-book {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 10px 24px !important;
+  background: var(--pk-burgundy) !important;
+  color: #fff !important;
+  font-family: var(--pk-font-body) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  text-decoration: none !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+  cursor: pointer !important;
+  border: none !important;
+}
+.pk-nav-book:hover {
+  background: var(--pk-burgundy-dark) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+/* Header always light — nav book button always burgundy filled */
+
+
+/* ──────────────────────────────────────────────────────────
+   16. PARALLAX SECTIONS
+   ────────────────────────────────────────────────────────── */
+.pk-parallax-bg {
+  position: relative;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: clamp(80px, 10vw, 160px) 24px;
+  text-align: center;
+  overflow: hidden;
+}
+.pk-parallax-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.5);
+}
+.pk-parallax-bg > * {
+  position: relative;
+  z-index: 1;
+}
+.pk-parallax-bg h2 { color: #fff !important; }
+.pk-parallax-bg p { color: rgba(255,255,255,0.8) !important; }
+
+/* Prevent parallax on mobile (performance) */
+@supports (-webkit-overflow-scrolling: touch) {
+  .pk-parallax-bg { background-attachment: scroll; }
+}
+@media (max-width: 768px) {
+  .pk-parallax-bg { background-attachment: scroll; }
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   17. FUN FACTS / CIEKAWOSTKI
+   ────────────────────────────────────────────────────────── */
+.pk-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.pk-fact {
+  padding: 32px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--pk-radius-lg);
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-section--dark .pk-fact:hover {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(196, 168, 130, 0.2);
+}
+.pk-fact__label {
+  font-family: var(--pk-font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--pk-gold);
+  margin-bottom: 12px;
+}
+.pk-fact p {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   18. CONTACT SECTION
+   ────────────────────────────────────────────────────────── */
+.pk-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+}
+.pk-contact-info h3 {
+  font-size: 20px !important;
+  margin-bottom: 20px;
+}
+.pk-contact-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+.pk-contact-item__icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pk-burgundy-soft);
+  border-radius: 50%;
+  color: var(--pk-burgundy);
+  font-size: 18px;
+}
+.pk-contact-item__text strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+.pk-contact-item__text a {
+  font-size: 15px;
+  color: var(--pk-burgundy);
+}
+.pk-contact-item__text a:hover {
+  color: var(--pk-burgundy-dark);
+  text-decoration: underline;
+}
+.pk-contact-map {
+  border-radius: var(--pk-radius-lg);
+  overflow: hidden;
+  min-height: 350px;
+}
+.pk-contact-map iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  border: none;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   19. FAQ / REGULAMIN — Toggle accordion
+   ────────────────────────────────────────────────────────── */
+.pk-faq {
+  max-width: 750px;
+  margin: 0 auto;
+}
+.pk-faq__item {
+  border-bottom: 1px solid var(--pk-cream3);
+}
+.pk-faq__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  cursor: pointer;
+  font-family: var(--pk-font-heading);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--pk-text);
+  transition: color var(--pk-duration) var(--pk-ease);
+}
+.pk-faq__question:hover { color: var(--pk-burgundy); }
+
+.pk-faq__arrow {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--pk-text-light);
+  transition: transform var(--pk-duration) var(--pk-ease);
+}
+.pk-faq__item.pk-open .pk-faq__arrow {
+  transform: rotate(45deg);
+  color: var(--pk-burgundy);
+}
+
+.pk-faq__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--pk-duration) var(--pk-ease),
+              padding var(--pk-duration) var(--pk-ease);
+}
+.pk-faq__item.pk-open .pk-faq__answer {
+  max-height: 500px;
+  padding-bottom: 20px;
+}
+.pk-faq__answer p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--pk-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   20. ATTRACTIONS GRID
+   ────────────────────────────────────────────────────────── */
+.pk-attractions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+}
+.pk-attraction {
+  position: relative;
+  border-radius: var(--pk-radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  cursor: default;
+}
+.pk-attraction img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--pk-ease);
+}
+.pk-attraction:hover img { transform: scale(1.06); }
+
+.pk-attraction__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(26,26,26,0.7) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px;
+}
+.pk-attraction__name {
+  font-family: var(--pk-font-heading) !important;
+  font-size: 22px !important;
+  color: #fff !important;
+  margin-bottom: 4px;
+}
+.pk-attraction__dist {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   21. SCROLL REVEAL ANIMATIONS
+   ────────────────────────────────────────────────────────── */
+.pk-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s var(--pk-ease-out),
+              transform 0.8s var(--pk-ease-out);
+}
+.pk-reveal.pk-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Directional reveals */
+.pk-reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.8s var(--pk-ease-out),
+              transform 0.8s var(--pk-ease-out);
+}
+.pk-reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.8s var(--pk-ease-out),
+              transform 0.8s var(--pk-ease-out);
+}
+.pk-reveal-left.pk-in,
+.pk-reveal-right.pk-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale reveal */
+.pk-reveal-scale {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.8s var(--pk-ease-out),
+              transform 0.8s var(--pk-ease-out);
+}
+.pk-reveal-scale.pk-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   22. KEYFRAME ANIMATIONS
+   ────────────────────────────────────────────────────────── */
+@keyframes pk-fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pk-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pk-slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pk-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   23. FOOTER STYLING
+   ────────────────────────────────────────────────────────── */
+footer,
+.footer,
+.page-footer {
+  background: var(--pk-text) !important;
+  color: rgba(255,255,255,0.6) !important;
+  font-family: var(--pk-font-body) !important;
+}
+footer h3,
+footer h4,
+.footer h3,
+.footer h4 {
+  color: #fff !important;
+  font-family: var(--pk-font-heading) !important;
+  font-size: 16px !important;
+}
+footer a,
+.footer a {
+  color: rgba(255,255,255,0.6) !important;
+  transition: color var(--pk-duration) var(--pk-ease) !important;
+}
+footer a:hover,
+.footer a:hover {
+  color: var(--pk-gold) !important;
+}
+footer .footer__strip,
+.footer__strip {
+  background: rgba(255,255,255,0.03) !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   24. /OFFERS PAGE
+   ────────────────────────────────────────────────────────── */
+.page-offers {
+  background: var(--pk-white) !important;
+}
+.page-offers .offerslist {
+  gap: 24px;
+}
+.page-offers .offer {
+  background: #fff !important;
+  border-radius: var(--pk-radius-lg) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04) !important;
+  border: 1px solid rgba(0,0,0,0.03) !important;
+  overflow: hidden !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+}
+.page-offers .offer:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--pk-shadow) !important;
+}
+.page-offers .offer img {
+  border-radius: 0 !important;
+}
+.page-offers .offer h3,
+.page-offers .offer h3 a {
+  font-family: var(--pk-font-heading) !important;
+  color: var(--pk-text) !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+}
+
+/* Filters toggle */
+.pk-filters-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--pk-white);
+  border: 1px solid var(--pk-cream3);
+  border-radius: var(--pk-radius);
+  font-family: var(--pk-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--pk-text);
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.pk-filters-toggle:hover {
+  border-color: var(--pk-burgundy);
+  color: var(--pk-burgundy);
+}
+.pk-filters-toggle.pk-open {
+  background: var(--pk-burgundy);
+  border-color: var(--pk-burgundy);
+  color: #fff;
+}
+
+/* Hide filters by default */
+#menu_filter { display: none; }
+#menu_filter.pk-filters-open {
+  display: block;
+  animation: pk-slideDown 0.3s var(--pk-ease);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   25. OFFER DETAIL PAGE
+   ────────────────────────────────────────────────────────── */
+.offer-page .offer__gallery img {
+  border-radius: var(--pk-radius) !important;
+}
+.offer-page .offer__info {
+  font-family: var(--pk-font-body) !important;
+}
+.offer-page .tabs__item {
+  font-family: var(--pk-font-body) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.5px !important;
+}
+.offer-page .tabs__item.--active {
+  color: var(--pk-burgundy) !important;
+  border-bottom-color: var(--pk-burgundy) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   26. SYSTEM GENERATED — Container Hotspot
+   ────────────────────────────────────────────────────────── */
+.container-hotspot { display: none !important; }
+
+
+/* ──────────────────────────────────────────────────────────
+   27. RESPONSIVE — Mobile First
+   ────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .pk-asym { grid-template-columns: 1fr; gap: 32px; }
+  .pk-asym--reverse { direction: ltr; }
+  .pk-asym__img { aspect-ratio: 16/10; max-height: 400px; }
+  .pk-features { grid-template-columns: repeat(2, 1fr); }
+  .pk-offers__grid { grid-template-columns: repeat(2, 1fr); }
+  .pk-counters { grid-template-columns: repeat(2, 1fr); }
+  .pk-gallery { grid-template-columns: repeat(3, 1fr); }
+  .pk-gallery--asym { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 180px; }
+  .pk-gallery--asym > * { grid-column: span 1 !important; grid-row: span 1 !important; }
+  .pk-gallery--asym > :nth-child(1) { grid-column: span 2 !important; }
+  .pk-facts { grid-template-columns: repeat(2, 1fr); }
+  .pk-attractions { grid-template-columns: repeat(2, 1fr); }
+  .pk-contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .pk-section { padding: clamp(40px, 6vw, 60px) 16px; }
+
+  /* Hero mobile */
+  .parallax-slider,
+  .section.parallax,
+  .parallax-slider .slick-list,
+  .parallax-slider .slick-track,
+  .parallax-slider .slick-slide,
+  .parallax-slider .slick-slide > div {
+    height: 100vh !important;
+    min-height: 500px !important;
+  }
+  .pk-hero-overlay h1 {
+    font-size: clamp(32px, 8vw, 48px) !important;
+  }
+  .pk-hero-cta {
+    padding: 12px 28px !important;
+    font-size: 11px !important;
+  }
+
+  /* Nav mobile — already light, just ensure */
+  header.default13 { background: rgba(250,250,245,0.97) !important; }
+
+  /* Grids → single column */
+  .pk-features { grid-template-columns: 1fr; }
+  .pk-offers__grid { grid-template-columns: 1fr; }
+  .pk-counters { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .pk-facts { grid-template-columns: 1fr; }
+  .pk-gallery { grid-template-columns: repeat(2, 1fr); }
+  .pk-attractions { grid-template-columns: 1fr; }
+  .pk-timeline { padding-left: 30px; }
+
+  /* Booking modal — full screen mobile */
+  .pk-booking-modal__frame {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    border-radius: 0;
+  }
+
+  /* Lightbox — full screen */
+  .pk-lightbox__nav { display: none; }
+  .pk-lightbox__img { max-width: 95vw; }
+}
+
+@media (max-width: 480px) {
+  .pk-counter__number { font-size: 32px; }
+  .pk-counter__label { font-size: 11px; }
+  .pk-feature { padding: 28px 20px; }
+  .pk-fact { padding: 24px; }
+  .pk-attraction { aspect-ratio: 3/4; }
+  .pk-faq__question { font-size: 16px; padding: 16px 0; }
+  .pk-asym__img::after { display: none; }
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   28. GALLERY FULL WIDTH BREAKOUT — CRITICAL
+   IdoBooking wraps content in containers that limit width.
+   Gallery and pk-sections must break out to full viewport.
+   ────────────────────────────────────────────────────────── */
+.pk-section,
+.pk-offers-section,
+.pk-cta-section,
+.pk-parallax-bg {
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+.pk-gallery {
+  width: 100%;
+}
+/* Content wrapper — ensure body_top content sections are full width */
+.content-wrapper .pk-section,
+.main-content .pk-section,
+main .pk-section,
+.content .pk-section {
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   29. CONTACT PAGE — CSS ONLY (no body_top access!)
+   System contact page elements styled via CSS.
+   ────────────────────────────────────────────────────────── */
+.page-contact,
+body[class*="contact"] {
+  background: var(--pk-white) !important;
+}
+.page-contact .content-wrapper,
+.page-contact main,
+.page-contact .main-content {
+  background: var(--pk-white) !important;
+}
+.page-contact h1,
+.page-contact h2,
+.page-contact h3 {
+  font-family: var(--pk-font-heading) !important;
+  color: var(--pk-text) !important;
+}
+.page-contact form input,
+.page-contact form textarea,
+.page-contact form select {
+  font-family: var(--pk-font-body) !important;
+  border: 1px solid var(--pk-cream3) !important;
+  border-radius: var(--pk-radius) !important;
+  padding: 12px 16px !important;
+  font-size: 15px !important;
+  background: var(--pk-white) !important;
+  transition: border-color var(--pk-duration) var(--pk-ease) !important;
+}
+.page-contact form input:focus,
+.page-contact form textarea:focus {
+  border-color: var(--pk-burgundy) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--pk-burgundy-soft) !important;
+}
+.page-contact form button,
+.page-contact form input[type="submit"],
+.page-contact form .btn {
+  background: var(--pk-burgundy) !important;
+  border-color: var(--pk-burgundy) !important;
+  color: #fff !important;
+  font-family: var(--pk-font-body) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  padding: 14px 36px !important;
+  border-radius: 0 !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+}
+.page-contact form button:hover,
+.page-contact form input[type="submit"]:hover {
+  background: var(--pk-burgundy-dark) !important;
+  transform: translateY(-2px);
+}
+/* Contact page map */
+.page-contact .leaflet-container {
+  border-radius: var(--pk-radius-lg) !important;
+  overflow: hidden !important;
+}
+/* Contact info styling */
+.page-contact .contact__info,
+.page-contact .contact-info {
+  font-family: var(--pk-font-body) !important;
+}
+.page-contact .contact__btn {
+  background: var(--pk-burgundy) !important;
+  border-color: var(--pk-burgundy) !important;
+  color: #fff !important;
+  justify-content: center !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   30. /OFFERS PAGE — COMPLETE LIGHT THEME
+   System defaults: offers-container bg #292929, filter_items bg #292929
+   Must override ALL to light.
+   ────────────────────────────────────────────────────────── */
+.page-offers,
+.page-offers body,
+.page-offers .content-wrapper,
+.page-offers main {
+  background: var(--pk-white) !important;
+}
+
+/* OFFERS CONTAINER — system default is DARK #292929 → LIGHT */
+.page-offers .offers-container,
+.offers-container {
+  background: var(--pk-white) !important;
+  color: var(--pk-text) !important;
+}
+
+/* OFFER CARDS */
+.page-offers .accommodation,
+.page-offers .row.accommodation {
+  background: #fff !important;
+  border-radius: var(--pk-radius-lg) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04) !important;
+  border: 1px solid rgba(0,0,0,0.04) !important;
+  overflow: hidden !important;
+  margin-bottom: 24px !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+}
+.page-offers .accommodation:hover {
+  box-shadow: var(--pk-shadow) !important;
+  transform: translateY(-3px);
+}
+.page-offers .accommodation-rest {
+  background: #fff !important;
+  color: var(--pk-text) !important;
+}
+.page-offers .accommodation-rest h2,
+.page-offers .accommodation-rest h2 a {
+  font-family: var(--pk-font-heading) !important;
+  color: var(--pk-text) !important;
+  font-size: clamp(20px, 2vw, 28px) !important;
+}
+.page-offers .accommodation-short-description,
+.page-offers .accommodation-rest p {
+  color: var(--pk-text-muted) !important;
+  font-family: var(--pk-font-body) !important;
+  font-size: 14px !important;
+}
+.page-offers .accommodation-roomspace {
+  color: var(--pk-text-light) !important;
+  font-size: 13px !important;
+}
+.page-offers .accommodation-price {
+  color: var(--pk-burgundy) !important;
+  font-weight: 600 !important;
+}
+.page-offers h1,
+.page-offers h2 {
+  font-family: var(--pk-font-heading) !important;
+  color: var(--pk-text) !important;
+}
+
+/* FILTER ITEMS — system default DARK → LIGHT */
+.page-offers .filter_items,
+.filter_items {
+  background: var(--pk-cream) !important;
+  border-radius: var(--pk-radius) !important;
+  border: 1px solid var(--pk-cream3) !important;
+  margin-bottom: 12px !important;
+  overflow: hidden !important;
+}
+.page-offers .filter_header {
+  padding: 14px 16px !important;
+  font-family: var(--pk-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--pk-text) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  cursor: pointer !important;
+}
+.page-offers .filter_content {
+  padding: 0 16px 16px !important;
+  background: var(--pk-white) !important;
+}
+.page-offers .filter_content label {
+  font-family: var(--pk-font-body) !important;
+  font-size: 14px !important;
+  color: var(--pk-text-soft) !important;
+}
+/* ZASTOSUJ FILTRY button */
+.page-offers .btn-success,
+.page-offers form button[type="submit"],
+.page-offers .filter-submit,
+.page-offers button.btn {
+  background: var(--pk-burgundy) !important;
+  border-color: var(--pk-burgundy) !important;
+  color: #fff !important;
+  font-family: var(--pk-font-body) !important;
+  border-radius: var(--pk-radius) !important;
+}
+
+/* Map popup */
+.page-offers .leaflet-popup-content {
+  font-family: var(--pk-font-body) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   30b. OFFER DETAIL PAGE — LIGHT THEME
+   System defaults: offer-wrapper bg #292929 → LIGHT
+   ────────────────────────────────────────────────────────── */
+.page-offer {
+  background: var(--pk-white) !important;
+}
+
+/* Main wrapper — system dark bg → white */
+.page-offer .offer-wrapper,
+.page-offer .row.offer-wrapper {
+  background: var(--pk-white) !important;
+  color: var(--pk-text) !important;
+}
+
+/* Sidebar */
+.page-offer .offer-right-wrapper {
+  background: var(--pk-white) !important;
+  color: var(--pk-text) !important;
+}
+.page-offer .offer-right-wrapper .offer-right {
+  background: var(--pk-cream) !important;
+  border-radius: var(--pk-radius-lg) !important;
+  padding: 24px !important;
+  border: 1px solid var(--pk-cream3) !important;
+}
+
+/* Headings */
+.page-offer h1,
+.page-offer h2,
+.page-offer h3 {
+  font-family: var(--pk-font-heading) !important;
+  color: var(--pk-text) !important;
+}
+
+/* Description text */
+.page-offer .offer__description,
+.page-offer p,
+.page-offer .description {
+  color: var(--pk-text-soft) !important;
+  font-family: var(--pk-font-body) !important;
+}
+
+/* TABS — Kalendarz, Właściwości, Zasady etc. */
+.page-offer .tabs {
+  background: var(--pk-white) !important;
+  border-bottom: 1px solid var(--pk-cream3) !important;
+}
+.page-offer .tabs__item {
+  font-family: var(--pk-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  color: var(--pk-text-muted) !important;
+  padding: 14px 16px !important;
+  cursor: pointer !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+  border-bottom: 2px solid transparent !important;
+}
+.page-offer .tabs__item:hover {
+  color: var(--pk-burgundy) !important;
+}
+.page-offer .tabs__item.--active,
+.page-offer .tabs__item.active {
+  color: var(--pk-burgundy) !important;
+  border-bottom-color: var(--pk-burgundy) !important;
+}
+/* Tabs span trap — system 1.3rem */
+.page-offer .tabs__item > span {
+  font-size: 13px !important;
+  font-family: var(--pk-font-body) !important;
+}
+/* Sticky tabs */
+.page-offer .tabs.--fixed {
+  background: var(--pk-white) !important;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06) !important;
+  left: 0 !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  z-index: 999 !important;
+}
+
+/* Tab content sections */
+.page-offer .tab-pane,
+.page-offer .tabs__content {
+  background: var(--pk-white) !important;
+  color: var(--pk-text) !important;
+  padding: 24px 0 !important;
+}
+
+/* Period-price cards (cennik) */
+.page-offer .period-price {
+  background: var(--pk-white) !important;
+  border: 1px solid var(--pk-cream3) !important;
+  border-radius: var(--pk-radius) !important;
+  color: var(--pk-text) !important;
+}
+
+/* ZAREZERWUJ TERAZ buttons — system default GREEN → BURGUNDY */
+.page-offer .btn-success,
+.page-offer a.btn-success,
+.page-offer .btn-primary,
+.page-offer a.btn-primary,
+.page-offer .period-price .btn,
+.page-offer .period-price a {
+  background: var(--pk-burgundy) !important;
+  background-color: var(--pk-burgundy) !important;
+  border-color: var(--pk-burgundy) !important;
+  color: #fff !important;
+  font-family: var(--pk-font-body) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  border-radius: var(--pk-radius) !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+}
+.page-offer .btn-success:hover,
+.page-offer a.btn-success:hover {
+  background: var(--pk-burgundy-dark) !important;
+  border-color: var(--pk-burgundy-dark) !important;
+}
+
+/* Price display */
+.page-offer .price,
+.page-offer .accommodation-price,
+.page-offer .period-price .price {
+  color: var(--pk-burgundy) !important;
+  font-weight: 600 !important;
+  font-size: 20px !important;
+}
+
+/* Phone/email links */
+.page-offer a[href*="tel:"],
+.page-offer a[href*="mailto:"] {
+  color: var(--pk-burgundy) !important;
+}
+
+/* Offer gallery */
+.page-offer .offer__gallery,
+.page-offer .offer-gallery {
+  border-radius: var(--pk-radius-lg) !important;
+  overflow: hidden !important;
+}
+
+/* Properties/amenities list */
+.page-offer .offer__properties li,
+.page-offer .properties li {
+  font-family: var(--pk-font-body) !important;
+  font-size: 14px !important;
+  color: var(--pk-text-soft) !important;
+}
+
+/* System orange icons → burgundy */
+.page-offer [class*="icon-"],
+.page-offer .icon {
+  color: var(--pk-burgundy) !important;
+}
+
+/* Calendar / availability */
+.page-offer .calendar,
+.page-offer .availability-calendar {
+  background: var(--pk-white) !important;
+}
+.page-offer .calendar td,
+.page-offer .calendar th {
+  font-family: var(--pk-font-body) !important;
+  font-size: 13px !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   31. HERO OVERLAY — STACKING CONTEXT FIX
+   System sets .parallax-slider { z-index: -2 } which traps
+   everything inside it BELOW .fp-tableCell.
+   Hero overlay is moved to .section.parallax by JS (not inside slider).
+   ────────────────────────────────────────────────────────── */
+.section.parallax .pk-hero-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 10 !important;
+  pointer-events: none !important;
+}
+.pk-hero-overlay__inner {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 11 !important;
+}
+.pk-hero-cta {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 12 !important;
+  cursor: pointer !important;
+}
+/* Scroll indicator must also be clickable */
+.pk-scroll-indicator {
+  pointer-events: auto !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   32. PRINT
+   ────────────────────────────────────────────────────────── */
+@media print {
+  .pk-page-loader,
+  .pk-scroll-progress,
+  .pk-scroll-indicator,
+  .pk-booking-modal,
+  .pk-lightbox,
+  header.default13,
+  .pk-nav-book { display: none !important; }
+
+  body { font-size: 12pt !important; color: #000 !important; }
+  .pk-section--dark,
+  .pk-section--burgundy { background: #fff !important; color: #000 !important; }
+  .pk-section--dark h2, .pk-section--dark p,
+  .pk-section--burgundy h2, .pk-section--burgundy p { color: #000 !important; }
+}

@@ -1,0 +1,8 @@
+{
+  "A": { "name": "Nature", "desc": "Zieleń + drewno", "primary": "#4A6741", "secondary": "#8B7355", "accent": "#A8B89C", "bg": "#F5F1EB", "dark": "#2C2C2C", "light": "#F7F5F0" },
+  "B": { "name": "Ocean", "desc": "Granat + piasek", "primary": "#1B3A5C", "secondary": "#D4A574", "accent": "#87CEEB", "bg": "#F8F6F2", "dark": "#1A2332", "light": "#FFFFFF" },
+  "C": { "name": "Gold Luxury", "desc": "Złoto + ciemny", "primary": "#C8A45C", "secondary": "#8B7355", "accent": "#E8D5A3", "bg": "#1A1A1A", "dark": "#0D0D0D", "light": "#F5F5F0" },
+  "D": { "name": "Mountain", "desc": "Brąz + kamień", "primary": "#6B4226", "secondary": "#8C8C7A", "accent": "#A67B5B", "bg": "#F4F0E8", "dark": "#3D2B1F", "light": "#FAF8F5" },
+  "E": { "name": "Fresh", "desc": "Niebieski + biel", "primary": "#2E86AB", "secondary": "#A4C3B2", "accent": "#F6C862", "bg": "#FFFFFF", "dark": "#2C3E50", "light": "#F7F9FC" },
+  "F": { "name": "Warm", "desc": "Terakota + oliwka", "primary": "#C4572A", "secondary": "#7C8C56", "accent": "#E8B86D", "bg": "#FAF5EF", "dark": "#3A2D23", "light": "#FDF9F3" }
+}

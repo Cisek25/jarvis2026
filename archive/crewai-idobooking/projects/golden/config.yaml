@@ -1,0 +1,27 @@
+# ============================================================
+# Projekt: Golden Apartments Sopot/Gdynia
+# Panel: client57304.idosell.com
+# ============================================================
+
+project_name: golden
+css_prefix: ga
+client_id: "57304"
+language: pl
+
+property_description: >
+  Golden Apartments — apartamenty premium w Sopocie i Gdyni.
+  Lokalizacja nadmorska, blisko plazy i mola.
+  Wysoki standard wykonczenia, widoki na morze.
+
+property_info: >
+  Golden Apartments, Sopot/Gdynia.
+  Apartamenty z widokiem na morze, pelne wyposazenie.
+  Bezposrednie rezerwacje przez IdoBooking.
+
+design_style: "elegancki, morski, zloto i granat — luksus nad morzem"
+brand_colors: "#C9A96E (zloto), #1B2A4A (granat), #F5F0E8 (perlowy)"
+
+default_page: strona_glowna
+page_type: landing
+sections: "hero, intro, apartamenty, lokalizacja, udogodnienia, galeria, cta"
+section_template: standard

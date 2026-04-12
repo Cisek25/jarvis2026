@@ -1,0 +1,4484 @@
+/* GOLDEN APARTMENTS — Premium CSS */
+:root {
+  --ga-primary: #494553;
+  --ga-gold: #c9a96e;
+  --ga-gold-light: #dfc698;
+  --ga-gold-dark: #a8884d;
+  --ga-dark: #1e1e2a;
+  --ga-darker: #14141e;
+  --ga-light: #f8f6f3;
+  --ga-warm: #f5f0ea;
+  --ga-text: #2d2d3a;
+  --ga-muted: #7a7a8a;
+  --ga-white: #ffffff;
+  --ga-radius: 8px;
+  --ga-radius-lg: 16px;
+  --ga-transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Search widget tokens */
+  --ga-gold-hover-light: #DFC698;
+  --ga-gold-hover-dark: #B89A5D;
+  --ga-orange: #AD5009;
+  --ga-font: 'Montserrat', sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+  background: #fff !important;
+}
+
+/* Nadpisz szare tło sekcji CMS — ale NIE hero (parallax) */
+.section.fp-section:not(.parallax),
+.section.fp-auto-height {
+  background: #fff !important;
+}
+
+/* Zapewnij że kontener CMS nie obcina full-width tła sekcji */
+.section_sub.container {
+  overflow: visible !important;
+}
+
+/* Hero section — izolacja stacking context + przezroczyste tło
+   CMS ustawia z-index:-2 na .parallax-slider.
+   Bez isolation slider jest za białym bg rodzica → niewidoczny.
+   isolation:isolate + transparent bg = slider widoczny w kontekście */
+.section.parallax {
+  isolation: isolate;
+  background: transparent !important;
+}
+
+/* === HERO SLIDER (Slider Revolution style) === */
+.parallax-slider {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 600px;
+  max-height: 1000px;
+  overflow: hidden;
+  margin-left: calc(-50vw + 50%);
+  background: var(--ga-darker);
+  /* Fix: inline background thumbnail from CMS */
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+/* Fix: Slick slider height chain — prevent collapse */
+.parallax-slider .slick-list,
+.parallax-slider .slick-track,
+.parallax-slider .slick-slide,
+.parallax-slider .slick-slide > div {
+  height: 100% !important;
+}
+
+.parallax-slider .parallax-image {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.parallax-slider .parallax-image img,
+.parallax-slider .parallax-image picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+/* Ken Burns zoom na aktywnym slajdzie */
+.parallax-slider .slick-active .parallax-image img,
+.parallax-slider .slick-active .parallax-image picture {
+  animation: gaKenBurns 8s ease-out forwards;
+}
+
+@keyframes gaKenBurns {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.12);
+  }
+}
+
+/* Slick dots → gold */
+.parallax-slider .slick-dots {
+  bottom: 32px;
+  z-index: 10;
+}
+
+.parallax-slider .slick-dots li button:before {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-size: 10px;
+}
+
+.parallax-slider .slick-dots li.slick-active button:before {
+  color: var(--ga-gold) !important;
+}
+
+/* === HERO OVERLAY === */
+.ga-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 40px 120px;
+  text-align: center;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(20, 20, 30, 0.7) 0%, rgba(20, 20, 30, 0.2) 40%, transparent 70%);
+}
+
+.ga-hero-overlay__inner {
+  max-width: 800px;
+}
+
+.ga-hero-overlay h1 {
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 200;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0 0 20px;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.4);
+}
+
+.ga-hero-overlay h1 strong {
+  font-weight: 700;
+}
+
+.ga-hero-overlay p {
+  font-size: clamp(15px, 1.8vw, 19px);
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 32px;
+  line-height: 1.6;
+  text-shadow: 0 1px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ga-hero-overlay .ga-btn {
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .ga-hero-overlay {
+    padding: 0 24px 80px;
+  }
+}
+
+/* Index-info: pokaż kontener, ukryj tekst, zostaw wyszukiwarkę systemową.
+   Pozycjonowanie (centrowanie) = systemowe z index.css.gz */
+.index-info {
+  display: block !important;
+  bottom: -150px !important;
+}
+.index-info > *:not(.iai-search) {
+  display: none !important;
+}
+.index-info .iai-search {
+  display: block !important;
+}
+
+.bounce {
+  display: none !important;
+}
+
+/* === BUTTONS === */
+.ga-btn {
+  display: inline-block;
+  padding: 16px 40px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 0;
+  transition: all var(--ga-transition);
+  cursor: pointer;
+  border: none;
+}
+
+.ga-btn--gold {
+  background: var(--ga-gold);
+  color: #fff !important;
+}
+
+.ga-btn--gold:hover {
+  background: var(--ga-gold-dark);
+  color: #fff !important;
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201, 169, 110, 0.3);
+}
+
+.ga-btn--white {
+  background: #fff;
+  color: var(--ga-dark) !important;
+}
+
+.ga-btn--white:hover {
+  background: var(--ga-gold-light);
+  color: var(--ga-dark) !important;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+/* === INTRO === */
+.ga-intro {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.ga-intro__badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ga-gold);
+  margin-bottom: 24px;
+}
+
+.ga-intro__badge::before,
+.ga-intro__badge::after {
+  content: "";
+  display: inline-block;
+  width: 32px;
+  height: 1px;
+  background: var(--ga-gold);
+  vertical-align: middle;
+  margin: 0 16px;
+}
+
+.ga-intro h2 {
+  font-size: clamp(26px, 3.5vw, 42px);
+  font-weight: 300;
+  color: var(--ga-text);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0 0 24px;
+}
+
+.ga-intro h2 strong {
+  font-weight: 700;
+}
+
+.ga-intro p {
+  font-size: clamp(15px, 1.5vw, 17px);
+  color: var(--ga-muted);
+  line-height: 1.8;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .ga-intro {
+    padding: 56px 24px;
+  }
+}
+
+/* === MODULES — 4 karty === */
+.ga-modules {
+  position: relative;
+  padding: 0 0 80px;
+}
+
+.ga-modules__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .ga-modules__inner {
+    grid-template-columns: 1fr;
+    padding: 0 24px;
+    gap: 16px;
+  }
+
+  .ga-modules {
+    padding: 0 0 56px;
+  }
+}
+
+.ga-module {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--ga-radius);
+  height: 340px;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .ga-module {
+    height: 260px;
+  }
+}
+
+.ga-module__img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ga-module__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 6s ease-out;
+}
+
+.ga-module:hover .ga-module__img img {
+  transform: scale(1.08);
+}
+
+.ga-module__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(20, 20, 30, 0.85) 0%, rgba(20, 20, 30, 0.3) 50%, rgba(20, 20, 30, 0.1) 100%);
+  transition: background var(--ga-transition);
+  pointer-events: none;
+}
+
+.ga-module:hover .ga-module__overlay {
+  background: linear-gradient(to top, rgba(20, 20, 30, 0.9) 0%, rgba(20, 20, 30, 0.4) 50%, rgba(20, 20, 30, 0.15) 100%);
+}
+
+.ga-module__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 32px;
+  transition: transform var(--ga-transition);
+}
+
+.ga-module:hover .ga-module__content {
+  transform: translateY(-4px);
+}
+
+.ga-module__tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ga-gold);
+  margin-bottom: 10px;
+}
+
+.ga-module__content h3 {
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.ga-module__content p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ga-module__arrow {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--ga-transition);
+  opacity: 0;
+  transform: translateX(-8px);
+}
+
+.ga-module:hover .ga-module__arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ga-module__arrow svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--ga-gold);
+  stroke-width: 2;
+}
+
+/* === OFFERS === */
+.ga-offers-wrapper {
+  position: relative;
+  padding: 80px 0;
+  isolation: isolate;
+}
+
+.ga-offers-wrapper::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: var(--ga-light);
+}
+
+.ga-offers-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.ga-offers-header h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 300;
+  color: var(--ga-text);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.ga-offers-header h2 strong {
+  font-weight: 700;
+}
+
+/* Ukryj domyślny nagłówek CMS "Wyróżnione Oferty" */
+.ga-offers-wrapper .cmshotspot .big-label {
+  display: none !important;
+}
+
+/* Ukryj domyślne białe tło CMS na cmshotspot (nakłada się na nasze beżowe) */
+.ga-offers-wrapper .cmshotspot::before {
+  display: none !important;
+}
+
+/* Offerslist — UKRYJ oryginalny Slick slider (zastąpiony przez JS grid) */
+.ga-offers-wrapper .offerslist {
+  display: none !important;
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex !important;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Slick slider wewnątrz ofert — UKRYJ całkowicie (zastąpiony JS gridem) */
+.ga-offers-wrapper .offerslist.slick-initialized,
+.ga-offers-wrapper .offerslist .slick-list,
+.ga-offers-wrapper .offerslist .slick-track,
+.ga-offers-wrapper .offerslist .slick-slide,
+.ga-offers-wrapper .offerslist .slick-dots,
+.ga-offers-wrapper .offerslist .slick-arrow,
+.ga-offers-wrapper .cmshotspot .slick-slider,
+.ga-offers-wrapper .cmshotspot .slick-list {
+  display: none !important;
+}
+
+/* Karta oferty */
+.ga-offers-wrapper .offer {
+  flex: 0 1 360px;
+  max-width: 400px;
+  background: #fff;
+  border-radius: var(--ga-radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  transition: all var(--ga-transition);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ga-offers-wrapper .offer:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Zdjęcie oferty */
+.ga-offers-wrapper .offer .object-icon {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+
+.ga-offers-wrapper .offer .object-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 6s ease-out !important;
+  border-radius: 0 !important;
+}
+
+.ga-offers-wrapper .offer:hover .object-icon img {
+  transform: scale(1.06);
+}
+
+.ga-offers-wrapper .offer .object-icon p,
+.ga-offers-wrapper .offer .object-icon .offer__hover {
+  display: none !important;
+}
+
+/* Tytuł oferty */
+.ga-offers-wrapper .offer h3 {
+  padding: 20px 24px 8px !important;
+  margin: 0 !important;
+  height: auto !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+.ga-offers-wrapper .offer h3 a {
+  color: var(--ga-text) !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+}
+
+.ga-offers-wrapper .offer:hover h3 a {
+  color: var(--ga-gold) !important;
+}
+
+/* Box z info + ceną */
+.ga-offers-wrapper .offer .offer__box {
+  padding: 0 24px 24px !important;
+  height: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ga-offers-wrapper .offer .offer__info {
+  color: var(--ga-muted);
+  font-size: 13px;
+}
+
+.ga-offers-wrapper .offer .offer__info i {
+  color: var(--ga-gold);
+  margin-right: 4px;
+}
+
+/* Przycisk SZCZEGÓŁY */
+.ga-offers-wrapper .offer .offer__price .btn {
+  background: var(--ga-gold) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 10px 24px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.ga-offers-wrapper .offer .offer__price .btn:hover {
+  background: var(--ga-gold-dark) !important;
+}
+
+@media (max-width: 768px) {
+  .ga-offers-wrapper {
+    padding: 56px 0;
+  }
+
+  .ga-offers-wrapper .offerslist {
+    padding: 0 24px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ga-offers-wrapper .offer {
+    flex: 0 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* === ADVANTAGES === */
+.ga-advantages {
+  position: relative;
+  padding: 80px 0;
+  isolation: isolate;
+}
+
+.ga-advantages::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: var(--ga-dark);
+}
+
+.ga-advantages__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.ga-advantages__header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.ga-advantages__header .ga-intro__badge {
+  color: var(--ga-gold);
+}
+
+.ga-advantages__header .ga-intro__badge::before,
+.ga-advantages__header .ga-intro__badge::after {
+  background: rgba(201, 169, 110, 0.4);
+}
+
+.ga-advantages__header h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 16px 0 0;
+}
+
+.ga-advantages__header h2 strong {
+  font-weight: 700;
+}
+
+.ga-advantages__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 978px) {
+  .ga-advantages__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ga-advantages__grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .ga-advantages__inner {
+    padding: 0 24px;
+  }
+
+  .ga-advantages {
+    padding: 56px 0;
+  }
+}
+
+.ga-advantage {
+  text-align: center;
+  padding: 32px 20px;
+  border-radius: var(--ga-radius);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all var(--ga-transition);
+}
+
+.ga-advantage:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(201, 169, 110, 0.2);
+  transform: translateY(-4px);
+}
+
+.ga-advantage__icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ga-advantage__icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--ga-gold);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ga-advantage h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.ga-advantage p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* === ABOUT === */
+.ga-about {
+  position: relative;
+  padding: 80px 0;
+}
+
+.ga-about__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 979px) {
+  .ga-about__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+
+.ga-about__text .ga-intro__badge {
+  margin-bottom: 20px;
+}
+
+.ga-about__text .ga-intro__badge::before {
+  display: none;
+}
+
+.ga-about__text h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 300;
+  color: var(--ga-text);
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  line-height: 1.25;
+}
+
+.ga-about__text h2 strong {
+  font-weight: 700;
+}
+
+.ga-about__text p {
+  font-size: 15px;
+  color: var(--ga-muted);
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.ga-about__text p:last-of-type {
+  margin-bottom: 32px;
+}
+
+.ga-about__img {
+  overflow: hidden;
+  border-radius: var(--ga-radius);
+  line-height: 0;
+  position: relative;
+}
+
+.ga-about__img img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  transition: transform 6s ease-out;
+}
+
+.ga-about__img:hover img {
+  transform: scale(1.06);
+}
+
+.ga-about__img::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 60px;
+  height: 60px;
+  border-top: 3px solid var(--ga-gold);
+  border-left: 3px solid var(--ga-gold);
+  z-index: 1;
+  border-radius: var(--ga-radius) 0 0 0;
+}
+
+@media (max-width: 768px) {
+  .ga-about {
+    padding: 56px 0;
+  }
+
+  .ga-about__inner {
+    padding: 0 24px;
+  }
+
+  .ga-about__img img {
+    height: 340px;
+  }
+}
+
+/* === LOCATION === */
+.ga-location {
+  position: relative;
+  padding: 80px 0;
+  isolation: isolate;
+}
+
+.ga-location::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: var(--ga-warm);
+}
+
+.ga-location__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 979px) {
+  .ga-location__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+
+.ga-location__img {
+  overflow: hidden;
+  border-radius: var(--ga-radius);
+  line-height: 0;
+}
+
+.ga-location__img img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  transition: transform 6s ease-out;
+}
+
+.ga-location__img:hover img {
+  transform: scale(1.06);
+}
+
+.ga-location__text h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 300;
+  color: var(--ga-text);
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  line-height: 1.25;
+}
+
+.ga-location__text h2 strong {
+  font-weight: 700;
+}
+
+.ga-location__text p {
+  font-size: 15px;
+  color: var(--ga-muted);
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.ga-location__text p:last-of-type {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .ga-location {
+    padding: 56px 0;
+  }
+
+  .ga-location__inner {
+    padding: 0 24px;
+  }
+
+  .ga-location__img img {
+    height: 340px;
+  }
+}
+
+/* === ODKRYJ GDAŃSK — Showcase atrakcji === */
+.ga-discover {
+  position: relative;
+  padding: 100px 0;
+  isolation: isolate;
+}
+
+.ga-discover::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: var(--ga-darker);
+}
+
+.ga-discover__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.ga-discover__header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.ga-discover__header .ga-intro__badge {
+  color: var(--ga-gold);
+}
+
+.ga-discover__header .ga-intro__badge::before,
+.ga-discover__header .ga-intro__badge::after {
+  background: rgba(201, 169, 110, 0.4);
+}
+
+.ga-discover__header h2 {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 200;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 16px 0 0;
+  line-height: 1.2;
+}
+
+.ga-discover__header h2 strong {
+  font-weight: 700;
+}
+
+.ga-discover__header p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 600px;
+  margin: 16px auto 0;
+  line-height: 1.7;
+}
+
+/* Mosaic grid — Pinterest-style */
+.ga-discover__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 200px;
+  gap: 16px;
+}
+
+.ga-discover__card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--ga-radius);
+  cursor: pointer;
+}
+
+/* Karty rozciągające się na 2 rzędy */
+.ga-discover__card--tall {
+  grid-row: span 2;
+}
+
+/* Karta rozciągnięta na 2 kolumny */
+.ga-discover__card--wide {
+  grid-column: span 2;
+}
+
+.ga-discover__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 8s ease-out;
+}
+
+.ga-discover__card:hover img {
+  transform: scale(1.12);
+}
+
+.ga-discover__card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(20, 20, 30, 0.85) 0%, rgba(20, 20, 30, 0.1) 50%, transparent 100%);
+  transition: background 0.5s ease;
+}
+
+.ga-discover__card:hover .ga-discover__card__overlay {
+  background: linear-gradient(to top, rgba(201, 169, 110, 0.6) 0%, rgba(20, 20, 30, 0.2) 60%, transparent 100%);
+}
+
+.ga-discover__card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  z-index: 2;
+  transform: translateY(8px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ga-discover__card:hover .ga-discover__card__content {
+  transform: translateY(0);
+}
+
+.ga-discover__card__icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+}
+
+.ga-discover__card:hover .ga-discover__card__icon {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ga-discover__card__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--ga-gold);
+  stroke-width: 1.5;
+}
+
+.ga-discover__card h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.ga-discover__card p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease 0.15s, max-height 0.5s ease 0.1s;
+}
+
+.ga-discover__card:hover p {
+  opacity: 1;
+  max-height: 60px;
+}
+
+/* Złoty numer/kolejność */
+.ga-discover__card__num {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ga-gold);
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  z-index: 2;
+}
+
+@media (max-width: 860px) {
+  .ga-discover__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 180px;
+  }
+  .ga-discover__card--wide {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .ga-discover__grid {
+    grid-template-columns: 1fr;
+    grid-auto-rows: 220px;
+    gap: 12px;
+  }
+  .ga-discover__card--tall {
+    grid-row: span 1;
+  }
+  .ga-discover {
+    padding: 64px 0;
+  }
+}
+
+/* === CTA === */
+.ga-cta {
+  position: relative;
+  padding: 80px 0;
+  isolation: isolate;
+}
+
+.ga-cta::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: var(--ga-primary);
+}
+
+.ga-cta__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.ga-cta__text h3 {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+  line-height: 1.3;
+}
+
+.ga-cta__text h3 strong {
+  font-weight: 700;
+}
+
+.ga-cta__text p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ga-cta .ga-btn--white:hover {
+  background: var(--ga-gold) !important;
+  color: #fff !important;
+}
+
+@media (max-width: 768px) {
+  .ga-cta {
+    padding: 56px 0;
+  }
+
+  .ga-cta__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 24px;
+  }
+}
+
+/* === NAV === */
+.menu-wrapper {
+  background: rgba(30, 30, 42, 0.95) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.navbar-brand img {
+  max-height: 48px;
+}
+
+.navbar .navbar-reservation {
+  background: var(--ga-gold) !important;
+  border-color: var(--ga-gold) !important;
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding: 10px 24px;
+}
+
+.navbar .navbar-reservation:hover {
+  background: var(--ga-gold-dark) !important;
+  border-color: var(--ga-gold-dark) !important;
+}
+
+.navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* Prevent nav overflow — keep items in one line, no white-box wrap */
+.navbar-nav {
+  flex-wrap: nowrap !important;
+}
+.navbar-nav .nav-item {
+  flex-shrink: 1 !important;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-item.active .nav-link {
+  color: var(--ga-gold) !important;
+}
+
+/* === FOOTER === */
+.footer_sub.main {
+  background: var(--ga-darker) !important;
+}
+
+.footer-contact a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.footer-contact a:hover {
+  color: var(--ga-gold) !important;
+}
+
+/* === DETALE === */
+body::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ga-gold-dark), var(--ga-gold), var(--ga-gold-dark));
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--ga-gold);
+  color: #fff;
+}
+
+.container-hotspot .big-label {
+  font-weight: 300 !important;
+  letter-spacing: -0.02em;
+}
+
+/* === CUSTOM SCROLLBAR === */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ga-darker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ga-gold-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ga-gold);
+}
+
+/* === SCROLL PROGRESS BAR === */
+.ga-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ga-gold-dark), var(--ga-gold), var(--ga-gold-light));
+  z-index: 10000;
+  transition: width 0.1s linear;
+}
+
+/* === PAGE LOADING TRANSITION === */
+.ga-page-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--ga-darker);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.ga-page-loader.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ga-page-loader__spinner {
+  width: 48px;
+  height: 48px;
+  border: 2px solid rgba(201, 169, 110, 0.15);
+  border-top-color: var(--ga-gold);
+  border-radius: 50%;
+  animation: gaLoaderSpin 0.8s linear infinite;
+}
+
+@keyframes gaLoaderSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* === SLIDE-IN FROM SIDES === */
+.ga-slide-left {
+  opacity: 0;
+  transform: translateX(-80px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ga-slide-right {
+  opacity: 0;
+  transform: translateX(80px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ga-slide-up {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ga-slide-scale {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ga-slide-left.ga-visible,
+.ga-slide-right.ga-visible,
+.ga-slide-up.ga-visible,
+.ga-slide-scale.ga-visible {
+  opacity: 1;
+  transform: translateX(0) translateY(0) scale(1);
+}
+
+/* Staggered children */
+.ga-stagger-children>* {
+  transition-delay: calc(var(--ga-child-index, 0) * 0.12s);
+}
+
+/* === GOLD SHIMMER ON TEXT === */
+.ga-shimmer {
+  background: linear-gradient(120deg,
+      var(--ga-gold-dark) 0%,
+      var(--ga-gold) 25%,
+      var(--ga-gold-light) 50%,
+      var(--ga-gold) 75%,
+      var(--ga-gold-dark) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gaShimmer 4s ease infinite;
+}
+
+@keyframes gaShimmer {
+  0% {
+    background-position: 200% center;
+  }
+
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* === GOLD PARTICLES === */
+.ga-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ga-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--ga-gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: gaParticleFloat 8s ease-in-out infinite;
+}
+
+/* Wariant 2 — cząsteczki driftujące w bok */
+.ga-particle--drift {
+  animation-name: gaParticleDrift !important;
+}
+
+/* Wariant 3 — cząsteczki opadające */
+.ga-particle--fall {
+  animation-name: gaParticleFall !important;
+}
+
+/* Wariant 4 — cząsteczki pulsujące (statyczne) */
+.ga-particle--pulse {
+  animation-name: gaParticlePulse !important;
+}
+
+/* Wariant 5 — cząsteczki spiralne */
+.ga-particle--spiral {
+  animation-name: gaParticleSpiral !important;
+}
+
+/* Wariant 6 — duże bokeh */
+.ga-particle--bokeh {
+  width: 8px !important;
+  height: 8px !important;
+  background: radial-gradient(circle, var(--ga-gold) 0%, transparent 70%) !important;
+  animation-name: gaParticleBokeh !important;
+}
+
+@keyframes gaParticleFloat {
+  0%   { opacity: 0; transform: translateY(0) translateX(0); }
+  20%  { opacity: 0.6; }
+  50%  { opacity: 0.3; }
+  80%  { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(-400px) translateX(100px); }
+}
+
+@keyframes gaParticleDrift {
+  0%   { opacity: 0; transform: translateX(0) translateY(0); }
+  15%  { opacity: 0.5; }
+  50%  { opacity: 0.35; transform: translateX(80px) translateY(-120px); }
+  85%  { opacity: 0.45; }
+  100% { opacity: 0; transform: translateX(-60px) translateY(-300px); }
+}
+
+@keyframes gaParticleFall {
+  0%   { opacity: 0; transform: translateY(-40px) translateX(0); }
+  20%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateY(300px) translateX(50px); }
+}
+
+@keyframes gaParticlePulse {
+  0%   { opacity: 0; transform: scale(0.5); }
+  25%  { opacity: 0.7; transform: scale(1.2); }
+  50%  { opacity: 0.3; transform: scale(0.8); }
+  75%  { opacity: 0.6; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(0.5); }
+}
+
+@keyframes gaParticleSpiral {
+  0%   { opacity: 0; transform: rotate(0deg) translateX(0) translateY(0); }
+  25%  { opacity: 0.5; transform: rotate(90deg) translateX(30px) translateY(-80px); }
+  50%  { opacity: 0.3; transform: rotate(180deg) translateX(-20px) translateY(-180px); }
+  75%  { opacity: 0.45; transform: rotate(270deg) translateX(40px) translateY(-280px); }
+  100% { opacity: 0; transform: rotate(360deg) translateX(0) translateY(-360px); }
+}
+
+@keyframes gaParticleBokeh {
+  0%   { opacity: 0; transform: scale(0.3); }
+  30%  { opacity: 0.25; transform: scale(1); }
+  60%  { opacity: 0.15; transform: scale(1.3) translateY(-60px); }
+  100% { opacity: 0; transform: scale(0.5) translateY(-150px); }
+}
+
+/* === STATS / COUNTER BAR === */
+.ga-stats {
+  position: relative;
+  padding: 64px 0;
+  isolation: isolate;
+}
+
+.ga-stats::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: linear-gradient(135deg, var(--ga-darker) 0%, var(--ga-dark) 100%);
+}
+
+.ga-stats__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+
+.ga-stat {
+  padding: 16px 0;
+}
+
+.ga-stat__num {
+  display: block;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 200;
+  color: var(--ga-gold);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.ga-stat__suffix {
+  font-size: clamp(18px, 2.5vw, 28px);
+  font-weight: 200;
+}
+
+.ga-stat__label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .ga-stats__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 0 24px;
+  }
+
+  .ga-stats {
+    padding: 48px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .ga-stats__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* === 3D TILT ON MODULES === */
+.ga-module {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.ga-module__content {
+  transform: translateZ(20px);
+}
+
+
+/* === CTA PULSE === */
+.ga-cta .ga-btn--white {
+  position: relative;
+}
+
+.ga-cta .ga-btn--white::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: inherit;
+  animation: gaCTApulse 2s ease-out infinite;
+}
+
+@keyframes gaCTApulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+/* === PARALLAX IMAGE ZOOM ON SCROLL === */
+.ga-parallax-zoom {
+  overflow: hidden;
+}
+
+.ga-parallax-zoom img {
+  will-change: transform;
+}
+
+/* === FLOATING DECORATIVE LINES === */
+.ga-about__img::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 60px;
+  height: 60px;
+  border-bottom: 3px solid var(--ga-gold);
+  border-right: 3px solid var(--ga-gold);
+  z-index: 1;
+  border-radius: 0 0 var(--ga-radius) 0;
+}
+
+/* === GALLERY CAROUSEL IN LOCATION === */
+.ga-gallery {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--ga-radius);
+}
+
+.ga-gallery__track {
+  display: flex;
+  gap: 0;
+  animation: gaGalleryScroll 20s linear infinite;
+}
+
+.ga-gallery__track img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+@keyframes gaGalleryScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .ga-gallery__track img {
+    height: 340px;
+  }
+}
+
+/* === TEXT WORD REVEAL === */
+.ga-text-reveal .ga-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.ga-text-reveal.ga-visible .ga-word {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === HERO TEXT ENTRANCE === */
+.ga-hero-overlay h1 {
+  animation: gaHeroTextIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.ga-hero-overlay p {
+  animation: gaHeroTextIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.ga-hero-overlay .ga-btn {
+  animation: gaHeroTextIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+}
+
+@keyframes gaHeroTextIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(4px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* === SECTION DIVIDER — gold line with diamond === */
+.ga-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ga-divider::before,
+.ga-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ga-gold), transparent);
+}
+
+.ga-divider__diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--ga-gold);
+  transform: rotate(45deg);
+  margin: 0 16px;
+  flex-shrink: 0;
+}
+
+/* =============================================================
+   WOW EFFECTS — Gdańsk theme enhancements
+   ============================================================= */
+
+/* --- GDAŃSK SKYLINE SILHOUETTE — dekoracja boczna --- */
+.ga-skyline {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1.8s cubic-bezier(0.16, 1, 0.3, 1), transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ga-skyline--left {
+  left: 0;
+  bottom: 0;
+  transform: translateX(-20px);
+}
+.ga-skyline--right {
+  right: 0;
+  bottom: 0;
+  transform: translateX(20px) scaleX(-1);
+}
+.ga-skyline.ga-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.ga-skyline.ga-visible.ga-skyline--right {
+  transform: translateX(0) scaleX(-1);
+}
+.ga-skyline svg {
+  display: block;
+  height: 220px;
+  width: auto;
+  fill: none;
+  stroke: var(--ga-gold);
+  stroke-width: 0.5;
+  opacity: 0.12;
+}
+
+/* --- GOLDEN SIDE ORNAMENTS — złote ornamenty po bokach --- */
+.ga-ornament {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 2s ease 0.3s, transform 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+.ga-ornament--tl {
+  top: 24px;
+  left: 24px;
+  transform: translate(-12px, -12px);
+}
+.ga-ornament--tr {
+  top: 24px;
+  right: 24px;
+  transform: translate(12px, -12px);
+}
+.ga-ornament--bl {
+  bottom: 24px;
+  left: 24px;
+  transform: translate(-12px, 12px);
+}
+.ga-ornament--br {
+  bottom: 24px;
+  right: 24px;
+  transform: translate(12px, 12px);
+}
+.ga-ornament.ga-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.ga-ornament svg {
+  width: 48px;
+  height: 48px;
+  stroke: var(--ga-gold);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.35;
+}
+
+/* --- GOLDEN ACCENT LINES — animowane złote linie --- */
+.ga-accent-line {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+.ga-accent-line--h {
+  height: 1px;
+  width: 0;
+  background: linear-gradient(90deg, transparent, var(--ga-gold), transparent);
+  transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ga-accent-line--h.ga-visible {
+  width: 80%;
+}
+.ga-accent-line--top {
+  top: 0;
+}
+.ga-accent-line--bottom {
+  bottom: 0;
+}
+
+/* --- AMBIENT GOLD GLOW — ciepły złoty poblask --- */
+.ga-ambient-glow {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.06) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  transform: translate(-50%, -50%);
+}
+.ga-ambient-glow.active {
+  opacity: 1;
+}
+
+/* --- FLOATING GOLD DUST — złoty pył w sekcjach --- */
+.ga-dust-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.ga-dust {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--ga-gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: ga-dust-float 12s ease-in-out infinite;
+}
+@keyframes ga-dust-float {
+  0%   { opacity: 0; transform: translateY(0) translateX(0); }
+  15%  { opacity: 0.4; }
+  50%  { opacity: 0.2; transform: translateY(-80px) translateX(20px); }
+  85%  { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(-160px) translateX(-10px); }
+}
+
+/* --- GOLDEN WAVE DECORATION — usunięte na życzenie klienta --- */
+.ga-wave-deco {
+  display: none !important;
+}
+.ga-wave-deco svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: #fff;
+}
+
+/* --- SECTION GLOW BORDERS — subtelna poświata na krawędziach --- */
+.ga-about__inner,
+.ga-location__inner {
+  position: relative;
+}
+.ga-about__inner::after,
+.ga-location__inner::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: var(--ga-radius-lg);
+  background: linear-gradient(135deg, rgba(201,169,110,0.15), transparent 40%, transparent 60%, rgba(201,169,110,0.1));
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.ga-about__inner:hover::after,
+.ga-location__inner:hover::after {
+  opacity: 1;
+}
+
+/* --- ENHANCED IMAGE REVEAL — efekt odsłaniania zdjęć --- */
+.ga-about__img,
+.ga-location__img {
+  position: relative;
+  overflow: hidden;
+}
+.ga-about__img::after,
+.ga-location__img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,169,110,0.08), transparent);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.ga-about__img:hover::after,
+.ga-location__img:hover::after {
+  opacity: 1;
+}
+
+/* --- GOLDEN PULSE — tętniący efekt na przyciskach CTA --- */
+.ga-btn--gold {
+  position: relative;
+  overflow: hidden;
+}
+.ga-btn--gold::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  animation: ga-btn-shine 4s ease-in-out infinite;
+}
+@keyframes ga-btn-shine {
+  0%, 70%, 100% { transform: translateX(-100%); }
+  85%   { transform: translateX(100%); }
+}
+
+/* --- STAGGER DELAYS for side decorations --- */
+.ga-ornament--tl { transition-delay: 0s; }
+.ga-ornament--tr { transition-delay: 0.2s; }
+.ga-ornament--bl { transition-delay: 0.4s; }
+.ga-ornament--br { transition-delay: 0.6s; }
+
+/* --- RESPONSIVE — ukryj ciężkie dekoracje na mobile --- */
+@media (max-width: 860px) {
+  .ga-skyline { display: none; }
+  .ga-ornament { display: none; }
+  .ga-ambient-glow { display: none; }
+  .ga-dust-container { display: none; }
+  .ga-accent-line--h.ga-visible { width: 95%; }
+  .ga-wave-deco { height: 24px; }
+}
+
+/* =============================================================
+   20+ IMPROVEMENTS — Dynamic & Premium Enhancements
+   ============================================================= */
+
+/* --- 1. IMAGE HOVER ZOOM — wszystkie zdjęcia zoom on hover --- */
+.ga-module__img img,
+.ga-discover__card img,
+.ga-about__img img,
+.ga-location__img img,
+.ga-offer-card img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s ease !important;
+}
+.ga-module:hover .ga-module__img img,
+.ga-discover__card:hover img,
+.ga-about__img:hover img,
+.ga-location__img:hover img {
+  transform: scale(1.08) !important;
+}
+
+/* --- 2. HEADING REVEAL UNDERLINE — nagłówki z rosnącą złotą kreską --- */
+.ga-heading-reveal {
+  position: relative;
+  display: inline-block;
+}
+.ga-heading-reveal::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--ga-gold), var(--ga-gold-light));
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+}
+.ga-heading-reveal.ga-visible::after {
+  width: 100%;
+}
+
+/* --- 3. DISCOVER CARD ANIMATIONS — karty atrakcji wjeżdżają --- */
+.ga-discover__card {
+  opacity: 0;
+  transform: translateY(60px) scale(0.95);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease !important;
+}
+.ga-discover__card.ga-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.ga-discover__card:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.25), 0 0 0 1px rgba(201,169,110,0.15) !important;
+}
+
+/* --- 4. OFFER CARD HOVER LIFT — karty ofert unoszą się --- */
+.ga-offer-card {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease !important;
+}
+.ga-offer-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2) !important;
+}
+
+/* --- 5. BADGE PULSE — badge "Od 2011" subtelnie pulsuje --- */
+.ga-intro__badge {
+  animation: gaBadgePulse 3s ease-in-out infinite;
+}
+@keyframes gaBadgePulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(201,169,110,0.3); }
+  50% { transform: scale(1.03); box-shadow: 0 0 20px 4px rgba(201,169,110,0.15); }
+}
+
+/* --- 6. GRADIENT GOLD TEXT — złoty gradient na kluczowych słowach --- */
+.ga-gradient-text {
+  background: linear-gradient(135deg, var(--ga-gold), var(--ga-gold-light), var(--ga-gold));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gaGradientShift 4s ease infinite;
+}
+@keyframes gaGradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* --- 7. SCROLL DOWN INDICATOR — strzałka bounce na hero --- */
+.ga-scroll-indicator {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  animation: gaScrollBounce 2s ease-in-out infinite;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.ga-scroll-indicator:hover { opacity: 1; }
+.ga-scroll-indicator svg {
+  width: 32px;
+  height: 32px;
+  stroke: #fff;
+  stroke-width: 2;
+  fill: none;
+}
+@keyframes gaScrollBounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(-12px); }
+  60% { transform: translateX(-50%) translateY(-6px); }
+}
+
+/* --- 8. NAV GLASSMORPHISM ON SCROLL --- */
+.ga-nav-scrolled header.default13 {
+  background: rgba(20, 20, 30, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3) !important;
+  transition: all 0.4s ease !important;
+}
+
+
+/* --- 10. STAT NUMBER GLOW ON COUNT --- */
+.ga-stat__number.ga-counting {
+  text-shadow: 0 0 30px rgba(201,169,110,0.6), 0 0 60px rgba(201,169,110,0.3);
+  transition: text-shadow 0.5s ease;
+}
+
+/* --- 11. ADVANTAGE CARD HOVER GLOW --- */
+.ga-advantage {
+  transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease !important;
+}
+.ga-advantage:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(201,169,110,0.2) !important;
+  border-color: rgba(201,169,110,0.3) !important;
+}
+
+/* --- 12. GDAŃSK HISTORY TIMELINE --- */
+.ga-history {
+  position: relative;
+  padding: 80px 0;
+  isolation: isolate;
+}
+.ga-history::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: linear-gradient(180deg, var(--ga-dark) 0%, var(--ga-darker) 100%);
+}
+.ga-history__header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.ga-history__header h2 {
+  color: #fff;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 300;
+  line-height: 1.3;
+  margin: 16px 0 20px;
+}
+.ga-history__header h2 strong {
+  font-weight: 700;
+  color: var(--ga-gold);
+}
+.ga-history__header p {
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.ga-timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.ga-timeline::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--ga-gold), var(--ga-gold), transparent);
+  transform: translateX(-50%);
+}
+.ga-timeline__item {
+  position: relative;
+  padding: 0 0 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.ga-timeline__item.ga-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ga-timeline__item::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  background: var(--ga-gold);
+  border: 3px solid var(--ga-darker);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  box-shadow: 0 0 0 4px rgba(201,169,110,0.2);
+  transition: box-shadow 0.5s ease;
+}
+.ga-timeline__item.ga-visible::before {
+  box-shadow: 0 0 0 8px rgba(201,169,110,0.15), 0 0 20px rgba(201,169,110,0.3);
+}
+.ga-timeline__year {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--ga-gold);
+  opacity: 0.7;
+  text-align: right;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(201,169,110,0.3);
+}
+.ga-timeline__content {
+  color: #fff;
+}
+.ga-timeline__content h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px;
+}
+.ga-timeline__content p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.6;
+  margin: 0;
+}
+.ga-timeline__item:nth-child(even) .ga-timeline__year { text-align: left; order: 2; }
+.ga-timeline__item:nth-child(even) .ga-timeline__content { text-align: right; order: 1; }
+
+@media (max-width: 768px) {
+  .ga-timeline::before { left: 20px; }
+  .ga-timeline__item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-left: 48px;
+  }
+  .ga-timeline__item::before { left: 20px; }
+  .ga-timeline__year { text-align: left !important; font-size: 32px; order: 0 !important; }
+  .ga-timeline__content { text-align: left !important; order: 1 !important; }
+}
+
+/* --- 13. TESTIMONIALS SECTION --- */
+.ga-testimonials {
+  position: relative;
+  padding: 80px 0;
+  isolation: isolate;
+}
+.ga-testimonials::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: var(--ga-warm);
+}
+.ga-testimonials__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.ga-testimonials__header h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 300;
+  color: var(--ga-text);
+  margin: 16px 0 20px;
+}
+.ga-testimonials__header h2 strong {
+  font-weight: 700;
+}
+.ga-testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.ga-testimonial {
+  background: #fff;
+  border-radius: var(--ga-radius);
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  position: relative;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease;
+}
+.ga-testimonial.ga-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ga-testimonial:hover {
+  box-shadow: 0 12px 36px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}
+.ga-testimonial__stars {
+  color: var(--ga-gold);
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.ga-testimonial__text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ga-text);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.ga-testimonial__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ga-testimonial__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ga-gold), var(--ga-gold-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+}
+.ga-testimonial__name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ga-text);
+}
+.ga-testimonial__meta {
+  font-size: 12px;
+  color: var(--ga-muted);
+}
+@media (max-width: 768px) {
+  .ga-testimonials__grid { grid-template-columns: 1fr; }
+}
+
+/* --- 14. FAQ ACCORDION --- */
+.ga-faq {
+  position: relative;
+  padding: 80px 0;
+}
+.ga-faq__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.ga-faq__header h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 300;
+  color: var(--ga-text);
+  margin: 16px 0;
+}
+.ga-faq__header h2 strong { font-weight: 700; }
+.ga-faq__list {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.ga-faq__item {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.ga-faq__item.ga-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.ga-faq__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ga-text);
+  transition: color 0.3s ease;
+  user-select: none;
+}
+.ga-faq__question:hover { color: var(--ga-gold); }
+.ga-faq__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--ga-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s ease, background 0.4s ease;
+  color: var(--ga-gold);
+  font-size: 18px;
+  font-weight: 300;
+}
+.ga-faq__item.active .ga-faq__icon {
+  transform: rotate(45deg);
+  background: var(--ga-gold);
+  color: #fff;
+}
+.ga-faq__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), padding 0.5s ease;
+  padding: 0 0 0 0;
+}
+.ga-faq__item.active .ga-faq__answer {
+  max-height: 300px;
+  padding: 0 0 20px 0;
+}
+.ga-faq__answer p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ga-muted);
+  margin: 0;
+}
+
+
+/* --- 16. SECTION ENTRANCE — universal fade-up for all major sections --- */
+.ga-section-enter {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ga-section-enter.ga-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* --- 18. DISCOVER CARD COUNTER GLOW --- */
+.ga-discover__number {
+  transition: text-shadow 0.5s ease;
+}
+.ga-discover__card:hover .ga-discover__number {
+  text-shadow: 0 0 20px rgba(201,169,110,0.5);
+}
+
+/* --- 19. LOADING SKELETON SHIMMER --- */
+@keyframes gaSkeletonShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.ga-skeleton {
+  background: linear-gradient(90deg, rgba(201,169,110,0.05) 25%, rgba(201,169,110,0.12) 50%, rgba(201,169,110,0.05) 75%);
+  background-size: 200% 100%;
+  animation: gaSkeletonShimmer 1.5s ease infinite;
+}
+
+/* --- 20. SCROLL PROGRESS BAR GLOW --- */
+.ga-scroll-progress {
+  box-shadow: 0 0 10px rgba(201,169,110,0.4), 0 0 20px rgba(201,169,110,0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   §21  FIXES 2026-03-02 — FAQ, Offers grid, Search labels
+   ═══════════════════════════════════════════════════════════ */
+
+/* --- FIX 1: FAQ ACCORDION — wymuszenie działania active state --- */
+.ga-faq__item.active > .ga-faq__answer {
+  max-height: 300px !important;
+  padding: 0 0 20px 0 !important;
+}
+/* Fallback: jeśli CMS usunął wrapper, ukryj osierocone <p> w FAQ */
+.ga-faq__item > p {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: 0;
+  padding: 0;
+}
+.ga-faq__item.active > p {
+  max-height: 300px;
+  padding: 0 0 20px 0;
+}
+.ga-faq__item.active > .ga-faq__icon,
+.ga-faq__item.active > .ga-faq__question .ga-faq__icon {
+  transform: rotate(45deg) !important;
+  background: var(--ga-gold) !important;
+  color: #fff !important;
+}
+
+/* --- FIX 2: OFFERS GRID — 3 per row zamiast slick slidera --- */
+.ga-offers-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.ga-offer-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  transition: transform 0.4s cubic-bezier(.16,1,.3,1), box-shadow 0.4s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  color: var(--ga-text);
+}
+.ga-offer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+}
+.ga-offer-card__img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.ga-offer-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(.16,1,.3,1);
+}
+.ga-offer-card:hover .ga-offer-card__img {
+  transform: scale(1.06);
+}
+.ga-offer-card__body {
+  padding: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.ga-offer-card__name {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ga-text);
+  margin: 0 0 14px;
+  line-height: 1.3;
+}
+/* Info tagi — osoby, powierzchnia */
+.ga-offer-card__info {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.ga-offer-card__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ga-bg, #f8f6f1);
+  color: var(--ga-muted, #888);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.01em;
+}
+.ga-offer-card__tag svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--ga-gold);
+  fill: none;
+  flex-shrink: 0;
+}
+.ga-offer-card__features {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--ga-muted);
+  margin-bottom: 16px;
+}
+.ga-offer-card__features span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ga-offer-card__features svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--ga-gold);
+  fill: none;
+  stroke-width: 2;
+}
+.ga-offer-card__btn {
+  display: inline-block;
+  padding: 12px 36px;
+  background: var(--ga-gold);
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+  margin-top: auto;
+}
+.ga-offer-card__btn:hover {
+  background: #a88a45;
+  color: #fff;
+}
+.ga-offers-wrapper .big-label,
+.ga-offers-wrapper h2.big-label {
+  display: none !important;
+}
+@media (max-width: 991px) {
+  .ga-offers-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+@media (max-width: 600px) {
+  .ga-offers-grid { grid-template-columns: 1fr; gap: 20px; padding: 0 16px; }
+  .ga-offer-card__info { gap: 8px; }
+  .ga-offer-card__tag { font-size: 12px; padding: 4px 10px; }
+}
+
+
+/* ============================================================
+   STRONA /offers — Grid kart ofert
+   ============================================================ */
+
+/* --- Wrapper ofert: grid 2 kolumny --- */
+.page-offers .offers_wrapper {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  padding: 10px 0;
+}
+
+/* --- Pojedyncza karta oferty --- */
+.page-offers .offers-container {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.page-offers .offers-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.14);
+}
+
+/* --- Zdjęcie na górze karty --- */
+.page-offers .offers-container .object-icon {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+  padding: 0 !important;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+.page-offers .offers-container .object-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.page-offers .offers-container:hover .object-icon img {
+  transform: scale(1.05);
+}
+
+/* --- Treść karty (pod zdjęciem) --- */
+.page-offers .offers-container .accommodation-rest {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 auto !important;
+  padding: 20px 24px 24px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Row wewnątrz karty — zmiana z flex-row na column --- */
+.page-offers .offers-container .accommodation-rest > .row {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1;
+}
+.page-offers .offers-container .accommodation-rest > .row > [class*="col-"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: none !important;
+  padding: 0 !important;
+}
+
+/* --- Tytuł oferty --- */
+.page-offers .offers-container h2 {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  margin: 0 0 8px !important;
+  line-height: 1.3;
+  min-height: 2.6em;
+}
+.page-offers .offers-container h2 a {
+  color: var(--ga-dark, #1c1c1e) !important;
+  text-decoration: none !important;
+  transition: color 0.2s;
+}
+.page-offers .offers-container:hover h2 a {
+  color: var(--ga-gold, #c9a96e) !important;
+}
+
+/* --- Info (powierzchnia, osoby) --- */
+.page-offers .offers-container .roomspace {
+  margin-bottom: 12px;
+}
+.page-offers .offers-container .accommodation-roomspace {
+  font-size: 14px;
+  color: #666;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.page-offers .offers-container .accommodation-roomspace i {
+  color: var(--ga-gold, #c9a96e);
+}
+
+/* --- Opis oferty --- */
+.page-offers .offers-container .offers_content_desc,
+.page-offers .offers-container .object-desc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+/* --- Przycisk SZCZEGÓŁY --- */
+.page-offers .offers-container .offers-object-detail {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background: var(--ga-gold, #c9a96e) !important;
+  color: #fff !important;
+  padding: 12px 28px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 0.3s ease;
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  height: auto !important;
+  line-height: 1.4 !important;
+}
+.page-offers .offers-container .offers-object-detail:hover {
+  background: var(--ga-gold-dark, #b8944f) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(201,169,110,0.35);
+}
+
+/* --- Link SZCZEGÓŁY w nagłówku karty (prawy górny) --- */
+.page-offers .offers-container .accommodation-rest .col-md-4 {
+  margin-top: auto;
+  padding-top: 8px !important;
+}
+
+/* --- Ukryj zbędne elementy --- */
+.page-offers .offers-container .payment-info {
+  display: none !important;
+}
+
+/* --- Nagłówek "IdoBooking X oferty" — lepszy styl --- */
+.page-offers .offers_content > h1,
+.page-offers .offers_content > .offers_content_header {
+  font-family: var(--ga-font, 'Lato', sans-serif);
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--ga-dark, #1c1c1e);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* --- Sidebar: lepszy styl filtrów --- */
+.page-offers .aside {
+  padding-right: 20px !important;
+}
+.page-offers .aside h3,
+.page-offers .aside .widget__head {
+  color: var(--ga-gold, #c9a96e) !important;
+  font-weight: 600;
+}
+
+/* --- Responsive: 1 kolumna na mobile --- */
+@media (max-width: 768px) {
+  .page-offers .offers_wrapper {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .page-offers .offers-container .object-icon {
+    aspect-ratio: 16 / 9;
+  }
+  .page-offers .row {
+    flex-direction: column !important;
+  }
+  .page-offers .aside {
+    padding-right: 0 !important;
+    margin-bottom: 24px;
+  }
+}
+
+/* --- Responsive: na tablecie 2 kolumny mniejsze --- */
+@media (max-width: 992px) and (min-width: 769px) {
+  .page-offers .offers_wrapper {
+    gap: 16px;
+  }
+  .page-offers .offers-container .accommodation-rest {
+    padding: 16px 18px 20px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   §22  FIXES v2 2026-03-03 — Hero freeze, lightbox, buttons, subpages
+   ═══════════════════════════════════════════════════════════ */
+
+/* --- FIX 5: HERO — ukryj CMS-wstrzyknięty przycisk "Sprawdź apartamenty" --- */
+.section.parallax .btn,
+.section.parallax > a:not([class]),
+.parallax-slider .btn,
+.parallax-slider > a:not([class]),
+.section.parallax .iai_box_button,
+.section.parallax .booking_button,
+.section.parallax .btn-check-offers,
+.parallax-slider .iai_box_button,
+.ga-hero-overlay ~ a.btn,
+.section.parallax a.btn:not(.ga-btn) {
+  display: none !important;
+}
+
+
+/* --- FIX 8: /OFFERS — ukryj duplikat przycisku SZCZEGÓŁY --- */
+.page-offers .offers-container .accommodation-rest .col-md-4 .offers-object-detail {
+  display: none !important;
+}
+.page-offers .offers-container .accommodation-rest > .row > .col-md-4:last-child .offers-object-detail {
+  display: inline-flex !important;
+}
+/* Fallback: ukryj link "Szczegóły" w nagłówku, zostaw tylko przycisk na dole */
+.page-offers .offers-container h2 a.offers-object-detail,
+.page-offers .offers-container .accommodation-title a.offers-object-detail {
+  display: none !important;
+}
+
+/* --- FIX 9: OFFER CARDS — większe karty z danymi --- */
+.ga-offers-grid {
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 36px !important;
+  max-width: 1320px !important;
+}
+.ga-offer-card__img-wrap {
+  aspect-ratio: 3/2 !important;
+}
+.ga-offer-card__body {
+  padding: 28px !important;
+}
+.ga-offer-card__name {
+  font-size: 21px !important;
+  margin-bottom: 16px !important;
+}
+.ga-offer-card__info {
+  gap: 12px !important;
+  margin-bottom: 20px !important;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ga-offer-card__tag {
+  font-size: 13px !important;
+  padding: 6px 14px !important;
+}
+/* Cena w karcie oferty */
+.ga-offer-card__price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ga-gold);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.ga-offer-card__price small {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ga-muted);
+}
+
+/* --- FIX 10: LIGHTBOX — powiększanie zdjęć discover --- */
+.ga-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0,0,0,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  cursor: zoom-out;
+  backdrop-filter: blur(8px);
+}
+.ga-lightbox.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.ga-lightbox__img {
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  transform: scale(0.92);
+  transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+}
+.ga-lightbox.active .ga-lightbox__img {
+  transform: scale(1);
+}
+.ga-lightbox__close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+.ga-lightbox__close:hover {
+  background: rgba(255,255,255,0.2);
+}
+.ga-lightbox__caption {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  max-width: 600px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+}
+/* Discover cards cursor — klikalne */
+.ga-discover__card {
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════
+   §23  PODSTRONY — Subpages CSS (merged)
+   ═══════════════════════════════════════════════════ */
+
+/* --- SUBPAGE WRAPPER --- */
+.ga-subpage {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* --- SUBPAGE HERO --- */
+.ga-sub-hero {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  height: 70vh;
+  min-height: 450px;
+  max-height: 700px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ga-sub-hero > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.ga-sub-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20,20,30,0.3) 0%, rgba(20,20,30,0.65) 100%);
+  z-index: 2;
+}
+.ga-sub-hero__content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 700px;
+  padding: 0 24px;
+  color: #fff;
+}
+.ga-sub-hero__content .ga-intro__badge {
+  color: var(--ga-gold, #c9a96e);
+  border-color: rgba(201,169,110,0.4);
+}
+.ga-sub-hero__content h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.15;
+  margin: 16px 0;
+  color: #fff;
+}
+.ga-sub-hero__content h1 strong {
+  font-weight: 700;
+  color: var(--ga-gold, #c9a96e);
+}
+.ga-sub-hero__content p {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 28px;
+}
+.ga-sub-hero__content .ga-btn {
+  margin-top: 8px;
+}
+
+/* --- SUBPAGE SECTIONS --- */
+.ga-sub-section {
+  padding: 80px 24px;
+}
+.ga-sub-section--warm {
+  background: var(--ga-warm, #f5f0ea);
+}
+.ga-sub-section--dark {
+  background: var(--ga-darker, #14141e);
+  color: #fff;
+}
+
+/* --- SUBPAGE FULL-WIDTH BREAKOUT --- */
+.ga-subpage .ga-sub-section--warm,
+.ga-subpage .ga-sub-section--dark,
+.ga-subpage .ga-sub-features {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.ga-sub-section__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+.ga-sub-section__inner > .ga-intro__badge {
+  display: inline-flex;
+  margin-bottom: 12px;
+}
+.ga-sub-section__inner > h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.25;
+  margin-bottom: 20px;
+  color: var(--ga-text, #2d2d3a);
+}
+.ga-sub-section--dark h2 {
+  color: #fff !important;
+}
+.ga-sub-section__inner > h2 strong {
+  font-weight: 700;
+  color: var(--ga-gold, #c9a96e);
+}
+.ga-sub-lead {
+  max-width: 750px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ga-muted, #7a7a8a);
+}
+
+/* --- FEATURES GRID --- */
+.ga-sub-features {
+  padding: 80px 24px;
+  background: #fff;
+}
+.ga-sub-features__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.ga-sub-feature {
+  text-align: center;
+  padding: 32px 24px;
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: var(--ga-radius-lg, 16px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.ga-sub-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+}
+.ga-sub-feature__icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+  color: var(--ga-gold, #c9a96e);
+}
+.ga-sub-feature__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.ga-sub-feature h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ga-text, #2d2d3a);
+}
+.ga-sub-feature p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ga-muted, #7a7a8a);
+}
+
+/* --- SPLIT LAYOUT (text + image) --- */
+.ga-sub-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  text-align: left;
+}
+.ga-sub-split--reverse {
+  direction: rtl;
+}
+.ga-sub-split--reverse > * {
+  direction: ltr;
+}
+.ga-sub-split__text h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 300;
+  line-height: 1.3;
+  margin-bottom: 16px;
+  text-align: left !important;
+}
+.ga-sub-split__text h2 strong {
+  font-weight: 700;
+  color: var(--ga-gold, #c9a96e);
+}
+.ga-sub-split__text p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ga-muted, #7a7a8a);
+  margin-bottom: 20px;
+}
+.ga-sub-split__text .ga-intro__badge {
+  margin-bottom: 12px;
+}
+.ga-sub-split__img {
+  border-radius: var(--ga-radius-lg, 16px);
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12);
+}
+.ga-sub-split__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 300px;
+}
+
+/* --- LIST --- */
+.ga-sub-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+.ga-sub-list li {
+  position: relative;
+  padding: 8px 0 8px 24px;
+  font-size: 0.95rem;
+  color: var(--ga-text, #2d2d3a);
+  line-height: 1.5;
+}
+.ga-sub-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 8px;
+  height: 8px;
+  background: var(--ga-gold, #c9a96e);
+  border-radius: 50%;
+}
+.ga-sub-list li strong {
+  color: var(--ga-text, #2d2d3a);
+  font-weight: 600;
+}
+
+/* --- LIST CARDS VARIANT --- */
+.ga-sub-list--cards li {
+  padding: 16px 20px 16px 24px;
+  margin-bottom: 12px;
+  background: #fff;
+  border-radius: var(--ga-radius, 8px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  border-left: 3px solid var(--ga-gold, #c9a96e);
+}
+.ga-sub-list--cards li::before {
+  display: none;
+}
+.ga-sub-list--cards li strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+.ga-sub-list--cards li span {
+  font-size: 0.85rem;
+  color: var(--ga-muted, #7a7a8a);
+}
+
+/* --- STEPS --- */
+.ga-sub-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 40px;
+}
+.ga-sub-step {
+  text-align: center;
+  padding: 32px 24px;
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: var(--ga-radius-lg, 16px);
+  background: #fff;
+}
+.ga-sub-step__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--ga-gold, #c9a96e), var(--ga-gold-dark, #a8884d));
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.ga-sub-step h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ga-text, #2d2d3a);
+}
+.ga-sub-step p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--ga-muted, #7a7a8a);
+}
+
+/* --- PRICING CARDS --- */
+.ga-sub-pricing {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.ga-sub-pricing__card {
+  position: relative;
+  text-align: center;
+  padding: 40px 28px;
+  border: 1px solid rgba(201,169,110,0.2);
+  border-radius: var(--ga-radius-lg, 16px);
+  background: #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.ga-sub-pricing__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+}
+.ga-sub-pricing__card--featured {
+  border-color: var(--ga-gold, #c9a96e);
+  box-shadow: 0 8px 32px rgba(201,169,110,0.15);
+  transform: scale(1.04);
+}
+.ga-sub-pricing__card--featured:hover {
+  transform: scale(1.04) translateY(-4px);
+}
+.ga-sub-pricing__badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--ga-gold, #c9a96e), var(--ga-gold-dark, #a8884d));
+  color: #fff;
+  padding: 4px 20px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ga-sub-pricing__period {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--ga-text, #2d2d3a);
+  margin-bottom: 4px;
+}
+.ga-sub-pricing__desc {
+  font-size: 0.85rem;
+  color: var(--ga-muted, #7a7a8a);
+  margin-bottom: 24px;
+}
+.ga-sub-pricing__card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  text-align: left;
+}
+.ga-sub-pricing__card ul li {
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--ga-text, #2d2d3a);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.ga-sub-pricing__card ul li::before {
+  content: '\2713';
+  position: absolute;
+  left: 0;
+  color: var(--ga-gold, #c9a96e);
+  font-weight: 700;
+}
+.ga-sub-pricing__card .ga-btn {
+  width: 100%;
+  text-align: center;
+}
+
+/* --- SUBPAGE RESPONSIVE --- */
+@media (max-width: 900px) {
+  .ga-sub-features__inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .ga-sub-split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .ga-sub-split--reverse {
+    direction: ltr;
+  }
+  .ga-sub-steps {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .ga-sub-pricing {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ga-sub-pricing__card--featured {
+    transform: none;
+  }
+  .ga-sub-pricing__card--featured:hover {
+    transform: translateY(-4px);
+  }
+}
+@media (max-width: 600px) {
+  .ga-sub-hero {
+    height: 60vh;
+    min-height: 380px;
+  }
+  .ga-sub-hero__content h1 {
+    font-size: 1.8rem;
+  }
+  .ga-sub-features__inner {
+    grid-template-columns: 1fr;
+  }
+  .ga-sub-section {
+    padding: 56px 16px;
+  }
+  .ga-sub-feature {
+    padding: 24px 20px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   §24  FIXES v3 — Poprawki 2026-03-03
+   ═══════════════════════════════════════════════════ */
+
+/* --- FIX v3.1: LOGO W NAGŁÓWKU — WIDOCZNE --- */
+/* .navbar-brand { display: none !important; } */
+
+/* --- FIX v3.4: WIĘKSZE KARTY "Wybrane apartamenty" --- */
+.ga-offers-wrapper .offer {
+  flex: 0 1 440px;
+  max-width: 520px;
+}
+.ga-offers-wrapper .offer .object-icon {
+  aspect-ratio: 16 / 10;
+}
+.ga-offers-wrapper .offer .object-icon img {
+  min-height: 260px;
+}
+.ga-offers-wrapper .offer h3 {
+  font-size: 1.3rem !important;
+  padding: 24px 24px 10px !important;
+}
+.ga-offers-wrapper .offer .offer__box {
+  padding: 0 24px 24px !important;
+}
+.ga-offers-wrapper .offerslist {
+  gap: 32px;
+}
+
+/* --- FIX v3.4b: KARTY APARTAMENTÓW — mobile stack --- */
+@media (max-width: 600px) {
+  .ga-offers-wrapper .offerslist {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0 16px !important;
+    gap: 20px !important;
+  }
+  .ga-offers-wrapper .offer {
+    flex: 0 1 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .ga-offers-wrapper .offer .object-icon img {
+    min-height: 200px !important;
+  }
+  .ga-offers-wrapper .offer h3 {
+    font-size: 1.1rem !important;
+    padding: 16px 16px 8px !important;
+  }
+  .ga-offers-wrapper .offer .offer__box {
+    padding: 0 16px 16px !important;
+  }
+}
+
+/* --- FIX v3.5: STOPKA — złota kolorystyka --- */
+footer,
+.footer,
+.footer_sub,
+#footer,
+.footer_sub.main,
+.footer-wrapper {
+  background: var(--ga-darker, #14141e) !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+footer h3, footer h4, footer h5,
+.footer h3, .footer h4, .footer h5,
+.footer_sub h3, .footer_sub h4,
+#footer h3, #footer h4,
+.footer-wrapper h3, .footer-wrapper h4 {
+  color: var(--ga-gold, #c9a96e) !important;
+  font-weight: 600;
+}
+footer a, .footer a, .footer_sub a, #footer a, .footer-wrapper a {
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: color 0.2s ease;
+}
+footer a:hover, .footer a:hover, .footer_sub a:hover, #footer a:hover, .footer-wrapper a:hover {
+  color: var(--ga-gold, #c9a96e) !important;
+}
+footer p, .footer p, .footer_sub p, .footer-wrapper p {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+footer hr, .footer hr, .footer_sub hr {
+  border-color: rgba(201, 169, 110, 0.2) !important;
+}
+footer .social-links a, .footer .social-links a {
+  color: var(--ga-gold, #c9a96e) !important;
+}
+.footer_sub .footer-copyright,
+.footer-bottom,
+.copyright-bar,
+.footer_sub .row:last-child {
+  border-top: 1px solid rgba(201, 169, 110, 0.15);
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+footer i, .footer i, .footer_sub i, .footer-wrapper i {
+  color: var(--ga-gold, #c9a96e) !important;
+}
+
+/* --- FIX v3.6: PODSTRONY — pełna szerokość sekcji --- */
+.ga-subpage {
+  overflow: visible !important;
+}
+.ga-subpage .ga-sub-section--warm,
+.ga-subpage .ga-sub-section--dark,
+.ga-subpage .ga-sub-features,
+.ga-subpage .ga-sub-hero {
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  position: relative;
+  box-sizing: border-box;
+}
+.ga-subpage .ga-sub-section {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  box-sizing: border-box;
+}
+.ga-sub-split__img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: var(--ga-radius-lg, 16px);
+}
+
+/* --- FIX v3.7: /OFERTA — złote kolory, filtry rozwijane, poprawki --- */
+.page-offers {
+  background: var(--ga-light, #faf8f5);
+}
+/* Przycisk "Zastosuj filtry" — złoty */
+.page-offers .aside .btn,
+.page-offers .aside button[type="submit"],
+.page-offers .aside input[type="submit"],
+.page-offers .aside .widget__submit,
+.page-offers .aside .btn-primary {
+  background: var(--ga-gold, #c9a96e) !important;
+  border-color: var(--ga-gold, #c9a96e) !important;
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: all 0.3s ease;
+}
+.page-offers .aside .btn:hover,
+.page-offers .aside button[type="submit"]:hover,
+.page-offers .aside .btn-primary:hover {
+  background: var(--ga-gold-dark, #b8944f) !important;
+  border-color: var(--ga-gold-dark, #b8944f) !important;
+}
+/* Sidebar — złoty akcent na checkboxach */
+.page-offers .aside input[type="checkbox"]:checked {
+  accent-color: var(--ga-gold, #c9a96e);
+}
+.page-offers .aside input[type="range"] {
+  accent-color: var(--ga-gold, #c9a96e);
+}
+/* Filtry rozwijane — strzałka i animacja */
+.page-offers .aside .filter_items {
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding-bottom: 16px;
+}
+.page-offers .aside .filter_header {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 28px !important;
+}
+.page-offers .aside .filter_header::after {
+  content: "\25BE";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: var(--ga-gold, #c9a96e);
+  transition: transform 0.3s ease;
+}
+.page-offers .aside .filter_items.ga-filter-collapsed .filter_header::after {
+  transform: translateY(-50%) rotate(-90deg);
+}
+.page-offers .aside .filter_items.ga-filter-collapsed .filter_content {
+  display: none !important;
+}
+/* Usun WSZYSTKIE duplikaty "Szczegóły" — zostaw tylko przycisk w .col-md-4 */
+.page-offers .offers-container .accommodation-rest .col-md-8 .offers-object-detail,
+.page-offers .offers-container h2 .offers-object-detail,
+.page-offers .offers-container h2 a.offers-object-detail,
+.page-offers .offers-container .accommodation-title .offers-object-detail,
+.page-offers .offers-container .accommodation-buttons {
+  display: none !important;
+}
+/* Powtórzony opis (=tytuł) pod przyciskiem — ukryj */
+.page-offers .offers-container .accommodation-short-description {
+  display: none !important;
+}
+.page-offers .offers-container .accommodation-rest .col-md-4 .offers-object-detail {
+  display: inline-flex !important;
+}
+/* Nagłówek strony /oferta — złoty akcent */
+.page-offers .offers_content > h1 strong,
+.page-offers .offers_content > .offers_content_header strong {
+  color: var(--ga-gold, #c9a96e);
+}
+
+/* ============================================================
+   FIX v3.9: PODSTRONY — większe czcionki
+   ============================================================ */
+.ga-subpage {
+  font-size: 18px !important;
+  line-height: 1.75 !important;
+}
+.ga-subpage h1, .ga-subpage .ga-sub-hero h1 { font-size: 2.8rem !important; }
+.ga-subpage h2 { font-size: 2.2rem !important; }
+.ga-subpage h3 { font-size: 1.6rem !important; }
+.ga-subpage p, .ga-subpage li, .ga-subpage td {
+  font-size: 1.125rem !important;
+  line-height: 1.8 !important;
+}
+.ga-subpage .ga-sub-features h4, .ga-subpage .ga-sub-card h4 {
+  font-size: 1.25rem !important;
+  font-weight: 700;
+}
+.ga-subpage .ga-sub-features p, .ga-subpage .ga-sub-card p {
+  font-size: 1.05rem !important;
+}
+.ga-subpage .ga-sub-section h5, .ga-subpage .ga-sub-split h5 {
+  font-size: 1.15rem !important;
+  font-weight: 600;
+}
+
+/* CMS text pages — fallback font sizes */
+.page-text .content-container, .page-text .text_page_content, .page-text .container-text {
+  font-size: 18px;
+  line-height: 1.75;
+}
+.page-text .content-container h1, .page-text .text_page_content h1 { font-size: 2.5rem; }
+.page-text .content-container h2, .page-text .text_page_content h2 { font-size: 2rem; }
+.page-text .content-container p, .page-text .text_page_content p {
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+/* ============================================================
+   §SEARCH — SILNIK WYSZUKIWARKI (glassmorphism pill-bar)
+   Zmergowano z silnik/wyszukiwarka.css + wyszukiwarka-active.css
+   ============================================================ */
+
+/* === S1. KONTENER WYSZUKIWARKI === */
+.iai-search {
+    position: absolute !important;
+    bottom: 0px !important;
+    width: min(1060px, 92vw) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 50 !important;
+    opacity: 0;
+    /* FIX: transition: none — zapobiega pulsacji z system JS + fullpage.js.
+       Animacja fade-in przez @keyframes, nie transition. */
+    transition: none !important;
+}
+.iai-search.ga-search-ready {
+    opacity: 1;
+    animation: gaSearchAppear 0.5s ease-out;
+}
+@keyframes gaSearchAppear {
+    from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* === S2. FORMULARZ — glassmorphism bar === */
+#iai_book_form {
+    display: grid !important;
+    grid-template-columns: 1.15fr 1fr 1fr 0.75fr auto !important;
+    grid-template-rows: 62px !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 62px !important;
+    background: rgba(255, 255, 255, 0.93) !important;
+    backdrop-filter: blur(28px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
+    border-radius: 16px !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    align-items: center !important;
+    transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+}
+#iai_book_form:hover {
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.16),
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+
+/* === S3. POLA FORMULARZA === */
+#iai_book_form .widget__option {
+    position: relative !important;
+    height: 62px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 10px 20px 8px !important;
+    border-right: 1px solid rgba(45, 45, 58, 0.08) !important;
+    transition: background 0.25s ease !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    cursor: pointer !important;
+}
+#iai_book_form .widget__option:first-child {
+    border-radius: 16px 0 0 16px !important;
+    padding-left: 24px !important;
+}
+#iai_book_form .widget__option:hover {
+    background: rgba(201, 169, 110, 0.07) !important;
+}
+#iai_book_form .widget__option:last-of-type {
+    border-right: none !important;
+}
+
+/* === S4. ETYKIETY (label) === */
+#iai_book_form .widget__option > label {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    color: var(--ga-text) !important;
+    opacity: 0.5 !important;
+    margin-bottom: 2px !important;
+    pointer-events: none !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    font-family: var(--ga-font) !important;
+    transform: none !important;
+    white-space: nowrap !important;
+    z-index: 3 !important;
+}
+
+/* === S5. INPUTY === */
+/* FIX: position:absolute — input pokrywa caly .widget__option.
+   Root cause starego bugu: flex-wrap:wrap + padding powodowaly
+   wrapping inputow do nowej kolumny obok labela zamiast pod nim,
+   co tworzilo martwe strefy klikniecia po lewej stronie pol. */
+#iai_book_form .widget__option input.iai_widget_input,
+#iai_book_form .widget__option input[type="text"] {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 28px 20px 8px 20px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    z-index: 2 !important;
+    cursor: pointer !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: var(--ga-text) !important;
+    line-height: 1.3 !important;
+    font-family: var(--ga-font) !important;
+    text-overflow: ellipsis !important;
+}
+#iai_book_form .widget__option:first-child input.iai_widget_input,
+#iai_book_form .widget__option:first-child input[type="text"] {
+    padding-left: 24px !important;
+}
+#iai_book_form .widget__option input::placeholder {
+    color: var(--ga-text) !important;
+    opacity: 0.3 !important;
+    font-weight: 400 !important;
+}
+
+/* === S6. IKONY W POLACH === */
+#iai_book_form .widget__option > i[class^="iaiicon"] {
+    position: absolute !important;
+    right: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 15px !important;
+    color: var(--ga-gold) !important;
+    opacity: 0.45 !important;
+    pointer-events: none !important;
+    transition: opacity 0.2s, color 0.2s !important;
+}
+#iai_book_form .widget__option:hover > i[class^="iaiicon"] {
+    opacity: 0.7 !important;
+    color: var(--ga-orange) !important;
+}
+
+/* === S7. PRZYCISKI DROPDOWN === */
+#iai_book_form .widget__option .iai_widget_btn {
+    position: absolute !important;
+    right: 8px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 28px !important;
+    height: 28px !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    opacity: 0.35 !important;
+    transition: opacity 0.2s !important;
+    padding: 0 !important;
+}
+#iai_book_form .widget__option .iai_widget_btn:hover {
+    opacity: 0.7 !important;
+}
+
+/* === S8. PRZYCISKI KALENDARZA === */
+#iai_book_form .widget__option button[aria-label*="Data"] {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    opacity: 0.35 !important;
+    padding: 0 !important;
+    transition: opacity 0.2s !important;
+}
+#iai_book_form .widget__option button[aria-label*="Data"]:hover {
+    opacity: 0.7 !important;
+}
+#iai_book_form .widget__option button[aria-label*="Data"] i {
+    color: var(--ga-gold) !important;
+    font-size: 15px !important;
+}
+
+/* === S9. PRZYCISK SUBMIT === */
+#iai_book_form .formbutton {
+    display: flex !important;
+    align-items: center !important;
+    padding: 7px 7px 7px 0 !important;
+    height: 62px !important;
+    border-right: none !important;
+    background: transparent !important;
+}
+#iai_book_form .formbutton button {
+    background: linear-gradient(135deg, var(--ga-gold-light) 0%, var(--ga-gold) 40%, var(--ga-gold-dark) 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 11px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    font-family: var(--ga-font) !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    padding: 0 26px !important;
+    height: 48px !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow:
+        0 4px 14px rgba(168, 136, 77, 0.35),
+        0 1px 3px rgba(168, 136, 77, 0.2) !important;
+    white-space: nowrap !important;
+    position: relative !important;
+    overflow: hidden !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+}
+#iai_book_form .formbutton button:hover {
+    background: linear-gradient(135deg, var(--ga-gold-hover-light) 0%, var(--ga-gold) 40%, var(--ga-gold-hover-dark) 100%) !important;
+    box-shadow:
+        0 6px 20px rgba(168, 136, 77, 0.5),
+        0 2px 6px rgba(168, 136, 77, 0.25) !important;
+    transform: translateY(-1px) !important;
+}
+#iai_book_form .formbutton button:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(168, 136, 77, 0.3) !important;
+}
+
+/* === S10. DROPDOWN LOKALIZACJI === */
+#iai_location { position: static !important; }
+#iailocation-container {
+    background: #fff !important;
+    border: 1px solid rgba(45, 45, 58, 0.06) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+    padding: 8px 0 !important;
+    margin-top: 8px !important;
+    overflow: hidden !important;
+    min-width: 280px !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    animation: dropdownSlide 0.2s ease-out !important;
+}
+#iailocation-container ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
+#iailocation-container li {
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: var(--ga-text) !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+    font-family: var(--ga-font) !important;
+}
+#iailocation-container li:hover {
+    background: rgba(201, 169, 110, 0.08) !important;
+    color: var(--ga-orange) !important;
+}
+#iailocation-container .iailocation-city {
+    font-weight: 700 !important; font-size: 11px !important;
+    text-transform: uppercase !important; letter-spacing: 0.08em !important;
+    color: var(--ga-gold) !important; padding: 12px 20px 6px !important;
+    pointer-events: none !important; opacity: 0.8 !important;
+}
+#iailocation-container .iailocation-addres {
+    padding-left: 20px !important; font-weight: 500 !important;
+    font-size: 14px !important; color: var(--ga-text) !important;
+    border-radius: 0 !important;
+}
+#iailocation-container .iailocation-addres:hover {
+    background: rgba(201, 169, 110, 0.08) !important;
+    color: var(--ga-orange) !important;
+}
+
+/* === S11. DROPDOWN OSOB === */
+#iai_persons_list {
+    background: #fff !important;
+    border: 1px solid rgba(45, 45, 58, 0.06) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+    padding: 6px 0 !important; margin-top: 8px !important;
+    list-style: none !important; min-width: 80px !important;
+    overflow: hidden !important; animation: dropdownSlide 0.2s ease-out !important;
+}
+#iai_persons_list li {
+    padding: 9px 20px !important; font-size: 14px !important;
+    font-weight: 500 !important; color: var(--ga-text) !important;
+    cursor: pointer !important; transition: background 0.15s ease, color 0.15s ease !important;
+    text-align: center !important; font-family: var(--ga-font) !important;
+}
+#iai_persons_list li:hover {
+    background: rgba(201, 169, 110, 0.08) !important;
+    color: var(--ga-orange) !important;
+}
+
+/* === S12. LITEPICKER / KALENDARZ === */
+.litepicker { font-family: var(--ga-font) !important; font-size: 0.85em !important; overflow: visible !important; }
+.litepicker .container__months {
+    background: #fff !important; border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid rgba(45, 45, 58, 0.06) !important; overflow: hidden !important;
+}
+.litepicker .container__months .month-item-header { color: var(--ga-text) !important; font-weight: 700 !important; padding: 12px 8px !important; }
+.litepicker .container__months .month-item-header div > .month-item-name { font-weight: 700 !important; color: var(--ga-text) !important; }
+.litepicker .container__months .month-item-weekdays-row > div {
+    font-weight: 600 !important; color: var(--ga-text) !important;
+    opacity: 0.35 !important; font-size: 11px !important; text-transform: uppercase !important;
+}
+.litepicker .container__months .month-item-header .button-next-month,
+.litepicker .container__months .month-item-header .button-previous-month {
+    cursor: pointer !important; transition: transform 0.15s ease !important;
+}
+.litepicker .container__months .month-item-header .button-next-month:hover,
+.litepicker .container__months .month-item-header .button-previous-month:hover { transform: scale(1.1) !important; }
+.litepicker .container__months .month-item-header .button-next-month:hover svg,
+.litepicker .container__months .month-item-header .button-previous-month:hover svg { fill: var(--ga-orange) !important; }
+.litepicker .container__days .day-item {
+    border-radius: 10px !important; transition: all 0.15s ease !important;
+    font-weight: 500 !important; color: var(--ga-text) !important;
+}
+.litepicker .container__days .day-item:hover {
+    background: rgba(201, 169, 110, 0.12) !important;
+    color: var(--ga-orange) !important; box-shadow: none !important;
+}
+.litepicker .container__days .day-item.is-today {
+    color: var(--ga-gold) !important; font-weight: 700 !important;
+    box-shadow: inset 0 0 0 1.5px var(--ga-gold) !important;
+}
+.litepicker .container__days .day-item.is-start-date,
+.litepicker .container__days .day-item.is-end-date {
+    background: var(--ga-orange) !important; color: #fff !important;
+    border-radius: 10px !important; font-weight: 700 !important;
+}
+.litepicker .container__days .day-item.is-in-range {
+    background: rgba(173, 80, 9, 0.08) !important;
+    color: var(--ga-orange) !important; border-radius: 0 !important;
+}
+.litepicker .container__days .day-item.is-locked { opacity: 0.2 !important; text-decoration: line-through !important; }
+.litepicker .container__tooltip {
+    background: var(--ga-text) !important; color: #fff !important;
+    border-radius: 8px !important; font-size: 12px !important;
+    font-weight: 600 !important; padding: 6px 14px !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
+}
+.litepicker .container__footer {
+    border-top: 1px solid rgba(45, 45, 58, 0.06) !important;
+    padding: 10px 16px !important; font-size: 12px !important;
+    color: var(--ga-text) !important; opacity: 0.5 !important;
+}
+
+/* S12b. LITEPICKER — ciemny backdrop + legenda */
+/* FIX: ::before na position:fixed wewnatrz position:fixed parenta nie pokrywa
+   calego viewportu prawidlowo. Zamiast tego uzywamy prawdziwego DOM elementu
+   #ga-calendar-backdrop tworzony w JS, z-index 9998 (tuz pod litepicker 9999).
+   JS MutationObserver na .litepicker toggluje klase .active przy open/close. */
+#ga-calendar-backdrop {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important;
+    width: 100vw !important; height: 100vh !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    z-index: 9998 !important;
+    pointer-events: none !important;
+    display: none;
+}
+#ga-calendar-backdrop.active { display: block !important; }
+.litepicker-backdrop { display: none !important; }
+
+/* Legenda — dolna czesc kalendarza z informacjami o dostepnosci.
+   System generuje .litepicker__legend z ostro zakonczonym boxem.
+   Fix: border-radius dolny + font/color pasujacy do kalendarza. */
+.litepicker__legend {
+    background: #fff !important; border-radius: 0 0 16px 16px !important;
+    padding: 8px 20px !important; font-size: 11px !important;
+    color: var(--ga-muted) !important; font-family: var(--ga-font) !important;
+    border-top: 1px solid rgba(45, 45, 58, 0.06) !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06) !important;
+    clip-path: inset(-1px -60px -60px -60px) !important;
+}
+.litepicker__legend .legend__halfBegin,
+.litepicker__legend .legend__halfEnd {
+    font-size: 11px !important; color: var(--ga-muted) !important;
+    font-family: var(--ga-font) !important;
+}
+
+/* Komunikat o braku ofert */
+.litepicker__val.--errorDate {
+    background: var(--ga-text) !important; color: #fff !important;
+    font-family: var(--ga-font) !important; font-size: 12px !important;
+    border-radius: 12px !important; padding: 10px 16px !important;
+    text-align: center !important; margin-bottom: 4px !important;
+}
+
+/* === S13. TRIGGER MOBILNY + ukrycia === */
+.iai_book_trigger { display: none !important; }
+.ga-scroll-indicator, .icon-arrow_big_down, .icon.icon-arrow_big_down { display: none !important; }
+.fullpage-wrapper > div:nth-child(2).fp-section { z-index: 2 !important; }
+.fullpage-wrapper > div:nth-child(4).fp-section { z-index: 1 !important; }
+
+/* === S14. UKRYTE ETYKIETY === */
+#iai_book_form .widget__option .visuallyhidden {
+    position: absolute !important; width: 1px !important; height: 1px !important;
+    overflow: hidden !important; clip: rect(0, 0, 0, 0) !important;
+}
+
+/* === S15. ANIMACJA DROPDOWNOW === */
+@keyframes dropdownSlide {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === S16. RESPONSYWNOSC WYSZUKIWARKI === */
+@media (max-width: 1100px) {
+    .iai-search { width: 94vw !important; }
+    #iai_book_form { grid-template-columns: 1fr 1fr 1fr 0.7fr auto !important; }
+    #iai_book_form .formbutton button { padding: 0 18px !important; font-size: 12px !important; }
+}
+@media (max-width: 850px) {
+    .index-info { bottom: -80px !important; }
+    .iai-search {
+        position: absolute !important; bottom: -60px !important;
+        left: 50% !important; transform: translateX(-50%) !important;
+    }
+    #iai_book_form {
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: 52px 52px auto !important;
+        height: auto !important; border-radius: 16px !important; gap: 0 !important;
+    }
+    #iai_book_form .widget__option { height: 52px !important; }
+    #iai_book_form .widget__option:first-child { border-radius: 16px 0 0 0 !important; padding-left: 20px !important; }
+    #iai_book_form .widget__option:nth-child(2) { border-radius: 0 16px 0 0 !important; }
+    #iai_book_form .dateto.widget__option {
+        border-radius: 0 !important;
+        border-right: 1px solid rgba(45, 45, 58, 0.08) !important;
+        border-top: 1px solid rgba(45, 45, 58, 0.06) !important;
+    }
+    #iai_book_form .iai_input-small.widget__option { border-top: 1px solid rgba(45, 45, 58, 0.06) !important; }
+    #iai_book_form .formbutton {
+        grid-column: 1 / -1 !important; padding: 8px !important;
+        border-top: 1px solid rgba(45, 45, 58, 0.06) !important;
+    }
+    #iai_book_form .formbutton button { width: 100% !important; border-radius: 10px !important; height: 50px !important; font-size: 14px !important; }
+    .fullpage-wrapper > div:nth-child(4).fp-section .fp-tableCell { padding-top: 80px !important; }
+}
+@media (max-width: 540px) {
+    .index-info { bottom: -40px !important; }
+    .iai-search {
+        position: absolute !important; bottom: -60px !important;
+        left: 50% !important; transform: translateX(-50%) !important; width: 92vw !important;
+    }
+    #iai_book_form {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: repeat(4, 44px) auto !important;
+        border-radius: 14px !important;
+    }
+    #iai_book_form .widget__option {
+        height: 44px !important; border-right: none !important;
+        border-bottom: 1px solid rgba(45, 45, 58, 0.06) !important;
+        padding: 6px 16px 4px !important;
+    }
+    #iai_book_form .widget__option:first-child { border-radius: 14px 14px 0 0 !important; padding-left: 16px !important; }
+    #iai_book_form .widget__option:nth-child(2) { border-radius: 0 !important; }
+    #iai_book_form .dateto.widget__option { border-radius: 0 !important; border-right: none !important; }
+    #iai_book_form .formbutton { padding: 6px 8px 8px !important; border-top: none !important; }
+    #iai_book_form .formbutton button { width: 100% !important; height: 46px !important; border-radius: 10px !important; font-size: 13px !important; }
+    #iai_book_form .widget__option > label { font-size: 9px !important; margin-bottom: 1px !important; }
+    #iai_book_form .widget__option input.iai_widget_input,
+    #iai_book_form .widget__option input[type="text"] { font-size: 13px !important; }
+    .fullpage-wrapper > div:nth-child(4).fp-section .fp-tableCell { padding-top: 120px !important; }
+}
+@media (max-width: 380px) {
+    .index-info { bottom: -20px !important; }
+    .iai-search { width: 96vw !important; bottom: -70px !important; }
+    #iai_book_form .widget__option { height: 42px !important; padding: 5px 12px 3px !important; }
+    #iai_book_form .formbutton button { height: 44px !important; font-size: 12px !important; }
+    .fullpage-wrapper > div:nth-child(4).fp-section .fp-tableCell { padding-top: 140px !important; }
+}
+
+/* === S17. ACTIVE STATES (wymaga JS) === */
+#iai_book_form .widget__option.is-active { background: rgba(201, 169, 110, 0.06) !important; }
+#iai_book_form .widget__option.is-active > label { color: var(--ga-gold) !important; opacity: 0.75 !important; }
+#iai_book_form .widget__option.is-active > i[class^="iaiicon"] { color: var(--ga-gold) !important; opacity: 0.7 !important; }
+#iai_book_form.ga-enhanced { display: grid !important; }
+
+/* === S18. DROPDOWN DIRECTION — otwieraj do gory ===
+   Wyszukiwarka jest na dole hero (bottom: -150px), wiec dropdowny
+   musza otwierac sie DO GORY, nie w dol poza widoczny obszar. */
+#iailocation-container {
+    top: auto !important;
+    bottom: 100% !important;
+    margin-bottom: 4px !important;
+    border-radius: 16px 16px 0 0 !important;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.12) !important;
+}
+#iai_persons_list {
+    top: auto !important;
+    bottom: 100% !important;
+    margin-bottom: 4px !important;
+    border-radius: 16px 16px 0 0 !important;
+    width: 100% !important;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.12) !important;
+    background: #fff !important;
+    padding: 8px 0 !important;
+}
+/* KEY FIX: system handlePersonSelection() ustawia inline style="display:none"
+   ktory wygrywa z CSS .visible{display:block}. !important nadpisuje inline. */
+#iai_persons_list.visible {
+    display: block !important;
+}
+#iai_persons_list li {
+    padding: 10px 20px !important;
+    text-align: center !important;
+    transition: background 0.15s !important;
+}
+#iai_persons_list li:hover {
+    background: rgba(201, 169, 110, 0.1) !important;
+}
+
+/* === S19. OSOBY — kliknij cale pole + ikonka do lewej ===
+   System: input z-index:2 blokuje button z-index:1. Fix via JS click handler.
+   Ikonka iaiicon-users rozciagnieta na cala szerokosc — fix: left-align. */
+#iai_book_form .iai_input-small.widget__option {
+    cursor: pointer !important;
+}
+#iai_book_form .iai_input-small i.iaiicon-users {
+    left: 14px !important;
+    right: auto !important;
+    width: auto !important;
+    top: 20px !important;
+    text-align: left !important;
+}
+#iai_book_form .iai_input-small label {
+    text-align: left !important;
+    padding-left: 22px !important;
+}
+
+/* ============================================================
+   §SYS — SYSTEM TRAPS & OVERRIDES (IdoSell platform fixes)
+   ============================================================ */
+
+/* 1. Body font-size reset (system sets 22.4px) */
+body {
+  font-size: 16px !important;
+}
+
+/* 2. System orange #AD5009 — global override on buttons */
+.btn:not(.slick-arrow):not(.ga-btn) {
+  background-color: #c9a96e !important;
+  border-color: #c9a96e !important;
+  color: #fff !important;
+}
+.btn:not(.slick-arrow):not(.ga-btn):hover {
+  background-color: #a8884d !important;
+  border-color: #a8884d !important;
+}
+
+/* 3. Search button (.formbutton) — system orange override */
+.formbutton,
+.formbutton button {
+  background: #c9a96e !important;
+  border-color: #c9a96e !important;
+  color: #fff !important;
+}
+.formbutton:hover,
+.formbutton button:hover {
+  background: #a8884d !important;
+  border-color: #a8884d !important;
+}
+
+/* 4. Navbar-brand link — system orange color override */
+.navbar-brand,
+.navbar-brand a {
+  color: #c9a96e !important;
+}
+
+/* 5. .ga-module link color — prevent system orange inheritance */
+a.ga-module,
+.ga-module {
+  color: #fff !important;
+}
+
+/* 6. Index-info stacking context fix (search widget z-index) */
+.index-info {
+  z-index: 1000 !important;
+  overflow: visible !important;
+  /* FIX: fullpage.js ustawia transition: all na index-info → pulsacja przy reflow */
+  transition: none !important;
+}
+/* FIX: fullpage.js transition: all kaskaduje na fp-tableCell, fp-section */
+.index-info *,
+.section.parallax .fp-tableCell {
+  transition-property: opacity, background, color, border-color, box-shadow !important;
+}
+
+/* 7. Search input z-index fix (system sets -1) */
+#iai_book_form input,
+#iai_book_form select,
+.iai-search input,
+.iai-search select {
+  z-index: 2 !important;
+}
+
+/* 8. Litepicker width + overflow fix */
+.litepicker {
+  width: fit-content !important;
+  overflow: visible !important;
+}
+
+/* 9. Ghost booking form on /offer pages */
+body.page-offer #iai_book_form.d-none {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 10. Hide relocated .iai-search on /offers page */
+body.page-offers .iai-search {
+  display: none !important;
+}
+
+/* 11. Dark overlay removal (system ::before/::after) */
+.parallax-slider::before,
+.parallax-image::after {
+  display: none !important;
+}
+
+/* 12. System elements — HARDCODED HEX (CSS vars don't work here!) */
+#bounce {
+  background-color: #c9a96e !important;
+  background: #c9a96e !important;
+}
+#backTop {
+  background: #c9a96e !important;
+  color: #fff !important;
+}
+#backTop:hover {
+  background: #a8884d !important;
+}
+.ck_dsclr__btn_v2 {
+  background: #c9a96e !important;
+  border-color: #c9a96e !important;
+  color: #fff !important;
+}
+.ck_dsclr_v2 a {
+  color: #c9a96e !important;
+}
+.ck_dsclr_x_v2 {
+  color: #c9a96e !important;
+}
+
+/* 12b. Offer card links — system orange color override */
+.offer .object-icon,
+.offer .object-icon a,
+.offer .offer__hover,
+.offer .object-icon img {
+  color: inherit !important;
+}
+.ga-offers-wrapper .offer .object-icon {
+  color: var(--ga-text, #2d2d3a) !important;
+}
+.skip_link {
+  background: #c9a96e !important;
+  color: #fff !important;
+}
+
+/* 13. System H1 + IdoBooking H2 — always hidden */
+h1.big-label {
+  display: none !important;
+}
+.index-info h2 {
+  display: none !important;
+}
+
+/* 14. Persons dropdown overflow fix */
+.iai-search .persons-dropdown,
+.iai-search .search-persons {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* 15. /offers page — system orange overrides */
+.page-offers .iai_book_trigger,
+.page-offers .iai_book_trigger span,
+.page-offers .iai_book_trigger b,
+.page-offers h4,
+.page-offers i[class*="iaiicon"] {
+  color: #c9a96e !important;
+}
+.page-offers .offers-container .object-icon,
+.page-offers .offers-container .object-icon a,
+.page-offers .offers-container img,
+.page-offers a.object-icon,
+a.object-icon {
+  color: #2d2d3a !important;
+}
+.page-offers .offers-container a:not(.offers-object-detail),
+.page-offers .offers_wrapper a:not(.offers-object-detail) {
+  color: #2d2d3a !important;
+}
+.page-offers .offers-container a:not(.offers-object-detail):hover {
+  color: #c9a96e !important;
+}
+.page-offers a.btn:not(.slick-arrow) {
+  color: #fff !important;
+}
+
+/* 16. /contact page — system orange overrides */
+.page-contact .contact__tel,
+.page-contact .contact__tel span,
+.page-contact .contact__email,
+.page-contact .contact__email span,
+.page-contact i[class*="icon-"] {
+  color: #c9a96e !important;
+}
+.page-contact .contact__tel:hover,
+.page-contact .contact__email:hover {
+  color: #a8884d !important;
+}
+
+/* 17. Global skip/accessibility links — orange override */
+a.btn[href="#main"],
+a.btn[href="#filters"],
+a.btn[href="#offers-list"],
+.skip-links a,
+a[class="btn"]:not(.slick-arrow):not(.ga-btn):not(.offers-object-detail) {
+  background-color: #c9a96e !important;
+  color: #fff !important;
+}
+
+/* 18. /offer page — system orange overrides */
+/* 18a. Gallery links + images — remove inherited orange */
+.page-offer .offer-gallery a,
+.page-offer .offer-gallery img,
+.page-offer .offer-gallery a img {
+  color: inherit !important;
+}
+
+/* 18b. Generic page links — default to dark, not orange */
+.page-offer a {
+  color: #2d2d3a !important;
+}
+.page-offer a:hover {
+  color: #c9a96e !important;
+}
+
+/* 18c. Room reservation CTA links — gold */
+.page-offer .room_rez a {
+  color: #c9a96e !important;
+}
+.page-offer .room_rez a:hover {
+  color: #a8884d !important;
+}
+.page-offer .room_rez a.accommodation-reservation {
+  background: #c9a96e !important;
+  color: #fff !important;
+  border-color: #c9a96e !important;
+}
+.page-offer .room_rez a.accommodation-reservation:hover {
+  background: #a8884d !important;
+  border-color: #a8884d !important;
+}
+
+/* 18d. Price values + wrapper — gold */
+.page-offer strong.price,
+.page-offer .object-price > span {
+  color: #c9a96e !important;
+}
+
+/* 18e. Contact links — gold */
+.page-offer a[href^="tel:"],
+.page-offer a[href^="mailto:"] {
+  color: #c9a96e !important;
+}
+.page-offer a[href^="tel:"]:hover,
+.page-offer a[href^="mailto:"]:hover {
+  color: #a8884d !important;
+}
+
+/* 18f. Bold text in links/lists — inherit */
+.page-offer a strong,
+.page-offer li strong {
+  color: inherit !important;
+}
+
+/* 18g. Buttons on offer page — white text on gold */
+.page-offer .btn:not(.slick-arrow) {
+  color: #fff !important;
+}
+
+/* 18h. Loader border colors (global — appears on all pages) */
+.widgetLoader,
+.litepicker__loader {
+  border-top-color: #c9a96e !important;
+}
+
+/* 19. Współpraca page — 4-column steps grid */
+.ga-subpage--wspolpraca .ga-sub-steps {
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 850px) {
+  .ga-subpage--wspolpraca .ga-sub-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 540px) {
+  .ga-subpage--wspolpraca .ga-sub-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 20. #backTop border fix (bg already gold, border was orange) */
+#backTop {
+  border-color: #c9a96e !important;
+}
+
+/* 21. /offers page — sidebar filters collapsed by default */
+.page-offers .filter_content.collapse:not(.show) {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+.page-offers .iai_book_trigger {
+  pointer-events: auto !important;
+}

@@ -1,0 +1,45 @@
+l.p.;Nazwa firmy;ID panelu;Status;Strona WWW;Data startu;Data dostarczenia;Skomplikowanie;Języki;SLA budowy (dni rob.);SLA budowy (h);Czas rzecz. (h);Czas rzecz. (dni rob.);Delta SLA (h);SLA dotrzymane?;Rundy poprawek;Liczba zmian;SLA poprawki (dni);Feedback klienta;BOTTLENECK?
+1;WHITE FROG (CityApart Szczecin);56026;Zakończona;https://cityapartszczecin.pl/;;;Średnia;PL;7;56;8;1;+48;✓ TAK;0;0;brak;NIE;
+2;WARSZAWSKI HOLDING (WawaBed);55761;Zakończona;https://wh.waw.pl/;;;Wysoka;PL;10;80;20;3;+60;✓ TAK;0;0;brak;NIE;
+3;VILLA KAPITAŃSKA;57041;Zakończona;https://villa-kapitanska.pl/;;;Bardzo wysoka;PL+DE;14;112;30;4;+82;✓ TAK;0;0;brak;NIE;
+4;Mountain Prestige MAR;57060;Brief;https://client57060.idosell.com/;;;Brief - brak danych;?;0;0;0;0;-;-;0;0;brak;NIE;
+5;MORADA SERVICE (GoldenApartments);57304;Zakończona;https://client57304.idosell.com/;;;Średnia;PL;7;56;15;2;+41;✓ TAK;2;6;2;TAK;
+6;MW Consulting;53370;Zakończona;https://client53370.idosell.com/;;;Średnia;PL;7;56;10;2;+46;✓ TAK;0;0;brak;NIE;
+7;GeoStay LLC;57156;Zakończona;https://geostay.ge/;;;Wysoka;PL+RU;10;80;14;2;+66;✓ TAK;0;0;brak;NIE;
+8;WebActive (Mazurski Chill);57689;W toku;https://client57689.idosell.com/;;;Średnia;PL;7;56;12;2;+44;✓ TAK;1;4;2;NIE;
+9;MADERA (Madera Centrum);45553;Zakończona;http://www.maderacentrum.pl/;;;Wysoka;PL+EN;10;80;20;3;+60;✓ TAK;3;18;3;TAK;⚠ UWAGA
+10;NAJMAR;57656;Zakończona;https://client57656.idosell.com/;;;Bardzo wysoka;PL;14;112;35;5;+77;✓ TAK;14;33;2;TAK;🔴 BOTTLENECK
+11;EcoCamping (Krzysztof Dostal);57820;Zakończona;http://client57820.idosell.com/;;;Bardzo wysoka;PL+EN;14;112;28;4;+84;✓ TAK;2;22;3;TAK;
+12;MENTALIS;23326;Brief;https://client23326.idosell.com/;;;Brief - brak danych;?;0;0;0;0;-;-;0;0;brak;NIE;
+13;MARCIN SKRZYPCZAK;33019;Brief;https://client33019.idosell.com/;;;Brief - brak danych;?;0;0;0;0;-;-;0;0;brak;NIE;
+14;WCA Wrocław City Apartments;6645;Poprawki po WD;https://wroclawcityapartments.pl/;;;Niska;PL;3;24;5;1;+19;✓ TAK;0;0;3;NIE;
+15;SORS Eagle Tower (Paweł Pasławski);51651;Poprawki po WD;https://client51651.idosell.com/;;;Bardzo wysoka;PL+EN+DE+ES;14;112;22;3;+90;✓ TAK;2;9;2;NIE;
+;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+── PODSUMOWANIE ─────────────────;;;;;;;;;;;;;;;;;;
+Wskaźnik;Wartość;;;;;;;;;;;;;;;;;;
+Projekty ogółem;=COUNTA(B2:B16);;;;;;;;;;;;;;;;;;
+Zakończone;=COUNTIF(D2:D16,"Zakończona");;;;;;;;;;;;;;;;;;
+W toku;=COUNTIF(D2:D16,"W toku");;;;;;;;;;;;;;;;;;
+Brief (planowane);=COUNTIF(D2:D16,"Brief");;;;;;;;;;;;;;;;;;
+Poprawki po WD;=COUNTIF(D2:D16,"Poprawki po WD");;;;;;;;;;;;;;;;;;
+% ukończenia;=B22/B21;;;;;;;;;;;;;;;;;;
+Łączny czas budowy (h);=SUM(L2:L16);;;;;;;;;;;;;;;;;;
+Łączny czas budowy (dni rob.);=CEILING(SUM(L2:L16)/8,1);;;;;;;;;;;;;;;;;;
+Średni czas budowy (h);=AVERAGEIF(D2:D16,"<>Brief",L2:L16);;;;;;;;;;;;;;;;;;
+SLA dotrzymane (% projektów);=COUNTIF(O2:O16,"✓ TAK")/COUNTIF(D2:D16,"<>Brief");;;;;;;;;;;;;;;;;;
+Łączne rundy poprawek;=SUM(P2:P16);;;;;;;;;;;;;;;;;;
+Projekty z feedbackiem;=COUNTIF(S2:S16,"TAK");;;;;;;;;;;;;;;;;;
+Bottlenecki (rundy ≥ 3);=COUNTIF(T2:T16,"*BOTTLENECK*");;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+── PIPELINE ─────────────────────;;;;;;;;;;;;;;;;;;
+Status;Liczba;Udział %;Pasek postępu;;;;;;;;;;;;;;;;;;
+Zakończona;=COUNTIF(D2:D16,"Zakończona");=B37/B21;=REPT("█",ROUND(C37*20,0))&REPT("░",20-ROUND(C37*20,0))&"  "&TEXT(C37,"0%");;;;;;;;;;;;;;;;;;
+W toku;=COUNTIF(D2:D16,"W toku");=B38/B21;=REPT("█",ROUND(C38*20,0))&REPT("░",20-ROUND(C38*20,0))&"  "&TEXT(C38,"0%");;;;;;;;;;;;;;;;;;
+Brief;=COUNTIF(D2:D16,"Brief");=B39/B21;=REPT("█",ROUND(C39*20,0))&REPT("░",20-ROUND(C39*20,0))&"  "&TEXT(C39,"0%");;;;;;;;;;;;;;;;;;
+Poprawki po WD;=COUNTIF(D2:D16,"Poprawki po WD");=B40/B21;=REPT("█",ROUND(C40*20,0))&REPT("░",20-ROUND(C40*20,0))&"  "&TEXT(C40,"0%");;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;
+── CEL ROCZNY 2026 ──────────────;;;;;;;;;;;;;;;;;;
+;Plan;Wykonano;% realizacji;Pozostało;;;;;;;;;;;;;;;;;
+Wdrożenia zakończone;20;=COUNTIF(D2:D16,"Zakończona");=C44/B44;=B44-C44;;;;;;;;;;;;;;;;;
+Projekty w pipeline;20;=COUNTA(B2:B16);=C45/B45;=B45-C45;;;;;;;;;;;;;;;;;

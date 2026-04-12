@@ -1,0 +1,274 @@
+<!-- ============================================================
+     Najmar Apartamenty — Strona główna PL
+     Panel → Wygląd → Strona główna → Edytor treści → tryb HTML
+     ============================================================ -->
+
+<!-- ============================================================
+     §1 INTRO / WELCOME
+     ============================================================ -->
+<section class="nj-intro">
+  <div class="nj-intro__inner">
+    <h2 class="nj-section-title">Witamy w Żywcu</h2>
+    <p class="nj-intro__text">Najmar to komfortowe pokoje w najlepszych lokalizacjach Żywca. Oferujemy pokoje idealne na krótki wypoczynek lub dłuższy pobyt — w atrakcyjnych cenach, z bezpłatnym parkingiem i doskonałym dojazdem do największych atrakcji Beskidów.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     §2 NASZE POKOJE — OFERTY WYRÓŻNIONE (automatyczne z panelu)
+     W panelu: Oferta → Oferty → zaznacz "Wyróżniona" przy każdej ofercie
+     System automatycznie wyświetli karty ofert wyróżnionych poniżej.
+     ============================================================ -->
+<section class="nj-apartments nj-full-width">
+  <div class="nj-apartments__inner">
+    <h2 class="nj-section-title nj-section-title--light">Nasze Pokoje</h2>
+    <p class="nj-apartments__subtitle">Wybierz pokój dopasowany do Twoich potrzeb</p>
+
+    <!-- Oferty wyróżnione — system IdoBooking wstawi je automatycznie
+         do kontenera .cmshotspot na stronie głównej.
+         Poniżej zostawiamy pusty grid jako fallback gdyby hotspot
+         jeszcze nie był skonfigurowany. -->
+    <div class="nj-apartments__grid nj-featured-fallback">
+
+      <!-- Karta 1: Miętówka -->
+      <div class="nj-apartment-card">
+        <div class="nj-apartment-card__image-wrap">
+          <img src="https://client57656.idosell.com/images/objects/pictures/large/0/1/42.jpg" alt="Miętówka — pokój w Żywcu" class="nj-apartment-card__img" loading="lazy">
+          <span class="nj-apartment-card__price">od 250 zł / noc</span>
+        </div>
+        <div class="nj-apartment-card__info">
+          <h3 class="nj-apartment-card__name">Miętówka</h3>
+          <p class="nj-apartment-card__meta">
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              do 4 osób
+            </span>
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Oś. 700-lecia
+            </span>
+          </p>
+          <p class="nj-apartment-card__desc">Komfortowo urządzone mieszkanie z oddzielną sypialnią i salonem. Pełne wyposażenie kuchni, Netflix, Wi-Fi. Bezpłatny parking przy budynku.</p>
+          <a href="/offer/10/Mietowka" class="nj-btn nj-btn--outline">Zobacz szczegóły</a>
+        </div>
+      </div>
+
+      <!-- Karta 2: Studio -->
+      <div class="nj-apartment-card">
+        <div class="nj-apartment-card__image-wrap">
+          <img src="https://client57656.idosell.com/images/objects/pictures/large/2/1/29.jpg" alt="Studio — pokój w centrum Żywca" class="nj-apartment-card__img" loading="lazy">
+          <span class="nj-apartment-card__price">od 250 zł / noc</span>
+        </div>
+        <div class="nj-apartment-card__info">
+          <h3 class="nj-apartment-card__name">Studio</h3>
+          <p class="nj-apartment-card__meta">
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              do 5 osób
+            </span>
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Dworcowa 2a2
+            </span>
+          </p>
+          <p class="nj-apartment-card__desc">Przestronne studio w centrum Żywca, w bezpośrednim sąsiedztwie dworca i komunikacji miejskiej. Idealne dla grup i rodzin. Bezpłatny parking.</p>
+          <a href="/offer/12/Studio" class="nj-btn nj-btn--outline">Zobacz szczegóły</a>
+        </div>
+      </div>
+
+      <!-- Karta 3: Pokój Tujka -->
+      <div class="nj-apartment-card">
+        <div class="nj-apartment-card__image-wrap">
+          <img src="https://client57656.idosell.com/images/objects/pictures/large/3/1/31.jpg" alt="Pokój Tujka — przytulny pokój w Żywcu" class="nj-apartment-card__img" loading="lazy">
+          <span class="nj-apartment-card__price">od 130 zł / noc</span>
+        </div>
+        <div class="nj-apartment-card__info">
+          <h3 class="nj-apartment-card__name">Pokój Tujka</h3>
+          <p class="nj-apartment-card__meta">
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              do 2 osób
+            </span>
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Oś. Kabaty 10
+            </span>
+          </p>
+          <p class="nj-apartment-card__desc">Przytulny, komfortowy pokój w spokojnej okolicy. Doskonały wybór dla par i podróżnych biznesowych. Wi-Fi, TV, bezpłatny parking.</p>
+          <a href="/offer/13/Pokoj-Tujka-Zywiec" class="nj-btn nj-btn--outline">Zobacz szczegóły</a>
+        </div>
+      </div>
+
+      <!-- Karta 4: Pokój Tujka Premium -->
+      <div class="nj-apartment-card">
+        <div class="nj-apartment-card__image-wrap">
+          <img src="https://client57656.idosell.com/images/objects/pictures/large/4/1/33.jpg" alt="Pokój Tujka Premium — wyższy standard" class="nj-apartment-card__img" loading="lazy">
+          <span class="nj-apartment-card__price">od 200 zł / noc</span>
+        </div>
+        <div class="nj-apartment-card__info">
+          <h3 class="nj-apartment-card__name">Pokój Tujka Premium</h3>
+          <p class="nj-apartment-card__meta">
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              do 2 osób
+            </span>
+            <span class="nj-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Oś. Kabaty 10
+            </span>
+          </p>
+          <p class="nj-apartment-card__desc">Ulepszona wersja pokoju Tujka z wyższym standardem wyposażenia. Netflix, Wi-Fi, nowe meble — maksymalny komfort w niskiej cenie.</p>
+          <a href="/offer/14/Pokoj-Tujka-Zywiec" class="nj-btn nj-btn--outline">Zobacz szczegóły</a>
+        </div>
+      </div>
+
+    </div><!-- /.nj-apartments__grid -->
+
+    <div class="nj-apartments__cta">
+      <a href="/offers" class="nj-btn nj-btn--primary">Sprawdź dostępność i ceny</a>
+    </div>
+
+  </div><!-- /.nj-apartments__inner -->
+</section>
+
+<!-- ============================================================
+     §3 DLACZEGO NAJMAR — 4 BENEFITY
+     ============================================================ -->
+<section class="nj-benefits">
+  <div class="nj-benefits__inner">
+    <h2 class="nj-section-title">Dlaczego Najmar?</h2>
+
+    <div class="nj-benefits__grid">
+
+      <div class="nj-benefit">
+        <div class="nj-benefit__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+            <path d="M12 6v6l4 2"/>
+            <path d="M7 10l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3 class="nj-benefit__title">Najlepsza cena</h3>
+        <p class="nj-benefit__text">Pokoje od 130 zł/dobę — najlepsza oferta w Żywcu. Bez ukrytych opłat, bez prowizji pośredników.</p>
+      </div>
+
+      <div class="nj-benefit">
+        <div class="nj-benefit__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+            <circle cx="12" cy="16" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3 class="nj-benefit__title">Bezpłatny parking</h3>
+        <p class="nj-benefit__text">Każdy pokój dysponuje bezpłatnym miejscem parkingowym. Przyjedź samochodem bez dodatkowych kosztów.</p>
+      </div>
+
+      <div class="nj-benefit">
+        <div class="nj-benefit__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3 class="nj-benefit__title">Doskonała lokalizacja</h3>
+        <p class="nj-benefit__text">W sercu Żywca, blisko rynku i komunikacji miejskiej. Jezioro Żywieckie, Beskid i Energylandia — wszystko w zasięgu.</p>
+      </div>
+
+      <div class="nj-benefit">
+        <div class="nj-benefit__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+            <path d="M9 21V12h6v9"/>
+          </svg>
+        </div>
+        <h3 class="nj-benefit__title">Pełne wyposażenie</h3>
+        <p class="nj-benefit__text">Kuchnia, Netflix, Wi-Fi, pralka — poczuj się jak w domu. Wszystko czego potrzebujesz na komfortowy pobyt.</p>
+      </div>
+
+    </div><!-- /.nj-benefits__grid -->
+  </div><!-- /.nj-benefits__inner -->
+</section>
+
+<!-- ============================================================
+     §4 ODKRYJ ŻYWIEC — ATRAKCJE
+     ============================================================ -->
+<section class="nj-attractions nj-full-width">
+  <div class="nj-attractions__inner">
+    <h2 class="nj-section-title nj-section-title--light">Odkryj Żywiec i okolice</h2>
+    <p class="nj-attractions__subtitle">Beskidy, jeziora i szlaki — wszystko w zasięgu ręki</p>
+
+    <div class="nj-attractions__grid">
+
+      <article class="nj-attraction-card">
+        <div class="nj-attraction-card__image-wrap">
+          <img
+            src="https://client57656.idosell.com/images/frontpageGallery/pictures/large/0/0/5.jpg"
+            alt="Jezioro Żywieckie — widok na zbiornik w otoczeniu Beskidów"
+            loading="lazy"
+            width="800"
+            height="533"
+          >
+        </div>
+        <div class="nj-attraction-card__content">
+          <h3 class="nj-attraction-card__title">Jezioro Żywieckie</h3>
+          <p class="nj-attraction-card__text">Piękny zbiornik w otoczeniu Beskidów. Kąpieliska, żeglarstwo, rowery wodne i trasy rowerowe wzdłuż brzegu.</p>
+        </div>
+      </article>
+
+      <article class="nj-attraction-card">
+        <div class="nj-attraction-card__image-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Park_w_%C5%BBywcu_%287%29.jpg/600px-Park_w_%C5%BBywcu_%287%29.jpg"
+            alt="Park Zamkowy w Żywcu — aleje parkowe i stawy w otoczeniu drzew"
+            loading="lazy"
+            width="800"
+            height="533"
+          >
+        </div>
+        <div class="nj-attraction-card__content">
+          <h3 class="nj-attraction-card__title">Park Zamkowy i Pałac Habsburgów</h3>
+          <p class="nj-attraction-card__text">26-hektarowy park angielski z zabytkowymi budynkami habsburskiej rezydencji. Idealne miejsce na spacer i zwiedzanie historii regionu.</p>
+        </div>
+      </article>
+
+      <article class="nj-attraction-card">
+        <div class="nj-attraction-card__image-wrap">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/20180616_Babia_G%C3%B3ra_1010_3808_DxO.jpg/600px-20180616_Babia_G%C3%B3ra_1010_3808_DxO.jpg"
+            alt="Babia Góra — Królowa Beskidów, widok na masyw z przełęczy"
+            loading="lazy"
+            width="800"
+            height="533"
+          >
+        </div>
+        <div class="nj-attraction-card__content">
+          <h3 class="nj-attraction-card__title">Beskid Żywiecki</h3>
+          <p class="nj-attraction-card__text">Pilsko, Babia Góra, Korbielów — szlaki górskie latem i stoki narciarskie zimą. Beskidy zaczynają się tuż za rogiem.</p>
+        </div>
+      </article>
+
+    </div><!-- /.nj-attractions__grid -->
+
+    <div class="nj-attractions__cta">
+      <a href="/txt/201/Atrakcje" class="nj-btn nj-btn--outline-light">Odkryj wszystkie atrakcje</a>
+    </div>
+
+  </div><!-- /.nj-attractions__inner -->
+</section>
+
+<!-- ============================================================
+     §5 DLA WŁAŚCICIELI — B2B CTA BANNER
+     ============================================================ -->
+<section class="nj-b2b nj-full-width">
+  <div class="nj-b2b__inner">
+    <div class="nj-b2b__content">
+      <h2 class="nj-b2b__title">Masz mieszkanie w Żywcu?</h2>
+      <p class="nj-b2b__subtitle">Zarobimy na nim razem z Tobą.</p>
+      <p class="nj-b2b__text">Zajmiemy się wszystkim — rezerwacjami, gośćmi, sprzątaniem i rozliczeniami. Ty zarabiasz, my pracujemy.</p>
+      <a href="/txt/202/Dla-Wlascicieli" class="nj-btn nj-btn--white">Dowiedz się więcej</a>
+    </div>
+  </div>
+</section>
+
+<!-- Kontakt = systemowa stopka IdoSell, dane z panelu -->
+

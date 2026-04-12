@@ -1,0 +1,168 @@
+<!-- ==========================================================
+   SORS — Startseite: Aktualisierung v2 (2026-03-31) — DEUTSCHE VERSION
+   Im CMS-Panel auf der Startseite einfügen (DE Sprache)
+
+   STYLES: separate Datei glowna_redesign.css
+          (in das Custom CSS Feld oder <link> einfügen)
+   ========================================================== -->
+
+
+<!-- ============================================================
+     INTRO-BEREICH — Überschrift + Begrüßungstext
+     BG: weiß
+     ============================================================ -->
+
+<div class="et-intro">
+    <h2>Moderne Ferienwohnungen im&nbsp;Eagle Tower – Ihr Zuhause in&nbsp;Benidorm</h2>
+    <p>Entdecken Sie den höchsten Erholungsstandard im prestigeträchtigen Komplex <strong>Eagle Tower</strong>. Wir bieten zwei exklusive Ferienwohnungen zur Miete an, gelegen in einem ruhigen Teil von Benidorm, direkt neben dem Golfplatz <strong>Las Rejas</strong> und in Gehweite vom Sandstrand <strong>Poniente</strong>. Die perfekte Wahl für Familien und Paare, die Komfort an der spanischen Küste suchen.</p>
+</div>
+
+
+<!-- ============================================================
+     PIKTOGRAMME — 4 Symbole
+     BG: hellblau (--bgcolor2)
+     ============================================================ -->
+
+<div class="pictogram">
+    <div class="pictogram__item">
+        <img src="/images/frontpageGallery/pictures/large/0/0/8.svg" alt="">
+        <span class="pictogram__content">
+            Ausgezeichnete zentrale Lage
+        </span>
+    </div>
+    <div class="pictogram__item">
+        <img src="/images/frontpageGallery/pictures/large/0/0/7.svg" alt="">
+        <span class="pictogram__content">
+            Komfortabel eingerichtete Innenräume
+        </span>
+    </div>
+    <div class="pictogram__item">
+        <img src="/images/frontpageGallery/pictures/large/0/0/9.svg" alt="">
+        <span class="pictogram__content">
+            In der Nähe der umliegenden Strände
+        </span>
+    </div>
+    <div class="pictogram__item">
+        <img src="/images/frontpageGallery/pictures/large/0/0/10.svg" alt="">
+        <span class="pictogram__content">
+            Atemberaubender Blick auf die Skyline der Stadt
+        </span>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     BEREICH IV — "Komfortable Ferienwohnungen" + Foto 1
+     BG: weiß
+     ============================================================ -->
+
+<div class="et-about">
+    <div class="et-about__inner">
+        <div class="et-about__text">
+            <h2>Komfortable Ferienwohnungen in Benidorm – ein Standard, der begeistert</h2>
+            <p>Unsere Apartments in Benidorm verbinden modernes Design mit Funktionalität. Jede Wohnung bietet:</p>
+            <ul class="et-list">
+                <li>Eine private Terrasse mit Panoramablick auf das Mittelmeer und die imposante Skyline von Benidorm.</li>
+                <li>Geräumige, klimatisierte Innenräume mit schnellem WLAN, Küche, Waschmaschine und Trockner.</li>
+                <li>Vollausstattung, die Freiheit und Privatsphäre garantiert – mehr als jedes Hotel bieten kann.</li>
+            </ul>
+        </div>
+        <div class="et-about__img">
+            <img src="/images/frontpageGallery/pictures/large/0/0/85.webp" alt="Ferienwohnungen zur Miete im Eagle Tower Benidorm">
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     BEREICH V — "Eagle Tower – Luxus und Erholung" + Foto 2
+     BG: hellblau (#EBF4FB)
+     ============================================================ -->
+
+<div class="et-location">
+    <div class="et-location__inner">
+        <div class="et-location__img">
+            <img src="/images/frontpageGallery/pictures/large/0/0/86.webp" alt="Voll ausgestattete Küche im Eagle Tower Apartment Benidorm">
+        </div>
+        <div class="et-location__text">
+            <h2>Eagle Tower – Luxus und Erholung an der Costa Blanca</h2>
+            <p>Mit der Wahl von Eagle Tower erhalten Sie Zugang zu einer Premium-Infrastruktur. Den Gästen stehen zur Verfügung:</p>
+            <ul class="et-list">
+                <li>Ein Außenpool und ein Whirlpool.</li>
+                <li>Ein modernes Fitnessstudio und Freizeitbereiche mit Spielfeld und Padelplatz.</li>
+                <li>Eine sichere, grüne Umgebung, ideal zum Abschalten abseits des Trubels – mit gleichzeitig einfachem Zugang zum Zentrum von Benidorm.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     BEREICH VI — "Unsere Apartments" (JS fügt Angebote ein)
+     BG: weiß
+     ============================================================ -->
+
+<div class="cmshotspot-wrapper">
+</div>
+
+
+<!-- ============================================================
+     BEREICH VII — CTA-LEISTE
+     BG: blau (#00579E)
+     ============================================================ -->
+
+<div class="et-cta-bar">
+    <div class="et-cta-bar__inner">
+        <div class="et-cta-bar__text">
+            <h3>Wählen Sie die perfekte Ferienwohnung für Ihren Urlaub in&nbsp;Benidorm</h3>
+            <p>Entdecken Sie verfügbare Apartments im Eagle Tower und planen Sie Ihren Urlaub noch heute.</p>
+        </div>
+        <a href="/de/txt/201/Apartments" class="et-btn">Apartments ansehen</a>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     JS — cmshotspot verschieben + Untertitel unter Angeboten
+     ============================================================ -->
+
+<script>
+(function() {
+  'use strict';
+
+  var cmsHotspot = document.querySelector('.cmshotspot');
+  if (cmsHotspot) {
+    var hotspotWrapper = document.querySelector('.cmshotspot-wrapper');
+    if (hotspotWrapper) {
+      hotspotWrapper.appendChild(cmsHotspot);
+    }
+  }
+
+  function addOfferSubtitles() {
+    var offers = document.querySelectorAll('.cmshotspot .offer');
+    offers.forEach(function(offer) {
+      if (offer.querySelector('.offer__subtitle')) return;
+      var nameEl = offer.querySelector('.offer__name');
+      if (!nameEl) return;
+      var name = nameEl.textContent.trim().toLowerCase();
+      var subtitle = '';
+      if (name.indexOf('nest') > -1) subtitle = '2 Schlafzimmer \u2013 2 Badezimmer \u2013 2. Etage';
+      else if (name.indexOf('view') > -1) subtitle = '3 Schlafzimmer \u2013 2 Badezimmer \u2013 14. Etage';
+      if (subtitle) {
+        var sub = document.createElement('div');
+        sub.className = 'offer__subtitle';
+        sub.textContent = subtitle;
+        nameEl.parentNode.insertBefore(sub, nameEl.nextSibling);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(addOfferSubtitles, 500);
+    });
+  } else {
+    setTimeout(addOfferSubtitles, 500);
+  }
+})();
+</script>

@@ -1,0 +1,479 @@
+/* =============================================
+   Golden Apartments — Restyling wyszukiwarki IdoBooking
+   Nadpisuje domyślne style Smart Search widget
+   Wkleić w: Panel IdoSell → Wygląd → CSS
+
+   Kolory ze strony:
+   - CTA/Buttons: #AD5009
+   - Gold accent: #C9A96E
+   - Text: #2D2D3A
+   ============================================= */
+
+/* === KONTENER WYSZUKIWARKI === */
+.iai-search {
+    bottom: -30px !important;
+    width: min(1060px, 94vw) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+}
+
+/* === FORMULARZ — glassmorphism bar === */
+#iai_book_form {
+    display: grid !important;
+    grid-template-columns: 1.1fr 1fr 1fr 0.8fr auto !important;
+    grid-template-rows: 60px !important;
+    width: 100% !important;
+    height: 60px !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-radius: 16px !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.18),
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    align-items: center !important;
+}
+
+/* === POLA FORMULARZA === */
+#iai_book_form .widget__option {
+    position: relative !important;
+    height: 60px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 8px 20px 6px !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
+    transition: background 0.2s ease !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+}
+
+#iai_book_form .widget__option:first-child {
+    border-radius: 16px 0 0 16px !important;
+}
+
+#iai_book_form .widget__option:hover {
+    background: rgba(201, 169, 110, 0.08) !important;
+}
+
+#iai_book_form .widget__option:last-of-type {
+    border-right: none !important;
+}
+
+/* === ETYKIETY === */
+#iai_book_form .widget__option > label {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    display: block !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.08em !important;
+    color: #2D2D3A !important;
+    opacity: 0.55 !important;
+    margin-bottom: 1px !important;
+    pointer-events: none !important;
+    line-height: 1 !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* === INPUTY === */
+#iai_book_form .widget__option input.iai_widget_input,
+#iai_book_form .widget__option input[type="text"] {
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: #2D2D3A !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    line-height: 1.2 !important;
+    width: 100% !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+#iai_book_form .widget__option input::placeholder {
+    color: #2D2D3A !important;
+    opacity: 0.35 !important;
+}
+
+/* === IKONY W POLACH (iaiicon) === */
+#iai_book_form .widget__option > i[class^="iaiicon"] {
+    position: absolute !important;
+    right: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 16px !important;
+    color: #C9A96E !important;
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+/* === PRZYCISKI DROPDOWN (strzałki) === */
+#iai_book_form .widget__option .iai_widget_btn {
+    position: absolute !important;
+    right: 8px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 28px !important;
+    height: 28px !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    opacity: 0.4 !important;
+    transition: opacity 0.2s !important;
+    padding: 0 !important;
+}
+
+#iai_book_form .widget__option .iai_widget_btn:hover {
+    opacity: 0.7 !important;
+}
+
+/* === PRZYCISKI DATA (kalendarzyk) === */
+#iai_book_form .widget__option button[aria-label*="Data"] {
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    opacity: 0.4 !important;
+    padding: 0 !important;
+}
+
+#iai_book_form .widget__option button[aria-label*="Data"] i {
+    color: #C9A96E !important;
+    font-size: 16px !important;
+}
+
+/* === PRZYCISK SUBMIT === */
+#iai_book_form .formbutton {
+    display: flex !important;
+    align-items: center !important;
+    padding: 6px 6px 6px 0 !important;
+    height: 60px !important;
+    border-right: none !important;
+}
+
+#iai_book_form .formbutton button {
+    background: linear-gradient(135deg, #BF5E10 0%, #AD5009 50%, #9A4708 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 12px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    font-family: 'Montserrat', sans-serif !important;
+    letter-spacing: 0.03em !important;
+    padding: 0 28px !important;
+    height: 48px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(173, 80, 9, 0.35) !important;
+    white-space: nowrap !important;
+}
+
+#iai_book_form .formbutton button:hover {
+    background: linear-gradient(135deg, #D06A15 0%, #BF5E10 50%, #AD5009 100%) !important;
+    box-shadow: 0 6px 20px rgba(173, 80, 9, 0.5) !important;
+    transform: translateY(-1px) !important;
+}
+
+#iai_book_form .formbutton button:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(173, 80, 9, 0.3) !important;
+}
+
+/* === FIX: Pozycjonowanie dropdownów względem .widget__option === */
+#iai_location {
+    position: static !important;
+}
+
+/* === DROPDOWN LOKALIZACJI === */
+#iailocation-container {
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    padding: 8px 0 !important;
+    margin-top: 8px !important;
+    overflow: hidden !important;
+    min-width: 260px !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+}
+
+#iailocation-container ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#iailocation-container li {
+    padding: 10px 20px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #2D2D3A !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+#iailocation-container li:hover {
+    background: rgba(201, 169, 110, 0.1) !important;
+    color: #AD5009 !important;
+}
+
+#iailocation-container .iailocation-city {
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    color: #C9A96E !important;
+    padding: 10px 20px 6px !important;
+    pointer-events: none !important;
+    opacity: 0.8 !important;
+}
+
+#iailocation-container .iailocation-addres {
+    padding-left: 20px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    color: #2D2D3A !important;
+    border-radius: 0 !important;
+}
+
+#iailocation-container .iailocation-addres:hover {
+    background: rgba(201, 169, 110, 0.1) !important;
+    color: #AD5009 !important;
+}
+
+/* === DROPDOWN OSÓB === */
+#iai_persons_list {
+    background: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    padding: 6px 0 !important;
+    margin-top: 8px !important;
+    list-style: none !important;
+    min-width: 80px !important;
+    overflow: hidden !important;
+}
+
+#iai_persons_list li {
+    padding: 9px 20px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #2D2D3A !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease !important;
+    text-align: center !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+#iai_persons_list li:hover {
+    background: rgba(201, 169, 110, 0.1) !important;
+    color: #AD5009 !important;
+}
+
+/* === LITEPICKER / KALENDARZ === */
+.litepicker {
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 0.85em !important;
+}
+
+.litepicker .container__months {
+    background: #fff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    overflow: hidden !important;
+}
+
+.litepicker .container__months .month-item-header {
+    color: #2D2D3A !important;
+    font-weight: 700 !important;
+}
+
+.litepicker .container__months .month-item-header div > .month-item-name {
+    font-weight: 700 !important;
+    color: #2D2D3A !important;
+}
+
+.litepicker .container__months .month-item-weekdays-row > div {
+    font-weight: 600 !important;
+    color: #2D2D3A !important;
+    opacity: 0.4 !important;
+    font-size: 12px !important;
+}
+
+.litepicker .container__months .month-item-header .button-next-month,
+.litepicker .container__months .month-item-header .button-previous-month {
+    cursor: pointer !important;
+}
+
+.litepicker .container__months .month-item-header .button-next-month:hover svg,
+.litepicker .container__months .month-item-header .button-previous-month:hover svg {
+    fill: #AD5009 !important;
+}
+
+/* Dni kalendarza */
+.litepicker .container__days .day-item {
+    border-radius: 10px !important;
+    transition: all 0.15s ease !important;
+    font-weight: 500 !important;
+    color: #2D2D3A !important;
+}
+
+.litepicker .container__days .day-item:hover {
+    background: rgba(201, 169, 110, 0.15) !important;
+    color: #AD5009 !important;
+    box-shadow: none !important;
+}
+
+.litepicker .container__days .day-item.is-today {
+    color: #C9A96E !important;
+    font-weight: 700 !important;
+}
+
+.litepicker .container__days .day-item.is-start-date,
+.litepicker .container__days .day-item.is-end-date {
+    background: #AD5009 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+}
+
+.litepicker .container__days .day-item.is-in-range {
+    background: rgba(173, 80, 9, 0.1) !important;
+    color: #AD5009 !important;
+    border-radius: 0 !important;
+}
+
+.litepicker .container__days .day-item.is-locked {
+    opacity: 0.25 !important;
+}
+
+/* Legenda kalendarza */
+.litepicker .container__tooltip {
+    background: #2D2D3A !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    padding: 6px 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Panel legendy pod kalendarzem */
+.litepicker .container__footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
+    padding: 10px 16px !important;
+    font-size: 12px !important;
+    color: #2D2D3A !important;
+    opacity: 0.6 !important;
+}
+
+/* === TRIGGER MOBILNY (schowany na desktop) === */
+.iai_book_trigger {
+    display: none !important;
+}
+
+/* === UKRYJ ETYKIETY WEWNĘTRZNE KTÓRE SIĘ DUPLIKUJĄ === */
+#iai_book_form .widget__option .visuallyhidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+}
+
+/* === RESPONSYWNOŚĆ === */
+@media (max-width: 1100px) {
+    .iai-search {
+        width: 94vw !important;
+    }
+
+    #iai_book_form {
+        grid-template-columns: 1fr 1fr 1fr 0.7fr auto !important;
+    }
+
+    #iai_book_form .formbutton button {
+        padding: 0 18px !important;
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .iai-search {
+        bottom: -80px !important;
+        left: 3vw !important;
+        transform: none !important;
+    }
+
+    #iai_book_form {
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: 56px 56px !important;
+        height: auto !important;
+        border-radius: 16px !important;
+        gap: 0 !important;
+    }
+
+    #iai_book_form .widget__option {
+        height: 56px !important;
+    }
+
+    #iai_book_form .widget__option:first-child {
+        border-radius: 16px 0 0 0 !important;
+    }
+
+    #iai_book_form .dateto.widget__option {
+        border-radius: 0 !important;
+        border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+
+    #iai_book_form .formbutton {
+        grid-column: 1 / -1 !important;
+        padding: 6px !important;
+    }
+
+    #iai_book_form .formbutton button {
+        width: 100% !important;
+        border-radius: 10px !important;
+    }
+}
+
+@media (max-width: 540px) {
+    .iai-search {
+        left: 3vw !important;
+        transform: none !important;
+    }
+
+    #iai_book_form {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: repeat(4, 52px) auto !important;
+    }
+
+    #iai_book_form .widget__option {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    }
+
+    #iai_book_form .widget__option:first-child {
+        border-radius: 16px 16px 0 0 !important;
+    }
+}

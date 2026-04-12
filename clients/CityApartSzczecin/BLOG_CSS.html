@@ -1,0 +1,166 @@
+<!-- ============================================
+     CityApart Szczecin — BLOG CSS
+     Wklej do: CMS > txt/202 > Blog > body_bottom
+     ============================================ -->
+
+<style>
+/* === CityApart Blog === */
+.ca-blog {
+  max-width: 860px;
+  margin: 0 auto 3rem;
+  padding: 0 1.25rem;
+  font-family: 'Signika', sans-serif;
+  color: #374151;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.ca-blog-intro {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+/* Artykuł */
+.ca-art {
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.ca-art:last-of-type { border-bottom: none; }
+
+.ca-tag {
+  display: inline-block;
+  background: #1a365d;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 14px;
+  border-radius: 3px;
+  margin-bottom: 0.6rem;
+}
+
+.ca-art h2 {
+  color: #1a365d;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0.4rem 0 0.5rem;
+}
+
+.ca-meta {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 1.4rem;
+}
+
+.ca-art h3 {
+  color: #1a365d;
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2rem 0 0.7rem;
+  padding-left: 12px;
+  border-left: 3px solid #2563eb;
+}
+
+.ca-art p {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.ca-art strong { color: #1a365d; }
+
+/* Listy — czyste, bez domyślnych kropek */
+.ca-art ul, .ca-art ol {
+  margin: 1rem 0 1.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ca-art li {
+  position: relative;
+  padding: 0.45rem 0 0.45rem 1.5rem;
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+/* Bullet — mała kreska zamiast kropki */
+.ca-art ul > li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Numeracja — czysta, bez kółek */
+.ca-art ol {
+  counter-reset: art-counter;
+}
+
+.ca-art ol > li {
+  counter-increment: art-counter;
+  padding-left: 2rem;
+}
+
+.ca-art ol > li::before {
+  content: counter(art-counter) '.';
+  position: absolute;
+  left: 0;
+  color: #2563eb;
+  font-weight: 700;
+}
+
+/* Tip box */
+.ca-tip {
+  background: #f0f4ff;
+  border-left: 3px solid #2563eb;
+  padding: 1.1rem 1.3rem;
+  margin: 1.5rem 0;
+  font-size: 0.98rem;
+  color: #1e40af;
+  border-radius: 0 6px 6px 0;
+}
+
+/* CTA */
+.ca-cta {
+  background: #1a365d;
+  color: #fff;
+  border-radius: 10px;
+  padding: 2rem 2.2rem;
+  text-align: center;
+  margin: 2rem 0;
+}
+.ca-cta h3 {
+  color: #fff;
+  border: none;
+  padding: 0;
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+}
+.ca-cta p { color: rgba(255,255,255,0.8); margin-bottom: 1rem; font-size: 1.02rem; }
+.ca-cta a {
+  display: inline-block;
+  background: #2563eb;
+  color: #fff;
+  padding: 11px 30px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.ca-cta a:hover { background: #3b82f6; color: #fff; }
+
+/* Separator */
+.ca-sep { text-align: center; color: #d1d5db; margin: 0.5rem 0; letter-spacing: 0.3em; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .ca-blog { font-size: 1rem; }
+  .ca-art h2 { font-size: 1.35rem; }
+  .ca-cta { padding: 1.5rem; }
+}
+</style>

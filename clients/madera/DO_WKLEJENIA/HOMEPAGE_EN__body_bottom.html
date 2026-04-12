@@ -1,0 +1,241 @@
+<!-- ============================================================
+     MADERA CENTRUM — HOMEPAGE JS (EN)
+     Paste to: Homepage → "End of Body section"
+     NOTE: This file replaces ALL previous body_bottom content
+     ============================================================ -->
+<script>
+/* ============================================================
+   "Welcome to Madera" — move below hero (above offer sections)
+   ============================================================ */
+(function() {
+    var witamyOriginal = document.querySelector('.section_sub > .md-full:first-child');
+    var hero = document.querySelector('.section.parallax');
+    var firstOffers = document.querySelector('.md-offers-section');
+    if (witamyOriginal && hero && firstOffers) {
+        var clone = document.createElement('div');
+        clone.id = 'md-witamy-clone';
+        var inner = document.createElement('div');
+        inner.className = 'md-inner';
+        var h2 = witamyOriginal.querySelector('.md-h2');
+        var intro = witamyOriginal.querySelector('.md-intro');
+        if (h2) inner.appendChild(h2.cloneNode(true));
+        if (intro) inner.appendChild(intro.cloneNode(true));
+        clone.appendChild(inner);
+        firstOffers.parentNode.insertBefore(clone, firstOffers);
+    }
+})();
+
+/* Smooth scroll for anchor links */
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            var target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+});
+
+/* ============================================================
+   CUSTOM OFFER CARDS — grouped by BRAND
+   Reads data from hidden system .container-hotspot,
+   detects brand from room name, groups cards per brand
+   and builds sections with brand header, description and cards.
+   Fully automated — just mark rooms as featured in the panel.
+   ============================================================ */
+(function() {
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot) return;
+
+    /* SVG icons for meta */
+    var iconArea = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>';
+    var iconGuests = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>';
+
+    /* Deduplicate (slick creates clones) */
+    var seen = {};
+    var offers = [];
+    hotspot.querySelectorAll('.offer').forEach(function(el) {
+        var a = el.querySelector('a.object-icon');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (seen[href]) return;
+        seen[href] = true;
+
+        var img = el.querySelector('.object-icon img');
+        var title = el.querySelector('h3 a');
+        var desc = el.querySelector('.offer__description');
+        var infoEl = el.querySelector('.offer__info');
+        var infoText = infoEl ? infoEl.textContent.replace(/\s+/g, ' ').trim() : '';
+
+        /* Parse "22,00 m2 3" → area + guests */
+        var area = '', guests = '';
+        var am = infoText.match(/([\d,.]+)\s*m2/i);
+        if (am) area = am[1].replace(',00', '').replace('.00', '');
+        var parts = infoText.split(/m2/i);
+        if (parts[1]) { var g = parts[1].trim(); if (g) guests = g; }
+
+        offers.push({
+            href: href,
+            img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+            alt: img ? (img.alt || '').trim() : '',
+            title: title ? title.textContent.trim() : '',
+            desc: desc ? desc.textContent.trim() : '',
+            area: area,
+            guests: guests
+        });
+    });
+
+    if (!offers.length) return;
+
+    /* Language detection */
+    var isEN = /^\/en\b/i.test(window.location.pathname);
+
+    /* ---- Brand detection ---- */
+    var brandPatterns = ['Momenti Piccanti', 'Flores Apartament', 'Rooms Silesia', 'Madera House'];
+
+    function extractBrand(title, desc) {
+        var tLow = title.toLowerCase();
+        for (var i = 0; i < brandPatterns.length; i++) {
+            if (tLow.indexOf(brandPatterns[i].toLowerCase()) > -1) return brandPatterns[i];
+        }
+        /* Fallback: check description for brand name */
+        if (desc) {
+            var dLow = desc.toLowerCase();
+            for (var j = 0; j < brandPatterns.length; j++) {
+                if (dLow.indexOf(brandPatterns[j].toLowerCase()) > -1) return brandPatterns[j];
+            }
+        }
+        return '';
+    }
+
+    /* Strip brand name from card title */
+    function cleanTitle(title, brand) {
+        if (!brand) return title;
+        var clean = title.replace(brand, '').replace(/^\s*[-\u2013\u2014:]\s*/, '').replace(/\s*[-\u2013\u2014:]\s*$/, '').trim();
+        if (!clean) return title;
+        return clean.charAt(0).toUpperCase() + clean.slice(1);
+    }
+
+    /* Group by brand — preserve order of appearance */
+    var brandOrder = [];
+    var brandGroups = {};
+
+    offers.forEach(function(o) {
+        var brand = extractBrand(o.title, o.desc);
+        if (!brand) brand = isEN ? 'Other apartments' : 'Inne apartamenty';
+        if (!brandGroups[brand]) {
+            brandGroups[brand] = [];
+            brandOrder.push(brand);
+        }
+        brandGroups[brand].push(o);
+    });
+
+    /* Brand descriptions — show only when brand has featured offers */
+    var brandInfo = {
+        'Madera House': isEN
+            ? 'Cozy rooms and apartments with kitchenette \u2014 perfect for families and couples in a quiet neighborhood near Park \u015Al\u0105ski.'
+            : 'Przytulne pokoje i apartamenty z aneksem kuchennym \u2014 idealne dla rodzin i par w spokojnej okolicy przy Parku \u015Al\u0105skim.',
+        'Flores Apartament': isEN
+            ? 'Modern fully equipped apartments \u2014 elegant space for discerning guests who value comfort and style.'
+            : 'Nowoczesne apartamenty z pe\u0142nym wyposa\u017Ceniem \u2014 elegancka przestrze\u0144 dla go\u015Bci ceni\u0105cych komfort i styl.',
+        'Rooms Silesia': isEN
+            ? 'Comfortable rooms in excellent location \u2014 a great base for Stadium events and Silesian attractions.'
+            : 'Komfortowe pokoje w doskona\u0142ej lokalizacji \u2014 \u015Bwietna baza wypadowa na koncerty, mecze i atrakcje \u015Al\u0105ska.',
+        'Momenti Piccanti': isEN
+            ? 'Intimate space designed for couples \u2014 romantic atmosphere with full discretion.'
+            : 'Intymna przestrze\u0144 zaprojektowana z my\u015Bl\u0105 o parach \u2014 romantyczna atmosfera i pe\u0142na dyskrecja.'
+    };
+
+    /* Text */
+    var heading = isEN ? 'Our Apartments' : 'Nasze apartamenty';
+    var ctaText = isEN ? 'View details' : 'Zobacz szczeg\u00F3\u0142y';
+    var guestSuffix = isEN ? ' guests' : ' os.';
+
+    /* Dynamic subtitle */
+    var brandCount = brandOrder.length;
+    var subtitle = '';
+    if (brandCount >= 2) {
+        if (isEN) {
+            subtitle = brandCount + ' locations \u2014 one standard of service';
+        } else {
+            var w = brandCount < 5 ? ' lokalizacje' : ' lokalizacji';
+            subtitle = brandCount + w + ' \u2014 jeden standard obs\u0142ugi';
+        }
+    }
+
+    /* Build card HTML */
+    function buildCard(o, brand) {
+        var displayTitle = cleanTitle(o.title, brand);
+        var meta = '';
+        if (o.area) meta += '<span>' + iconArea + o.area + ' m\u00B2</span>';
+        if (o.guests) meta += '<span>' + iconGuests + o.guests + guestSuffix + '</span>';
+
+        return '<a href="' + o.href + '" class="md-offer-card">' +
+            '<div class="md-offer-card__img">' +
+                '<img src="' + o.img + '" alt="' + o.alt + '" loading="lazy">' +
+            '</div>' +
+            '<div class="md-offer-card__body">' +
+                '<h3 class="md-offer-card__name">' + displayTitle + '</h3>' +
+                '<p class="md-offer-card__desc">' + o.desc + '</p>' +
+                (meta ? '<div class="md-offer-card__meta">' + meta + '</div>' : '') +
+                '<span class="md-offer-card__cta">' + ctaText + '</span>' +
+            '</div>' +
+        '</a>';
+    }
+
+    /* Build sections — one per brand */
+    var fragment = document.createDocumentFragment();
+
+    brandOrder.forEach(function(brand, idx) {
+        var cards = brandGroups[brand].map(function(o) { return buildCard(o, brand); }).join('');
+
+        var section = document.createElement('div');
+        section.className = 'md-offers-section' + (idx % 2 === 1 ? ' md-offers-section--alt' : '');
+
+        var inner = '<div class="md-offers__inner">';
+
+        /* Master heading + subtitle — only first section */
+        if (idx === 0) {
+            inner += '<h2 class="md-offers__title">' + heading + '</h2>';
+            if (subtitle) {
+                inner += '<p class="md-offers__subtitle">' + subtitle + '</p>';
+            }
+        }
+
+        /* Brand header: number + name + description */
+        var num = (idx + 1) < 10 ? '0' + (idx + 1) : String(idx + 1);
+        inner += '<div class="md-offers__brand-header">';
+        inner += '<span class="md-offers__brand-num">' + num + '</span>';
+        inner += '<div>';
+        inner += '<h3 class="md-offers__brand">' + brand + '</h3>';
+        if (brandInfo[brand]) {
+            inner += '<p class="md-offers__brand-desc">' + brandInfo[brand] + '</p>';
+        }
+        inner += '</div>';
+        inner += '</div>';
+
+        inner += '<div class="md-offers__grid">' + cards + '</div>';
+        inner += '</div>';
+
+        section.innerHTML = inner;
+        fragment.appendChild(section);
+    });
+
+    /* Insert all sections after hidden .container-hotspot */
+    hotspot.parentNode.insertBefore(fragment, hotspot.nextSibling);
+})();
+
+/* ============================================================
+   HERO BADGES — checkmarks below hero subtitle
+   ============================================================ */
+(function() {
+    var info = document.querySelector('.index-info');
+    if (!info || !document.querySelector('.parallax-slider')) return;
+    var badges = document.createElement('div');
+    badges.className = 'md-hero-badges';
+    badges.innerHTML = '<span>\u2714 parking</span><span>\u2714 self check-in</span><span>\u2714 comfortable rooms</span>';
+    info.appendChild(badges);
+})();
+</script>

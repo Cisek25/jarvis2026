@@ -1,0 +1,117 @@
+==============================================
+  NAJMAR APARTAMENTY — INSTRUKCJA WKLEJANIA
+  Strona IdoSell/IdoBooking
+  Panel: https://client57656.idosell.com/
+==============================================
+
+UWAGA: Przed wklejaniem zrob BACKUP obecnego CSS (skopiuj i zapisz).
+Po kazdym kroku zapisz zmiany i sprawdz na stronie (Ctrl+Shift+R).
+
+KOLEJNOSC WKLEJANIA:
+====================
+
+KROK 1 — CSS (ARKUSZ STYLOW)
+   Panel → Wyglad → Arkusz stylow CSS
+   Plik: NJ_ARKUSZ_STYLOW.css
+   → Wklej CALA zawartosc pliku, zastepujac istniejacy CSS
+   → Zapisz
+
+KROK 2 — HEAD (KODY SLEDZACE)
+   Panel → Ustawienia → Kody sledzace → Sekcja Head
+   Plik: NJ_HEAD.html
+   → Wklej zawartosc
+   → Zapisz
+
+KROK 3 — KONIEC BODY (JAVASCRIPT)
+   Panel → Ustawienia → Kody sledzace → Koniec sekcji Body
+   Plik: GLOWNA_PL__body_bottom.html
+   → Wklej zawartosc
+   → Zapisz
+
+KROK 4 — STRONA GLOWNA (CMS)
+   Panel → Wyglad → Strona glowna → Edytor tresci
+   → Przelacz na tryb HTML (ikona </>)
+   Plik: GLOWNA_PL__cms.html
+   → Wklej zawartosc w trybie HTML
+   → Zapisz
+   → Sprawdz strone glowna
+
+KROK 5 — PODSTRONA: GALERIA
+   Panel → Tresci → Strony tekstowe → Dodaj nowa strone
+   Nazwa: "Galeria" | Slug: "Galeria"
+
+   a) Zakladka "Poczatek sekcji Body":
+      Plik: GALERIA_PL__body_top.html
+      → Wklej
+
+   b) Zakladka "Koniec sekcji Body":
+      Plik: GALERIA_PL__body_bottom.html
+      → Wklej
+
+   → Zapisz
+   → Dodaj do menu: Panel → Wyglad → Menu → dodaj pozycje "Galeria"
+
+KROK 6 — PODSTRONA: ATRAKCJE
+   Panel → Tresci → Strony tekstowe → Dodaj nowa strone
+   Nazwa: "Atrakcje" | Slug: "Atrakcje"
+
+   a) Zakladka "Poczatek sekcji Body":
+      Plik: ATRAKCJE_PL__body_top.html
+      → Wklej
+
+   → Zapisz
+   → Dodaj do menu
+
+KROK 7 — PODSTRONA: DLA WLASCICIELI
+   Panel → Tresci → Strony tekstowe → Dodaj nowa strone
+   Nazwa: "Dla Wlascicieli" | Slug: "Dla-Wlascicieli"
+
+   a) Zakladka "Poczatek sekcji Body":
+      Plik: DLA_WLASCICIELI_PL__body_top.html
+      → Wklej
+
+   → Zapisz
+   → Dodaj do menu
+
+KROK 8 — MENU (KOLEJNOSC)
+   Panel → Wyglad → Menu
+   Ustaw kolejnosc pozycji menu:
+   1. Oferta (systemowa)
+   2. Galeria
+   3. Atrakcje
+   4. Dla Wlascicieli
+   5. Kontakt (systemowa)
+
+KROK 9 — SLIDER (ZDJECIA)
+   Panel → Wyglad → Galeria strony glownej
+   → Wgraj zdjecia Zywca/okolicy/pokoi
+   → Zalecane: panorama Jeziora Zywieckiego, widok na Beskidy, zdjecia pokoi
+   → Minimalna rozdzielczosc: 1920x1080
+
+KROK 10 — LOGO
+   Panel → Wyglad → Logo
+   → Wgraj logo Najmar Apartamenty (format SVG lub PNG, jasne na ciemnym tle)
+
+KROK 11 — DANE KONTAKTOWE
+   Panel → Ustawienia → Dane firmy
+   → Uzupelnij prawdziwy adres (nie "Ulica, 00-000 Miasto")
+   → Sprawdz telefon: +48 883 791 911
+   → Sprawdz email: marior1@op.pl
+
+KROK 12 — WERYFIKACJA
+   Po wklejeniu wszystkiego sprawdz:
+   [ ] Strona glowna — czy wszystkie sekcje wyswietlaja sie poprawnie
+   [ ] /offers — czy wyszukiwarka sie NIE wyswietla (celowo ukryta)
+   [ ] Galeria — czy lightbox dziala
+   [ ] Atrakcje — czy zdjecia sie laduja
+   [ ] Dla Wlascicieli — czy formularz kontaktowy jest widoczny
+   [ ] Mobile — sprawdz na telefonie (lub F12 → tryb mobilny)
+   [ ] Wersja EN — do zrobienia w nastepnym etapie
+
+NOTATKI:
+========
+- Zdjecia Zywca pochodza z Wikimedia Commons (licencja CC)
+- Zdjecia pokoi trzeba wgrac do panelu
+- Wersja angielska (EN) — zostanie przygotowana w nastepnym etapie
+- W razie problemow: Ctrl+Shift+R (hard refresh)
+- Kolor przewodni: zielony mech (#4A6741)

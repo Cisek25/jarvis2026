@@ -1,0 +1,249 @@
+=====================================================
+  ECO CAMPING SPYTKOWICE — INSTRUKCJA WKLEJANIA DO CMS
+  Panel: https://client57820.idosell.com/panel
+=====================================================
+
+PLIKI W TYM FOLDERZE (15 plikow):
+─────────────────────────────────────────
+CSS_EDYTOR.css               → Edytor CSS (ACE)
+GLOWNA_PL__body_top.html     → Strona glowna PL → "Poczatek sekcji Body"
+GLOWNA_PL__body_bottom.html  → Strona glowna PL → "Koniec sekcji Body"
+O_NAS_PL__body_top.html      → O nas PL → "Poczatek sekcji Body"
+O_NAS_PL__body_bottom.html   → O nas PL → "Koniec sekcji Body"
+GALERIA_PL__body_top.html    → Galeria PL → "Poczatek sekcji Body"
+GALERIA_PL__body_bottom.html → Galeria PL → "Koniec sekcji Body"
+ATRAKCJE_PL__body_top.html   → Atrakcje PL → "Poczatek sekcji Body"
+ATRAKCJE_PL__body_bottom.html→ Atrakcje PL → "Koniec sekcji Body"
+KONTAKT_PL__body_top.html    → Kontakt PL → "Poczatek sekcji Body"
+KONTAKT_PL__body_bottom.html → Kontakt PL → "Koniec sekcji Body"
+BLOG_PL__body_top.html       → Blog PL → "Poczatek sekcji Body"
+BLOG_PL__body_bottom.html    → Blog PL → "Koniec sekcji Body"
+CENNIK_PL__body_top.html     → Cennik PL → "Poczatek sekcji Body"  [NOWY]
+CENNIK_PL__body_bottom.html  → Cennik PL → "Koniec sekcji Body"    [NOWY]
+INSTRUKCJA.txt               → Ten plik
+
+
+=====================================================
+KROK 0: WGRAJ CSS (jednorazowo)
+=====================================================
+1. Idz do: /panel/frontpage/editorstyle
+2. Zaznacz CALA stara tresc (Ctrl+A) i USUN
+3. Otworz: CSS_EDYTOR.css
+4. Skopiuj CALA zawartosc (Ctrl+A, Ctrl+C)
+5. Wklej (Ctrl+V)
+6. Kliknij "Zapisz"
+
+
+=====================================================
+KROK 1: WGRAJ ZDJECIA DO PANELU
+=====================================================
+Przed wklejaniem HTML, wgraj rendery 3D do panelu:
+
+1. Idz do: /panel → Multimedia → Galeria zdjec
+   (lub /panel/multimedia/pictures)
+
+2. Wgraj 13 renderow z folderu "Eco Camping":
+   - z lotu ptaka 1, 2, 3
+   - Namioty 1, 2, 3
+   - Wnetrze namiot
+   - Basen
+   - Kino plenerowe
+   - Plac Zabaw
+   - Strefa Gastronomiczna
+   - Recepcja, sklep 2
+   - Ujecie z ludzmi
+
+3. Opcjonalnie: wgraj tez zdjecia z folderu "Kosz"
+
+4. Wgraj co najmniej 1 zdjecie do slidera glownej:
+   /panel → Multimedia → Galeria strony glownej
+   (Najlepiej "z lotu ptaka 1" jako hero)
+
+UWAGA: Zdjecia w plikach HTML juz uzywaja URLi z galerii panelu
+(/images/frontpageGallery/pictures/large/2/0/*.jpg) oraz z
+ecocamping.com.pl. Nie trzeba ich zamieniac — powinny dzialac
+od razu po wklejeniu.
+
+
+=====================================================
+KROK 2: STRONA GLOWNA (edycja strony glownej)
+=====================================================
+1. Idz do: /panel/frontpage
+2. Przewin do "Dodaj wlasny kod HTML/JavaScript"
+
+POLE "Poczatek sekcji Body":
+  → Zaznacz CALA stara tresc (Ctrl+A) i USUN
+  → Otworz: GLOWNA_PL__body_top.html
+  → Skopiuj CALA zawartosc (Ctrl+A, Ctrl+C)
+  → Wklej (Ctrl+V)
+
+POLE "Koniec sekcji Body":
+  → Zaznacz CALA stara tresc (Ctrl+A) i USUN
+  → Otworz: GLOWNA_PL__body_bottom.html
+  → Skopiuj CALA zawartosc
+  → Wklej
+
+3. Kliknij "Zapisz zmiany"
+
+
+=====================================================
+KROK 3: PODSTRONA "O NAS" (nowa podstrona CMS)
+=====================================================
+1. Idz do: /panel/frontpage → Podstrony → Dodaj nowa
+   Tytul: "O nas" (slug: o-nas)
+   ID podstrony: zanotuj → /txt/[ID]/o-nas
+
+2. Kliknij zakladke "polski"
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: O_NAS_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: O_NAS_PL__body_bottom.html
+
+3. Kliknij "Zapisz zmiany"
+
+WAZNE: Zaktualizuj linki w GLOWNA href="/txt/201/"
+na rzeczywiste ID tej podstrony!
+
+
+=====================================================
+KROK 4: PODSTRONA "GALERIA" (nowa podstrona CMS)
+=====================================================
+1. Dodaj nowa podstrone: "Galeria" (slug: galeria)
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: GALERIA_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: GALERIA_PL__body_bottom.html
+
+2. Zapisz
+
+
+=====================================================
+KROK 5: PODSTRONA "ATRAKCJE" (nowa podstrona CMS)
+=====================================================
+1. Dodaj nowa podstrone: "Atrakcje" (slug: atrakcje)
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: ATRAKCJE_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: ATRAKCJE_PL__body_bottom.html
+
+2. Zapisz
+
+
+=====================================================
+KROK 6: PODSTRONA "KONTAKT" — UWAGA!
+=====================================================
+Strona /contact jest SYSTEMOWA — nie mozna edytowac
+jej body_top/body_bottom w panelu podstron.
+
+Styl kontaktu jest obslugiwany WYLACZNIE przez CSS
+(sekcja §30 w CSS_EDYTOR.css). Po wgraniu CSS,
+kolory i układ strony /contact beda poprawne.
+
+Plik KONTAKT_PL__body_top.html mozesz uzyc jako
+OSOBNA podstrone CMS jesli chcesz stworzyc dodatkowa
+strone kontaktowa z kartami WhatsApp/Telefon/Email.
+Np. /txt/[ID]/kontakt-rezerwacje
+
+
+=====================================================
+KROK 7: PODSTRONA "BLOG" (nowa podstrona CMS)
+=====================================================
+1. Dodaj nowa podstrone: "Blog" (slug: blog)
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: BLOG_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: BLOG_PL__body_bottom.html
+
+2. Zapisz
+
+
+=====================================================
+KROK 7b: PODSTRONA "CENNIK" (nowa podstrona CMS) [NOWY]
+=====================================================
+1. Dodaj nowa podstrone: "Cennik" (slug: cennik)
+
+POLE "Poczatek sekcji Body":
+  → Wklej z: CENNIK_PL__body_top.html
+
+POLE "Koniec sekcji Body":
+  → Wklej z: CENNIK_PL__body_bottom.html
+
+2. Zapisz
+
+
+=====================================================
+KROK 8: MENU — dodaj pozycje
+=====================================================
+1. Idz do: /panel/frontpage → Tresci → Menu
+2. Dodaj pozycje:
+   - O nas → /txt/[ID_O_NAS]/o-nas
+   - Galeria → /txt/[ID_GALERIA]/galeria
+   - Atrakcje → /txt/[ID_ATRAKCJE]/atrakcje
+   - Cennik → /txt/[ID_CENNIK]/cennik
+   - Oferta → /offers (systemowa)
+   - Blog → /txt/[ID_BLOG]/blog
+   - Kontakt → /txt/[ID_KONTAKT]/kontakt
+
+
+=====================================================
+KROK 9: SLIDER — hero glownej
+=====================================================
+1. Wgraj "z lotu ptaka 1.jpg" do galerii strony glownej
+2. CSS zamraza slider na pierwszym slajdzie
+   (jesli chcesz animowany slider, usun sekcje
+   "Slider arrows & dots" z CSS)
+
+
+=====================================================
+KROK 10: PO WKLEJENIU — WERYFIKACJA
+=====================================================
+1. Otworz strone: https://client57820.idosell.com/
+2. Ctrl+Shift+R (hard reload)
+3. Sprawdz:
+   □ Hero z renderem z lotu ptaka
+   □ Wyszukiwarka wycentrowana na dole hero
+   □ Pop-up z rabatem (po 4 sekundach)
+   □ Sekcje animuja sie przy scrollu
+   □ Karty udogodnien z renderami
+   □ Mapa interaktywna z pinami
+   □ Podstrony otwieraja sie z menu
+   □ Galeria z lightboxem (kliknij zdjecie)
+   □ Kontakt z mapa Google
+   □ Blog z 3 artykulami
+   □ Stopka ciemnozielona
+   □ Mobile: menu hamburger, widget, layout
+
+
+=====================================================
+DO ZROBIENIA POZNIEJ:
+=====================================================
+■ Dostosowac pozycje pinow na mapie interaktywnej — GOTOWE (render z drona 2/0/13.jpg + 7 pinow)
+□ Dodac wersje angielska (EN) plików (14 nowych plikow)
+□ Dodac embed spaceru wirtualnego gdy bedzie gotowy
+□ Zaktualizowac dokladny adres w kontakcie
+□ Dostosowac embedowana mape Google (dokladne wspolrzedne)
+□ Opcjonalnie: dodac Kosz/zdjecia do galerii
+□ Zweryfikowac ceny w cenniku z klientem
+□ Dodac Google Analytics / GTM
+□ SEO: tagi title + meta description dla kazdej podstrony
+
+
+=====================================================
+WAZNE UWAGI:
+=====================================================
+- Kopiuj CALA zawartosc kazdego pliku (Ctrl+A)!
+- CSS wklejamy RAZ do edytora CSS, reszta plikow
+  idzie do poszczegolnych podstron
+- Zdjecia trzeba NAJPIERW wgrac do panelu, potem
+  zaktualizowac URLe w HTML
+- Pop-up pokazuje sie raz per sesje (sessionStorage)
+- Lightbox w galerii: strzalki klawiatury dzialaja
+- Scroll animations: IntersectionObserver (IE nie wspierany)

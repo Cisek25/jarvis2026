@@ -1,0 +1,1466 @@
+/* ============================================================
+   EAGLE TOWER BENIDORM — Custom CSS v3 (scalony)
+   Wklej do: Arkusz stylow CSS -> custom.css (prawy panel)
+   Zastap cala poprzednia zawartosc tym plikiem.
+   Jeden plik = wszystkie podstrony + strona glowna.
+   ============================================================ */
+
+/* ============================================================
+   1. DESIGN TOKENS
+   Zmiana koloru marki: edytuj tylko te sekcje.
+   ============================================================ */
+
+:root {
+    --et-brand:        #00579E;
+    --et-brand-hover:  #1D4ED8;
+    --et-muted-bg:     #EBF4FB;
+    --et-muted-border: #b3d4ec;
+    --et-muted-card:   #c8dff0;
+    --et-max-width:    1170px;
+    --et-section-pad:  80px;
+    --et-section-pad-m: 56px;
+    --et-inner-pad:    40px;
+    --et-inner-pad-m:  24px;
+}
+
+/* ============================================================
+   2. UKRYCIA SYSTEMOWE
+   ============================================================ */
+
+.contact__block.--links ul li:first-child { display: none !important; }
+.footer-contact ul li.footer-contact-phone { display: none !important; }
+#additional_info .addonsList li:first-child { display: none !important; }
+
+/* ---- Ukrycie sekcji "Dane wlasciciela" na /contact ---- */
+.contact__sect:has(.contact__list.--owner) {
+    display: none !important;
+}
+
+/* ---- Ukrycie tytulu strony CMS (h1.big-label) ---- */
+h1.big-label {
+    display: none !important;
+}
+
+/* ---- Zerowanie paddingu CMS ---- */
+#pageContent .container {
+    padding-top: 0 !important;
+}
+
+#pageContent .mb-5 {
+    margin-bottom: 0 !important;
+}
+
+/* ============================================================
+   3. UCIECZKA Z KONTENERA CMS (.et-full)
+   .txt-text jest w .container (max 1170px + 15px padding)
+   ============================================================ */
+
+.txt-text .et-full {
+    margin-left:  -15px;
+    margin-right: -15px;
+    width: calc(100% + 30px);
+}
+
+@media (min-width: 1200px) {
+    .txt-text .et-full {
+        margin-left:  calc(-50vw + 585px);
+        margin-right: calc(-50vw + 585px);
+        width: 100vw;
+    }
+}
+
+/* ============================================================
+   4. TYPOGRAFIA BAZOWA
+   ============================================================ */
+
+.txt-text {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    line-height: 1.7;
+}
+
+/* ============================================================
+   5. SEKCJE
+   ============================================================ */
+
+.et-section {
+    padding: var(--et-section-pad) 0;
+    width: 100%;
+}
+
+.et-section--dark {
+    background: var(--et-brand);
+    color: #fff;
+}
+
+.et-section--muted {
+    background: var(--et-muted-bg);
+}
+
+.et-inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+}
+
+@media (max-width: 768px) {
+    .et-inner { padding: 0 var(--et-inner-pad-m); }
+    .et-section { padding: var(--et-section-pad-m) 0; }
+}
+
+.et-section--compact {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+}
+
+/* ============================================================
+   6. NAGLOWKI SEKCJI
+   ============================================================ */
+
+.et-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 14px;
+    font-weight: 500;
+}
+
+.et-section--dark .et-label { color: rgba(255,255,255,0.5); }
+.et-section--muted .et-label { color: var(--et-brand); }
+
+.et-h2 {
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin: 0 0 24px;
+}
+
+.et-section--dark .et-h2 { color: #fff; }
+
+.et-h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+}
+
+.et-section--dark .et-h3 { color: #fff; }
+
+.et-lead {
+    font-size: 17px;
+    color: #555;
+    line-height: 1.75;
+    max-width: 680px;
+    margin: 0 0 48px;
+}
+
+.et-section--dark .et-lead { color: rgba(255,255,255,0.75); }
+
+.et-rule {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 0 0 48px;
+    max-width: 48px;
+}
+
+.et-section--dark .et-rule { border-color: rgba(255,255,255,0.25); }
+.et-section--muted .et-rule { border-color: var(--et-muted-border); }
+
+/* ============================================================
+   7. LAYOUT (grid split)
+   ============================================================ */
+
+.et-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.et-split--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+}
+
+.et-split--4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+}
+
+@media (max-width: 900px) {
+    .et-split,
+    .et-split--3,
+    .et-split--4 {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* ============================================================
+   8. HERO — baner podstrony (niebieski)
+   ============================================================ */
+
+.et-hero {
+    padding: 100px 0 80px;
+    background: var(--et-brand);
+    color: #fff;
+}
+
+.et-hero__inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+}
+
+.et-hero__kicker {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 20px;
+}
+
+.et-hero__title {
+    font-size: clamp(36px, 5vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: #fff;
+    margin: 0 0 24px;
+}
+
+.et-hero__desc {
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0;
+}
+
+/* ============================================================
+   9. HERO — strona glowna (Ken Burns zoom)
+   ============================================================ */
+
+/* Glowne zdjecie hero (ID 5) — jedyne widoczne, z Ken Burns zoom */
+.parallax-slider {
+    background: #1a2a3a;
+    overflow: hidden;
+}
+
+/* Zdjecie 5 z efektem zoom */
+.parallax-slider::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://client51651.idosell.com/images/frontpageGallery/pictures/large/0/0/5.webp') center/cover no-repeat;
+    animation: heroZoom 8s ease-out forwards;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes heroZoom {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.08); }
+}
+
+/* Tlo slajdow przezroczyste */
+.parallax-slider .parallax-image {
+    overflow: hidden;
+    background: transparent;
+}
+
+/* Ukryj obrazki slajdow — zostaje tylko 5.webp z zoomem */
+.parallax-slider .slick-slide .parallax-image img {
+    opacity: 0 !important;
+}
+
+/* ============================================================
+   10. INTRO — strona glowna (naglowek + tekst centralnie)
+   ============================================================ */
+
+div.et-intro {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 64px 40px;
+    text-align: center;
+}
+
+div.et-intro h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+    line-height: 1.2;
+}
+
+div.et-intro p {
+    font-size: clamp(16px, 1.8vw, 18px);
+    color: #333;
+    line-height: 1.7;
+    font-weight: 400;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    div.et-intro {
+        padding: 40px 24px;
+    }
+}
+
+/* ============================================================
+   11. PICTOGRAMY (4 ikony — strona glowna)
+   ============================================================ */
+
+.pictogram {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2.5rem;
+    padding: 4.4rem 0;
+}
+
+@media (min-width: 979px) {
+    .pictogram {
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+.pictogram::before {
+    content: "";
+    display: block;
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    background: var(--et-muted-bg);
+}
+
+.pictogram__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 150px;
+    text-wrap: pretty;
+    margin: 0 auto;
+}
+
+.pictogram__item img {
+    width: 56px;
+    height: 56px;
+}
+
+.pictogram__content {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+}
+
+/* ============================================================
+   12. SEKCJA "O apartamentach" (.et-about) — strona glowna
+   ============================================================ */
+
+.et-about {
+    position: relative;
+    padding: var(--et-section-pad) 0;
+}
+
+.et-about__inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+@media (min-width: 979px) {
+    .et-about__inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+    }
+}
+
+.et-about__text h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+    line-height: 1.2;
+}
+
+.et-about__text p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin: 0 0 16px;
+}
+
+.et-about__text p:last-of-type {
+    margin-bottom: 0;
+}
+
+.et-about__img {
+    overflow: hidden;
+    border-radius: 12px;
+    line-height: 0;
+}
+
+.et-about__img img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    transition: transform 6s ease-out;
+}
+
+.et-about__img:hover img {
+    transform: scale(1.06);
+}
+
+@media (max-width: 768px) {
+    .et-about {
+        padding: var(--et-section-pad-m) 0;
+    }
+    .et-about__inner {
+        padding: 0 var(--et-inner-pad-m);
+    }
+    .et-about__img img {
+        height: 340px;
+    }
+}
+
+/* ============================================================
+   13. SEKCJA "Eagle Tower" (.et-location) — strona glowna
+   ============================================================ */
+
+.et-location {
+    position: relative;
+    padding: var(--et-section-pad) 0;
+}
+
+.et-location::before {
+    content: "";
+    display: block;
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    background: var(--et-muted-bg);
+}
+
+.et-location__inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: center;
+}
+
+@media (min-width: 979px) {
+    .et-location__inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+    }
+}
+
+.et-location__img {
+    overflow: hidden;
+    border-radius: 12px;
+    line-height: 0;
+}
+
+.et-location__img img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    transition: transform 6s ease-out;
+}
+
+.et-location__img:hover img {
+    transform: scale(1.06);
+}
+
+.et-location__text h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+    line-height: 1.2;
+}
+
+.et-location__text p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin: 0 0 16px;
+}
+
+.et-location__text p:last-of-type {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .et-location {
+        padding: var(--et-section-pad-m) 0;
+    }
+    .et-location__inner {
+        padding: 0 var(--et-inner-pad-m);
+    }
+    .et-location__img img {
+        height: 340px;
+    }
+}
+
+/* ============================================================
+   14. OFERTY — zoom, ukrycie overlay (strona glowna)
+   ============================================================ */
+
+.offer .object-icon img {
+    transition: transform 6s ease-out !important;
+}
+
+.offer:hover .object-icon img {
+    transform: scale(1.06);
+}
+
+.offer .object-icon p,
+.offer .object-icon .offer__hover {
+    display: none !important;
+}
+
+.cmshotspot .offer {
+    padding: 0 32px !important;
+}
+
+.offer__subtitle {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   15. LISTA PUNKTOWANA (.et-list)
+   ============================================================ */
+
+.et-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+}
+
+.et-list li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+}
+
+.et-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--et-brand);
+}
+
+.et-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================================
+   16. KARTY APARTAMENTOW
+   ============================================================ */
+
+.et-apt {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 860px) {
+    .et-apt { grid-template-columns: 1fr; }
+}
+
+.et-apt__item {
+    padding: 56px 48px;
+    border-right: 1px solid #e8e8e8;
+    position: relative;
+}
+
+.et-apt__item:last-child {
+    border-right: none;
+}
+
+.et-section--muted .et-apt__item {
+    border-color: var(--et-muted-card);
+}
+
+.et-apt__num {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.et-apt__name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin: 0 0 6px;
+}
+
+.et-apt__floor {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 24px;
+    display: block;
+}
+
+.et-apt__desc {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin: 0 0 28px;
+}
+
+.et-apt__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.et-apt__spec {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: #444;
+    border: 1px solid #ddd;
+    padding: 4px 12px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+/* ---- Obrazek w karcie apartamentu ---- */
+.et-apt__img {
+    display: block;
+    margin: -56px -48px 32px;
+    overflow: hidden;
+    border-radius: 0;
+    line-height: 0;
+}
+
+.et-apt__img img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 6s ease-out;
+}
+
+@media (min-width: 861px) {
+    .et-apt__img img { height: 340px; }
+}
+
+.et-apt__item:hover .et-apt__img img {
+    transform: scale(1.06);
+}
+
+/* ---- Pasek ceny ---- */
+.et-apt__pricebar {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 24px;
+    padding: 16px 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.et-section--muted .et-apt__pricebar {
+    border-color: var(--et-muted-card);
+}
+
+.et-apt__price-label {
+    font-size: 12px;
+    color: #888;
+    text-transform: lowercase;
+}
+
+.et-apt__price-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--et-brand);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.et-apt__price-suffix {
+    font-size: 13px;
+    color: #888;
+}
+
+@media (max-width: 860px) {
+    .et-apt__img {
+        margin: -56px -48px 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .et-apt__img {
+        margin: 0 0 24px;
+    }
+    .et-apt__img img {
+        height: 220px;
+        border-radius: 8px;
+    }
+    .et-apt__price-value {
+        font-size: 24px;
+    }
+}
+
+/* ============================================================
+   17. LISTA CECH (.et-features)
+   ============================================================ */
+
+.et-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.et-features li {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+    padding: 12px 0;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.et-features li:last-child { border-bottom: none; }
+
+.et-features li::before {
+    content: "\2014";
+    color: #bbb;
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.et-section--dark .et-features li { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.15); }
+.et-section--dark .et-features li::before { color: rgba(255,255,255,0.35); }
+.et-section--muted .et-features li { border-color: var(--et-muted-card); }
+
+/* ============================================================
+   18. GRID UDOGODNIEN (.et-amenities)
+   ============================================================ */
+
+.et-amenities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #e8e8e8;
+}
+
+@media (max-width: 860px) {
+    .et-amenities { grid-template-columns: 1fr; }
+}
+
+.et-amenity {
+    padding: 48px 40px;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.et-amenity:nth-child(3n) { border-right: none; }
+
+.et-section--dark .et-amenities { border-color: rgba(255,255,255,0.15); }
+.et-section--dark .et-amenity { border-color: rgba(255,255,255,0.15); }
+.et-section--muted .et-amenities { border-color: var(--et-muted-card); }
+.et-section--muted .et-amenity { border-color: var(--et-muted-card); }
+
+.et-amenity__icon {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--et-brand);
+    line-height: 1;
+}
+
+.et-amenity__icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.et-section--dark .et-amenity__icon { color: rgba(255,255,255,0.9); }
+
+.et-amenity__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+}
+
+.et-amenity__text {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.et-section--dark .et-amenity__title { color: #fff; }
+.et-section--dark .et-amenity__text { color: rgba(255,255,255,0.65); }
+
+/* ---- Warianty gridu ---- */
+.et-amenities--2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.et-amenities--2 .et-amenity:nth-child(3n) { border-right: 1px solid #e8e8e8; }
+.et-amenities--2 .et-amenity:nth-child(2n) { border-right: none; }
+
+.et-amenities--3col {
+    grid-template-columns: repeat(3, 1fr) !important;
+}
+
+@media (max-width: 978px) {
+    .et-amenities--3col { grid-template-columns: 1fr !important; }
+}
+
+/* ============================================================
+   19. MEDIA ROW — zdjecie + tekst naprzemiennie (Eagle Tower)
+   ============================================================ */
+
+.et-media-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    align-items: center;
+    margin-bottom: 48px;
+}
+
+@media (min-width: 979px) {
+    .et-media-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+    }
+}
+
+.et-media-row--reverse .et-media-row__img {
+    order: -1;
+}
+
+@media (max-width: 978px) {
+    .et-media-row--reverse .et-media-row__img {
+        order: 0;
+    }
+}
+
+.et-media-row__img {
+    overflow: hidden;
+    border-radius: 12px;
+    line-height: 0;
+}
+
+.et-media-row__img img {
+    width: 100%;
+    height: 620px;
+    object-fit: cover;
+    transition: transform 6s ease-out;
+}
+
+.et-media-row__img:hover img {
+    transform: scale(1.06);
+}
+
+@media (max-width: 768px) {
+    .et-media-row__img img { height: 420px; }
+    .et-media-row { gap: 32px; margin-bottom: 32px; }
+}
+
+.et-media-row + .et-amenities { margin-top: 0; }
+
+/* ── Kolaż (pasek graficzny pod media-row) ── */
+.et-collage {
+    margin: 40px 0 0;
+    border-radius: var(--et-radius, 12px);
+    overflow: hidden;
+}
+.et-collage img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.et-collage + .et-amenities { margin-top: 40px; }
+
+/* ============================================================
+   20. SPECS BAR (dane apartamentu)
+   ============================================================ */
+
+.et-specs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .et-specs { grid-template-columns: repeat(2, 1fr); }
+}
+
+.et-spec {
+    padding: 32px 24px;
+    border-right: 1px solid #e8e8e8;
+    text-align: left;
+}
+
+.et-spec:last-child { border-right: none; }
+
+.et-spec__val {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--et-brand);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.et-spec__label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #999;
+}
+
+/* ============================================================
+   21. ATRAKCJE / LOKALIZACJA (podstrona)
+   ============================================================ */
+
+.et-places {
+    border-top: 1px solid #e8e8e8;
+}
+
+.et-place {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+    padding: 36px 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.et-place__name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 6px;
+}
+
+.et-place__desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.et-place__dist {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--et-brand);
+    white-space: nowrap;
+    padding-top: 4px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   22. PRZYCISK CTA
+   ============================================================ */
+
+.et-btn {
+    display: inline-block;
+    background: var(--et-brand);
+    color: #fff !important;
+    padding: 14px 32px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none !important;
+    border-radius: 2px;
+    transition: background 0.15s ease;
+}
+
+.et-btn:hover {
+    background: var(--et-brand-hover);
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+.et-btn--ghost {
+    background: transparent;
+    border: 1px solid var(--et-brand);
+    color: var(--et-brand) !important;
+}
+
+.et-btn--ghost:hover {
+    background: var(--et-brand);
+    color: #fff !important;
+}
+
+.et-section--dark .et-btn {
+    background: #fff;
+    color: var(--et-brand) !important;
+}
+
+.et-section--dark .et-btn:hover {
+    background: var(--et-muted-bg);
+    color: var(--et-brand) !important;
+}
+
+/* ============================================================
+   23. GALERIA — albumy i siatka zdjec
+   ============================================================ */
+
+.et-albums {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid #e8e8e8;
+}
+
+@media (max-width: 680px) {
+    .et-albums { grid-template-columns: 1fr; }
+}
+
+.et-album {
+    padding: 48px 40px;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    transition: background 0.15s ease;
+}
+
+.et-album:nth-child(2n) { border-right: none; }
+.et-album:hover { background: var(--et-muted-bg); }
+
+.et-album__num {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #bbb;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.et-album__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+}
+
+.et-album__desc {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.65;
+    margin: 0 0 24px;
+}
+
+/* ---- Siatka zdjec ---- */
+.et-photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+@media (max-width: 860px) {
+    .et-photos { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .et-photos { grid-template-columns: 1fr; }
+}
+
+.et-photo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: #f0f0f0;
+    display: block;
+}
+
+.et-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.et-photo:hover img {
+    transform: scale(1.04);
+    opacity: 0.92;
+}
+
+.et-photo__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 87, 158, 0);
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.et-photo:hover .et-photo__overlay {
+    background: rgba(0, 87, 158, 0.15);
+}
+
+.et-photo__overlay svg {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    color: #fff;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
+.et-photo:hover .et-photo__overlay svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.et-photos-count {
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 0.5px;
+    margin-bottom: 32px;
+    display: block;
+}
+
+/* ============================================================
+   24. PASEK CTA (.et-cta-bar)
+   ============================================================ */
+
+.et-cta-bar {
+    position: relative;
+    padding: var(--et-section-pad) 0;
+    background: var(--et-brand);
+}
+
+/* Pelna szerokosc tla na stronach bez .et-full wrappera */
+.et-cta-bar::before {
+    content: "";
+    display: block;
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+    background: var(--et-brand);
+}
+
+.et-cta-bar__inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .et-cta-bar__inner { flex-direction: column; align-items: flex-start; }
+    .et-cta-bar { padding: var(--et-section-pad-m) 0; }
+}
+
+.et-cta-bar__text h3 {
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+    line-height: 1.2;
+}
+
+.et-cta-bar__text p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.et-cta-bar .et-btn {
+    display: inline-block;
+    padding: 16px 36px;
+    background: #fff;
+    color: var(--et-brand) !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.et-cta-bar .et-btn:hover {
+    background: var(--et-muted-bg);
+    color: var(--et-brand) !important;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* ============================================================
+   25. INTRO TEXT (duzy tekst — podstrony, p.et-intro)
+   ============================================================ */
+
+.et-intro {
+    font-size: clamp(18px, 2vw, 22px);
+    color: #333;
+    line-height: 1.7;
+    max-width: 780px;
+    font-weight: 400;
+}
+
+/* ============================================================
+   26. KLASY POMOCNICZE
+   ============================================================ */
+
+.et-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.et-cta-bar__actions {
+    flex-shrink: 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* ============================================================
+   27. GALERIA — filtry albumow
+   ============================================================ */
+
+.et-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 32px;
+}
+
+.et-filter {
+    padding: 10px 22px;
+    border: 1.5px solid var(--et-brand);
+    background: transparent;
+    color: var(--et-brand);
+    font-family: var(--et-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.et-filter:hover {
+    background: rgba(0, 87, 158, 0.08);
+}
+
+.et-filter--active {
+    background: var(--et-brand);
+    color: #fff;
+}
+
+.et-filter--active:hover {
+    background: var(--et-brand);
+    color: #fff;
+}
+
+/* ---- Numer i opis albumu ---- */
+
+.et-album__num {
+    display: block;
+    font-size: 48px;
+    font-weight: 800;
+    color: rgba(0, 87, 158, 0.08);
+    line-height: 1;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+}
+
+.et-album__desc {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 0 24px;
+}
+
+/* ============================================================
+   28. LIGHTBOX (.et-lb)
+   ============================================================ */
+
+.et-lb {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.et-lb--open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.et-lb__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+}
+
+.et-lb__img {
+    position: relative;
+    max-width: 90vw;
+    max-height: 88vh;
+    object-fit: contain;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.et-lb__close,
+.et-lb__prev,
+.et-lb__next {
+    position: absolute;
+    z-index: 2;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-family: sans-serif;
+    transition: opacity 0.2s ease;
+}
+
+.et-lb__close:hover,
+.et-lb__prev:hover,
+.et-lb__next:hover {
+    opacity: 0.7;
+}
+
+.et-lb__close {
+    top: 20px;
+    right: 24px;
+    font-size: 40px;
+    line-height: 1;
+}
+
+.et-lb__prev {
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 56px;
+    line-height: 1;
+}
+
+.et-lb__next {
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 56px;
+    line-height: 1;
+}
+
+.et-lb__counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .et-lb__prev { left: 8px; font-size: 40px; }
+    .et-lb__next { right: 8px; font-size: 40px; }
+    .et-lb__close { top: 12px; right: 16px; font-size: 32px; }
+}
+
+/* ============================================================
+   29. DOSTEPNOSC — ruch zredukowany
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .et-btn,
+    .et-photo img,
+    .et-photo__overlay,
+    .et-photo__overlay svg,
+    .et-album,
+    .et-about__img img,
+    .et-location__img img,
+    .et-media-row__img img,
+    .et-apt__img img,
+    .offer .object-icon img {
+        transition: none !important;
+    }
+    .et-photo:hover img,
+    .et-about__img:hover img,
+    .et-location__img:hover img,
+    .et-media-row__img:hover img {
+        transform: none !important;
+    }
+    .et-photo:hover .et-photo__overlay svg {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .parallax-slider .slick-slide.slick-active .parallax-image img {
+        animation: none !important;
+    }
+}

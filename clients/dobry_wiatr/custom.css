@@ -1,0 +1,271 @@
+/* ============================================
+   Dobry Wiatr Chalupy - Villa Baltic Apartament 4
+   Custom CSS for engine52436.idobooking.com
+
+   CALY PLIK DO WKLEJENIA W:
+   Panel IdoBooking > Custom CSS
+   ============================================ */
+
+
+/* ========== HEADER ========== */
+
+/* Tlo headera (szare jak body) - nie przeswituje tresc przy scroll */
+/* Calendar menu wewnatrz ma wlasne biale tlo - nie wymaga zmian   */
+header.fixed-menu {
+    background: #f1f1f1 !important;
+}
+
+header .long-main-name h1 {
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 0;
+    padding: 8px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+header .long-main-name h1 a.long-main-link {
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 600;
+    text-decoration: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+header .header.no-gutter {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 50px;
+}
+
+header .top_navigation .nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+header .top_navigation .nav li {
+    margin: 0;
+}
+
+header .top_navigation .nav li .btn-nav {
+    font-size: 13px;
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+
+/* ========== SEKCJA OFERT - overflow fix ========== */
+/* .printItemRow ma domyslnie overflow:hidden         */
+/* co przycina tooltippy wychodzace poza kontener     */
+
+section.printItemRow,
+.printItemRow {
+    overflow: visible !important;
+}
+
+
+/* ========== TOOLTIP - pozycjonowanie ========== */
+
+.tooltip-wrapper {
+    position: relative !important;
+    display: inline-block !important;
+    vertical-align: middle;
+}
+
+.tooltip-wrapper .tooltip-desc {
+    position: absolute !important;
+    bottom: calc(100% + 4px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    right: auto !important;
+    top: auto !important;
+    width: 300px !important;
+    max-width: 85vw !important;
+    padding: 12px 14px !important;
+    padding-right: 36px !important;
+    background: #333 !important;
+    color: #fff !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+    z-index: 800 !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    text-align: left !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+}
+
+/* Strzalka pod dymkiem */
+.tooltip-wrapper .tooltip-desc::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border: 6px solid transparent !important;
+    border-top-color: #333 !important;
+}
+
+/* Tekst wewnatrz - normalny flow */
+.tooltip-wrapper .tooltip-desc span {
+    display: inline !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+}
+
+.room-item-details-desc {
+    overflow: visible !important;
+    text-overflow: unset !important;
+    white-space: normal !important;
+}
+
+
+/* ========== ZAMYKANIE TOOLTIP - hover + X close ========== */
+/* IdoBooking nie ma JS handlera na .tooltip-close           */
+/* na desktop (tylko .touch). Przejmujemy kontrole           */
+/* widocznosci tooltipa przez CSS :hover + :has(:focus).     */
+/*                                                            */
+/* Jak dziala:                                                */
+/*   1. Tooltip ukryty domyslnie (ignoruje .active)          */
+/*   2. :hover na wrapper → tooltip widoczny                 */
+/*   3. Klik X → :has(.tooltip-close:focus) → tooltip        */
+/*      znika (wyzsza specyficznosc niz :hover)              */
+/*   4. Kursor poza wrapper → tooltip znika naturalnie       */
+/*   5. html:not(.touch) → nie psuje mobile                  */
+
+/* Powieksz pole hover wrappera - latwiejsze najechanie */
+html:not(.touch) .tooltip-wrapper {
+    padding: 8px 6px !important;
+    margin: -8px -6px !important;
+    cursor: help !important;
+}
+
+/* Ukryj tooltip na desktop - ignoruj klase .active */
+html:not(.touch) .tooltip-wrapper .tooltip-desc,
+html:not(.touch) .tooltip-wrapper .tooltip-desc.active {
+    display: block !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.2s ease, visibility 0s 0.2s !important;
+}
+
+/* Pokaz tooltip przy hover na wrapper */
+html:not(.touch) .tooltip-wrapper:hover .tooltip-desc,
+html:not(.touch) .tooltip-wrapper:hover .tooltip-desc.active {
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition: opacity 0.15s ease, visibility 0s !important;
+}
+
+/* Zamknij tooltip kliknieciem X (wyzsza specyficznosc niz :hover) */
+/* .tooltip-close to <a tabindex=0> - klik daje :focus             */
+html:not(.touch) .tooltip-wrapper:hover:has(.tooltip-close:focus) .tooltip-desc,
+html:not(.touch) .tooltip-wrapper:hover:has(.tooltip-close:focus) .tooltip-desc.active {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.15s ease, visibility 0s 0.15s !important;
+}
+
+
+/* ========== PRZYCISK ZAMKNIECIA "X" - style wizualne ========== */
+/* Pokazujemy przycisk X na desktop (IdoBooking go ukrywa).       */
+/* Funkcjonalnosc zamykania zapewnia sekcja powyzej.              */
+
+.tooltip-wrapper .tooltip-close,
+.tooltip-desc .tooltip-close,
+span.tooltip-desc .tooltip-close,
+a.tooltip-close {
+    display: block !important;
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,0.2) !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    z-index: 801 !important;
+    font-size: 0 !important;
+    line-height: 24px !important;
+    text-align: center !important;
+    border: none !important;
+    outline: none !important;
+    transition: background 0.2s !important;
+}
+
+.tooltip-wrapper .tooltip-close::before,
+.tooltip-desc .tooltip-close::before,
+a.tooltip-close::before {
+    content: '\00D7' !important;
+    font-family: Arial, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    line-height: 1 !important;
+}
+
+.tooltip-wrapper .tooltip-close:hover,
+a.tooltip-close:hover {
+    background: rgba(255,255,255,0.4) !important;
+}
+
+
+/* ========== RESPONSYWNOSC ========== */
+
+@media (max-width: 767px) {
+    header .long-main-name h1,
+    header .long-main-name h1 a.long-main-link {
+        font-size: 13px;
+        text-align: center;
+    }
+
+    header .header.no-gutter {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header .top_navigation .nav {
+        justify-content: center;
+        gap: 4px;
+    }
+
+    header .top_navigation .nav li .btn-nav {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .tooltip-wrapper .tooltip-desc {
+        left: -10px !important;
+        right: auto !important;
+        transform: none !important;
+        width: 260px !important;
+    }
+
+    .tooltip-wrapper .tooltip-desc::after {
+        left: 20px !important;
+        right: auto !important;
+        transform: none !important;
+    }
+}

@@ -1,0 +1,1592 @@
+/* ══════════════════════════════════════════════════════════════════════
+   PIEKARY 1-3 — Toruńskie Apartamenty
+   Prefix: pk-  |  Template: default13 (IdoBooking)
+   Paleta: #1A1210 / #8B3A2F / #C4704B / #D4B896 / #F5EDE3
+   Fonty:  Cormorant Garamond + Inter
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ──────────────────────────────────────────────────────────
+   0a. SYSTEM SCHEME OVERRIDE — CRITICAL
+   System scheme 333333.css defines:
+   --maincolor1: #4ADE80 (green), --supportcolor1: #fe701a (orange)
+   Must override BEFORE anything else.
+   ────────────────────────────────────────────────────────── */
+html:root {
+  --maincolor1: #C4704B !important;
+  --maincolor1_rgba: 196, 112, 75 !important;
+  --supportcolor1: #8B3A2F !important;
+  --maincolor2: #2C1810 !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   0b. DESIGN TOKENS
+   ────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --pk-black:        #1A1210;
+  --pk-dark:         #231B17;
+  --pk-dark2:        #2C1810;
+  --pk-dark3:        #352218;
+  --pk-dark4:        #3D2A1E;
+
+  /* Brick palette — gotyk toruński */
+  --pk-brick:        #8B3A2F;
+  --pk-brick-light:  #A34838;
+  --pk-brick-dark:   #6E2D24;
+  --pk-brick-subtle: rgba(139, 58, 47, 0.08);
+  --pk-brick-mid:    rgba(139, 58, 47, 0.25);
+
+  /* Warm accent — terracotta/piaskowiec */
+  --pk-terra:        #C4704B;
+  --pk-terra-light:  #D4855F;
+  --pk-terra-dark:   #A85E3D;
+
+  /* Gold-sand — ciepłe złoto / miód piernikowy */
+  --pk-sand:         #D4B896;
+  --pk-sand-light:   #E2CCAE;
+  --pk-sand-dark:    #B99E7A;
+  --pk-honey:        #C8973E;
+
+  /* Sage — oliwkowy z PDF opowieści */
+  --pk-sage:         #B5B295;
+
+  /* Vistula — stalowy błękit rzeki */
+  --pk-vistula:      #4A6670;
+
+  /* Text */
+  --pk-cream:        #F5EDE3;
+  --pk-cream-dark:   #E8DFD3;
+  --pk-text:         #C5BBB0;
+  --pk-text-muted:   #8A7F74;
+  --pk-text-faint:   #5A524A;
+
+  /* Light sections */
+  --pk-light-bg:     #FAF6F1;
+  --pk-light-bg2:    #F5EDE3;
+  --pk-light-text:   #1A1210;
+  --pk-light-sub:    #5A4A3E;
+
+  /* Borders */
+  --pk-border:       rgba(196, 112, 75, 0.15);
+  --pk-border-dark:  rgba(255, 255, 255, 0.06);
+
+  /* Typography */
+  --pk-font-serif:   'Cormorant Garamond', 'Georgia', serif;
+  --pk-font-sans:    'Inter', system-ui, sans-serif;
+
+  /* Spacing */
+  --pk-section-v:    96px;
+  --pk-section-v-sm: 60px;
+  --pk-inner-max:    1140px;
+  --pk-gap:          32px;
+
+  /* Motion */
+  --pk-ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --pk-duration:     0.45s;
+  --pk-transition:   0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Radius */
+  --pk-radius:       4px;
+  --pk-radius-lg:    10px;
+  --pk-radius-xl:    16px;
+
+  /* Shadows */
+  --pk-shadow:       0 8px 32px rgba(0, 0, 0, 0.45);
+  --pk-shadow-warm:  0 4px 24px rgba(196, 112, 75, 0.18);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   1. GOOGLE FONTS IMPORT
+   ────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+
+/* ──────────────────────────────────────────────────────────
+   2. GLOBAL RESETS & BASE
+   ────────────────────────────────────────────────────────── */
+html,
+body {
+  background-color: var(--pk-black) !important;
+  color: var(--pk-text) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 16px !important;
+  line-height: 1.7 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+a {
+  color: var(--pk-terra) !important;
+  text-decoration: none !important;
+  transition: color var(--pk-duration) var(--pk-ease);
+}
+a:hover {
+  color: var(--pk-terra-light) !important;
+}
+/* Except footer links, navbar links, and button links — handled separately */
+footer a { color: var(--pk-sand) !important; }
+.navbar-nav a { color: var(--pk-cream) !important; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--pk-font-serif) !important;
+  color: var(--pk-cream) !important;
+  line-height: 1.2;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Global font-size limits — system makes h2 36px+ which is too big */
+h2 {
+  font-size: clamp(22px, 2.5vw, 32px) !important;
+}
+h3 {
+  font-size: clamp(18px, 2vw, 24px) !important;
+}
+h4 {
+  font-size: clamp(16px, 1.5vw, 20px) !important;
+  color: var(--pk-cream) !important;
+}
+
+/* Global .price — system makes it 32px */
+.price {
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-sans) !important;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   3. SYSTEM OVERRIDES — IdoBooking default13 traps
+   ────────────────────────────────────────────────────────── */
+
+/* 3a. System H1 hide */
+h1.big-label {
+  display: none !important;
+}
+
+/* 3b. System orange (#AD5009) override */
+[class*="icon-"] {
+  color: var(--pk-terra) !important;
+}
+.btn, a.btn, button.btn {
+  background-color: var(--pk-brick) !important;
+  border-color: var(--pk-brick) !important;
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--pk-radius) !important;
+  transition: all var(--pk-duration) var(--pk-ease);
+}
+.btn:hover, a.btn:hover, button.btn:hover {
+  background-color: var(--pk-brick-light) !important;
+  border-color: var(--pk-brick-light) !important;
+  transform: translateY(-1px);
+}
+
+/* 3c. Parallax slider overlay — hide system dark overlay */
+.parallax-slider::before {
+  display: none !important;
+}
+
+/* 3d. Index info — slider text/search positioning */
+.index-info {
+  z-index: 1000 !important;
+  overflow: visible !important;
+}
+
+/* 3e. Navigation dark bg */
+header, .menu-wrapper, .bgd-color-light.menu-wrapper {
+  background-color: var(--pk-black) !important;
+  border-bottom: 1px solid var(--pk-border) !important;
+}
+
+/* 3f. Navbar links */
+.navbar-nav > li > a,
+.navbar-nav > li > a > span,
+.navbar-nav .nav-link {
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  transition: color var(--pk-duration) var(--pk-ease) !important;
+}
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:hover > span,
+.navbar-nav .nav-link:hover {
+  color: var(--pk-terra) !important;
+}
+
+/* 3g. Language selector */
+.page-top__language,
+.page-top__language a {
+  color: var(--pk-cream) !important;
+}
+
+/* 3h. Logo on dark header */
+img[src*="Logo"], img[src*="wideLogo"], .navbar-brand img {
+  filter: brightness(0) invert(1);
+  max-height: 50px;
+}
+
+/* 3i. Search widget hide (we use custom search) */
+.iai-search {
+  display: none !important;
+}
+
+/* 3j. System trigger button */
+.iai_book_trigger {
+  display: none !important;
+}
+
+/* 3k. Powered by logo on dark footer */
+.powered_by_logo img {
+  filter: brightness(0) invert(1);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   4. FOOTER — dark brick theme
+   ────────────────────────────────────────────────────────── */
+footer,
+.footer-contact-baner {
+  background-color: var(--pk-dark2) !important;
+}
+
+footer a,
+.footer__contact a,
+footer .footer__contact a {
+  color: var(--pk-sand) !important;
+}
+footer a:hover,
+.footer__contact a:hover {
+  color: var(--pk-terra) !important;
+}
+
+footer,
+footer p,
+footer span,
+footer li,
+footer div {
+  color: var(--pk-text-muted) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 14px !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   5. HERO — Full-screen with brick overlay
+   ────────────────────────────────────────────────────────── */
+
+/* 5a. Slider container */
+.parallax-slider {
+  position: relative;
+}
+
+/* 5b. Hero overlay */
+.pk-hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 18, 16, 0.3) 0%,
+    rgba(26, 18, 16, 0.6) 50%,
+    rgba(26, 18, 16, 0.85) 100%
+  );
+}
+
+.pk-hero-overlay__inner {
+  text-align: center;
+  max-width: 800px;
+  padding: 40px 24px;
+}
+
+.pk-hero-overlay h1 {
+  font-family: var(--pk-font-serif) !important;
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 300;
+  color: var(--pk-cream);
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.pk-hero-overlay h1 strong {
+  font-weight: 600;
+  color: var(--pk-terra);
+}
+
+.pk-hero-overlay__sub {
+  font-family: var(--pk-font-sans) !important;
+  font-size: clamp(14px, 1.5vw, 18px);
+  color: var(--pk-text);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.pk-hero-overlay__line {
+  width: 60px;
+  height: 3px;
+  background: var(--pk-terra);
+  margin: 0 auto 32px;
+}
+
+/* 5c. Hero CTA button */
+.pk-hero-cta {
+  display: inline-block;
+  padding: 14px 40px;
+  background: var(--pk-brick);
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 2px solid var(--pk-brick);
+  border-radius: var(--pk-radius);
+  transition: all var(--pk-duration) var(--pk-ease);
+  text-decoration: none;
+}
+.pk-hero-cta:hover {
+  background: transparent;
+  color: var(--pk-terra) !important;
+  border-color: var(--pk-terra);
+  transform: translateY(-2px);
+}
+
+/* 5d. Hero ghost button */
+.pk-hero-cta--ghost {
+  background: transparent;
+  border-color: var(--pk-sand);
+  color: var(--pk-sand) !important;
+  margin-left: 16px;
+}
+.pk-hero-cta--ghost:hover {
+  background: var(--pk-sand);
+  color: var(--pk-dark) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   6. FEATURED OFFERS — wyrożnione oferty
+   ────────────────────────────────────────────────────────── */
+/* Container + full-width bg */
+.container.container-hotspot {
+  position: relative !important;
+  z-index: 0 !important;
+  padding: 60px 0 !important;
+}
+.container.container-hotspot::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: var(--pk-dark) !important;
+  z-index: -1 !important;
+}
+
+/* H2 title — high specificity to beat system .big-label */
+.container.container-hotspot h2.big-label.line-label {
+  display: block !important;
+  visibility: visible !important;
+  font-family: var(--pk-font-serif) !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  color: var(--pk-cream) !important;
+  text-align: center !important;
+  margin-bottom: 32px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+/* Offer cards — height AUTO (system forces 477-580px) */
+.container-hotspot .offer {
+  background: var(--pk-dark2) !important;
+  border-radius: var(--pk-radius-lg) !important;
+  overflow: hidden !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  transition: transform 0.4s var(--pk-ease), box-shadow 0.4s var(--pk-ease) !important;
+}
+.container-hotspot .offer:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 12px 40px rgba(196, 112, 75, 0.2) !important;
+}
+
+/* Image — proper aspect ratio */
+.container-hotspot .offer .object-icon {
+  position: relative !important;
+  display: block !important;
+  padding-bottom: 62.5% !important;
+  overflow: hidden !important;
+  height: auto !important;
+}
+.container-hotspot .offer .object-icon img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.6s var(--pk-ease) !important;
+}
+.container-hotspot .offer:hover .object-icon img {
+  transform: scale(1.05) !important;
+}
+
+/* Hover overlay — hide (empty description) */
+.container-hotspot .offer .offer__hover {
+  display: none !important;
+}
+
+/* H3 name — compact padding */
+.container-hotspot .offer h3 {
+  padding: 12px 16px 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+.container-hotspot .offer h3 a {
+  font-family: var(--pk-font-serif) !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: var(--pk-cream) !important;
+  line-height: 1.3 !important;
+}
+
+/* Offer box — compact */
+.container-hotspot .offer .offer__box {
+  padding: 8px 16px 16px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  background: var(--pk-dark2) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 14px !important;
+  color: var(--pk-text-muted) !important;
+}
+
+/* Info badges (m2, persons) */
+.container-hotspot .offer .offer__info {
+  font-size: 13px !important;
+  color: var(--pk-text-muted) !important;
+  margin: 4px 0 8px !important;
+}
+.container-hotspot .offer .offer__info span {
+  background: var(--pk-dark3) !important;
+  border-radius: var(--pk-radius) !important;
+  color: var(--pk-text) !important;
+  font-size: 13px !important;
+  font-family: var(--pk-font-sans) !important;
+}
+.container-hotspot .offer [class*="icon-"] {
+  color: var(--pk-terra) !important;
+}
+
+/* Price */
+.container-hotspot .offer .offer__price {
+  color: var(--pk-cream) !important;
+  margin-top: 4px !important;
+}
+.container-hotspot .offer .offer__price .price {
+  font-size: 22px !important;
+  color: var(--pk-cream) !important;
+  font-weight: 600 !important;
+  font-family: var(--pk-font-sans) !important;
+}
+.container-hotspot .offer .offer__price small {
+  font-size: 12px !important;
+  color: var(--pk-text-muted) !important;
+}
+
+/* Slick arrows */
+.container-hotspot .slick-arrow {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  background: rgba(139, 58, 47, 0.8) !important;
+  z-index: 5;
+}
+.container-hotspot .slick-arrow:hover {
+  background: var(--pk-brick) !important;
+}
+.container-hotspot .slick-dots li button:before {
+  color: var(--pk-terra) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   6b. CUSTOM OFFER CARDS (JS-generated from hotspot data)
+   ────────────────────────────────────────────────────────── */
+.pk-offers-section {
+  position: relative;
+  padding: var(--pk-section-v) 0;
+}
+.pk-offers-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--pk-dark);
+  z-index: -1;
+}
+.pk-offers__inner {
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.pk-offers__title {
+  font-family: var(--pk-font-serif) !important;
+  font-size: clamp(28px, 3vw, 44px) !important;
+  font-weight: 400 !important;
+  color: var(--pk-cream) !important;
+  text-align: center !important;
+  margin-bottom: 12px !important;
+}
+.pk-offers__subtitle {
+  font-family: var(--pk-font-sans) !important;
+  font-size: 16px !important;
+  color: var(--pk-text-muted) !important;
+  text-align: center !important;
+  letter-spacing: 0.04em !important;
+  margin-bottom: 16px !important;
+}
+.pk-offers__line {
+  width: 60px;
+  height: 3px;
+  background: var(--pk-terra);
+  margin: 0 auto 48px;
+}
+
+/* Grid */
+.pk-offers__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/* Card */
+.pk-offer-card {
+  display: block;
+  background: var(--pk-dark2);
+  border-radius: var(--pk-radius-lg);
+  overflow: hidden;
+  text-decoration: none !important;
+  border: 1px solid var(--pk-border);
+  transition: transform 0.4s var(--pk-ease), box-shadow 0.4s var(--pk-ease), border-color 0.4s var(--pk-ease);
+}
+.pk-offer-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(196, 112, 75, 0.15);
+  border-color: var(--pk-terra);
+}
+
+/* Card image */
+.pk-offer-card__img {
+  position: relative;
+  padding-bottom: 62.5%; /* 16:10 */
+  overflow: hidden;
+}
+.pk-offer-card__img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--pk-ease);
+}
+.pk-offer-card:hover .pk-offer-card__img img {
+  transform: scale(1.06);
+}
+
+/* Card body */
+.pk-offer-card__body {
+  padding: 20px;
+}
+.pk-offer-card__name {
+  font-family: var(--pk-font-serif) !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  color: var(--pk-cream) !important;
+  margin-bottom: 8px !important;
+  line-height: 1.3 !important;
+}
+.pk-offer-card__desc {
+  font-family: var(--pk-font-sans) !important;
+  font-size: 14px !important;
+  color: var(--pk-text-muted) !important;
+  line-height: 1.6 !important;
+  margin-bottom: 12px !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta — area, guests */
+.pk-offer-card__meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-family: var(--pk-font-sans);
+  font-size: 13px;
+  color: var(--pk-text-muted);
+}
+.pk-offer-card__meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pk-offer-card__meta svg {
+  color: var(--pk-terra);
+  flex-shrink: 0;
+}
+
+/* CTA */
+.pk-offer-card__cta {
+  display: inline-block;
+  font-family: var(--pk-font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pk-terra);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.3s var(--pk-ease);
+}
+.pk-offer-card:hover .pk-offer-card__cta {
+  color: var(--pk-terra-light);
+}
+
+@media (max-width: 768px) {
+  .pk-offers__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   7. OFFERS PAGE — /offers (COMPLETE)
+   ────────────────────────────────────────────────────────── */
+
+/* 7a. Base */
+body.page-offers {
+  background-color: var(--pk-black) !important;
+}
+body.page-offers .iai-search {
+  display: none !important;
+}
+
+/* 7b. Sidebar */
+body.page-offers .aside {
+  background: var(--pk-dark2) !important;
+  border-radius: var(--pk-radius-lg) !important;
+  padding: 20px !important;
+}
+
+/* 7c. Filters hidden by default — toggle button */
+body.page-offers #menu_filter {
+  display: none !important;
+  overflow: hidden !important;
+}
+body.page-offers #menu_filter.pk-filters-open {
+  display: block !important;
+}
+
+/* Toggle button */
+.pk-filters-toggle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 20px !important;
+  background: transparent !important;
+  border: 1px solid var(--pk-border) !important;
+  border-radius: var(--pk-radius) !important;
+  color: var(--pk-text) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+  margin-bottom: 16px !important;
+}
+.pk-filters-toggle:hover {
+  background: rgba(196, 112, 75, 0.08) !important;
+  border-color: var(--pk-terra) !important;
+  color: var(--pk-terra) !important;
+}
+.pk-filters-toggle.pk-open {
+  background: rgba(196, 112, 75, 0.12) !important;
+  border-color: var(--pk-terra) !important;
+  color: var(--pk-terra) !important;
+}
+.pk-filters-toggle svg {
+  color: var(--pk-terra) !important;
+}
+
+/* 7c-2. "Filtruj wyniki" h4 — system uses --maincolor1 (green!) */
+body.page-offers #menu_filter h4 {
+  color: var(--pk-terra) !important;
+  font-family: var(--pk-font-serif) !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+}
+
+/* 7d. Filter headers */
+body.page-offers .filter_header {
+  cursor: pointer;
+  font-family: var(--pk-font-sans) !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: var(--pk-cream) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 10px 0 !important;
+  border-bottom: 1px solid var(--pk-border) !important;
+}
+body.page-offers .filter_header strong {
+  font-size: 13px !important;
+}
+
+/* 7e. Filter content / checkboxes */
+body.page-offers .filter_content {
+  font-family: var(--pk-font-sans) !important;
+  font-size: 14px !important;
+  color: var(--pk-text) !important;
+}
+body.page-offers .filter_content label {
+  font-size: 14px !important;
+  color: var(--pk-text) !important;
+}
+body.page-offers .filter_content .checkbox {
+  font-size: 14px !important;
+}
+
+/* 7f. "Zastosuj filtry" button */
+body.page-offers #filters_submit {
+  background: var(--pk-brick) !important;
+  border-color: var(--pk-brick) !important;
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--pk-radius) !important;
+  width: 100% !important;
+}
+
+/* 7g. Offer cards */
+body.page-offers .offers-container {
+  background: var(--pk-dark) !important;
+  border-radius: var(--pk-radius-lg) !important;
+  margin-bottom: 16px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--pk-border) !important;
+}
+body.page-offers .offers-container:hover {
+  border-color: var(--pk-terra) !important;
+}
+
+/* 7h. Card titles — FIX: system h2 way too big */
+body.page-offers .accommodation-rest h2 {
+  font-size: 20px !important;
+  line-height: 1.3 !important;
+  margin-bottom: 8px !important;
+}
+body.page-offers .accommodation-rest h2 a {
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-serif) !important;
+  font-size: 20px !important;
+}
+
+/* 7i. Price — FIX: system price too big */
+body.page-offers .object-price {
+  text-align: right !important;
+}
+body.page-offers .object-price .price {
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  color: var(--pk-cream) !important;
+}
+body.page-offers .object-price small {
+  font-size: 12px !important;
+  color: var(--pk-text-muted) !important;
+}
+
+/* 7j. Capacity/roomspace */
+body.page-offers .roomspace {
+  font-size: 14px !important;
+  color: var(--pk-text-muted) !important;
+}
+body.page-offers .accommodation-roomspace {
+  font-size: 14px !important;
+}
+body.page-offers .accommodation-roomspace i,
+body.page-offers .roomspace i {
+  color: var(--pk-terra) !important;
+}
+
+/* 7k. Description text */
+body.page-offers .accommodation-short-description {
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--pk-text) !important;
+  font-family: var(--pk-font-sans) !important;
+}
+
+/* 7l. SZCZEGOLY button */
+body.page-offers .accommodation-buttons a,
+body.page-offers .accommodation-buttons a .btn,
+body.page-offers .accommodation-buttons span.btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: auto !important;
+  padding: 10px 24px !important;
+  background-color: var(--pk-brick) !important;
+  color: var(--pk-cream) !important;
+  border: 2px solid var(--pk-brick) !important;
+  border-radius: var(--pk-radius) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  transition: all var(--pk-duration) var(--pk-ease) !important;
+}
+body.page-offers .accommodation-buttons a:hover,
+body.page-offers .accommodation-buttons a:hover .btn {
+  background-color: transparent !important;
+  border-color: var(--pk-terra) !important;
+  color: var(--pk-terra) !important;
+}
+
+/* 7m. Button bottom-aligned + span.btn trap */
+body.page-offers .accommodation-rest {
+  display: flex !important;
+  flex-direction: column !important;
+}
+body.page-offers .accommodation-buttons {
+  margin-top: auto !important;
+  text-align: right !important;
+  padding: 16px !important;
+}
+body.page-offers .accommodation-buttons a {
+  display: inline-block !important;
+  width: auto !important;
+}
+/* TRAP: system span.btn has line-height: 49px — must override */
+body.page-offers .accommodation-buttons span.btn {
+  line-height: 1.4 !important;
+  height: auto !important;
+  padding: 10px 28px !important;
+  display: inline-block !important;
+  width: auto !important;
+}
+
+/* 7n. Icon colors (system orange/green override) */
+body.page-offers [class*="icon-"] {
+  color: var(--pk-terra) !important;
+}
+
+/* 7o. Map on offers sidebar */
+body.page-offers #map_container {
+  border-radius: var(--pk-radius-lg) !important;
+  overflow: hidden !important;
+}
+
+/* 7p. Payment info section */
+body.page-offers .payment-info {
+  background: var(--pk-dark2) !important;
+  border-radius: var(--pk-radius-lg) !important;
+  padding: 16px !important;
+}
+body.page-offers .payment-info h5 {
+  font-family: var(--pk-font-serif) !important;
+  font-size: 18px !important;
+  color: var(--pk-cream) !important;
+}
+body.page-offers .payment-info p {
+  font-size: 13px !important;
+  color: var(--pk-text-muted) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   8. OFFER DETAIL PAGE — /offer/ID/name
+   ────────────────────────────────────────────────────────── */
+body.page-offer {
+  background-color: var(--pk-dark) !important;
+}
+
+body.page-offer .iai-search {
+  display: none !important;
+}
+
+body.page-offer .offer-wrapper,
+body.page-offer .col-lg-9,
+body.page-offer .col-lg-3,
+body.page-offer .offer-right-wrapper {
+  background: var(--pk-dark) !important;
+  color: var(--pk-text) !important;
+}
+
+body.page-offer h1,
+body.page-offer h2,
+body.page-offer h3 {
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-serif) !important;
+}
+
+/* Tabs */
+body.page-offer .tabs .tabs__item {
+  background: var(--pk-dark2) !important;
+  color: var(--pk-text-muted) !important;
+  font-family: var(--pk-font-sans) !important;
+  border: none !important;
+  transition: color var(--pk-duration) var(--pk-ease);
+}
+body.page-offer .tabs .tabs__item:hover,
+body.page-offer .tabs .tabs__item.active {
+  color: var(--pk-terra) !important;
+  border-bottom: 2px solid var(--pk-terra) !important;
+}
+body.page-offer .tabs .tabs__item > span {
+  font-size: 14px !important;
+}
+
+/* Price cards */
+body.page-offer .period-price,
+body.page-offer [class*="season"] table {
+  background: var(--pk-dark2) !important;
+  border: 1px solid var(--pk-border) !important;
+  color: var(--pk-text) !important;
+}
+
+/* Orange text override */
+body.page-offer a[href*="tel:"],
+body.page-offer a[href*="mailto:"] {
+  color: var(--pk-terra) !important;
+}
+
+/* Addons */
+body.page-offer .addonsList strong {
+  color: var(--pk-terra) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   9. SUBPAGE — /txt/ pages
+   ────────────────────────────────────────────────────────── */
+body.page-txt {
+  background-color: var(--pk-black) !important;
+}
+
+body.page-txt .txt-text {
+  color: var(--pk-text) !important;
+}
+
+body.page-txt .txt-text h2,
+body.page-txt .txt-text h3 {
+  font-family: var(--pk-font-serif) !important;
+  color: var(--pk-cream) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   10. CONTACT PAGE LINKS
+   ────────────────────────────────────────────────────────── */
+body.page-txt a[href*="/offers"],
+body.page-txt a[href*="google.com/maps"],
+[class*="location"] a {
+  color: var(--pk-terra) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   11. CMS CUSTOM SECTIONS
+   ────────────────────────────────────────────────────────── */
+
+/* 11a. Cream section (O nas, Udogodnienia) */
+.pk-section-cream {
+  position: relative;
+  padding: var(--pk-section-v) 24px;
+}
+.pk-section-cream::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--pk-light-bg);
+  z-index: -1;
+}
+.pk-section-cream h2,
+.pk-section-cream h3 {
+  color: var(--pk-light-text) !important;
+}
+.pk-section-cream p,
+.pk-section-cream li,
+.pk-section-cream span {
+  color: var(--pk-light-sub) !important;
+}
+
+/* 11b. Dark section */
+.pk-section-dark {
+  position: relative;
+  padding: var(--pk-section-v) 24px;
+}
+.pk-section-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--pk-dark);
+  z-index: -1;
+}
+
+/* 11c. Inner container */
+.pk-inner {
+  max-width: var(--pk-inner-max);
+  margin: 0 auto;
+}
+
+/* 11d. Section header */
+.pk-section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.pk-section-header h2 {
+  font-family: var(--pk-font-serif) !important;
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+.pk-section-header p {
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.pk-section-header__line {
+  width: 60px;
+  height: 3px;
+  background: var(--pk-terra);
+  margin: 16px auto 0;
+}
+
+/* 11e. Feature cards (udogodnienia) */
+.pk-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pk-gap);
+}
+.pk-feature-card {
+  text-align: center;
+  padding: 40px 24px;
+  background: white;
+  border-radius: var(--pk-radius-lg);
+  transition: transform var(--pk-duration) var(--pk-ease), box-shadow var(--pk-duration) var(--pk-ease);
+}
+.pk-feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+.pk-feature-card__icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+.pk-feature-card h3 {
+  font-family: var(--pk-font-serif) !important;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--pk-light-text) !important;
+  margin-bottom: 8px;
+}
+.pk-feature-card p {
+  font-size: 14px;
+  color: var(--pk-light-sub) !important;
+  line-height: 1.6;
+}
+
+/* 11f. History timeline */
+.pk-timeline {
+  position: relative;
+  padding-left: 40px;
+}
+.pk-timeline::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--pk-brick-mid);
+}
+.pk-timeline__item {
+  position: relative;
+  margin-bottom: 40px;
+}
+.pk-timeline__item::before {
+  content: '';
+  position: absolute;
+  left: -32px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--pk-terra);
+  border: 2px solid var(--pk-dark);
+}
+.pk-timeline__year {
+  font-family: var(--pk-font-serif) !important;
+  font-size: 24px;
+  color: var(--pk-terra);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.pk-timeline__title {
+  font-family: var(--pk-font-serif) !important;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--pk-cream);
+  margin-bottom: 8px;
+}
+.pk-timeline__text {
+  font-size: 15px;
+  color: var(--pk-text);
+  line-height: 1.7;
+}
+
+/* 11g. Fun fact box */
+.pk-funfact {
+  background: var(--pk-dark3);
+  border-left: 4px solid var(--pk-terra);
+  padding: 20px 24px;
+  border-radius: 0 var(--pk-radius) var(--pk-radius) 0;
+  margin: 24px 0;
+}
+.pk-funfact__label {
+  font-family: var(--pk-font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--pk-terra);
+  margin-bottom: 8px;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   12. CTA SECTION — booking call-to-action
+   ────────────────────────────────────────────────────────── */
+.pk-cta {
+  position: relative;
+  padding: 80px 24px;
+  text-align: center;
+}
+.pk-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--pk-brick-dark) 0%, var(--pk-dark2) 100%);
+  z-index: -1;
+}
+.pk-cta h2 {
+  font-family: var(--pk-font-serif) !important;
+  font-size: clamp(28px, 3vw, 44px);
+  color: var(--pk-cream);
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+.pk-cta p {
+  font-size: 16px;
+  color: var(--pk-text);
+  max-width: 500px;
+  margin: 0 auto 32px;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   13. GOTHIC DECORATIVE ELEMENTS
+   ────────────────────────────────────────────────────────── */
+
+/* 13a. Gothic arch separator */
+.pk-arch-sep {
+  width: 100%;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.pk-arch-sep::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 80px;
+  height: 40px;
+  border-radius: 80px 80px 0 0;
+  border: 2px solid var(--pk-brick-mid);
+  border-bottom: none;
+}
+
+/* 13b. Brick texture overlay (subtle) */
+.pk-brick-texture {
+  position: relative;
+}
+.pk-brick-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 48px,
+    rgba(139, 58, 47, 0.03) 48px,
+    rgba(139, 58, 47, 0.03) 50px
+  );
+  pointer-events: none;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   14. SCROLL REVEAL ANIMATION
+   ────────────────────────────────────────────────────────── */
+.pk-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--pk-ease), transform 0.8s var(--pk-ease);
+}
+.pk-reveal.pk-in {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   15. RESPONSIVE
+   ────────────────────────────────────────────────────────── */
+@media (max-width: 992px) {
+  :root {
+    --pk-section-v: 64px;
+    --pk-gap: 20px;
+  }
+
+  .pk-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pk-hero-cta--ghost {
+    margin-left: 0;
+    margin-top: 12px;
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --pk-section-v: 48px;
+  }
+
+  .pk-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar-brand img {
+    max-height: 36px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .pk-hero-overlay h1 {
+    font-size: 28px;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   16. SCROLL PROGRESS BAR
+   ────────────────────────────────────────────────────────── */
+.pk-scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--pk-brick), var(--pk-terra));
+  z-index: 99999;
+  transition: width 0.15s linear;
+  width: 0;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   17. PAGE LOADER
+   ────────────────────────────────────────────────────────── */
+.pk-page-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--pk-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  transition: opacity 0.6s var(--pk-ease);
+}
+.pk-page-loader.loaded {
+  opacity: 0;
+  pointer-events: none;
+}
+.pk-page-loader__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--pk-border);
+  border-top-color: var(--pk-terra);
+  border-radius: 50%;
+  animation: pk-spin 0.8s linear infinite;
+}
+@keyframes pk-spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   18. LEAFLET MAP PROTECTION
+   ────────────────────────────────────────────────────────── */
+.leaflet-container {
+  overflow: hidden;
+}
+.leaflet-container [class*="btn"]:not([class*="leaflet"]) {
+  all: revert;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   19. HEADER — default13 specificity overrides
+   ────────────────────────────────────────────────────────── */
+header.default13 {
+  background: var(--pk-black) !important;
+}
+header.default13 .bgd-color-light.menu-wrapper,
+header.default13 .bgd-color-light.menu-wrapper.clean {
+  background: var(--pk-black) !important;
+  border-bottom: 1px solid var(--pk-border) !important;
+}
+
+/* Reservation button in navbar */
+header.default13 .navbar-reservation.btn {
+  background: var(--pk-brick) !important;
+  border-color: var(--pk-brick) !important;
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-sans) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 8px 20px !important;
+  border-radius: var(--pk-radius) !important;
+}
+header.default13 .navbar-reservation.btn:hover {
+  background: var(--pk-brick-light) !important;
+}
+
+/* Navbar toggler (mobile) */
+header.default13 .navbar-toggler {
+  color: var(--pk-cream) !important;
+}
+header.default13 .navbar-toggler .icon-menu {
+  color: var(--pk-cream) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   20. CONTACT PAGE — /contact (COMPLETE)
+   ────────────────────────────────────────────────────────── */
+body.page-contact {
+  background: var(--pk-black) !important;
+}
+
+/* All h2/h3 on contact — SYSTEM makes them huge */
+body.page-contact h2,
+body.page-contact h3 {
+  font-family: var(--pk-font-serif) !important;
+  font-size: clamp(22px, 2.5vw, 32px) !important;
+  color: var(--pk-cream) !important;
+  font-weight: 400 !important;
+  margin-bottom: 16px !important;
+}
+body.page-contact h3 {
+  font-size: clamp(18px, 2vw, 24px) !important;
+}
+
+/* Contact items - cards */
+body.page-contact .contact__item {
+  background: var(--pk-dark2) !important;
+  border: 1px solid var(--pk-border) !important;
+  border-radius: var(--pk-radius-lg) !important;
+  padding: 24px !important;
+  color: var(--pk-text) !important;
+}
+body.page-contact .contact__item strong {
+  color: var(--pk-cream) !important;
+  font-family: var(--pk-font-serif) !important;
+  font-size: 18px !important;
+}
+
+/* All body text on contact */
+body.page-contact p,
+body.page-contact span,
+body.page-contact li,
+body.page-contact td,
+body.page-contact label {
+  font-family: var(--pk-font-sans) !important;
+  font-size: 15px !important;
+  color: var(--pk-text) !important;
+}
+
+/* Phone / email links */
+body.page-contact a[href*="tel:"],
+body.page-contact a[href*="mailto:"] {
+  color: var(--pk-terra) !important;
+  font-size: 16px !important;
+}
+
+/* "Dane kontaktowe" and "Płatności" - right column */
+body.page-contact .contact__data h2 {
+  font-size: 24px !important;
+}
+
+/* Payment info section — VISA/MC card */
+body.page-contact .payment-info,
+body.page-contact .contact__payment {
+  background: var(--pk-dark2) !important;
+  border-radius: var(--pk-radius-lg) !important;
+  padding: 24px !important;
+}
+body.page-contact .payment-info h5,
+body.page-contact .payment-info h2 {
+  font-size: 22px !important;
+}
+
+/* Nasze lokalizacje */
+body.page-contact .contact__locations h2,
+body.page-contact .location-list h2 {
+  font-size: 24px !important;
+}
+
+/* Buttons */
+body.page-contact .contact__btn {
+  justify-content: center !important;
+}
+body.page-contact .contact__links a {
+  color: var(--pk-terra) !important;
+  border-color: var(--pk-terra) !important;
+  font-size: 13px !important;
+}
+
+/* "REZERWUJ ONLINE" link */
+body.page-contact a[class*="reservation"],
+body.page-contact .accommodation-reservation {
+  color: var(--pk-terra) !important;
+}
+
+/* "ZOBACZ OFERTĘ", "SPRAWDŹ NA MAPIE" auto-links */
+body.page-contact a[href*="/offers"],
+body.page-contact a[href*="google.com/maps"],
+body.page-contact a[href*="/offer/"] {
+  color: var(--pk-terra) !important;
+  font-size: 13px !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   21. BACK TO TOP & COOKIE CONSENT
+   ────────────────────────────────────────────────────────── */
+#backTop {
+  background: var(--pk-brick) !important;
+  color: var(--pk-cream) !important;
+  border-radius: 50% !important;
+}
+
+#ck_dsclr_v2 {
+  font-family: var(--pk-font-sans) !important;
+}
+#ck_dsclr_v2 .btn {
+  background: var(--pk-brick) !important;
+  border-color: var(--pk-brick) !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   22. LITEPICKER (datepicker) — brand colors
+   ────────────────────────────────────────────────────────── */
+.litepicker .container__days .day-item.is-in-range {
+  background-color: var(--pk-brick-subtle) !important;
+}
+.litepicker .container__days .day-item.is-start-date,
+.litepicker .container__days .day-item.is-end-date {
+  background-color: var(--pk-brick) !important;
+  color: var(--pk-cream) !important;
+}
+.litepicker {
+  width: fit-content !important;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   23. HOMEPAGE — hide system news & adjust slider
+   ────────────────────────────────────────────────────────── */
+body.page-index .news-container {
+  display: none !important;
+}
+
+/* Hide system hotspot (replaced by JS custom cards) */
+body.page-index .container-hotspot {
+  display: none !important;
+}
+
+/* Single slider image fix */
+.parallax-slider .slick-slide:not([data-slick-index="0"]):not(.slick-current) {
+  display: none;
+}
+.parallax-slider .slick-arrow {
+  display: none !important;
+}
+.parallax-slider .slick-dots {
+  display: none !important;
+}

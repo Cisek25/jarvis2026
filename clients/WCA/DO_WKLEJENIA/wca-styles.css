@@ -1,0 +1,785 @@
+/* ============================================
+   WCA — Wroclaw City Apartments
+   Calosc CSS: Footer emaile + Kontakt + Opinie
+   Panel: wkleic w CSS editor
+   ============================================ */
+
+/* ─────────────────────────────────────────────
+   §1  FOOTER: Dwa emaile z etykietami
+   ───────────────────────────────────────────── */
+.footer-contact-mail {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.wca-email-label {
+  display: block;
+  font-size: 10px;
+  opacity: 0.5;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 1px;
+}
+
+.wca-second-email {
+  margin-top: 6px !important;
+}
+
+.wca-second-email a {
+  display: inline-block;
+  padding: 2px 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.wca-second-email a:hover {
+  text-decoration: underline;
+}
+
+/* ─────────────────────────────────────────────
+   §2  KONTAKT /contact: Emaile w danych + lokalizacjach
+   ───────────────────────────────────────────── */
+
+/* §2a Dane kontaktowe — wrapper + bloki */
+.wca-contact-emails-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.wca-contact-email-block {
+  display: block;
+  padding: 12px 16px;
+  background: #F5F7FA;
+  border-radius: 8px;
+  border-left: 3px solid #1A462A;
+}
+
+.wca-contact-email-block a {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #22252D;
+  text-decoration: none;
+}
+
+.wca-contact-email-block a:hover {
+  text-decoration: underline;
+  color: #1A462A;
+}
+
+.wca-contact-label {
+  display: block;
+  font-size: 10px;
+  opacity: 0.5;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+}
+
+/* §2b Lokalizacje — email pod adresem */
+.wca-location-email {
+  margin: 8px 0 4px;
+}
+
+.wca-location-email a {
+  color: #1A462A;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.wca-location-email a:hover {
+  text-decoration: underline;
+}
+
+/* ─────────────────────────────────────────────
+   §3  OPINIE /txt/206/Opinie: Layout glowny
+   ───────────────────────────────────────────── */
+.wca-opinie {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
+
+.wca-opinie-hero {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.wca-opinie-hero h2 {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 400;
+  color: #22252D;
+  margin: 0 0 12px;
+  letter-spacing: 1px;
+}
+
+.wca-opinie-hero .wca-opinie-sub {
+  font-size: 17px;
+  color: #6B7280;
+  margin: 0 0 32px;
+  font-style: italic;
+}
+
+/* §3a Oceny ogolne */
+.wca-scores {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+
+.wca-score-card {
+  text-align: center;
+  padding: 32px 28px;
+  background: #F5F7FA;
+  border-radius: 12px;
+  min-width: 200px;
+  flex: 1;
+  max-width: 320px;
+}
+
+.wca-score-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #1A462A;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.wca-score-card h3 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #22252D;
+  margin: 0 0 4px;
+}
+
+.wca-score-card .wca-score-label {
+  font-size: 13px;
+  color: #1A462A;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.wca-score-card .wca-score-count {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin-top: 4px;
+}
+
+/* §3b Kategorie ocen */
+.wca-categories {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 56px;
+}
+
+.wca-cat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 24px;
+  font-size: 13px;
+  color: #374151;
+}
+
+.wca-cat-score {
+  font-weight: 700;
+  color: #1A462A;
+}
+
+/* §3c Sekcja obiektu */
+.wca-property-section {
+  margin-bottom: 56px;
+}
+
+.wca-property-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #1A462A;
+}
+
+.wca-property-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1A462A;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.wca-property-header h3 {
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 400;
+  color: #22252D;
+  margin: 0;
+}
+
+.wca-property-header .wca-property-addr {
+  font-size: 14px;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
+
+/* §3d Karty opinii */
+.wca-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.wca-review {
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 28px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wca-review:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.wca-review-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.wca-review-guest {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wca-guest-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #6B7280;
+}
+
+.wca-guest-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: #22252D;
+}
+
+.wca-guest-country {
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.wca-review-score {
+  background: #1A462A;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.wca-review-stars {
+  color: #F59E0B;
+  font-size: 14px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+
+.wca-review-text {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #374151;
+  font-style: italic;
+  margin: 0;
+}
+
+.wca-review-text::before {
+  content: '\201E';
+  font-size: 28px;
+  line-height: 0;
+  vertical-align: -8px;
+  color: #1A462A;
+  margin-right: 2px;
+}
+
+.wca-review-text::after {
+  content: '\201D';
+  font-size: 28px;
+  line-height: 0;
+  vertical-align: -8px;
+  color: #1A462A;
+  margin-left: 2px;
+}
+
+.wca-review-date {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-top: 12px;
+  text-align: right;
+}
+
+/* §3e Separator */
+.wca-separator {
+  width: 60px;
+  height: 3px;
+  background: #1A462A;
+  margin: 0 auto 56px;
+  border-radius: 2px;
+}
+
+/* §3f CTA booking */
+.wca-opinie-cta {
+  text-align: center;
+  padding: 48px 24px;
+  background: #1A462A;
+  border-radius: 16px;
+  color: #fff;
+}
+
+.wca-opinie-cta h3 {
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 400;
+  margin: 0 0 8px;
+  color: #fff;
+}
+
+.wca-opinie-cta p {
+  font-size: 16px;
+  opacity: 0.8;
+  margin: 0 0 24px;
+}
+
+.wca-opinie-cta a {
+  display: inline-block;
+  padding: 14px 36px;
+  background: #fff;
+  color: #1A462A;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.wca-opinie-cta a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* §3g CMS wrapper cleanup (ukrycie BR + redukcja przestrzeni) */
+.container:has(.wca-opinie) > .big-label {
+  display: none !important;
+}
+
+.container:has(.wca-opinie) {
+  padding-top: 0;
+}
+
+.container:has(.wca-opinie) .row {
+  margin-top: 0;
+}
+
+.txt-text:has(.wca-opinie) br {
+  display: none;
+}
+
+.txt-text:has(.wca-opinie) .mb-5 {
+  margin-bottom: 0 !important;
+}
+
+.txt-text:has(.wca-opinie) {
+  margin: 0;
+  padding: 0;
+}
+
+/* ─────────────────────────────────────────────
+   §4  RESPONSIVE
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .wca-opinie {
+    padding: 40px 16px 60px;
+  }
+
+  .wca-scores {
+    gap: 16px;
+  }
+
+  .wca-score-card {
+    min-width: 140px;
+    padding: 24px 16px;
+  }
+
+  .wca-reviews-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wca-property-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .wca-categories {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wca-scores {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wca-score-card {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+
+/* ─────────────────────────────────────────────
+   §5  NAVBAR: Przycisk "Rezerwuj" jako CTA
+   ───────────────────────────────────────────── */
+.wca-nav-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  background: #1A462A !important;
+  color: #fff !important;
+  padding: 10px 24px !important;
+  border-radius: 0 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  margin-right: 16px !important;
+  white-space: nowrap !important;
+  transition: background 0.2s ease, transform 0.2s ease !important;
+}
+.wca-nav-cta:hover {
+  background: #143d20 !important;
+  color: #fff !important;
+  transform: translateY(-1px) !important;
+}
+@media (max-width: 768px) {
+  .wca-nav-cta {
+    display: none !important;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   §6  LOKALIZACJE: Ukryj parking + grupowanie
+   ───────────────────────────────────────────── */
+.wca-loc-hidden {
+  display: none !important;
+}
+
+.wca-district-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #1A462A;
+  margin-bottom: 4px;
+  opacity: 0.7;
+}
+
+/* Group hover: podswietlanie calej grupy */
+.contact__item.wca-group-stare:hover,
+.contact__item.wca-group-stare:hover ~ .wca-group-stare-addr,
+.contact__item.wca-group-srodmiescie:hover,
+.contact__item.wca-group-srodmiescie:hover ~ .wca-group-srodmiescie-addr {
+  background: rgba(26,70,42,0.04);
+  border-radius: 8px;
+}
+
+/* Lokalizacja — kompaktowa lista zamiast kart */
+.wca-loc-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #E5E7EB;
+  margin-bottom: 12px;
+  transition: box-shadow 0.2s ease, background 0.2s ease;
+}
+.wca-loc-group:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  background: #F9FAFB;
+}
+.wca-loc-group__district {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #1A462A;
+  margin-bottom: 2px;
+}
+.wca-loc-group__name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #22252D;
+}
+.wca-loc-group__addr {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 2px;
+}
+.wca-loc-group__email a {
+  color: #1A462A;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.wca-loc-group__email a:hover {
+  text-decoration: underline;
+}
+.wca-loc-group__links {
+  margin-top: 8px;
+  display: flex;
+  gap: 16px;
+}
+.wca-loc-group__links a {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1A462A;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.wca-loc-group__links a:hover {
+  text-decoration: underline;
+}
+.wca-loc-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1A462A;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* §6b /offers sidebar — ukryj parking z filtrow */
+.wca-filter-hidden {
+  display: none !important;
+}
+
+
+/* ─────────────────────────────────────────────
+   §7  OPINIE: Google Reviews CTA
+   ───────────────────────────────────────────── */
+.wca-google-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 32px;
+  background: #fff;
+  border: 2px solid #1A462A;
+  border-radius: 12px;
+  margin: 0 auto 40px;
+  max-width: 500px;
+  text-decoration: none !important;
+  transition: background 0.2s, transform 0.2s;
+}
+.wca-google-cta:hover {
+  background: #1A462A;
+  transform: translateY(-2px);
+}
+.wca-google-cta:hover .wca-google-cta__text {
+  color: #fff;
+}
+.wca-google-cta__text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1A462A;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+
+/* ─────────────────────────────────────────────
+   §8  BLOG: Listing + karty artykułów
+   ───────────────────────────────────────────── */
+.wca-blog {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 60px;
+}
+
+.wca-blog__hero {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.wca-blog__hero h2 {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 400;
+  color: #22252D;
+  margin: 0 0 8px;
+  letter-spacing: 1px;
+}
+
+.wca-blog__sub {
+  font-size: 17px;
+  color: #6B7280;
+  margin: 0 0 20px;
+  font-style: italic;
+}
+
+.wca-blog__line {
+  width: 60px;
+  height: 3px;
+  background: #1A462A;
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.wca-blog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.wca-blog-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wca-blog-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+}
+
+.wca-blog-card__img {
+  position: relative;
+  padding-bottom: 60%;
+  overflow: hidden;
+  background: #F5F7FA;
+}
+
+.wca-blog-card__img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.wca-blog-card:hover .wca-blog-card__img img {
+  transform: scale(1.05);
+}
+
+.wca-blog-card__body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.wca-blog-card__date {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #9CA3AF;
+  margin-bottom: 8px;
+}
+
+.wca-blog-card__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #22252D;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+
+.wca-blog-card__excerpt {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6B7280;
+  margin: 0 0 16px;
+  flex: 1;
+}
+
+.wca-blog-card__cta {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A462A;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.wca-blog-card:hover .wca-blog-card__cta {
+  text-decoration: underline;
+}
+
+/* Blog: ukryj CMS big-label H1 na listing page */
+.container:has(.wca-blog) > .big-label {
+  display: none !important;
+}
+
+/* Blog: ukryj systemowa sekcje newsow na stronie glownej (body_top ja nadpisuje) */
+.page-index .news-container {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .wca-blog {
+    padding: 32px 16px 48px;
+  }
+  .wca-blog__grid {
+    grid-template-columns: 1fr;
+  }
+}

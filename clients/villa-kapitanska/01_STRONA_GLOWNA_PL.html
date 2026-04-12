@@ -1,0 +1,402 @@
+<!-- ═══════════════════════════════════════════════════════════
+     VILLA KAPITAŃSKA® — STRONA GŁÓWNA (PL)
+     Wklej do: Panel → Strona wizytówka → Strona "O nas" → pole Treść (zakładka polski)
+     CSS: 00_STYL_GLOBALNY.css (lub villa_kapitanska_merged.css)
+     JS:  JS_STRONA_GLOWNA.js
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- ===== TREŚĆ GŁÓWNA ===== -->
+<div style="max-width:920px;margin:0 auto;padding:32px 24px 48px;">
+  <p class="vk-about-lead">
+    <span style="font-family:'Cormorant Garamond',serif;font-weight:700;letter-spacing:0.03em;">Villa Kapitańska</span><sup style="font-size:0.45em;font-style:normal;font-weight:400;vertical-align:super;opacity:0.72;">®</sup>
+    zlokalizowana jest bezpośrednio nad rzeką Parsętą,
+    vis-à-vis Portu Jachtowego, w dzielnicy portowej Kołobrzegu.
+  </p>
+  <!-- ═══ KOMPAS MARYNISTYCZNY ═══ -->
+  <div class="vk-compass-section">
+
+    <!-- N — Natura i cisza (góra) -->
+    <div class="vk-compass-panel vk-compass-panel--n">
+      <span class="vk-compass-dir">N</span>
+      <span class="vk-compass-ptitle">Natura i cisza</span>
+      <p>Villa położona jest w zacisznym miejscu kołobrzeskiego uzdrowiska, co sprzyja spokojnemu wypoczynkowi.</p>
+    </div>
+
+    <!-- Środkowy rząd: W + Kompas + E -->
+    <div class="vk-compass-row">
+
+      <div class="vk-compass-panel vk-compass-panel--w">
+        <span class="vk-compass-dir">W</span>
+        <span class="vk-compass-ptitle">Widoki</span>
+        <p>Wszystkie pokoje posiadają balkony wyposażone w stolik i krzesełka — idealne na poranne śniadanie na świeżym powietrzu lub wieczorną kolację przy zachodzie słońca.</p>
+      </div>
+
+      <!-- Centralny kompas SVG -->
+      <div class="vk-compass" id="vkCompass" role="img" aria-label="Kompas morski">
+        <svg class="vk-compass-face" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Tło koła -->
+          <circle cx="100" cy="100" r="96" fill="#0F1A30" stroke="#C6922A" stroke-width="2"/>
+          <circle cx="100" cy="100" r="84" fill="none" stroke="rgba(198,146,42,0.25)" stroke-width="1"/>
+          <!-- Wewnętrzne tło -->
+          <circle cx="100" cy="100" r="72" fill="rgba(27,42,74,0.6)" stroke="rgba(198,146,42,0.15)" stroke-width="1"/>
+          <!-- Główne linie kierunkowe (N/E/S/W) -->
+          <line x1="100" y1="18" x2="100" y2="36" stroke="#C6922A" stroke-width="2"/>
+          <line x1="182" y1="100" x2="164" y2="100" stroke="#C6922A" stroke-width="2"/>
+          <line x1="100" y1="182" x2="100" y2="164" stroke="#C6922A" stroke-width="2"/>
+          <line x1="18" y1="100" x2="36" y2="100" stroke="#C6922A" stroke-width="2"/>
+          <!-- Linie pośrednie (NE/SE/SW/NW) -->
+          <line x1="157" y1="43" x2="145" y2="55" stroke="rgba(198,146,42,0.45)" stroke-width="1"/>
+          <line x1="157" y1="157" x2="145" y2="145" stroke="rgba(198,146,42,0.45)" stroke-width="1"/>
+          <line x1="43" y1="157" x2="55" y2="145" stroke="rgba(198,146,42,0.45)" stroke-width="1"/>
+          <line x1="43" y1="43" x2="55" y2="55" stroke="rgba(198,146,42,0.45)" stroke-width="1"/>
+          <!-- Litery kierunkowe -->
+          <text x="100" y="28" text-anchor="middle" fill="#E8D5A3" font-size="13" font-family="'Playfair Display',serif" font-weight="700">N</text>
+          <text x="100" y="178" text-anchor="middle" fill="#E8D5A3" font-size="13" font-family="'Playfair Display',serif" font-weight="700">S</text>
+          <text x="175" y="105" text-anchor="middle" fill="#E8D5A3" font-size="13" font-family="'Playfair Display',serif" font-weight="700">E</text>
+          <text x="25" y="105" text-anchor="middle" fill="#E8D5A3" font-size="13" font-family="'Playfair Display',serif" font-weight="700">W</text>
+          <!-- 8-ramienna róża wiatrów -->
+          <polygon points="100,52 104,96 100,88 96,96" fill="#C6922A" opacity="0.9"/>
+          <polygon points="100,148 104,104 100,112 96,104" fill="#E8D5A3" opacity="0.7"/>
+          <polygon points="52,100 96,95 88,100 96,105" fill="#E8D5A3" opacity="0.5"/>
+          <polygon points="148,100 104,95 112,100 104,105" fill="#E8D5A3" opacity="0.5"/>
+          <!-- Piastka środkowa -->
+          <circle cx="100" cy="100" r="10" fill="#1B2A4A" stroke="#C6922A" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="4" fill="#C6922A"/>
+        </svg>
+        <!-- Obracana igła kompasu -->
+        <svg class="vk-compass-needle" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="100,42 104,98 96,98" fill="#C6400A" opacity="0.95"/>
+          <polygon points="100,158 104,102 96,102" fill="#E8D5A3" opacity="0.85"/>
+        </svg>
+      </div>
+
+      <div class="vk-compass-panel vk-compass-panel--e">
+        <span class="vk-compass-dir">E</span>
+        <span class="vk-compass-ptitle">Estetyka</span>
+        <p>Villa Kapitańska urządzona jest w stylu marynistycznym, z unikalnym wystrojem inspirowanym morzem, w klimacie tworzącym niezapomnianą nadmorską atmosferę.</p>
+      </div>
+
+    </div><!-- /.vk-compass-row -->
+
+    <!-- S — Standard & Komfort (dół) -->
+    <div class="vk-compass-panel vk-compass-panel--s">
+      <span class="vk-compass-dir">S</span>
+      <span class="vk-compass-ptitle">Standard &amp; Komfort</span>
+      <p>Oferujemy komfortowy i niedrogi pobyt w kameralnych warunkach. Dysponujemy wyłącznie pokojami dwuosobowymi przeznaczonymi tylko dla osób dorosłych, co gwarantuje ciszę oraz przyjemną atmosferę podczas pobytu.</p>
+    </div>
+
+  </div><!-- /.vk-compass-section -->
+
+  <!-- Igła kompasu — logika JS (lerp, ruch myszy) -->
+  <script>
+  (function(){
+    var compass = document.getElementById('vkCompass');
+    if (!compass) return;
+    var needle = compass.querySelector('.vk-compass-needle');
+    var cur = 45, tgt = 45;
+    function lerp(a, b, t){ return a + (b - a) * t; }
+    function norm(a){ while(a < -180) a += 360; while(a > 180) a -= 360; return a; }
+    function tick(){
+      cur += norm(tgt - cur) * 0.07;
+      needle.style.transformOrigin = '100px 100px';
+      needle.style.transform = 'rotate(' + cur + 'deg)';
+      requestAnimationFrame(tick);
+    }
+    compass.addEventListener('mousemove', function(e){
+      var r = compass.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      var cy = r.top + r.height / 2;
+      tgt = Math.atan2(e.clientY - cy, e.clientX - cx) * 180 / Math.PI + 90;
+    });
+    compass.addEventListener('mouseleave', function(){ tgt = 45; });
+    tick();
+  })();
+  </script>
+
+  <div class="vk-separator" style="margin:44px auto;"><span class="vk-separator-icon">⚓</span></div>
+
+  <h2 style="font-family:var(--vk-font-display);color:var(--vk-brown-dark);font-size:2rem;margin-bottom:8px;text-align:center;letter-spacing:0.02em;">Każdy pokój oferuje</h2>
+  <p style="text-align:center;font-family:var(--vk-font-body);font-size:1.4rem;color:var(--vk-text-muted);margin-bottom:0;">Wyposażenie zaprojektowane z myślą o Waszym komforcie</p>
+
+  <div class="vk-amenities-v10">
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-1">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 12h16v4a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-4Z"></path><path d="M6 12V6a3 3 0 0 1 6 0v6"></path><path d="M9 6h1"></path><line x1="8" y1="20" x2="8" y2="22"></line><line x1="16" y1="20" x2="16" y2="22"></line></svg>
+      </div>
+      <strong>Prywatna łazienka</strong>
+      <span>Prysznic, ręczniki i suszarka do włosów</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-2">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><path d="M2 4v16"></path><path d="M2 8h18a2 2 0 0 1 2 2v10"></path><path d="M2 17h20"></path><path d="M6 8v9"></path></svg>
+      </div>
+      <strong>Wygodne łóżko</strong>
+      <span>Podwójne lub dwa pojedyncze — do wyboru</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-3">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>
+      </div>
+      <strong>Smart TV</strong>
+      <span>Ponad 100 kanałów + Netflix, HBO Max, Amazon Prime Video, Player</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-4">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"></path><path d="M1.42 9a16 16 0 0 1 21.16 0"></path><path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path><line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3"></line></svg>
+      </div>
+      <strong>Darmowe Wi-Fi</strong>
+      <span>Szerokopasmowy internet w całym obiekcie</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-5">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 7h18"></path><path d="M3 7v11"></path><path d="M21 7v11"></path><path d="M5 7V5"></path><path d="M19 7V5"></path><path d="M8 18v2"></path><path d="M16 18v2"></path></svg>
+      </div>
+      <strong>Stół z krzesłami</strong>
+      <span>Komfortowe miejsce do pracy i posiłków</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-6">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+      </div>
+      <strong>Aneks kuchenny</strong>
+      <span>Czajnik, deska, komplet naczyń, sztućców i szklanek</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-7">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="4" y1="10" x2="20" y2="10"></line><line x1="9" y1="6" x2="9" y2="8"></line><line x1="9" y1="14" x2="9" y2="18"></line></svg>
+      </div>
+      <strong>Lodówka z zamrażarką</strong>
+      <span>W każdym pokoju</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-8">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"></rect><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+      </div>
+      <strong>Szafa na ubrania</strong>
+      <span>Przestronna, na cały pobyt</span>
+    </div>
+    <div class="vk-amenity-v10 vk-reveal vk-reveal-delay-9">
+      <div class="vk-amenity-v10-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><rect x="9" y="13" width="6" height="9" rx="1"></rect></svg>
+      </div>
+      <strong>Balkon</strong>
+      <span>Ze stolikiem i krzesełkami — idealne o świcie i zachodzie słońca</span>
+    </div>
+  </div><!-- /amenities -->
+
+  <div class="vk-highlight-box" style="margin-top:12px;">
+    <div class="vk-highlight-box-icon">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--vk-gold-dark)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+    </div>
+    Na każdym piętrze kącik gastronomiczny z <strong>kuchenką mikrofalową</strong>.
+    Na holu: <strong>żelazko z deską do prasowania</strong> i <strong>bezprzewodowy odkurzacz</strong>.
+    <br><br>
+    Na życzenie bezpłatnie: <strong>leżaki plażowe i parawany</strong>,
+    przechowalnia bagażu, miejsce na rowery, ładowanie akumulatorów e-rowerów.
+  </div>
+</div><!-- /treść główna -->
+
+<!-- ===== LOKALIZACJA — pełna szerokość ===== -->
+<div class="vk-fullwidth vk-about-location-strip" style="position:relative;">
+  <div class="vk-net-overlay vk-net-overlay--dark vk-net-visible" aria-hidden="true"></div>
+  <div class="vk-trawler-wrap" aria-hidden="true">
+    <svg width="170" height="85" viewBox="0 0 170 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- kadłub -->
+      <path d="M14 56 Q6 52 10 46 L22 42 L138 42 Q148 44 156 54 L158 56 L146 66 L24 66 Z" fill="#1B2A4A" stroke="#E8D5A3" stroke-width="1"/>
+      <path d="M24 44 Q20 40 24 36 L136 36 Q142 40 138 44" fill="#0F1A30" stroke="#E8D5A3" stroke-width="0.7"/>
+      <!-- szternkastell -->
+      <path d="M136 36 L144 28 Q148 26 149 30 L156 54" fill="#162240" stroke="#E8D5A3" stroke-width="0.7"/>
+      <rect x="142" y="34" width="4" height="4" rx="0.8" fill="#2C6E99" opacity="0.5"/>
+      <!-- bukszpryt -->
+      <line x1="22" y1="42" x2="4" y2="28" stroke="#E8D5A3" stroke-width="0.9"/>
+      <path d="M4 28 L14 36 L4 34 Z" fill="rgba(232,213,163,0.3)"/>
+      <!-- maszt fokowy -->
+      <line x1="50" y1="6" x2="50" y2="42" stroke="#E8D5A3" stroke-width="1.4"/>
+      <path d="M50 8 Q38 15 50 28 Z" fill="rgba(232,213,163,0.48)" stroke="#C6922A" stroke-width="0.6"/>
+      <path d="M50 8 Q62 17 50 28 Z" fill="rgba(255,255,255,0.15)" stroke="#E8D5A3" stroke-width="0.4"/>
+      <!-- maszt grotowy -->
+      <line x1="90" y1="3" x2="90" y2="42" stroke="#E8D5A3" stroke-width="1.8"/>
+      <rect x="74" y="7" width="32" height="16" rx="1" fill="rgba(232,213,163,0.5)" stroke="#C6922A" stroke-width="0.7"/>
+      <rect x="76" y="25" width="28" height="10" rx="1" fill="rgba(255,255,255,0.18)" stroke="#E8D5A3" stroke-width="0.5"/>
+      <!-- maszt bezanowy -->
+      <line x1="130" y1="10" x2="130" y2="40" stroke="#E8D5A3" stroke-width="1.2"/>
+      <path d="M130 12 Q142 20 130 32 Z" fill="rgba(232,213,163,0.4)" stroke="#C6922A" stroke-width="0.5"/>
+      <!-- olinowanie -->
+      <line x1="4" y1="28" x2="50" y2="6" stroke="#E8D5A3" stroke-width="0.25" opacity="0.35"/>
+      <line x1="50" y1="6" x2="90" y2="3" stroke="#E8D5A3" stroke-width="0.25" opacity="0.3"/>
+      <!-- bandera -->
+      <path d="M90 3 L94 0 L94 6 Z" fill="#C6922A"/>
+      <!-- iluminatory -->
+      <circle cx="45" cy="39" r="1.4" fill="#2C6E99" opacity="0.4"/>
+      <circle cx="65" cy="39" r="1.4" fill="#2C6E99" opacity="0.4"/>
+      <circle cx="85" cy="39" r="1.4" fill="#2C6E99" opacity="0.4"/>
+      <circle cx="105" cy="39" r="1.4" fill="#2C6E99" opacity="0.4"/>
+      <!-- fale -->
+      <path d="M8 62 C35 56 70 66 110 62 C140 56 158 64 166 62" stroke="#4A9ABF" stroke-width="1" fill="none"/>
+      <path d="M10 68 C35 64 65 72 100 68 C135 62 155 68 164 66" stroke="rgba(74,154,191,0.35)" stroke-width="0.7" fill="none"/>
+    </svg>
+  </div>
+  <div class="vk-fullwidth-inner" style="position:relative;z-index:2;">
+    <span class="vk-label" style="display:block;text-align:center;">Lokalizacja</span>
+    <h2 style="color:var(--vk-gold-light);text-align:center;font-size:clamp(2rem,4vw,2.8rem);margin:8px 0 0;">Z Villi Kapitańskiej wszędzie jest blisko</h2>
+    <ul class="vk-location-list-v10">
+      <li>
+        <div class="vk-loc-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+        </div>
+        <div><strong>Port Jachtowy – Marina Solna</strong> — widoczny z większości balkonów. Do Mariny i klimatycznych restauracji: <span class="vk-dist">5 min</span> spacerem.</div>
+      </li>
+      <li>
+        <div class="vk-loc-icon-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        </div>
+        <div><strong>Szeroka Plaża, Latarnia Morska, Molo i Port Morski</strong> — <span class="vk-dist">9 minut</span> spacerem.</div>
+      </li>
+      <li>
+        <div class="vk-loc-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </div>
+        <div><strong>Nadmorska Promenada</strong> — smażalnie, lodziarnie, sklepy, artyści. Galeria Molo, muzeum figur woskowych, kino 8D — <span class="vk-dist">8 minut</span> spacerem.</div>
+      </li>
+      <li>
+        <div class="vk-loc-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M3 22V8l9-6 9 6v14"></path><path d="M9 22V12h6v10"></path></svg>
+        </div>
+        <div><strong>Stare Miasto</strong> — kawiarnie, restauracje, Katedra, Ratusz, muzeum, galerie Hosso — <span class="vk-dist">12 minut</span> spacerem.</div>
+      </li>
+      <li>
+        <div class="vk-loc-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"></rect><path d="M1 10h22"></path><path d="M7 15h.01"></path><path d="M11 15h2"></path></svg>
+        </div>
+        <div><strong>Dworce PKP i PKS</strong> — zaledwie <span class="vk-dist">8 minut</span> spacerem. Taxi do Villi nie jest konieczne.</div>
+      </li>
+    </ul>
+
+    <h3 style="color:var(--vk-gold-light);font-family:var(--vk-font-display);font-size:1.6rem;text-align:center;margin:52px 0 24px;font-weight:500;">Parking</h3>
+    <div class="vk-parking-boxes-v10">
+      <div class="vk-parking-box-v10">
+        <div class="vk-parking-box-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9 17V7h4a3 3 0 0 1 0 6H9"></path></svg>
+        </div>
+        Bezpłatne miejsca przy posesji
+        <small>Bulwar Zacisze i ul. Portowa</small>
+      </div>
+      <div class="vk-parking-box-v10">
+        <div class="vk-parking-box-icon">
+          <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"></rect><path d="M16 8h4l3 3v5h-7V8z"></path><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        </div>
+        Ograniczona liczba darmowych miejsc na posesji
+      </div>
+      <div class="vk-parking-box-v10">
+        <div class="vk-parking-box-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        Płatny strzeżony parking
+        <small>2 minuty spacerem</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fala przejściowa -->
+<div class="vk-fullwidth vk-wave-sep" style="background:var(--vk-navy-deep);" aria-hidden="true">
+  <svg viewBox="0 0 1440 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,32 C360,8 720,56 1080,24 C1260,8 1380,44 1440,30 L1440,56 L0,56 Z" fill="var(--vk-cream)"></path>
+  </svg>
+</div>
+
+<!-- ===== RESTAURACJE — pełna szerokość ===== -->
+<div class="vk-fullwidth" style="background:var(--vk-cream);padding:64px 0 80px;">
+  <div class="vk-fullwidth-inner">
+    <div style="text-align:center;margin-bottom:40px;">
+      <span class="vk-label">Gastronomia</span>
+      <h2 style="font-family:var(--vk-font-display);color:var(--vk-brown-dark);font-size:clamp(1.8rem,3.5vw,2.4rem);margin-top:8px;">Polecane restauracje w pobliżu</h2>
+      <div class="vk-separator"><span class="vk-separator-icon">⚓</span></div>
+    </div>
+    <div class="vk-rest-grid-v10">
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">1</span><div><strong>„Kwadrans"</strong><span class="vk-rest-meta">Bar bistro — domowe śniadania, obiady i kolacje · 1 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">2</span><div><strong>„Caffe Venezia Moderno"</strong><span class="vk-rest-meta">Śniadania, obiady, kolacje · 3 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">3</span><div><strong>„Asia Orchid"</strong><span class="vk-rest-meta">Kuchnia azjatycka · 3 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">4</span><div><strong>„Barka"</strong><span class="vk-rest-meta">Restauracja rybna — dorsz, śledzie, dania mięsne. Polecana przez Roberta Makłowicza · 4 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">5</span><div><strong>„Antonina"</strong><span class="vk-rest-meta">Sałatki, pizza · 4 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">6</span><div><strong>„Syrenka"</strong><span class="vk-rest-meta">Kuchnia polska · 5 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">7</span><div><strong>„Fuego"</strong><span class="vk-rest-meta">Kuchnia hiszpańska · 6 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">8</span><div><strong>„Mamma – Free People Space"</strong><span class="vk-rest-meta">Włoska i międzynarodowa · 6 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">9</span><div><strong>„Pasta e Pesto"</strong><span class="vk-rest-meta">Kuchnia włoska · 6 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">10</span><div><strong>„Hanaya"</strong><span class="vk-rest-meta">Kuchnia japońska · 6 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">11</span><div><strong>„4 Locos"</strong><span class="vk-rest-meta">Kuchnia meksykańska · 6 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">12</span><div><strong>„Fishka &amp; Fiszka"</strong><span class="vk-rest-meta">Ryby i mięso · 6 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">13</span><div><strong>„7 Światów"</strong><span class="vk-rest-meta">Kuchnia świata · 7 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">14</span><div><strong>„Pod Winogronami"</strong><span class="vk-rest-meta">Tradycyjna kuchnia polska · 7 min</span></div></div>
+      <div class="vk-rest-item-v10"><span class="vk-rest-num">15</span><div><strong>„Domek Kata"</strong><span class="vk-rest-meta">Starówka, kuchnia polska · 12 min</span></div></div>
+    </div>
+    <p style="text-align:center;margin-top:28px;font-family:var(--vk-font-body);font-size:1.42rem;color:var(--vk-text-muted);padding:18px 28px;background:rgba(198,146,42,0.07);border-radius:12px;max-width:740px;margin-left:auto;margin-right:auto;border:1px solid rgba(198,146,42,0.15);">
+      Będąc na Starówce, warto odwiedzić <strong style="color:var(--vk-brown);">"Dobrą Starą Pączkarnię"</strong> — najlepsze pączki w Kołobrzegu, wypiekane na miejscu (15 min).
+    </p>
+    <div style="text-align:center;margin-top:60px;">
+      <div class="vk-separator" style="margin-bottom:28px;"><span class="vk-separator-icon">⚓</span></div>
+      <p style="font-family:var(--vk-font-accent);font-style:italic;font-size:1.6rem;color:var(--vk-text-muted);margin:0 auto 12px;max-width:680px;line-height:1.75;">
+        To właśnie bliskość wszystkich tych miejsc sprawia, że Villa Kapitańska
+        jest wyjątkowym i doskonałym wyborem na romantyczny wypoczynek we dwoje.
+      </p>
+      <p style="font-family:var(--vk-font-accent);font-style:italic;font-size:1.4rem;color:var(--vk-text-muted);margin-bottom:36px;">Serdecznie zapraszamy!</p>
+      <a href="https://engine57041.idobooking.com" class="vk-btn vk-btn-primary" style="font-size:1.3rem;padding:18px 52px;">⚓&nbsp; Zarezerwuj pobyt</a>
+      <div class="vk-vat-note" style="max-width:520px;margin:28px auto 0;">
+        <strong>Na życzenie wystawiamy fakturę VAT lub fakturę imienną.</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "Villa Kapitańska",
+  "description": "Komfortowy pensjonat nad rzeką Parsętą w Kołobrzegu. Pokoje z balkonem i widokiem na rzekę, blisko plaży, Starego Miasta i Portu Jachtowego.",
+  "url": "https://client57041.idosell.com/",
+  "image": "https://client57041.idosell.com/images/frontpageGallery/pictures/large/2/0/26.jpg",
+  "telephone": "+48-94-352-5555",
+  "email": "kontakt@villakapitanska.pl",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ul. Portowa 1",
+    "addressLocality": "Kołobrzeg",
+    "postalCode": "78-100",
+    "addressCountry": "PL"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "54.1759",
+    "longitude": "15.5773"
+  },
+  "priceRange": "$$",
+  "starRating": {
+    "@type": "Rating",
+    "ratingValue": "4"
+  },
+  "amenityFeature": [
+    {"@type": "LocationFeatureSpecification", "name": "Bezpłatne Wi-Fi", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Balkon z widokiem na rzekę", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Smart TV", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Aneks kuchenny", "value": true}
+  ],
+  "sameAs": [
+    "https://www.facebook.com/villa.kapitanska/"
+  ],
+  "checkinTime": "14:00",
+  "checkoutTime": "11:00",
+  "petsAllowed": false
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Villa Kapitańska",
+  "url": "https://client57041.idosell.com/",
+  "inLanguage": ["pl", "de"]
+}
+</script>

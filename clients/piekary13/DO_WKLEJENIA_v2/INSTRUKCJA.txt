@@ -1,0 +1,163 @@
+══════════════════════════════════════════════════════════
+  PIEKARY 1-3 v2 — "Toruńska Elegancja"
+  INSTRUKCJA WDROŻENIA
+══════════════════════════════════════════════════════════
+
+PALETA: #FAFAF5 (white) / #722F37 (burgundy) / #C4A882 (gold) / #1A1A1A (black)
+FONTY:  Playfair Display + DM Sans (Google Fonts, załadowane z @import w CSS)
+PREFIX: pk-
+ENGINE: engine23326.idobooking.com / client23326.idobooking.com
+
+
+── KROK 1: CSS ────────────────────────────────────────────
+Panel → Wygląd → Edytor CSS
+→ USUŃ cały dotychczasowy CSS
+→ Wklej zawartość: CSS_EDYTOR.css
+→ Zapisz
+
+
+── KROK 2: STRONA GŁÓWNA ─────────────────────────────────
+Panel → Wygląd → Strona główna → Edytor treści (Tryb HTML)
+→ Wklej zawartość: GLOWNA_PL__body_top.html
+→ Zapisz
+
+
+── KROK 3: GLOBAL JS (body_bottom) ────────────────────────
+Panel → Wygląd → Nagłówek i Stopka → Koniec sekcji BODY
+→ Wklej zawartość: KONIEC_BODY.html
+→ Zapisz
+
+⚠️  WAŻNE: Wklej do body_bottom, NIE do body_top!
+    CMS stripuje <script> z body_top.
+
+
+── KROK 4: PODSTRONY (/txt/) ──────────────────────────────
+Panel → Treść → Podstrony → Utwórz nową podstronę
+
+  /txt/201/ → "O nas"        → ONAS_PL__body_top.html
+  /txt/202/ → "Galeria"      → GALERIA_PL__body_top.html
+  /txt/203/ → "Lokalizacja"  → LOKALIZACJA_PL__body_top.html
+  /txt/204/ → "Atrakcje"     → ATRAKCJE_PL__body_top.html
+  /txt/205/ → "Regulamin"    → REGULAMIN_PL__body_top.html
+  ⚠️  /kontakt/ → NIE MA pliku HTML — stylujemy CSS-only!
+       Klient nie ma dostępu do body_top kontaktu.
+
+Dla każdej podstrony:
+→ Tytuł: jak powyżej
+→ Edytor treści → Tryb HTML → Wklej odpowiedni plik
+→ Zapisz
+
+
+── KROK 5: MENU NAWIGACJI ─────────────────────────────────
+Panel → Wygląd → Menu
+
+Kolejność linków w menu:
+  1. Apartamenty     → /offers
+  2. O nas           → /txt/201/
+  3. Galeria         → /txt/202/
+  4. Lokalizacja     → /txt/203/
+  5. Atrakcje        → /txt/204/
+  6. Kontakt         → /txt/206/
+
+⚠️  Regulamin (/txt/205/) → dodaj w stopce, nie w głównym menu.
+⚠️  Przycisk "REZERWUJ" jest dodawany automatycznie przez JS.
+
+
+── KROK 6: WYRÓŻNIONE OFERTY ─────────────────────────────
+Panel → Oferty → Wyróżnij oferty z lokalizacji Piekary 1-3
+→ Zaznacz oferty, które mają się pojawić na stronie głównej
+→ JS automatycznie zbuduje karty z .container-hotspot
+
+
+── KROK 7: SLIDER / ZDJĘCIA ──────────────────────────────
+Panel → Wygląd → Slider
+→ Dodaj 2-3 zdjęcia kamienicy / Starego Miasta
+→ Rekomendacja: 1920x1080 lub większe, horyzontalne
+→ Tymczasowo: zdjęcia Torunia z Wikimedia (600px)
+
+
+── KROK 8: REDIRECT HOMEPAGE ──────────────────────────────
+⚠️  KRYTYCZNE: Usunąć redirect na osadahelenow.pl z CMS!
+Panel → Wygląd → Strona główna → Sprawdź redirect
+
+
+── KROK 9: DOMENA ─────────────────────────────────────────
+Panel → Ustawienia → Domeny
+→ Dodaj apart-torun.pl jako domenę własną
+→ Ustaw DNS: CNAME na engine23326.idobooking.com
+→ Po propagacji: cała strona działa pod apart-torun.pl
+
+⚠️  Po mapowaniu domeny — booking modal (iframe) automatycznie
+    używa silnika pod tą samą domeną. Brak przekierowań!
+
+
+── KROK 10: LOGO ──────────────────────────────────────────
+Panel → Wygląd → Logo
+→ Wgraj logo od projektanta (PNG/SVG, transparentne tło)
+→ Logo musi dobrze wyglądać w dwóch wariantach:
+  - Białe (na ciemnym hero — filter:invert CSS)
+  - Kolorowe (na jasnym scrolled header)
+
+
+══════════════════════════════════════════════════════════
+  PLIKI W PACZCE
+══════════════════════════════════════════════════════════
+
+  CSS_EDYTOR.css              ~850 linii (28 sekcji)
+  KONIEC_BODY.html            ~370 linii (17 modułów JS)
+  GLOWNA_PL__body_top.html    Homepage PL
+  ONAS_PL__body_top.html      /txt/201/ — O nas
+  GALERIA_PL__body_top.html   /txt/202/ — Galeria
+  LOKALIZACJA_PL__body_top.html /txt/203/ — Lokalizacja
+  ATRAKCJE_PL__body_top.html  /txt/204/ — Atrakcje
+  REGULAMIN_PL__body_top.html /txt/205/ — Regulamin / FAQ
+  (kontakt = CSS-only, brak pliku HTML)
+  INSTRUKCJA.txt              Ten plik
+
+
+══════════════════════════════════════════════════════════
+  KLUCZOWE FEATURES v2
+══════════════════════════════════════════════════════════
+
+  ★ BOOKING MODAL (iframe) — zero przekierowań na silnik!
+    Przycisk "REZERWUJ" w nawigacji i na stronie otwiera
+    modal overlay z iframe do engine23326.idobooking.com.
+    Gość NIGDY nie opuszcza strony.
+
+  ★ ENGINE LINK INTERCEPT — JS automatycznie przechwytuje
+    WSZYSTKIE linki prowadzące do engine23326 lub client23326
+    i otwiera je w modalu iframe zamiast przekierowywać.
+
+  ★ PROFITROOM EFFECTS:
+    - Animated hero title (litery się rozsuwają)
+    - Transparent nav → solid on scroll
+    - Scroll reveal (każda sekcja wjeżdża)
+    - Staggered cards (kaskadowe opóźnienia)
+    - Counter animation (liczby się kręcą)
+    - Parallax tło
+    - Gallery lightbox z nawigacją klawiaturą
+    - Page loader + scroll progress bar
+    - Smooth hover na wszystkim
+
+  ★ 7 PODSTRON: Homepage + O nas + Galeria + Lokalizacja
+    + Atrakcje + Regulamin/FAQ + Kontakt
+
+  ★ ZDJĘCIA TORUNIA: Wikimedia Commons (max 600px thumbnails)
+    Do zastąpienia prawdziwymi zdjęciami po renowacji.
+
+  ★ FAQ ACCORDION: 8 pytań z toggle (body_bottom JS)
+
+
+══════════════════════════════════════════════════════════
+  TODO PO WDROŻENIU
+══════════════════════════════════════════════════════════
+
+  [ ] Wgrać prawdziwe zdjęcia kamienicy i apartamentów
+  [ ] Dodać logo od projektanta
+  [ ] Usunąć redirect na osadahelenow.pl
+  [ ] Wyróżnić oferty z Piekary 1-3 w panelu
+  [ ] Zamapować domenę apart-torun.pl
+  [ ] EN version (osobne pliki _EN_)
+  [ ] Przetestować booking modal na live
+  [ ] Zweryfikować Google Maps embed (dokładne współrzędne)
+  [ ] Dodać regulamin w stopce (link do /txt/205/)

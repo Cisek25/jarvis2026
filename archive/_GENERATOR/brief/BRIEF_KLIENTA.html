@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief — Strona IdoBooking</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root { --accent: #A67C52; --dark: #1a1a1a; --gray: #666; --light: #f5f3ef; --border: #ddd; }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; font-size:14px; line-height:1.6; color:var(--dark); max-width:800px; margin:0 auto; padding:40px 32px; }
+
+  .header { text-align:center; margin-bottom:48px; padding-bottom:32px; border-bottom:2px solid var(--accent); }
+  .header h1 { font-size:28px; font-weight:700; color:var(--dark); margin-bottom:4px; }
+  .header p { color:var(--gray); font-size:13px; }
+  .header .logo-area { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:16px; font-weight:600; }
+
+  h2 { font-size:18px; font-weight:700; color:var(--accent); margin:36px 0 16px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+  h2 .num { display:inline-block; width:28px; height:28px; background:var(--accent); color:#fff; border-radius:50%; text-align:center; line-height:28px; font-size:13px; margin-right:8px; }
+
+  .field { margin-bottom:16px; }
+  .field label { display:block; font-weight:600; font-size:13px; color:var(--dark); margin-bottom:4px; }
+  .field .hint { font-size:12px; color:var(--gray); margin-bottom:4px; font-style:italic; }
+  .field input, .field textarea, .field select { width:100%; border:1px solid var(--border); border-radius:6px; padding:10px 12px; font-size:14px; font-family:inherit; }
+  .field textarea { min-height:80px; resize:vertical; }
+  .field input:focus, .field textarea:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(166,124,82,0.1); }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+
+  .palette-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:12px 0; }
+  .palette-option { border:2px solid var(--border); border-radius:8px; padding:12px; cursor:pointer; text-align:center; transition:all .2s; }
+  .palette-option:hover { border-color:var(--accent); }
+  .palette-option .swatches { display:flex; gap:4px; justify-content:center; margin-bottom:8px; }
+  .palette-option .swatch { width:24px; height:24px; border-radius:50%; border:1px solid rgba(0,0,0,.1); }
+  .palette-option .name { font-size:12px; font-weight:600; }
+  .palette-option input[type="radio"] { margin-bottom:6px; }
+
+  .alert { background:#FFF3CD; border:1px solid #FFECB5; border-radius:8px; padding:16px; margin:20px 0; }
+  .alert-critical { background:#F8D7DA; border-color:#F5C2C7; }
+  .alert strong { display:block; margin-bottom:4px; }
+
+  .checklist { list-style:none; margin:12px 0; }
+  .checklist li { padding:8px 0 8px 28px; position:relative; border-bottom:1px solid #f0f0f0; }
+  .checklist li::before { content:'☐'; position:absolute; left:0; font-size:16px; }
+
+  .photos-table { width:100%; border-collapse:collapse; margin:12px 0; }
+  .photos-table th, .photos-table td { border:1px solid var(--border); padding:8px 12px; text-align:left; font-size:13px; }
+  .photos-table th { background:var(--light); font-weight:600; }
+
+  .footer { margin-top:48px; padding-top:24px; border-top:1px solid var(--border); text-align:center; font-size:12px; color:var(--gray); }
+
+  @media print {
+    body { padding:20px; font-size:12px; }
+    .field input, .field textarea { border:1px solid #ccc; min-height:28px; }
+    .no-print { display:none; }
+    h2 { break-before:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-area">IdoBooking Website Builder</div>
+  <h1>Brief Klienta</h1>
+  <p>Wypelnij formularz — na jego podstawie przygotujemy kompletna strone internetowa.</p>
+</div>
+
+<!-- 1. DANE FIRMY -->
+<h2><span class="num">1</span> Nazwa i opis obiektu</h2>
+
+<div class="alert">
+  <strong>Dane kontaktowe (adres, telefon, email, NIP)</strong>
+  Te dane nalezy uzupelnic <strong>w panelu IdoBooking</strong>, skad trafiaja automatycznie na strone (kontakt, stopka):<br><br>
+  <strong>Panel → Oferta → Miejsca noclegowe → lewy gorny rog: Lokalizacje → kliknij pierwsza lokalizacje → uzupelnij wszystkie pola</strong><br><br>
+  Szczegolnie wazne: adres, telefon, email, wspolrzedne GPS.
+</div>
+
+<div class="field">
+  <label>Nazwa brandu / obiektu *</label>
+  <div class="hint">Jak ma sie nazywac strona (np. "Mountain Prestige", "Golden Apartments")</div>
+  <input type="text" placeholder="np. Mountain Prestige">
+</div>
+
+<div class="field">
+  <label>Krotki opis obiektu (2-3 zdania) *</label>
+  <div class="hint">Pojawi sie na stronie glownej w sekcji "O nas"</div>
+  <textarea placeholder="np. Apartamenty premium w sercu polskich gor. Starannie wyselekcjonowane wnetrza, atrakcyjne lokalizacje i kompleksowa obsluga pobytu."></textarea>
+</div>
+
+<div class="field">
+  <label>Co wyroznia obiekt? (3-6 kluczowych cech) *</label>
+  <div class="hint">np. widok na gory, jacuzzi, blisko stoku, darmowy parking</div>
+  <textarea placeholder="1. Widok na Tatry&#10;2. Sauna w obiekcie&#10;3. 5 min od Krupowek&#10;4. Darmowy parking"></textarea>
+</div>
+
+<!-- 2. PANEL IDOBOOKING -->
+<h2><span class="num">2</span> Panel IdoBooking</h2>
+
+<div class="alert alert-critical">
+  <strong>KRYTYCZNE — Miejsca noclegowe w panelu</strong>
+  Zanim zaczniemy budowac strone, nalezy dodac <strong>wszystkie apartamenty/pokoje</strong> w panelu IdoBooking:
+  <br><br>
+  <strong>Panel → Oferta → Miejsca noclegowe → Dodaj miejsce noclegowe</strong>
+  <br><br>
+  Kazdy apartament/pokoj musi miec:
+  <ul style="margin:8px 0 0 20px;">
+    <li>Nazwe (np. "Apartament Giewont", "Studio Tatrzanskie")</li>
+    <li>Opis (min. 3-4 zdania)</li>
+    <li>Zdjecia (min. 5, zalecane 10+, rozdzielczosc min. 1200px szerokosc)</li>
+    <li>Ceny (min. cena bazowa)</li>
+    <li>Liczba osob (max. gosci)</li>
+    <li>Udogodnienia (zaznacz z listy)</li>
+  </ul>
+  <br>
+  <strong>Bez tego strona bedzie pusta — nie bedzie ofert do wyswietlenia!</strong>
+</div>
+
+<div class="two-col">
+  <div class="field">
+    <label>ID klienta IdoBooking *</label>
+    <div class="hint">Widoczny w URL panelu, np. "57060"</div>
+    <input type="text" placeholder="np. 57060">
+  </div>
+  <div class="field">
+    <label>Ile apartamentow/pokojow? *</label>
+    <input type="number" placeholder="np. 5">
+  </div>
+</div>
+
+<div class="field">
+  <label>Lista apartamentow (nazwy)</label>
+  <div class="hint">Wymien wszystkie — uzyje ich strona na liscie ofert</div>
+  <textarea placeholder="1. Apartament Giewont (4 osoby)&#10;2. Studio Tatrzanskie (2 osoby)&#10;3. Apartament Kasprowy (6 osob)"></textarea>
+</div>
+
+<ul class="checklist">
+  <li>Dodalem wszystkie miejsca noclegowe w panelu (Oferta → Miejsca noclegowe)</li>
+  <li>Kazde miejsce ma min. 5 zdjec i opis</li>
+  <li>Ustawilem ceny bazowe</li>
+  <li>Zaznaczylem udogodnienia (Wi-Fi, parking, TV itd.)</li>
+  <li>Wyroznilem oferty do pokazania na stronie glownej (Oferta → Wyroznij)</li>
+</ul>
+
+<!-- 3. DOMENA -->
+<h2><span class="num">3</span> Domena i jezyki</h2>
+
+<div class="two-col">
+  <div class="field">
+    <label>Domena (jesli posiadasz)</label>
+    <div class="hint">np. mountainprestige.pl — jesli nie masz, mozemy pomoc przy zakupie</div>
+    <input type="text" placeholder="np. mountainprestige.pl">
+  </div>
+  <div class="field">
+    <label>Jezyki strony *</label>
+    <div class="hint">Zaznacz wszystkie potrzebne</div>
+    <div style="padding:8px 0;">
+      <label style="font-weight:400;"><input type="checkbox" checked> Polski (PL)</label><br>
+      <label style="font-weight:400;"><input type="checkbox"> Angielski (EN)</label><br>
+      <label style="font-weight:400;"><input type="checkbox"> Niemiecki (DE)</label><br>
+      <label style="font-weight:400;"><input type="checkbox"> Inny: ___________</label>
+    </div>
+  </div>
+</div>
+
+<!-- 4. DESIGN -->
+<h2><span class="num">4</span> Styl wizualny</h2>
+
+<p style="margin-bottom:12px;color:var(--gray);">Wybierz gotowa palete kolorow lub opisz wlasne preferencje. Kazda paleta jest przetestowana i dopasowana do branzy noclegowej.</p>
+
+<div class="palette-grid">
+  <div class="palette-option">
+    <input type="radio" name="palette" value="A">
+    <div class="swatches">
+      <div class="swatch" style="background:#FAF6EF"></div>
+      <div class="swatch" style="background:#A67C52"></div>
+      <div class="swatch" style="background:#2A2118"></div>
+    </div>
+    <div class="name">A. Warm Copper</div>
+    <div style="font-size:11px;color:#888;">Ciepla, premium, gory</div>
+  </div>
+  <div class="palette-option">
+    <input type="radio" name="palette" value="B">
+    <div class="swatches">
+      <div class="swatch" style="background:#F5F7FA"></div>
+      <div class="swatch" style="background:#2D5016"></div>
+      <div class="swatch" style="background:#1A2E0A"></div>
+    </div>
+    <div class="name">B. Forest Green</div>
+    <div style="font-size:11px;color:#888;">Natura, eco, camping</div>
+  </div>
+  <div class="palette-option">
+    <input type="radio" name="palette" value="C">
+    <div class="swatches">
+      <div class="swatch" style="background:#FAFAFA"></div>
+      <div class="swatch" style="background:#C9A96E"></div>
+      <div class="swatch" style="background:#1E1E1E"></div>
+    </div>
+    <div class="name">C. Elegant Gold</div>
+    <div style="font-size:11px;color:#888;">Luksus, city, modern</div>
+  </div>
+  <div class="palette-option">
+    <input type="radio" name="palette" value="D">
+    <div class="swatches">
+      <div class="swatch" style="background:#FAF8F5"></div>
+      <div class="swatch" style="background:#3B82C4"></div>
+      <div class="swatch" style="background:#1A2332"></div>
+    </div>
+    <div class="name">D. Coastal Blue</div>
+    <div style="font-size:11px;color:#888;">Morze, jeziorka, woda</div>
+  </div>
+  <div class="palette-option">
+    <input type="radio" name="palette" value="E">
+    <div class="swatches">
+      <div class="swatch" style="background:#FFFDF8"></div>
+      <div class="swatch" style="background:#D4763A"></div>
+      <div class="swatch" style="background:#2B1810"></div>
+    </div>
+    <div class="name">E. Warm Terracotta</div>
+    <div style="font-size:11px;color:#888;">Rustykalny, wiejski</div>
+  </div>
+  <div class="palette-option">
+    <input type="radio" name="palette" value="custom">
+    <div class="swatches">
+      <div class="swatch" style="background:#eee;border:2px dashed #ccc;"></div>
+      <div class="swatch" style="background:#eee;border:2px dashed #ccc;"></div>
+      <div class="swatch" style="background:#eee;border:2px dashed #ccc;"></div>
+    </div>
+    <div class="name">Wlasna paleta</div>
+    <div style="font-size:11px;color:#888;">Podaj kolory ponizej</div>
+  </div>
+</div>
+
+<div class="field">
+  <label>Wlasne kolory (opcjonalnie)</label>
+  <div class="hint">Mozesz podac kody hex (np. #A67C52) albo opisac slownie (np. "cieply zloty", "granatowy", "zielen lesna")</div>
+  <input type="text" placeholder="np. cieply zloty jako glowny, jasne kremowe tlo, ciemny tekst">
+</div>
+
+<div class="field">
+  <label>Strony / marki, ktore Ci sie podobaja (inspiracje)</label>
+  <div class="hint">Linki do stron konkurencji lub dowolnych stron, ktore wizualnie Ci odpowiadaja</div>
+  <textarea placeholder="np. https://www.blackapart.pl&#10;https://www.halnyresort.pl"></textarea>
+</div>
+
+<!-- 5. ZDJECIA -->
+<h2><span class="num">5</span> Zdjecia i logo</h2>
+
+<div class="alert">
+  <strong>Zdjecia to 80% sukcesu strony!</strong>
+  Prosimy o przeslanie zdjec w <strong>najwyzszej dostepnej rozdzielczosci</strong> (min. 1200px szerokosc).
+  Najlepiej jako link do Google Drive / WeTransfer.
+</div>
+
+<table class="photos-table">
+  <thead>
+    <tr><th>Co</th><th>Ile</th><th>Uwagi</th><th>Mam?</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Logo</strong></td><td>1</td><td>PNG/SVG z przezroczystym tlem, min. 400px szer.</td><td>☐</td></tr>
+    <tr><td><strong>Slider (hero)</strong></td><td>2-4</td><td>Zdjecia panoramiczne 1920x1080+ (krajobraz, budynek, wnetrze)</td><td>☐</td></tr>
+    <tr><td><strong>O nas</strong></td><td>1-2</td><td>Zdjecie budynku/lokalizacji, portrety wlascicieli (opcjonalne)</td><td>☐</td></tr>
+    <tr><td><strong>Apartamenty</strong></td><td>5-10 / apt.</td><td>Juz dodane w panelu (Oferta → Miejsca noclegowe)</td><td>☐</td></tr>
+    <tr><td><strong>Lokalizacja</strong></td><td>3-5</td><td>Okolica, atrakcje, mapa dojazdu</td><td>☐</td></tr>
+    <tr><td><strong>Galeria</strong></td><td>6-12</td><td>Mix: wnetrza + okolica + detale</td><td>☐</td></tr>
+  </tbody>
+</table>
+
+<div class="field">
+  <label>Link do zdjec (Google Drive / WeTransfer) *</label>
+  <input type="url" placeholder="https://drive.google.com/drive/folders/...">
+</div>
+
+<!-- 6. TRESC -->
+<h2><span class="num">6</span> Tresci i podstrony</h2>
+
+<div class="field">
+  <label>Podstrony na stronie (zaznacz potrzebne)</label>
+  <div style="padding:8px 0;">
+    <label style="font-weight:400;"><input type="checkbox" checked> Oferta (lista apartamentow — automatyczna)</label><br>
+    <label style="font-weight:400;"><input type="checkbox" checked> Kontakt (formularz — automatyczny)</label><br>
+    <label style="font-weight:400;"><input type="checkbox"> Lokalizacja (mapa, atrakcje, dojazd)</label><br>
+    <label style="font-weight:400;"><input type="checkbox"> Wspolpraca (dla wlascicieli apartamentow)</label><br>
+    <label style="font-weight:400;"><input type="checkbox"> Galeria</label><br>
+    <label style="font-weight:400;"><input type="checkbox"> Blog</label><br>
+    <label style="font-weight:400;"><input type="checkbox"> FAQ (najczesciej zadawane pytania)</label><br>
+    <label style="font-weight:400;"><input type="checkbox"> Inna: ___________</label>
+  </div>
+</div>
+
+<div class="field">
+  <label>Tresc FAQ (jesli zaznaczono)</label>
+  <div class="hint">Podaj pytania i odpowiedzi, np. "Od ktorej moge sie zameldowac?"</div>
+  <textarea placeholder="P: Od ktorej godziny meldowanie?&#10;O: Check-in od 15:00, check-out do 11:00.&#10;&#10;P: Czy przyjmujecie zwierzeta?&#10;O: Tak, po wczesniejszym uzgodnieniu."></textarea>
+</div>
+
+<div class="field">
+  <label>Tresc "O lokalizacji" (jesli zaznaczono)</label>
+  <div class="hint">Gdzie jest obiekt, co w poblizu, odleglosci do atrakcji</div>
+  <textarea placeholder="np. 5 min pieszo do Krupowek, 10 min samochodem do Gubałówki, darmowy parking na miejscu..."></textarea>
+</div>
+
+<div class="field">
+  <label>Tresc "Wspolpraca" (jesli zaznaczono)</label>
+  <div class="hint">Informacja dla wlascicieli apartamentow chetnych do wspolpracy</div>
+  <textarea placeholder=""></textarea>
+</div>
+
+<!-- 7. SOCIAL MEDIA -->
+<h2><span class="num">7</span> Social media i integracje</h2>
+
+<div class="two-col">
+  <div class="field">
+    <label>Facebook</label>
+    <input type="url" placeholder="https://facebook.com/...">
+  </div>
+  <div class="field">
+    <label>Instagram</label>
+    <input type="url" placeholder="https://instagram.com/...">
+  </div>
+</div>
+<div class="two-col">
+  <div class="field">
+    <label>Google Maps (link do obiektu)</label>
+    <input type="url" placeholder="https://maps.google.com/...">
+  </div>
+  <div class="field">
+    <label>Booking.com (link do obiektu)</label>
+    <input type="url" placeholder="https://booking.com/...">
+  </div>
+</div>
+
+<!-- 8. DODATKOWE -->
+<h2><span class="num">8</span> Uwagi dodatkowe</h2>
+
+<div class="field">
+  <label>Dodatkowe informacje, zyczenia, uwagi</label>
+  <textarea style="min-height:120px;" placeholder="Wszystko, co powinno sie znalezc na stronie — specjalne uslugi, promocje, informacje o regionie..."></textarea>
+</div>
+
+<div class="field">
+  <label>Termin — kiedy strona powinna byc gotowa?</label>
+  <input type="text" placeholder="np. przed sezonem letnim, do 15 maja">
+</div>
+
+<div class="footer">
+  <p>Wypelniony brief prosimy wyslac na adres: <strong>[TWOJ EMAIL]</strong></p>
+  <p style="margin-top:16px;font-size:11px;color:#999;">IdoBooking Website Builder &copy; 2026</p>
+</div>
+
+</body>
+</html>

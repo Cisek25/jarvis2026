@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html><head><title>CSS Helper</title></head>
+<body>
+<pre id="status">Loading CSS...</pre>
+<script>
+fetch('/custom.css')
+  .then(r => r.text())
+  .then(css => {
+    window.cssContent = css;
+    document.getElementById('status').textContent = 'CSS loaded: ' + css.length + ' chars. Ready.';
+  });
+</script>
+</body></html>

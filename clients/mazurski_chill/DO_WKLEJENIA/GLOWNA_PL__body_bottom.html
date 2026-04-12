@@ -1,0 +1,938 @@
+<script>
+/* ============================================================
+   MAZURSKI CHILL — GLOWNA_PL__body_bottom.html
+   Gdzie: Panel IdoBooking → Wygląd → Koniec sekcji body
+   Wersja: 2.0 — marzec 2026
+   ============================================================ */
+(function () {
+  'use strict';
+
+  /* -------------------------------------------------------
+     1. SCROLL ANIMATIONS — IntersectionObserver
+     Elementy z [data-animate] dostają klasę 'is-visible'
+     po wejściu do viewportu. Obsługa data-delay="1/2/3/4"
+     ------------------------------------------------------- */
+  function initScrollAnimations() {
+    if (!('IntersectionObserver' in window)) {
+      var allAnimated = document.querySelectorAll('[data-animate]');
+      for (var i = 0; i < allAnimated.length; i++) {
+        allAnimated[i].classList.add('is-visible');
+        allAnimated[i].classList.add('mc-visible');
+      }
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var delay = el.getAttribute('data-delay');
+        var delayMap = { '1': 100, '2': 220, '3': 380, '4': 520 };
+        var ms = delay && delayMap[delay] ? delayMap[delay] : 0;
+
+        if (ms > 0) {
+          setTimeout(function () {
+            el.classList.add('is-visible');
+            el.classList.add('mc-visible');
+          }, ms);
+        } else {
+          el.classList.add('is-visible');
+          el.classList.add('mc-visible');
+        }
+        observer.unobserve(el);
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '-40px 0px -40px 0px'
+    });
+
+    var elements = document.querySelectorAll('[data-animate]');
+    for (var j = 0; j < elements.length; j++) {
+      observer.observe(elements[j]);
+    }
+  }
+
+  /* -------------------------------------------------------
+     2. SMOOTH SCROLL — kotwice z kompensacją navbara
+     ------------------------------------------------------- */
+  function initSmoothScroll() {
+    document.addEventListener('click', function (e) {
+      var anchor = e.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      var href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
+
+      var target = document.querySelector(href);
+      if (!target) return;
+
+      e.preventDefault();
+
+      var navbar = document.querySelector('.mc-navbar, header, nav, .site-header');
+      var offset = navbar ? navbar.offsetHeight : 0;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset - 16;
+
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  }
+
+  /* -------------------------------------------------------
+     3. NAVBAR SCROLL EFFECT — klasa .scrolled po 80px
+     ------------------------------------------------------- */
+  function initNavbarScroll() {
+    var header = document.querySelector('.mc-navbar, header, .site-header, #header');
+    if (!header) return;
+
+    var ticking = false;
+    var threshold = 80;
+
+    function checkScroll() {
+      if (window.pageYOffset > threshold) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(checkScroll);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    checkScroll();
+  }
+
+  /* -------------------------------------------------------
+     4. TESTIMONIAL SLIDER — slider opinii (statyczny grid z JS)
+     Sekcja .mc-reviews używa mc-slide / mc-active pattern
+     ------------------------------------------------------- */
+  function initSlider() {
+    var slides = document.querySelectorAll('.mc-slide');
+    var dots   = document.querySelectorAll('.mc-slider__dot');
+    var prev   = document.getElementById('mc-prev');
+    var next   = document.getElementById('mc-next');
+    if (!slides.length) return;
+
+    var current = 0;
+    var total   = slides.length;
+    var timer   = null;
+
+    function goTo(index) {
+      slides[current].classList.remove('mc-active');
+      if (dots[current]) {
+        dots[current].classList.remove('mc-active');
+        dots[current].setAttribute('aria-selected', 'false');
+      }
+      current = (index + total) % total;
+      slides[current].classList.add('mc-active');
+      if (dots[current]) {
+        dots[current].classList.add('mc-active');
+        dots[current].setAttribute('aria-selected', 'true');
+      }
+    }
+
+    function startAuto() {
+      clearInterval(timer);
+      timer = setInterval(function () { goTo(current + 1); }, 5500);
+    }
+
+    if (next) next.addEventListener('click', function () { goTo(current + 1); startAuto(); });
+    if (prev) prev.addEventListener('click', function () { goTo(current - 1); startAuto(); });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        goTo(parseInt(this.getAttribute('data-slide'), 10));
+        startAuto();
+      });
+    });
+
+    /* Keyboard support */
+    var sliderEl = document.getElementById('mc-slider');
+    if (sliderEl) {
+      sliderEl.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft')  { goTo(current - 1); startAuto(); }
+        if (e.key === 'ArrowRight') { goTo(current + 1); startAuto(); }
+      });
+    }
+
+    /* Touch swipe */
+    var touchStartX = 0;
+    var sliderWrap = document.getElementById('mc-slider');
+    if (sliderWrap) {
+      sliderWrap.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].clientX;
+      }, { passive: true });
+      sliderWrap.addEventListener('touchend', function (e) {
+        var diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) { goTo(current + 1); } else { goTo(current - 1); }
+          startAuto();
+        }
+      }, { passive: true });
+    }
+
+    startAuto();
+  }
+
+  /* -------------------------------------------------------
+     5. LIGHTBOX — galeria zdjęć
+     Trigger: klik na .mc-gallery__item img
+     Klawiatura: Escape, strzałki | Touch swipe | Counter
+     ------------------------------------------------------- */
+  function initLightbox() {
+    var galleryItems = document.querySelectorAll('.mc-gallery__item img');
+    if (galleryItems.length === 0) return;
+
+    var images = [];
+    for (var i = 0; i < galleryItems.length; i++) {
+      images.push({
+        src: galleryItems[i].getAttribute('data-full') || galleryItems[i].src,
+        alt: galleryItems[i].alt || ''
+      });
+    }
+
+    var currentIndex = 0;
+    var touchStartX = 0;
+
+    var lb = document.createElement('div');
+    lb.className = 'mc-lightbox';
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'Przeglądarka zdjęć Mazurski Chill');
+    lb.innerHTML =
+      '<div class="mc-lightbox__backdrop"></div>' +
+      '<div class="mc-lightbox__inner">' +
+        '<img class="mc-lightbox__img" src="" alt="" />' +
+        '<button class="mc-lightbox__close" aria-label="Zamknij">' +
+          '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+        '</button>' +
+        '<button class="mc-lightbox__prev" aria-label="Poprzednie zdjęcie">' +
+          '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<polyline points="15 18 9 12 15 6"/></svg>' +
+        '</button>' +
+        '<button class="mc-lightbox__next" aria-label="Następne zdjęcie">' +
+          '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<polyline points="9 18 15 12 9 6"/></svg>' +
+        '</button>' +
+        '<div class="mc-lightbox__counter" aria-live="polite">1 / 1</div>' +
+      '</div>';
+
+    document.body.appendChild(lb);
+
+    var lbImg      = lb.querySelector('.mc-lightbox__img');
+    var lbCounter  = lb.querySelector('.mc-lightbox__counter');
+    var lbClose    = lb.querySelector('.mc-lightbox__close');
+    var lbPrev     = lb.querySelector('.mc-lightbox__prev');
+    var lbNext     = lb.querySelector('.mc-lightbox__next');
+    var lbBackdrop = lb.querySelector('.mc-lightbox__backdrop');
+
+    function open(idx) {
+      currentIndex = (idx + images.length) % images.length;
+      lbImg.style.opacity = '0';
+      lbImg.src = images[currentIndex].src;
+      lbImg.alt = images[currentIndex].alt;
+      lbCounter.textContent = (currentIndex + 1) + ' / ' + images.length;
+      lb.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+      lbClose.focus();
+    }
+
+    function close() {
+      lb.classList.remove('is-active');
+      document.body.style.overflow = '';
+      if (galleryItems[currentIndex]) galleryItems[currentIndex].focus();
+    }
+
+    function showPrev() { open(currentIndex - 1); }
+    function showNext() { open(currentIndex + 1); }
+
+    galleryItems.forEach(function (img, idx) {
+      img.style.cursor = 'pointer';
+      img.setAttribute('tabindex', '0');
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', 'Otwórz zdjęcie ' + (idx + 1) + ' w powiększeniu');
+      img.addEventListener('click', function () { open(idx); });
+      img.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(idx); }
+      });
+    });
+
+    lbImg.addEventListener('load', function () {
+      lbImg.style.opacity = '1';
+    });
+
+    lbClose.addEventListener('click', close);
+    lbBackdrop.addEventListener('click', close);
+    lbPrev.addEventListener('click', showPrev);
+    lbNext.addEventListener('click', showNext);
+
+    document.addEventListener('keydown', function (e) {
+      if (!lb.classList.contains('is-active')) return;
+      if (e.key === 'Escape')     { close(); }
+      if (e.key === 'ArrowLeft')  { showPrev(); }
+      if (e.key === 'ArrowRight') { showNext(); }
+    });
+
+    lb.addEventListener('touchstart', function (e) {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+
+    lb.addEventListener('touchend', function (e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) { showNext(); } else { showPrev(); }
+      }
+    }, { passive: true });
+  }
+
+  /* -------------------------------------------------------
+     6. CIRCULAR THUMB EXPAND — klik na .mc-about__thumb
+     Powiększa miniaturę do okrągłego overlay z zamknięciem
+     ------------------------------------------------------- */
+  function initThumbExpand() {
+    var thumbs = document.querySelectorAll('.mc-about__thumb img');
+    if (!thumbs.length) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'mc-thumb-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Podgląd zdjęcia');
+    overlay.innerHTML =
+      '<div class="mc-thumb-overlay__backdrop"></div>' +
+      '<div class="mc-thumb-overlay__circle">' +
+        '<img class="mc-thumb-overlay__img" src="" alt="" />' +
+        '<button class="mc-thumb-overlay__close" aria-label="Zamknij">' +
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+          '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+        '</button>' +
+      '</div>';
+
+    /* Inline styles — overlay nie ma dostępu do głównego CSS */
+    var style = document.createElement('style');
+    style.textContent =
+      '.mc-thumb-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;}' +
+      '.mc-thumb-overlay.is-active{opacity:1;pointer-events:all;}' +
+      '.mc-thumb-overlay__backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.88);}' +
+      '.mc-thumb-overlay__circle{position:relative;z-index:1;width:min(80vw,560px);height:min(80vw,560px);border-radius:50%;overflow:hidden;border:3px solid rgba(200,164,92,0.5);box-shadow:0 0 80px rgba(200,164,92,0.25);}' +
+      '.mc-thumb-overlay__img{width:100%;height:100%;object-fit:cover;display:block;}' +
+      '.mc-thumb-overlay__close{position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.6);border:1px solid rgba(200,164,92,0.4);color:#C8A45C;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;}' +
+      '.mc-thumb-overlay__close:hover{background:rgba(200,164,92,0.2);}';
+
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+
+    var ovImg   = overlay.querySelector('.mc-thumb-overlay__img');
+    var ovClose = overlay.querySelector('.mc-thumb-overlay__close');
+    var ovBack  = overlay.querySelector('.mc-thumb-overlay__backdrop');
+
+    function openThumb(src, alt) {
+      ovImg.src = src;
+      ovImg.alt = alt;
+      overlay.classList.add('is-active');
+      document.body.style.overflow = 'hidden';
+      ovClose.focus();
+    }
+
+    function closeThumb() {
+      overlay.classList.remove('is-active');
+      document.body.style.overflow = '';
+    }
+
+    thumbs.forEach(function (img) {
+      img.style.cursor = 'pointer';
+      img.setAttribute('tabindex', '0');
+      var fullSrc = img.getAttribute('data-full') || img.src;
+      img.addEventListener('click', function () { openThumb(fullSrc, img.alt); });
+      img.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openThumb(fullSrc, img.alt); }
+      });
+    });
+
+    ovClose.addEventListener('click', closeThumb);
+    ovBack.addEventListener('click', closeThumb);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-active')) { closeThumb(); }
+    });
+  }
+
+  /* -------------------------------------------------------
+     7. BOOKING FORM — integracja z widgetem IdoBooking
+     ------------------------------------------------------- */
+  function initBookingForm() {
+    var form = document.querySelector('.mc-booking-form, #mc-booking-form');
+    if (!form) return;
+
+    var btnSearch = form.querySelector('[data-action="search"], .mc-booking-form__submit, button[type="submit"]');
+    if (!btnSearch) return;
+
+    function getVal(selector) {
+      var el = form.querySelector(selector);
+      return el ? el.value.trim() : '';
+    }
+
+    function triggerIdoBooking(params) {
+      if (typeof window.generateWidgetIdoSellBooking === 'function') {
+        window.generateWidgetIdoSellBooking(params);
+        return;
+      }
+
+      var iaiFrom    = document.getElementById('iai_booking_date_from');
+      var iaiTo      = document.getElementById('iai_booking_date_to');
+      var iaiPersons = document.getElementById('iai_persons');
+      var iaiForm    = document.getElementById('iai_book_form');
+
+      if (iaiFrom && params.date_from) iaiFrom.value = params.date_from;
+      if (iaiTo   && params.date_to)   iaiTo.value   = params.date_to;
+      if (iaiPersons && params.persons) iaiPersons.value = params.persons;
+
+      if (iaiForm) {
+        var submitBtn = iaiForm.querySelector('[type="submit"], button');
+        if (submitBtn) { submitBtn.click(); return; }
+      }
+
+      var url = '/offers?';
+      var parts = [];
+      if (params.date_from) parts.push('date_from=' + encodeURIComponent(params.date_from));
+      if (params.date_to)   parts.push('date_to='   + encodeURIComponent(params.date_to));
+      if (params.persons)   parts.push('persons='   + encodeURIComponent(params.persons));
+      window.location.href = url + parts.join('&');
+    }
+
+    btnSearch.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      var dateFrom = getVal('[name="date_from"], #mc-date-from, .mc-date-from');
+      var dateTo   = getVal('[name="date_to"], #mc-date-to, .mc-date-to');
+      var persons  = getVal('[name="persons"], #mc-persons, .mc-persons') || '2';
+
+      if (!dateFrom || !dateTo) {
+        var errorMsg = form.querySelector('.mc-booking-form__error');
+        if (!errorMsg) {
+          errorMsg = document.createElement('p');
+          errorMsg.className = 'mc-booking-form__error';
+          errorMsg.setAttribute('role', 'alert');
+          form.appendChild(errorMsg);
+        }
+        errorMsg.textContent = 'Proszę wybrać daty przyjazdu i wyjazdu.';
+        errorMsg.style.display = 'block';
+        setTimeout(function () { errorMsg.style.display = 'none'; }, 4000);
+        return;
+      }
+
+      var err = form.querySelector('.mc-booking-form__error');
+      if (err) err.style.display = 'none';
+
+      triggerIdoBooking({ date_from: dateFrom, date_to: dateTo, persons: persons });
+    });
+  }
+
+  /* -------------------------------------------------------
+     8. SET CURRENT YEAR
+     ------------------------------------------------------- */
+  function initYear() {
+    var yearEl = document.getElementById('mc-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  }
+
+  /* -------------------------------------------------------
+     9. DATE INPUTS — min = today
+     ------------------------------------------------------- */
+  function initDateInputs() {
+    var today    = new Date().toISOString().split('T')[0];
+    var checkin  = document.getElementById('mc-checkin');
+    var checkout = document.getElementById('mc-checkout');
+    if (checkin)  checkin.min  = today;
+    if (checkout) checkout.min = today;
+    if (checkin) {
+      checkin.addEventListener('change', function () {
+        if (checkout) checkout.min = checkin.value;
+      });
+    }
+  }
+
+  /* -------------------------------------------------------
+     10. MOBILE MENU — hamburger toggle
+     ------------------------------------------------------- */
+  function initMobileMenu() {
+    var hamburger = document.querySelector('.mc-hamburger, [data-menu-toggle], .mc-navbar__toggle');
+    var nav       = document.querySelector('.mc-nav, .mc-navbar__nav');
+    if (!hamburger || !nav) return;
+
+    hamburger.setAttribute('aria-expanded', 'false');
+    if (!nav.id) nav.id = 'mc-nav';
+    hamburger.setAttribute('aria-controls', nav.id);
+
+    hamburger.addEventListener('click', function () {
+      var isOpen = nav.classList.toggle('is-open');
+      hamburger.classList.toggle('is-active', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      document.body.classList.toggle('mc-menu-open', isOpen);
+    });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        nav.classList.remove('is-open');
+        hamburger.classList.remove('is-active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('mc-menu-open');
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+        nav.classList.remove('is-open');
+        hamburger.classList.remove('is-active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('mc-menu-open');
+        hamburger.focus();
+      }
+    });
+  }
+
+  /* -------------------------------------------------------
+     INIT
+     ------------------------------------------------------- */
+  /* -------------------------------------------------------
+     11. CUSTOM SEARCH FORM — zastępuje systemową wyszukiwarkę
+     Wstawia .mc-hero-search do .index-info w sekcji hero.
+     Redirect do /offers z parametrami GET.
+     ------------------------------------------------------- */
+  function buildCustomSearch() {
+    /* Wstaw obok .index-info lub po tekście hero */
+    var indexInfo = document.querySelector('.index-info');
+    if (!indexInfo) return;
+
+    /* Nie dodawaj drugi raz */
+    if (document.querySelector('.mc-hero-search')) return;
+
+    var wrapper = document.createElement('div');
+    wrapper.className = 'mc-hero-search';
+    wrapper.innerHTML = [
+      /* KLUCZOWE: label for="..." → przeglądarka natywnie przekazuje klik na input */
+      '<form class="mc-hsearch-form" id="mc-hsearch-form">',
+      '  <div class="mc-hsearch-field">',
+      '    <label class="mc-hsearch-label" for="mc-hfrom">Przyjazd</label>',
+      '    <input type="text" name="date_from" id="mc-hfrom" placeholder="dd.mm.rrrr" autocomplete="off" readonly>',
+      '  </div>',
+      '  <div class="mc-hsearch-field">',
+      '    <label class="mc-hsearch-label" for="mc-hto">Wyjazd</label>',
+      '    <input type="text" name="date_to" id="mc-hto" placeholder="dd.mm.rrrr" autocomplete="off" readonly>',
+      '  </div>',
+      '  <div class="mc-hsearch-field mc-hsearch-field--sm">',
+      '    <span class="mc-hsearch-label">Osoby</span>',
+      '    <div class="mc-hsearch-persons">',
+      '      <button type="button" class="mc-hsearch-minus" aria-label="Mniej os\u00f3b">&#8722;</button>',
+      '      <span class="mc-hsearch-count" id="mc-pcount">2</span>',
+      '      <input type="hidden" name="persons" id="mc-hpersons" value="2">',
+      '      <button type="button" class="mc-hsearch-plus" aria-label="Wi\u0119cej os\u00f3b">+</button>',
+      '    </div>',
+      '  </div>',
+      '  <button type="submit" class="mc-hsearch-btn">Sprawdź<br>dostępność</button>',
+      '</form>',
+      /* Mini datepicker - klikalne pola otwierają prosty wybór daty */
+      '<div id="mc-datepicker" style="display:none;position:absolute;z-index:9999;background:#141C28;border:1px solid rgba(200,164,92,0.3);border-radius:10px;padding:16px;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:260px;">',
+      '  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">',
+      '    <button id="mc-dp-prev" type="button" style="background:none;border:none;color:#C8A45C;font-size:18px;cursor:pointer;padding:4px 8px;">&#8249;</button>',
+      '    <span id="mc-dp-title" style="color:#F5F0E8;font-family:Inter,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.05em;"></span>',
+      '    <button id="mc-dp-next" type="button" style="background:none;border:none;color:#C8A45C;font-size:18px;cursor:pointer;padding:4px 8px;">&#8250;</button>',
+      '  </div>',
+      '  <div id="mc-dp-days" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-family:Inter,sans-serif;font-size:12px;"></div>',
+      '</div>'
+    ].join('');
+
+    /* Wstaw WEWNĄTRZ .index-info jako ostatni element
+       (po nagłówkach h1/h2 — nie przed nimi!) */
+    indexInfo.appendChild(wrapper);
+
+    /* Mini datepicker — klikalne pola z kalendarzem */
+    var fromEl = document.getElementById('mc-hfrom');
+    var toEl   = document.getElementById('mc-hto');
+    var dpEl   = document.getElementById('mc-datepicker');
+    var dpTitle = document.getElementById('mc-dp-title');
+    var dpDays  = document.getElementById('mc-dp-days');
+    var dpPrev  = document.getElementById('mc-dp-prev');
+    var dpNext  = document.getElementById('mc-dp-next');
+    var activeField = null;
+    var dpYear = new Date().getFullYear();
+    var dpMonth = new Date().getMonth();
+    var today = new Date(); today.setHours(0,0,0,0);
+
+    var mNames = ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+
+    function formatDate(d) {
+      var dd = ('0'+(d.getDate())).slice(-2);
+      var mm = ('0'+(d.getMonth()+1)).slice(-2);
+      var yy = d.getFullYear();
+      return dd+'.'+mm+'.'+yy;
+    }
+
+    function parseDisplayDate(str) {
+      if (!str) return null;
+      var p = str.split('.');
+      if (p.length !== 3) return null;
+      var d = new Date(+p[2], +p[1]-1, +p[0]);
+      return isNaN(d.getTime()) ? null : d;
+    }
+
+    function renderCalendar() {
+      if (!dpTitle || !dpDays) return;
+      dpTitle.textContent = mNames[dpMonth] + ' ' + dpYear;
+      dpDays.innerHTML = '';
+      var days = ['Pn','Wt','Śr','Cz','Pt','Sb','Nd'];
+      days.forEach(function(d) {
+        var h = document.createElement('div');
+        h.textContent = d;
+        h.style.cssText = 'color:#8A857D;font-size:10px;text-align:center;padding:2px 0;font-weight:600;letter-spacing:0.05em;';
+        dpDays.appendChild(h);
+      });
+      var first = new Date(dpYear, dpMonth, 1);
+      var startDay = (first.getDay() + 6) % 7; /* Mon=0 */
+      for (var i = 0; i < startDay; i++) {
+        dpDays.appendChild(document.createElement('div'));
+      }
+      var daysInMonth = new Date(dpYear, dpMonth+1, 0).getDate();
+      var fromDate = parseDisplayDate(fromEl ? fromEl.value : '');
+      for (var d2 = 1; d2 <= daysInMonth; d2++) {
+        var date = new Date(dpYear, dpMonth, d2);
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = d2;
+        var isPast = date < today;
+        var isFrom = fromDate && date.getTime() === fromDate.getTime();
+        btn.style.cssText = 'background:'+(isFrom?'#C8A45C':'none')+';color:'+(isPast?'#3A4050':(isFrom?'#0E1219':'#F5F0E8'))+';border:none;border-radius:4px;padding:5px 2px;cursor:'+(isPast?'default':'pointer')+';font-size:12px;font-family:Inter,sans-serif;width:100%;text-align:center;';
+        if (!isPast) {
+          (function(dateVal) {
+            btn.addEventListener('click', function() {
+              var formatted = formatDate(dateVal);
+              if (activeField === 'from' && fromEl) {
+                fromEl.value = formatted;
+              } else if (activeField === 'to' && toEl) {
+                toEl.value = formatted;
+              }
+              if (dpEl) dpEl.style.display = 'none';
+            });
+          })(date);
+        }
+        dpDays.appendChild(btn);
+      }
+    }
+
+    /* Stary openDp zastąpiony niżej */
+    /* KRYTYCZNE: clip-path na .section.parallax niszczy position:fixed dla dzieci!
+       Przenosząc datepicker do document.body wychodzimy poza ten stacking context. */
+    if (dpEl) {
+      dpEl.style.position = 'fixed';
+      document.body.appendChild(dpEl);
+    }
+
+    function openDp(field, anchor) {
+      if (!dpEl) return;
+      activeField = field;
+      dpYear = new Date().getFullYear();
+      dpMonth = new Date().getMonth();
+      renderCalendar();
+      dpEl.style.display = 'block';
+      var rect = anchor.getBoundingClientRect();
+      var top = rect.bottom + 8;
+      var left = rect.left;
+      /* Nie wypadaj poza ekran */
+      if (left + 260 > window.innerWidth) left = window.innerWidth - 268;
+      if (top + 300 > window.innerHeight) top = rect.top - 308;
+      dpEl.style.top = top + 'px';
+      dpEl.style.left = left + 'px';
+    }
+
+    /* FINALNE rozwiązanie: FOCUS event (niezawodne — otwiera przy każdym focusie)
+       <label for="mc-hfrom"> przekazuje klik z CAŁEJ etykiety do inputa natywnie.
+       Focus event strzela gdy: klik w dowolne miejsce pola (przez label),
+       klik bezpośrednio na input, tab z klawiatury. */
+    if (fromEl) fromEl.addEventListener('focus', function() {
+      openDp('from', fromEl);
+    });
+    if (toEl) toEl.addEventListener('focus', function() {
+      openDp('to', toEl);
+    });
+    /* Strzałki miesiąca: stopPropagation żeby nie zamknęło focusa */
+    if (dpPrev) dpPrev.addEventListener('mousedown', function(e) {
+      e.preventDefault(); /* nie kradnij focusa z inputa */
+      e.stopPropagation();
+      if (--dpMonth < 0) { dpMonth = 11; dpYear--; }
+      renderCalendar();
+    });
+    if (dpNext) dpNext.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (++dpMonth > 11) { dpMonth = 0; dpYear++; }
+      renderCalendar();
+    });
+    /* Kliknięcie w datepicker nie powinno blurować inputa */
+    if (dpEl) dpEl.addEventListener('mousedown', function(e) {
+      e.preventDefault(); /* zapobiega blur na input gdy klika się w dp */
+    });
+    /* Zamknij gdy input traci focus (z krótkim opóźnieniem — po dispatchEvent date) */
+    if (fromEl) fromEl.addEventListener('blur', function() {
+      setTimeout(function() { if (dpEl && document.activeElement !== fromEl && document.activeElement !== toEl) dpEl.style.display = 'none'; }, 200);
+    });
+    if (toEl) toEl.addEventListener('blur', function() {
+      setTimeout(function() { if (dpEl && document.activeElement !== fromEl && document.activeElement !== toEl) dpEl.style.display = 'none'; }, 200);
+    });
+
+    /* Persons counter */
+    var persons = 2;
+    var pcountEl   = document.getElementById('mc-pcount');
+    var phiddenEl  = document.getElementById('mc-hpersons');
+
+    wrapper.querySelector('.mc-hsearch-minus').addEventListener('click', function () {
+      if (persons > 1) {
+        persons--;
+        if (pcountEl)  pcountEl.textContent  = persons;
+        if (phiddenEl) phiddenEl.value        = persons;
+      }
+    });
+    wrapper.querySelector('.mc-hsearch-plus').addEventListener('click', function () {
+      if (persons < 12) {
+        persons++;
+        if (pcountEl)  pcountEl.textContent  = persons;
+        if (phiddenEl) phiddenEl.value        = persons;
+      }
+    });
+
+    /* label for="mc-hfrom/mc-hto" obsługuje kliknięcie natywnie — focus strzela automatycznie */
+
+    /* Submit → silnik rezerwacji IdoBooking */
+    var hsForm = document.getElementById('mc-hsearch-form');
+    if (hsForm) {
+      hsForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        /* Wypełnij pola systemowego formularza */
+        var sysFrom = document.getElementById('iai_booking_date_from');
+        var sysTo   = document.getElementById('iai_booking_date_to');
+        var sysPers = document.getElementById('iai_booking_persons');
+        if (sysFrom && fromEl && fromEl.value) sysFrom.value = fromEl.value;
+        if (sysTo   && toEl   && toEl.value)   sysTo.value   = toEl.value;
+        if (sysPers) sysPers.value = persons;
+
+        /* Otwórz widget rezerwacji */
+        if (typeof generateWidgetIdoSellBooking === 'function') {
+          var ctaBtn = document.querySelector('[onclick*="generateWidgetIdoSellBooking"]');
+          if (!ctaBtn) {
+            ctaBtn = document.createElement('button');
+            ctaBtn.setAttribute('data-currency', 'PLN');
+            ctaBtn.setAttribute('data-language', '1');
+          }
+          generateWidgetIdoSellBooking(ctaBtn);
+          return;
+        }
+
+        /* Fallback: /offers z parametrami */
+        var p = [];
+        if (fromEl && fromEl.value) p.push('date_from=' + encodeURIComponent(fromEl.value));
+        if (toEl   && toEl.value)   p.push('date_to='   + encodeURIComponent(toEl.value));
+        p.push('persons=' + persons);
+        window.location.href = '/offers?' + p.join('&');
+      });
+    }
+  }
+
+  function init() {
+    initScrollAnimations();
+    initSmoothScroll();
+    initNavbarScroll();
+    initSlider();
+    initLightbox();
+    initThumbExpand();
+    initBookingForm();
+    initYear();
+    initDateInputs();
+    initMobileMenu();
+    buildCustomSearch();
+    initOffersFilters();
+  }
+
+  /* -------------------------------------------------------
+     12. /OFFERS: FILTRY — ukryte domyślnie, toggle button
+     Dodaje przycisk "Pokaż filtry" nad panelem filtrów.
+     Filtry schowane CSS-em (class mc-filters-open toggle).
+     ------------------------------------------------------- */
+  function initOffersFilters() {
+    if (!document.body.classList.contains('page-offers')) return;
+    var filterItems = document.querySelector('.filter_items');
+    if (!filterItems) return;
+
+    var btn = document.createElement('button');
+    btn.type = 'button'; /* WAŻNE: bez type=button → type=submit → przeładowanie strony */
+    btn.className = 'mc-filters-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>' +
+      '<span>Pokaż filtry</span>';
+
+    filterItems.parentNode.insertBefore(btn, filterItems);
+
+    btn.addEventListener('click', function () {
+      var isOpen = filterItems.classList.toggle('mc-filters-open');
+      btn.classList.toggle('mc-open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      btn.querySelector('span').textContent = isOpen ? 'Ukryj filtry' : 'Pokaż filtry';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+}());
+</script>
+
+<script>
+/* ============================================================
+   MAZURSKI CHILL — WYRÓŻNIONE DOMKI (custom offer cards)
+   Czyta dane z ukrytego .container-hotspot,
+   buduje własne karty .mc-offer-card i wstawia je na stronę.
+   Wzorowane na podejściu Madera — Madera approach.
+   ============================================================ */
+(function () {
+  function buildOffers() {
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot) return;
+
+    /* Deduplicate — slick tworzy klony kart */
+    var seen = {};
+    var offers = [];
+
+    hotspot.querySelectorAll('.offer').forEach(function (el) {
+      var link = el.querySelector('a.object-icon');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (seen[href]) return;
+      seen[href] = true;
+
+      /* Zdjęcie */
+      var img = el.querySelector('img');
+      var imgSrc = img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '';
+      var imgAlt = img ? (img.getAttribute('alt') || 'Mazurski Chill') : 'Mazurski Chill';
+
+      /* Tytuł */
+      var titleEl = el.querySelector('h3 a');
+      var title = titleEl ? titleEl.textContent.trim() : 'Mazurski Chill';
+
+      /* Metraż */
+      var metersEl = el.querySelector('.accommodation-meters');
+      var area = '';
+      if (metersEl) {
+        var aText = metersEl.textContent.replace(/\s+/g, ' ').trim();
+        var aMatch = aText.match(/([\d,]+)\s*m/i);
+        if (aMatch) area = aMatch[1].replace(',00', '').replace('.00', '');
+      }
+
+      /* Liczba gości */
+      var guestsEl = el.querySelector('.accommodation-roomspace');
+      var guests = '';
+      if (guestsEl) {
+        var gText = guestsEl.textContent.replace(/\D/g, '').trim();
+        if (gText) guests = gText;
+      }
+
+      /* Cena */
+      var priceEl = el.querySelector('.price');
+      var price = '';
+      if (priceEl) {
+        price = priceEl.textContent.replace(/\s+/g, ' ').trim();
+      }
+
+      offers.push({
+        href: href,
+        imgSrc: imgSrc,
+        imgAlt: imgAlt,
+        title: title,
+        area: area,
+        guests: guests,
+        price: price
+      });
+    });
+
+    if (!offers.length) return;
+
+    /* Buduj sekcję */
+    var section = document.createElement('div');
+    section.className = 'mc-offers-section cms-fullwidth';
+
+    var inner = '';
+
+    /* Header */
+    inner += '<div class="mc-offers__header">';
+    inner += '<div class="mc-label" style="justify-content:center;margin-bottom:16px;">Wyróżnione domki</div>';
+    inner += '<h2 class="mc-offers__title">Nasze <em>Stodoły</em></h2>';
+    inner += '<div class="mc-gold-line" aria-hidden="true"></div>';
+    inner += '</div>';
+
+    /* Karty */
+    inner += '<div class="mc-offers__grid">';
+
+    offers.forEach(function (o) {
+      inner += '<a href="' + o.href + '" class="mc-offer-card">';
+
+      /* Zdjęcie */
+      inner += '<div class="mc-offer-card__img">';
+      inner += '<img src="' + o.imgSrc + '" alt="' + o.imgAlt + '" loading="lazy">';
+      inner += '</div>';
+
+      /* Body */
+      inner += '<div class="mc-offer-card__body">';
+      inner += '<h3 class="mc-offer-card__name">' + o.title + '</h3>';
+
+      if (o.area || o.guests) {
+        inner += '<div class="mc-offer-card__meta">';
+        if (o.area) {
+          inner += '<span>';
+          inner += '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>';
+          inner += o.area + ' m\u00B2</span>';
+        }
+        if (o.guests) {
+          inner += '<span>';
+          inner += '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/></svg>';
+          inner += o.guests + ' os.</span>';
+        }
+        inner += '</div>';
+      }
+
+      if (o.price) {
+        inner += '<div class="mc-offer-card__price">od <strong>' + o.price + '</strong></div>';
+      }
+
+      inner += '<span class="mc-offer-card__cta">Sprawdź dostępność</span>';
+      inner += '</div>'; /* /body */
+      inner += '</a>';
+    });
+
+    inner += '</div>'; /* /grid */
+    section.innerHTML = inner;
+
+    /* Wstaw PO sekcji "O nas" (#mc-about) — żeby kolejność była:
+       1. O nas (Luksusowe domki nad jeziorem na Mazurach)
+       2. Nasze Stodoły (te karty)
+       3. Reszta CMS */
+    var oNas = document.getElementById('mc-about');
+    if (oNas && oNas.parentNode) {
+      oNas.parentNode.insertBefore(section, oNas.nextSibling);
+    } else {
+      /* fallback */
+      hotspot.parentNode.insertBefore(section, hotspot.nextSibling);
+    }
+  }
+
+  /* Uruchom po załadowaniu DOM */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildOffers);
+  } else {
+    buildOffers();
+  }
+}());
+</script>

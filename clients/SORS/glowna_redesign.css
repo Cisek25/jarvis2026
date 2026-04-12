@@ -1,0 +1,421 @@
+/* ==========================================================
+   SORS — Strona główna: Aktualizacja v2 (2026-03-31)
+   Dodać do custom.css lub wkleić w <style> na stronie głównej
+   ========================================================== */
+
+/* ============================================================
+   SEKCJA INTRO (nagłówek + tekst powitalny)
+   ============================================================ */
+
+.et-intro {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 64px 40px;
+  text-align: center;
+}
+
+.et-intro h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+.et-intro p {
+  font-size: clamp(16px, 1.8vw, 18px);
+  color: #333;
+  line-height: 1.7;
+  font-weight: 400;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .et-intro {
+    padding: 40px 24px;
+  }
+}
+
+/* ============================================================
+   PICTOGRAMY (4 ikony)
+   ============================================================ */
+
+.pictogram {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2.5rem;
+  padding: 4.4rem 0;
+}
+
+@media (min-width: 979px) {
+  .pictogram {
+    display: flex;
+    justify-content: space-around;
+  }
+}
+
+.pictogram::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: var(--bgcolor2);
+}
+
+.pictogram__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 150px;
+  text-wrap: pretty;
+  margin: 0 auto;
+}
+
+.pictogram__item img {
+  width: 56px;
+  height: 56px;
+}
+
+.pictogram__content {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+
+/* ============================================================
+   HERO — powolny zoom (Ken Burns)
+   ============================================================ */
+
+.parallax-slider .parallax-image {
+  overflow: hidden;
+}
+
+.parallax-slider .slick-slide .parallax-image img {
+  transform: scale(1);
+  will-change: transform;
+}
+
+.parallax-slider .slick-slide.slick-active .parallax-image img {
+  animation: heroZoom 8s ease-out forwards;
+}
+
+@keyframes heroZoom {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+/* ============================================================
+   OFERTY — zoom, ukrycie overlay, napisy pod ofertami
+   ============================================================ */
+
+.offer .object-icon img {
+  transition: transform 6s ease-out !important;
+}
+
+.offer:hover .object-icon img {
+  transform: scale(1.06);
+}
+
+.offer .object-icon p,
+.offer .object-icon .offer__hover {
+  display: none !important;
+}
+
+.cmshotspot .offer {
+  padding: 0 32px !important;
+}
+
+.offer__subtitle {
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   LISTA PUNKTOWANA (et-list)
+   ============================================================ */
+
+.et-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+
+.et-list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.et-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00579E;
+}
+
+.et-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   SEKCJA — "Komfortowe apartamenty" (et-about) — białe tło
+   ============================================================ */
+
+.et-about {
+  position: relative;
+  padding: 80px 0;
+}
+
+.et-about__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 979px) {
+  .et-about__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+
+.et-about__text h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+.et-about__text p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.et-about__text p:last-of-type {
+  margin-bottom: 0;
+}
+
+.et-about__img {
+  overflow: hidden;
+  border-radius: 12px;
+  line-height: 0;
+}
+
+.et-about__img img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  transition: transform 6s ease-out;
+}
+
+.et-about__img:hover img {
+  transform: scale(1.06);
+}
+
+@media (max-width: 768px) {
+  .et-about {
+    padding: 56px 0;
+  }
+  .et-about__inner {
+    padding: 0 24px;
+  }
+  .et-about__img img {
+    height: 340px;
+  }
+}
+
+/* ============================================================
+   SEKCJA — "Eagle Tower" (et-location) — jasnoniebieskie tło
+   ============================================================ */
+
+.et-location {
+  position: relative;
+  padding: 80px 0;
+}
+
+.et-location::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: #EBF4FB;
+}
+
+.et-location__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+@media (min-width: 979px) {
+  .et-location__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+}
+
+.et-location__img {
+  overflow: hidden;
+  border-radius: 12px;
+  line-height: 0;
+}
+
+.et-location__img img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  transition: transform 6s ease-out;
+}
+
+.et-location__img:hover img {
+  transform: scale(1.06);
+}
+
+.et-location__text h2 {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
+
+.et-location__text p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.7;
+  margin: 0 0 16px;
+}
+
+.et-location__text p:last-of-type {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .et-location {
+    padding: 56px 0;
+  }
+  .et-location__inner {
+    padding: 0 24px;
+  }
+  .et-location__img img {
+    height: 340px;
+  }
+}
+
+/* ============================================================
+   CTA BAR — "Wybierz idealny apartament" (et-cta-bar)
+   ============================================================ */
+
+.et-cta-bar {
+  position: relative;
+  padding: 80px 0;
+}
+
+.et-cta-bar::before {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: #00579E;
+}
+
+.et-cta-bar__inner {
+  max-width: 1170px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.et-cta-bar__text h3 {
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+.et-cta-bar__text p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.et-cta-bar .et-btn {
+  display: inline-block;
+  padding: 16px 36px;
+  background: #fff;
+  color: #00579E !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.et-cta-bar .et-btn:hover {
+  background: #EBF4FB;
+  color: #00579E !important;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .et-cta-bar {
+    padding: 56px 0;
+  }
+  .et-cta-bar__inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 24px;
+  }
+}

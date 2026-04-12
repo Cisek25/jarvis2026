@@ -1,0 +1,264 @@
+<script>
+(function(){
+  'use strict';
+
+  /* -------------------------------------------------------
+     PAGE LOADER
+     ------------------------------------------------------- */
+  function initPageLoader(){
+    var loader = document.createElement('div');
+    loader.className = 'pk-page-loader';
+    loader.innerHTML = '<div class="pk-page-loader__spinner"></div>';
+    document.body.appendChild(loader);
+    window.addEventListener('load', function(){
+      setTimeout(function(){ loader.classList.add('loaded'); }, 300);
+      setTimeout(function(){ if(loader.parentNode) loader.parentNode.removeChild(loader); }, 1200);
+    });
+  }
+
+  /* -------------------------------------------------------
+     SCROLL PROGRESS BAR
+     ------------------------------------------------------- */
+  function initScrollProgress(){
+    var bar = document.createElement('div');
+    bar.className = 'pk-scroll-progress';
+    document.body.appendChild(bar);
+    window.addEventListener('scroll', function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = h > 0 ? (window.pageYOffset / h) * 100 : 0;
+      bar.style.width = pct + '%';
+    }, {passive: true});
+  }
+
+  /* -------------------------------------------------------
+     HERO OVERLAY — tekst + CTA na sliderze
+     ------------------------------------------------------- */
+  function initHeroOverlay(){
+    var s = document.querySelector('.parallax-slider');
+    if(!s){
+      var sec = document.querySelector('.section.parallax');
+      if(!sec) return;
+      s = sec;
+    }
+    if(document.querySelector('.pk-hero-overlay')) return;
+
+    var o = document.createElement('div');
+    o.className = 'pk-hero-overlay';
+
+    var isEN = document.documentElement.lang === 'en' || window.location.search.indexOf('language=2') !== -1;
+
+    o.innerHTML =
+      '<div class="pk-hero-overlay__inner">' +
+        '<p class="pk-hero-overlay__sub">' + (isEN ? 'Historic Apartments in Toru\u0144' : 'Apartamenty w\u00a0zabytkowej kamienicy') + '</p>' +
+        '<h1>' + (isEN
+          ? 'Piekary 1\u20113<br><strong>Seven Centuries</strong> of History'
+          : 'Piekary 1\u20113<br><strong>Siedem wiek\u00f3w</strong> historii') +
+        '</h1>' +
+        '<div class="pk-hero-overlay__line"></div>' +
+        '<a href="/offers" class="pk-hero-cta">' + (isEN ? 'CHECK AVAILABILITY' : 'SPRAWD\u0179 DOST\u0118PNO\u015a\u0106') + '</a>' +
+        '<a href="#pk-about" class="pk-hero-cta pk-hero-cta--ghost">' + (isEN ? 'OUR STORY' : 'NASZA HISTORIA') + '</a>' +
+      '</div>';
+    s.appendChild(o);
+  }
+
+  /* -------------------------------------------------------
+     SCROLL REVEAL — IntersectionObserver
+     ------------------------------------------------------- */
+  function initScrollReveal(){
+    var els = document.querySelectorAll('.pk-reveal');
+    if(!els.length) return;
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('pk-in'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('pk-in');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function(el){ obs.observe(el); });
+  }
+
+  /* -------------------------------------------------------
+     FEATURED OFFERS — custom cards from system hotspot
+     Czyta dane z ukrytego .container-hotspot, buduje
+     własne karty z CTA, meta, hover. Pattern z Madera.
+     ------------------------------------------------------- */
+  function initFeaturedOffers(){
+    var hotspot = document.querySelector('.container-hotspot');
+    if(!hotspot) return;
+
+    var iconArea = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>';
+    var iconGuests = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/></svg>';
+
+    var seen = {};
+    var offers = [];
+    hotspot.querySelectorAll('.offer').forEach(function(el){
+      var a = el.querySelector('a.object-icon');
+      if(!a) return;
+      var href = a.getAttribute('href');
+      if(seen[href]) return;
+      seen[href] = true;
+
+      var img = el.querySelector('.object-icon img');
+      var title = el.querySelector('h3 a');
+      var desc = el.querySelector('.offer__description');
+      var infoEl = el.querySelector('.offer__info');
+      var infoText = infoEl ? infoEl.textContent.replace(/\s+/g,' ').trim() : '';
+
+      var area = '', guests = '';
+      var am = infoText.match(/([\d,.]+)\s*m2/i);
+      if(am) area = am[1].replace(',00','');
+      var parts = infoText.split(/m2/i);
+      if(parts[1]){ var g = parts[1].trim(); if(g) guests = g; }
+
+      offers.push({
+        href: href,
+        img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+        alt: img ? (img.alt || '').trim() : '',
+        title: title ? title.textContent.trim() : '',
+        desc: desc ? desc.textContent.trim() : '',
+        area: area,
+        guests: guests
+      });
+    });
+
+    if(!offers.length) return;
+
+    var isEN = document.documentElement.lang === 'en' || window.location.search.indexOf('language=2') !== -1;
+    var heading = isEN ? 'Our Apartments' : 'Apartamenty w\u00a0kamienicy';
+    var subtitle = isEN ? 'Piekary 1\u20113 \u2014 historic building in the heart of Toru\u0144 Old Town' : 'Piekary 1\u20113 \u2014 zabytkowa kamienica w\u00a0sercu toru\u0144skiego Starego Miasta';
+    var ctaText = isEN ? 'View details \u2192' : 'Zobacz szczeg\u00f3\u0142y \u2192';
+
+    function buildCard(o){
+      var meta = '';
+      if(o.area) meta += '<span>' + iconArea + ' ' + o.area + ' m\u00b2</span>';
+      if(o.guests) meta += '<span>' + iconGuests + ' ' + o.guests + ' os.</span>';
+
+      return '<a href="' + o.href + '" class="pk-offer-card pk-reveal">' +
+        '<div class="pk-offer-card__img">' +
+          (o.img ? '<img src="' + o.img + '" alt="' + o.alt + '" loading="lazy">' : '') +
+        '</div>' +
+        '<div class="pk-offer-card__body">' +
+          '<h3 class="pk-offer-card__name">' + o.title + '</h3>' +
+          (o.desc ? '<p class="pk-offer-card__desc">' + o.desc + '</p>' : '') +
+          (meta ? '<div class="pk-offer-card__meta">' + meta + '</div>' : '') +
+          '<span class="pk-offer-card__cta">' + ctaText + '</span>' +
+        '</div>' +
+      '</a>';
+    }
+
+    var cards = offers.map(function(o){ return buildCard(o); }).join('');
+
+    var section = document.createElement('div');
+    section.className = 'pk-offers-section';
+    section.innerHTML =
+      '<div class="pk-offers__inner">' +
+        '<h2 class="pk-offers__title pk-reveal">' + heading + '</h2>' +
+        '<p class="pk-offers__subtitle pk-reveal">' + subtitle + '</p>' +
+        '<div class="pk-offers__line"></div>' +
+        '<div class="pk-offers__grid">' + cards + '</div>' +
+      '</div>';
+
+    hotspot.style.display = 'none';
+    hotspot.parentNode.insertBefore(section, hotspot.nextSibling);
+  }
+
+  /* -------------------------------------------------------
+     /offers FILTERS — ukryte domyślnie, toggle button
+     Pattern z Mazurski Chill. Filtry schowane CSS-em,
+     przycisk "Pokaż filtry" toggleuje klasę pk-filters-open.
+     Po otwarciu: event delegation na filter_header do
+     rozwijania/zwijania poszczególnych sekcji.
+     ------------------------------------------------------- */
+  function initOffersFilters(){
+    if(!document.body.classList.contains('page-offers')) return;
+    var filterForm = document.querySelector('#menu_filter');
+    if(!filterForm) return;
+
+    /* Toggle button */
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'pk-filters-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>' +
+      '<span>Poka\u017c filtry</span>';
+    filterForm.parentNode.insertBefore(btn, filterForm);
+
+    btn.addEventListener('click', function(){
+      var isOpen = filterForm.classList.toggle('pk-filters-open');
+      btn.classList.toggle('pk-open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      btn.querySelector('span').textContent = isOpen ? 'Ukryj filtry' : 'Poka\u017c filtry';
+    });
+
+    /* Individual filter section toggle (collapse fix) */
+    document.addEventListener('click', function(e){
+      var header = e.target.closest('.filter_header');
+      if(!header) return;
+      var content = header.nextElementSibling;
+      if(!content || !content.classList.contains('filter_content')) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      if(content.classList.contains('pk-open')){
+        content.classList.remove('pk-open');
+        content.style.cssText = 'display:none !important;';
+        header.classList.remove('pk-active');
+      } else {
+        content.classList.add('pk-open');
+        content.classList.remove('collapse');
+        content.style.cssText = 'display:block !important; height:auto !important; overflow:visible !important;';
+        header.classList.add('pk-active');
+      }
+    }, true);
+  }
+
+  /* -------------------------------------------------------
+     SLIDER — ukryj duplikaty slajdów (jeśli 1 zdjęcie)
+     ------------------------------------------------------- */
+  function initSliderFix(){
+    var slides = document.querySelectorAll('.parallax-slider .slick-slide');
+    if(slides.length <= 1) return;
+    // Ukryj arrows i dots jeśli tylko 1 unikalne zdjęcie
+    var srcs = [];
+    slides.forEach(function(s){
+      var img = s.querySelector('img');
+      if(img) srcs.push(img.src);
+    });
+    var unique = srcs.filter(function(v, i, a){ return a.indexOf(v) === i; });
+    if(unique.length <= 1){
+      var arrows = document.querySelectorAll('.parallax-slider .slick-arrow, .parallax-slider .slick-dots');
+      arrows.forEach(function(a){ a.style.display = 'none'; });
+    }
+  }
+
+  /* -------------------------------------------------------
+     INIT
+     ------------------------------------------------------- */
+  initPageLoader();
+  initScrollProgress();
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){
+      initHeroOverlay();
+      initFeaturedOffers();
+      initScrollReveal();
+      initOffersFilters();
+      initSliderFix();
+    });
+  } else {
+    initHeroOverlay();
+    initFeaturedOffers();
+    initScrollReveal();
+    initOffersFilters();
+    initSliderFix();
+  }
+
+})();
+</script>

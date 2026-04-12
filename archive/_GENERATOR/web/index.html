@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IdoBooking Website Builder — Toolkit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0a;--card:#141414;--card2:#1a1a1a;--border:#222;--text:#d4d4d4;--muted:#777;--accent:#A67C52;--accent2:#C8A97D;--radius:10px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;height:56px;gap:32px}
+.nav__logo{font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.5px}
+.nav__links{display:flex;gap:4px}
+.nav__link{padding:8px 16px;font-size:12px;font-weight:500;color:var(--muted);cursor:pointer;border-radius:6px;transition:.2s;text-decoration:none}
+.nav__link:hover,.nav__link.active{color:#fff;background:rgba(255,255,255,.06)}
+
+/* LAYOUT */
+.page{display:none;padding:80px 32px 48px;max-width:1200px;margin:0 auto}
+.page.active{display:block}
+h1{font-size:28px;font-weight:700;margin-bottom:8px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:32px}
+
+/* SECTIONS */
+h2.sec{font-size:16px;font-weight:700;color:var(--accent);margin:40px 0 16px;text-transform:uppercase;letter-spacing:2px;font-size:11px}
+
+/* PALETTE CARDS */
+.palettes{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.pal-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:.2s}
+.pal-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pal-card__preview{height:120px;display:flex}
+.pal-card__preview>div{flex:1}
+.pal-card__body{padding:16px}
+.pal-card__name{font-weight:600;font-size:14px;margin-bottom:4px}
+.pal-card__desc{font-size:12px;color:var(--muted);margin-bottom:8px}
+.pal-card__colors{display:flex;gap:6px;flex-wrap:wrap}
+.pal-card__color{font-size:10px;padding:2px 8px;background:rgba(255,255,255,.06);border-radius:4px;font-family:monospace}
+
+/* FONT CARDS */
+.fonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.font-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:.2s}
+.font-card:hover{border-color:var(--accent)}
+.font-card__heading{font-size:32px;margin-bottom:4px;line-height:1.2}
+.font-card__body-text{font-size:15px;color:var(--muted);margin-bottom:12px;line-height:1.6}
+.font-card__name{font-size:11px;color:var(--accent);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+
+/* COMPONENT CATALOG */
+.components{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:20px}
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.comp-card__preview{background:var(--card2);padding:24px;min-height:180px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.comp-card__body{padding:16px}
+.comp-card__title{font-weight:600;font-size:14px;margin-bottom:4px}
+.comp-card__desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.6}
+.comp-card__tag{display:inline-block;font-size:10px;padding:3px 8px;background:rgba(166,124,82,.15);color:var(--accent);border-radius:4px;font-weight:600;margin-right:4px}
+.comp-card__code{display:none;margin-top:12px}
+.comp-card__code pre{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:12px;font-size:11px;overflow-x:auto;max-height:200px;overflow-y:auto;color:#aaa;white-space:pre;line-height:1.5}
+.comp-card .toggle-code{font-size:11px;color:var(--accent);cursor:pointer;font-weight:600;border:none;background:none;padding:0;margin-top:8px}
+.comp-card .toggle-code:hover{color:var(--accent2)}
+
+/* RULES */
+.rules{display:grid;gap:12px}
+.rule{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start}
+.rule__icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.rule__icon--critical{background:rgba(239,68,68,.15);color:#ef4444}
+.rule__icon--warning{background:rgba(245,158,11,.15);color:#f59e0b}
+.rule__icon--info{background:rgba(59,130,246,.15);color:#3b82f6}
+.rule__title{font-weight:600;font-size:13px;margin-bottom:2px}
+.rule__text{font-size:12px;color:var(--muted);line-height:1.6}
+.rule__code{font-family:monospace;font-size:11px;background:rgba(255,255,255,.04);padding:2px 6px;border-radius:3px;color:var(--accent)}
+
+/* COMPOSER */
+.composer{display:grid;grid-template-columns:260px 1fr;gap:24px;min-height:70vh}
+.composer__sidebar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;overflow-y:auto}
+.composer__main{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.composer__toolbar{background:var(--card2);padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.composer__output{padding:16px;max-height:60vh;overflow-y:auto}
+.composer__output pre{font-size:11px;line-height:1.5;color:#bbb;white-space:pre-wrap}
+
+.add-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;font-family:inherit;cursor:pointer;margin-bottom:6px;transition:.15s;text-align:left}
+.add-btn:hover{background:rgba(166,124,82,.1);border-color:var(--accent);color:var(--accent)}
+.add-btn .icon{font-size:16px;opacity:.5}
+
+.btn{padding:8px 18px;border:none;border-radius:6px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:.2s}
+.btn--accent{background:var(--accent);color:#fff}
+.btn--accent:hover{background:var(--accent2)}
+.btn--ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn--ghost:hover{color:var(--text);border-color:var(--muted)}
+
+.section-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;margin-bottom:6px;font-size:12px}
+.section-item .handle{cursor:grab;color:var(--muted)}
+.section-item .name{flex:1}
+.section-item .remove{cursor:pointer;color:var(--muted);font-size:14px;border:none;background:none}
+.section-item .remove:hover{color:#ef4444}
+
+.empty-state{text-align:center;padding:48px 24px;color:var(--muted);font-size:13px}
+
+/* COPY TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;transform:translateY(80px);opacity:0;transition:.3s;z-index:200}
+.toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav__logo">IdoBooking Builder</div>
+  <div class="nav__links">
+    <a class="nav__link active" onclick="showPage('palettes')">Palety</a>
+    <a class="nav__link" onclick="showPage('fonts')">Fonty</a>
+    <a class="nav__link" onclick="showPage('components')">Komponenty</a>
+    <a class="nav__link" onclick="showPage('traps')">Zasady i trapy</a>
+    <a class="nav__link" onclick="showPage('composer')">Kompozytor</a>
+  </div>
+</nav>
+
+<!-- ═══ PALETY ═══ -->
+<div class="page active" id="page-palettes">
+  <h1>Palety kolorow</h1>
+  <p class="subtitle">5 przetestowanych palet dla branzy noclegowej. Kliknij aby skopiowac config.</p>
+  <div class="palettes" id="paletteGrid"></div>
+</div>
+
+<!-- ═══ FONTY ═══ -->
+<div class="page" id="page-fonts">
+  <h1>Pary fontow</h1>
+  <p class="subtitle">Sprawdzone kombinacje z Google Fonts. Naglowki + tekst.</p>
+  <div class="fonts" id="fontGrid"></div>
+</div>
+
+<!-- ═══ KOMPONENTY ═══ -->
+<div class="page" id="page-components">
+  <h1>Katalog komponentow</h1>
+  <p class="subtitle">Gotowe sekcje do uzycia na stronie. Kliknij "Kod" aby skopiowac HTML.</p>
+  <div class="components" id="componentGrid"></div>
+</div>
+
+<!-- ═══ ZASADY I TRAPY ═══ -->
+<div class="page" id="page-traps">
+  <h1>Zasady systemowe i trapy</h1>
+  <p class="subtitle">Rzeczy ktore MUSISZ wiedziec pracujac z default13 template IdoBooking.</p>
+
+  <h2 class="sec">Krytyczne</h2>
+  <div class="rules" id="criticalRules"></div>
+
+  <h2 class="sec">Wazne</h2>
+  <div class="rules" id="importantRules"></div>
+
+  <h2 class="sec">CSS Overrides</h2>
+  <div class="rules" id="cssRules"></div>
+</div>
+
+<!-- ═══ KOMPOZYTOR ═══ -->
+<div class="page" id="page-composer">
+  <h1>Kompozytor strony glownej</h1>
+  <p class="subtitle">Dodaj sekcje, uzupelnij tresci, wygeneruj HTML do wklejenia.</p>
+
+  <div class="composer">
+    <div class="composer__sidebar">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;font-weight:600">Dodaj sekcje</p>
+      <button class="add-btn" onclick="addSection('about')"><span class="icon">+</span> O nas (asymetryczny)</button>
+      <button class="add-btn" onclick="addSection('features')"><span class="icon">+</span> Udogodnienia (6 ikon)</button>
+      <button class="add-btn" onclick="addSection('parallax')"><span class="icon">+</span> Parallax tlo</button>
+      <button class="add-btn" onclick="addSection('cta')"><span class="icon">+</span> CTA (wezwanie)</button>
+      <button class="add-btn" onclick="addSection('counters')"><span class="icon">+</span> Liczniki</button>
+      <button class="add-btn" onclick="addSection('faq')"><span class="icon">+</span> FAQ</button>
+      <button class="add-btn" onclick="addSection('gallery')"><span class="icon">+</span> Galeria</button>
+      <button class="add-btn" onclick="addSection('cooperation')"><span class="icon">+</span> Wspolpraca</button>
+
+      <p style="font-size:11px;color:var(--muted);margin:20px 0 12px;text-transform:uppercase;letter-spacing:1px;font-weight:600">Twoja strona</p>
+      <div id="sectionList"></div>
+    </div>
+    <div class="composer__main">
+      <div class="composer__toolbar">
+        <span style="font-size:12px;color:var(--muted)" id="sectionCount">0 sekcji</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn--ghost" onclick="clearSections()">Wyczysc</button>
+          <button class="btn btn--accent" onclick="generateHTML()">Generuj HTML</button>
+        </div>
+      </div>
+      <div class="composer__output" id="composerOutput">
+        <div class="empty-state">Dodaj sekcje z panelu po lewej.<br>Kliknij "Generuj HTML" aby otrzymac kod do wklejenia.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Skopiowano!</div>
+
+<script>
+// ── DATA ──
+const PALETTES = [
+  {id:'A',name:'Warm Copper',desc:'Ciepla, premium, gory — zloto-miedz + krem',white:'#FAF6EF',cream:'#EDE5D5',accent:'#A67C52',accent_light:'#C8A97D',accent_dark:'#8A6540',text:'#2A2118',dark:'#2A2118'},
+  {id:'B',name:'Forest Green',desc:'Natura, eco, camping — zielen lesna',white:'#F5F7FA',cream:'#E8EDE5',accent:'#2D5016',accent_light:'#4A7A2E',accent_dark:'#1A3A0A',text:'#1A2E0A',dark:'#1A2E0A'},
+  {id:'C',name:'Elegant Gold',desc:'Luksus, city, modern — zloto + biel',white:'#FAFAFA',cream:'#F0EDE6',accent:'#C9A96E',accent_light:'#D4BC8A',accent_dark:'#B08F52',text:'#1E1E1E',dark:'#1E1E1E'},
+  {id:'D',name:'Coastal Blue',desc:'Morze, jeziorka — blekit + granat',white:'#FAF8F5',cream:'#EDF2F7',accent:'#3B82C4',accent_light:'#5A9AD5',accent_dark:'#2A6AA0',text:'#1A2332',dark:'#1A2332'},
+  {id:'E',name:'Warm Terracotta',desc:'Rustykalny, wiejski — terakota + krem',white:'#FFFDF8',cream:'#F5EDE4',accent:'#D4763A',accent_light:'#E09058',accent_dark:'#B85F2A',text:'#2B1810',dark:'#2B1810'},
+];
+
+const FONTS = [
+  {heading:'Cormorant Garamond',body:'DM Sans',desc:'Elegancki, premium — serif + clean sans',import:'Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;700'},
+  {heading:'DM Serif Display',body:'Inter',desc:'Klasyczny, czytelny — editorial serif + neutral',import:'DM+Serif+Display&family=Inter:wght@400;500;700'},
+  {heading:'Playfair Display',body:'DM Sans',desc:'Luksusowy, kontrastowy — display serif + geometric',import:'Playfair+Display:wght@400;500;700&family=DM+Sans:wght@400;500;700'},
+  {heading:'Inter',body:'Inter',desc:'Nowoczesny, minimalistyczny — pure sans-serif',import:'Inter:wght@400;500;600;700'},
+];
+
+const SECTIONS = {
+  about: {name:'O nas',html:(p)=>`<div id="${p}-about" class="${p}-section ${p}-section--white">\n  <div class="${p}-asym">\n    <div class="${p}-asym__img ${p}-reveal-left">\n      <img src="[ZDJECIE_URL]" alt="[BRAND]" loading="lazy">\n    </div>\n    <div class="${p}-asym__text ${p}-reveal-right">\n      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--${p}-accent);margin-bottom:8px;">O NAS</p>\n      <h2>[NAZWA BRANDU]</h2>\n      <div class="${p}-section-header__line" style="margin:16px 0 24px;"></div>\n      <p>[OPIS BRANDU — 2-3 zdania]</p>\n      <p>[CO WYROZNIA — np. <strong>komfort, estetyka i cisza</strong>]</p>\n      <a href="/offers" class="${p}-btn ${p}-btn--outline" style="margin-top:16px;">Nasze apartamenty</a>\n    </div>\n  </div>\n</div>`},
+  features: {name:'Udogodnienia',html:(p)=>`<div class="${p}-section ${p}-section--cream">\n  <div class="${p}-inner">\n    <div class="${p}-section-header ${p}-reveal">\n      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--${p}-accent);margin-bottom:8px;">KOMFORT</p>\n      <h2>Udogodnienia</h2>\n      <p>Wszystko, czego potrzebujesz na komfortowy pobyt.</p>\n      <div class="${p}-section-header__line"></div>\n    </div>\n    <div class="${p}-features">\n      <div class="${p}-feature ${p}-reveal">\n        <div class="${p}-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg></div>\n        <h3>Szybkie Wi-Fi</h3>\n        <p>[Opis]</p>\n      </div>\n      <div class="${p}-feature ${p}-reveal">\n        <div class="${p}-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>\n        <h3>Parking</h3>\n        <p>[Opis]</p>\n      </div>\n      <div class="${p}-feature ${p}-reveal">\n        <div class="${p}-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 012 2v6a2 2 0 01-2 2H6"/></svg></div>\n        <h3>Smart TV</h3>\n        <p>[Opis]</p>\n      </div>\n      <div class="${p}-feature ${p}-reveal">\n        <div class="${p}-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>\n        <h3>[Cecha 4]</h3>\n        <p>[Opis]</p>\n      </div>\n      <div class="${p}-feature ${p}-reveal">\n        <div class="${p}-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z"/><circle cx="17.5" cy="17.5" r="3.5"/></svg></div>\n        <h3>[Cecha 5]</h3>\n        <p>[Opis]</p>\n      </div>\n      <div class="${p}-feature ${p}-reveal">\n        <div class="${p}-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg></div>\n        <h3>[Cecha 6]</h3>\n        <p>[Opis]</p>\n      </div>\n    </div>\n  </div>\n</div>`},
+  parallax: {name:'Parallax',html:(p)=>`<div class="${p}-parallax-bg ${p}-reveal" style="background-image:url('[ZDJECIE_URL]');">\n  <div class="${p}-inner" style="position:relative;z-index:1;">\n    <h2 style="color:#fff!important;font-size:clamp(28px,4vw,44px)!important;">[TYTUL — np. Lokalizacja]</h2>\n    <p style="color:rgba(255,255,255,.8)!important;max-width:550px;margin:0 auto 24px;">[Opis — 1-2 zdania]</p>\n  </div>\n</div>`},
+  cta: {name:'CTA',html:(p)=>`<div class="${p}-cta-section ${p}-reveal">\n  <div class="${p}-inner">\n    <div class="${p}-section-header">\n      <h2 style="color:#fff!important;">Zarezerwuj pobyt</h2>\n      <p style="color:rgba(255,255,255,.85)!important;max-width:500px;margin:0 auto 24px;">Rezerwacja bezposrednia — najlepsza cena gwarantowana.</p>\n      <div class="${p}-section-header__line" style="background:rgba(255,255,255,.4);"></div>\n    </div>\n    <a href="/offers" class="${p}-btn ${p}-btn--dark">SPRAWDZ DOSTEPNOSC</a>\n  </div>\n</div>`},
+  counters: {name:'Liczniki',html:(p)=>`<div class="${p}-section ${p}-section--dark">\n  <div class="${p}-inner">\n    <div class="${p}-counters">\n      <div class="${p}-reveal">\n        <div class="${p}-counter__number" data-${p}-count="[LICZBA]">[LICZBA]</div>\n        <div class="${p}-counter__label">[ETYKIETA np. Apartamentow]</div>\n      </div>\n      <div class="${p}-reveal">\n        <div class="${p}-counter__number" data-${p}-count="[LICZBA]" data-${p}-suffix="%">[LICZBA]%</div>\n        <div class="${p}-counter__label">[ETYKIETA np. Zadowolonych gosci]</div>\n      </div>\n      <div class="${p}-reveal">\n        <div class="${p}-counter__number" data-${p}-count="[LICZBA]" data-${p}-suffix="+">[LICZBA]+</div>\n        <div class="${p}-counter__label">[ETYKIETA np. Recenzji]</div>\n      </div>\n      <div class="${p}-reveal">\n        <div class="${p}-counter__number" data-${p}-count="[LICZBA]">[LICZBA]</div>\n        <div class="${p}-counter__label">[ETYKIETA np. Lat doswiadczenia]</div>\n      </div>\n    </div>\n  </div>\n</div>`},
+  faq: {name:'FAQ',html:(p)=>`<div class="${p}-section ${p}-section--white">\n  <div class="${p}-inner">\n    <div class="${p}-section-header ${p}-reveal">\n      <h2>Najczesciej zadawane pytania</h2>\n      <div class="${p}-section-header__line"></div>\n    </div>\n    <div class="${p}-faq">\n      <div class="${p}-faq__item">\n        <div class="${p}-faq__question">[PYTANIE 1]<span class="${p}-faq__arrow">+</span></div>\n        <div class="${p}-faq__answer"><p>[ODPOWIEDZ 1]</p></div>\n      </div>\n      <div class="${p}-faq__item">\n        <div class="${p}-faq__question">[PYTANIE 2]<span class="${p}-faq__arrow">+</span></div>\n        <div class="${p}-faq__answer"><p>[ODPOWIEDZ 2]</p></div>\n      </div>\n      <div class="${p}-faq__item">\n        <div class="${p}-faq__question">[PYTANIE 3]<span class="${p}-faq__arrow">+</span></div>\n        <div class="${p}-faq__answer"><p>[ODPOWIEDZ 3]</p></div>\n      </div>\n    </div>\n  </div>\n</div>`},
+  gallery: {name:'Galeria',html:(p)=>`<div class="${p}-section ${p}-section--cream">\n  <div class="${p}-inner">\n    <div class="${p}-section-header ${p}-reveal">\n      <h2>Galeria</h2>\n      <div class="${p}-section-header__line"></div>\n    </div>\n    <div class="${p}-gallery">\n      <div class="${p}-gallery__item ${p}-reveal"><img src="[ZDJECIE_1]" alt="" loading="lazy"></div>\n      <div class="${p}-gallery__item ${p}-reveal"><img src="[ZDJECIE_2]" alt="" loading="lazy"></div>\n      <div class="${p}-gallery__item ${p}-reveal"><img src="[ZDJECIE_3]" alt="" loading="lazy"></div>\n      <div class="${p}-gallery__item ${p}-reveal"><img src="[ZDJECIE_4]" alt="" loading="lazy"></div>\n      <div class="${p}-gallery__item ${p}-reveal"><img src="[ZDJECIE_5]" alt="" loading="lazy"></div>\n      <div class="${p}-gallery__item ${p}-reveal"><img src="[ZDJECIE_6]" alt="" loading="lazy"></div>\n    </div>\n  </div>\n</div>`},
+  cooperation: {name:'Wspolpraca',html:(p)=>`<div class="${p}-section ${p}-section--cream">\n  <div class="${p}-asym ${p}-asym--reverse">\n    <div class="${p}-asym__text ${p}-reveal-left">\n      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--${p}-accent);margin-bottom:8px;">DLA WLASCICIELI</p>\n      <h2>Wspolpraca</h2>\n      <div class="${p}-section-header__line" style="margin:16px 0 24px;"></div>\n      <p>[OPIS WSPOLPRACY — 2-3 zdania]</p>\n      <a href="/txt/201/" class="${p}-btn ${p}-btn--outline" style="margin-top:16px;">Dowiedz sie wiecej</a>\n    </div>\n    <div class="${p}-asym__img ${p}-reveal-right">\n      <img src="[ZDJECIE_URL]" alt="Wspolpraca" loading="lazy">\n    </div>\n  </div>\n</div>`},
+};
+
+const TRAPS = {
+  critical: [
+    {title:'body_top stripuje <script>',text:'CMS w body_top STRIPUJE tagi script. Caly JS MUSI isc w body_bottom (Ustawienia → Kody sledzace → Koniec sekcji BODY).'},
+    {title:'Miejsca noclegowe w panelu',text:'Bez dodania ofert w Panel → Oferta → Miejsca noclegowe strona bedzie pusta. Kazda oferta musi miec zdjecia, opis i ceny.'},
+    {title:'Dane kontaktowe = Panel → Lokalizacje',text:'Adres, telefon, email — Panel → Oferta → Miejsca noclegowe → Lokalizacje → szczegoly pierwszej lokalizacji. Te dane trafiaja na /contact i do stopki.'},
+    {title:'Hero overlay na .section.parallax',text:'NIE na .parallax-slider! Slider ma z-index:-2, overlay zostanie under .fp-tableCell. Append do rodzica .section.parallax.'},
+  ],
+  important: [
+    {title:'body { font-size: 16px !important }',text:'System default13 daje 22.4px. ZAWSZE nadpisuj na 16px.',code:'body { font-size:16px!important; }'},
+    {title:'html:root { --maincolor1 }',text:'System 333333.css.gz definiuje --maincolor1 jako green #4ADE80 i --supportcolor1 jako orange. ZAWSZE nadpisuj.',code:'html:root { --maincolor1: #BRAND!important; }'},
+    {title:'Header: position:fixed (NIE sticky)',text:'Fixed header + padding-top:80px na podstronach body:not(.page-index).',code:'header.default13 { position:fixed!important; }'},
+    {title:'Zdjecia Wikimedia max 600px',text:'CDN blokuje 700-900px w kontekscie IdoSell. Uzywaj /600px- thumbnails.'},
+    {title:'Zero inline styles w HTML',text:'Wszystko w jednym CSS. Zero Unsplash/Pexels. Footer NIE ukrywaj — system-generated, tylko styluj.'},
+  ],
+  css: [
+    {title:'.index-info blokuje hero',text:'position:absolute, z-index:1000 — blokuje klikniecia.',code:'.index-info { pointer-events:none!important; z-index:1!important; }'},
+    {title:'.parallax-slider::before',text:'Ciemny overlay — hide.',code:'.parallax-slider::before { display:none!important; }'},
+    {title:'Input z-index trap',text:'System daje z-index:-1 na inputach.',code:'input,select,textarea { z-index:2!important; }'},
+    {title:'span.btn na /offers',text:'System line-height:49px robi button ogromny.',code:'span.btn { line-height:1.4!important; height:auto!important; }'},
+    {title:'.tabs__item > span 1.3rem',text:'MUSISZ celowac w span child, NIE w .tabs__item.',code:'.tabs__item>span { font-size:13px!important; }'},
+    {title:'.tabs.--fixed class',text:'System dodaje klase --fixed (nie .sticky). Left:0 + width:100vw.',code:'.tabs.--fixed { left:0!important; width:100vw!important; }'},
+    {title:'.footer-contact-baner',text:'VISA/MC strip default #3E475E. ZAWSZE override.',code:'.footer-contact-baner { background:DARK2!important; }'},
+    {title:'.leaflet-container only',text:'NIE uzywaj [class*="map"] — lapie .leaflet-map-pane i ucina kafelki.',code:'.leaflet-container { overflow:hidden!important; }'},
+    {title:'Filter toggle custom JS',text:'System NIE MA toggle JS dla filtrow /offers. Trzeba custom button + JS.',code:'#menu_filter { display:none; } #menu_filter.PREFIX-filters-open { display:block; }'},
+  ]
+};
+
+// ── RENDER ──
+function renderPalettes() {
+  const grid = document.getElementById('paletteGrid');
+  grid.innerHTML = PALETTES.map(p => `
+    <div class="pal-card" onclick="copyPalette('${p.id}')">
+      <div class="pal-card__preview">
+        <div style="background:${p.white}"></div>
+        <div style="background:${p.cream}"></div>
+        <div style="background:${p.accent}"></div>
+        <div style="background:${p.accent_light}"></div>
+        <div style="background:${p.dark}"></div>
+      </div>
+      <div class="pal-card__body">
+        <div class="pal-card__name">${p.id}. ${p.name}</div>
+        <div class="pal-card__desc">${p.desc}</div>
+        <div class="pal-card__colors">
+          <span class="pal-card__color">${p.white}</span>
+          <span class="pal-card__color">${p.accent}</span>
+          <span class="pal-card__color">${p.dark}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderFonts() {
+  const grid = document.getElementById('fontGrid');
+  grid.innerHTML = FONTS.map(f => `
+    <div class="font-card">
+      <div class="font-card__heading" style="font-family:'${f.heading}',serif">${f.heading}</div>
+      <div class="font-card__body-text" style="font-family:'${f.body}',sans-serif">Apartamenty premium w sercu polskich gor. Starannie wyselekcjonowane wnetrza i kompleksowa obsluga.</div>
+      <div class="font-card__name">${f.heading} + ${f.body} — ${f.desc}</div>
+    </div>`).join('');
+}
+
+function renderComponents() {
+  const grid = document.getElementById('componentGrid');
+  grid.innerHTML = Object.entries(SECTIONS).map(([key, s]) => {
+    const code = s.html('PREFIX').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div class="comp-card">
+      <div class="comp-card__preview" style="color:var(--muted);font-size:13px;font-weight:600">${s.name}</div>
+      <div class="comp-card__body">
+        <div class="comp-card__title">${s.name}</div>
+        <div class="comp-card__desc">Sekcja "${s.name}" — gotowa do wklejenia. Zamien PREFIX na prefix klienta i uzupelnij tresci w nawiasach [].</div>
+        <span class="comp-card__tag">HTML</span>
+        <span class="comp-card__tag">${key}</span>
+        <button class="toggle-code" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block';this.textContent=this.nextElementSibling.style.display==='block'?'Ukryj kod':'Pokaz kod'">Pokaz kod</button>
+        <div class="comp-card__code"><pre>${code}</pre></div>
+      </div>
+    </div>`}).join('');
+}
+
+function renderTraps() {
+  ['critical','important','css'].forEach(level => {
+    const container = document.getElementById(level === 'critical' ? 'criticalRules' : level === 'important' ? 'importantRules' : 'cssRules');
+    const icon = level === 'critical' ? 'critical' : level === 'important' ? 'warning' : 'info';
+    const emoji = level === 'critical' ? '!' : level === 'important' ? '!' : 'i';
+    container.innerHTML = TRAPS[level].map(r => `
+      <div class="rule">
+        <div class="rule__icon rule__icon--${icon}">${emoji}</div>
+        <div>
+          <div class="rule__title">${r.title}</div>
+          <div class="rule__text">${r.text}</div>
+          ${r.code ? `<div style="margin-top:6px"><span class="rule__code">${r.code}</span></div>` : ''}
+        </div>
+      </div>`).join('');
+  });
+}
+
+// ── COMPOSER ──
+let composerSections = [];
+let composerPrefix = 'mp';
+
+function addSection(type) {
+  composerSections.push(type);
+  updateComposerList();
+}
+
+function removeSection(index) {
+  composerSections.splice(index, 1);
+  updateComposerList();
+}
+
+function clearSections() {
+  composerSections = [];
+  updateComposerList();
+  document.getElementById('composerOutput').innerHTML = '<div class="empty-state">Dodaj sekcje z panelu po lewej.</div>';
+}
+
+function updateComposerList() {
+  const list = document.getElementById('sectionList');
+  document.getElementById('sectionCount').textContent = composerSections.length + ' sekcji';
+  list.innerHTML = composerSections.map((type, i) => `
+    <div class="section-item">
+      <span class="handle">&#9776;</span>
+      <span class="name">${i+1}. ${SECTIONS[type].name}</span>
+      <button class="remove" onclick="removeSection(${i})">&times;</button>
+    </div>`).join('');
+}
+
+function generateHTML() {
+  if (!composerSections.length) return;
+  const prefix = composerPrefix;
+  const comment = `<!-- ${prefix.toUpperCase()} — Strona glowna PL (body_top)\n     Wkleic: Wyglad → Strona glowna → Edytor tresci → HTML mode -->\n\n<!-- Wyroznione oferty generowane automatycznie przez JS z .container-hotspot -->\n\n`;
+  const html = comment + composerSections.map((type,i) => {
+    return `<!-- Sekcja ${i+1}: ${SECTIONS[type].name} -->\n` + SECTIONS[type].html(prefix);
+  }).join('\n\n');
+
+  document.getElementById('composerOutput').innerHTML = `<pre>${html.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`;
+  navigator.clipboard.writeText(html).then(() => showToast('HTML skopiowany do schowka!'));
+}
+
+// ── HELPERS ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav__link').forEach(l => l.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelector(`.nav__link[onclick*="${name}"]`).classList.add('active');
+}
+
+function copyPalette(id) {
+  const p = PALETTES.find(x => x.id === id);
+  const json = JSON.stringify({white:p.white,cream:p.cream,accent:p.accent,accent_light:p.accent_light,accent_dark:p.accent_dark,text:p.text,dark:p.dark}, null, 2);
+  navigator.clipboard.writeText(json).then(() => showToast(`Paleta ${p.name} skopiowana!`));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ── INIT ──
+renderPalettes();
+renderFonts();
+renderComponents();
+renderTraps();
+</script>
+</body>
+</html>

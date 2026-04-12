@@ -1,0 +1,799 @@
+/* ═══════════════════════════════════════════════════════════════
+   ido-system-traps.css
+   Layer 1 of 3 — IdoBooking System Bug Fixes (Traps)
+   ═══════════════════════════════════════════════════════════════
+
+   PURPOSE:
+   All known IdoBooking / IdoSell system bugs that affect EVERY
+   client identically. This file is shared — never client-specific.
+   Client theme variables (colors, fonts, sizes) are defined in
+   Layer 3 (client-theme.css) as --ido-* custom properties.
+
+   LAYER ARCHITECTURE:
+     Layer 1 → ido-system-traps.css   (this file — universal fixes)
+     Layer 2 → ido-layout.css         (structural, client-customized)
+     Layer 3 → client-theme.css       (CSS vars + brand overrides)
+
+   VARIABLE CONTRACT (must be defined in Layer 3 :root):
+     --ido-primary      Primary brand color
+     --ido-secondary    Secondary / lighter brand color
+     --ido-accent       Accent / highlight color
+     --ido-bg           Page background color
+     --ido-dark         Dark text / dark surfaces color
+     --ido-light        Light surface color (near-white)
+     --ido-font-heading Heading font stack
+     --ido-font-body    Body font stack
+     --ido-radius       Base border-radius
+     --ido-header-h     Fixed header height (e.g. 80px)
+
+   HARDCODED ELEMENTS NOTE:
+   The following selectors are rendered inside sandboxed iframes
+   or injected shadow-like contexts where CSS custom properties
+   do NOT inherit. Use literal hex values only:
+     #bounce, #backTop, .ck_dsclr__btn_v2,
+     .ck_dsclr__btn_v2:hover, .skip_link, .formbutton
+   The generator replaces [HARDCODED_PRIMARY] and
+   [HARDCODED_SECONDARY] tokens before deployment.
+
+   TRAP COUNT: 18 root traps + page-specific universal fixes
+   SOURCE: TEMPLATE_ARKUSZ_STYLOW.css + trap_tracker.json
+   Updated: 2026-04-11
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #1 — Body font-size reset
+   ROOT CAUSE: IdoSell sets html { font-size: 140% } on the
+   default13 template, which makes 1rem = 22.4px. Every unit
+   derived from rem is 40% too large. Reset to 16px.
+   CLIENTS: all (7/7 surveyed)
+   ═══════════════════════════════════════════════════════════════ */
+body,
+body.default13 {
+  font-size: 16px !important;
+  font-family: var(--ido-font-body) !important;
+  background: var(--ido-bg) !important;
+  color: var(--ido-dark) !important;
+  line-height: 1.7 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #2 — System orange #AD5009 → brand color
+   ROOT CAUSE: default13.css hardcodes #AD5009 on .btn,
+   .btn-primary, .btn-success, filter headers, links. Override
+   with brand primary. Exclude .slick-arrow (navigation arrows).
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.btn:not(.slick-arrow),
+.btn-primary:not(.slick-arrow),
+.btn-success:not(.slick-arrow),
+a.btn:not(.slick-arrow),
+button.btn:not(.slick-arrow) {
+  background-color: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+}
+.btn:not(.slick-arrow):hover,
+.btn-primary:not(.slick-arrow):hover,
+.btn-success:not(.slick-arrow):hover,
+a.btn:not(.slick-arrow):hover,
+button.btn:not(.slick-arrow):hover {
+  background-color: var(--ido-secondary) !important;
+  border-color: var(--ido-secondary) !important;
+  color: #fff !important;
+}
+
+/* System scheme CSS vars — override green/orange defaults
+   (333333.css.gz defines --maincolor1 as green #4ADE80) */
+html:root {
+  --maincolor1: var(--ido-primary) !important;
+  --supportcolor1: var(--ido-secondary) !important;
+  --maincolor2: var(--ido-dark) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #3 — H1 "big-label" hidden by system on /offer pages
+   ROOT CAUSE: System applies display:none via JS on .big-label
+   on accommodation detail pages. Force visible.
+   CLIENTS: mazurski, mountainprestige (and others via JS)
+   ═══════════════════════════════════════════════════════════════ */
+h1.big-label {
+  display: block !important;
+  visibility: visible !important;
+  font-family: var(--ido-font-heading) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #4 — H2 "IdoBooking" injected inside .index-info
+   ROOT CAUSE: System renders the literal text "IdoBooking" as
+   an H2 inside .index-info and inside .section.parallax.
+   Must be hidden — it overlaps hero content.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info h2,
+.index-info h1,
+.section.parallax > h2 {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #5 — Dark overlay on slider via pseudo-elements
+   ROOT CAUSE: .parallax-slider::before gets a semi-opaque
+   black background from system CSS, darkening the hero image.
+   .parallax-image::after does the same on image-only heroes.
+   Both must be suppressed so custom overlays render cleanly.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.parallax-slider::before,
+.parallax-slider::after,
+.parallax-image::before,
+.parallax-image::after {
+  background: transparent !important;
+  display: none !important;
+  opacity: 0 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #6 — Header must be position:fixed, NOT sticky
+   ROOT CAUSE: position:sticky on .defaultsb / header.default13
+   creates a layout gap between header and hero on iOS Safari
+   and when sticky triggers at wrong scroll offset. Fixed + explicit
+   top:0 is the only reliable cross-browser approach.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.defaultsb,
+#defaultsb,
+.default13,
+.navbar-wrapper,
+header.header,
+header.default13 {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1100 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #7 — Subpage padding-top compensates fixed header
+   ROOT CAUSE: Fixed header overlaps page content on subpages.
+   Homepage is excluded — fullscreen hero handles offset itself.
+   Value comes from --ido-header-h measured on live site.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers,
+body.page-offer,
+body.page-contact,
+body.page-txt,
+body:not(.page-index) .content-wrapper,
+body:not(.page-index) main {
+  padding-top: var(--ido-header-h) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #8 — Stacking context: .index-info z-index too high
+   ROOT CAUSE: .index-info receives position:absolute and
+   z-index:1000 from system, which traps it above the slider
+   and blocks pointer events on hero CTAs. Reset position to
+   allow hero overlay to sit above it.
+   NOTE: pointer-events:none prevents invisible area blocking clicks.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info {
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+.index-info * {
+  pointer-events: none !important;
+}
+.index-info button,
+.index-info .navbar-reservation {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #9 — System z-index: -1 on form inputs
+   ROOT CAUSE: System stylesheet sets z-index:-1 on inputs and
+   selects inside the booking widget, making them unclickable
+   when the widget sits inside a positioned container.
+   CLIENTS: najmar, ecocamping, madera, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+#iai_book_form input,
+#iai_book_form select,
+#iai_book_form textarea,
+#iai_book_form .widget__option,
+input,
+select,
+textarea {
+  z-index: 2 !important;
+  position: relative;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #10 — System inline positioning on .index-info
+   ROOT CAUSE: System JS injects inline style="top:Xpx; left:Xpx"
+   on .index-info, misaligning it relative to the hero. These
+   overrides must use !important to beat inline styles.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #11 — Litepicker calendar rendered at 944px width
+   ROOT CAUSE: Litepicker date range picker gets a hardcoded
+   width from the system JS config, causing horizontal scroll
+   on mobile and overflow on desktop sidebars. fit-content
+   corrects to actual rendered width.
+   CLIENTS: najmar, ecocamping, madera, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.litepicker {
+  width: fit-content !important;
+  max-width: 100vw !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #12 — Ghost booking form on /offer pages
+   ROOT CAUSE: System renders a duplicate #iai_book_form with
+   class d-none on offer detail pages. Without explicit height:0
+   it still occupies vertical space even when display:none,
+   pushing content down.
+   CLIENTS: all /offer pages
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer #iai_book_form.d-none,
+body.page-offer .iai-search.d-none {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #13 — .iai-search shown on /offers page (has its own)
+   ROOT CAUSE: The /offers page has a built-in filter sidebar.
+   The global .iai-search bar also renders, duplicating search UI.
+   Also hide on /txt subpages where a search widget makes no sense.
+   CLIENTS: najmar, ecocamping, madera, mazurski, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers .iai-search,
+body.page-offers #iai_book_se,
+body.page-txt .iai-search,
+body.page-txt #iai_book_se {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #14 — FontAwesome NOT loaded — hide broken FA icons
+   ROOT CAUSE: IdoSell does not load FontAwesome by default in
+   template 11 / default13. FA icon elements render as invisible
+   0x0 boxes OR as raw unicode squares. Hide them system-wide;
+   replace with CSS-only chevrons where needed (see §7 /offers).
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers .filter_header .fa,
+body.page-offers .filter_header .fa-angle-down,
+body.page-offers .filter_header [class^="fa-"],
+body.page-offers .filter_header [class*=" fa-"] {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #15 — Gradient overlay on .section.parallax
+   ROOT CAUSE: The system ::after pseudo-element on .section.parallax
+   renders a dark solid overlay that obscures hero images.
+   IMPORTANT: append custom overlays to .section.parallax itself,
+   NOT to .parallax-slider — the slider has z-index:-2 which traps
+   any positioned child below it (cannot be fixed without JS).
+   .index-info::after must also be suppressed.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.section.parallax::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.4)  12%,
+    rgba(255, 255, 255, 0)    22%,
+    rgba(0, 0, 0, 0)          60%,
+    rgba(0, 0, 0, 0.35)      100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.index-info::after,
+.index-info::before {
+  display: none !important;
+  content: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #16 — span.btn on /offers gets line-height: 49px
+   ROOT CAUSE: System stylesheet targets span.btn and forces
+   line-height:49px + height:49px, which makes the "SZCZEGOLY"
+   button on offer listing cards enormously tall. Normalize to
+   auto height with flex centering.
+   CLIENTS: najmar, ecocamping, madera, mazurski, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers span.btn,
+.page-offers .accommodation-buttons span.btn,
+.offer span.btn {
+  line-height: 1.4 !important;
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 10px 24px !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #17 — Tabs sticky: system JS adds --fixed class, not .sticky
+   ROOT CAUSE: The offer detail tabs bar gets a class of "--fixed"
+   (double-dash prefix, Bootstrap modifier style) added by system JS
+   when it sticks. This is NOT the standard .sticky class. Without
+   an explicit rule targeting .tabs.--fixed the tab bar jumps out
+   of layout — full-width fix and z-index are required.
+   CLIENTS: mazurski, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.tabs.--fixed {
+  position: fixed !important;
+  top: var(--ido-header-h) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  z-index: 1000 !important;
+  background: var(--ido-light) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Tabs span child font size — system forces 1.3rem */
+.tabs__item > span {
+  font-size: 13px !important;
+  font-family: var(--ido-font-body) !important;
+  font-weight: 500 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #18 — Footer VISA/MC strip dark default background
+   ROOT CAUSE: .footer-contact-baner has a hardcoded dark navy
+   background (#3E475E) from system CSS. Logos and icons inside
+   render with wrong contrast against custom dark footers.
+   Override background to match client dark color and invert logos.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.footer-contact-baner,
+.footer__strip,
+footer .footer__strip,
+.footer-bottom,
+.payment-methods {
+  background: var(--ido-dark) !important;
+  background-color: var(--ido-dark) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+.footer-contact-baner svg,
+.footer-contact-baner img,
+.footer__strip img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.4 !important;
+}
+.footer-contact-baner span,
+.footer-contact-baner a,
+.footer__strip a {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 12px !important;
+}
+.powered_by_logo img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.3 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADDITIONAL UNIVERSAL FIX — Leaflet map overflow
+   ROOT CAUSE: A wildcard selector [class*="map"] from system CSS
+   clips map tile images. Protect Leaflet containers explicitly.
+   CLIENTS: najmar, madera, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.leaflet-container {
+  overflow: hidden !important;
+}
+.leaflet-container * {
+  box-sizing: content-box;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADDITIONAL UNIVERSAL FIX — container-hotspot (JS rebuilds cards)
+   ROOT CAUSE: System renders a .container-hotspot with system-styled
+   offer cards that JS replaces. Hide the system version to prevent
+   flash of unstyled content.
+   CLIENTS: madera, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.container-hotspot {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §A — TYPOGRAPHY BASE (universal, uses CSS vars)
+   ═══════════════════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ido-font-heading) !important;
+  color: var(--ido-dark) !important;
+  line-height: 1.2 !important;
+}
+
+a {
+  color: var(--ido-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--ido-secondary);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §B — SEARCH WIDGET (universal fixes)
+   Font and persons-dropdown chevron are broken on all clients.
+   ═══════════════════════════════════════════════════════════════ */
+.iai-search,
+#iai_book_form {
+  font-family: var(--ido-font-body) !important;
+}
+
+/* Search / booking submit button
+   NOTE: .formbutton does NOT inherit CSS vars in all contexts.
+   Generator must replace [HARDCODED_PRIMARY] and [HARDCODED_SECONDARY]. */
+.formbutton,
+#iai_book_form .formbutton {
+  background: [HARDCODED_PRIMARY] !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: var(--ido-radius) !important;
+  font-family: var(--ido-font-body) !important;
+  cursor: pointer !important;
+}
+.formbutton:hover,
+#iai_book_form .formbutton:hover {
+  background: [HARDCODED_SECONDARY] !important;
+}
+
+/* Persons dropdown chevron — system button is 8x8 and invisible */
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn {
+  position: absolute !important;
+  top: 50% !important;
+  right: 16px !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  opacity: 1 !important;
+  font-size: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn::after {
+  content: '' !important;
+  display: block !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-right: 2px solid var(--ido-dark) !important;
+  border-bottom: 2px solid var(--ido-dark) !important;
+  transform: rotate(45deg) !important;
+  margin: 2px auto 0 !important;
+}
+#iai_book_form .widget__option.iai_input-small {
+  padding-right: 44px !important;
+}
+
+/* Persons dropdown list overflow */
+.persons_list {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §C — /offers PAGE (universal styling for all clients)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Offers container background — system default is #292929 dark */
+body.page-offers,
+body.page-offers main,
+.offers-container {
+  background: var(--ido-bg) !important;
+  color: var(--ido-dark) !important;
+}
+
+/* Filter section headers — brand color, heading font */
+body.page-offers h4,
+body.page-offers .sidebar h4,
+body.page-offers .filter_header {
+  color: var(--ido-primary) !important;
+  font-family: var(--ido-font-heading) !important;
+}
+
+/* Filter header layout with CSS chevron (FontAwesome not loaded) */
+body.page-offers .filter_header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  padding: 10px 16px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  margin-bottom: 8px !important;
+  transition: background 0.2s ease !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+body.page-offers .filter_header:hover {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* CSS-only chevron replaces missing FontAwesome icon */
+body.page-offers .filter_header::after {
+  content: "" !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-right: 2px solid var(--ido-primary) !important;
+  border-bottom: 2px solid var(--ido-primary) !important;
+  transform: rotate(45deg) !important;
+  transition: transform 0.3s ease !important;
+  margin-left: 12px !important;
+  margin-top: -3px !important;
+}
+body.page-offers .filter_header[aria-expanded="true"]::after {
+  transform: rotate(-135deg) !important;
+  margin-top: 3px !important;
+}
+
+/* Filter collapse — Bootstrap collapse guard */
+body.page-offers .filter_content.collapse:not(.show) {
+  display: none !important;
+}
+body.page-offers .filter_content.collapse.show {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* /offers buttons */
+body.page-offers .btn,
+body.page-offers button.btn,
+body.page-offers a.btn {
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+body.page-offers .btn:hover {
+  background: var(--ido-secondary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §D — /offer DETAIL PAGE (universal fixes)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Price circle — system renders oval 244x161, force 150x150 circle */
+.offer-price {
+  width: 150px !important;
+  height: 150px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+.offer-price small {
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+}
+.offer-price span {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+/* ZAREZERWUJ / Reserve button */
+.accommodation-leftbutton,
+.page-offer .btn-success,
+.page-offer a.btn-success,
+.page-offer .period-price .btn {
+  background: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  border-radius: var(--ido-radius) !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+.accommodation-leftbutton:hover,
+.page-offer .btn-success:hover,
+.page-offer a.btn-success:hover {
+  background: var(--ido-secondary) !important;
+  border-color: var(--ido-secondary) !important;
+}
+
+/* contact__btn centering — system default justify-content:normal */
+.contact__btn {
+  justify-content: center !important;
+  font-family: var(--ido-font-body) !important;
+}
+
+/* System price h2/p too large on detail page */
+.price,
+.offer .price,
+.page-offer .price {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--ido-primary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §E — /contact PAGE (universal)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-contact a {
+  color: var(--ido-primary) !important;
+}
+body.page-contact a:hover {
+  color: var(--ido-secondary) !important;
+}
+body.page-contact .btn,
+body.page-contact form button,
+body.page-contact form input[type="submit"] {
+  background: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+}
+body.page-contact .btn:hover {
+  background: var(--ido-secondary) !important;
+}
+body.page-contact .leaflet-container {
+  border-radius: var(--ido-radius) !important;
+  overflow: hidden !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §F — /txt SUBPAGES (universal)
+   ═══════════════════════════════════════════════════════════════ */
+.txt-text {
+  font-family: var(--ido-font-body) !important;
+  line-height: 1.7 !important;
+  color: var(--ido-dark) !important;
+}
+.txt-text h2,
+.txt-text h3 {
+  font-family: var(--ido-font-heading) !important;
+  color: var(--ido-primary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §G — FOOTER (universal dark override)
+   ═══════════════════════════════════════════════════════════════ */
+footer,
+.footer,
+.footer-wrapper,
+.page-footer {
+  background: var(--ido-dark) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-family: var(--ido-font-body) !important;
+}
+footer h3,
+footer h4,
+.footer h3,
+.footer h4 {
+  color: #fff !important;
+  font-family: var(--ido-font-heading) !important;
+  font-size: 16px !important;
+}
+footer a,
+.footer a {
+  color: var(--ido-accent) !important;
+}
+footer a:hover,
+.footer a:hover {
+  color: var(--ido-secondary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §H — SYSTEM ELEMENTS WITH HARDCODED HEX (no CSS var inheritance)
+   WARNING: Do NOT replace these tokens manually.
+   The pipeline generator substitutes them at build time:
+     [HARDCODED_PRIMARY]   → client primary color hex (e.g. #4A6741)
+     [HARDCODED_SECONDARY] → client secondary color hex (e.g. #6B8F5E)
+   Affected elements: #bounce, #backTop, .ck_dsclr__btn_v2, .skip_link
+   These live in system-injected shadow contexts or iframes where
+   CSS custom properties from :root do NOT cascade.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Scroll-down arrow (system positions it centered; move to right edge) */
+#bounce {
+  background-color: [HARDCODED_PRIMARY] !important;
+  background: [HARDCODED_PRIMARY] !important;
+  left: auto !important;
+  right: 32px !important;
+  transform: none !important;
+  margin-left: 0 !important;
+}
+
+/* Back-to-top button */
+#backTop {
+  background: [HARDCODED_PRIMARY] !important;
+}
+#backTop:hover {
+  background: [HARDCODED_SECONDARY] !important;
+}
+
+/* Cookie consent banner */
+.ck_dsclr__btn_v2 {
+  background: [HARDCODED_PRIMARY] !important;
+}
+.ck_dsclr__btn_v2:hover {
+  background: [HARDCODED_SECONDARY] !important;
+}
+.ck_dsclr_v2 a {
+  color: [HARDCODED_PRIMARY] !important;
+}
+.ck_dsclr_x_v2 {
+  color: [HARDCODED_PRIMARY] !important;
+}
+
+/* Skip-to-content accessibility link */
+.skip_link {
+  background: [HARDCODED_PRIMARY] !important;
+  color: #fff !important;
+}

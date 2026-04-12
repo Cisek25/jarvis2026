@@ -1,0 +1,1485 @@
+<script>
+(function(){
+  'use strict';
+
+  /* -------------------------------------------------------
+     PAGE LOADER — elegancki loading screen
+     ------------------------------------------------------- */
+  function initPageLoader(){
+    var loader = document.createElement('div');
+    loader.className = 'ga-page-loader';
+    loader.innerHTML = '<div class="ga-page-loader__spinner"></div>';
+    document.body.appendChild(loader);
+    window.addEventListener('load', function(){
+      setTimeout(function(){ loader.classList.add('loaded'); }, 300);
+      setTimeout(function(){ if(loader.parentNode) loader.parentNode.removeChild(loader); }, 1200);
+    });
+  }
+
+  /* -------------------------------------------------------
+     SCROLL PROGRESS BAR — złoty pasek postępu
+     ------------------------------------------------------- */
+  function initScrollProgress(){
+    var bar = document.createElement('div');
+    bar.className = 'ga-scroll-progress';
+    document.body.appendChild(bar);
+    window.addEventListener('scroll', function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = (window.pageYOffset / h) * 100;
+      bar.style.width = pct + '%';
+    }, {passive: true});
+  }
+
+  /* -------------------------------------------------------
+     HERO OVERLAY — tekst + przycisk CTA na sliderze
+     Ken Burns zoom + parallax + particles
+     ------------------------------------------------------- */
+  function initHeroOverlay(){
+    var s = document.querySelector('.parallax-slider');
+    if(!s){
+      var sec = document.querySelector('.section.parallax');
+      if(!sec) return;
+      s = sec;
+    }
+    if(document.querySelector('.ga-hero-overlay')) return;
+
+    var o = document.createElement('div');
+    o.className = 'ga-hero-overlay';
+    o.innerHTML =
+      '<div class="ga-hero-overlay__inner">' +
+        '<h1>Twój <strong class="ga-shimmer">złoty</strong> adres<br>w Gdańsku</h1>' +
+        '<p>Apartamenty na wynajem w Gdańsku, Sopocie i Gdyni — od 2011 roku</p>' +
+      '</div>';
+    s.style.position = 'relative';
+    s.appendChild(o);
+  }
+
+  /* -------------------------------------------------------
+     GOLD PARTICLES — unoszące się złote cząsteczki na hero
+     ------------------------------------------------------- */
+  /* Particle variant classes */
+  var PARTICLE_VARIANTS = ['', 'ga-particle--drift', 'ga-particle--pulse', 'ga-particle--spiral', 'ga-particle--bokeh'];
+
+  function createParticles(parent, count, opts){
+    if(!parent) return;
+    var container = document.createElement('div');
+    container.className = 'ga-particles';
+    var defaults = { minTop: 0, maxTop: 100, minSize: 2, maxSize: 4, minDur: 6, maxDur: 14, variants: true };
+    var o = Object.assign({}, defaults, opts || {});
+
+    for(var i = 0; i < count; i++){
+      var p = document.createElement('div');
+      var variant = o.variants ? PARTICLE_VARIANTS[Math.floor(Math.random() * PARTICLE_VARIANTS.length)] : '';
+      p.className = 'ga-particle' + (variant ? ' ' + variant : '');
+      p.style.left = (Math.random() * 100) + '%';
+      p.style.top = (o.minTop + Math.random() * (o.maxTop - o.minTop)) + '%';
+      var sz = (o.minSize + Math.random() * (o.maxSize - o.minSize));
+      p.style.width = sz + 'px';
+      p.style.height = sz + 'px';
+      p.style.animationDuration = (o.minDur + Math.random() * (o.maxDur - o.minDur)) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.opacity = '0';
+      container.appendChild(p);
+    }
+    parent.style.position = parent.style.position || 'relative';
+    parent.appendChild(container);
+  }
+
+  function initGoldParticles(){
+    /* Hero — 35 particles z różnymi wariantami */
+    var s = document.querySelector('.parallax-slider');
+    if(s && !s.querySelector('.ga-particles')){
+      createParticles(s, 35, { minTop: 30, maxTop: 95, minSize: 2, maxSize: 5, minDur: 5, maxDur: 16 });
+    }
+
+    /* CTA section — 15 particles */
+    var cta = document.querySelector('.ga-cta');
+    if(cta && !cta.querySelector('.ga-particles')){
+      createParticles(cta, 15, { minSize: 1, maxSize: 3, minDur: 8, maxDur: 18 });
+    }
+
+    /* History section — 18 particles */
+    var hist = document.querySelector('.ga-history');
+    if(hist && !hist.querySelector('.ga-particles')){
+      createParticles(hist, 18, { minSize: 1, maxSize: 4, minDur: 7, maxDur: 15 });
+    }
+
+    /* Stats section — 12 particles */
+    var stats = document.querySelector('.ga-stats');
+    if(stats && !stats.querySelector('.ga-particles')){
+      createParticles(stats, 12, { minSize: 1, maxSize: 3, minDur: 8, maxDur: 20 });
+    }
+
+    /* About section — 10 subtle particles */
+    var about = document.querySelector('.ga-about');
+    if(about && !about.querySelector('.ga-particles')){
+      createParticles(about, 10, { minSize: 1, maxSize: 2, minDur: 10, maxDur: 22, variants: false });
+    }
+
+    /* Location section — 10 subtle particles */
+    var loc = document.querySelector('.ga-location');
+    if(loc && !loc.querySelector('.ga-particles')){
+      createParticles(loc, 10, { minSize: 1, maxSize: 2, minDur: 10, maxDur: 22, variants: false });
+    }
+  }
+
+  /* -------------------------------------------------------
+     CMSHOTSPOT — przeniesienie i przebudowa ofert na grid 3-kolumnowy
+     ------------------------------------------------------- */
+  function moveCmshotspot(){
+    var c = document.querySelector('.cmshotspot');
+    if(!c) return;
+    var w = document.querySelector('.cmshotspot-wrapper');
+    if(w) w.appendChild(c);
+  }
+
+  function initOffersGrid(){
+    var hotspot = document.querySelector('.cmshotspot');
+    if(!hotspot) return;
+    if(hotspot.querySelector('.ga-offers-grid')) return; /* guard */
+
+    /* Wyciągamy oferty ze slick slidera */
+    var slickSlides = hotspot.querySelectorAll('.slick-slide:not(.slick-cloned)');
+    var offers = [];
+    var seen = {};
+
+    slickSlides.forEach(function(slide){
+      var offer = slide.querySelector('.offer');
+      if(!offer) return;
+      var link = offer.querySelector('a.object-icon');
+      var img = link ? link.querySelector('img') : offer.querySelector('img');
+      var nameEl = offer.querySelector('.object-name, .offer-name, h2, h3, .name');
+      var href = link ? link.getAttribute('href') : '';
+      if(seen[href]) return;
+      seen[href] = true;
+
+      /* Wyciągnij dane — fallback chain for image src */
+      var imgSrc = '';
+      if(img){
+        imgSrc = img.src || img.getAttribute('src') || img.getAttribute('data-lazy') || img.getAttribute('data-src') || '';
+        if(!imgSrc || imgSrc === 'null' || imgSrc.endsWith('/null')) imgSrc = '';
+      }
+      var data = {
+        href: href,
+        img: imgSrc,
+        name: nameEl ? nameEl.textContent.trim() : (img ? img.alt : 'Apartament'),
+        area: '',
+        persons: ''
+      };
+
+      /* Wyciągnij metraż z .accommodation-meters */
+      var metersEl = offer.querySelector('.accommodation-meters');
+      if(metersEl) data.area = metersEl.textContent.trim().replace(/\s+/g, ' ');
+
+      /* Wyciągnij liczbę osób z .accommodation-roomspace */
+      var persEl = offer.querySelector('.accommodation-roomspace');
+      if(persEl){
+        var pText = persEl.textContent.trim();
+        data.persons = pText;
+      }
+
+      /* Fallback: szukaj w dowolnym tekscie */
+      if(!data.area){
+        var allText = offer.textContent;
+        var m2match = allText.match(/(\d+[,.]?\d*)\s*m/);
+        if(m2match) data.area = m2match[0] + '²';
+      }
+      if(!data.persons){
+        var allText2 = offer.textContent;
+        var persMatch = allText2.match(/(\d+)\s*(?:os|osób|osoby|pers)/i);
+        if(persMatch) data.persons = persMatch[1];
+      }
+
+      offers.push(data);
+    });
+
+    if(offers.length === 0) return;
+
+    /* Buduj grid */
+    var grid = document.createElement('div');
+    grid.className = 'ga-offers-grid';
+
+    offers.forEach(function(d){
+      var card = document.createElement('a');
+      card.className = 'ga-offer-card';
+      card.href = d.href;
+
+      /* Buduj pasek info pod zdjęciem */
+      var infoHtml = '';
+      if(d.persons || d.area){
+        infoHtml = '<div class="ga-offer-card__info">';
+        if(d.persons) infoHtml += '<span class="ga-offer-card__tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' + d.persons + ' os.</span>';
+        if(d.area) infoHtml += '<span class="ga-offer-card__tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21H3V3"/><path d="M21 3v18"/><path d="M3 21h18"/></svg>' + d.area + '</span>';
+        infoHtml += '</div>';
+      }
+
+      card.innerHTML =
+        '<div class="ga-offer-card__img-wrap">' +
+          '<img class="ga-offer-card__img" src="' + d.img + '" alt="' + d.name + '" loading="lazy">' +
+        '</div>' +
+        '<div class="ga-offer-card__body">' +
+          '<div class="ga-offer-card__name">' + d.name + '</div>' +
+          infoHtml +
+          '<span class="ga-offer-card__btn">Szczegóły →</span>' +
+        '</div>';
+
+      grid.appendChild(card);
+
+      /* Pobierz dodatkowe dane (cena, metraż, osoby) z podstrony oferty */
+      if(d.href && (!d.area || !d.persons)){
+        fetchOfferData(card, d.href);
+      }
+    });
+
+    /* Ukryj WSZYSTKO w cmshotspot oprócz naszego gridu */
+    var col12 = hotspot.querySelector('.col-12');
+    if(col12){
+      /* Ukryj wszystkie istniejące dzieci */
+      var children = col12.children;
+      for(var ci = 0; ci < children.length; ci++){
+        if(!children[ci].classList.contains('ga-offers-grid')){
+          children[ci].style.display = 'none';
+        }
+      }
+      col12.appendChild(grid);
+    }
+    /* Dodaj klasę do hotspotu — CSS ukrywa resztę */
+    hotspot.classList.add('ga-grid-active');
+  }
+
+  /* -------------------------------------------------------
+     STATS COUNTER BAR — wstrzyknięcie sekcji z licznikami
+     ------------------------------------------------------- */
+  function initStatsBar(){
+    var advantages = document.querySelector('.ga-advantages');
+    if(!advantages) return;
+    if(document.querySelector('.ga-stats')) return;
+
+    var stats = document.createElement('div');
+    stats.className = 'ga-stats';
+    stats.innerHTML =
+      '<div class="ga-stats__inner">' +
+        '<div class="ga-stat ga-slide-up">' +
+          '<span class="ga-stat__num" data-target="15" data-suffix="+">0</span>' +
+          '<span class="ga-stat__label">Lat doświadczenia</span>' +
+        '</div>' +
+        '<div class="ga-stat ga-slide-up">' +
+          '<span class="ga-stat__num" data-target="30" data-suffix="+">0</span>' +
+          '<span class="ga-stat__label">Apartamentów</span>' +
+        '</div>' +
+        '<div class="ga-stat ga-slide-up">' +
+          '<span class="ga-stat__num" data-target="5000" data-suffix="+">0</span>' +
+          '<span class="ga-stat__label">Zadowolonych gości</span>' +
+        '</div>' +
+        '<div class="ga-stat ga-slide-up">' +
+          '<span class="ga-stat__num" data-target="4.8" data-suffix="/5">0</span>' +
+          '<span class="ga-stat__label">Ocena Google</span>' +
+        '</div>' +
+      '</div>';
+
+    advantages.parentNode.insertBefore(stats, advantages.nextSibling);
+  }
+
+  /* -------------------------------------------------------
+     ANIMATED COUNTERS — liczby odliczające do celu
+     ------------------------------------------------------- */
+  function initCounters(){
+    if(!('IntersectionObserver' in window)) return;
+
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting) return;
+        obs.unobserve(en.target);
+        var el = en.target;
+        var target = parseFloat(el.getAttribute('data-target'));
+        var suffix = el.getAttribute('data-suffix') || '';
+        var isFloat = target % 1 !== 0;
+        var duration = 2000;
+        var start = performance.now();
+
+        function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
+
+        function step(now){
+          var progress = Math.min((now - start) / duration, 1);
+          var val = target * easeOut(progress);
+          if(isFloat) el.textContent = val.toFixed(1) + suffix;
+          else el.textContent = Math.floor(val).toLocaleString('pl-PL') + suffix;
+          if(progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.5 });
+
+    var nums = document.querySelectorAll('.ga-stat__num[data-target]');
+    for(var i = 0; i < nums.length; i++) obs.observe(nums[i]);
+  }
+
+  /* -------------------------------------------------------
+     SLIDE-IN ANIMATIONS — elementy wjeżdżające z boków
+     Automatycznie dodaje klasy do istniejących elementów
+     ------------------------------------------------------- */
+  function initSlideIn(){
+    // Dodaj klasy slide-in do elementów
+    var aboutText = document.querySelector('.ga-about__text');
+    var aboutImg = document.querySelector('.ga-about__img');
+    if(aboutText && !aboutText.classList.contains('ga-slide-left')){
+      aboutText.classList.add('ga-slide-left');
+    }
+    if(aboutImg && !aboutImg.classList.contains('ga-slide-right')){
+      aboutImg.classList.add('ga-slide-right');
+    }
+
+    var locImg = document.querySelector('.ga-location__img');
+    var locText = document.querySelector('.ga-location__text');
+    if(locImg && !locImg.classList.contains('ga-slide-left')){
+      locImg.classList.add('ga-slide-left');
+    }
+    if(locText && !locText.classList.contains('ga-slide-right')){
+      locText.classList.add('ga-slide-right');
+    }
+
+    // Intro slide-up
+    var intro = document.querySelector('.ga-intro');
+    if(intro) intro.classList.add('ga-slide-up');
+
+    // CTA slide-scale
+    var ctaInner = document.querySelector('.ga-cta__inner');
+    if(ctaInner) ctaInner.classList.add('ga-slide-scale');
+
+    // Obserwuj wszystkie elementy z klasą slide
+    if(!('IntersectionObserver' in window)) return;
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('ga-visible');
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    var slides = document.querySelectorAll('.ga-slide-left, .ga-slide-right, .ga-slide-up, .ga-slide-scale');
+    for(var i = 0; i < slides.length; i++) obs.observe(slides[i]);
+  }
+
+  /* -------------------------------------------------------
+     PARALLAX SCROLL — efekt głębi + zoom na sekcjach
+     ------------------------------------------------------- */
+  function initParallaxScroll(){
+    var s = document.querySelector('.parallax-slider');
+    if(!s) return;
+    var o = document.querySelector('.ga-hero-overlay');
+    var sectionImgs = document.querySelectorAll('.ga-about__img img, .ga-location__img img');
+    var t = false;
+
+    window.addEventListener('scroll', function(){
+      if(!t){
+        window.requestAnimationFrame(function(){
+          var y = window.pageYOffset;
+          var h = s.offsetHeight;
+          var winH = window.innerHeight;
+
+          // Hero parallax
+          if(y < h){
+            var imgs = s.querySelectorAll('.parallax-image img, .parallax-image picture');
+            for(var i = 0; i < imgs.length; i++){
+              imgs[i].style.transform = 'translateY(' + (y * 0.3) + 'px) scale(' + (1 + y * 0.0002) + ')';
+            }
+            if(o){
+              o.style.opacity = Math.max(0, 1 - (y / (h * 0.6)));
+              o.style.transform = 'translateY(' + (y * 0.15) + 'px)';
+            }
+          }
+
+          // Parallax zoom na sekcjach — zdjęcia się delikatnie przybliżają
+          for(var j = 0; j < sectionImgs.length; j++){
+            var img = sectionImgs[j];
+            var rect = img.getBoundingClientRect();
+            if(rect.top < winH && rect.bottom > 0){
+              var progress = 1 - (rect.top / winH);
+              var scale = 1 + (progress * 0.08);
+              var translateY = (rect.top - winH/2) * 0.05;
+              img.style.transform = 'scale(' + scale + ') translateY(' + translateY + 'px)';
+            }
+          }
+
+          t = false;
+        });
+        t = true;
+      }
+    }, {passive: true});
+  }
+
+  /* -------------------------------------------------------
+     REVEAL — sekcje pojawiają się przy scrollu
+     ------------------------------------------------------- */
+  function initReveal(){
+    /* Animuj WSZYSTKIE ważne elementy — karty, sekcje, nagłówki */
+    var els = document.querySelectorAll(
+      '.ga-module, .ga-advantage, .ga-offers-wrapper, .ga-discover__card, ' +
+      '.ga-timeline__item, .ga-testimonial, .ga-faq__item, ' +
+      '.ga-intro, .ga-offers-header, .ga-advantages__header, ' +
+      '.ga-discover__header, .ga-history__header, .ga-testimonials__header, .ga-faq__header'
+    );
+    if(!els.length) return;
+
+    for(var i = 0; i < els.length; i++){
+      els[i].style.opacity = '0';
+      els[i].style.transform = 'translateY(50px)';
+      els[i].style.transition = 'opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)';
+    }
+
+    if('IntersectionObserver' in window){
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){
+            en.target.style.opacity = '1';
+            en.target.style.transform = 'translateY(0)';
+            en.target.classList.add('ga-visible');
+            obs.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+      for(var j = 0; j < els.length; j++) obs.observe(els[j]);
+    } else {
+      for(var k = 0; k < els.length; k++){
+        els[k].style.opacity = '1';
+        els[k].style.transform = 'translateY(0)';
+      }
+    }
+  }
+
+  /* -------------------------------------------------------
+     STAGGER — opóźnione pojawianie modułów i kart
+     ------------------------------------------------------- */
+  function initStagger(){
+    var m = document.querySelectorAll('.ga-module');
+    for(var i = 0; i < m.length; i++) m[i].style.transitionDelay = (i * 0.15) + 's';
+
+    var a = document.querySelectorAll('.ga-advantage');
+    for(var j = 0; j < a.length; j++) a[j].style.transitionDelay = (j * 0.12) + 's';
+
+    var s = document.querySelectorAll('.ga-stat');
+    for(var k = 0; k < s.length; k++) s[k].style.transitionDelay = (k * 0.15) + 's';
+
+    /* Discover cards stagger */
+    var d = document.querySelectorAll('.ga-discover__card');
+    for(var l = 0; l < d.length; l++) d[l].style.transitionDelay = (l * 0.12) + 's';
+
+    /* Timeline items stagger */
+    var t = document.querySelectorAll('.ga-timeline__item');
+    for(var n = 0; n < t.length; n++) t[n].style.transitionDelay = (n * 0.1) + 's';
+
+    /* Testimonials stagger */
+    var r = document.querySelectorAll('.ga-testimonial');
+    for(var p = 0; p < r.length; p++) r[p].style.transitionDelay = (p * 0.15) + 's';
+
+    /* FAQ items stagger */
+    var f = document.querySelectorAll('.ga-faq__item');
+    for(var q = 0; q < f.length; q++) f[q].style.transitionDelay = (q * 0.08) + 's';
+  }
+
+  /* -------------------------------------------------------
+     3D TILT — efekt 3D na kartach modułów
+     ------------------------------------------------------- */
+  function initTilt(){
+    var cards = document.querySelectorAll('.ga-module');
+    for(var i = 0; i < cards.length; i++){
+      (function(card){
+        card.addEventListener('mousemove', function(e){
+          var rect = card.getBoundingClientRect();
+          var x = (e.clientX - rect.left) / rect.width;
+          var y = (e.clientY - rect.top) / rect.height;
+          var tiltX = (y - 0.5) * 8;
+          var tiltY = (x - 0.5) * -8;
+          card.style.transform = 'perspective(1000px) rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg) scale(1.02)';
+        });
+        card.addEventListener('mouseleave', function(){
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+          card.style.transition = 'transform 0.5s ease';
+        });
+        card.addEventListener('mouseenter', function(){
+          card.style.transition = 'transform 0.1s ease';
+        });
+      })(cards[i]);
+    }
+  }
+
+  /* -------------------------------------------------------
+     DIVIDER — dekoracyjny separator między sekcjami
+     ------------------------------------------------------- */
+  function initDividers(){
+    var sections = ['.ga-modules', '.ga-offers-wrapper'];
+    for(var i = 0; i < sections.length; i++){
+      var sec = document.querySelector(sections[i]);
+      if(!sec) continue;
+      var div = document.createElement('div');
+      div.className = 'ga-divider';
+      div.innerHTML = '<span class="ga-divider__diamond"></span>';
+      sec.parentNode.insertBefore(div, sec);
+    }
+  }
+
+  /* -------------------------------------------------------
+     SHIMMER — dodanie klasy shimmer do nagłówków gold
+     ------------------------------------------------------- */
+  function initShimmer(){
+    var aboutH2 = document.querySelector('.ga-about__text h2 strong');
+    if(aboutH2) aboutH2.classList.add('ga-shimmer');
+
+    var locH2 = document.querySelector('.ga-location__text h2 strong');
+    if(locH2) locH2.classList.add('ga-shimmer');
+  }
+
+  /* -------------------------------------------------------
+     GDAŃSK SKYLINE — sylwetka miasta po bokach sekcji
+     ------------------------------------------------------- */
+  function initCityDecorations(){
+    if(document.querySelector('.ga-skyline')) return; /* guard: nie twórz duplikatów */
+    /* Minimalistyczna sylwetka Gdańska — Żuraw, kościół, kamieniczki */
+    var skylineSVG =
+      '<svg viewBox="0 0 180 220" xmlns="http://www.w3.org/2000/svg">' +
+        '<!-- Kamieniczki -->' +
+        '<rect x="4" y="140" width="22" height="80" rx="1"/>' +
+        '<rect x="8" y="130" width="14" height="10" rx="1"/>' +
+        '<rect x="30" y="150" width="20" height="70" rx="1"/>' +
+        '<rect x="34" y="142" width="12" height="8" rx="1"/>' +
+        '<polygon points="40,142 34,150 46,150"/>' +
+        '<rect x="54" y="135" width="24" height="85" rx="1"/>' +
+        '<polygon points="66,135 54,148 78,148"/>' +
+        '<!-- Żuraw (Crane) -->' +
+        '<rect x="84" y="80" width="28" height="140" rx="2"/>' +
+        '<rect x="88" y="72" width="20" height="8" rx="1"/>' +
+        '<line x1="98" y1="72" x2="98" y2="40"/>' +
+        '<line x1="88" y1="55" x2="108" y2="55"/>' +
+        '<line x1="90" y1="40" x2="106" y2="40"/>' +
+        '<line x1="98" y1="40" x2="98" y2="28"/>' +
+        '<line x1="93" y1="28" x2="103" y2="28"/>' +
+        '<!-- Kościół Mariacki -->' +
+        '<rect x="118" y="100" width="30" height="120" rx="1"/>' +
+        '<rect x="128" y="50" width="10" height="50" rx="1"/>' +
+        '<polygon points="133,50 126,65 140,65"/>' +
+        '<line x1="133" y1="30" x2="133" y2="50"/>' +
+        '<circle cx="133" cy="28" r="3"/>' +
+        '<!-- Kamieniczki prawe -->' +
+        '<rect x="152" y="145" width="24" height="75" rx="1"/>' +
+        '<polygon points="164,145 152,158 176,158"/>' +
+      '</svg>';
+
+    var sections = ['.ga-about', '.ga-location'];
+    for(var i = 0; i < sections.length; i++){
+      var sec = document.querySelector(sections[i]);
+      if(!sec) continue;
+      sec.style.position = 'relative';
+      /* NIE ustawiaj overflow:hidden — obcina full-width ::before tło */
+
+      var left = document.createElement('div');
+      left.className = 'ga-skyline ga-skyline--left';
+      left.innerHTML = skylineSVG;
+      sec.appendChild(left);
+
+      var right = document.createElement('div');
+      right.className = 'ga-skyline ga-skyline--right';
+      right.innerHTML = skylineSVG;
+      sec.appendChild(right);
+    }
+  }
+
+  /* -------------------------------------------------------
+     GOLDEN ORNAMENTS — złote ornamenty narożne
+     ------------------------------------------------------- */
+  function initGoldenOrnaments(){
+    if(document.querySelector('.ga-ornament')) return; /* guard */
+    var ornamentSVG =
+      '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M4 44 L4 4 L44 4" fill="none"/>' +
+        '<path d="M12 44 L12 12 L44 12" fill="none"/>' +
+        '<circle cx="4" cy="4" r="2" fill="currentColor" stroke="none"/>' +
+      '</svg>';
+
+    var corners = ['tl', 'tr', 'bl', 'br'];
+    var targets = ['.ga-about__inner', '.ga-location__inner'];
+
+    for(var t = 0; t < targets.length; t++){
+      var el = document.querySelector(targets[t]);
+      if(!el) continue;
+      el.style.position = 'relative';
+
+      for(var c = 0; c < corners.length; c++){
+        var orn = document.createElement('div');
+        orn.className = 'ga-ornament ga-ornament--' + corners[c];
+        /* Obróć SVG odpowiednio do narożnika */
+        var rotation = '';
+        if(corners[c] === 'tr') rotation = 'style="transform:scaleX(-1)"';
+        if(corners[c] === 'bl') rotation = 'style="transform:scaleY(-1)"';
+        if(corners[c] === 'br') rotation = 'style="transform:scale(-1,-1)"';
+        orn.innerHTML = ornamentSVG.replace('<svg', '<svg ' + rotation);
+        el.appendChild(orn);
+      }
+    }
+  }
+
+  /* -------------------------------------------------------
+     GOLD DUST — złoty pył unoszący się w sekcjach
+     ------------------------------------------------------- */
+  function initGoldDust(){
+    if(document.querySelector('.ga-dust-container')) return; /* guard */
+    var targets = ['.ga-advantages', '.ga-stats'];
+    for(var t = 0; t < targets.length; t++){
+      var sec = document.querySelector(targets[t]);
+      if(!sec) continue;
+      sec.style.position = 'relative';
+      /* NIE ustawiaj overflow:hidden — obcina full-width ::before tło.
+         .ga-dust-container ma własne overflow:hidden w CSS */
+
+      var container = document.createElement('div');
+      container.className = 'ga-dust-container';
+
+      for(var i = 0; i < 12; i++){
+        var dust = document.createElement('div');
+        dust.className = 'ga-dust';
+        dust.style.left = (Math.random() * 100) + '%';
+        dust.style.bottom = (Math.random() * 30) + '%';
+        dust.style.width = (1 + Math.random() * 2) + 'px';
+        dust.style.height = dust.style.width;
+        dust.style.animationDuration = (8 + Math.random() * 10) + 's';
+        dust.style.animationDelay = (Math.random() * 10) + 's';
+        container.appendChild(dust);
+      }
+      sec.appendChild(container);
+    }
+  }
+
+  /* -------------------------------------------------------
+     ACCENT LINES — animowane złote linie na krawędziach
+     ------------------------------------------------------- */
+  function initAccentLines(){
+    if(document.querySelector('.ga-accent-line')) return; /* guard */
+    var targets = [
+      { sel: '.ga-about', pos: 'top' },
+      { sel: '.ga-about', pos: 'bottom' },
+      { sel: '.ga-location', pos: 'top' },
+      { sel: '.ga-location', pos: 'bottom' }
+    ];
+
+    for(var i = 0; i < targets.length; i++){
+      var sec = document.querySelector(targets[i].sel);
+      if(!sec) continue;
+      sec.style.position = 'relative';
+
+      var line = document.createElement('div');
+      line.className = 'ga-accent-line ga-accent-line--h ga-accent-line--' + targets[i].pos;
+      sec.appendChild(line);
+    }
+  }
+
+  /* -------------------------------------------------------
+     WAVE DECORATION — fala morska między sekcjami
+     ------------------------------------------------------- */
+  function initWaveDecoration(){
+    if(document.querySelector('.ga-wave-deco')) return; /* guard */
+    var waveSVG =
+      '<svg viewBox="0 0 1440 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M0,20 C240,40 480,0 720,20 C960,40 1200,0 1440,20 L1440,40 L0,40 Z"/>' +
+      '</svg>';
+
+    var targets = ['.ga-advantages'];
+    for(var i = 0; i < targets.length; i++){
+      var sec = document.querySelector(targets[i]);
+      if(!sec) continue;
+      sec.style.position = 'relative';
+
+      var wave = document.createElement('div');
+      wave.className = 'ga-wave-deco';
+      wave.innerHTML = waveSVG;
+      sec.appendChild(wave);
+    }
+  }
+
+  /* -------------------------------------------------------
+     AMBIENT GLOW — ciepły złoty poblask podążający za kursorem
+     ------------------------------------------------------- */
+  function initAmbientGlow(){
+    if(document.querySelector('.ga-ambient-glow')) return; /* guard */
+    var targets = ['.ga-about', '.ga-location'];
+    for(var i = 0; i < targets.length; i++){
+      var sec = document.querySelector(targets[i]);
+      if(!sec) continue;
+      sec.style.position = 'relative';
+      /* NIE ustawiaj overflow:hidden — obcina full-width ::before tło */
+
+      var glow = document.createElement('div');
+      glow.className = 'ga-ambient-glow';
+      sec.appendChild(glow);
+
+      (function(section, glowEl){
+        section.addEventListener('mousemove', function(e){
+          var rect = section.getBoundingClientRect();
+          glowEl.style.left = (e.clientX - rect.left) + 'px';
+          glowEl.style.top = (e.clientY - rect.top) + 'px';
+          glowEl.classList.add('active');
+        });
+        section.addEventListener('mouseleave', function(){
+          glowEl.classList.remove('active');
+        });
+      })(sec, glow);
+    }
+  }
+
+  /* -------------------------------------------------------
+     FAQ STRUCTURE FIX — CMS WYSIWYG może usunąć div.ga-faq__answer
+     Opakowujemy osierocone <p> w odpowiedni wrapper
+     ------------------------------------------------------- */
+  function fixFaqStructure(){
+    var items = document.querySelectorAll('.ga-faq__item');
+    for(var i = 0; i < items.length; i++){
+      var item = items[i];
+      /* Jeśli .ga-faq__answer już istnieje — OK */
+      if(item.querySelector('.ga-faq__answer')) continue;
+      /* Szukaj osieroconych <p> po .ga-faq__question */
+      var question = item.querySelector('.ga-faq__question');
+      if(!question) continue;
+      var nextEl = question.nextElementSibling;
+      if(nextEl && (nextEl.tagName === 'P' || (nextEl.tagName === 'DIV' && !nextEl.classList.contains('ga-faq__answer')))){
+        /* Opakowuj w .ga-faq__answer */
+        var wrapper = document.createElement('div');
+        wrapper.className = 'ga-faq__answer';
+        /* Przenieś wszystkie elementy po question do wrappera */
+        while(question.nextElementSibling){
+          wrapper.appendChild(question.nextElementSibling);
+        }
+        item.appendChild(wrapper);
+      }
+    }
+  }
+
+  /* -------------------------------------------------------
+     FAQ ACCORDION — rozwijane pytania (event delegation)
+     ------------------------------------------------------- */
+  function initFaqAccordion(){
+    /* Guard: zapobiegaj podwójnej rejestracji (DOMContentLoaded + load) */
+    if(window.__gaFaqInitialized) return;
+    window.__gaFaqInitialized = true;
+
+    /* Najpierw napraw strukturę (CMS mógł usunąć wrappery) */
+    fixFaqStructure();
+
+    /* Event delegation — działa niezależnie od initReveal */
+    document.addEventListener('click', function(e){
+      var q = e.target.closest('.ga-faq__question');
+      if(!q) return;
+      e.preventDefault();
+      var item = q.closest('.ga-faq__item');
+      if(!item) return;
+      var wasActive = item.classList.contains('active');
+      /* Zamknij wszystkie */
+      var all = document.querySelectorAll('.ga-faq__item.active');
+      for(var j = 0; j < all.length; j++){
+        all[j].classList.remove('active');
+        var ans = all[j].querySelector('.ga-faq__answer');
+        if(ans) ans.style.maxHeight = '0';
+      }
+      /* Otwórz kliknięty (jeśli nie był otwarty) */
+      if(!wasActive){
+        item.classList.add('active');
+        var answer = item.querySelector('.ga-faq__answer');
+        if(answer) answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  }
+
+  /* -------------------------------------------------------
+     SCROLL DOWN INDICATOR — animowana strzałka na hero
+     ------------------------------------------------------- */
+  function initScrollIndicator(){
+    if(document.querySelector('.ga-scroll-indicator')) return;
+    var hero = document.querySelector('.parallax-slider') || document.querySelector('.ga-hero-overlay');
+    if(!hero) return;
+    var parent = hero.closest('.section') || hero.parentElement;
+    if(!parent) return;
+    parent.style.position = 'relative';
+    var ind = document.createElement('div');
+    ind.className = 'ga-scroll-indicator';
+    ind.innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 13l5 5 5-5"/><path d="M7 6l5 5 5-5"/></svg>';
+    ind.addEventListener('click', function(){
+      var next = parent.nextElementSibling;
+      if(next) next.scrollIntoView({behavior:'smooth'});
+    });
+    parent.appendChild(ind);
+
+    /* Ukryj po scrollu */
+    var hidden = false;
+    window.addEventListener('scroll', function(){
+      if(!hidden && window.pageYOffset > 200){
+        ind.style.opacity = '0';
+        ind.style.transition = 'opacity 0.5s ease';
+        hidden = true;
+      } else if(hidden && window.pageYOffset < 100){
+        ind.style.opacity = '0.7';
+        hidden = false;
+      }
+    }, {passive: true});
+  }
+
+  /* -------------------------------------------------------
+     NAV GLASSMORPHISM — nawigacja zmienia się na scrollu
+     ------------------------------------------------------- */
+  function initNavScroll(){
+    var scrolled = false;
+    window.addEventListener('scroll', function(){
+      if(window.pageYOffset > 80 && !scrolled){
+        document.body.classList.add('ga-nav-scrolled');
+        scrolled = true;
+      } else if(window.pageYOffset <= 80 && scrolled){
+        document.body.classList.remove('ga-nav-scrolled');
+        scrolled = false;
+      }
+    }, {passive: true});
+  }
+
+  /* -------------------------------------------------------
+     HEADING GRADIENT TEXT — złoty gradient na nagłówkach
+     ------------------------------------------------------- */
+  function initHeadingEffects(){
+    var strongs = document.querySelectorAll(
+      '.ga-intro h2 strong, .ga-about__text h2 strong, .ga-location__text h2 strong, ' +
+      '.ga-discover__header h2 strong, .ga-history__header h2 strong, ' +
+      '.ga-testimonials__header h2 strong'
+    );
+    for(var i = 0; i < strongs.length; i++){
+      strongs[i].classList.add('ga-gradient-text');
+    }
+  }
+
+  /* -------------------------------------------------------
+     COUNTER GLOW — efekt glow przy animacji liczników
+     ------------------------------------------------------- */
+  function addCounterGlow(){
+    var nums = document.querySelectorAll('.ga-stat__number');
+    for(var i = 0; i < nums.length; i++){
+      nums[i].classList.add('ga-counting');
+    }
+  }
+
+  /* -------------------------------------------------------
+     WOW OBSERVER — obserwator dla nowych efektów
+     ------------------------------------------------------- */
+  function initWowObserver(){
+    if(!('IntersectionObserver' in window)) return;
+
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('ga-visible');
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    var els = document.querySelectorAll(
+      '.ga-skyline, .ga-ornament, .ga-accent-line, .ga-wave-deco'
+    );
+    for(var i = 0; i < els.length; i++) obs.observe(els[i]);
+  }
+
+  /* -------------------------------------------------------
+     FREEZE HERO SLIDER — zatrzymaj na pierwszym zdjęciu
+     ------------------------------------------------------- */
+  function freezeHeroSlider(){
+    function doFreeze(){
+      if(typeof jQuery === 'undefined') return;
+      var $ = jQuery;
+      var $slider = $('.parallax-slider .slick-initialized, .parallax-slider.slick-initialized');
+      if(!$slider.length){
+        /* Spróbuj znaleźć slick w sekcji parallax */
+        $slider = $('.section.parallax .slick-initialized');
+      }
+      if($slider.length){
+        try {
+          $slider.slick('slickGoTo', 0, true);
+          $slider.slick('slickPause');
+          $slider.slick('slickSetOption', 'autoplay', false, true);
+          $slider.slick('slickSetOption', 'draggable', false, true);
+          $slider.slick('slickSetOption', 'swipe', false, true);
+          $slider.slick('slickSetOption', 'touchMove', false, true);
+        } catch(e){}
+        /* Ukryj strzałki i dots */
+        $slider.find('.slick-prev, .slick-next, .slick-dots').hide();
+      }
+    }
+    /* Próbuj natychmiast i po krótkim opóźnieniu (slick może się jeszcze inicjalizować) */
+    doFreeze();
+    setTimeout(doFreeze, 500);
+    setTimeout(doFreeze, 1500);
+    setTimeout(doFreeze, 3000);
+  }
+
+  /* -------------------------------------------------------
+     HIDE CMS HERO BUTTON — ukryj systemowy przycisk "Sprawdź apartamenty"
+     ------------------------------------------------------- */
+  function hideCmsHeroButton(){
+    var section = document.querySelector('.section.parallax');
+    if(!section) return;
+    var btns = section.querySelectorAll('a.btn, .btn, .iai_box_button, .booking_button');
+    for(var i = 0; i < btns.length; i++){
+      /* Nie ukrywaj naszych własnych przycisków */
+      if(!btns[i].classList.contains('ga-btn') && !btns[i].closest('.ga-hero-overlay')){
+        btns[i].style.display = 'none';
+      }
+    }
+  }
+
+  /* -------------------------------------------------------
+     LIGHTBOX — powiększanie zdjęć w sekcji "Odkryj magię Gdańska"
+     ------------------------------------------------------- */
+  function initLightbox(){
+    if(document.querySelector('.ga-lightbox')) return; /* guard */
+    var cards = document.querySelectorAll('.ga-discover__card');
+    if(!cards.length) return;
+
+    /* Utwórz overlay lightbox */
+    var lb = document.createElement('div');
+    lb.className = 'ga-lightbox';
+    lb.innerHTML =
+      '<div class="ga-lightbox__close">&times;</div>' +
+      '<img class="ga-lightbox__img" src="" alt="">' +
+      '<div class="ga-lightbox__caption"></div>';
+    document.body.appendChild(lb);
+
+    var lbImg = lb.querySelector('.ga-lightbox__img');
+    var lbCaption = lb.querySelector('.ga-lightbox__caption');
+
+    /* Kliknięcie w kartę odkrywania */
+    for(var i = 0; i < cards.length; i++){
+      (function(card){
+        card.addEventListener('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          var img = card.querySelector('img');
+          var title = card.querySelector('h4');
+          if(img){
+            lbImg.src = img.src;
+            lbImg.alt = img.alt || '';
+            lbCaption.textContent = title ? title.textContent : '';
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      })(cards[i]);
+    }
+
+    /* Zamknięcie lightbox */
+    function closeLb(){
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    lb.addEventListener('click', function(e){
+      if(e.target === lb || e.target.classList.contains('ga-lightbox__close')){
+        closeLb();
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && lb.classList.contains('active')){
+        closeLb();
+      }
+    });
+  }
+
+  /* -------------------------------------------------------
+     ENHANCED OFFERS GRID — karty z pobieraniem danych z offer pages
+     ------------------------------------------------------- */
+  function fetchOfferData(card, href){
+    if(!href) return;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', href, true);
+    xhr.onload = function(){
+      if(xhr.status !== 200) return;
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(xhr.responseText, 'text/html');
+
+      /* Szukaj danych: powierzchnia */
+      var area = '';
+      var areaEl = doc.querySelector('.accommodation-meters, [class*="meters"], .object-area');
+      if(areaEl) area = areaEl.textContent.trim();
+      if(!area){
+        var allText = doc.body ? doc.body.textContent : '';
+        var m2 = allText.match(/(\d+[,.]?\d*)\s*m²/);
+        if(m2) area = m2[0];
+      }
+
+      /* Szukaj: osoby */
+      var persons = '';
+      var persEl = doc.querySelector('.accommodation-roomspace, [class*="roomspace"]');
+      if(persEl){
+        var pMatch = persEl.textContent.match(/(\d+)/);
+        if(pMatch) persons = pMatch[1];
+      }
+      if(!persons){
+        var rText = doc.body ? doc.body.textContent : '';
+        var pmatch = rText.match(/(?:miejsc|osób|osoby|os\.)\s*[:\s]*(\d+)/i);
+        if(pmatch) persons = pmatch[1];
+        if(!persons){
+          var pmatch2 = rText.match(/(\d+)\s*(?:miejsc|osób|osoby|os\.)/i);
+          if(pmatch2) persons = pmatch2[1];
+        }
+      }
+
+      /* Szukaj: cena */
+      var price = '';
+      var priceEl = doc.querySelector('.price-value, .accommodation-price .price, [class*="price"] .value, .price_value');
+      if(priceEl) price = priceEl.textContent.trim();
+      if(!price){
+        var pText = doc.body ? doc.body.textContent : '';
+        var prMatch = pText.match(/(\d[\d\s,.]*)\s*(?:PLN|zł|pln)/i);
+        if(prMatch) price = prMatch[1].trim() + ' zł';
+      }
+
+      /* Aktualizuj kartę */
+      var infoDiv = card.querySelector('.ga-offer-card__info');
+      if(!infoDiv){
+        infoDiv = document.createElement('div');
+        infoDiv.className = 'ga-offer-card__info';
+        var nameEl = card.querySelector('.ga-offer-card__name');
+        if(nameEl) nameEl.parentNode.insertBefore(infoDiv, nameEl.nextSibling);
+      }
+
+      var tags = '';
+      if(persons) tags += '<span class="ga-offer-card__tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' + persons + ' os.</span>';
+      if(area) tags += '<span class="ga-offer-card__tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>' + area + '</span>';
+      if(tags) infoDiv.innerHTML = tags;
+
+      /* Cena */
+      if(price){
+        var priceDiv = card.querySelector('.ga-offer-card__price');
+        if(!priceDiv){
+          priceDiv = document.createElement('div');
+          priceDiv.className = 'ga-offer-card__price';
+          var btnEl = card.querySelector('.ga-offer-card__btn');
+          if(btnEl) btnEl.parentNode.insertBefore(priceDiv, btnEl);
+        }
+        priceDiv.innerHTML = price + ' <small>/ noc</small>';
+      }
+    };
+    xhr.send();
+  }
+
+  /* -------------------------------------------------------
+     COLLAPSIBLE FILTERS — rozwijane filtry na /oferta
+     ------------------------------------------------------- */
+  function initCollapsibleFilters(){
+    if(window.__gaFiltersInitialized) return;
+    window.__gaFiltersInitialized = true;
+
+    if(!document.querySelector('.page-offers')) return;
+    var aside = document.querySelector('.page-offers .aside');
+    if(!aside) return;
+
+    /* Collapse all filters on page load */
+    var filterContents = aside.querySelectorAll('.filter_content.collapse.show');
+    filterContents.forEach(function(fc) {
+      fc.classList.remove('show');
+    });
+    var triggers = aside.querySelectorAll('[aria-expanded="true"]');
+    triggers.forEach(function(t) {
+      t.setAttribute('aria-expanded', 'false');
+    });
+
+    var filterItems = aside.querySelectorAll('.filter_items');
+    for(var i = 0; i < filterItems.length; i++){
+      (function(fi){
+        var head = fi.querySelector('.filter_header');
+        if(!head) return;
+        head.addEventListener('click', function(e){
+          e.preventDefault();
+          fi.classList.toggle('ga-filter-collapsed');
+        });
+      })(filterItems[i]);
+    }
+  }
+
+  /* -------------------------------------------------------
+     INIT
+     ------------------------------------------------------- */
+  function init(){
+    initPageLoader();
+    initScrollProgress();
+    initHeroOverlay();
+    initGoldParticles();
+    moveCmshotspot();
+    initOffersGrid();
+    initStatsBar();
+    initDividers();
+    initShimmer();
+    initStagger();
+    initSlideIn();
+    initReveal();
+    initCounters();
+    initParallaxScroll();
+    initTilt();
+    /* Nowe interakcje */
+    initFaqAccordion();
+    initScrollIndicator();
+    initNavScroll();
+    initHeadingEffects();
+    addCounterGlow();
+    /* WOW effects */
+    initCityDecorations();
+    initGoldenOrnaments();
+    initGoldDust();
+    initAccentLines();
+    initAmbientGlow();
+    initWowObserver();
+    /* v2 fixes */
+    freezeHeroSlider();
+    hideCmsHeroButton();
+    initLightbox();
+    /* v3.1 fixes */
+    initCollapsibleFilters();
+  }
+
+  /* -------------------------------------------------------
+     SEO & WCAG FIXES — structured data, a11y, heading fix
+     ------------------------------------------------------- */
+  function initSeoAndA11y(){
+    /* 1. Hide original H1 and H2 "IdoBooking" from template */
+    var origH1 = document.querySelector('.index-info-static h1');
+    if(origH1) origH1.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;';
+    var idbH2 = document.querySelector('.index-info-static h2');
+    if(idbH2 && idbH2.textContent.trim() === 'IdoBooking') idbH2.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;';
+
+    /* 2. Add alt text to slider images */
+    var sliderAlts = [
+      'Panorama Gdańska z widokiem na Motławę — Golden Apartments',
+      'Wnętrze apartamentu Golden Apartments w Gdańsku',
+      'Widok na Stare Miasto w Gdańsku nocą',
+      'Apartament z balkonem w centrum Gdańska',
+      'Molo w Sopocie o zachodzie słońca — Trójmiasto'
+    ];
+    document.querySelectorAll('.parallax-image img').forEach(function(img, i){
+      if(!img.alt || img.alt === '') img.alt = sliderAlts[i] || 'Golden Apartments — apartamenty w Gdańsku';
+    });
+
+    /* 3. Fix footer target="blank" → target="_blank" + add rel */
+    document.querySelectorAll('a[target="blank"]').forEach(function(a){
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', 'noopener noreferrer');
+    });
+
+    /* 4. Fix powered-by image alt */
+    var powImg = document.querySelector('.powered_by_logo img');
+    if(powImg && (!powImg.alt || powImg.alt === '')) powImg.alt = 'Powered by IdoBooking';
+
+    /* 5. Inject JSON-LD: LocalBusiness / LodgingBusiness */
+    var ldBusiness = {
+      '@context': 'https://schema.org',
+      '@type': 'LodgingBusiness',
+      'name': 'Golden Apartments',
+      'description': 'Wynajem apartamentów w Gdańsku, Sopocie i Gdyni — komfortowe obiekty na krótki i długi pobyt od 2011 roku.',
+      'url': 'https://goldenapartments.com.pl',
+      'telephone': '+48518843405',
+      'email': 'rezerwacje@goldenapartments.com.pl',
+      'address': {
+        '@type': 'PostalAddress',
+        'streetAddress': 'Gdyńskich Kosynierów 3/1A',
+        'addressLocality': 'Gdańsk',
+        'postalCode': '80-866',
+        'addressCountry': 'PL'
+      },
+      'geo': {
+        '@type': 'GeoCoordinates',
+        'latitude': 54.3520,
+        'longitude': 18.6466
+      },
+      'image': 'https://client57304.idosell.com/images/frontpageGallery/pictures/large/0/0/3_full.jpg',
+      'priceRange': '$$',
+      'aggregateRating': {
+        '@type': 'AggregateRating',
+        'ratingValue': '4.8',
+        'bestRating': '5',
+        'reviewCount': '150'
+      },
+      'amenityFeature': [
+        {'@type': 'LocationFeatureSpecification', 'name': 'Bezpłatny parking', 'value': true},
+        {'@type': 'LocationFeatureSpecification', 'name': 'WiFi', 'value': true},
+        {'@type': 'LocationFeatureSpecification', 'name': 'Klimatyzacja', 'value': true},
+        {'@type': 'LocationFeatureSpecification', 'name': 'Transfer z lotniska', 'value': true}
+      ]
+    };
+
+    var ldFaq = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'Jak dokonać rezerwacji apartamentu?',
+          'acceptedAnswer': {'@type': 'Answer', 'text': 'Rezerwacji dokonasz bezpośrednio na naszej stronie — wybierz daty, liczbę osób i sprawdź dostępność. Możesz też zadzwonić pod numer 607 920 790 lub napisać na maciej.swiacki@goldenapartments.com.pl'}
+        },
+        {
+          '@type': 'Question',
+          'name': 'Czy parking jest wliczony w cenę?',
+          'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak! Bezpłatne miejsce parkingowe jest dostępne przy każdym naszym apartamencie.'}
+        },
+        {
+          '@type': 'Question',
+          'name': 'Czy oferujecie transfer z lotniska w Gdańsku?',
+          'acceptedAnswer': {'@type': 'Answer', 'text': 'Oczywiście! Organizujemy transfer z lotniska im. Lecha Wałęsy bezpośrednio do apartamentu. Wystarczy zgłosić to przy rezerwacji.'}
+        },
+        {
+          '@type': 'Question',
+          'name': 'Od ilu nocy można wynająć apartament?',
+          'acceptedAnswer': {'@type': 'Answer', 'text': 'Minimalna długość pobytu to 2 noce przy wynajmie krótkoterminowym. Oferujemy też najem długoterminowy od 1 miesiąca.'}
+        },
+        {
+          '@type': 'Question',
+          'name': 'Czy w apartamentach jest WiFi i klimatyzacja?',
+          'acceptedAnswer': {'@type': 'Answer', 'text': 'Tak — wszystkie nasze apartamenty są wyposażone w szybkie WiFi, klimatyzację, smart TV oraz pełne wyposażenie kuchenne.'}
+        },
+        {
+          '@type': 'Question',
+          'name': 'Jakie atrakcje znajdują się w pobliżu?',
+          'acceptedAnswer': {'@type': 'Answer', 'text': 'Nasze apartamenty są w centrum Gdańska — do Długiego Targu, Żurawia i Bazyliki Mariackiej to kilka minut pieszo. Sopot z Molo jest 20 minut kolejką SKM.'}
+        }
+      ]
+    };
+
+    [ldBusiness, ldFaq].forEach(function(data){
+      var s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.textContent = JSON.stringify(data);
+      document.head.appendChild(s);
+    });
+
+    /* 6. Inject Twitter Card meta tags */
+    var twMeta = [
+      ['twitter:card', 'summary_large_image'],
+      ['twitter:title', 'Golden Apartments — Wynajem Apartamentów w Gdańsku'],
+      ['twitter:description', 'Komfortowe apartamenty w Gdańsku, Sopocie i Gdyni na wynajem krótko- i długoterminowy. Od 2011 roku.'],
+      ['twitter:image', 'https://client57304.idosell.com/images/frontpageGallery/pictures/large/0/0/3_full.jpg']
+    ];
+    twMeta.forEach(function(pair){
+      var m = document.createElement('meta');
+      m.name = pair[0];
+      m.content = pair[1];
+      document.head.appendChild(m);
+    });
+
+    /* 7. Fix search form input a11y labels */
+    var dateFrom = document.getElementById('iai_booking_date_from');
+    if(dateFrom && !dateFrom.getAttribute('aria-label')) dateFrom.setAttribute('aria-label', 'Data zameldowania');
+    var dateTo = document.getElementById('iai_booking_date_to');
+    if(dateTo && !dateTo.getAttribute('aria-label')) dateTo.setAttribute('aria-label', 'Data wymeldowania');
+    var persons = document.getElementById('iai_booking_persons');
+    if(persons && !persons.getAttribute('aria-label')) persons.setAttribute('aria-label', 'Liczba osób');
+    var location = document.getElementById('iai_booking_location');
+    if(location && !location.getAttribute('aria-label')) location.setAttribute('aria-label', 'Lokalizacja');
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  window.addEventListener('load', function(){
+    initHeroOverlay();
+    moveCmshotspot();
+    initOffersGrid();
+    initGoldParticles();
+    initStatsBar();
+    initCounters();
+    initSlideIn();
+    initFaqAccordion();
+    initScrollIndicator();
+    initNavScroll();
+    initHeadingEffects();
+    addCounterGlow();
+    /* WOW effects — ponowna inicjalizacja po pełnym załadowaniu */
+    initCityDecorations();
+    initGoldenOrnaments();
+    initGoldDust();
+    initAccentLines();
+    initAmbientGlow();
+    initWowObserver();
+    /* v2 fixes — ponowna inicjalizacja */
+    freezeHeroSlider();
+    hideCmsHeroButton();
+    initLightbox();
+    /* v3.1 fixes — ponowna inicjalizacja */
+    initCollapsibleFilters();
+    /* v3.5 fix — popraw polskie URL-e na angielskie (IdoSell routing) */
+    document.querySelectorAll('a[href="/oferty"]').forEach(function(a){ a.href = '/offers'; });
+    document.querySelectorAll('a[href="/kontakt"]').forEach(function(a){ a.href = '/contact'; });
+    /* v4.0 — SEO & WCAG fixes */
+    initSeoAndA11y();
+    /* v4.1 — Phone space fix (panel stores tel: with space) */
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(a){ a.href = a.href.replace(/\s/g, ''); });
+  });
+
+})();
+
+/* === SEARCH WIDGET UX ENHANCEMENTS === */
+(function () {
+  'use strict';
+  function enhanceSearchWidget() {
+    var form = document.getElementById('iai_book_form');
+    if (!form) return false;
+    form.style.display = 'grid';
+    form.classList.add('ga-enhanced');
+    var options = form.querySelectorAll('.widget__option');
+    options.forEach(function (opt) {
+      var input = opt.querySelector('input');
+      if (input) {
+        input.addEventListener('focus', function () {
+          options.forEach(function (o) { o.classList.remove('is-active'); });
+          opt.classList.add('is-active');
+        });
+        input.addEventListener('blur', function () {
+          setTimeout(function () { opt.classList.remove('is-active'); }, 150);
+        });
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!form.contains(e.target)) {
+        var pl = document.getElementById('iai_persons_list');
+        if (pl) pl.style.display = 'none';
+        var lc = document.getElementById('iailocation-container');
+        if (lc) lc.style.display = 'none';
+      }
+    });
+    var sc = document.querySelector('.iai-search');
+    if (sc) {
+      requestAnimationFrame(function () {
+        sc.classList.add('ga-search-ready');
+        /* FIX: Po animacji fade-in, usun inline transition/transform
+           ktore system IdoBooking ustawia → zapobiega pulsacji */
+        setTimeout(function() {
+          sc.style.transition = 'none';
+          sc.style.transform = '';
+          sc.style.opacity = '';
+        }, 600);
+      });
+    }
+    /* Click delegation USUNIETA — inputy sa teraz position:absolute
+       pokrywajac caly .widget__option, wiec klikniecia trafiaja
+       bezposrednio w input. Stary delegation powodowal double-click
+       co moglo powodowac NaN w datach Litepickera. */
+    var df = document.getElementById('iai_booking_date_from');
+    var dt = document.getElementById('iai_booking_date_to');
+    if (df && !df.value) df.placeholder = 'Zameldowanie';
+    if (dt && !dt.value) dt.placeholder = 'Wymeldowanie';
+    /* Backdrop kalendarza — ciemny overlay za litepicker.
+       Tworzymy prawdziwy DOM element (::before nie dziala prawidlowo
+       wewnatrz position:fixed parenta). MutationObserver obserwuje
+       atrybut style na .litepicker i toggluje klase .active. */
+    var bdEl = document.getElementById('ga-calendar-backdrop');
+    if (!bdEl) {
+      bdEl = document.createElement('div');
+      bdEl.id = 'ga-calendar-backdrop';
+      document.body.appendChild(bdEl);
+    }
+    var lpCheck = document.querySelector('.litepicker');
+    if (lpCheck && bdEl) {
+      var bdObs = new MutationObserver(function() {
+        var vis = lpCheck.style.display !== 'none' && lpCheck.offsetHeight > 0;
+        bdEl.classList.toggle('active', vis);
+      });
+      bdObs.observe(lpCheck, { attributes: true, attributeFilter: ['style'] });
+    }
+
+    /* Anty-NaN safeguard — jesli Litepicker wpisze NaN do inputa,
+       natychmiast czysc wartosc. MutationObserver lapie zmiany value
+       przez setAttribute, a input event lapie programowe .value = ... */
+    [df, dt].forEach(function(inp) {
+      if (!inp) return;
+      var cleanNaN = function() {
+        if (inp.value && /NaN/.test(inp.value)) inp.value = '';
+      };
+      inp.addEventListener('input', cleanNaN);
+      inp.addEventListener('change', cleanNaN);
+      var obs = new MutationObserver(function(muts) {
+        muts.forEach(function(m) { if (m.attributeName === 'value') cleanNaN(); });
+      });
+      obs.observe(inp, { attributes: true, attributeFilter: ['value'] });
+    });
+    var loc = document.getElementById('iai_booking_location');
+    if (loc && !loc.value) {
+      loc.removeAttribute('readonly');
+      loc.placeholder = 'Gdzie chcesz nocować?';
+      loc.setAttribute('readonly', '');
+    }
+
+    /* Fix OSOBY: System (widget-temp.js) ma handler na INPUT ktory wola
+       togglePersonsList() — ta funkcja toggle'uje klase .visible.
+       CSS .visible{display:block} powinno pokazac liste, ALE system
+       handlePersonSelection() ustawia INLINE style="display:none" po wyborze.
+       Inline style wygrywa z CSS → drugie klikniecie nie otwiera listy.
+       FIX: CSS #iai_persons_list.visible { display: block !important }
+       !important nadpisuje inline style. Nie potrzebujemy dodatkowego
+       handlera na person_section (kolizja z system handlerem = double toggle).
+       Jedyne co dodajemy: zamkniecie listy klikajac poza widget. */
+    var personSection = document.getElementById('person_section');
+    if (personSection) {
+      personSection.style.cursor = 'pointer';
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('#person_section')) {
+          var pl = document.getElementById('iai_persons_list');
+          if (pl) {
+            pl.classList.remove('visible');
+          }
+        }
+      });
+    }
+
+    return true;
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      if (!enhanceSearchWidget()) {
+        setTimeout(enhanceSearchWidget, 500);
+        setTimeout(enhanceSearchWidget, 1500);
+        setTimeout(enhanceSearchWidget, 3000);
+      }
+    });
+  } else {
+    if (!enhanceSearchWidget()) {
+      setTimeout(enhanceSearchWidget, 500);
+      setTimeout(enhanceSearchWidget, 1500);
+    }
+  }
+})();
+
+/* -------------------------------------------------------
+   FILTRY /offers — Bootstrap Collapse JS brakuje w ukladzie
+   System laduje jQuery 3.5.1 ale BEZ pluginu $.fn.collapse,
+   wiec klasa .collapse ustawia display:none ale nic nie
+   obsluguje klikniec. Rozwiazanie: event delegation w fazie
+   capture na document — lapie klikniecia na span/strong/i
+   wewnatrz .filter_header i recznie toggleuje widocznosc.
+   ------------------------------------------------------- */
+(function(){
+  if (window.location.pathname.indexOf('/offers') === -1 && window.location.pathname.indexOf('/search') === -1) return;
+
+  document.addEventListener('click', function(e) {
+    var header = e.target.closest('.filter_header');
+    if (!header) return;
+
+    var content = header.nextElementSibling;
+    if (!content || !content.classList.contains('filter_content')) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (content.classList.contains('ga-open')) {
+      content.classList.remove('ga-open');
+      content.style.cssText = 'display:none !important;';
+      header.classList.remove('ga-active');
+    } else {
+      content.classList.add('ga-open');
+      content.classList.remove('collapse');
+      content.style.cssText = 'display:block !important; height:auto !important; overflow:visible !important;';
+      header.classList.add('ga-active');
+    }
+  }, true);
+})();
+</script>

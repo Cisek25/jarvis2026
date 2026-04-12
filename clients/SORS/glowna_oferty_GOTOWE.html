@@ -1,0 +1,26 @@
+<!-- ==========================================================
+   SORS — Strona główna: Style ofert "Nasze Apartamenty"
+   DODAĆ DO custom.css LUB WKLEIĆ W PANELU
+   Działa globalnie - strona główna + podstrony z ofertami
+   ========================================================== -->
+
+<style>
+/* --- Powolny zoom na zdjęciach ofert --- */
+.offer .object-icon img {
+  transition: transform 6s ease-out !important;
+}
+.offer:hover .object-icon img {
+  transform: scale(1.06);
+}
+
+/* --- Ukrycie opisu-overlay i niebieskiego hovera --- */
+.offer .object-icon p,
+.offer .object-icon .offer__hover {
+  display: none !important;
+}
+
+/* --- Większy odstęp między ofertami --- */
+.cmshotspot .offer {
+  padding: 0 32px !important;
+}
+</style>

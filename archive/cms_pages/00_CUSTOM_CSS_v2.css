@@ -1,0 +1,782 @@
+/* ============================================================
+   EAGLE TOWER BENIDORM — Custom CSS v2
+   Wklej do: Arkusz stylów CSS → custom.css (prawy panel)
+   Zastąp całą poprzednią zawartość tym plikiem.
+   ============================================================ */
+
+/* ============================================================
+   DESIGN TOKENS
+   Zmiana koloru marki: edytuj tylko tę sekcję.
+   ============================================================ */
+
+:root {
+    --et-brand:        #00579E;  /* główny kolor marki */
+    --et-brand-hover:  #1D4ED8;  /* hover przycisku */
+    --et-muted-bg:     #EBF4FB;  /* jasne tło sekcji */
+    --et-muted-border: #b3d4ec;  /* obramowanie w sekcji muted */
+    --et-muted-card:   #c8dff0;  /* obramowanie kart w sekcji muted */
+    --et-max-width:    1170px;   /* szerokość kontenera */
+    --et-section-pad:  80px;     /* padding sekcji desktop */
+    --et-section-pad-m: 56px;   /* padding sekcji mobile */
+    --et-inner-pad:    40px;     /* padding wewnętrzny desktop */
+    --et-inner-pad-m:  24px;     /* padding wewnętrzny mobile */
+}
+
+/* ---- Ukrycia systemowe (zachowaj) ---- */
+.contact__block.--links ul li:first-child { display: none !important; }
+.footer-contact ul li.footer-contact-phone { display: none !important; }
+#additional_info .addonsList li:first-child { display: none !important; }
+
+/* ---- Ukrycie tytułu strony CMS (h1.big-label) i usunięcie białego paska ---- */
+
+/* 1. CMS wstrzykuje <h1 class="big-label"> nad treścią — ukrywamy */
+h1.big-label {
+    display: none !important;
+}
+
+/* 2. Główna przyczyna białego paska:
+      CMS ustawia padding-top: 50px na #pageContent .container
+      (wrapper wszystkich podstron tekstowych).
+      Zerujemy go bezwarunkowo — nasze sekcje mają własne paddingi. */
+#pageContent .container {
+    padding-top: 0 !important;
+}
+
+/* 3. Bootstrap .mb-5 otacza .txt-text — usuń zbędny margin-bottom na dole */
+#pageContent .mb-5 {
+    margin-bottom: 0 !important;
+}
+
+/* ============================================================
+   UCIECZKA Z KONTENERA CMS
+   .txt-text jest w .container (max 1170px + 15px padding)
+   Używamy negative margin żeby sekcje były full-width
+   ============================================================ */
+
+.txt-text .et-full {
+    margin-left:  -15px;
+    margin-right: -15px;
+    width: calc(100% + 30px);
+}
+
+/* Na większych breakpointach dokładamy więcej bo container ma padding */
+@media (min-width: 1200px) {
+    .txt-text .et-full {
+        /* Centralnie wyśrodkowany kontener ma max 1170px (--et-max-width),
+           viewport może być dowolny — liczymy przez vw.
+           585px = --et-max-width / 2. Zaktualizuj jeśli zmienisz max-width. */
+        margin-left:  calc(-50vw + 585px);
+        margin-right: calc(-50vw + 585px);
+        width: 100vw;
+    }
+}
+
+/* ============================================================
+   TYPOGRAFIA BAZOWA
+   ============================================================ */
+
+.txt-text {
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    line-height: 1.7;
+}
+
+/* ============================================================
+   SEKCJE
+   ============================================================ */
+
+.et-section {
+    padding: 80px 0;
+    width: 100%;
+}
+
+.et-section--dark {
+    background: var(--et-brand);
+    color: #fff;
+}
+
+.et-section--muted {
+    background: var(--et-muted-bg);
+}
+
+/* Wewnętrzny kontener treści sekcji */
+.et-inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+}
+
+@media (max-width: 768px) {
+    .et-inner { padding: 0 var(--et-inner-pad-m); }
+    .et-section { padding: var(--et-section-pad-m) 0; }
+}
+
+/* ============================================================
+   NAGŁÓWKI SEKCJI
+   ============================================================ */
+
+.et-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 14px;
+    font-weight: 500;
+}
+
+.et-section--dark .et-label { color: rgba(255,255,255,0.5); }
+.et-section--muted .et-label { color: var(--et-brand); }
+
+.et-h2 {
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin: 0 0 24px;
+}
+
+.et-section--dark .et-h2 { color: #fff; }
+
+.et-h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+}
+
+.et-section--dark .et-h3 { color: #fff; }
+
+.et-lead {
+    font-size: 17px;
+    color: #555;
+    line-height: 1.75;
+    max-width: 680px;
+    margin: 0 0 48px;
+}
+
+.et-section--dark .et-lead { color: rgba(255,255,255,0.75); }
+
+/* Linia dekoracyjna */
+.et-rule {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 0 0 48px;
+    max-width: 48px;
+}
+
+.et-section--dark .et-rule { border-color: rgba(255,255,255,0.25); }
+.et-section--muted .et-rule { border-color: var(--et-muted-border); }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+
+.et-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.et-split--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+}
+
+.et-split--4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+}
+
+@media (max-width: 900px) {
+    .et-split,
+    .et-split--3,
+    .et-split--4 {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+/* ============================================================
+   HERO BANER PODSTRONY
+   ============================================================ */
+
+.et-hero {
+    padding: 100px 0 80px;
+    background: var(--et-brand);
+    color: #fff;
+}
+
+.et-hero__inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+}
+
+.et-hero__kicker {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 20px;
+}
+
+.et-hero__title {
+    font-size: clamp(36px, 5vw, 72px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: #fff;
+    margin: 0 0 24px;
+}
+
+.et-hero__desc {
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0;
+}
+
+/* ============================================================
+   KARTY APARTAMENTÓW
+   ============================================================ */
+
+.et-apt {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 860px) {
+    .et-apt { grid-template-columns: 1fr; }
+}
+
+.et-apt__item {
+    padding: 56px 48px;
+    border-right: 1px solid #e8e8e8;
+    position: relative;
+}
+
+.et-apt__item:last-child {
+    border-right: none;
+}
+
+.et-section--muted .et-apt__item {
+    border-color: var(--et-muted-card);
+}
+
+.et-apt__num {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.et-apt__name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin: 0 0 6px;
+}
+
+.et-apt__floor {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 24px;
+    display: block;
+}
+
+.et-apt__desc {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin: 0 0 28px;
+}
+
+.et-apt__specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.et-apt__spec {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: #444;
+    border: 1px solid #ddd;
+    padding: 4px 12px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   LISTA CECH
+   ============================================================ */
+
+.et-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.et-features li {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+    padding: 12px 0;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.et-features li:last-child { border-bottom: none; }
+
+.et-features li::before {
+    content: "—";
+    color: #bbb;
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.et-section--dark .et-features li { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.15); }
+.et-section--dark .et-features li::before { color: rgba(255,255,255,0.35); }
+.et-section--muted .et-features li { border-color: var(--et-muted-card); }
+
+/* ============================================================
+   GRID UDOGODNIEŃ — pełna szerokość, podział linią
+   ============================================================ */
+
+.et-amenities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #e8e8e8;
+}
+
+@media (max-width: 860px) {
+    .et-amenities { grid-template-columns: 1fr; }
+}
+
+.et-amenity {
+    padding: 48px 40px;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.et-amenity:nth-child(3n) { border-right: none; }
+
+.et-section--dark .et-amenities { border-color: rgba(255,255,255,0.15); }
+.et-section--dark .et-amenity { border-color: rgba(255,255,255,0.15); }
+.et-section--muted .et-amenities { border-color: var(--et-muted-card); }
+.et-section--muted .et-amenity { border-color: var(--et-muted-card); }
+
+.et-amenity__icon {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--et-brand);
+    line-height: 1;
+}
+
+.et-amenity__icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.et-section--dark .et-amenity__icon { color: rgba(255,255,255,0.9); }
+
+.et-amenity__title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+}
+
+.et-amenity__text {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.et-section--dark .et-amenity__title { color: #fff; }
+.et-section--dark .et-amenity__text { color: rgba(255,255,255,0.65); }
+
+/* ============================================================
+   SPECS BAR (dane apartamentu)
+   ============================================================ */
+
+.et-specs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .et-specs { grid-template-columns: repeat(2, 1fr); }
+}
+
+.et-spec {
+    padding: 32px 24px;
+    border-right: 1px solid #e8e8e8;
+    text-align: left;
+}
+
+.et-spec:last-child { border-right: none; }
+
+.et-spec__val {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--et-brand);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.et-spec__label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #999;
+}
+
+/* ============================================================
+   ATRAKCJE / LOKALIZACJA
+   ============================================================ */
+
+.et-places {
+    border-top: 1px solid #e8e8e8;
+}
+
+.et-place {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: start;
+    padding: 36px 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.et-place__name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 6px;
+}
+
+.et-place__desc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.65;
+    margin: 0;
+}
+
+.et-place__dist {
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: var(--et-brand);
+    white-space: nowrap;
+    padding-top: 4px;
+    font-weight: 600;
+}
+
+/* ============================================================
+   PRZYCISK CTA
+   ============================================================ */
+
+.et-btn {
+    display: inline-block;
+    background: var(--et-brand);
+    color: #fff !important;
+    padding: 14px 32px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-decoration: none !important;
+    border-radius: 2px;
+    transition: background 0.15s ease;
+}
+
+.et-btn:hover {
+    background: var(--et-brand-hover);
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+.et-btn--ghost {
+    background: transparent;
+    border: 1px solid var(--et-brand);
+    color: var(--et-brand) !important;
+}
+
+.et-btn--ghost:hover {
+    background: var(--et-brand);
+    color: #fff !important;
+}
+
+.et-section--dark .et-btn {
+    background: #fff;
+    color: var(--et-brand) !important;
+}
+
+.et-section--dark .et-btn:hover {
+    background: var(--et-muted-bg);
+    color: var(--et-brand) !important;
+}
+
+/* ============================================================
+   GALERIA
+   ============================================================ */
+
+.et-albums {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid #e8e8e8;
+}
+
+@media (max-width: 680px) {
+    .et-albums { grid-template-columns: 1fr; }
+}
+
+.et-album {
+    padding: 48px 40px;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    transition: background 0.15s ease;
+}
+
+.et-album:nth-child(2n) { border-right: none; }
+.et-album:hover { background: var(--et-muted-bg); }
+
+.et-album__num {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #bbb;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.et-album__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+}
+
+.et-album__desc {
+    font-size: 14px;
+    color: #777;
+    line-height: 1.65;
+    margin: 0 0 24px;
+}
+
+/* ============================================================
+   PASEK DOLNY CTA
+   ============================================================ */
+
+.et-cta-bar {
+    padding: var(--et-section-pad) 0;
+    background: var(--et-brand);
+}
+
+.et-cta-bar__inner {
+    max-width: var(--et-max-width);
+    margin: 0 auto;
+    padding: 0 var(--et-inner-pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .et-cta-bar__inner { flex-direction: column; align-items: flex-start; }
+    .et-cta-bar { padding: var(--et-section-pad-m) 0; }
+}
+
+.et-cta-bar__text h3 {
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+}
+
+.et-cta-bar__text p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.et-cta-bar .et-btn {
+    background: #fff;
+    color: var(--et-brand) !important;
+}
+
+.et-cta-bar .et-btn:hover {
+    background: var(--et-muted-bg);
+    color: var(--et-brand) !important;
+}
+
+/* ============================================================
+   SEKCJA INTRO (duży tekst)
+   ============================================================ */
+
+.et-intro {
+    font-size: clamp(18px, 2vw, 22px);
+    color: #333;
+    line-height: 1.7;
+    max-width: 780px;
+    font-weight: 400;
+}
+
+/* ============================================================
+   SIATKA ZDJĘĆ — galeria fotograficzna
+   ============================================================ */
+
+.et-photos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+@media (max-width: 860px) {
+    .et-photos { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .et-photos { grid-template-columns: 1fr; }
+}
+
+.et-photo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: #f0f0f0;
+    display: block;
+}
+
+.et-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.et-photo:hover img {
+    transform: scale(1.04);
+    opacity: 0.92;
+}
+
+.et-photo__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 87, 158, 0); /* rgba of --et-brand; update if changing brand color */
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.et-photo:hover .et-photo__overlay {
+    background: rgba(0, 87, 158, 0.15); /* rgba of --et-brand */
+}
+
+.et-photo__overlay svg {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    color: #fff;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
+.et-photo:hover .et-photo__overlay svg {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Licznik zdjęć */
+.et-photos-count {
+    font-size: 13px;
+    color: #888;
+    letter-spacing: 0.5px;
+    margin-bottom: 32px;
+    display: block;
+}
+
+/* ============================================================
+   KLASY POMOCNICZE
+   ============================================================ */
+
+/* Wrapper na przyciski CTA (zastępuje inline style gap/flex) */
+.et-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Wrapper dla przycisków w pasku CTA */
+.et-cta-bar__actions {
+    flex-shrink: 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Grid udogodnień 2-kolumnowy (zamiast inline style) */
+.et-amenities--2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.et-amenities--2 .et-amenity:nth-child(3n) { border-right: 1px solid #e8e8e8; }
+.et-amenities--2 .et-amenity:nth-child(2n) { border-right: none; }
+
+/* Sekcja z mniejszym paddingiem (zamiast inline style) */
+.et-section--compact {
+    padding-top: 48px !important;
+    padding-bottom: 48px !important;
+}
+
+/* ============================================================
+   DOSTĘPNOŚĆ — ruch zredukowany
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .et-btn,
+    .et-photo img,
+    .et-photo__overlay,
+    .et-photo__overlay svg,
+    .et-album {
+        transition: none !important;
+    }
+    .et-photo:hover img {
+        transform: none !important;
+    }
+    .et-photo:hover .et-photo__overlay svg {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

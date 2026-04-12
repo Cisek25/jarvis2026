@@ -1,0 +1,85 @@
+===============================================================
+ MAZURSKI CHILL — CO WPISAĆ W PANELU IDOSELL
+ Plik: WPROWADZ.txt | Data: 07.04.2026
+===============================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 1. NAGŁÓWEK STRONY GŁÓWNEJ (Hero — tekst na sliderze)
+    Panel → Wygląd → Strona główna → Nagłówek strony głównej
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NAZWA (wyświetla się jako mały napis nad głównym tytułem):
+  Mazurski Chill
+
+PODPIS POD NAZWĄ (wyświetla się jako duży nagłówek):
+  Twój luksusowy azyl na Mazurach
+
+→ Efekt na stronie:
+  [mały napis]  MAZURSKI CHILL
+  [duży napis]  Twój luksusowy azyl na Mazurach
+
+Alternatywne warianty PODPISU:
+  • Luksusowe domki nad jeziorem
+  • Barnhouse on the lake • Jedwabno, Mazury
+  • Prywatność. Natura. Luksus.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 2. MENU — NAZWY POZYCJI
+    Panel → Treści → Menu → Menu główne
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Zalecane nazwy i linki:
+  O nas          → /txt/201/O-nas
+  Nasze Stodoły  → /txt/202/Nasze-Stodoly  (lub /offers)
+  Atrakcje       → /txt/203/Atrakcje
+  Cennik         → /txt/204/Cennik
+  Kontakt        → /txt/205/Kontakt
+
+REZERWUJ (przycisk wyróżniony):
+  → /offers
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 3. DANE KONTAKTOWE W STOPCE
+    Panel → Ustawienia → Dane kontaktowe
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Adres:       Nowy Dwór 14O, 12-122 Jedwabno
+Telefon:     +48 693 080 806
+E-mail:      kontakt@mazurskichill.pl  ← zmień z placeholdera!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 4. OBIEKTY — NAZWY WYRÓŻNIONYCH DOMKÓW
+    Panel → Obiekty → Lista obiektów
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Zamiast "Mazurski Chill" (dla obu domków) — nadaj różne nazwy:
+  Stodoła 1 → "Stodoła Wschodnia" lub "Stodoła przy pomoście"
+  Stodoła 2 → "Stodoła Zachodnia" lub "Stodoła w lesie"
+
+Dzięki temu karty na stronie pokazują różne nazwy i nie wyglądają
+jak duplikat tej samej oferty.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 5. ZDJĘCIA SLIDERA (galeria strony głównej)
+    Panel → Wygląd → Strona główna → Galeria frontpage
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Optymalne zdjęcia na slider:
+  • Format: 1920×1080 px minimum
+  • Temat: domek wieczorem z oświetleniem, widok na jezioro
+  • Styl: ciemne, nastrojowe — pasuje do granatowego motywu
+  • Min. 3 zdjęcia (slider obraca automatycznie)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 6. STRONA KONTAKT — podstrona /txt/205/Kontakt
+    Panel → Treści → Strony tekstowe → Kontakt → Początek sekcji Body
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Wklej plik: KONTAKT_PL__body_top.html
+Uzupełnij: adres Google Maps (współrzędne GPS) w linku iframe
+
+Współrzędne Jedwabno (orientacyjne):
+  53.3452°N, 20.3041°E
+  → https://maps.google.com/?q=Nowy+Dwor+14O,+12-122+Jedwabno
+
+===============================================================

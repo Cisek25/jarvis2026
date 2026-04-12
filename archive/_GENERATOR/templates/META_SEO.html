@@ -1,0 +1,88 @@
+<!-- ══════════════════════════════════════════════════════════
+     {{BRAND}} — META / OG / SEO
+     Kazda podstrona w panelu IdoBooking ma swoj HEAD.
+     Wklej odpowiedni blok do HEAD danej podstrony.
+     ══════════════════════════════════════════════════════════ -->
+
+
+<!-- ═══ STRONA GLOWNA ═══ -->
+<!-- Panel → Wyglad → Strona glowna → HEAD -->
+<title>{{BRAND}} — {{HERO_SUBTITLE_PL}}</title>
+<meta name="description" content="[OPIS 150-160 znakow — glowna oferta, lokalizacja, USP]">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:site_name" content="{{BRAND}}">
+<meta property="og:title" content="{{BRAND}} — {{HERO_SUBTITLE_PL}}">
+<meta property="og:description" content="[OPIS 150-160 znakow]">
+<meta property="og:url" content="https://[DOMENA]/">
+<meta property="og:image" content="https://[DOMENA]/images/frontpageGallery/pictures/large/[SCIEZKA].jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{BRAND}} — {{HERO_SUBTITLE_PL}}">
+<meta name="twitter:description" content="[OPIS KROTKI]">
+
+
+<!-- ═══ /offers — LISTA OFERT ═══ -->
+<!-- Panel → system generuje automatycznie, ale mozna nadpisac -->
+<title>Oferta — {{BRAND}}</title>
+<meta name="description" content="[OPIS np. Sprawdz dostepne apartamenty w LOKALIZACJA. Rezerwacja online, najlepsza cena.]">
+<meta property="og:title" content="Oferta — {{BRAND}}">
+<meta property="og:description" content="[OPIS]">
+<meta property="og:url" content="https://[DOMENA]/offers">
+
+
+<!-- ═══ /contact — KONTAKT ═══ -->
+<title>Kontakt — {{BRAND}}</title>
+<meta name="description" content="[OPIS np. Skontaktuj sie z BRAND. Telefon, email, formularz kontaktowy. LOKALIZACJA.]">
+<meta property="og:title" content="Kontakt — {{BRAND}}">
+<meta property="og:description" content="[OPIS]">
+<meta property="og:url" content="https://[DOMENA]/contact">
+
+
+<!-- ═══ PODSTRONY CMS — uzupelnij per klient ═══ -->
+<!--
+  Dla kazdej podstrony /txt/XXX/ wklej w HEAD:
+
+  <title>[TYTUL] — {{BRAND}}</title>
+  <meta name="description" content="[OPIS 150-160 znakow]">
+  <meta property="og:title" content="[TYTUL] — {{BRAND}}">
+  <meta property="og:description" content="[OPIS]">
+  <meta property="og:url" content="https://[DOMENA]/txt/XXX/">
+  <meta property="og:image" content="https://[DOMENA]/images/...">
+-->
+
+
+<!-- ═══ PRZYKLADOWE PODSTRONY ═══ -->
+
+<!-- /txt/201/ — [NAZWA np. Lokalizacja] -->
+<title>[NAZWA] — {{BRAND}}</title>
+<meta name="description" content="[OPIS]">
+<meta property="og:title" content="[NAZWA] — {{BRAND}}">
+<meta property="og:description" content="[OPIS]">
+<meta property="og:url" content="https://[DOMENA]/txt/201/">
+
+<!-- /txt/202/ — [NAZWA np. Wspolpraca] -->
+<title>[NAZWA] — {{BRAND}}</title>
+<meta name="description" content="[OPIS]">
+<meta property="og:title" content="[NAZWA] — {{BRAND}}">
+<meta property="og:description" content="[OPIS]">
+<meta property="og:url" content="https://[DOMENA]/txt/202/">
+
+<!-- /txt/20X/ — Blog (jesli klient ma bloga) -->
+<title>Blog — {{BRAND}}</title>
+<meta name="description" content="[OPIS np. Porady, inspiracje i przewodniki. Wszystko o regionie LOKALIZACJA.]">
+<meta property="og:title" content="Blog — {{BRAND}}">
+<meta property="og:description" content="[OPIS]">
+<meta property="og:url" content="https://[DOMENA]/txt/20X/">
+
+
+<!-- ══════════════════════════════════════════════════════════
+     INSTRUKCJA:
+     1. Kazda podstrona w panelu ma osobna sekcje HEAD
+     2. Wklej odpowiedni blok — TYLKO tagi meta, bez HTML
+     3. [DOMENA] zamien na domena klienta
+     4. [OPIS] — unikalne 150-160 znakow per podstrona
+     5. og:image — uzyj zdjecia z galerii slider (1200x630+)
+     6. Dla EN — zrob osobne bloki z content w jezyku angielskim
+     ══════════════════════════════════════════════════════════ -->

@@ -1,0 +1,105 @@
+<!-- ═══════════════════════════════════════════════════════════
+     VILLA KAPITAŃSKA — GALERIA JS
+     Wklej do: podstrona Galeria (txt/202) → pole "Skrypt strony" / body_bottom
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ── 1. Przechwytuj systemową galerię IdoSell ── */
+  var sysGallery = document.querySelector('.gallery-lightbox.row');
+  if (!sysGallery) return;
+
+  var sysItems = sysGallery.querySelectorAll('.gallery-sub');
+  var images = [];
+
+  sysItems.forEach(function(item) {
+    var img = item.querySelector('img');
+    if (!img) return;
+    var link = item.querySelector('a');
+    var src = img.src;
+    var fullSrc = link ? link.href : src;
+    images.push({ src: src, full: fullSrc, alt: img.alt || '' });
+  });
+
+  /* Ukryj systemową galerię */
+  sysGallery.style.display = 'none !important';
+  sysGallery.style.cssText = 'display:none !important; height:0 !important; overflow:hidden !important;';
+
+  /* ── 2. Zbuduj nasz grid ── */
+  var grid = document.getElementById('vkGalleryGrid');
+  if (!grid || !images.length) return;
+
+  /* Wyczyść stare dzieci (gdyby były z poprzedniego HTML) */
+  grid.innerHTML = '';
+
+  images.forEach(function(img, i) {
+    var div = document.createElement('div');
+    div.className = 'vk-gallery-item';
+    div.setAttribute('data-index', i);
+    div.innerHTML =
+      '<div class="vk-gallery-thumb">' +
+        '<img src="' + img.src + '" alt="' + img.alt + '" loading="lazy" />' +
+        '<div class="vk-gallery-overlay"><span class="vk-gallery-zoom">&#x1F50D;</span></div>' +
+      '</div>';
+    grid.appendChild(div);
+  });
+
+  /* ── 3. Lightbox ── */
+  var lb = document.getElementById('vkLightbox');
+  var lbImg = document.getElementById('vkLbImg');
+  var lbCounter = document.getElementById('vkLbCounter');
+  var lbClose = document.getElementById('vkLbClose');
+  var lbPrev = document.getElementById('vkLbPrev');
+  var lbNext = document.getElementById('vkLbNext');
+  if (!lb || !lbImg) return;
+
+  var current = 0;
+  var touchStartX = 0;
+
+  function openLb(idx) {
+    current = idx;
+    lbImg.src = images[idx].full || images[idx].src;
+    lbImg.alt = images[idx].alt;
+    lbCounter.textContent = (idx + 1) + ' / ' + images.length;
+    lb.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLb() {
+    lb.classList.remove('active');
+    document.body.style.overflow = '';
+    lbImg.src = '';
+  }
+
+  function prevImg() { openLb((current - 1 + images.length) % images.length); }
+  function nextImg() { openLb((current + 1) % images.length); }
+
+  grid.addEventListener('click', function(e) {
+    var item = e.target.closest('.vk-gallery-item');
+    if (!item) return;
+    openLb(parseInt(item.getAttribute('data-index'), 10));
+  });
+
+  lbClose.addEventListener('click', closeLb);
+  lbPrev.addEventListener('click', prevImg);
+  lbNext.addEventListener('click', nextImg);
+  lb.addEventListener('click', function(e) {
+    if (e.target === lb || e.target.classList.contains('vk-lightbox-inner')) closeLb();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLb();
+    if (e.key === 'ArrowLeft') prevImg();
+    if (e.key === 'ArrowRight') nextImg();
+  });
+
+  lb.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].clientX; }, {passive:true});
+  lb.addEventListener('touchend', function(e) {
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? nextImg() : prevImg(); }
+  }, {passive:true});
+
+})();
+</script>

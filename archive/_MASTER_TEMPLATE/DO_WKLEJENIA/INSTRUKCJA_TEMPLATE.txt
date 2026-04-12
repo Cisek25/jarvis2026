@@ -1,0 +1,75 @@
+═══════════════════════════════════════════════════════════════
+  [BRAND] — Instrukcja wklejania plików do panelu IdoSell
+═══════════════════════════════════════════════════════════════
+
+PLIKI W TYM FOLDERZE:
+─────────────────────
+
+1. [PREFIX]_ARKUSZ_STYLOW.css
+   → Panel: Wygląd → Arkusz stylów CSS
+   → Wklej CAŁĄ zawartość pliku (zamień to co jest)
+
+2. [PREFIX]_HEAD.html
+   → Panel: Ustawienia → Kody śledzące → Sekcja HEAD
+   → Wklej całą zawartość
+
+3. [PREFIX]_KONIEC_BODY_JS.html
+   → Panel: Ustawienia → Kody śledzące → Koniec sekcji BODY
+   → Wklej całą zawartość
+
+4. GLOWNA_PL__cms.html
+   → Panel: Wygląd → Strona główna → Edytor treści
+   → Przełącz na tryb HTML (przycisk < >)
+   → Wklej całą zawartość (zamień)
+   → WAŻNE: NIE edytuj w trybie wizualnym!
+
+5. [PODSTRONA]_PL__body_top.html (np. ATRAKCJE_PL__body_top.html)
+   → Panel: Treści → Strony tekstowe → [nazwa strony]
+   → Pole: "Początek sekcji Body"
+   → Wklej całą zawartość
+
+6. [PODSTRONA]_PL__body_bottom.html (jeśli istnieje)
+   → To samo co wyżej, ale pole: "Koniec sekcji Body"
+
+
+KOLEJNOŚĆ WKLEJANIA:
+────────────────────
+1. CSS (arkusz stylów) — NAJPIERW
+2. HEAD (fonty Google)
+3. KONIEC BODY (JavaScript)
+4. Strona główna (CMS)
+5. Podstrony (body_top + body_bottom)
+
+Po wklejeniu KAŻDEGO pliku: Ctrl+Shift+R na stronie (hard refresh)
+
+
+SPRAWDZANIE PO WKLEJENIU:
+─────────────────────────
+W folderze testy/ są skrypty testowe:
+1. Otwórz stronę w Chrome
+2. F12 → Console
+3. Wklej zawartość test_links.js → Enter
+4. Sprawdź: 0 FAIL = OK, WARN = do weryfikacji
+
+
+TELEFON W PANELU:
+─────────────────
+WAŻNE: Ustaw telefon BEZ SPACJI!
+  Dobrze: +48883791911
+  Źle:    +48 883791911
+
+Spacja w numerze powoduje problemy z linkiem tel: na mobile.
+Panel → Ustawienia → Dane firmy → Telefon
+
+
+ZDJĘCIA DO WGRANIA:
+───────────────────
+- Logo: Panel → Wygląd → Logo (plik PNG, przezroczyste tło)
+- Slider: Panel → Wygląd → Galeria strony głównej
+- Pokoje: Panel → Obiekty → [pokój] → Zdjęcia
+- Wymiary: min. 1200x800px, max 10MB
+
+═══════════════════════════════════════════════════════════════
+  Wygenerowano: [DATE]
+  Kontakt: [CONTACT]
+═══════════════════════════════════════════════════════════════

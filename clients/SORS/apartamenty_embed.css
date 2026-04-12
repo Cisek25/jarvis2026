@@ -1,0 +1,83 @@
+/* ==========================================================
+   SORS — Apartamenty: Styl osadzonych ofert w kartach
+   Dodać do <style> w head lub do custom.css
+   ========================================================== */
+
+/* --- Obrazek w karcie apartamentu --- */
+.et-apt__img {
+  display: block;
+  margin: -56px -48px 32px;
+  overflow: hidden;
+  border-radius: 0;
+  line-height: 0;
+}
+
+.et-apt__img img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 6s ease-out;
+}
+
+@media (min-width: 861px) {
+  .et-apt__img img { height: 340px; }
+}
+
+.et-apt__item:hover .et-apt__img img {
+  transform: scale(1.06);
+}
+
+/* --- Pasek ceny --- */
+.et-apt__pricebar {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding: 16px 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+.et-section--muted .et-apt__pricebar {
+  border-color: var(--et-muted-card);
+}
+
+.et-apt__price-label {
+  font-size: 12px;
+  color: #888;
+  text-transform: lowercase;
+}
+
+.et-apt__price-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--et-brand);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.et-apt__price-suffix {
+  font-size: 13px;
+  color: #888;
+}
+
+/* --- Responsywność na mobile --- */
+@media (max-width: 860px) {
+  .et-apt__img {
+    margin: -56px -48px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .et-apt__img {
+    margin: 0 0 24px;
+  }
+
+  .et-apt__img img {
+    height: 220px;
+    border-radius: 8px;
+  }
+
+  .et-apt__price-value {
+    font-size: 24px;
+  }
+}

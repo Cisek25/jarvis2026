@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS Page Builder</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+            background: #FFFBF5;
+            color: #1D1D1B;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .topbar {
+            height: 50px;
+            background: #1D1D1B;
+            color: white;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 3px solid #FEB92F;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .topbar-separator {
+            width: 1px;
+            height: 30px;
+            background: rgba(255,255,255,0.2);
+        }
+
+        .client-selector {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .client-selector:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 50px);
+        }
+
+        .sidebar-left {
+            width: 180px;
+            background: white;
+            border-right: 1px solid #E8E3D8;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .sidebar-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #FEB92F;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding: 0 5px;
+        }
+
+        .component-card {
+            background: white;
+            border: 1px solid #E8E3D8;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .component-card:hover {
+            border-color: #FEB92F;
+            background: #FFFBF5;
+            transform: translateY(-2px);
+        }
+
+        .component-card.active {
+            background: #FEB92F;
+            border-color: #FEB92F;
+            color: #1D1D1B;
+        }
+
+        .component-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .component-name {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .center-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #F5F1EB;
+        }
+
+        .preview-header {
+            padding: 10px 20px;
+            background: white;
+            border-bottom: 1px solid #E8E3D8;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+
+        .preview-container {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .iframe-wrapper {
+            background: white;
+            border: 1px solid #E8E3D8;
+            border-radius: 6px;
+            height: 100%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .sidebar-right {
+            width: 280px;
+            background: white;
+            border-left: 1px solid #E8E3D8;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .properties-section {
+            margin-bottom: 20px;
+        }
+
+        .properties-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #FEB92F;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .property-field {
+            margin-bottom: 12px;
+        }
+
+        .property-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1D1D1B;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .property-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #E8E3D8;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: inherit;
+            background: #FFFBF5;
+        }
+
+        .property-input:focus {
+            outline: none;
+            border-color: #FEB92F;
+            background: white;
+        }
+
+        .property-select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #E8E3D8;
+            border-radius: 4px;
+            font-size: 12px;
+            background: #FFFBF5;
+            cursor: pointer;
+        }
+
+        .property-select:focus {
+            outline: none;
+            border-color: #FEB92F;
+        }
+
+        .no-component {
+            padding: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .bottom-tabs {
+            height: 200px;
+            background: white;
+            border-top: 1px solid #E8E3D8;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid #E8E3D8;
+            background: #F5F1EB;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            color: #999;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .tab-button:hover {
+            color: #1D1D1B;
+        }
+
+        .tab-button.active {
+            color: #FEB92F;
+            border-bottom-color: #FEB92F;
+        }
+
+        .tabs-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            background: #FFFBF5;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #1D1D1B;
+        }
+
+        .code-block {
+            display: none;
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+
+        .code-block.active {
+            display: block;
+        }
+
+        .tabs-footer {
+            display: flex;
+            gap: 10px;
+            padding: 10px 12px;
+            border-top: 1px solid #E8E3D8;
+            background: white;
+        }
+
+        .copy-btn {
+            padding: 6px 12px;
+            background: #FEB92F;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            color: #1D1D1B;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: #FFCD5F;
+            transform: translateY(-1px);
+        }
+
+        .copy-success {
+            font-size: 11px;
+            color: #4A6741;
+            font-weight: 600;
+        }
+
+        .add-component-btn {
+            width: 100%;
+            padding: 12px;
+            background: #FEB92F;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #1D1D1B;
+            margin-top: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .add-component-btn:hover {
+            background: #FFCD5F;
+        }
+
+        .remove-btn {
+            width: 100%;
+            padding: 8px;
+            background: #E8D5D5;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #8B4545;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .remove-btn:hover {
+            background: #D4B8B8;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4C4B0;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8A896;
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="topbar-title">JARVIS Page Builder</div>
+        <div class="topbar-separator"></div>
+        <select class="client-selector" id="clientSelector">
+            <option value="">-- Wybierz klienta --</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <!-- LEFT SIDEBAR: Component Catalog -->
+        <div class="sidebar-left">
+            <div class="sidebar-label">Komponenty</div>
+            <div id="componentCatalog"></div>
+        </div>
+
+        <!-- CENTER: Preview -->
+        <div class="center-area">
+            <div class="preview-header">Podglad</div>
+            <div class="preview-container">
+                <div class="iframe-wrapper">
+                    <iframe id="previewIframe" title="Preview"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR: Properties -->
+        <div class="sidebar-right">
+            <div id="propertiesPanel">
+                <div class="no-component">Wybierz komponent aby edytować jego wlasciwosci.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM TABS: Code Output -->
+    <div class="bottom-tabs">
+        <div class="tabs-header">
+            <button class="tab-button active" data-tab="css-editor">CSS Editor</button>
+            <button class="tab-button" data-tab="head">HEAD</button>
+            <button class="tab-button" data-tab="body-top">Body Top (HTML)</button>
+            <button class="tab-button" data-tab="body-bottom">Body Bottom (JS)</button>
+        </div>
+        <div class="tabs-content">
+            <div id="css-editor" class="code-block active"></div>
+            <div id="head" class="code-block"></div>
+            <div id="body-top" class="code-block"></div>
+            <div id="body-bottom" class="code-block"></div>
+        </div>
+        <div class="tabs-footer">
+            <button class="copy-btn" id="copyBtn">Kopiuj</button>
+            <span id="copyStatus"></span>
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA ============
+
+        var PALETTES = {
+            A: {
+                name: 'Nature',
+                primary: '#4A6741',
+                secondary: '#8B7355',
+                accent: '#A8B89C',
+                bg: '#F5F1EB',
+                dark: '#2C2C2C',
+                light: '#F7F5F0'
+            },
+            B: {
+                name: 'Ocean',
+                primary: '#1B3A5C',
+                secondary: '#D4A574',
+                accent: '#87CEEB',
+                bg: '#F8F6F2',
+                dark: '#1A2332',
+                light: '#FFFFFF'
+            },
+            C: {
+                name: 'Gold Luxury',
+                primary: '#C8A45C',
+                secondary: '#8B7355',
+                accent: '#E8D5A3',
+                bg: '#1A1A1A',
+                dark: '#0D0D0D',
+                light: '#F5F5F0'
+            },
+            D: {
+                name: 'Mountain',
+                primary: '#6B4226',
+                secondary: '#8C8C7A',
+                accent: '#A67B5B',
+                bg: '#F4F0E8',
+                dark: '#3D2B1F',
+                light: '#FAF8F5'
+            },
+            E: {
+                name: 'Fresh',
+                primary: '#2E86AB',
+                secondary: '#A4C3B2',
+                accent: '#F6C862',
+                bg: '#FFFFFF',
+                dark: '#2C3E50',
+                light: '#F7F9FC'
+            },
+            F: {
+                name: 'Warm',
+                primary: '#C4572A',
+                secondary: '#7C8C56',
+                accent: '#E8B86D',
+                bg: '#FAF5EF',
+                dark: '#3A2D23',
+                light: '#FDF9F3'
+            }
+        };
+
+        var FONTS = {
+            1: {
+                heading: 'Playfair Display',
+                body: 'Inter',
+                google: 'family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600'
+            },
+            2: {
+                heading: 'Merriweather',
+                body: 'Inter',
+                google: 'family=Merriweather:wght@400;700&family=Inter:wght@300;400;500;600'
+            },
+            3: {
+                heading: 'DM Serif Display',
+                body: 'Inter',
+                google: 'family=DM+Serif+Display&family=Inter:wght@300;400;500;600'
+            },
+            4: {
+                heading: 'Cormorant Garamond',
+                body: 'Lato',
+                google: 'family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@300;400;700'
+            },
+            5: {
+                heading: 'Montserrat',
+                body: 'Open Sans',
+                google: 'family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600'
+            },
+            6: {
+                heading: 'Libre Baskerville',
+                body: 'Source Sans 3',
+                google: 'family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@300;400;600'
+            },
+            7: {
+                heading: 'Lora',
+                body: 'Nunito',
+                google: 'family=Lora:wght@400;600;700&family=Nunito:wght@300;400;600'
+            },
+            8: {
+                heading: 'Cinzel',
+                body: 'Raleway',
+                google: 'family=Cinzel:wght@400;700&family=Raleway:wght@300;400;500;600'
+            }
+        };
+
+        var CLIENTS = [
+            { id: 'eco-camping', name: 'EcoCamping', palette: 'A', font: 1 },
+            { id: 'golden-apt', name: 'GoldenApartments', palette: 'B', font: 2 },
+            { id: 'mountain', name: 'MountainPrestige', palette: 'D', font: 3 },
+            { id: 'luxury-estate', name: 'LuxuryEstate', palette: 'C', font: 4 },
+            { id: 'seaside', name: 'SeasideResort', palette: 'E', font: 5 },
+            { id: 'boutique', name: 'BoutiqueLodge', palette: 'F', font: 6 }
+        ];
+
+        var COMPONENTS = [
+            {
+                id: 'hero',
+                name: 'Hero',
+                icon: '🏔️',
+                description: 'Sekcja nagłówkowa',
+                html: '<section class="ido-hero"><div class="ido-hero__content"><h1 class="ido-hero__title">{{TITLE}}</h1><p class="ido-hero__subtitle">{{SUBTITLE}}</p><a href="#" class="ido-hero__cta">{{CTA_TEXT}}</a></div><div class="ido-hero__image" style="background-image: url(\'{{IMAGE_URL}}\');"></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Witaj w naszym miejscu' },
+                    { key: 'SUBTITLE', label: 'Podtytul', type: 'text', default: 'Doswiadczenie nie do zapomnienia' },
+                    { key: 'CTA_TEXT', label: 'Tekst CTA', type: 'text', default: 'Rezerwuj teraz' },
+                    { key: 'IMAGE_URL', label: 'URL zdjecia', type: 'text', default: 'https://via.placeholder.com/800x400' }
+                ]
+            },
+            {
+                id: 'split',
+                name: 'Split',
+                icon: '📐',
+                description: 'Tekst i zdjecie obok siebie',
+                html: '<section class="ido-split"><div class="ido-split__content"><h2 class="ido-split__title">{{TITLE}}</h2><p class="ido-split__text">{{TEXT}}</p></div><div class="ido-split__media"><img src="{{IMAGE_URL}}" alt="{{ALT}}" class="ido-split__img"></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'O nas' },
+                    { key: 'TEXT', label: 'Tekst', type: 'textarea', default: 'Nasza oferta to wyjatkowe miejsce...' },
+                    { key: 'IMAGE_URL', label: 'URL zdjecia', type: 'text', default: 'https://via.placeholder.com/400x300' },
+                    { key: 'ALT', label: 'Alt tekst', type: 'text', default: 'Obraz opisu' }
+                ]
+            },
+            {
+                id: 'split-reverse',
+                name: 'Split Reverse',
+                icon: '📐↔️',
+                description: 'Zdjecie i tekst obok siebie',
+                html: '<section class="ido-split-reverse"><div class="ido-split-reverse__media"><img src="{{IMAGE_URL}}" alt="{{ALT}}" class="ido-split-reverse__img"></div><div class="ido-split-reverse__content"><h2 class="ido-split-reverse__title">{{TITLE}}</h2><p class="ido-split-reverse__text">{{TEXT}}</p></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Nasza historia' },
+                    { key: 'TEXT', label: 'Tekst', type: 'textarea', default: 'Zaczelosmy od malej wizji...' },
+                    { key: 'IMAGE_URL', label: 'URL zdjecia', type: 'text', default: 'https://via.placeholder.com/400x300' },
+                    { key: 'ALT', label: 'Alt tekst', type: 'text', default: 'Obraz historii' }
+                ]
+            },
+            {
+                id: 'features',
+                name: 'Features',
+                icon: '⭐',
+                description: 'Lista cech z ikonami',
+                html: '<section class="ido-features"><h2 class="ido-features__title">{{TITLE}}</h2><div class="ido-features__grid"><div class="ido-features__item"><div class="ido-features__icon">{{ICON1}}</div><h3 class="ido-features__name">{{FEATURE1}}</h3><p class="ido-features__desc">{{DESC1}}</p></div><div class="ido-features__item"><div class="ido-features__icon">{{ICON2}}</div><h3 class="ido-features__name">{{FEATURE2}}</h3><p class="ido-features__desc">{{DESC2}}</p></div></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul sekcji', type: 'text', default: 'Nasze zalety' },
+                    { key: 'FEATURE1', label: 'Zaleta 1', type: 'text', default: 'Komfort' },
+                    { key: 'DESC1', label: 'Opis 1', type: 'text', default: 'Najwyzsza jakos' },
+                    { key: 'ICON1', label: 'Ikona 1', type: 'text', default: '✨' },
+                    { key: 'FEATURE2', label: 'Zaleta 2', type: 'text', default: 'Lokalizacja' },
+                    { key: 'DESC2', label: 'Opis 2', type: 'text', default: 'Idealne polozenie' },
+                    { key: 'ICON2', label: 'Ikona 2', type: 'text', default: '📍' }
+                ]
+            },
+            {
+                id: 'cards',
+                name: 'Cards',
+                icon: '🃏',
+                description: 'Kafelki z informacjami',
+                html: '<section class="ido-cards"><h2 class="ido-cards__title">{{TITLE}}</h2><div class="ido-cards__grid"><div class="ido-cards__item"><img src="{{IMAGE1}}" alt="" class="ido-cards__image"><h3 class="ido-cards__title">{{CARD1}}</h3><p class="ido-cards__text">{{TEXT1}}</p></div><div class="ido-cards__item"><img src="{{IMAGE2}}" alt="" class="ido-cards__image"><h3 class="ido-cards__title">{{CARD2}}</h3><p class="ido-cards__text">{{TEXT2}}</p></div></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul sekcji', type: 'text', default: 'Nasze pokoje' },
+                    { key: 'CARD1', label: 'Karta 1 - Nazwa', type: 'text', default: 'Pokój Deluxe' },
+                    { key: 'TEXT1', label: 'Karta 1 - Tekst', type: 'text', default: 'Komfortowy i wygodny' },
+                    { key: 'IMAGE1', label: 'Karta 1 - Zdjecie', type: 'text', default: 'https://via.placeholder.com/300x200' },
+                    { key: 'CARD2', label: 'Karta 2 - Nazwa', type: 'text', default: 'Pokój Standard' },
+                    { key: 'TEXT2', label: 'Karta 2 - Tekst', type: 'text', default: 'Klasyczny i funkcjonalny' },
+                    { key: 'IMAGE2', label: 'Karta 2 - Zdjecie', type: 'text', default: 'https://via.placeholder.com/300x200' }
+                ]
+            },
+            {
+                id: 'cta',
+                name: 'CTA',
+                icon: '📞',
+                description: 'Call-to-action z formularzem',
+                html: '<section class="ido-cta"><div class="ido-cta__content"><h2 class="ido-cta__title">{{TITLE}}</h2><p class="ido-cta__text">{{TEXT}}</p><button class="ido-cta__button">{{BUTTON_TEXT}}</button></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Jestes gotow?' },
+                    { key: 'TEXT', label: 'Tekst', type: 'text', default: 'Zarezerwuj swoj pobyt teraz' },
+                    { key: 'BUTTON_TEXT', label: 'Tekst przycisku', type: 'text', default: 'Rezerwuj' }
+                ]
+            },
+            {
+                id: 'cta-dark',
+                name: 'CTA Dark',
+                icon: '📞🌑',
+                description: 'Call-to-action ciemna wersja',
+                html: '<section class="ido-cta-dark"><div class="ido-cta-dark__content"><h2 class="ido-cta-dark__title">{{TITLE}}</h2><p class="ido-cta-dark__text">{{TEXT}}</p><button class="ido-cta-dark__button">{{BUTTON_TEXT}}</button></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Ostatnia szansa' },
+                    { key: 'TEXT', label: 'Tekst', type: 'text', default: 'Oferta ograniczona czasowo' },
+                    { key: 'BUTTON_TEXT', label: 'Tekst przycisku', type: 'text', default: 'Rezerwuj' }
+                ]
+            },
+            {
+                id: 'stats',
+                name: 'Stats',
+                icon: '📊',
+                description: 'Statystyki i liczby',
+                html: '<section class="ido-stats"><h2 class="ido-stats__title">{{TITLE}}</h2><div class="ido-stats__grid"><div class="ido-stats__item"><div class="ido-stats__number">{{NUM1}}</div><p class="ido-stats__label">{{LABEL1}}</p></div><div class="ido-stats__item"><div class="ido-stats__number">{{NUM2}}</div><p class="ido-stats__label">{{LABEL2}}</p></div><div class="ido-stats__item"><div class="ido-stats__number">{{NUM3}}</div><p class="ido-stats__label">{{LABEL3}}</p></div></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Nasze osiagniecia' },
+                    { key: 'NUM1', label: 'Liczba 1', type: 'text', default: '5000+' },
+                    { key: 'LABEL1', label: 'Etykieta 1', type: 'text', default: 'Szczescliwych gosci' },
+                    { key: 'NUM2', label: 'Liczba 2', type: 'text', default: '15' },
+                    { key: 'LABEL2', label: 'Etykieta 2', type: 'text', default: 'Lat doswiadczenia' },
+                    { key: 'NUM3', label: 'Liczba 3', type: 'text', default: '50' },
+                    { key: 'LABEL3', label: 'Etykieta 3', type: 'text', default: 'Pokojow' }
+                ]
+            },
+            {
+                id: 'faq',
+                name: 'FAQ',
+                icon: '❓',
+                description: 'Czesto zadawane pytania',
+                html: '<section class="ido-faq"><h2 class="ido-faq__title">{{TITLE}}</h2><div class="ido-faq__item"><h3 class="ido-faq__question">{{Q1}}</h3><p class="ido-faq__answer">{{A1}}</p></div><div class="ido-faq__item"><h3 class="ido-faq__question">{{Q2}}</h3><p class="ido-faq__answer">{{A2}}</p></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'FAQ' },
+                    { key: 'Q1', label: 'Pytanie 1', type: 'text', default: 'Kiedy mozliwa rezerwacja?' },
+                    { key: 'A1', label: 'Odpowiedz 1', type: 'textarea', default: 'Rezerwacje sa dostepne przez caly rok.' },
+                    { key: 'Q2', label: 'Pytanie 2', type: 'text', default: 'Jakie sa warunki anulacji?' },
+                    { key: 'A2', label: 'Odpowiedz 2', type: 'textarea', default: 'Anulacja mozliwa do 7 dni przed przyjazdem.' }
+                ]
+            },
+            {
+                id: 'gallery',
+                name: 'Gallery',
+                icon: '🖼️',
+                description: 'Galeria zdjec',
+                html: '<section class="ido-gallery"><h2 class="ido-gallery__title">{{TITLE}}</h2><div class="ido-gallery__grid"><img src="{{IMG1}}" alt="" class="ido-gallery__item"><img src="{{IMG2}}" alt="" class="ido-gallery__item"><img src="{{IMG3}}" alt="" class="ido-gallery__item"><img src="{{IMG4}}" alt="" class="ido-gallery__item"></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Galeria' },
+                    { key: 'IMG1', label: 'Zdjecie 1', type: 'text', default: 'https://via.placeholder.com/250x250' },
+                    { key: 'IMG2', label: 'Zdjecie 2', type: 'text', default: 'https://via.placeholder.com/250x250' },
+                    { key: 'IMG3', label: 'Zdjecie 3', type: 'text', default: 'https://via.placeholder.com/250x250' },
+                    { key: 'IMG4', label: 'Zdjecie 4', type: 'text', default: 'https://via.placeholder.com/250x250' }
+                ]
+            },
+            {
+                id: 'about',
+                name: 'About',
+                icon: 'ℹ️',
+                description: 'Sekcja o nas',
+                html: '<section class="ido-about"><div class="ido-about__content"><h2 class="ido-about__title">{{TITLE}}</h2><p class="ido-about__text">{{TEXT}}</p><ul class="ido-about__list"><li>{{ITEM1}}</li><li>{{ITEM2}}</li><li>{{ITEM3}}</li></ul></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Kim jestesmy' },
+                    { key: 'TEXT', label: 'Opis', type: 'textarea', default: 'Jestesmy dedykowani do zapewnienia najlepszej obslugi.' },
+                    { key: 'ITEM1', label: 'Punkt 1', type: 'text', default: 'Profesjonalna obsluga' },
+                    { key: 'ITEM2', label: 'Punkt 2', type: 'text', default: 'Czystosc i hygienaBez kompromisow' },
+                    { key: 'ITEM3', label: 'Punkt 3', type: 'text', default: 'Lokalna kuchnia' }
+                ]
+            },
+            {
+                id: 'map',
+                name: 'Map',
+                icon: '📍',
+                description: 'Mapa Google',
+                html: '<section class="ido-map"><h2 class="ido-map__title">{{TITLE}}</h2><div class="ido-map__container"><iframe src="{{MAP_URL}}" style="width:100%;height:300px;border:0;" allowfullscreen="" loading="lazy"></iframe></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Gdzie nas znajdziesz' },
+                    { key: 'MAP_URL', label: 'URL mapy', type: 'text', default: 'https://www.google.com/maps/embed?pb=...' }
+                ]
+            },
+            {
+                id: 'testimonials',
+                name: 'Testimonials',
+                icon: '💬',
+                description: 'Opinie gosci',
+                html: '<section class="ido-testimonials"><h2 class="ido-testimonials__title">{{TITLE}}</h2><div class="ido-testimonials__grid"><div class="ido-testimonials__item"><p class="ido-testimonials__text">{{TEXT1}}</p><p class="ido-testimonials__author">— {{AUTHOR1}}</p></div><div class="ido-testimonials__item"><p class="ido-testimonials__text">{{TEXT2}}</p><p class="ido-testimonials__author">— {{AUTHOR2}}</p></div></div></section>',
+                fields: [
+                    { key: 'TITLE', label: 'Tytul', type: 'text', default: 'Co mowia nasi goscie' },
+                    { key: 'TEXT1', label: 'Opinia 1', type: 'textarea', default: 'Fantastyczne miejsce i obsluga!' },
+                    { key: 'AUTHOR1', label: 'Autor 1', type: 'text', default: 'Janusz K.' },
+                    { key: 'TEXT2', label: 'Opinia 2', type: 'textarea', default: 'Powrocilibyśmy tu z przyjemnością.' },
+                    { key: 'AUTHOR2', label: 'Autor 2', type: 'text', default: 'Maria S.' }
+                ]
+            }
+        ];
+
+        // ============ STATE ============
+
+        var state = {
+            selectedClient: '',
+            selectedComponent: null,
+            componentData: {},
+            addedComponents: []
+        };
+
+        // ============ CACHED CSS LAYERS ============
+        var _cachedLayer1 = '';
+        var _cachedLayer2 = '';
+
+        function fetchCSSLayers(cb) {
+            if (_cachedLayer1 && _cachedLayer2) { if (cb) cb(); return; }
+            var done = 0;
+            function check() { done++; if (done >= 2 && cb) cb(); }
+            fetch('/api/css/layer1').then(function(r) { return r.text(); }).then(function(t) { _cachedLayer1 = t; check(); }).catch(function() { check(); });
+            fetch('/api/css/layer2').then(function(r) { return r.text(); }).then(function(t) { _cachedLayer2 = t; check(); }).catch(function() { check(); });
+        }
+
+        // ============ INITIALIZATION ============
+
+        function init() {
+            fetchCSSLayers(function() {
+                populateClientSelector();
+                renderComponentCatalog();
+                setupTabButtons();
+                setupCopyButton();
+                updatePreview();
+            });
+        }
+
+        function populateClientSelector() {
+            var select = document.getElementById('clientSelector');
+            CLIENTS.forEach(function(client) {
+                var option = document.createElement('option');
+                option.value = client.id;
+                option.textContent = client.name;
+                select.appendChild(option);
+            });
+            select.addEventListener('change', function(e) {
+                state.selectedClient = e.target.value;
+                updatePreview();
+                updateCodeOutput();
+            });
+        }
+
+        function renderComponentCatalog() {
+            var catalog = document.getElementById('componentCatalog');
+            catalog.innerHTML = '';
+            COMPONENTS.forEach(function(comp) {
+                var card = document.createElement('div');
+                card.className = 'component-card';
+                card.onclick = function() {
+                    selectComponent(comp);
+                };
+                card.innerHTML = '<div class="component-icon">' + comp.icon + '</div><div class="component-name">' + comp.name + '</div>';
+                catalog.appendChild(card);
+            });
+        }
+
+        function selectComponent(comp) {
+            state.selectedComponent = comp;
+            var cards = document.querySelectorAll('.component-card');
+            cards.forEach(function(card) {
+                card.classList.remove('active');
+            });
+            event.target.closest('.component-card').classList.add('active');
+            renderPropertiesPanel(comp);
+        }
+
+        function renderPropertiesPanel(comp) {
+            var panel = document.getElementById('propertiesPanel');
+            var html = '';
+
+            if (!state.componentData[comp.id]) {
+                state.componentData[comp.id] = {};
+                comp.fields.forEach(function(field) {
+                    state.componentData[comp.id][field.key] = field.default;
+                });
+            }
+
+            html += '<div class="properties-section"><div class="properties-title">Wlasciwosci</div>';
+
+            comp.fields.forEach(function(field) {
+                var value = state.componentData[comp.id][field.key];
+                html += '<div class="property-field"><label class="property-label">' + field.label + '</label>';
+
+                if (field.type === 'textarea') {
+                    html += '<textarea class="property-input" data-field="' + field.key + '" data-component="' + comp.id + '">' + value + '<' + '/textarea>';
+                } else {
+                    html += '<input type="' + (field.type === 'text' ? 'text' : field.type) + '" class="property-input" data-field="' + field.key + '" data-component="' + comp.id + '" value="' + value + '">';
+                }
+
+                html += '</div>';
+            });
+
+            html += '<button class="add-component-btn" onclick="addComponentToPage()">Dodaj komponent</button>';
+            if (state.addedComponents.length > 0) {
+                html += '<button class="remove-btn" onclick="clearAllComponents()">Wyczysc wszystkie</button>';
+            }
+
+            html += '</div>';
+            panel.innerHTML = html;
+
+            var inputs = panel.querySelectorAll('.property-input');
+            inputs.forEach(function(input) {
+                input.addEventListener('change', function(e) {
+                    var componentId = e.target.dataset.component;
+                    var fieldKey = e.target.dataset.field;
+                    state.componentData[componentId][fieldKey] = e.target.value;
+                    updatePreview();
+                    updateCodeOutput();
+                });
+                input.addEventListener('input', function(e) {
+                    var componentId = e.target.dataset.component;
+                    var fieldKey = e.target.dataset.field;
+                    state.componentData[componentId][fieldKey] = e.target.value;
+                });
+            });
+        }
+
+        function addComponentToPage() {
+            if (!state.selectedComponent) return;
+
+            var compData = {
+                id: state.selectedComponent.id,
+                name: state.selectedComponent.name,
+                data: JSON.parse(JSON.stringify(state.componentData[state.selectedComponent.id]))
+            };
+
+            state.addedComponents.push(compData);
+            updatePreview();
+            updateCodeOutput();
+        }
+
+        function clearAllComponents() {
+            state.addedComponents = [];
+            updatePreview();
+            updateCodeOutput();
+        }
+
+        function getSelectedClient() {
+            return CLIENTS.find(function(c) {
+                return c.id === state.selectedClient;
+            });
+        }
+
+        function generateLayer3CSS() {
+            var client = getSelectedClient();
+            if (!client) return '';
+
+            var palette = PALETTES[client.palette];
+            var font = FONTS[client.font] || {heading:'system-ui',body:'system-ui'};
+            var css = '';
+
+            css += '/* ' + client.name + ' — Layer 3: Client Theme */\n';
+            css += ':root {\n';
+            css += '  --ido-primary: ' + palette.primary + ';\n';
+            css += '  --ido-secondary: ' + palette.secondary + ';\n';
+            css += '  --ido-accent: ' + palette.accent + ';\n';
+            css += '  --ido-bg: ' + palette.bg + ';\n';
+            css += '  --ido-dark: ' + palette.dark + ';\n';
+            css += '  --ido-light: ' + palette.light + ';\n';
+            css += '  --ido-font-heading: "' + font.heading + '", Georgia, serif;\n';
+            css += '  --ido-font-body: "' + font.body + '", system-ui, sans-serif;\n';
+            css += '  --ido-radius: 12px;\n';
+            css += '  --ido-header-h: 95px;\n';
+            css += '}\n\n';
+            css += '/* Hardcoded system elements */\n';
+            css += '#bounce { background-color: ' + palette.primary + ' !important; }\n';
+            css += '#backTop { background: ' + palette.primary + ' !important; }\n';
+            css += '.formbutton { background: ' + palette.primary + ' !important; }\n';
+            css += '.formbutton:hover { background: ' + palette.secondary + ' !important; }\n';
+
+            return css;
+        }
+
+        function getLayer2CSS() {
+            // Use real layer2 CSS from server API (cached on init)
+            if (_cachedLayer2) return _cachedLayer2;
+            // Fallback: minimal preview CSS
+            return '.ido-hero{padding:60px 20px;background:var(--ido-primary);color:white;text-align:center}.ido-hero__title{font-size:3em;margin-bottom:20px}.ido-hero__subtitle{font-size:1.5em;margin-bottom:30px;opacity:.9}.ido-btn{display:inline-block;padding:12px 24px;background:var(--ido-accent);color:var(--ido-dark);text-decoration:none;border-radius:8px}.ido-split{display:flex;align-items:center;padding:40px;gap:40px}.ido-split__text{flex:1}.ido-split__title{font-size:2em;margin-bottom:20px}.ido-split__body{line-height:1.6}.ido-split__media{flex:1}.ido-split__img{width:100%;border-radius:8px}.ido-section{padding:40px 20px}.ido-container{max-width:1200px;margin:0 auto}';
+        }
+
+        function getLayer1CSS() {
+            // Use real layer1 CSS from server API (cached on init)
+            if (_cachedLayer1) return _cachedLayer1;
+            // Fallback: minimal reset
+            return 'html,body{margin:0;padding:0}body{font-family:system-ui,sans-serif;background:var(--ido-bg,#fff);color:var(--ido-dark,#1D1D1B)}img{max-width:100%;height:auto}';
+        }
+
+        function generateIframeContent() {
+            var client = getSelectedClient();
+            if (!client) {
+                return '<html><body><p>Wybierz klienta aby zobaczyc podglad.</p></body></html>';
+            }
+
+            var font = FONTS[client.font];
+            var componentHtml = '';
+
+            state.addedComponents.forEach(function(item) {
+                var component = COMPONENTS.find(function(c) {
+                    return c.id === item.id;
+                });
+                if (component) {
+                    var html = component.html;
+                    Object.keys(item.data).forEach(function(key) {
+                        var placeholder = '{{' + key + '}}';
+                        html = html.split(placeholder).join(item.data[key]);
+                    });
+                    componentHtml += html;
+                }
+            });
+
+            var layer1 = getLayer1CSS();
+            var layer2 = getLayer2CSS();
+            var layer3 = generateLayer3CSS();
+
+            var fullHtml = '<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?' + font.google + '" rel="stylesheet"><style>' + layer1 + layer2 + layer3 + '</style></head><body>' + componentHtml + '</body></html>';
+
+            return fullHtml;
+        }
+
+        function updatePreview() {
+            var iframe = document.getElementById('previewIframe');
+            var content = generateIframeContent();
+            iframe.srcdoc = content;
+        }
+
+        function updateCodeOutput() {
+            var client = getSelectedClient();
+            if (!client) {
+                document.getElementById('css-editor').textContent = '-- Wybierz klienta --';
+                document.getElementById('head').textContent = '-- Wybierz klienta --';
+                document.getElementById('body-top').textContent = '-- Wybierz klienta --';
+                document.getElementById('body-bottom').textContent = '-- Wybierz klienta --';
+                return;
+            }
+
+            var font = FONTS[client.font];
+            var layer1 = getLayer1CSS();
+            var layer2 = getLayer2CSS();
+            var layer3 = generateLayer3CSS();
+            var fullCSS = layer1 + '\n\n' + layer2 + '\n\n' + layer3;
+
+            document.getElementById('css-editor').textContent = fullCSS;
+
+            var headContent = '<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width, initial-scale=1.0">\n<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?' + font.google + '" rel="stylesheet">\n<style>\n' + fullCSS + '\n<' + '/style>';
+            document.getElementById('head').textContent = headContent;
+
+            var bodyTopContent = '';
+            state.addedComponents.forEach(function(item) {
+                var component = COMPONENTS.find(function(c) {
+                    return c.id === item.id;
+                });
+                if (component) {
+                    var html = component.html;
+                    Object.keys(item.data).forEach(function(key) {
+                        var placeholder = '{{' + key + '}}';
+                        html = html.split(placeholder).join(item.data[key]);
+                    });
+                    bodyTopContent += html + '\n\n';
+                }
+            });
+
+            if (!bodyTopContent) {
+                bodyTopContent = '<!-- Dodaj komponenty aby zobaczyc HTML -->';
+            }
+
+            document.getElementById('body-top').textContent = bodyTopContent;
+
+            var bodyBottomContent = 'var idoConfig = {\n  client: "' + client.name + '",\n  palette: "' + client.palette + '",\n  font: ' + client.font + '\n};\n\n' + '(function() {\n  // ido-base.js initialization\n  console.log("IdoBooking Page Initialized", idoConfig);\n})();';
+            document.getElementById('body-bottom').textContent = bodyBottomContent;
+        }
+
+        function setupTabButtons() {
+            var buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    buttons.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+
+                    var tabId = e.target.dataset.tab;
+                    var codeBlocks = document.querySelectorAll('.code-block');
+                    codeBlocks.forEach(function(block) {
+                        block.classList.remove('active');
+                    });
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        function setupCopyButton() {
+            var copyBtn = document.getElementById('copyBtn');
+            copyBtn.addEventListener('click', function() {
+                var activeTab = document.querySelector('.tab-button.active').dataset.tab;
+                var text = document.getElementById(activeTab).textContent;
+
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(function() {
+                        showCopySuccess();
+                    });
+                } else {
+                    var textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showCopySuccess();
+                }
+            });
+        }
+
+        function showCopySuccess() {
+            var status = document.getElementById('copyStatus');
+            status.className = 'copy-success';
+            status.textContent = 'Skopiowano!';
+            setTimeout(function() {
+                status.textContent = '';
+                status.className = '';
+            }, 2000);
+        }
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>

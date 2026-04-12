@@ -377,7 +377,14 @@ header.header {
   color: var(--nj-white) !important;
 }
 
-/* Mobile hamburger */
+/* Mobile hamburger — hidden on desktop ≥979px */
+@media (min-width: 979px) {
+  .navbar-toggle,
+  .navbar-toggler {
+    display: none !important;
+  }
+}
+
 .navbar-toggle,
 .navbar-toggler {
   border: 2px solid var(--nj-moss) !important;
@@ -5338,7 +5345,204 @@ section.nj-owners-cta .nj-cta-contact__label,
 
 
 /* ============================================================
+   §25 — MOBILE HOTFIX (hero, menu, CTA, images)
+   ============================================================ */
+
+/* --- 25a: Navbar toggler — ONLY on mobile (≤978px) --- */
+/* System hides toggler on ≥979px — we must NOT override that */
+@media (max-width: 978px) {
+  .navbar-toggler {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 8px 12px !important;
+    border: 2px solid var(--nj-moss) !important;
+    border-radius: var(--nj-radius-sm) !important;
+    background: rgba(255,255,255,0.95) !important;
+    cursor: pointer !important;
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    z-index: 1100 !important;
+  }
+
+  .navbar-toggler i,
+  .navbar-toggler i::before {
+    font-size: 1.2rem !important;
+    line-height: 1 !important;
+    color: var(--nj-moss) !important;
+    margin: 0 !important;
+    width: auto !important;
+  }
+
+  .navbar-toggler span {
+    font-family: var(--nj-font-body) !important;
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--nj-moss) !important;
+    line-height: 1 !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* --- 25b: Hero layout — column on mobile --- */
+@media (max-width: 978px) {
+  .section.parallax,
+  .index-info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    padding-bottom: 60px !important;
+    height: 85vh !important;
+    min-height: 500px !important;
+  }
+
+  /* H1 — full width, centered */
+  .index-info h1,
+  .section.parallax h1 {
+    width: 100% !important;
+    text-align: center !important;
+    font-size: clamp(1.5rem, 6vw, 2.2rem) !important;
+    padding: 0 24px !important;
+    margin-bottom: 20px !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Button wrapper — full width, flex center */
+  .index-info > div:has(> .navbar-reservation) {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 0 20px !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* "Sprawdź dostępność" button */
+  .index-info .navbar-reservation.btn,
+  .index-info > div > .navbar-reservation {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    background: var(--nj-moss) !important;
+    color: var(--nj-white) !important;
+    font-family: var(--nj-font-body) !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+    letter-spacing: 1px !important;
+    padding: 14px 36px !important;
+    border: none !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25) !important;
+    margin: 0 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    float: none !important;
+    position: relative !important;
+    z-index: 10 !important;
+    line-height: 1 !important;
+  }
+
+  /* Hide search widget — button takes over */
+  .iai-search {
+    display: none !important;
+  }
+
+  /* Hide navbar "Rezerwacja online" — hero CTA handles it */
+  .navbar > .navbar-reservation {
+    display: none !important;
+  }
+}
+
+/* --- 25c: Small mobile (≤480px) --- */
+@media (max-width: 480px) {
+  .section.parallax,
+  .index-info {
+    height: 75vh !important;
+    min-height: 420px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .index-info h1,
+  .section.parallax h1 {
+    font-size: clamp(1.3rem, 5.5vw, 1.7rem) !important;
+    padding: 0 16px !important;
+  }
+
+  .index-info .navbar-reservation.btn,
+  .index-info > div > .navbar-reservation {
+    font-size: 0.8rem !important;
+    padding: 12px 28px !important;
+  }
+}
+
+/* --- 25d: Hero images — fix .parallax-image height + reduce gradient --- */
+/* parallax-image is shorter than slide container — force full height */
+.parallax-image {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.parallax-slider .slick-slide img,
+.parallax-slider img,
+.parallax-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Lighter gradient on all viewports — images more visible */
+.section.parallax::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.6) 0%,
+    rgba(255,255,255,0.15) 10%,
+    rgba(0,0,0,0) 22%,
+    rgba(0,0,0,0) 60%,
+    rgba(0,0,0,0.45) 100%
+  ) !important;
+}
+
+@media (max-width: 978px) {
+  .parallax-slider .slick-slide img,
+  .parallax-slider img {
+    object-position: center 30% !important;
+  }
+}
+
+/* --- 25e: z-index hierarchy --- */
+@media (max-width: 978px) {
+  .section.parallax,
+  .index-info {
+    z-index: 5 !important;
+  }
+  .section.parallax.fp-section {
+    z-index: 5 !important;
+  }
+}
+
+/* Navbar above hero on all viewports */
+.defaultsb,
+#defaultsb,
+.default13,
+.navbar-wrapper,
+header.header {
+  z-index: 1050 !important;
+}
+
+/* ============================================================
    END OF STYLESHEET
    Najmar Apartamenty — nj- prefix
-   Total sections: §0–§24
+   Total sections: §0–§25
    ============================================================ */

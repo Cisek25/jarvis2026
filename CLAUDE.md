@@ -100,6 +100,73 @@ Grzybek, Piekary 13, Willa Racławicka, PerfectApart, WCA, WawaBed2
 6. Podgląd Kodu — CSS/HEAD/JS/HTML/Instrukcja
 7. Checklist — interaktywna lista z progress bar
 
+## Wyróżnione oferty — OBOWIĄZKOWY WZORZEC
+
+System IdoBooking generuje na stronie głównej element `.container-hotspot` (wewnątrz `.cmshotspot`)
+z karuzelą Slick zawierającą oferty zaznaczone jako "Wyróżnione" w panelu (Oferta → Oferty → checkbox).
+
+**ZAWSZE** implementujemy wyróżnione oferty w ten sposób (wzorzec MADERA/NAJMAR):
+
+### Jak to działa (3 elementy)
+
+#### 1. CSS — ukryj systemowy carousel
+```css
+.container-hotspot {
+  display: none !important;
+}
+```
+System generuje brzydki slick carousel — ukrywamy go i budujemy własne karty.
+
+#### 2. JS (body_bottom) — czytaj dane i buduj karty
+Skrypt w `<script>` na końcu body:
+- Szuka `.container-hotspot` w DOM
+- Iteruje po `.slick-slide:not(.slick-cloned) .offer` (WAŻNE: pomijaj klony slick!)
+- Fallback: jeśli slick nie zainicjalizowany → `.offer` bezpośrednio
+- Deduplikuje po `href` (slick tworzy duplikaty)
+- Z każdej `.offer` wyciąga:
+  - `href` → z `a.object-icon`
+  - `img` → z `img[data-src]` lub `img[src]`
+  - `title` → z `h3 a`
+  - `desc` → z `.offer__description`
+  - `area` → z `.accommodation-meters` (regex: `/([\d,.]+)\s*m/i`)
+  - `guests` → z `.accommodation-roomspace` (regex: `/(\d+)/`)
+  - `price` → z `.offer__price .price` (regex: `/([\d,.]+)/`)
+- Buduje HTML kart z klasami `{prefix}-offer-card` i wstawia do grida
+- Usuwa klasę fallback z grida (`.nj-featured-fallback` / analogiczną)
+
+#### 3. CSS — styluj własne karty
+Karty `{prefix}-offer-card` z:
+- Zdjęcie (aspect-ratio 16/10, object-fit cover, hover scale)
+- Badge ceny (absolute top-left na zdjęciu, kolor brand)
+- Body: tytuł, opis (line-clamp 3), meta (m² + osoby z ikonkami SVG)
+- Przycisk CTA (kolor brand)
+- Grid: 2 kolumny desktop, 1 kolumna mobile (breakpoint 680px)
+
+### Prefiks klas per klient
+Każdy klient ma swój prefiks CSS: `md-` (Madera), `nj-` (Najmar), itd.
+Klasy kart to: `{prefix}-offer-card`, `{prefix}-offer-card__img`, `{prefix}-offer-card__name`, etc.
+
+### Referencyjne implementacje
+- **MADERA** (zaawansowana, z grupowaniem po markach):
+  - CSS: `clients/madera/madera.css` → sekcja "WYRÓŻNIONE OFERTY"
+  - JS: `clients/madera/DO_WKLEJENIA/HOMEPAGE_PL__body_bottom.html` → "CUSTOM OFFER CARDS"
+- **NAJMAR** (prosta, bez grupowania):
+  - CSS: `clients/najmar/DO_WKLEJENIA/NJ_ARKUSZ_STYLOW.css` → sekcja §6 + §6b
+  - JS: `clients/najmar/DO_WKLEJENIA/GLOWNA_PL__body_bottom.html` → §8
+
+### CMS HTML (body_top / edytor treści)
+W sekcji "Nasze pokoje/apartamenty" dodaj:
+- Nagłówek sekcji + subtitle
+- Pusty grid z klasą fallback (np. `.nj-apartments__grid.nj-featured-fallback`)
+- Opcjonalnie: hardcoded karty jako fallback (ukryte CSS-em)
+- JS w body_bottom wypełni grid automatycznie
+
+### Kiedy stosować
+- **Nowa strona**: ZAWSZE dodawaj wyróżnione oferty na stronę główną
+- **Aktualizacja**: jeśli klient ma wyróżnione oferty w panelu a na stronie ich nie widać,
+  dodaj ten mechanizm (CSS hide + JS reader + custom cards)
+- **Bez wyróżnionych**: jeśli `.container-hotspot` nie istnieje na stronie, skrypt się nie odpali — bezpieczne
+
 ## GitHub repo
 https://github.com/Cisek25/claude-strony — kopia plików klientów
 

@@ -116,7 +116,152 @@
     });
   });
 
-  // §8 — Auto-pull phone + email from footer into CTA contacts
+  // §8 — CUSTOM OFFER CARDS from system .container-hotspot
+  // Reads data from hidden system hotspot, builds custom nj-offer-card grid.
+  // Same approach as MADERA — full control over card layout.
+  (function() {
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot) return;
+
+    /* SVG icons */
+    var iconArea = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>';
+    var iconGuests = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>';
+
+    /* Deduplicate — prefer original slides over slick clones */
+    var seen = {};
+    var offers = [];
+    /* First pass: collect originals (non-cloned) */
+    hotspot.querySelectorAll('.slick-slide:not(.slick-cloned) .offer').forEach(function(el) {
+      var a = el.querySelector('a.object-icon');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (seen[href]) return;
+      seen[href] = true;
+
+      var img = el.querySelector('img');
+      var title = el.querySelector('h3 a');
+      var desc = el.querySelector('.offer__description');
+      var metersEl = el.querySelector('.accommodation-meters');
+      var guestsEl = el.querySelector('.accommodation-roomspace');
+      var priceEl = el.querySelector('.offer__price .price');
+
+      /* Parse area — textContent is like "50,00 m2" */
+      var area = '';
+      if (metersEl) {
+        var am = metersEl.textContent.match(/([\d,.]+)\s*m/i);
+        if (am) area = am[1].replace(',00', '').replace('.00', '');
+      }
+
+      /* Parse guests */
+      var guests = '';
+      if (guestsEl) {
+        var gm = guestsEl.textContent.match(/(\d+)/);
+        if (gm) guests = gm[1];
+      }
+
+      /* Parse price */
+      var price = '';
+      if (priceEl) {
+        var pm = priceEl.textContent.match(/([\d,.]+)/);
+        if (pm) price = pm[1].replace('.00', '');
+      }
+
+      offers.push({
+        href: href,
+        img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+        alt: img ? (img.alt || '').trim() : '',
+        title: title ? title.textContent.trim() : '',
+        desc: desc ? desc.textContent.trim() : '',
+        area: area,
+        guests: guests,
+        price: price
+      });
+    });
+
+    /* Fallback: if slick not initialized, read all .offer elements */
+    if (!offers.length) {
+      hotspot.querySelectorAll('.offer').forEach(function(el) {
+        var a = el.querySelector('a.object-icon');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (seen[href]) return;
+        seen[href] = true;
+
+        var img = el.querySelector('img');
+        var title = el.querySelector('h3 a');
+        var desc = el.querySelector('.offer__description');
+        var metersEl = el.querySelector('.accommodation-meters');
+        var guestsEl = el.querySelector('.accommodation-roomspace');
+        var priceEl = el.querySelector('.offer__price .price');
+
+        var area = '';
+        if (metersEl) {
+          var am = metersEl.textContent.match(/([\d,.]+)\s*m/i);
+          if (am) area = am[1].replace(',00', '').replace('.00', '');
+        }
+        var guests = '';
+        if (guestsEl) {
+          var gm = guestsEl.textContent.match(/(\d+)/);
+          if (gm) guests = gm[1];
+        }
+        var price = '';
+        if (priceEl) {
+          var pm = priceEl.textContent.match(/([\d,.]+)/);
+          if (pm) price = pm[1].replace('.00', '');
+        }
+
+        offers.push({
+          href: href,
+          img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+          alt: img ? (img.alt || '').trim() : '',
+          title: title ? title.textContent.trim() : '',
+          desc: desc ? desc.textContent.trim() : '',
+          area: area,
+          guests: guests,
+          price: price
+        });
+      });
+    }
+
+    if (!offers.length) return;
+
+    /* Build card HTML */
+    function buildCard(o) {
+      var meta = '';
+      if (o.area) meta += '<span class="nj-offer-card__meta-item">' + iconArea + o.area + ' m\u00B2</span>';
+      if (o.guests) meta += '<span class="nj-offer-card__meta-item">' + iconGuests + o.guests + ' os.</span>';
+
+      var priceHTML = '';
+      if (o.price) {
+        priceHTML = '<span class="nj-offer-card__price">od ' + o.price + ' z\u0142</span>';
+      }
+
+      return '<a href="' + o.href + '" class="nj-offer-card">' +
+        '<div class="nj-offer-card__img">' +
+          '<img src="' + o.img + '" alt="' + o.alt + '" loading="lazy">' +
+          priceHTML +
+        '</div>' +
+        '<div class="nj-offer-card__body">' +
+          '<h3 class="nj-offer-card__name">' + o.title + '</h3>' +
+          (o.desc && o.desc !== o.title ? '<p class="nj-offer-card__desc">' + o.desc + '</p>' : '') +
+          (meta ? '<div class="nj-offer-card__meta">' + meta + '</div>' : '') +
+          '<span class="nj-offer-card__cta">Zobacz szczeg\u00F3\u0142y \u2192</span>' +
+        '</div>' +
+      '</a>';
+    }
+
+    /* Build grid content */
+    var cardsHTML = offers.map(function(o) { return buildCard(o); }).join('');
+
+    /* Insert into .nj-apartments__grid */
+    var grid = document.querySelector('.nj-apartments__grid');
+    if (grid) {
+      grid.innerHTML = cardsHTML;
+      grid.classList.remove('nj-featured-fallback');
+    }
+  })();
+
+  // §9 — Auto-pull phone + email from footer into CTA contacts
   // So when user changes phone in panel, it auto-updates on Dla Właścicieli page too.
   var footerPhone = document.querySelector('footer a[href^="tel:"], [role="contentinfo"] a[href^="tel:"]');
   var ctaPhone = document.querySelector('.nj-cta-contact[href^="tel:"]');

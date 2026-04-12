@@ -1,0 +1,282 @@
+<!-- Najmar Apartamenty — Global JS -->
+<script>
+(function() {
+  'use strict';
+
+  // §1 — Scroll Reveal Animation
+  // Uses IntersectionObserver to animate .nj-reveal elements on scroll
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('nj-revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.nj-reveal').forEach(el => revealObserver.observe(el));
+
+  // §2 — Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // §3 — Mobile menu enhancement
+  const menuToggle = document.querySelector('.navbar-toggler');
+  if (menuToggle) {
+    menuToggle.addEventListener('click', function() {
+      document.body.classList.toggle('nj-menu-open');
+    });
+  }
+
+  // §4 — Lazy loading for images
+  if ('loading' in HTMLImageElement.prototype) {
+    document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+      if (img.dataset.src) {
+        img.src = img.dataset.src;
+      }
+    });
+  }
+
+  // §5 — Search widget placeholders (system inputs have no placeholders)
+  // System bug: date inputs get value "NaN-aN-aN" — must clear before placeholder works
+  function setSearchPlaceholders() {
+    var loc = document.getElementById('iai_booking_location');
+    if (loc) {
+      if (!loc.value) loc.value = 'Żywiec';
+      loc.placeholder = 'Żywiec';
+    }
+
+    var from = document.getElementById('iai_booking_date_from');
+    if (from) {
+      if (!from.value || from.value === 'NaN-aN-aN' || from.value.indexOf('NaN') !== -1) {
+        from.value = '';
+      }
+      from.placeholder = 'Przyjazd';
+    }
+
+    var to = document.getElementById('iai_booking_date_to');
+    if (to) {
+      if (!to.value || to.value === 'NaN-aN-aN' || to.value.indexOf('NaN') !== -1) {
+        to.value = '';
+      }
+      to.placeholder = 'Wyjazd';
+    }
+
+    var persons = document.getElementById('iai_booking_persons');
+    if (persons && !persons.value) persons.placeholder = 'Osoby';
+  }
+  // Run immediately and after short delays (form loads async, system may re-set values)
+  setSearchPlaceholders();
+  setTimeout(setSearchPlaceholders, 500);
+  setTimeout(setSearchPlaceholders, 1500);
+  setTimeout(setSearchPlaceholders, 3000);
+
+  // §6 — Offers page: collapse all filters by default + add toggle
+  // System has NO toggle JS — filters are always open. We add collapsible behavior.
+  if (document.body.classList.contains('page-offers')) {
+    // Remove .show so CSS hides filter content
+    document.querySelectorAll('.filter_content.collapse.show').forEach(function(el) {
+      el.classList.remove('show');
+    });
+    // Add click toggle to each filter header
+    document.querySelectorAll('.filter_header').forEach(function(header) {
+      header.addEventListener('click', function() {
+        var content = this.nextElementSibling;
+        if (content && content.classList.contains('filter_content')) {
+          content.classList.toggle('show');
+        }
+      });
+    });
+  }
+
+  // §7 — FAQ accordion toggle (Dla Właścicieli + any page with .nj-faq-item__btn)
+  // CMS body_top strips <script> tags, so FAQ JS MUST be in body_bottom.
+  document.querySelectorAll('.nj-faq-item__btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      var answerId = btn.getAttribute('aria-controls');
+      var answer = document.getElementById(answerId);
+      if (!answer) return;
+      if (expanded) {
+        btn.setAttribute('aria-expanded', 'false');
+        answer.hidden = true;
+        answer.setAttribute('hidden', '');
+      } else {
+        btn.setAttribute('aria-expanded', 'true');
+        answer.hidden = false;
+        answer.removeAttribute('hidden');
+      }
+    });
+  });
+
+  // §8 — CUSTOM OFFER CARDS from system .container-hotspot
+  // Reads data from hidden system hotspot, builds custom nj-offer-card grid.
+  // Same approach as MADERA — full control over card layout.
+  (function() {
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot) return;
+
+    /* SVG icons */
+    var iconArea = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>';
+    var iconGuests = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>';
+
+    /* Deduplicate — prefer original slides over slick clones */
+    var seen = {};
+    var offers = [];
+    /* First pass: collect originals (non-cloned) */
+    hotspot.querySelectorAll('.slick-slide:not(.slick-cloned) .offer').forEach(function(el) {
+      var a = el.querySelector('a.object-icon');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (seen[href]) return;
+      seen[href] = true;
+
+      var img = el.querySelector('img');
+      var title = el.querySelector('h3 a');
+      var desc = el.querySelector('.offer__description');
+      var metersEl = el.querySelector('.accommodation-meters');
+      var guestsEl = el.querySelector('.accommodation-roomspace');
+      var priceEl = el.querySelector('.offer__price .price');
+
+      /* Parse area — textContent is like "50,00 m2" */
+      var area = '';
+      if (metersEl) {
+        var am = metersEl.textContent.match(/([\d,.]+)\s*m/i);
+        if (am) area = am[1].replace(',00', '').replace('.00', '');
+      }
+
+      /* Parse guests */
+      var guests = '';
+      if (guestsEl) {
+        var gm = guestsEl.textContent.match(/(\d+)/);
+        if (gm) guests = gm[1];
+      }
+
+      /* Parse price */
+      var price = '';
+      if (priceEl) {
+        var pm = priceEl.textContent.match(/([\d,.]+)/);
+        if (pm) price = pm[1].replace('.00', '');
+      }
+
+      offers.push({
+        href: href,
+        img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+        alt: img ? (img.alt || '').trim() : '',
+        title: title ? title.textContent.trim() : '',
+        desc: desc ? desc.textContent.trim() : '',
+        area: area,
+        guests: guests,
+        price: price
+      });
+    });
+
+    /* Fallback: if slick not initialized, read all .offer elements */
+    if (!offers.length) {
+      hotspot.querySelectorAll('.offer').forEach(function(el) {
+        var a = el.querySelector('a.object-icon');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (seen[href]) return;
+        seen[href] = true;
+
+        var img = el.querySelector('img');
+        var title = el.querySelector('h3 a');
+        var desc = el.querySelector('.offer__description');
+        var metersEl = el.querySelector('.accommodation-meters');
+        var guestsEl = el.querySelector('.accommodation-roomspace');
+        var priceEl = el.querySelector('.offer__price .price');
+
+        var area = '';
+        if (metersEl) {
+          var am = metersEl.textContent.match(/([\d,.]+)\s*m/i);
+          if (am) area = am[1].replace(',00', '').replace('.00', '');
+        }
+        var guests = '';
+        if (guestsEl) {
+          var gm = guestsEl.textContent.match(/(\d+)/);
+          if (gm) guests = gm[1];
+        }
+        var price = '';
+        if (priceEl) {
+          var pm = priceEl.textContent.match(/([\d,.]+)/);
+          if (pm) price = pm[1].replace('.00', '');
+        }
+
+        offers.push({
+          href: href,
+          img: img ? (img.getAttribute('data-src') || img.getAttribute('src') || '') : '',
+          alt: img ? (img.alt || '').trim() : '',
+          title: title ? title.textContent.trim() : '',
+          desc: desc ? desc.textContent.trim() : '',
+          area: area,
+          guests: guests,
+          price: price
+        });
+      });
+    }
+
+    if (!offers.length) return;
+
+    /* Build card HTML */
+    function buildCard(o) {
+      var meta = '';
+      if (o.area) meta += '<span class="nj-offer-card__meta-item">' + iconArea + o.area + ' m\u00B2</span>';
+      if (o.guests) meta += '<span class="nj-offer-card__meta-item">' + iconGuests + o.guests + ' os.</span>';
+
+      var priceHTML = '';
+      if (o.price) {
+        priceHTML = '<span class="nj-offer-card__price">od ' + o.price + ' z\u0142</span>';
+      }
+
+      return '<a href="' + o.href + '" class="nj-offer-card">' +
+        '<div class="nj-offer-card__img">' +
+          '<img src="' + o.img + '" alt="' + o.alt + '" loading="lazy">' +
+          priceHTML +
+        '</div>' +
+        '<div class="nj-offer-card__body">' +
+          '<h3 class="nj-offer-card__name">' + o.title + '</h3>' +
+          (o.desc && o.desc !== o.title ? '<p class="nj-offer-card__desc">' + o.desc + '</p>' : '') +
+          (meta ? '<div class="nj-offer-card__meta">' + meta + '</div>' : '') +
+          '<span class="nj-offer-card__cta">Zobacz szczeg\u00F3\u0142y \u2192</span>' +
+        '</div>' +
+      '</a>';
+    }
+
+    /* Build grid content */
+    var cardsHTML = offers.map(function(o) { return buildCard(o); }).join('');
+
+    /* Insert into .nj-apartments__grid */
+    var grid = document.querySelector('.nj-apartments__grid');
+    if (grid) {
+      grid.innerHTML = cardsHTML;
+      grid.classList.remove('nj-featured-fallback');
+    }
+  })();
+
+  // §9 — Auto-pull phone + email from footer into CTA contacts
+  // So when user changes phone in panel, it auto-updates on Dla Właścicieli page too.
+  var footerPhone = document.querySelector('footer a[href^="tel:"], [role="contentinfo"] a[href^="tel:"]');
+  var ctaPhone = document.querySelector('.nj-cta-contact[href^="tel:"]');
+  if (footerPhone && ctaPhone) {
+    ctaPhone.href = footerPhone.href.replace(/\s/g, '');
+    var phoneVal = ctaPhone.querySelector('.nj-cta-contact__value');
+    if (phoneVal) phoneVal.textContent = footerPhone.textContent.trim();
+  }
+  var footerEmail = document.querySelector('footer a[href^="mailto:"], [role="contentinfo"] a[href^="mailto:"]');
+  var ctaEmail = document.querySelector('.nj-cta-contact[href^="mailto:"]');
+  if (footerEmail && ctaEmail) {
+    ctaEmail.href = footerEmail.href;
+    var emailVal = ctaEmail.querySelector('.nj-cta-contact__value');
+    if (emailVal) emailVal.textContent = footerEmail.textContent.trim();
+  }
+
+})();
+</script>

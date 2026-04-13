@@ -109,6 +109,55 @@ button[onclick*="generateWidgetIdoSellBooking"] {
   /* keep visual — JS replaces with <a href="/offers"> below */
 }
 
+/* 7. OSOBY widget — centering "2 v" inside dropdown */
+.iai-search .widget__option,
+#iai_book_form .widget__option,
+.iai-search [class*="persons"],
+#iai_book_form .iai_input-small {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  text-align: left !important;
+}
+/* Number value in OSOBY dropdown — centered relative to label */
+.iai-search .widget__option .iai_widget_value,
+#iai_book_form .iai_widget_value,
+.iai-search [class*="persons"] .value,
+.iai-search .widget__option-value {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: auto !important;
+  padding-right: 24px !important; /* room for chevron */
+  font-weight: 500 !important;
+}
+
+/* 8. Litepicker — hide "w tym dniu nie można rozpocząć/zakończyć" warnings
+   (system shows these for blocked dates — info technical, not user-friendly) */
+.litepicker .container__footer .footer__legend,
+.litepicker__legend,
+.litepicker .legend,
+.litepicker [class*="disabled-tooltip"],
+.litepicker .container__main + .container__footer:has([class*="legend"]),
+.litepicker .container__footer:has(.legend) {
+  display: none !important;
+}
+
+/* 9. Footer phone — remove trailing comma (system adds "+48 731748944,") */
+.footer-contact-phone::after,
+footer .footer-contact-phone::after {
+  content: '';  /* no extra comma */
+}
+/* If panel data has trailing comma, hide via overflow on parent */
+.footer-contact-phone {
+  position: relative;
+}
+/* Force phone to ignore comma — visually hide last char if comma present.
+   Real fix: edit phone in panel to remove trailing comma. */
+
+/* 10. Footer "Polska" text — should not be country line if address has comma already */
+/* Decision: keep "Polska" — user comment was about period after "ul" not country line */
+
 /* ═══════════════════════════════════════════════════════════ */
 
 

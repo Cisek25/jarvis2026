@@ -158,6 +158,36 @@ footer .footer-contact-phone::after {
 /* 10. Footer "Polska" text — should not be country line if address has comma already */
 /* Decision: keep "Polska" — user comment was about period after "ul" not country line */
 
+
+/* 11. NIP label uppercase — system renders "Nip:" lowercase (not editable)
+   Structure: .contact__list.--owner > li > span (first child) = label
+   Uppercasing all labels in owner list = consistent + fixes NIP */
+.contact__list.--owner li > span:first-child,
+ul.contact__list li > span:first-child,
+.contact__sect .contact__list li span:first-child {
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+  font-size: 12px !important;
+  color: var(--ec-green, #2D5016) !important;
+}
+
+/* Value text (non-first-child span or text node) — normal case */
+.contact__list.--owner li,
+ul.contact__list li {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+
+/* 12. Trailing comma on phone — if still present (CSS cleanup hack)
+   Uses ::after to overlap the last character with footer bg color.
+   BEST FIX: Maria remove comma from panel data (already done per user). */
+.footer-contact-phone::after,
+footer .phone-with-trailing-comma::after {
+  /* reserved for CSS overlay trick if needed */
+}
+
 /* ═══════════════════════════════════════════════════════════ */
 
 

@@ -350,17 +350,24 @@
     });
   }
 
-  /* ─── §VIDEO — Film promocyjny z Google Drive ─── */
+  /* ─── §VIDEO — Film promocyjny z Google Drive (multilingual) ─── */
   (function injectVideo() {
     if (!document.body.classList.contains('page-index')) return;
     var cta = document.querySelector('.ec-section--green');
     if (!cta) return;
+
+    /* Detect language from html lang or URL path (for EN homepage) */
+    var isEN = document.documentElement.lang === 'en'
+      || window.location.pathname.indexOf('/en') === 0;
+    var kicker = isEN ? 'See us' : 'Zobacz nas';
+    var heading = isEN ? 'Eco Camping Video' : 'Film z Eco Campingu';
+
     var wrapper = document.createElement('div');
     wrapper.className = 'ec-full';
     wrapper.innerHTML = '<div class="ec-section ec-section--cream" style="text-align:center;padding:60px 0;">' +
       '<div class="ec-inner ec-fade-up">' +
-      '<span class="ec-kicker">Zobacz nas</span>' +
-      '<h2 class="ec-h2">Film z Eco Campingu</h2>' +
+      '<span class="ec-kicker">' + kicker + '</span>' +
+      '<h2 class="ec-h2">' + heading + '</h2>' +
       '<hr class="ec-rule" style="margin:16px auto 32px;">' +
       '<div style="max-width:1100px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.12);position:relative;padding-bottom:56.25%;height:0;">' +
       '<iframe src="https://drive.google.com/file/d/1UzGjjunQTt96jBGzJVPVZkiQB6c8IwTt/preview" ' +
@@ -474,6 +481,74 @@
       }, 300);
     }
   }, 2000);
+
+
+  /* ═══════════════════════════════════════════════════════════
+     UWAGI 2026-04-13 — dodatki z Uwagi do strony.odt
+     ═══════════════════════════════════════════════════════════ */
+
+  /* 1. NIP label uppercase — system renders "Nip:" lowercase (not editable).
+     CSS też to robi, ale JS zapewnia semantic poprawność. */
+  function fixNipLabel() {
+    document.querySelectorAll('.contact__list.--owner li > span, ul.contact__list li > span').forEach(function(span) {
+      var txt = (span.textContent || '').trim();
+      if (/^nip:?$/i.test(txt)) {
+        span.textContent = 'NIP:';
+      }
+    });
+  }
+  fixNipLabel();
+  setTimeout(fixNipLabel, 500);
+  setTimeout(fixNipLabel, 1500);
+
+  /* 2. Phone trailing comma — jeśli Maria jeszcze nie usunęła, strip na load */
+  function stripPhoneComma() {
+    document.querySelectorAll('.footer-contact-phone, a[href^="tel:"]').forEach(function(el) {
+      var inner = el.innerHTML;
+      var cleaned = inner.replace(/,\s*$/, '').replace(/,(\s*<\/)/g, '$1');
+      if (cleaned !== inner) el.innerHTML = cleaned;
+      if (el.hasAttribute('aria-label')) {
+        el.setAttribute('aria-label', el.getAttribute('aria-label').replace(/,\s*$/, ''));
+      }
+    });
+  }
+  stripPhoneComma();
+  setTimeout(stripPhoneComma, 500);
+
+  /* 3. Video unmute — user chce dźwięk (browsers block autoplay+sound,
+     dlatego dodajemy controls żeby user mógł włączyć dźwięk manually) */
+  function unmuteVideos() {
+    document.querySelectorAll('video').forEach(function(v) {
+      v.muted = false;
+      v.removeAttribute('muted');
+      if (!v.hasAttribute('controls')) {
+        v.setAttribute('controls', '');
+      }
+    });
+  }
+  unmuteVideos();
+  setTimeout(unmuteVideos, 1500);
+
+  /* 4. Sprawdź dostępność — URL fallback dla system buttons.
+     System renderuje <button onclick="generateWidgetIdoSellBooking(this)"> który
+     otwiera JS widget. Jeśli JS fails (slow/disabled), button nic nie robi.
+     Wrapper <a href="/offers"> zapewnia fallback nawigację. */
+  function addSprawdzFallback() {
+    document.querySelectorAll('button[onclick*="generateWidgetIdoSellBooking"]').forEach(function(btn) {
+      if (btn.closest('a[href]')) return;  /* already wrapped */
+      var anchor = document.createElement('a');
+      anchor.setAttribute('href', '/offers');
+      anchor.setAttribute('style', 'text-decoration:none; color:inherit; display:inline-block;');
+      /* Keep onclick behavior but return false to prevent default if JS succeeds */
+      var originalOnclick = btn.getAttribute('onclick');
+      anchor.setAttribute('onclick', 'try { ' + originalOnclick + '; return false; } catch(e) { return true; }');
+      btn.parentNode.insertBefore(anchor, btn);
+      anchor.appendChild(btn);
+      btn.removeAttribute('onclick');
+    });
+  }
+  addSprawdzFallback();
+  setTimeout(addSprawdzFallback, 1000);  /* for late-rendered buttons */
 
 })();
 </script>

@@ -3,7 +3,115 @@
    Panel: client57820.idosell.com
    Prefix: ec-
    Wklejac do: /panel/frontpage/editorstyle (ACE editor)
+   Patched: 2026-04-13 — uwagi klientki (Uwagi do strony.odt)
    ===================================================== */
+
+
+/* ═══════════════════════════════════════════════════════════
+   §UWAGI-2026-04-13: FIXES z "Uwagi do strony.odt"
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1. "Witamy w Eco Camping" (.ec-kicker) na hero — bigger */
+.ec-hero .ec-kicker,
+.ec-hero__kicker,
+.ec-hero .ec-kicker:first-of-type,
+.mp-hero .ec-kicker {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  line-height: 1.4 !important;
+}
+/* Specifically the "Witamy w Eco Camping" first kicker on homepage */
+body.page-index section:first-of-type .ec-kicker,
+body.page-index .ec-hero .ec-kicker {
+  font-size: clamp(16px, 1.5vw, 22px) !important;
+  font-weight: 700 !important;
+}
+
+/* 2. Typography orphans — "z", "i", "ale", "w", "o", "u" do następnej linii */
+body {
+  text-wrap: pretty;
+  hanging-punctuation: first;
+}
+.ec-hero__subtitle,
+.ec-section p,
+.ec-zone-card__desc,
+.ec-feature-card p,
+.ec-about p,
+.ec-card__desc,
+p.ec-body,
+article p {
+  text-wrap: pretty;
+  orphans: 3;
+  widows: 3;
+}
+/* Polish single-letter preposition protection — use non-breaking space in HTML OR this CSS hack */
+/* Best practice: add &nbsp; after "w", "i", "z", "o", "u", "a" in HTML */
+
+/* 3. Footer — NIP uppercase + Regulamin/Polityka separator + font consistency */
+footer a[href*="regulamin"],
+footer a[href*="regulations"],
+footer a[href*="polityka"],
+footer a[href*="privacy-policy"],
+.footer a[href*="regulamin"],
+.footer a[href*="polityka"] {
+  font-size: 13px !important;
+  font-family: var(--ec-font-body, 'Inter'), sans-serif !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  line-height: 1.5 !important;
+  padding: 0 8px !important;
+}
+footer a[href*="regulamin"]:not(:last-child)::after,
+.footer a[href*="regulamin"]:not(:last-child)::after {
+  content: " | " !important;
+  margin-left: 8px !important;
+  color: rgba(255, 255, 255, 0.3) !important;
+  pointer-events: none !important;
+}
+
+/* NIP uppercase — system often renders "Nip" lowercase */
+footer *,
+.footer-contact *,
+.footer-contact-add * {
+  text-transform: none;  /* reset */
+}
+/* Target specific text-node containers with Nip */
+footer [class*="tax"],
+footer [class*="nip"],
+.footer [class*="nip"],
+.footer [class*="tax"] {
+  text-transform: uppercase !important;
+}
+
+/* 4. Footer phone format with spaces — ensure whitespace preserved */
+footer a[href^="tel:"],
+.footer a[href^="tel:"],
+.footer-contact-phone {
+  white-space: nowrap !important;
+  letter-spacing: 0.3px !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* 5. Video — muted default (safety; maybe HTML attr missing) */
+video {
+  /* Don't auto-unmute, let user control */
+}
+video[autoplay]:not([muted]) {
+  /* if not muted but autoplay, force muted */
+}
+
+/* 6. "Sprawdź dostępność" buttons — style as prominent gold CTAs */
+button.ec-btn[onclick*="generateWidget"],
+button[onclick*="generateWidgetIdoSellBooking"] {
+  /* keep visual — JS replaces with <a href="/offers"> below */
+}
+
+/* ═══════════════════════════════════════════════════════════ */
+
+
 
 /* ─── GOOGLE FONTS ─── */
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');

@@ -1,0 +1,881 @@
+<!-- ═══════════════════════════════════════════════════════════════
+     MOUNTAIN PRESTIGE — End of Body JavaScript
+     Paste into: Panel IdoBooking → Ustawienia → Kody śledzące → Koniec BODY
+
+     Modules:
+       01. Scroll Reveal Animations
+       02. Smooth Scroll for Anchor Links
+       03. Header Shrink on Scroll
+       04. Counter Animation (stats)
+       05. FAQ Accordion Toggle
+       06. Featured Offers Reader (.container-hotspot)
+       07. Phone Auto-Fill from Footer
+       08. Search Widget Handler
+       09. Mobile Nav Toggle
+       10. Hero Parallax (subtle)
+     ═══════════════════════════════════════════════════════════════ -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ═══════════════════════════════════════════════════════════════
+     MP CONFIG — update these per-client if needed
+     ═══════════════════════════════════════════════════════════════ */
+  var MP_CONFIG = {
+    /* Engine URL for booking redirect.
+       Leave as null to auto-detect from system #iai_book_form.
+       If auto-detect fails, fallback to engine{N}.idobooking.com */
+    engineUrl: null,
+    /* Fallback engine URL (update if real engine differs) */
+    engineFallback: 'https://engine57060.idobooking.com/',
+    /* Prefer submitting via system's existing search form */
+    preferSystemForm: true
+  };
+
+  /* Mark <html> as JS-enabled so CSS can style accordingly */
+  document.documentElement.classList.add('mp-js');
+
+  /* Detect homepage + inject .mp-homepage class on BOTH body + html. */
+  (function detectHomepage() {
+    var path = window.location.pathname;
+    var isHomepage =
+      document.body.classList.contains('page-index') ||
+      document.body.classList.contains('home') ||
+      document.body.classList.contains('frontpage') ||
+      path === '/' ||
+      path === '' ||
+      /^\/[a-z]{2}\/?$/.test(path) ||
+      /^\/(pl|en|de|es|fr|it|ru)\/?$/i.test(path);
+
+    if (!isHomepage && document.querySelector('.mp-hero-wrap')) {
+      isHomepage = true;
+    }
+
+    if (isHomepage) {
+      document.body.classList.add('mp-homepage');
+      document.documentElement.classList.add('mp-homepage');
+    }
+  })();
+
+  /* CRITICAL v1.10: TELEPORT hero-wrap INTO .section.parallax.
+     Reason: IdoBooking uses fullpage.js which creates TWO sections:
+       - Section 1: .section.parallax (hero image)
+       - Section 2: .section.fp-auto-height (contains body_top content)
+     My .mp-hero-wrap is rendered in Section 2 (below hero) by default.
+     Need to move it into Section 1 so it overlays the hero image.
+
+     Mark also .fp-tableCell inside section.parallax — move wrap there
+     for proper centering in the table-cell layout. */
+  function teleportHeroWrap() {
+    var heroWrap = document.querySelector('.mp-hero-wrap');
+    var sectionParallax = document.querySelector('.section.parallax');
+    if (!heroWrap || !sectionParallax) return false;
+
+    /* Only move if not already inside section.parallax */
+    if (sectionParallax.contains(heroWrap)) return true;
+
+    /* Prefer to move INTO .fp-tableCell if present (fullpage.js layout) */
+    var target = sectionParallax.querySelector('.fp-tableCell') || sectionParallax;
+    target.appendChild(heroWrap);
+    return true;
+  }
+
+  /* Try immediately, then retry (fullpage.js may init async) */
+  if (!teleportHeroWrap()) {
+    [100, 500, 1500, 3000].forEach(function (delay) {
+      setTimeout(teleportHeroWrap, delay);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     01. SCROLL REVEAL ANIMATIONS
+     Watches .mp-reveal elements. Adds .mp-revealed once in view.
+     ───────────────────────────────────────────────────────────── */
+  function initScrollReveal() {
+    var elements = document.querySelectorAll('.mp-reveal');
+    if (!elements.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      elements.forEach(function (el) { el.classList.add('mp-revealed'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('mp-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -60px 0px'
+    });
+
+    elements.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     02. SMOOTH SCROLL FOR ANCHOR LINKS
+     ───────────────────────────────────────────────────────────── */
+  function initSmoothScroll() {
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (href === '#' || href.length < 2) return;
+      var target = document.querySelector(href);
+      if (!target) return;
+
+      e.preventDefault();
+      var headerOffset = 88;
+      var y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      /* Update URL hash without scroll jump */
+      history.pushState(null, '', href);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     03. HEADER SHRINK ON SCROLL
+     Adds .mp-header--scrolled to header when scrollY > 80.
+     ───────────────────────────────────────────────────────────── */
+  var HEADER_SEL = 'header.default13, header.header, .defaultsb, #defaultsb';
+
+  function initHeaderShrink() {
+    var header = document.querySelector(HEADER_SEL);
+    if (!header) return;
+
+    var isHomepage = document.body.classList.contains('mp-homepage')
+      || document.body.classList.contains('page-index')
+      || document.body.classList.contains('home')
+      || window.location.pathname === '/'
+      || /^\/[a-z]{2}\/?$/.test(window.location.pathname);
+
+    /* CRITICAL v1.14: IdoBooking uses fullpage.js on homepage.
+       window.scrollY is ALWAYS 0 — fullpage uses transforms.
+       DETECTION: body.className has 'fp-viewing-N' where N=current section.
+       Section 1 = hero (transparent header).
+       Section 2+ = scrolled state (solid white header). */
+
+    function applyHeaderState(scrolled) {
+      if (scrolled) {
+        header.classList.add('mp-header--scrolled');
+      } else {
+        header.classList.remove('mp-header--scrolled');
+      }
+      document.documentElement.style.setProperty(
+        '--mp-current-header-h',
+        scrolled ? '66px' : '88px'
+      );
+    }
+
+    function checkFullpageState() {
+      var bodyCls = document.body.className;
+      var match = bodyCls.match(/fp-viewing-(\d+)/);
+      if (match) {
+        /* fullpage.js active — section 1 = hero */
+        var sectionIdx = parseInt(match[1], 10);
+        applyHeaderState(sectionIdx > 1);
+        return true;
+      }
+      return false;
+    }
+
+    /* Observe body class changes for fp-viewing-X */
+    var fullpageDetected = checkFullpageState();
+    var observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        if (m.attributeName === 'class') {
+          checkFullpageState();
+        }
+      });
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    /* Regular scroll handler — works on non-fullpage pages (/offer, /contact, etc) */
+    var threshold = 80;
+    var ticking = false;
+
+    function scrollUpdate() {
+      /* If fullpage.js active, skip scroll — body class observer handles it */
+      if (document.body.className.match(/fp-viewing-/)) {
+        ticking = false;
+        return;
+      }
+      applyHeaderState(window.scrollY > threshold);
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(scrollUpdate);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    /* Initial check */
+    if (!fullpageDetected) scrollUpdate();
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     04. COUNTER ANIMATION (stats)
+     .mp-stat__number with data-count="123" animates from 0.
+     ───────────────────────────────────────────────────────────── */
+  function animateCounter(el, target, duration) {
+    var start = 0;
+    var startTime = null;
+    var suffix = el.getAttribute('data-suffix') || '';
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      /* easeOutExpo */
+      var eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      var current = start + (target - start) * eased;
+      el.textContent = current.toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function initCounters() {
+    var counters = document.querySelectorAll('.mp-stat__number[data-count]');
+    if (!counters.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      counters.forEach(function (c) {
+        c.textContent = c.getAttribute('data-count') + (c.getAttribute('data-suffix') || '');
+      });
+      return;
+    }
+
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var target = parseFloat(el.getAttribute('data-count'));
+          if (!isNaN(target)) animateCounter(el, target, 1800);
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    counters.forEach(function (c) { obs.observe(c); });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     05. FAQ ACCORDION TOGGLE
+     .mp-faq__question with aria-controls="id" toggles aria-expanded
+     and the hidden attribute on the answer element.
+     ───────────────────────────────────────────────────────────── */
+  function initFAQ() {
+    var questions = document.querySelectorAll('.mp-faq__question');
+    questions.forEach(function (q) {
+      q.addEventListener('click', function () {
+        var expanded = q.getAttribute('aria-expanded') === 'true';
+        var answerId = q.getAttribute('aria-controls');
+        var answer = document.getElementById(answerId);
+        q.setAttribute('aria-expanded', !expanded);
+        if (answer) {
+          if (expanded) answer.setAttribute('hidden', '');
+          else answer.removeAttribute('hidden');
+        }
+      });
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     06. FEATURED OFFERS READER (.container-hotspot)
+     Reads system-generated offers from .container-hotspot,
+     rebuilds as .mp-offer-card into target grid.
+     ───────────────────────────────────────────────────────────── */
+  function buildOfferCards() {
+    var hotspot = document.querySelector('.container-hotspot');
+    var grid = document.querySelector('.mp-apartments__grid.mp-featured-fallback');
+    if (!hotspot || !grid) return;
+
+    var offers = hotspot.querySelectorAll('.slick-slide:not(.slick-cloned) .offer');
+    if (!offers.length) offers = hotspot.querySelectorAll('.offer');
+    if (!offers.length) return;
+
+    /* Deduplicate by href */
+    var seen = new Set();
+    var cards = [];
+
+    offers.forEach(function (offer) {
+      var link = offer.querySelector('a.object-icon') || offer.querySelector('a');
+      var href = link ? link.getAttribute('href') : null;
+      if (!href || seen.has(href)) return;
+      seen.add(href);
+
+      var img = offer.querySelector('img[data-src]') || offer.querySelector('img');
+      var imgSrc = img ? (img.getAttribute('data-src') || img.getAttribute('src')) : '';
+      var title = (offer.querySelector('h3 a') || offer.querySelector('h3') || {}).textContent || '';
+      var desc = (offer.querySelector('.offer__description') || {}).textContent || '';
+
+      var areaEl = offer.querySelector('.accommodation-meters');
+      var area = '';
+      if (areaEl) {
+        var m = areaEl.textContent.match(/([\d,.]+)\s*m/i);
+        if (m) area = m[1] + ' m²';
+      }
+
+      var guestsEl = offer.querySelector('.accommodation-roomspace');
+      var guests = '';
+      if (guestsEl) {
+        var g = guestsEl.textContent.match(/(\d+)/);
+        if (g) guests = g[1];
+      }
+
+      var priceEl = offer.querySelector('.offer__price .price') || offer.querySelector('.price');
+      var price = '';
+      if (priceEl) {
+        var p = priceEl.textContent.match(/([\d,.]+)/);
+        if (p) price = p[1];
+      }
+
+      cards.push({
+        href: href,
+        img: imgSrc,
+        title: title.trim(),
+        desc: desc.trim(),
+        area: area,
+        guests: guests,
+        price: price
+      });
+    });
+
+    if (!cards.length) return;
+
+    /* Clear fallback markers, build cards */
+    grid.classList.remove('mp-featured-fallback');
+    grid.innerHTML = '';
+
+    cards.forEach(function (c, idx) {
+      var card = document.createElement('article');
+      card.className = 'mp-offer-card mp-reveal';
+      if (idx > 0) card.className += ' mp-reveal--delay-' + Math.min(idx, 3);
+
+      var html = ''
+        + '<div class="mp-offer-card__img">'
+        + (c.img ? '<img src="' + c.img + '" alt="' + c.title.replace(/"/g, '&quot;') + '" loading="lazy">' : '')
+        + '<span class="mp-offer-card__badge">Premium</span>'
+        + (c.price ? '<span class="mp-offer-card__price">' + c.price + ' zł<small>od / doba</small></span>' : '')
+        + '</div>'
+        + '<div class="mp-offer-card__body">'
+        + '<h3 class="mp-offer-card__name">' + c.title + '</h3>'
+        + (c.desc ? '<p class="mp-offer-card__desc">' + c.desc + '</p>' : '')
+        + (c.area || c.guests ?
+            '<div class="mp-offer-card__meta">'
+            + (c.area ? '<span class="mp-offer-card__meta-item">'
+                + '<svg viewBox="0 0 24 24"><path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 0h7v7h-7v-7z"/></svg>'
+                + c.area + '</span>' : '')
+            + (c.guests ? '<span class="mp-offer-card__meta-item">'
+                + '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>'
+                + c.guests + ' os.</span>' : '')
+            + '</div>'
+          : '')
+        + '<a href="' + c.href + '" class="mp-offer-card__cta">Zobacz szczegóły <span aria-hidden="true">→</span></a>'
+        + '</div>';
+      card.innerHTML = html;
+      grid.appendChild(card);
+    });
+
+    /* Re-observe new .mp-reveal elements */
+    initScrollReveal();
+  }
+
+  function initFeaturedOffers() {
+    /* Slick init is async — try multiple times */
+    [0, 400, 1200, 2500].forEach(function (delay) {
+      setTimeout(buildOfferCards, delay);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     07. PHONE AUTO-FILL FROM FOOTER
+     Reads tel: and mailto: from footer and injects into .mp-phone-auto / .mp-email-auto
+     ───────────────────────────────────────────────────────────── */
+  function initContactAutoFill() {
+    var phoneTargets = document.querySelectorAll('.mp-phone-auto');
+    var emailTargets = document.querySelectorAll('.mp-email-auto');
+
+    var phoneLink = document.querySelector('footer a[href^="tel:"], .footer a[href^="tel:"]');
+    var emailLink = document.querySelector('footer a[href^="mailto:"], .footer a[href^="mailto:"]');
+
+    if (phoneLink && phoneTargets.length) {
+      var href = phoneLink.getAttribute('href');
+      var text = phoneLink.textContent.trim();
+      phoneTargets.forEach(function (el) {
+        el.setAttribute('href', href);
+        if (!el.textContent.trim()) el.textContent = text;
+      });
+    }
+
+    if (emailLink && emailTargets.length) {
+      var ehref = emailLink.getAttribute('href');
+      var etext = emailLink.textContent.trim();
+      emailTargets.forEach(function (el) {
+        el.setAttribute('href', ehref);
+        if (!el.textContent.trim()) el.textContent = etext;
+      });
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     08. SEARCH WIDGET HANDLER
+     Custom widget .mp-search submits to ENGINE (booking engine),
+     NOT to /offers subpage. Strategy:
+       1. If system #iai_book_form exists: populate its fields +
+          submit it (system handles engine redirect correctly).
+       2. Fallback: redirect to configured engine URL with params.
+     ───────────────────────────────────────────────────────────── */
+  function detectEngineUrl() {
+    if (MP_CONFIG.engineUrl) return MP_CONFIG.engineUrl;
+    /* Try to detect from system's iai_book_form action */
+    var sysForm = document.querySelector('#iai_book_form, form.iai-search, .iai-search form');
+    if (sysForm) {
+      var action = sysForm.getAttribute('action') || sysForm.action;
+      if (action && action !== '#' && action !== window.location.pathname) {
+        return action;
+      }
+    }
+    return MP_CONFIG.engineFallback;
+  }
+
+  function submitViaSystemForm(values) {
+    var sysForm = document.querySelector('#iai_book_form');
+    if (!sysForm) return false;
+
+    /* Populate system fields — IdoBooking uses various name conventions */
+    var fields = {
+      checkin: ['checkin_date', 'date_from', 'dateFrom', 'checkin', 'arrival'],
+      checkout: ['checkout_date', 'date_to', 'dateTo', 'checkout', 'departure'],
+      persons: ['persons', 'guests', 'adults', 'num_persons']
+    };
+
+    function setField(nameList, value) {
+      if (!value) return;
+      for (var i = 0; i < nameList.length; i++) {
+        var el = sysForm.querySelector('[name="' + nameList[i] + '"]');
+        if (el) { el.value = value; return true; }
+      }
+      return false;
+    }
+
+    setField(fields.checkin, values.dateFrom);
+    setField(fields.checkout, values.dateTo);
+    setField(fields.persons, values.guests);
+
+    /* Also try .iai_book_checkin / .iai_book_checkout inputs */
+    var checkIn = sysForm.querySelector('.iai_book_checkin input, [class*="checkin"] input');
+    var checkOut = sysForm.querySelector('.iai_book_checkout input, [class*="checkout"] input');
+    if (checkIn && values.dateFrom) checkIn.value = values.dateFrom;
+    if (checkOut && values.dateTo) checkOut.value = values.dateTo;
+
+    try {
+      sysForm.submit();
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  function initSearchWidget() {
+    var form = document.querySelector('.mp-search');
+    if (!form) return;
+
+    var submit = form.querySelector('.mp-search__submit');
+    if (!submit) return;
+
+    submit.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      var dateFrom = form.querySelector('[name="mp-date-from"]');
+      var dateTo = form.querySelector('[name="mp-date-to"]');
+      var location = form.querySelector('[name="mp-location"]');
+      var guests = form.querySelector('[name="mp-guests"]');
+
+      var values = {
+        dateFrom: dateFrom ? dateFrom.value : '',
+        dateTo: dateTo ? dateTo.value : '',
+        location: location ? location.value : '',
+        guests: guests ? guests.value : ''
+      };
+
+      /* Strategy 1: submit through system form (correct engine URL) */
+      if (MP_CONFIG.preferSystemForm && submitViaSystemForm(values)) {
+        return;
+      }
+
+      /* Strategy 2: direct redirect to engine URL */
+      var engineUrl = detectEngineUrl();
+      var params = new URLSearchParams();
+      if (values.dateFrom) params.set('date_from', values.dateFrom);
+      if (values.dateTo) params.set('date_to', values.dateTo);
+      if (values.guests) params.set('persons', values.guests);
+      if (values.location && values.location !== 'all') params.set('location', values.location);
+
+      var qs = params.toString();
+      var separator = engineUrl.indexOf('?') > -1 ? '&' : '?';
+      window.location.href = engineUrl + (qs ? separator + qs : '');
+    });
+
+    var checkIn = form.querySelector('[name="mp-date-from"]');
+    var checkOut = form.querySelector('[name="mp-date-to"]');
+
+    /* Flatpickr init — premium styled picker replaces native ugly one.
+       Library loaded from CDN in MP_HEAD.html (may be async/defer, so
+       we wait for it with small retry). */
+    function initFlatpickr() {
+      if (typeof window.flatpickr === 'undefined') return false;
+
+      var today = new Date();
+      var tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      var localeOpt = window.flatpickr.l10ns && window.flatpickr.l10ns.pl
+        ? window.flatpickr.l10ns.pl : 'default';
+
+      /* altInputClass preserves MP styling on the visible alt input
+         so there's no gray browser-default bar. */
+      var fpOpts = {
+        dateFormat: 'Y-m-d',
+        altFormat: 'd.m.Y',
+        altInput: true,
+        altInputClass: 'mp-search__input mp-search__input-alt flatpickr-alt-input',
+        minDate: 'today',
+        locale: localeOpt,
+        disableMobile: true,
+        allowInput: false,
+        clickOpens: true,
+        monthSelectorType: 'static'
+      };
+
+      if (checkIn) {
+        window.flatpickr(checkIn, Object.assign({}, fpOpts, {
+          onChange: function (selectedDates) {
+            if (!selectedDates.length) return;
+            /* Only update checkout min constraint — do NOT auto-set date.
+               User complained that auto-setting next day was annoying.
+               They want to manually pick checkout. */
+            var nextDay = new Date(selectedDates[0]);
+            nextDay.setDate(nextDay.getDate() + 1);
+            if (checkOut && checkOut._flatpickr) {
+              checkOut._flatpickr.set('minDate', nextDay);
+              /* Clear checkout ONLY if currently-selected checkout is now
+                 invalid (before new min). Otherwise leave user's choice. */
+              var currentOut = checkOut._flatpickr.selectedDates[0];
+              if (currentOut && currentOut <= selectedDates[0]) {
+                checkOut._flatpickr.clear();
+              }
+              /* NO auto-setDate — let user pick manually */
+            }
+          }
+        }));
+      }
+
+      if (checkOut) {
+        window.flatpickr(checkOut, Object.assign({}, fpOpts, {
+          minDate: tomorrow
+        }));
+      }
+
+      /* Click anywhere in .mp-search__field opens flatpickr */
+      var fields = form.querySelectorAll('.mp-search__field');
+      fields.forEach(function (field) {
+        var input = field.querySelector('input, select');
+        if (!input) return;
+        field.addEventListener('click', function (e) {
+          if (e.target === input) return;
+          /* If flatpickr attached, open it */
+          if (input._flatpickr) {
+            input._flatpickr.open();
+            return;
+          }
+          /* Native fallback */
+          if (typeof input.showPicker === 'function') {
+            try { input.showPicker(); return; } catch (err) {}
+          }
+          input.focus();
+        });
+      });
+
+      return true;
+    }
+
+    /* Retry until Flatpickr CDN loaded (defer attribute delays it) */
+    if (!initFlatpickr()) {
+      var attempts = 0;
+      var retry = setInterval(function () {
+        attempts++;
+        if (initFlatpickr() || attempts > 20) clearInterval(retry);
+      }, 200);
+    }
+
+    /* Fallback for no-JS or Flatpickr load failure: native input behavior */
+    var today = new Date().toISOString().split('T')[0];
+    var dateInputs = form.querySelectorAll('input[type="date"]');
+    dateInputs.forEach(function (inp) {
+      if (!inp.getAttribute('min')) inp.setAttribute('min', today);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     09. MOBILE NAV TOGGLE (if system nav has hamburger)
+     ───────────────────────────────────────────────────────────── */
+  function initMobileNav() {
+    var toggle = document.querySelector('.mp-nav-toggle, .navbar-toggler');
+    var nav = document.querySelector('.mp-nav, header nav');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('mp-nav--open');
+      toggle.setAttribute('aria-expanded', open);
+      document.body.classList.toggle('mp-nav-open', open);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     10b. OFFERS PAGE FILTERS — collapsed by default + toggle
+     System renders `.filter_content.collapse.show` (all open) on /offers.
+     User wants them COLLAPSED by default — click header to expand.
+     L1 CSS handles display via .show class; JS toggles it.
+     ───────────────────────────────────────────────────────────── */
+  function initOffersFilters() {
+    if (!document.body.classList.contains('page-offers')) return;
+
+    var filters = document.querySelectorAll('.filter_content.collapse');
+    var headers = document.querySelectorAll('.filter_header');
+    if (!filters.length || !headers.length) return;
+
+    /* Collapse all filters by default (remove .show class) */
+    filters.forEach(function (f) { f.classList.remove('show'); });
+
+    /* Initialize headers — aria + click/keyboard handlers */
+    headers.forEach(function (h) {
+      h.setAttribute('aria-expanded', 'false');
+      h.setAttribute('role', 'button');
+      h.setAttribute('tabindex', '0');
+
+      /* Prevent double-binding on retry */
+      if (h.dataset.mpFilterInit) return;
+      h.dataset.mpFilterInit = 'true';
+
+      h.addEventListener('click', function () {
+        /* System ID pattern: filter_header_X → filter_X_content */
+        var match = h.id.match(/filter_header_(.+)/);
+        if (!match) {
+          /* Fallback: find next sibling .filter_content */
+          var next = h.nextElementSibling;
+          if (next && next.classList.contains('filter_content')) {
+            toggleFilter(h, next);
+          }
+          return;
+        }
+        var content = document.getElementById('filter_' + match[1] + '_content');
+        if (content) toggleFilter(h, content);
+      });
+
+      h.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          h.click();
+        }
+      });
+    });
+
+    function toggleFilter(header, content) {
+      var expanded = header.getAttribute('aria-expanded') === 'true';
+      header.setAttribute('aria-expanded', !expanded);
+      content.classList.toggle('show');
+    }
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────
+     10c. CONTACT PAGE — hide empty phone/email (system renders 2 tel fields,
+          one often empty creating a white box)
+     ───────────────────────────────────────────────────────────── */
+  function initContactPageCleanup() {
+    if (!document.body.classList.contains('page-contact')) return;
+
+    /* Hide .contact__tel and .contact__email that are empty or whitespace-only */
+    document.querySelectorAll('.contact__tel, .contact__email, a[href^="tel:"], a[href^="mailto:"]').forEach(function (el) {
+      var text = (el.textContent || '').trim();
+      var href = (el.getAttribute('href') || '').trim();
+      /* Empty text or href="tel:" or href="tel: " (trailing space) or href="mailto:" */
+      if (!text || text.length < 4 || href === 'tel:' || href === 'tel: ' || href === 'mailto:' || href === 'mailto: ') {
+        el.classList.add('mp-empty');
+        el.style.display = 'none';
+      }
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     10d. UNIVERSAL LIGHTBOX — click zooms image
+     Targets: .mp-gallery__item + .mp-about__img + .mp-location__img
+     + .mp-banner-image + .mp-zoomable. Fullscreen modal with prev/next.
+     ───────────────────────────────────────────────────────────── */
+  function initGalleryLightbox() {
+    /* Collect all zoomable images from across the page */
+    var galleryItems = document.querySelectorAll('.mp-gallery__item');
+    var aboutImg = document.querySelector('.mp-about__img');
+    var locationImg = document.querySelector('.mp-location__img');
+    var bannerImgs = document.querySelectorAll('.mp-banner-image img');
+    var zoomable = document.querySelectorAll('.mp-zoomable');
+
+    var allItems = [];
+    /* Order: gallery first, then about, location, banners, custom zoomables */
+    galleryItems.forEach(function(g) { allItems.push({el: g, type: 'gallery'}); });
+    if (aboutImg) allItems.push({el: aboutImg, type: 'about'});
+    if (locationImg) allItems.push({el: locationImg, type: 'location'});
+    bannerImgs.forEach(function(b) { allItems.push({el: b.parentElement, type: 'banner', img: b}); });
+    zoomable.forEach(function(z) { allItems.push({el: z, type: 'zoomable'}); });
+
+    if (!allItems.length) return;
+    var items = allItems;
+
+    /* Create lightbox modal once */
+    var modal = document.createElement('div');
+    modal.className = 'mp-lightbox';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Galeria');
+    modal.innerHTML = ''
+      + '<div class="mp-lightbox__backdrop"></div>'
+      + '<button class="mp-lightbox__close" aria-label="Zamknij">&times;</button>'
+      + '<button class="mp-lightbox__prev" aria-label="Poprzednie">&#8249;</button>'
+      + '<button class="mp-lightbox__next" aria-label="Następne">&#8250;</button>'
+      + '<div class="mp-lightbox__content">'
+      + '  <img class="mp-lightbox__img" src="" alt="">'
+      + '  <div class="mp-lightbox__caption"></div>'
+      + '</div>';
+    document.body.appendChild(modal);
+
+    /* Collect image sources from all zoomable items */
+    var imgData = items.map(function (item) {
+      var el = item.el;
+      var img = item.img || el.querySelector('img');
+      var caption = el.querySelector('.mp-gallery__caption, .mp-banner-image__quote');
+      return {
+        src: img ? (img.getAttribute('src') || img.src) : '',
+        alt: img ? (img.getAttribute('alt') || '') : '',
+        caption: caption ? caption.textContent.trim() : (img ? img.getAttribute('alt') : ''),
+      };
+    }).filter(function(d) { return d.src; });
+
+    var currentIndex = 0;
+
+    function showImage(idx) {
+      currentIndex = (idx + imgData.length) % imgData.length;
+      var data = imgData[currentIndex];
+      modal.querySelector('.mp-lightbox__img').src = data.src;
+      modal.querySelector('.mp-lightbox__img').alt = data.alt;
+      modal.querySelector('.mp-lightbox__caption').textContent = data.caption;
+    }
+
+    function openLightbox(idx) {
+      showImage(idx);
+      modal.classList.add('mp-lightbox--open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      modal.classList.remove('mp-lightbox--open');
+      document.body.style.overflow = '';
+    }
+
+    /* Click on any zoomable item opens lightbox at correct index */
+    items.forEach(function (item, idx) {
+      item.el.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openLightbox(idx);
+      });
+      /* Visual hint */
+      if (!item.el.style.cursor) item.el.style.cursor = 'zoom-in';
+    });
+
+    /* Lightbox controls */
+    modal.querySelector('.mp-lightbox__close').addEventListener('click', closeLightbox);
+    modal.querySelector('.mp-lightbox__backdrop').addEventListener('click', closeLightbox);
+    modal.querySelector('.mp-lightbox__prev').addEventListener('click', function () {
+      showImage(currentIndex - 1);
+    });
+    modal.querySelector('.mp-lightbox__next').addEventListener('click', function () {
+      showImage(currentIndex + 1);
+    });
+
+    /* Keyboard */
+    document.addEventListener('keydown', function (e) {
+      if (!modal.classList.contains('mp-lightbox--open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+    });
+  }
+
+
+  /* ─────────────────────────────────────────────────────────────
+     10. HERO PARALLAX (subtle on scroll)
+     ───────────────────────────────────────────────────────────── */
+  function initHeroParallax() {
+    var hero = document.querySelector('.section.parallax, .mp-hero');
+    if (!hero) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ticking = false;
+    function update() {
+      var y = window.scrollY;
+      var slider = hero.querySelector('.parallax-slider');
+      if (slider && y < window.innerHeight) {
+        slider.style.transform = 'translate3d(0, ' + (y * 0.3) + 'px, 0)';
+      }
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     INITIALIZATION
+     ───────────────────────────────────────────────────────────── */
+  function init() {
+    initScrollReveal();
+    initSmoothScroll();
+    initHeaderShrink();
+    initCounters();
+    initFAQ();
+    initFeaturedOffers();
+    initContactAutoFill();
+    initSearchWidget();
+    initMobileNav();
+    initHeroParallax();
+    initOffersFilters();
+    initContactPageCleanup();
+    initGalleryLightbox();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  /* Re-run contact auto-fill after full load (footer may render late) */
+  window.addEventListener('load', function () {
+    initContactAutoFill();
+    initFeaturedOffers();
+  });
+})();
+</script>

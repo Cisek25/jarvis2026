@@ -1,0 +1,5286 @@
+/* ═══════════════════════════════════════════════════════════════
+   ido-system-traps.css
+   Layer 1 of 3 — IdoBooking System Bug Fixes (Traps)
+   ═══════════════════════════════════════════════════════════════
+
+   PURPOSE:
+   All known IdoBooking / IdoSell system bugs that affect EVERY
+   client identically. This file is shared — never client-specific.
+   Client theme variables (colors, fonts, sizes) are defined in
+   Layer 3 (client-theme.css) as --ido-* custom properties.
+
+   LAYER ARCHITECTURE:
+     Layer 1 → ido-system-traps.css   (this file — universal fixes)
+     Layer 2 → ido-layout.css         (structural, client-customized)
+     Layer 3 → client-theme.css       (CSS vars + brand overrides)
+
+   VARIABLE CONTRACT (must be defined in Layer 3 :root):
+     --ido-primary      Primary brand color
+     --ido-secondary    Secondary / lighter brand color
+     --ido-accent       Accent / highlight color
+     --ido-bg           Page background color
+     --ido-dark         Dark text / dark surfaces color
+     --ido-light        Light surface color (near-white)
+     --ido-font-heading Heading font stack
+     --ido-font-body    Body font stack
+     --ido-radius       Base border-radius
+     --ido-header-h     Fixed header height (e.g. 80px)
+
+   HARDCODED ELEMENTS NOTE:
+   The following selectors are rendered inside sandboxed iframes
+   or injected shadow-like contexts where CSS custom properties
+   do NOT inherit. Use literal hex values only:
+     #bounce, #backTop, .ck_dsclr__btn_v2,
+     .ck_dsclr__btn_v2:hover, .skip_link, .formbutton
+   The generator replaces #C19B76 and
+   #A07D5F tokens before deployment.
+
+   TRAP COUNT: 18 root traps + page-specific universal fixes
+   SOURCE: TEMPLATE_ARKUSZ_STYLOW.css + trap_tracker.json
+   Updated: 2026-04-11
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #1 — Body font-size reset
+   ROOT CAUSE: IdoSell sets html { font-size: 140% } on the
+   default13 template, which makes 1rem = 22.4px. Every unit
+   derived from rem is 40% too large. Reset to 16px.
+   CLIENTS: all (7/7 surveyed)
+   ═══════════════════════════════════════════════════════════════ */
+body,
+body.default13 {
+  font-size: 16px !important;
+  font-family: var(--ido-font-body) !important;
+  background: var(--ido-bg) !important;
+  color: var(--ido-dark) !important;
+  line-height: 1.7 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #2 — System orange #AD5009 → brand color
+   ROOT CAUSE: default13.css hardcodes #AD5009 on .btn,
+   .btn-primary, .btn-success, filter headers, links. Override
+   with brand primary. Exclude .slick-arrow (navigation arrows).
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.btn:not(.slick-arrow),
+.btn-primary:not(.slick-arrow),
+.btn-success:not(.slick-arrow),
+a.btn:not(.slick-arrow),
+button.btn:not(.slick-arrow) {
+  background-color: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+}
+.btn:not(.slick-arrow):hover,
+.btn-primary:not(.slick-arrow):hover,
+.btn-success:not(.slick-arrow):hover,
+a.btn:not(.slick-arrow):hover,
+button.btn:not(.slick-arrow):hover {
+  background-color: var(--ido-secondary) !important;
+  border-color: var(--ido-secondary) !important;
+  color: #fff !important;
+}
+
+/* System scheme CSS vars — override green/orange defaults
+   (333333.css.gz defines --maincolor1 as green #4ADE80) */
+html:root {
+  --maincolor1: var(--ido-primary) !important;
+  --supportcolor1: var(--ido-secondary) !important;
+  --maincolor2: var(--ido-dark) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #3 — H1 "big-label" hidden by system on /offer pages
+   ROOT CAUSE: System applies display:none via JS on .big-label
+   on accommodation detail pages. Force visible.
+   CLIENTS: mazurski, mountainprestige (and others via JS)
+   ═══════════════════════════════════════════════════════════════ */
+h1.big-label {
+  display: block !important;
+  visibility: visible !important;
+  font-family: var(--ido-font-heading) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #4 — H2 "IdoBooking" injected inside .index-info
+   ROOT CAUSE: System renders the literal text "IdoBooking" as
+   an H2 inside .index-info and inside .section.parallax.
+   Must be hidden — it overlaps hero content.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info h2,
+.index-info h1,
+.section.parallax > h2 {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #5 — Dark overlay on slider via pseudo-elements
+   ROOT CAUSE: .parallax-slider::before gets a semi-opaque
+   black background from system CSS, darkening the hero image.
+   .parallax-image::after does the same on image-only heroes.
+   Both must be suppressed so custom overlays render cleanly.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.parallax-slider::before,
+.parallax-slider::after,
+.parallax-image::before,
+.parallax-image::after {
+  background: transparent !important;
+  display: none !important;
+  opacity: 0 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #6 — Header must be position:fixed, NOT sticky
+   ROOT CAUSE: position:sticky on .defaultsb / header.default13
+   creates a layout gap between header and hero on iOS Safari
+   and when sticky triggers at wrong scroll offset. Fixed + explicit
+   top:0 is the only reliable cross-browser approach.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.defaultsb,
+#defaultsb,
+.default13,
+.navbar-wrapper,
+header.header,
+header.default13 {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1100 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #7 — Subpage padding-top compensates fixed header
+   ROOT CAUSE: Fixed header overlaps page content on subpages.
+   Homepage is excluded — fullscreen hero handles offset itself.
+   Value comes from --ido-header-h measured on live site.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers,
+body.page-offer,
+body.page-contact,
+body.page-txt,
+body:not(.page-index) .content-wrapper,
+body:not(.page-index) main {
+  padding-top: var(--ido-header-h) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #8 — Stacking context: .index-info z-index too high
+   ROOT CAUSE: .index-info receives position:absolute and
+   z-index:1000 from system, which traps it above the slider
+   and blocks pointer events on hero CTAs. Reset position to
+   allow hero overlay to sit above it.
+   NOTE: pointer-events:none prevents invisible area blocking clicks.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info {
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+.index-info * {
+  pointer-events: none !important;
+}
+.index-info button,
+.index-info .navbar-reservation {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #9 — System z-index: -1 on form inputs
+   ROOT CAUSE: System stylesheet sets z-index:-1 on inputs and
+   selects inside the booking widget, making them unclickable
+   when the widget sits inside a positioned container.
+   CLIENTS: najmar, ecocamping, madera, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+#iai_book_form input,
+#iai_book_form select,
+#iai_book_form textarea,
+#iai_book_form .widget__option,
+input,
+select,
+textarea {
+  z-index: 2 !important;
+  position: relative;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #10 — System inline positioning on .index-info
+   ROOT CAUSE: System JS injects inline style="top:Xpx; left:Xpx"
+   on .index-info, misaligning it relative to the hero. These
+   overrides must use !important to beat inline styles.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #11 — Litepicker calendar rendered at 944px width
+   ROOT CAUSE: Litepicker date range picker gets a hardcoded
+   width from the system JS config, causing horizontal scroll
+   on mobile and overflow on desktop sidebars. fit-content
+   corrects to actual rendered width.
+   CLIENTS: najmar, ecocamping, madera, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.litepicker {
+  width: fit-content !important;
+  max-width: 100vw !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #12 — Ghost booking form on /offer pages
+   ROOT CAUSE: System renders a duplicate #iai_book_form with
+   class d-none on offer detail pages. Without explicit height:0
+   it still occupies vertical space even when display:none,
+   pushing content down.
+   CLIENTS: all /offer pages
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer #iai_book_form.d-none,
+body.page-offer .iai-search.d-none {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #13 — .iai-search shown on /offers page (has its own)
+   ROOT CAUSE: The /offers page has a built-in filter sidebar.
+   The global .iai-search bar also renders, duplicating search UI.
+   Also hide on /txt subpages where a search widget makes no sense.
+   CLIENTS: najmar, ecocamping, madera, mazurski, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers .iai-search,
+body.page-offers #iai_book_se,
+body.page-txt .iai-search,
+body.page-txt #iai_book_se {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #14 — FontAwesome NOT loaded — hide broken FA icons
+   ROOT CAUSE: IdoSell does not load FontAwesome by default in
+   template 11 / default13. FA icon elements render as invisible
+   0x0 boxes OR as raw unicode squares. Hide them system-wide;
+   replace with CSS-only chevrons where needed (see §7 /offers).
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers .filter_header .fa,
+body.page-offers .filter_header .fa-angle-down,
+body.page-offers .filter_header [class^="fa-"],
+body.page-offers .filter_header [class*=" fa-"] {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #15 — Gradient overlay on .section.parallax
+   ROOT CAUSE: The system ::after pseudo-element on .section.parallax
+   renders a dark solid overlay that obscures hero images.
+   IMPORTANT: append custom overlays to .section.parallax itself,
+   NOT to .parallax-slider — the slider has z-index:-2 which traps
+   any positioned child below it (cannot be fixed without JS).
+   .index-info::after must also be suppressed.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.section.parallax::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.4)  12%,
+    rgba(255, 255, 255, 0)    22%,
+    rgba(0, 0, 0, 0)          60%,
+    rgba(0, 0, 0, 0.35)      100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.index-info::after,
+.index-info::before {
+  display: none !important;
+  content: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #16 — span.btn on /offers gets line-height: 49px
+   ROOT CAUSE: System stylesheet targets span.btn and forces
+   line-height:49px + height:49px, which makes the "SZCZEGOLY"
+   button on offer listing cards enormously tall. Normalize to
+   auto height with flex centering.
+   CLIENTS: najmar, ecocamping, madera, mazurski, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers span.btn,
+.page-offers .accommodation-buttons span.btn,
+.offer span.btn {
+  line-height: 1.4 !important;
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 10px 24px !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #17 — Tabs sticky: system JS adds --fixed class, not .sticky
+   ROOT CAUSE: The offer detail tabs bar gets a class of "--fixed"
+   (double-dash prefix, Bootstrap modifier style) added by system JS
+   when it sticks. This is NOT the standard .sticky class. Without
+   an explicit rule targeting .tabs.--fixed the tab bar jumps out
+   of layout — full-width fix and z-index are required.
+   CLIENTS: mazurski, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.tabs.--fixed {
+  position: fixed !important;
+  top: var(--ido-header-h) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  z-index: 1000 !important;
+  background: var(--ido-light) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Tabs span child font size — system forces 1.3rem */
+.tabs__item > span {
+  font-size: 13px !important;
+  font-family: var(--ido-font-body) !important;
+  font-weight: 500 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #18 — Footer VISA/MC strip dark default background
+   ROOT CAUSE: .footer-contact-baner has a hardcoded dark navy
+   background (#3E475E) from system CSS. Logos and icons inside
+   render with wrong contrast against custom dark footers.
+   Override background to match client dark color and invert logos.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.footer-contact-baner,
+.footer__strip,
+footer .footer__strip,
+.footer-bottom,
+.payment-methods {
+  background: var(--ido-dark) !important;
+  background-color: var(--ido-dark) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+.footer-contact-baner svg,
+.footer-contact-baner img,
+.footer__strip img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.4 !important;
+}
+.footer-contact-baner span,
+.footer-contact-baner a,
+.footer__strip a {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 12px !important;
+}
+.powered_by_logo img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.3 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADDITIONAL UNIVERSAL FIX — Leaflet map overflow
+   ROOT CAUSE: A wildcard selector [class*="map"] from system CSS
+   clips map tile images. Protect Leaflet containers explicitly.
+   CLIENTS: najmar, madera, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.leaflet-container {
+  overflow: hidden !important;
+}
+.leaflet-container * {
+  box-sizing: content-box;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADDITIONAL UNIVERSAL FIX — container-hotspot (JS rebuilds cards)
+   ROOT CAUSE: System renders a .container-hotspot with system-styled
+   offer cards that JS replaces. Hide the system version to prevent
+   flash of unstyled content.
+   CLIENTS: madera, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.container-hotspot {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §A — TYPOGRAPHY BASE (universal, uses CSS vars)
+   ═══════════════════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ido-font-heading) !important;
+  color: var(--ido-dark) !important;
+  line-height: 1.2 !important;
+}
+
+a {
+  color: var(--ido-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--ido-secondary);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §B — SEARCH WIDGET (universal fixes)
+   Font and persons-dropdown chevron are broken on all clients.
+   ═══════════════════════════════════════════════════════════════ */
+.iai-search,
+#iai_book_form {
+  font-family: var(--ido-font-body) !important;
+}
+
+/* Search / booking submit button
+   NOTE: .formbutton does NOT inherit CSS vars in all contexts.
+   Generator must replace #C19B76 and #A07D5F. */
+.formbutton,
+#iai_book_form .formbutton {
+  background: #C19B76 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: var(--ido-radius) !important;
+  font-family: var(--ido-font-body) !important;
+  cursor: pointer !important;
+}
+.formbutton:hover,
+#iai_book_form .formbutton:hover {
+  background: #A07D5F !important;
+}
+
+/* Persons dropdown chevron — system button is 8x8 and invisible */
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn {
+  position: absolute !important;
+  top: 50% !important;
+  right: 16px !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  opacity: 1 !important;
+  font-size: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn::after {
+  content: '' !important;
+  display: block !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-right: 2px solid var(--ido-dark) !important;
+  border-bottom: 2px solid var(--ido-dark) !important;
+  transform: rotate(45deg) !important;
+  margin: 2px auto 0 !important;
+}
+#iai_book_form .widget__option.iai_input-small {
+  padding-right: 44px !important;
+}
+
+/* Persons dropdown list overflow */
+.persons_list {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §C — /offers PAGE (universal styling for all clients)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Offers container background — system default is #292929 dark */
+body.page-offers,
+body.page-offers main,
+.offers-container {
+  background: var(--ido-bg) !important;
+  color: var(--ido-dark) !important;
+}
+
+/* Filter section headers — brand color, heading font */
+body.page-offers h4,
+body.page-offers .sidebar h4,
+body.page-offers .filter_header {
+  color: var(--ido-primary) !important;
+  font-family: var(--ido-font-heading) !important;
+}
+
+/* Filter header layout with CSS chevron (FontAwesome not loaded) */
+body.page-offers .filter_header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  padding: 10px 16px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  margin-bottom: 8px !important;
+  transition: background 0.2s ease !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+body.page-offers .filter_header:hover {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* CSS-only chevron replaces missing FontAwesome icon */
+body.page-offers .filter_header::after {
+  content: "" !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-right: 2px solid var(--ido-primary) !important;
+  border-bottom: 2px solid var(--ido-primary) !important;
+  transform: rotate(45deg) !important;
+  transition: transform 0.3s ease !important;
+  margin-left: 12px !important;
+  margin-top: -3px !important;
+}
+body.page-offers .filter_header[aria-expanded="true"]::after {
+  transform: rotate(-135deg) !important;
+  margin-top: 3px !important;
+}
+
+/* Filter collapse — Bootstrap collapse guard */
+body.page-offers .filter_content.collapse:not(.show) {
+  display: none !important;
+}
+body.page-offers .filter_content.collapse.show {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* /offers buttons */
+body.page-offers .btn,
+body.page-offers button.btn,
+body.page-offers a.btn {
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+body.page-offers .btn:hover {
+  background: var(--ido-secondary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §D — /offer DETAIL PAGE (universal fixes)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Price circle — system renders oval 244x161, force 150x150 circle */
+.offer-price {
+  width: 150px !important;
+  height: 150px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+.offer-price small {
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+}
+.offer-price span {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+/* ZAREZERWUJ / Reserve button */
+.accommodation-leftbutton,
+.page-offer .btn-success,
+.page-offer a.btn-success,
+.page-offer .period-price .btn {
+  background: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  border-radius: var(--ido-radius) !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+.accommodation-leftbutton:hover,
+.page-offer .btn-success:hover,
+.page-offer a.btn-success:hover {
+  background: var(--ido-secondary) !important;
+  border-color: var(--ido-secondary) !important;
+}
+
+/* contact__btn centering — system default justify-content:normal */
+.contact__btn {
+  justify-content: center !important;
+  font-family: var(--ido-font-body) !important;
+}
+
+/* System price h2/p too large on detail page */
+.price,
+.offer .price,
+.page-offer .price {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--ido-primary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §E — /contact PAGE (universal)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-contact a {
+  color: var(--ido-primary) !important;
+}
+body.page-contact a:hover {
+  color: var(--ido-secondary) !important;
+}
+body.page-contact .btn,
+body.page-contact form button,
+body.page-contact form input[type="submit"] {
+  background: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+}
+body.page-contact .btn:hover {
+  background: var(--ido-secondary) !important;
+}
+body.page-contact .leaflet-container {
+  border-radius: var(--ido-radius) !important;
+  overflow: hidden !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §F — /txt SUBPAGES (universal)
+   ═══════════════════════════════════════════════════════════════ */
+.txt-text {
+  font-family: var(--ido-font-body) !important;
+  line-height: 1.7 !important;
+  color: var(--ido-dark) !important;
+}
+.txt-text h2,
+.txt-text h3 {
+  font-family: var(--ido-font-heading) !important;
+  color: var(--ido-primary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §G — FOOTER (universal dark override)
+   ═══════════════════════════════════════════════════════════════ */
+footer,
+.footer,
+.footer-wrapper,
+.page-footer {
+  background: var(--ido-dark) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-family: var(--ido-font-body) !important;
+}
+footer h3,
+footer h4,
+.footer h3,
+.footer h4 {
+  color: #fff !important;
+  font-family: var(--ido-font-heading) !important;
+  font-size: 16px !important;
+}
+footer a,
+.footer a {
+  color: var(--ido-accent) !important;
+}
+footer a:hover,
+.footer a:hover {
+  color: var(--ido-secondary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §H — SYSTEM ELEMENTS WITH HARDCODED HEX (no CSS var inheritance)
+   WARNING: Do NOT replace these tokens manually.
+   The pipeline generator substitutes them at build time:
+     #C19B76   → client primary color hex (e.g. #4A6741)
+     #A07D5F → client secondary color hex (e.g. #6B8F5E)
+   Affected elements: #bounce, #backTop, .ck_dsclr__btn_v2, .skip_link
+   These live in system-injected shadow contexts or iframes where
+   CSS custom properties from :root do NOT cascade.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Scroll-down arrow (system positions it centered; move to right edge) */
+#bounce {
+  background-color: #C19B76 !important;
+  background: #C19B76 !important;
+  left: auto !important;
+  right: 32px !important;
+  transform: none !important;
+  margin-left: 0 !important;
+}
+
+/* Back-to-top button */
+#backTop {
+  background: #C19B76 !important;
+}
+#backTop:hover {
+  background: #A07D5F !important;
+}
+
+/* Cookie consent banner */
+.ck_dsclr__btn_v2 {
+  background: #C19B76 !important;
+}
+.ck_dsclr__btn_v2:hover {
+  background: #A07D5F !important;
+}
+.ck_dsclr_v2 a {
+  color: #C19B76 !important;
+}
+.ck_dsclr_x_v2 {
+  color: #C19B76 !important;
+}
+
+/* Skip-to-content accessibility link */
+.skip_link {
+  background: #C19B76 !important;
+  color: #fff !important;
+}
+/*
+ * ido-components.css
+ * IdoBooking Universal Component Library — Layer 2
+ * Shared by all clients. Parameterized via CSS custom properties.
+ * Layer 1 (ido-base.css) sets the variables. Layer 3 (client.css) overrides.
+ *
+ * Prefix: ido-
+ * Variables consumed: --ido-primary, --ido-secondary, --ido-accent,
+ *   --ido-bg, --ido-dark, --ido-light, --ido-font-heading, --ido-font-body,
+ *   --ido-radius
+ *
+ * Table of contents:
+ *  1. Layout System
+ *  2. Hero Section
+ *  3. Split Layout
+ *  4. Feature Grid
+ *  5. Offer Cards
+ *  6. CTA Section
+ *  7. Stats Bar
+ *  8. FAQ Accordion
+ *  9. Gallery Grid
+ * 10. Buttons
+ * 11. Typography Helpers
+ * 12. Animations
+ * 13. Accessibility
+ * 14. Responsive
+ */
+
+/* =========================================================
+   1. LAYOUT SYSTEM
+   ========================================================= */
+
+.ido-section {
+  padding: 80px 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.ido-section--white {
+  background-color: #ffffff;
+}
+
+.ido-section--cream {
+  background-color: var(--ido-bg, #f8f5f0);
+}
+
+.ido-section--dark {
+  background-color: var(--ido-dark, #1a1a1a);
+  color: #ffffff;
+}
+
+.ido-section--accent {
+  background-color: var(--ido-accent, #e8d5b0);
+}
+
+.ido-container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.ido-container--narrow {
+  max-width: 900px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* =========================================================
+   2. HERO SECTION
+   ========================================================= */
+
+.ido-hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Overlay on top of system slider (.section.parallax) */
+.ido-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.25) 60%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  z-index: 5;
+  pointer-events: none;
+}
+
+.ido-hero__content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 20px;
+}
+
+.ido-hero__title {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: clamp(2rem, 5vw + 1rem, 4.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.4);
+  max-width: 900px;
+}
+
+.ido-hero__subtitle {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.375rem);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 680px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.ido-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ido-primary, #8b6f47);
+  color: #ffffff;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 16px 40px;
+  border-radius: var(--ido-radius, 4px);
+  border: 2px solid transparent;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-top: 8px;
+}
+
+.ido-hero__cta:hover {
+  background-color: var(--ido-secondary, #6b5035);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.ido-hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.75rem;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: ido-bounce 2s ease-in-out infinite;
+  text-decoration: none;
+}
+
+.ido-hero__scroll::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid rgba(255, 255, 255, 0.75);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.75);
+  transform: rotate(45deg);
+  margin-top: -6px;
+}
+
+@keyframes ido-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+/* =========================================================
+   3. SPLIT LAYOUT
+   ========================================================= */
+
+.ido-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.ido-split--reverse .ido-split__text {
+  order: 2;
+}
+
+.ido-split--reverse .ido-split__img {
+  order: 1;
+}
+
+.ido-split__text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ido-split__img {
+  overflow: hidden;
+  border-radius: var(--ido-radius, 4px);
+  line-height: 0;
+}
+
+.ido-split__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.ido-split__img:hover img {
+  transform: scale(1.03);
+}
+
+/* =========================================================
+   4. FEATURE GRID
+   ========================================================= */
+
+.ido-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+}
+
+.ido-feature {
+  text-align: center;
+  padding: 36px 24px;
+  border-radius: var(--ido-radius, 4px);
+  background-color: var(--ido-light, #ffffff);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ido-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.ido-feature__icon {
+  font-size: 48px;
+  line-height: 1;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ido-feature__title {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ido-dark, #1a1a1a);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.ido-feature__desc {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.9rem;
+  color: var(--ido-dark, #1a1a1a);
+  opacity: 0.7;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* =========================================================
+   5. OFFER CARDS
+   ========================================================= */
+
+.ido-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+.ido-card {
+  background-color: #ffffff;
+  border-radius: var(--ido-radius, 4px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.ido-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+}
+
+.ido-card:hover .ido-card__img img {
+  transform: scale(1.05);
+}
+
+.ido-card__img {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.ido-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.ido-card__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.ido-card__title {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ido-dark, #1a1a1a);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.ido-card__price {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ido-primary, #8b6f47);
+  margin: 0;
+}
+
+/* Stretched link — makes entire card clickable */
+.ido-card__link {
+  position: static;
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ido-primary, #8b6f47);
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ido-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* =========================================================
+   6. CTA SECTION
+   ========================================================= */
+
+.ido-cta {
+  text-align: center;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.ido-cta--dark {
+  background-color: var(--ido-dark, #1a1a1a);
+  color: #ffffff;
+}
+
+.ido-cta--dark .ido-cta__heading {
+  color: #ffffff;
+}
+
+.ido-cta__heading {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: clamp(1.6rem, 2.5vw + 0.75rem, 2.5rem);
+  font-weight: 700;
+  color: var(--ido-dark, #1a1a1a);
+  line-height: 1.2;
+  margin: 0;
+  max-width: 700px;
+}
+
+.ido-cta__contacts {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 36px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ido-cta__contacts a {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ido-primary, #8b6f47);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.ido-cta--dark .ido-cta__contacts a {
+  color: var(--ido-accent, #e8d5b0);
+}
+
+.ido-cta__contacts a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.ido-cta__btn {
+  font-size: 1.1rem;
+  padding: 18px 48px;
+}
+
+/* =========================================================
+   7. STATS BAR
+   ========================================================= */
+
+.ido-stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  padding: 60px 24px;
+}
+
+.ido-stat {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ido-stat__number {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--ido-primary, #8b6f47);
+  line-height: 1;
+  margin: 0;
+}
+
+.ido-stat__label {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.875rem;
+  color: var(--ido-dark, #1a1a1a);
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* =========================================================
+   8. FAQ ACCORDION
+   ========================================================= */
+
+.ido-faq {
+  display: flex;
+  flex-direction: column;
+}
+
+.ido-faq__item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.ido-faq__item:first-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.ido-faq__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ido-dark, #1a1a1a);
+  text-align: left;
+  gap: 16px;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.ido-faq__question:hover {
+  color: var(--ido-primary, #8b6f47);
+}
+
+/* CSS chevron icon */
+.ido-faq__question::after {
+  content: "";
+  display: block;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-top: -4px;
+}
+
+.ido-faq__question[aria-expanded="true"]::after {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.ido-faq__answer {
+  display: none;
+  padding: 0 4px 20px;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ido-dark, #1a1a1a);
+  opacity: 0.8;
+}
+
+.ido-faq__question[aria-expanded="true"] + .ido-faq__answer {
+  display: block;
+}
+
+/* =========================================================
+   9. GALLERY GRID
+   ========================================================= */
+
+.ido-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.ido-gallery__item {
+  overflow: hidden;
+  border-radius: calc(var(--ido-radius, 4px) / 2);
+  line-height: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.ido-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 1 / 1;
+  transition: transform 0.35s ease;
+}
+
+.ido-gallery__item:hover img {
+  transform: scale(1.08);
+}
+
+/* =========================================================
+   10. BUTTONS
+   ========================================================= */
+
+.ido-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--ido-primary, #8b6f47);
+  color: #ffffff;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  border: 2px solid var(--ido-primary, #8b6f47);
+  border-radius: var(--ido-radius, 4px);
+  padding: 14px 32px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease,
+              transform 0.18s ease, box-shadow 0.22s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ido-btn:hover {
+  background-color: var(--ido-secondary, #6b5035);
+  border-color: var(--ido-secondary, #6b5035);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.ido-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.ido-btn--outline {
+  background-color: transparent;
+  color: var(--ido-primary, #8b6f47);
+  border-color: var(--ido-primary, #8b6f47);
+  box-shadow: none;
+}
+
+.ido-btn--outline:hover {
+  background-color: var(--ido-primary, #8b6f47);
+  color: #ffffff;
+}
+
+.ido-btn--white {
+  background-color: #ffffff;
+  color: var(--ido-dark, #1a1a1a);
+  border-color: #ffffff;
+}
+
+.ido-btn--white:hover {
+  background-color: var(--ido-bg, #f8f5f0);
+  border-color: var(--ido-bg, #f8f5f0);
+  color: var(--ido-dark, #1a1a1a);
+}
+
+.ido-btn--lg {
+  font-size: 1.0625rem;
+  padding: 18px 48px;
+}
+
+.ido-btn:focus-visible {
+  outline: 3px solid var(--ido-primary, #8b6f47);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   11. TYPOGRAPHY HELPERS
+   ========================================================= */
+
+.ido-heading {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  color: var(--ido-dark, #1a1a1a);
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ido-kicker {
+  display: block;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ido-primary, #8b6f47);
+  margin: 0;
+}
+
+.ido-text {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* =========================================================
+   12. ANIMATIONS
+   ========================================================= */
+
+.ido-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.ido-reveal--left {
+  transform: translateX(-30px);
+}
+
+.ido-reveal--right {
+  transform: translateX(30px);
+}
+
+.ido-revealed {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.ido-stagger-1 { transition-delay: 0.1s; }
+.ido-stagger-2 { transition-delay: 0.2s; }
+.ido-stagger-3 { transition-delay: 0.3s; }
+.ido-stagger-4 { transition-delay: 0.4s; }
+
+/* noscript fallback — when JS is not available, show all revealed elements */
+html:not(.ido-js) .ido-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* =========================================================
+   13. ACCESSIBILITY
+   ========================================================= */
+
+/* Screen-reader only utility */
+.ido-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible states for interactive elements */
+.ido-feature:focus-visible,
+.ido-card:focus-visible,
+.ido-gallery__item:focus-visible,
+.ido-faq__question:focus-visible,
+.ido-cta__contacts a:focus-visible,
+.ido-hero__cta:focus-visible,
+.ido-hero__scroll:focus-visible {
+  outline: 3px solid var(--ido-primary, #8b6f47);
+  outline-offset: 2px;
+}
+
+/* Disable ALL animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ido-reveal,
+  .ido-reveal--left,
+  .ido-reveal--right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .ido-stagger-1,
+  .ido-stagger-2,
+  .ido-stagger-3,
+  .ido-stagger-4 {
+    transition-delay: 0s;
+  }
+
+  .ido-hero__scroll {
+    animation: none;
+  }
+
+  .ido-btn,
+  .ido-card,
+  .ido-feature,
+  .ido-split__img img,
+  .ido-card__img img,
+  .ido-gallery__item img,
+  .ido-faq__question::after,
+  .ido-faq__question,
+  .ido-hero__cta,
+  .ido-cta__contacts a {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   14. RESPONSIVE
+   ========================================================= */
+
+/* --- Tablet landscape (max 991px) --- */
+@media (max-width: 991px) {
+  .ido-section {
+    padding: 60px 20px;
+  }
+
+  .ido-hero {
+    min-height: 60vh;
+  }
+
+  .ido-split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .ido-split--reverse .ido-split__text,
+  .ido-split--reverse .ido-split__img {
+    order: unset;
+  }
+
+  .ido-stats {
+    gap: 32px;
+    padding: 48px 20px;
+  }
+
+  .ido-cta {
+    padding: 60px 20px;
+  }
+
+  .ido-cards {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .ido-features {
+    gap: 24px;
+  }
+}
+
+/* --- Tablet portrait (max 768px) --- */
+@media (max-width: 768px) {
+  .ido-section {
+    padding: 48px 16px;
+  }
+
+  .ido-container,
+  .ido-container--narrow {
+    padding-inline: 16px;
+  }
+
+  .ido-hero {
+    min-height: 60vh;
+  }
+
+  .ido-hero__content {
+    padding: 32px 16px;
+    gap: 16px;
+  }
+
+  .ido-hero__cta {
+    padding: 14px 28px;
+    font-size: 0.9375rem;
+  }
+
+  .ido-features {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .ido-feature {
+    padding: 28px 16px;
+  }
+
+  .ido-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .ido-stats {
+    gap: 24px;
+    padding: 40px 16px;
+  }
+
+  .ido-stat__number {
+    font-size: 2.25rem;
+  }
+
+  .ido-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .ido-cta {
+    padding: 48px 16px;
+    gap: 20px;
+  }
+
+  .ido-cta__contacts {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ido-faq__question {
+    font-size: 0.975rem;
+    padding: 16px 4px;
+  }
+}
+
+/* --- Mobile (max 480px) --- */
+@media (max-width: 480px) {
+  .ido-section {
+    padding: 40px 16px;
+  }
+
+  .ido-hero {
+    min-height: 50vh;
+  }
+
+  .ido-hero__scroll {
+    display: none;
+  }
+
+  .ido-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .ido-features {
+    grid-template-columns: 1fr;
+  }
+
+  .ido-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .ido-stat__number {
+    font-size: 2rem;
+  }
+
+  .ido-stats {
+    gap: 20px;
+    padding: 32px 16px;
+  }
+
+  .ido-btn--lg {
+    font-size: 1rem;
+    padding: 16px 32px;
+  }
+
+  .ido-split {
+    gap: 24px;
+  }
+
+  .ido-cta__heading {
+    font-size: 1.5rem;
+  }
+
+  .ido-faq__question {
+    font-size: 0.9375rem;
+  }
+}
+/* ═══════════════════════════════════════════════════════════════
+   MOUNTAIN PRESTIGE — Layer 3 (Client Theme)
+   Brand: Mountain Prestige — Apartamenty Premium w Górach
+   Client ID: client57060 | Template: default13
+   Palette: Warm Gold Mountain (cream + gold + warm wood)
+   Fonts: Cormorant Garamond (headings) + Inter (body)
+   Prefix: mp-
+   Generated: 2026-04-13 | Patched: 2026-04-13 (post-deploy fixes)
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §0 — CRITICAL POST-DEPLOY FIXES (must be applied first)
+   Based on real deploy feedback — 3 cross-project traps discovered:
+     TRAP A: Sections not full-width (system wraps body_top in
+             .container max-width:1170px → breakout required)
+     TRAP B: Hero/search buttons not clickable (L1 TRAP #8 sets
+             .index-info * pointer-events:none, which cascades to
+             ALL body_top content if system wraps it in .index-info)
+     TRAP C: <input type="date"> appearance:none kills native picker
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ─── TRAP CRITICAL-U+X: HERO CSS BG (CONTAINED, v1.7) ─── */
+/* v1.6 bug: bg-image was on .parallax-slider which in some templates
+   is position:fixed → bg showed across ENTIRE scrollable page (body-wide).
+   v1.7 fix: bg on .section.parallax::before ONLY (contained via
+   overflow:hidden on parent). parallax-slider bg explicitly cleared. */
+
+body.page-index .section.parallax {
+  position: relative !important;
+  height: 85vh !important;
+  max-height: 85vh !important;
+  min-height: 85vh !important;
+  overflow: hidden !important;
+  background-color: #1a1510 !important;
+  background-image: none !important;
+  animation: none !important;
+}
+
+/* Hero bg image on pseudo-element for independent animation */
+body.page-index .section.parallax::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -4% !important;
+  left: -4% !important;
+  right: -4% !important;
+  bottom: -4% !important;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Giewont_T58.jpg/1920px-Giewont_T58.jpg') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  animation: mp-ken-burns 22s ease-in-out infinite alternate !important;
+  transform-origin: center center !important;
+}
+
+/* CLEAR any bg from parallax-slider (was causing body-wide leak) */
+body.page-index .parallax-slider,
+body.page-index .parallax-slider .slick-list,
+body.page-index .parallax-slider .slick-track,
+body.page-index .parallax-slider .slick-slide {
+  background-image: none !important;
+  background-color: transparent !important;
+  animation: none !important;
+}
+
+/* parallax-slider still positioned within section.parallax */
+body.page-index .parallax-slider {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+}
+
+/* Ken Burns — VISIBLE zoom (scale 1 → 1.08, clearly animated) */
+@keyframes mp-ken-burns {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1%, -1%); }
+}
+
+/* After-overlay (gradient) stays above bg::before */
+body.page-index .section.parallax::after {
+  z-index: 2 !important;
+}
+
+
+/* ─── TRAP CRITICAL-MM v1.13: ALL SECTION IMAGES ZOOMABLE ─── */
+/* User wants ALL hero/section images clickable for lightbox zoom,
+   not just gallery items. Add cursor + lightbox-trigger class. */
+.mp-about__img,
+.mp-location__img,
+.mp-banner-image,
+.mp-zoomable {
+  cursor: zoom-in !important;
+}
+
+.mp-about__img img,
+.mp-location__img img,
+.mp-zoomable img {
+  cursor: zoom-in !important;
+}
+
+
+/* ─── TRAP CRITICAL-NN v1.13: /wspolpraca + /txt SYSTEM H1/H2 ─── */
+/* IdoBooking on /txt/{slug} pages renders SYSTEM H1 (page title from CMS)
+   ABOVE custom body_top content, creating excessive top space.
+   Fix: hide system H1/H2 above body_top. Custom content has its own H1/H2. */
+body.page-txt h1.big-label,
+body.page-txt > h1:first-of-type,
+body.page-txt .container > h1:first-of-type,
+body.page-txt main > h1:first-of-type,
+body.page-txt .section_sub > h1:first-of-type,
+body.page-txt .section_sub > h2:first-of-type,
+body.page-txt .container > h2:first-of-type {
+  display: none !important;
+}
+
+/* /txt — reduce top padding overall */
+body.page-txt .section_sub,
+body.page-txt main,
+body.page-txt .container:not(.footer) {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+body.page-txt section:first-child,
+body.page-txt .mp-offers-intro:first-child,
+body.page-txt > section:first-of-type {
+  padding-top: 100px !important;
+}
+
+
+/* ─── TRAP CRITICAL-OO v1.13: /offer MENU CENTERING + STRONGER SUBTITLE ─── */
+/* Hero subtitle "Apartamenty premium w Tatrach" needs stronger contrast */
+body.page-index .mp-hero__subtitle,
+.mp-hero__subtitle {
+  color: #ffffff !important;
+  font-weight: 500 !important;
+  letter-spacing: 4px !important;
+  text-shadow:
+    /* 8-directional outline */
+    1px 0 0 rgba(0, 0, 0, 0.85),
+    -1px 0 0 rgba(0, 0, 0, 0.85),
+    0 1px 0 rgba(0, 0, 0, 0.85),
+    0 -1px 0 rgba(0, 0, 0, 0.85),
+    1px 1px 0 rgba(0, 0, 0, 0.85),
+    -1px -1px 0 rgba(0, 0, 0, 0.85),
+    1px -1px 0 rgba(0, 0, 0, 0.85),
+    -1px 1px 0 rgba(0, 0, 0, 0.85),
+    /* deep blur */
+    0 2px 14px rgba(0, 0, 0, 0.8),
+    0 0 8px rgba(0, 0, 0, 0.5) !important;
+  -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.4) !important;
+}
+
+
+/* ─── TRAP CRITICAL-LL v1.12: GALLERY LIGHTBOX (custom modal) ─── */
+.mp-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.mp-lightbox.mp-lightbox--open {
+  display: flex;
+  animation: mp-lightbox-in 0.3s ease;
+}
+
+@keyframes mp-lightbox-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mp-lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 15, 10, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: zoom-out;
+}
+
+.mp-lightbox__content {
+  position: relative;
+  z-index: 2;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.mp-lightbox__img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 2px;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+}
+
+.mp-lightbox__caption {
+  color: #fff;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-style: italic;
+  text-align: center;
+  margin: 0;
+  max-width: 800px;
+}
+
+.mp-lightbox__close,
+.mp-lightbox__prev,
+.mp-lightbox__next {
+  position: absolute;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 32px;
+  line-height: 1;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: 'Inter', sans-serif;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 2px;
+}
+
+.mp-lightbox__close {
+  top: 24px;
+  right: 24px;
+  font-size: 28px;
+}
+
+.mp-lightbox__prev {
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 42px;
+}
+
+.mp-lightbox__next {
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 42px;
+}
+
+.mp-lightbox__close:hover,
+.mp-lightbox__prev:hover,
+.mp-lightbox__next:hover {
+  background: var(--ido-primary, #C19B76);
+  border-color: var(--ido-primary, #C19B76);
+}
+
+@media (max-width: 768px) {
+  .mp-lightbox__close { top: 12px; right: 12px; }
+  .mp-lightbox__prev { left: 8px; }
+  .mp-lightbox__next { right: 8px; }
+  .mp-lightbox__prev,
+  .mp-lightbox__next {
+    width: 42px;
+    height: 42px;
+    font-size: 32px;
+  }
+}
+
+/* Gallery cursor hint */
+.mp-gallery__item {
+  cursor: zoom-in !important;
+}
+
+
+/* ─── TRAP CRITICAL-QQ v1.14: "Powered by IdoBooking" badge gray square ─── */
+/* System renders `.powered_by` with SVG logo `powered_by_idoBooking_on_white.svg`
+   sized 120x88 — visible as gray-ish square in dark footer. Reduce size + opacity. */
+.powered_by,
+.powered_by_logo {
+  background: transparent !important;
+  background-color: transparent !important;
+  text-align: center !important;
+  padding: 12px 0 !important;
+  margin: 0 !important;
+}
+
+.powered_by_logo img,
+.powered_by img {
+  max-width: 80px !important;
+  max-height: 18px !important;
+  width: auto !important;
+  height: auto !important;
+  filter: brightness(0) invert(1) opacity(0.35) !important;
+  background: transparent !important;
+  display: inline-block !important;
+}
+
+
+/* ─── TRAP CRITICAL-RR v1.14: HERO HEIGHT full viewport ─── */
+/* Previous: margin-top:-88 + max-height:85vh meant hero visible was 85vh
+   minus 88px gap at bottom = 88px cream visible below hero on initial load.
+   Fix: height 100vh, no margin-top (header transparent over it naturally). */
+body.page-index .section.parallax,
+body.mp-homepage .section.parallax {
+  margin-top: 0 !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  position: relative;
+  overflow: hidden !important;
+}
+
+
+/* ─── TRAP CRITICAL-HH v1.12: FULLPAGE.JS CMS SECTION GRAY BG ─── */
+/* Discovered via DevTools: `.section.fp-auto-height.pb-5` (fullpage.js
+   wrapper containing all body_top content) has:
+     - background: rgb(241, 241, 241) [GRAY system default]
+     - padding-bottom: 30px (Bootstrap pb-5 = 3rem)
+   This creates 30px gray strip between content and footer. */
+body.page-index .section.fp-auto-height,
+body.page-index .section.fp-auto-height.pb-5,
+body.page-index .fp-section.fp-table:not(.parallax),
+body.page-index .section.fp-section:not(.parallax),
+body.mp-homepage .section.fp-auto-height,
+body.mp-homepage .section.fp-auto-height.pb-5 {
+  background: var(--ido-bg, #FAF6ED) !important;
+  background-color: var(--ido-bg, #FAF6ED) !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* On other pages — keep bg consistent (not systemic gray) */
+.section.fp-auto-height,
+.section.fp-auto-height.pb-5 {
+  background-color: var(--ido-bg, #FAF6ED) !important;
+  padding-bottom: 0 !important;
+}
+
+
+/* ─── TRAP CRITICAL-II v1.12: FOOTER EMPTY SPACE AFTER VISA STRIP ─── */
+/* Footer has .footer.container wrapping everything. After
+   .footer-contact-baner (payment strip) there's ~71px empty dark space
+   before document ends. Fix: remove padding after strip, force strip
+   absolute last visible item. */
+footer, .footer, .page-footer {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+footer > *:last-child,
+.footer > *:last-child,
+.footer.container > *:last-child {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* VISA strip = last, with breakout + tight padding */
+.footer-contact-baner,
+.footer__strip {
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 14px 20px !important;
+  background: #1C1510 !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Any sibling AFTER strip — push height to 0 */
+.footer-contact-baner ~ *,
+.footer__strip ~ * {
+  display: none !important;
+}
+
+/* Force .footer.container to collapse below strip */
+.footer.container {
+  padding-bottom: 0 !important;
+}
+
+
+/* ─── TRAP CRITICAL-JJ v1.12: SCROLLED HEADER MUST BE SOLID WHITE ─── */
+/* User: "po zjechaniu kawalek na dol ten pasek musi niestety byc bialy"
+   Was 0.98 opacity — slight transparency leaked. Solid 1.0. */
+body header.default13.mp-header--scrolled,
+body .defaultsb.mp-header--scrolled,
+body header.default13.mp-header--scrolled .menu-wrapper,
+body .defaultsb.mp-header--scrolled .menu-wrapper,
+body header.default13.mp-header--scrolled .bgd-color-light,
+body.mp-homepage header.mp-header--scrolled,
+body.mp-homepage header.mp-header--scrolled .menu-wrapper {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 4px 24px rgba(42, 33, 24, 0.08) !important;
+}
+
+
+/* ─── TRAP CRITICAL-KK v1.12: /CONTACT EMPTY PHONE + WHITE BOXES ─── */
+/* Issue 1: System renders 2 `.contact__tel` elements, second empty.
+   My §18 gave them white bg + border → empty element shows as white box.
+   Issue 2: User doesn't want white box/border around phone/email at all. */
+
+/* Hide empty contact elements */
+body.page-contact .contact__tel:empty,
+body.page-contact .contact__email:empty,
+body.page-contact a[href="tel:"]:empty,
+body.page-contact a[href="tel: "]:empty,
+body.page-contact a[href="mailto:"]:empty {
+  display: none !important;
+}
+
+/* Hide tel/mailto links with trailing space href (system bug) */
+body.page-contact a[href="tel: "],
+body.page-contact a[href^="tel:"][href$=" "],
+body.page-contact .contact__tel[href="tel: "] {
+  display: none !important;
+}
+
+/* JS-injected hide for whitespace-only content (added in JS module) */
+body.page-contact .contact__tel.mp-empty,
+body.page-contact .contact__email.mp-empty {
+  display: none !important;
+}
+
+/* Remove white bg/border from phone/email links */
+body.page-contact a[href^="tel:"],
+body.page-contact a[href^="mailto:"],
+body.page-contact .contact__tel,
+body.page-contact .contact__email {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 4px 8px !important;
+  box-shadow: none !important;
+  color: var(--ido-primary, #C19B76) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.3px !important;
+}
+
+body.page-contact a[href^="tel:"]:hover,
+body.page-contact a[href^="mailto:"]:hover,
+body.page-contact .contact__tel:hover,
+body.page-contact .contact__email:hover {
+  background: transparent !important;
+  color: var(--ido-secondary, #A07D5F) !important;
+  text-decoration: underline !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* /contact — reduce excessive top space */
+body.page-contact {
+  padding-top: 88px !important; /* only header offset, no extra */
+}
+
+body.page-contact .container:not(.footer),
+body.page-contact main,
+body.page-contact .contact-layout,
+body.page-contact .section_sub {
+  padding-top: 30px !important;
+}
+
+body.page-contact h1 {
+  margin-top: 20px !important;
+  padding-top: 0 !important;
+}
+
+
+/* ─── TRAP CRITICAL-DD v1.11: LOGO SIZE + MENU-WRAPPER OVERFLOW ─── */
+/* IdoBooking uses `.navbar-brand` inside `.menu-wrapper` (not `.logo`).
+   Client logos often wideLogo.svg (333x95+) = HUGE in header.
+   Plus menu-wrapper has excessive padding → 235px tall menu covers
+   content on all subpages (/contact, /offer, etc).
+   Fix: constrain logo + force compact menu-wrapper height. */
+
+header .menu-wrapper .navbar-brand,
+header .menu-wrapper .navbar-brand img,
+header .navbar-brand,
+header .navbar-brand img,
+.menu-wrapper .navbar-brand,
+.menu-wrapper .navbar-brand img {
+  max-height: 56px !important;
+  width: auto !important;
+  max-width: 240px !important;
+  height: auto !important;
+}
+
+header .menu-wrapper .navbar {
+  min-height: 56px !important;
+  height: auto !important;
+  padding: 8px 0 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+header .menu-wrapper,
+header .menu-wrapper .container {
+  max-height: 88px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+/* Scrolled state — more compact */
+header.mp-header--scrolled .menu-wrapper,
+header.mp-header--scrolled .menu-wrapper .container {
+  max-height: 66px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+header.mp-header--scrolled .navbar-brand,
+header.mp-header--scrolled .navbar-brand img,
+header.mp-header--scrolled .menu-wrapper .navbar-brand img {
+  max-height: 46px !important;
+}
+
+
+/* ─── TRAP CRITICAL-EE v1.11: TABS --fixed WIDTH + DYNAMIC TOP ─── */
+/* L1 rule `.tabs.--fixed { width: 100vw }` was being overridden by
+   other rules. Higher specificity + dynamic top via CSS var (JS updates). */
+body .tabs.--fixed,
+body.page-offer .tabs.--fixed,
+html body .tabs.--fixed,
+.offer-desc-wrapper .tabs.--fixed {
+  position: fixed !important;
+  top: var(--mp-current-header-h, 88px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 1000 !important;
+  background: var(--ido-light, #fff) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+  border-bottom: 1px solid var(--mp-border, rgba(193, 155, 118, 0.2)) !important;
+  transition: top 0.25s ease !important;
+}
+
+
+/* ─── TRAP CRITICAL-FF v1.11: OFFER PRICE "Od" ASYMMETRIC PADDING ─── */
+/* System adds `padding: 0 0 0 5px` on .offer-price span → text offset
+   left = crooked. Force symmetric centering. */
+body.page-offer .offer-price small,
+body.page-offer .offer-price span,
+.offer-price small,
+.offer-price span {
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+}
+body.page-offer .offer-price {
+  padding: 0 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 2px !important;
+}
+
+
+/* ─── TRAP CRITICAL-AA v1.10: HEADER HAS .menu-wrapper CHILD w/ BG ─── */
+/* Discovered via DevTools: header.default13 IS transparent (rgba(0,0,0,0))
+   BUT has child `<div class="bgd-color-light menu-wrapper">` with
+   `background: rgb(255,255,255)`. THAT'S what shows white. Target child. */
+body.page-index header .menu-wrapper,
+body.page-index header .bgd-color-light,
+body.mp-homepage header .menu-wrapper,
+body.mp-homepage header .bgd-color-light,
+body.home header .menu-wrapper,
+body.frontpage header .menu-wrapper,
+html.mp-homepage body header .menu-wrapper,
+html.mp-homepage body header .bgd-color-light {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  transition: background 0.3s ease !important;
+}
+
+/* Scrolled state — bring back cream bg on menu-wrapper */
+body.page-index header.mp-header--scrolled .menu-wrapper,
+body.mp-homepage header.mp-header--scrolled .menu-wrapper,
+body header.mp-header--scrolled .menu-wrapper,
+body header.mp-header--scrolled .bgd-color-light {
+  background: rgba(255, 255, 255, 0.98) !important;
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 4px 24px rgba(42, 33, 24, 0.08) !important;
+}
+
+/* Non-homepage always cream on menu-wrapper */
+body:not(.page-index):not(.mp-homepage) header .menu-wrapper,
+body:not(.page-index):not(.mp-homepage) header .bgd-color-light {
+  background: rgba(250, 246, 237, 0.96) !important;
+}
+
+/* Language dropdown + other header children with explicit bg */
+body.page-index header:not(.mp-header--scrolled) .language,
+body.mp-homepage header:not(.mp-header--scrolled) .language {
+  background: transparent !important;
+}
+body.page-index header:not(.mp-header--scrolled) select,
+body.mp-homepage header:not(.mp-header--scrolled) select {
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+
+/* ─── TRAP CRITICAL-BB v1.10: HERO WRAP FILLS .section.parallax ─── */
+/* After JS teleport, hero-wrap is inside .section.parallax.
+   Absolute positioning fills the ENTIRE section (top:0 to bottom:0). */
+body.page-index .section.parallax .mp-hero-wrap,
+body.mp-homepage .section.parallax .mp-hero-wrap,
+.section.parallax .mp-hero-wrap,
+.section.parallax .fp-tableCell .mp-hero-wrap {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 100px 20px 40px !important;
+  z-index: 11 !important;
+  pointer-events: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+.section.parallax .mp-hero-wrap > .mp-hero__content {
+  flex: 1 !important;
+  pointer-events: none !important;
+}
+
+.section.parallax .mp-hero-wrap > .mp-hero__search-bar {
+  pointer-events: auto !important;
+}
+
+
+/* ─── TRAP CRITICAL-V v1.9: FULLY TRANSPARENT HEADER (MULTI-FALLBACK) ─── */
+/* v1.9 fix: previously body.page-index selector didn't always match —
+   some IdoBooking templates use .home, .frontpage, or no specific class.
+   Multi-fallback: body.page-index + .mp-homepage (JS-injected) +
+   :not(sub-pages) + html:has(.mp-hero-wrap) catches all cases. */
+body.page-index header.default13:not(.mp-header--scrolled),
+body.page-index .defaultsb:not(.mp-header--scrolled),
+body.page-index #defaultsb:not(.mp-header--scrolled),
+body.mp-homepage header.default13:not(.mp-header--scrolled),
+body.mp-homepage .defaultsb:not(.mp-header--scrolled),
+body.mp-homepage #defaultsb:not(.mp-header--scrolled),
+body.home header.default13:not(.mp-header--scrolled),
+body.frontpage header.default13:not(.mp-header--scrolled),
+html.mp-homepage body header.default13:not(.mp-header--scrolled),
+html.mp-homepage body .defaultsb:not(.mp-header--scrolled) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Menu text — 8-directional pixel shadow (text-stroke effect) + deep shadow */
+body.page-index header.default13:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="logo"]):not([class*="btn"]),
+body.page-index header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.page-index .defaultsb:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.mp-homepage header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.mp-homepage header.default13:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.mp-homepage .defaultsb:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.home header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.frontpage header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+html.mp-homepage body header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]) {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  /* 8-directional text-stroke via shadows + atmospheric blur shadow for lift */
+  text-shadow:
+    /* Sharp outline — 8 directions */
+    1px 0 0 rgba(0, 0, 0, 0.95),
+    -1px 0 0 rgba(0, 0, 0, 0.95),
+    0 1px 0 rgba(0, 0, 0, 0.95),
+    0 -1px 0 rgba(0, 0, 0, 0.95),
+    1px 1px 0 rgba(0, 0, 0, 0.95),
+    -1px -1px 0 rgba(0, 0, 0, 0.95),
+    1px -1px 0 rgba(0, 0, 0, 0.95),
+    -1px 1px 0 rgba(0, 0, 0, 0.95),
+    /* Soft depth shadows */
+    0 2px 10px rgba(0, 0, 0, 0.85),
+    0 0 24px rgba(0, 0, 0, 0.6) !important;
+  /* WebKit stroke for extra safety on modern browsers */
+  -webkit-text-stroke: 0.4px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Hover state — gold with shadow (still readable) */
+body.page-index header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]):hover {
+  color: var(--ido-primary, #C19B76) !important;
+  text-shadow:
+    1px 0 0 rgba(0, 0, 0, 0.95),
+    -1px 0 0 rgba(0, 0, 0, 0.95),
+    0 1px 0 rgba(0, 0, 0, 0.95),
+    0 -1px 0 rgba(0, 0, 0, 0.95),
+    0 2px 10px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Logo over transparent state — strong drop-shadow for depth */
+body.page-index header.default13:not(.mp-header--scrolled) .logo,
+body.page-index header:not(.mp-header--scrolled) .logo,
+body.page-index header:not(.mp-header--scrolled) .logo img {
+  filter:
+    drop-shadow(0 2px 10px rgba(0, 0, 0, 0.85))
+    drop-shadow(0 0 3px rgba(0, 0, 0, 0.6)) !important;
+}
+
+/* Reserve button — keep gold bg visible with strong border */
+body.page-index header:not(.mp-header--scrolled) .navbar-reservation,
+body.page-index header:not(.mp-header--scrolled) .reservation-btn,
+body.page-index header:not(.mp-header--scrolled) [class*="reserv"] {
+  background: var(--ido-primary, #C19B76) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
+  font-weight: 700 !important;
+}
+
+
+/* ─── TRAP CRITICAL-R: HERO WHITE OVERLAY ENGULFS IMAGE (v1.5) ─── */
+/* Layer 1 TRAP #15 applies a white gradient to .section.parallax::after
+   that covers TOP 22% of hero with 85% opacity white. Effect: hero image
+   looks washed out / grayed / partially invisible.
+   Fix: override for homepage — use subtle dark-only gradient for
+   text legibility without hiding the image. */
+body.page-index .section.parallax::after,
+body.page-index .parallax-slider::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0)    30%,
+    rgba(0, 0, 0, 0)    60%,
+    rgba(0, 0, 0, 0.4) 100%
+  ) !important;
+  display: block !important;
+  opacity: 1 !important;
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+/* Ensure hero image behind is FULLY visible (no filter/opacity blocks) */
+body.page-index .parallax-slider,
+body.page-index .parallax-slider .slick-slide,
+body.page-index .parallax-slider img,
+body.page-index .section.parallax img {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+}
+
+
+/* ─── TRAP CRITICAL-S: MENU ULTRA-VISIBILITY (v1.5) ─── */
+/* Previous selectors were insufficient — menu still faded/invisible.
+   Ultra-aggressive: target every possible link/text in header. */
+
+/* Block 1: every link in header except logo/btn = is a menu item */
+body header a[href]:not(.logo):not([class*="logo"]):not([class*="btn"]):not([class*="reserv"]):not([class*="lang"]),
+body header.default13 a[href]:not(.logo):not([class*="logo"]):not([class*="btn"]):not([class*="reserv"]),
+body .defaultsb a[href]:not(.logo):not([class*="logo"]):not([class*="btn"]):not([class*="reserv"]),
+body #defaultsb a[href]:not(.logo):not([class*="logo"]):not([class*="btn"]) {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-block !important;
+  padding: 8px 14px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  line-height: 1.5 !important;
+  text-decoration: none !important;
+  text-indent: 0 !important;
+}
+
+/* Block 2: scrolled state OR non-homepage → DARK on cream */
+body:not(.page-index) header a[href]:not(.logo):not([class*="btn"]),
+body:not(.page-index) header.default13 a[href]:not(.logo):not([class*="btn"]),
+body:not(.page-index) .defaultsb a[href]:not(.logo):not([class*="btn"]),
+body header.default13.mp-header--scrolled a[href]:not(.logo):not([class*="btn"]),
+body header.mp-header--scrolled a[href]:not(.logo):not([class*="btn"]),
+body .defaultsb.mp-header--scrolled a[href]:not(.logo):not([class*="btn"]) {
+  color: var(--ido-dark, #2A2118) !important;
+  text-shadow: none !important;
+}
+
+/* Block 3: homepage top (transparent header) → WHITE with STRONG shadow */
+body.page-index header.default13:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.page-index header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]),
+body.page-index .defaultsb:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]) {
+  color: #ffffff !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 0 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Block 4: hover — gold regardless of state */
+body header a[href]:not(.logo):not([class*="btn"]):hover,
+body header.default13 a[href]:not(.logo):not([class*="btn"]):hover,
+body .defaultsb a[href]:not(.logo):not([class*="btn"]):hover {
+  color: var(--ido-primary, #C19B76) !important;
+}
+
+/* Block 5: ensure header CONTAINER is visible too */
+header.default13,
+header.header,
+.defaultsb,
+#defaultsb,
+header.default13 nav,
+header.default13 ul,
+header.default13 .menu,
+header.default13 .navbar-wrapper,
+header.default13 .menu-items,
+.defaultsb nav,
+.defaultsb ul {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+header.default13 nav,
+header.default13 ul.menu,
+header.default13 .navbar-nav,
+.defaultsb nav,
+.defaultsb ul.menu {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+
+/* ─── TRAP CRITICAL-O: HERO OVERLAY CONTAINMENT (v1.4) ─── */
+/* ROOT CAUSE DISCOVERED: .ido-hero__content from Layer 2 uses
+   `position: absolute; inset: 0;` which, without positioned parent
+   in body_top context, COVERS THE ENTIRE DOCUMENT (viewport height
+   from insertion point). Effect: hero text bleeds into gallery,
+   menu hidden behind overlay, sections broken.
+
+   Fix: NEUTRALIZE .ido-hero__content (reset to relative, no inset),
+   replace with .mp-hero-wrap + .mp-hero__content that properly
+   constrains to hero image area via height + negative margin. */
+
+/* Neutralize Layer 2 .ido-hero__content absolute positioning */
+.ido-hero__content {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* v1.9: Hero wrap uses `position: absolute` — no more breakout math
+   (width:100vw + margin-left:-50vw was failing when parent had padding,
+   causing widget shift to left). Absolute with left:0 right:0 gives
+   clean viewport-width layout independent of container padding. */
+
+/* Body needs position:relative as reference for absolute hero-wrap */
+body.page-index,
+body.mp-homepage,
+body.home {
+  position: relative !important;
+}
+
+.mp-hero-wrap {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  height: 85vh !important;
+  margin: 0 !important;
+  z-index: 11;
+  pointer-events: none;
+  box-sizing: border-box;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  padding: 88px 0 40px; /* top room for header, bottom for search */
+}
+
+.mp-hero__content {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex: 1;  /* fill space between header padding and search */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  /* center vertically in remaining space */
+  text-align: center;
+  padding: 0 24px;
+  gap: 20px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+/* Search bar INSIDE hero — pinned to bottom */
+.mp-hero__search-bar {
+  position: relative;
+  width: 100%;
+  padding: 0 20px;
+  margin-top: auto; /* push to bottom of flex column */
+  pointer-events: auto;
+  z-index: 30;
+  box-sizing: border-box;
+}
+
+.mp-hero__search-bar .mp-search {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.mp-hero-wrap a,
+.mp-hero-wrap button,
+.mp-hero-wrap .mp-hero__cta,
+.mp-hero-wrap .mp-hero__cta *,
+.mp-hero-wrap .mp-hero__content a,
+.mp-hero-wrap .mp-hero__content button {
+  pointer-events: auto !important;
+}
+
+@media (max-width: 768px) {
+  .mp-hero-wrap {
+    height: 80vh;
+    margin-top: calc(-80vh);
+  }
+  .mp-hero__content {
+    padding: 80px 20px 80px;
+  }
+  body.page-index .section.parallax {
+    height: 80vh !important;
+    max-height: 80vh !important;
+    min-height: 80vh !important;
+  }
+}
+
+
+/* ─── TRAP CRITICAL-P: FORCE HEADER + MENU VISIBLE ─── */
+/* Hero overlay (or other z-index issue) was hiding menu. Force visibility
+   with aggressive selectors. */
+header.default13,
+header.header,
+.defaultsb,
+#defaultsb {
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 1100 !important;
+  display: block !important;
+}
+
+header.default13 nav,
+header.default13 .menu,
+header.default13 .navbar-nav,
+header.default13 ul,
+header.default13 .nav-header,
+.defaultsb nav,
+.defaultsb .menu,
+.defaultsb ul {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+header.default13 nav a,
+header.default13 .menu a,
+header.default13 ul li a,
+header.default13 ul li,
+header.default13 li a,
+header.default13 a:not(.logo img),
+.defaultsb nav a,
+.defaultsb ul li a,
+.defaultsb li a {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+header.default13 .logo,
+header.default13 .logo img,
+.defaultsb .logo,
+.defaultsb .logo img {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: inline-block !important;
+}
+
+
+/* ─── TRAP CRITICAL-Q: FOOTER BOTTOM BROWN LEAK ─── */
+/* Issue: Below .footer-contact-baner (payment strip), a brown strip
+   of unknown element was showing. Fix: force all footer children +
+   html + body to consistent colors, no margin below last element. */
+html {
+  background: var(--ido-bg, #FAF6ED) !important;
+  min-height: 100vh;
+}
+body,
+body.default13 {
+  background: var(--ido-bg, #FAF6ED) !important;
+  margin: 0 !important;
+}
+
+footer,
+.footer,
+.page-footer,
+.footer-wrapper {
+  background: var(--ido-dark, #2A2118) !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* All footer sub-elements dark, no gaps */
+.powered_by,
+.powered_by_logo,
+.footer__bottom,
+.footer-contact-add,
+.footer-bottom {
+  background: var(--ido-dark, #2A2118) !important;
+  margin: 0 !important;
+  padding: 12px 0 !important;
+}
+
+.footer-contact-baner,
+.footer__strip {
+  background: #1C1510 !important;
+  margin: 0 !important;
+  padding: 16px 20px !important;
+  padding-bottom: 30px !important; /* extra bottom space so nothing shows below */
+}
+
+/* Safety: kill any stray element after payment strip */
+.footer-contact-baner + *,
+.footer__strip + * {
+  background: #1C1510 !important;
+  margin: 0 !important;
+}
+
+
+/* ─── TRAP A: FULL-WIDTH BREAKOUT ───────────────────────────── */
+/* All top-level MP sections must break out of systemic .container
+   (max-width:1170px) to span full viewport width. Apply viewport
+   breakout trick: width:100vw + left:50% + margin-left:-50vw.  */
+html, body,
+body.default13 {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+.mp-about,
+.mp-features,
+.mp-location,
+.mp-stats,
+.mp-services,
+.mp-collab,
+.mp-featured,
+.mp-final-cta,
+.mp-search-wrapper,
+.mp-offers-intro,
+section.mp-full,
+section[class*="mp-section-"] {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  right: auto !important;
+  margin-left: -50vw !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Inner wrappers still constrain to 1200px for readability */
+.mp-about__split,
+.mp-features__grid,
+.mp-location__split,
+.mp-stats__grid,
+.mp-services__grid,
+.mp-featured__header,
+.mp-apartments__grid,
+.mp-collab__inner {
+  max-width: 1200px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+
+/* ─── TRAP B: BUTTON CLICKABILITY (.index-info *) ─────────── */
+/* L1 TRAP #8 applies `pointer-events: none !important` to
+   `.index-info *` so the system placeholder doesn't block hero
+   area. But if the CMS wraps body_top in .index-info, ALL our
+   interactive content inherits pointer-events:none.
+   Fix: re-enable on every MP interactive element + hero content. */
+.ido-hero__content,
+.ido-hero__content *,
+.mp-hero__cta,
+.mp-search,
+.mp-search *,
+.mp-search__field,
+.mp-search__input,
+.mp-search__select,
+.mp-search__submit,
+.mp-search__label,
+.mp-offer-card,
+.mp-offer-card *,
+.mp-offer-card__cta,
+.mp-feature,
+.mp-service,
+.mp-location__place,
+.mp-collab__cta,
+.mp-final-cta__contacts,
+.mp-final-cta__contacts a,
+.mp-about,
+.mp-about *,
+.mp-features,
+.mp-features *,
+.mp-location,
+.mp-location *,
+.mp-services,
+.mp-services *,
+.mp-collab,
+.mp-collab *,
+.mp-featured,
+.mp-featured *,
+.mp-final-cta,
+.mp-final-cta *,
+.index-info .mp-hero__cta,
+.index-info .mp-search,
+.index-info .mp-search *,
+.index-info .mp-offer-card,
+.index-info .mp-offer-card *,
+.index-info a[href],
+.index-info button,
+.index-info input,
+.index-info select,
+.index-info textarea,
+.index-info label,
+.index-info section,
+.index-info section * {
+  pointer-events: auto !important;
+}
+
+/* System .index-info itself stays pointer-events:none so it doesn't
+   block hero overlay — children regain clickability above. */
+
+
+/* ─── TRAP C: NATIVE DATE PICKER ──────────────────────────── */
+/* `-webkit-appearance: none` on <input type="date"> removes the
+   native date picker entirely on Safari and hides the calendar
+   icon on Chrome. Keep appearance:auto for date/time inputs. */
+.mp-search__input[type="date"],
+.mp-search__input[type="time"],
+.mp-search__input[type="datetime-local"] {
+  -webkit-appearance: auto !important;
+  appearance: auto !important;
+  cursor: pointer !important;
+  min-height: 22px;
+  padding-right: 0 !important;
+}
+
+/* Hide iOS Safari date spinner bling while keeping picker functional */
+.mp-search__input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.6;
+  cursor: pointer;
+  filter: invert(0);
+  margin-left: 4px;
+}
+
+/* When Flatpickr active — hide native appearance, readonly text input */
+.mp-search__input.flatpickr-input {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+}
+
+
+/* ─── TRAP E v1.8: SEARCH WIDGET NOW INSIDE HERO-WRAP ─── */
+/* v1.8: Search widget moved from separate section to INSIDE .mp-hero-wrap
+   as flex-bottom child (.mp-hero__search-bar). CSS above §CRITICAL-O.
+   Legacy .mp-search-wrapper rules kept as fallback if old HTML still used. */
+.mp-search-wrapper {
+  position: relative !important;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  background: transparent !important;
+  z-index: 30 !important;
+  box-sizing: border-box !important;
+}
+
+.mp-search {
+  margin: 0 auto !important;
+  position: relative;
+  z-index: 30;
+  max-width: 1100px;
+}
+
+
+/* ─── TRAP F: HERO UNDER HEADER (no cream strip above image) ─── */
+/* Previous: header cream-tinted bg + gap between header and .section.parallax
+   created visible cream strip at top of hero. Fix: pull hero under header
+   with negative margin, make header transparent over hero on homepage.
+   v1.3: hero height reduced to 85vh so search widget appears in viewport
+   without needing to scroll. */
+/* v1.7: only .section.parallax gets margin-top (pull under header).
+   .parallax-slider is now absolute INSIDE it (see CRITICAL-U+X §1830).
+   Height controlled by new rule §1790 (hard 85vh). */
+body.page-index .section.parallax,
+.page-index .section.parallax {
+  margin-top: calc(-1 * var(--ido-header-h)) !important;
+  position: relative !important;
+}
+
+/* Transparent header on homepage when at top (not yet scrolled past hero) */
+body.page-index header.default13:not(.mp-header--scrolled),
+body.page-index .defaultsb:not(.mp-header--scrolled),
+body.page-index #defaultsb:not(.mp-header--scrolled),
+.page-index header.default13:not(.mp-header--scrolled),
+.page-index .defaultsb:not(.mp-header--scrolled) {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+}
+
+/* White menu text over transparent header */
+body.page-index header.default13:not(.mp-header--scrolled) nav a,
+body.page-index header.default13:not(.mp-header--scrolled) .menu a,
+body.page-index .defaultsb:not(.mp-header--scrolled) nav a,
+body.page-index .defaultsb:not(.mp-header--scrolled) .menu a {
+  color: #fff !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.page-index header.default13:not(.mp-header--scrolled) nav a::after,
+body.page-index .defaultsb:not(.mp-header--scrolled) nav a::after {
+  background: #fff !important;
+}
+
+/* Logo inversion (white) when header transparent on homepage */
+body.page-index header.default13:not(.mp-header--scrolled) .logo img,
+body.page-index .defaultsb:not(.mp-header--scrolled) .logo img {
+  filter: brightness(0) invert(1) drop-shadow(0 1px 6px rgba(0,0,0,0.3));
+}
+
+/* Reserve button stays gold visible */
+body.page-index header.default13:not(.mp-header--scrolled) .navbar-reservation,
+body.page-index header.default13:not(.mp-header--scrolled) .reservation-btn {
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ─── TRAP G: KEN BURNS ZOOM ON HERO (slow cinematic) ─── */
+/* Animate the hero image with a subtle zoom (scale 1.00 → 1.08)
+   over 20 seconds, alternating. Creates expensive cinematic feel. */
+@keyframes mp-ken-burns {
+  0%   { transform: scale(1.00); }
+  100% { transform: scale(1.08); }
+}
+
+.parallax-slider,
+.parallax-slider > *,
+.parallax-slider .slick-list,
+.parallax-slider .slick-track,
+.parallax-slider .slick-slide,
+.parallax-slider .slick-slide img,
+.parallax-slider img,
+.section.parallax .parallax-image,
+.section.parallax .parallax-image img,
+body.page-index .parallax-slider {
+  will-change: transform;
+}
+
+/* Animate the background image itself — target the inner image */
+.parallax-slider img,
+.section.parallax img:not(.logo-img):not([class*="icon"]) {
+  animation: mp-ken-burns 20s ease-in-out infinite alternate !important;
+  transform-origin: center center;
+}
+
+/* If background-image style is used instead of <img> */
+.parallax-slider[style*="background"],
+.parallax-image[style*="background"] {
+  animation: mp-ken-burns 20s ease-in-out infinite alternate !important;
+  transform-origin: center center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-slider img,
+  .parallax-slider,
+  .section.parallax img {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+
+/* ─── TRAP J: FLATPICKR NO GRAY STRIPS (altInput styling) ─── */
+/* altInput:true creates a visible input + hides real one. The real input
+   still renders at 1x1 px but some browsers show readonly gray bar.
+   The alt input inherits browser default styles (gray bg, disabled look).
+   Fix: force transparent bg on both + explicitly hide real input. */
+input.flatpickr-input {
+  position: absolute !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  pointer-events: none !important;
+}
+
+.mp-search__input[readonly],
+.mp-search__input.flatpickr-alt-input,
+.flatpickr-alt-input.mp-search__input,
+.mp-search__field input[readonly] {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--ido-dark, #2A2118) !important;
+  cursor: pointer !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.mp-search__input[readonly]:hover,
+.mp-search__input[readonly]:focus,
+.mp-search__input.flatpickr-alt-input:hover,
+.mp-search__input.flatpickr-alt-input:focus {
+  background: transparent !important;
+  color: var(--ido-primary, #C19B76) !important;
+  border: none !important;
+  outline: none !important;
+}
+
+
+/* ─── TRAP K: HEADER MENU DARK TEXT (specificity for scrolled state) ─── */
+/* Issue: system stylesheet was overriding menu text color to light gray
+   in scrolled state. User reported "menu wyglada dziwnie" — faded.
+   Fix: increase specificity with multiple selectors, force dark color. */
+body header.default13 nav a,
+body header.default13 .menu a,
+body header.default13 .navbar-nav a,
+body header.default13 ul li a,
+body header.default13 li a,
+body .defaultsb nav a,
+body .defaultsb .menu a,
+body .defaultsb ul li a,
+body.page-offers header.default13 nav a,
+body.page-offer header.default13 nav a,
+body.page-contact header.default13 nav a,
+body.page-txt header.default13 nav a,
+body.page-news header.default13 nav a,
+body header.default13.mp-header--scrolled nav a,
+body header.default13.mp-header--scrolled .menu a,
+body header.default13.mp-header--scrolled ul li a,
+body .defaultsb.mp-header--scrolled nav a,
+body .defaultsb.mp-header--scrolled ul li a,
+body.page-index header.default13.mp-header--scrolled nav a,
+body.page-index .defaultsb.mp-header--scrolled nav a {
+  color: var(--ido-dark, #2A2118) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* Hover state */
+body header.default13 nav a:hover,
+body header.default13 .menu a:hover,
+body header.default13 ul li a:hover,
+body .defaultsb nav a:hover,
+body .defaultsb ul li a:hover {
+  color: var(--ido-primary, #C19B76) !important;
+}
+
+/* Active/current page */
+body header.default13 nav a.active,
+body header.default13 nav li.active a,
+body header.default13 .menu a.active {
+  color: var(--ido-primary, #C19B76) !important;
+}
+
+/* Language switcher (PL/EN) — make sure it's visible */
+body header.default13 .language,
+body header.default13 .lang-switcher,
+body header.default13 [class*="lang"] a {
+  color: var(--ido-dark, #2A2118) !important;
+  font-weight: 600 !important;
+}
+
+
+/* ─── TRAP L: GALLERY SECTION (bento-style photo grid) ─── */
+.mp-gallery {
+  padding: 100px 24px;
+  background: var(--ido-bg, #FAF6ED);
+  width: 100vw !important;
+  max-width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  box-sizing: border-box !important;
+}
+
+.mp-gallery__header {
+  max-width: 700px;
+  margin: 0 auto 64px;
+  text-align: center;
+}
+
+.mp-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 240px 240px;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mp-gallery__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: zoom-in;
+  background: var(--mp-cream-warm, #F2E9D6);
+  /* Button reset */
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  text-align: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.mp-gallery__item--large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.mp-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s var(--mp-ease-lux, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+.mp-gallery__item:hover img {
+  transform: scale(1.06);
+}
+
+.mp-gallery__item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(42, 33, 24, 0.45) 100%
+  );
+  opacity: 0;
+  transition: opacity 0.5s var(--mp-ease, cubic-bezier(0.4, 0, 0.2, 1));
+  pointer-events: none;
+}
+
+.mp-gallery__item:hover::after {
+  opacity: 1;
+}
+
+.mp-gallery__caption {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  color: #fff;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 500;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.5s var(--mp-ease-lux, cubic-bezier(0.22, 0.61, 0.36, 1));
+}
+
+.mp-gallery__item:hover .mp-gallery__caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+  .mp-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 200px);
+  }
+  .mp-gallery__item--large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
+
+/* ─── TRAP M: BANNER IMAGE BLOCKS (full-width photo dividers) ─── */
+.mp-banner-image {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  height: 480px;
+  overflow: hidden;
+  box-sizing: border-box !important;
+}
+
+.mp-banner-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  will-change: transform;
+}
+
+.mp-banner-image--parallax img {
+  animation: mp-ken-burns 30s ease-in-out infinite alternate;
+}
+
+/* v1.12: Stronger gradient + text-stroke outline for quote readability on any bg */
+.mp-banner-image__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  color: #fff;
+  text-align: center;
+  padding: 40px 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 15, 10, 0.55) 0%,
+    rgba(20, 15, 10, 0.35) 30%,
+    rgba(20, 15, 10, 0.35) 70%,
+    rgba(20, 15, 10, 0.65) 100%
+  );
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
+.mp-banner-image__quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.3;
+  max-width: 800px;
+  color: #ffffff;
+  padding: 0 20px;
+  margin: 0;
+  /* 8-directional 1.5px black outline + deep atmospheric shadow */
+  text-shadow:
+    1.5px 0 0 rgba(0, 0, 0, 0.9),
+    -1.5px 0 0 rgba(0, 0, 0, 0.9),
+    0 1.5px 0 rgba(0, 0, 0, 0.9),
+    0 -1.5px 0 rgba(0, 0, 0, 0.9),
+    1.5px 1.5px 0 rgba(0, 0, 0, 0.9),
+    -1.5px -1.5px 0 rgba(0, 0, 0, 0.9),
+    1.5px -1.5px 0 rgba(0, 0, 0, 0.9),
+    -1.5px 1.5px 0 rgba(0, 0, 0, 0.9),
+    0 4px 24px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(0, 0, 0, 0.5);
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.6);
+}
+
+.mp-banner-image__quote em {
+  color: var(--ido-accent, #E8D5B0);
+  text-shadow:
+    1.5px 0 0 rgba(0, 0, 0, 0.95),
+    -1.5px 0 0 rgba(0, 0, 0, 0.95),
+    0 1.5px 0 rgba(0, 0, 0, 0.95),
+    0 -1.5px 0 rgba(0, 0, 0, 0.95),
+    1.5px 1.5px 0 rgba(0, 0, 0, 0.95),
+    -1.5px -1.5px 0 rgba(0, 0, 0, 0.95),
+    1.5px -1.5px 0 rgba(0, 0, 0, 0.95),
+    -1.5px 1.5px 0 rgba(0, 0, 0, 0.95),
+    0 4px 24px rgba(0, 0, 0, 0.85),
+    0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Author badge with subtle dark bg + glass border */
+.mp-banner-image__author {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 2px;
+  margin-top: 12px;
+  display: inline-block;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.9),
+    0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+  .mp-banner-image {
+    height: 320px;
+  }
+}
+
+
+/* ─── TRAP H: FLATPICKR THEME (Mountain Prestige gold/cream) ─── */
+/* Flatpickr CDN replaces ugly native date picker. Custom theme
+   matches MP design system. Loaded via MP_HEAD.html. */
+.flatpickr-calendar {
+  background: #fff !important;
+  border: 1px solid var(--mp-border, rgba(193, 155, 118, 0.2)) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 20px 60px rgba(42, 33, 24, 0.15) !important;
+  font-family: 'Inter', sans-serif !important;
+  padding: 8px !important;
+  width: 320px !important;
+  margin-top: 8px;
+}
+.flatpickr-calendar::before,
+.flatpickr-calendar::after {
+  display: none !important;
+}
+
+.flatpickr-months {
+  padding: 8px 0 4px !important;
+  border-bottom: 1px solid var(--mp-border, rgba(193, 155, 118, 0.2));
+}
+.flatpickr-month {
+  color: var(--ido-dark, #2A2118) !important;
+  background: transparent !important;
+  height: 44px !important;
+  border-radius: 2px;
+}
+.flatpickr-current-month {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  font-style: italic !important;
+  padding: 6px 0 !important;
+  color: var(--ido-dark, #2A2118);
+}
+.flatpickr-current-month .cur-month,
+.flatpickr-current-month input.cur-year {
+  color: var(--ido-dark, #2A2118) !important;
+  font-weight: 600 !important;
+  font-family: 'Cormorant Garamond', serif !important;
+  font-style: italic !important;
+}
+.flatpickr-current-month input.cur-year:hover {
+  background: var(--mp-cream-warm, #F2E9D6);
+}
+
+.flatpickr-weekdays {
+  height: 32px !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--mp-border, rgba(193, 155, 118, 0.2));
+  margin-bottom: 4px;
+}
+.flatpickr-weekday {
+  color: var(--mp-text-muted, #6B5D4F) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  background: transparent !important;
+}
+
+.flatpickr-days {
+  border: none !important;
+  padding: 6px 0 !important;
+}
+.dayContainer {
+  padding: 0 !important;
+  min-width: 304px !important;
+}
+.flatpickr-day {
+  color: var(--ido-dark, #2A2118) !important;
+  border-radius: 2px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  border: none !important;
+  margin: 2px !important;
+  max-width: 38px !important;
+  height: 38px !important;
+  line-height: 38px !important;
+  transition: all 0.2s ease;
+}
+.flatpickr-day:hover,
+.flatpickr-day:focus {
+  background: var(--mp-cream-warm, #F2E9D6) !important;
+  color: var(--ido-primary, #C19B76) !important;
+  border: none !important;
+}
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange,
+.flatpickr-day.endRange:hover {
+  background: var(--ido-primary, #C19B76) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.flatpickr-day.today {
+  border: 1px solid var(--ido-primary, #C19B76) !important;
+  background: transparent !important;
+  color: var(--ido-primary, #C19B76) !important;
+}
+.flatpickr-day.today:hover,
+.flatpickr-day.today:focus {
+  background: var(--ido-primary, #C19B76) !important;
+  color: #fff !important;
+}
+.flatpickr-day.inRange,
+.flatpickr-day.inRange:hover {
+  background: rgba(193, 155, 118, 0.15) !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--ido-dark, #2A2118) !important;
+}
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+  color: rgba(107, 93, 79, 0.35) !important;
+}
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover {
+  color: rgba(107, 93, 79, 0.25) !important;
+  background: transparent !important;
+  cursor: not-allowed;
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+  color: var(--ido-primary, #C19B76) !important;
+  fill: var(--ido-primary, #C19B76) !important;
+  padding: 12px !important;
+  top: 0 !important;
+}
+.flatpickr-prev-month svg,
+.flatpickr-next-month svg {
+  fill: var(--ido-primary, #C19B76) !important;
+  transition: fill 0.2s ease;
+  width: 12px;
+  height: 12px;
+}
+.flatpickr-prev-month:hover svg,
+.flatpickr-next-month:hover svg {
+  fill: var(--ido-secondary, #A07D5F) !important;
+}
+
+.numInputWrapper span {
+  border: none !important;
+}
+.numInputWrapper span:hover {
+  background: var(--mp-cream-warm, #F2E9D6) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §1 — CSS CUSTOM PROPERTIES (consumed by L1 + L2)
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Brand colors */
+  --ido-primary:   #C19B76;  /* warm gold — CTA, accents */
+  --ido-secondary: #A07D5F;  /* darker gold — hover states */
+  --ido-accent:    #E8D5B0;  /* pale cream gold — highlights, bg tints */
+  --ido-bg:        #FAF6ED;  /* cream white — main bg */
+  --ido-dark:      #2A2118;  /* warm charcoal wood — text, footer */
+  --ido-light:     #FFFFFF;  /* pure white — cards */
+
+  /* Extended palette (MP-specific) */
+  --mp-gold-dim:   #8C7053;  /* muted gold */
+  --mp-cream-warm: #F2E9D6;  /* warm cream for section bg */
+  --mp-text-muted: #6B5D4F;  /* muted body text */
+  --mp-border:     rgba(193, 155, 118, 0.2);
+  --mp-shadow-sm:  0 2px 8px rgba(42, 33, 24, 0.06);
+  --mp-shadow-md:  0 8px 24px rgba(42, 33, 24, 0.10);
+  --mp-shadow-lg:  0 20px 48px rgba(42, 33, 24, 0.15);
+
+  /* Typography */
+  --ido-font-heading: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --ido-font-body:    'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Sizing */
+  --ido-radius:    2px;       /* sharp edges = luxury feel */
+  --ido-header-h:  88px;
+  --mp-header-h-scrolled: 66px;
+
+  /* Transitions */
+  --mp-ease:       cubic-bezier(0.4, 0, 0.2, 1);
+  --mp-ease-lux:   cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §2 — HARDCODED SYSTEM ELEMENTS (CSS vars don't inherit)
+   ═══════════════════════════════════════════════════════════════ */
+
+#bounce {
+  background: #C19B76 !important;
+  background-color: #C19B76 !important;
+  left: auto !important;
+  right: 32px !important;
+  transform: none !important;
+  margin-left: 0 !important;
+}
+
+#backTop {
+  background: #C19B76 !important;
+}
+#backTop:hover {
+  background: #A07D5F !important;
+}
+
+.ck_dsclr__btn_v2 {
+  background: #C19B76 !important;
+}
+.ck_dsclr__btn_v2:hover {
+  background: #A07D5F !important;
+}
+.ck_dsclr_v2 a { color: #C19B76 !important; }
+.ck_dsclr_x_v2 { color: #C19B76 !important; }
+
+.skip_link {
+  background: #C19B76 !important;
+  color: #fff !important;
+}
+
+.formbutton,
+#iai_book_form .formbutton {
+  background: #C19B76 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 2px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+}
+.formbutton:hover,
+#iai_book_form .formbutton:hover {
+  background: #A07D5F !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §3 — TYPOGRAPHY REFINEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+body {
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ido-font-heading) !important;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ido-dark) !important;
+}
+
+h1 {
+  font-size: clamp(32px, 4.5vw, 56px);
+  line-height: 1.1;
+}
+h2 {
+  font-size: clamp(26px, 3.2vw, 42px) !important;
+  line-height: 1.2;
+  font-weight: 700;
+}
+h3 {
+  font-size: clamp(20px, 2vw, 28px) !important;
+  line-height: 1.25;
+}
+
+p {
+  color: var(--mp-text-muted);
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* Decorative divider under headings (blackapart.pl pattern) */
+.mp-heading-rule {
+  display: inline-block;
+  width: 80px;
+  height: 2px;
+  background: var(--ido-primary);
+  margin: 16px 0 24px;
+  position: relative;
+}
+.mp-heading-rule::before,
+.mp-heading-rule::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: var(--ido-primary);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.mp-heading-rule::before { left: -12px; }
+.mp-heading-rule::after  { right: -12px; }
+
+.mp-kicker {
+  font-family: var(--ido-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ido-primary);
+  display: block;
+  margin-bottom: 12px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §4 — HEADER (fixed, shrink on scroll)
+   ═══════════════════════════════════════════════════════════════ */
+
+header.default13,
+.defaultsb,
+header.header {
+  background: rgba(250, 246, 237, 0.96) !important;
+  backdrop-filter: saturate(1.3) blur(12px) !important;
+  -webkit-backdrop-filter: saturate(1.3) blur(12px) !important;
+  height: var(--ido-header-h) !important;
+  border-bottom: 1px solid var(--mp-border) !important;
+  transition: height 0.3s var(--mp-ease), background 0.3s var(--mp-ease), box-shadow 0.3s var(--mp-ease) !important;
+  box-shadow: 0 1px 0 rgba(42, 33, 24, 0.04) !important;
+}
+
+/* Shrink state (added by JS when scrollY > 80) */
+header.default13.mp-header--scrolled,
+.defaultsb.mp-header--scrolled {
+  height: var(--mp-header-h-scrolled) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 4px 24px rgba(42, 33, 24, 0.08) !important;
+}
+
+/* Header logo sizing */
+header .logo img,
+header.default13 .logo img,
+.defaultsb .logo img {
+  max-height: 56px !important;
+  width: auto !important;
+  transition: max-height 0.3s var(--mp-ease) !important;
+}
+header.mp-header--scrolled .logo img,
+.mp-header--scrolled .logo img {
+  max-height: 42px !important;
+}
+
+/* Header nav links */
+header nav a,
+header .menu a,
+header.default13 nav a {
+  font-family: var(--ido-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+  color: var(--ido-dark) !important;
+  text-transform: uppercase !important;
+  padding: 6px 14px !important;
+  position: relative !important;
+  transition: color 0.2s var(--mp-ease) !important;
+}
+header nav a::after,
+header.default13 nav a::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 2px;
+  height: 1px;
+  background: var(--ido-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s var(--mp-ease);
+}
+header nav a:hover::after,
+header.default13 nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+header nav a:hover,
+header.default13 nav a:hover {
+  color: var(--ido-primary) !important;
+}
+
+/* Reserve button in header */
+header .reservation-btn,
+header .btn-reservation,
+.navbar-reservation {
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  padding: 12px 28px !important;
+  border-radius: 2px !important;
+  border: none !important;
+  transition: all 0.3s var(--mp-ease) !important;
+}
+header .reservation-btn:hover,
+header .btn-reservation:hover,
+.navbar-reservation:hover {
+  background: var(--ido-secondary) !important;
+  transform: translateY(-1px) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §5 — HERO REFINEMENTS (Mountain Prestige)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Override default overlay gradient to match MP aesthetic */
+.ido-hero::before,
+.mp-hero::before {
+  background: linear-gradient(
+    180deg,
+    rgba(42, 33, 24, 0.35) 0%,
+    rgba(42, 33, 24, 0.15) 40%,
+    rgba(42, 33, 24, 0.45) 100%
+  ) !important;
+}
+
+.ido-hero__title,
+.mp-hero__title {
+  font-family: var(--ido-font-heading) !important;
+  font-size: clamp(36px, 6vw, 76px) !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: #ffffff !important;
+  text-shadow:
+    0 2px 20px rgba(0, 0, 0, 0.7),
+    0 4px 60px rgba(0, 0, 0, 0.5),
+    0 0 4px rgba(0, 0, 0, 0.4) !important;
+  margin-bottom: 20px;
+}
+.mp-hero__title em {
+  font-style: italic;
+  color: var(--ido-accent, #E8D5B0) !important;
+  text-shadow:
+    0 2px 20px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.ido-hero__subtitle,
+.mp-hero__subtitle {
+  font-family: var(--ido-font-body) !important;
+  font-size: clamp(14px, 1.2vw, 17px) !important;
+  font-weight: 300 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.7),
+    0 0 6px rgba(0, 0, 0, 0.5) !important;
+  margin-bottom: 32px;
+}
+
+.mp-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ido-primary);
+  color: #fff;
+  font-family: var(--ido-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 18px 44px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.35s var(--mp-ease-lux);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+.mp-hero__cta:hover {
+  background: var(--ido-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+.mp-hero__cta::after {
+  content: '→';
+  font-size: 16px;
+  transition: transform 0.3s var(--mp-ease);
+}
+.mp-hero__cta:hover::after {
+  transform: translateX(4px);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §6 — SEARCH WIDGET (CUSTOM, below hero)
+   New search: [Check-in] [Check-out] [Location ▾] [Guests ▾] [CTA]
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-search {
+  position: relative;
+  z-index: 20;
+  max-width: 1100px;
+  margin: -56px auto 0;
+  background: #fff;
+  border: 1px solid var(--mp-border);
+  border-radius: 4px;
+  box-shadow: var(--mp-shadow-lg);
+  padding: 8px;
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 1fr 1fr auto;
+  gap: 4px;
+  align-items: stretch;
+}
+
+.mp-search__field {
+  position: relative;
+  padding: 14px 18px 12px;
+  border-right: 1px solid var(--mp-border);
+  cursor: pointer;
+  transition: background 0.2s var(--mp-ease);
+}
+.mp-search__field:last-of-type {
+  border-right: none;
+}
+.mp-search__field:hover {
+  background: var(--mp-cream-warm);
+}
+
+.mp-search__label {
+  display: block;
+  font-family: var(--ido-font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mp-text-muted);
+  margin-bottom: 4px;
+}
+
+.mp-search__input,
+.mp-search__select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: var(--ido-font-body);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ido-dark);
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 20px;
+}
+.mp-search__input::placeholder {
+  color: var(--mp-text-muted);
+  opacity: 0.7;
+}
+
+.mp-search__field--select::after {
+  content: '';
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--ido-primary);
+  border-bottom: 2px solid var(--ido-primary);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.mp-search__submit {
+  background: var(--ido-primary);
+  color: #fff;
+  border: none;
+  padding: 0 44px;
+  font-family: var(--ido-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s var(--mp-ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 2px;
+  min-width: 200px;
+  justify-content: center;
+}
+.mp-search__submit:hover {
+  background: var(--ido-secondary);
+  letter-spacing: 3px;
+}
+.mp-search__submit svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 900px) {
+  .mp-search {
+    grid-template-columns: 1fr 1fr;
+    margin: -32px 16px 0;
+  }
+  .mp-search__field {
+    border-right: 1px solid var(--mp-border) !important;
+    border-bottom: 1px solid var(--mp-border);
+  }
+  .mp-search__field:nth-child(2) { border-right: none !important; }
+  .mp-search__submit {
+    grid-column: 1 / -1;
+    padding: 18px;
+  }
+}
+@media (max-width: 540px) {
+  .mp-search {
+    grid-template-columns: 1fr;
+  }
+  .mp-search__field {
+    border-right: none !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §7 — FEATURED OFFERS (custom cards from .container-hotspot)
+   JS reads system .offer elements, rebuilds as .mp-offer-card
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-featured {
+  padding: 100px 24px;
+  background: var(--ido-bg);
+}
+
+.mp-featured__header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 64px;
+}
+
+.mp-apartments__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mp-offer-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--mp-border);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.5s var(--mp-ease-lux);
+  display: flex;
+  flex-direction: column;
+}
+
+.mp-offer-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--mp-shadow-lg);
+  border-color: var(--ido-primary);
+}
+
+.mp-offer-card__img {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  line-height: 0;
+  background: var(--mp-cream-warm);
+}
+.mp-offer-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s var(--mp-ease-lux);
+}
+.mp-offer-card:hover .mp-offer-card__img img {
+  transform: scale(1.06);
+}
+
+.mp-offer-card__badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--ido-primary);
+  color: #fff;
+  font-family: var(--ido-font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  z-index: 2;
+  border-radius: 2px;
+}
+
+.mp-offer-card__price {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(42, 33, 24, 0.85);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: var(--ido-font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 16px;
+  z-index: 2;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+}
+.mp-offer-card__price small {
+  font-family: var(--ido-font-body);
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.8;
+  display: block;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.mp-offer-card__body {
+  padding: 32px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.mp-offer-card__name {
+  font-family: var(--ido-font-heading);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ido-dark);
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.mp-offer-card__desc {
+  font-family: var(--ido-font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--mp-text-muted);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.mp-offer-card__meta {
+  display: flex;
+  gap: 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--mp-border);
+  border-bottom: 1px solid var(--mp-border);
+  font-family: var(--ido-font-body);
+  font-size: 13px;
+  color: var(--mp-text-muted);
+  font-weight: 500;
+}
+.mp-offer-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.mp-offer-card__meta-item svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--ido-primary);
+  stroke-width: 1.5;
+  fill: none;
+  flex-shrink: 0;
+}
+
+.mp-offer-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--ido-primary);
+  font-family: var(--ido-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 24px;
+  border: 1px solid var(--ido-primary);
+  border-radius: 2px;
+  margin-top: 6px;
+  transition: all 0.3s var(--mp-ease);
+  align-self: flex-start;
+}
+.mp-offer-card__cta:hover {
+  background: var(--ido-primary);
+  color: #fff;
+  gap: 14px;
+}
+
+/* Fallback hide (JS will populate real cards) */
+.mp-featured-fallback .mp-offer-card--static {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .mp-apartments__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .mp-offer-card__name { font-size: 22px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §8 — ABOUT / SPLIT SECTION (Mountain Prestige story)
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-about {
+  padding: 120px 24px;
+  background: var(--ido-bg);
+}
+
+.mp-about__split {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mp-about__img {
+  position: relative;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: var(--mp-shadow-md);
+}
+.mp-about__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.2s var(--mp-ease-lux);
+}
+.mp-about:hover .mp-about__img img {
+  transform: scale(1.04);
+}
+
+.mp-about__img::after {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+.mp-about__text h2 {
+  margin-bottom: 8px;
+}
+.mp-about__text p {
+  font-size: 16px;
+  line-height: 1.85;
+  margin-bottom: 20px;
+}
+.mp-about__signature {
+  font-family: var(--ido-font-heading);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--ido-primary);
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--mp-border);
+}
+
+@media (max-width: 900px) {
+  .mp-about__split {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §9 — FEATURES GRID (6 features with icons)
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-features {
+  padding: 120px 24px;
+  background: #fff;
+}
+
+.mp-features__header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 72px;
+}
+
+.mp-features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--mp-border);
+  max-width: 1200px;
+  margin: 0 auto;
+  border: 1px solid var(--mp-border);
+}
+
+.mp-feature {
+  background: #fff;
+  padding: 56px 40px;
+  text-align: center;
+  transition: all 0.4s var(--mp-ease);
+  cursor: default;
+}
+.mp-feature:hover {
+  background: var(--ido-bg);
+  transform: none;
+}
+.mp-feature:hover .mp-feature__icon {
+  transform: translateY(-4px) scale(1.05);
+  color: var(--ido-primary);
+}
+
+.mp-feature__icon {
+  display: inline-flex;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  color: var(--ido-primary);
+  margin-bottom: 24px;
+  transition: all 0.4s var(--mp-ease-lux);
+}
+.mp-feature__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1;
+  fill: none;
+}
+
+.mp-feature__title {
+  font-family: var(--ido-font-heading);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ido-dark);
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.mp-feature__desc {
+  font-family: var(--ido-font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--mp-text-muted);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .mp-features__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .mp-features__grid {
+    grid-template-columns: 1fr;
+  }
+  .mp-feature { padding: 40px 24px; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §10 — LOCATION SPLIT
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-location {
+  padding: 120px 24px;
+  background: var(--mp-cream-warm);
+  overflow: hidden;
+}
+
+.mp-location__split {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mp-location__img {
+  position: relative;
+  aspect-ratio: 5/4;
+  overflow: hidden;
+  border-radius: 2px;
+  box-shadow: var(--mp-shadow-md);
+  order: 2;
+}
+.mp-location__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mp-location__places {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mp-location__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #fff;
+  border: 1px solid var(--mp-border);
+  border-radius: 40px;
+  font-family: var(--ido-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ido-dark);
+  transition: all 0.3s var(--mp-ease);
+}
+.mp-location__place:hover {
+  border-color: var(--ido-primary);
+  background: var(--ido-bg);
+  transform: translateY(-2px);
+}
+.mp-location__place strong {
+  color: var(--ido-primary);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .mp-location__split {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .mp-location__img { order: -1; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §11 — STATS BAR (counter animation)
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-stats {
+  padding: 80px 24px;
+  background: var(--ido-dark);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.mp-stats::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(193, 155, 118, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(193, 155, 118, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.mp-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.mp-stat {
+  padding: 24px 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+.mp-stat:last-child { border-right: none; }
+
+.mp-stat__number {
+  display: block;
+  font-family: var(--ido-font-heading);
+  font-size: clamp(44px, 5vw, 64px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ido-accent);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.mp-stat__number sup {
+  font-size: 0.5em;
+  top: -0.8em;
+  margin-left: 2px;
+  font-style: normal;
+}
+
+.mp-stat__label {
+  font-family: var(--ido-font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 700px) {
+  .mp-stats__grid { grid-template-columns: repeat(2, 1fr); }
+  .mp-stat {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 28px 12px;
+  }
+  .mp-stat:nth-child(2) { border-right: none; }
+  .mp-stat:nth-last-child(-n+2) { border-bottom: none; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §12 — ADDITIONAL SERVICES CARDS (transfer, śniadania, kuligi, quady)
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-services {
+  padding: 120px 24px;
+  background: #fff;
+}
+
+.mp-services__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 48px auto 0;
+}
+
+.mp-service {
+  padding: 40px 32px;
+  background: var(--ido-bg);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: all 0.4s var(--mp-ease);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.mp-service::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ido-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--mp-ease-lux);
+}
+.mp-service:hover {
+  background: #fff;
+  border-color: var(--mp-border);
+  transform: translateY(-4px);
+  box-shadow: var(--mp-shadow-md);
+}
+.mp-service:hover::before {
+  transform: scaleX(1);
+}
+
+.mp-service__icon {
+  font-size: 36px;
+  color: var(--ido-primary);
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.mp-service__title {
+  font-family: var(--ido-font-heading);
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--ido-dark);
+}
+
+.mp-service__desc {
+  font-family: var(--ido-font-body);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--mp-text-muted);
+  margin: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §13 — COLLABORATION CTA (dla właścicieli)
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-collab {
+  padding: 120px 24px;
+  background: var(--ido-dark);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.mp-collab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(193, 155, 118, 0.08) 0%,
+    transparent 60%);
+  pointer-events: none;
+}
+
+.mp-collab__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.mp-collab .mp-kicker {
+  color: var(--ido-accent);
+}
+
+.mp-collab h2 {
+  color: #fff !important;
+  font-size: clamp(30px, 3.8vw, 48px) !important;
+  margin-bottom: 20px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.mp-collab p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 17px;
+  line-height: 1.75;
+  margin-bottom: 40px;
+}
+
+.mp-collab__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: transparent;
+  color: #fff;
+  font-family: var(--ido-font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 18px 44px;
+  border: 1px solid var(--ido-accent);
+  border-radius: 2px;
+  transition: all 0.4s var(--mp-ease);
+}
+.mp-collab__cta:hover {
+  background: var(--ido-primary);
+  border-color: var(--ido-primary);
+  color: #fff;
+  gap: 18px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §14 — FINAL CTA (tel + email + Rezerwuj)
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-final-cta {
+  padding: 100px 24px;
+  background: var(--ido-bg);
+  text-align: center;
+  border-top: 1px solid var(--mp-border);
+}
+
+.mp-final-cta h2 {
+  margin-bottom: 32px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.mp-final-cta__contacts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.mp-final-cta__contacts a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--ido-font-body);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ido-dark);
+  text-decoration: none;
+  transition: color 0.3s var(--mp-ease);
+}
+.mp-final-cta__contacts a:hover {
+  color: var(--ido-primary);
+}
+.mp-final-cta__contacts svg {
+  width: 20px;
+  height: 20px;
+  color: var(--ido-primary);
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §15 — REVEAL ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+.mp-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s var(--mp-ease-lux), transform 0.9s var(--mp-ease-lux);
+}
+.mp-reveal.mp-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mp-reveal--left {
+  transform: translateX(-40px);
+}
+.mp-reveal--left.mp-revealed {
+  transform: translateX(0);
+}
+
+.mp-reveal--right {
+  transform: translateX(40px);
+}
+.mp-reveal--right.mp-revealed {
+  transform: translateX(0);
+}
+
+.mp-reveal--delay-1 { transition-delay: 0.15s; }
+.mp-reveal--delay-2 { transition-delay: 0.3s; }
+.mp-reveal--delay-3 { transition-delay: 0.45s; }
+.mp-reveal--delay-4 { transition-delay: 0.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-reveal, .mp-reveal--left, .mp-reveal--right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §16 — /OFFERS PAGE (CSS-only, premium cards)
+   ═══════════════════════════════════════════════════════════════ */
+
+body.page-offers {
+  background: var(--ido-bg) !important;
+}
+
+body.page-offers main,
+.offers-container,
+.offer-wrapper,
+.filter_items {
+  background: var(--ido-bg) !important;
+  color: var(--ido-dark) !important;
+}
+
+/* Hero banner on /offers — subtle */
+body.page-offers .section.parallax {
+  min-height: 320px !important;
+  max-height: 40vh !important;
+}
+
+/* Individual offer cards on /offers */
+body.page-offers .offer {
+  background: #fff !important;
+  border: 1px solid var(--mp-border) !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+  transition: all 0.4s var(--mp-ease) !important;
+  margin-bottom: 32px !important;
+}
+body.page-offers .offer:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--mp-shadow-md) !important;
+  border-color: var(--ido-primary) !important;
+}
+
+body.page-offers .offer img {
+  transition: transform 0.6s var(--mp-ease-lux) !important;
+}
+body.page-offers .offer:hover img {
+  transform: scale(1.04) !important;
+}
+
+body.page-offers .offer h3,
+body.page-offers .offer h3 a {
+  font-family: var(--ido-font-heading) !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  color: var(--ido-dark) !important;
+  letter-spacing: -0.01em !important;
+}
+body.page-offers .offer h3 a:hover {
+  color: var(--ido-primary) !important;
+}
+
+body.page-offers .offer__description,
+body.page-offers .offer .offer__description {
+  font-family: var(--ido-font-body) !important;
+  color: var(--mp-text-muted) !important;
+  font-size: 14px !important;
+  line-height: 1.7 !important;
+}
+
+body.page-offers .offer__price,
+body.page-offers .price {
+  color: var(--ido-primary) !important;
+  font-family: var(--ido-font-heading) !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+}
+
+body.page-offers .btn-success,
+body.page-offers .accommodation-buttons .btn {
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 2px !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  padding: 12px 24px !important;
+}
+body.page-offers .btn-success:hover,
+body.page-offers .accommodation-buttons .btn:hover {
+  background: var(--ido-secondary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §17 — /OFFER DETAIL PAGE
+   ═══════════════════════════════════════════════════════════════ */
+
+body.page-offer {
+  background: var(--ido-bg) !important;
+}
+
+/* Offer title on detail page */
+body.page-offer h1,
+body.page-offer h1.big-label {
+  font-family: var(--ido-font-heading) !important;
+  font-size: clamp(32px, 4vw, 48px) !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  color: var(--ido-dark) !important;
+  margin-bottom: 16px !important;
+}
+
+/* Tabs */
+.tabs__item {
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: var(--mp-text-muted) !important;
+  transition: all 0.3s var(--mp-ease) !important;
+}
+.tabs__item.--active,
+.tabs__item:hover {
+  color: var(--ido-primary) !important;
+  border-bottom: 2px solid var(--ido-primary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §18 — /CONTACT PAGE (CSS-only, no body_top access!)
+   ═══════════════════════════════════════════════════════════════ */
+
+body.page-contact {
+  background: var(--ido-bg) !important;
+}
+
+body.page-contact .container,
+body.page-contact main,
+body.page-contact .contact-layout {
+  padding-top: 60px !important;
+  padding-bottom: 80px !important;
+}
+
+body.page-contact h1 {
+  font-family: var(--ido-font-heading) !important;
+  font-size: clamp(36px, 4vw, 56px) !important;
+  font-weight: 400 !important;
+  font-style: italic;
+  text-align: center !important;
+  margin-bottom: 16px !important;
+}
+
+body.page-contact .contact-subtitle,
+body.page-contact p:first-of-type {
+  text-align: center !important;
+  font-size: 16px !important;
+  color: var(--mp-text-muted) !important;
+  max-width: 600px !important;
+  margin: 0 auto 60px !important;
+}
+
+/* Contact info cards */
+body.page-contact .contact-info,
+body.page-contact .contact-details {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+  gap: 24px !important;
+  max-width: 1000px !important;
+  margin: 0 auto 60px !important;
+}
+
+/* v1.13: NO white bg/border per user request */
+body.page-contact a[href^="tel:"],
+body.page-contact a[href^="mailto:"],
+body.page-contact .contact__tel,
+body.page-contact .contact__email,
+body.page-contact .footer-contact-phone a,
+body.page-contact .footer-contact-mail a,
+footer a[href^="tel:"],
+footer a[href^="mailto:"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 4px 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: var(--ido-primary, #C19B76) !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease !important;
+}
+body.page-contact a[href^="tel:"]:hover,
+body.page-contact a[href^="mailto:"]:hover,
+body.page-contact .contact__tel:hover,
+body.page-contact .contact__email:hover {
+  background: transparent !important;
+  border: none !important;
+  color: var(--ido-secondary, #A07D5F) !important;
+  text-decoration: underline !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Footer tel/email — light color (footer is dark) */
+footer a[href^="tel:"],
+footer a[href^="mailto:"],
+.footer a[href^="tel:"],
+.footer a[href^="mailto:"] {
+  color: var(--ido-accent, #E8D5B0) !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+footer a[href^="tel:"]:hover,
+footer a[href^="mailto:"]:hover {
+  color: #ffffff !important;
+}
+
+/* Contact form */
+body.page-contact form {
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  padding: 48px !important;
+  background: #fff !important;
+  border: 1px solid var(--mp-border) !important;
+  border-radius: 2px !important;
+}
+
+body.page-contact form label {
+  font-family: var(--ido-font-body) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: var(--mp-text-muted) !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+body.page-contact form input[type="text"],
+body.page-contact form input[type="email"],
+body.page-contact form input[type="tel"],
+body.page-contact form textarea,
+body.page-contact form select {
+  width: 100% !important;
+  padding: 14px 16px !important;
+  border: 1px solid var(--mp-border) !important;
+  border-radius: 2px !important;
+  background: var(--ido-bg) !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 15px !important;
+  color: var(--ido-dark) !important;
+  transition: all 0.3s var(--mp-ease) !important;
+  margin-bottom: 20px !important;
+}
+body.page-contact form input:focus,
+body.page-contact form textarea:focus,
+body.page-contact form select:focus {
+  border-color: var(--ido-primary) !important;
+  background: #fff !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(193, 155, 118, 0.12) !important;
+}
+
+body.page-contact form textarea {
+  min-height: 140px !important;
+  resize: vertical !important;
+  font-family: var(--ido-font-body) !important;
+}
+
+body.page-contact form button[type="submit"],
+body.page-contact form input[type="submit"] {
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 16px 40px !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  border-radius: 2px !important;
+  transition: all 0.3s var(--mp-ease) !important;
+  width: 100% !important;
+}
+body.page-contact form button[type="submit"]:hover,
+body.page-contact form input[type="submit"]:hover {
+  background: var(--ido-secondary) !important;
+}
+
+/* Leaflet map on contact */
+body.page-contact .leaflet-container,
+body.page-contact .map-wrapper {
+  max-width: 1000px !important;
+  margin: 60px auto 0 !important;
+  height: 400px !important;
+  border-radius: 2px !important;
+  box-shadow: var(--mp-shadow-sm) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §19 — BLOG STYLING (system /news or /blog)
+   ═══════════════════════════════════════════════════════════════ */
+
+body.page-news .news-list,
+body.page-news .blog-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+  gap: 32px !important;
+  max-width: 1200px !important;
+  margin: 40px auto !important;
+  padding: 0 24px !important;
+}
+
+body.page-news .news-item,
+body.page-news article {
+  background: #fff !important;
+  border: 1px solid var(--mp-border) !important;
+  border-radius: 2px !important;
+  overflow: hidden !important;
+  transition: all 0.4s var(--mp-ease) !important;
+}
+body.page-news .news-item:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--mp-shadow-md) !important;
+}
+
+body.page-news h1 {
+  font-family: var(--ido-font-heading) !important;
+  font-size: clamp(32px, 4vw, 48px) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  text-align: center !important;
+  padding: 60px 24px 20px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §20 — FOOTER REFINEMENTS (MP-specific)
+   ═══════════════════════════════════════════════════════════════ */
+
+footer .container,
+.footer .container,
+footer.default13 {
+  padding: 60px 24px 30px !important;
+}
+
+footer h3,
+footer h4,
+.footer h3,
+.footer h4 {
+  color: var(--ido-accent) !important;
+  font-family: var(--ido-font-heading) !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  font-style: italic !important;
+  margin-bottom: 20px !important;
+}
+
+footer a,
+.footer a {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 14px !important;
+  transition: color 0.3s var(--mp-ease) !important;
+}
+footer a:hover,
+.footer a:hover {
+  color: var(--ido-accent) !important;
+}
+
+/* Footer payment strip — full-width breakout */
+.footer-contact-baner,
+.footer__strip {
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  background: #1C1510 !important;
+  padding: 16px 20px !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.04) !important;
+}
+.footer-contact-baner svg,
+.footer-contact-baner img {
+  height: 20px !important;
+  width: auto !important;
+  opacity: 0.45 !important;
+  filter: brightness(0) invert(1) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §21 — MOBILE REFINEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  :root {
+    --ido-header-h: 72px;
+  }
+
+  .mp-about,
+  .mp-features,
+  .mp-location,
+  .mp-services,
+  .mp-collab,
+  .mp-featured,
+  .mp-final-cta {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .mp-about,
+  .mp-features,
+  .mp-location,
+  .mp-services,
+  .mp-collab {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .mp-featured { padding: 72px 20px; }
+
+  .mp-hero__title { font-size: 38px; }
+  .mp-about__img::after { top: 12px; left: 12px; right: 12px; bottom: 12px; }
+}
+
+@media (max-width: 480px) {
+  .mp-final-cta__contacts {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .mp-collab h2,
+  .mp-final-cta h2 {
+    font-size: 28px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §22 — ACCESSIBILITY
+   ═══════════════════════════════════════════════════════════════ */
+
+*:focus-visible {
+  outline: 2px solid var(--ido-primary);
+  outline-offset: 3px;
+}
+
+.mp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   END OF MOUNTAIN PRESTIGE L3 THEME
+   ═══════════════════════════════════════════════════════════════ */

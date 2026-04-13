@@ -167,8 +167,26 @@ W sekcji "Nasze pokoje/apartamenty" dodaj:
   dodaj ten mechanizm (CSS hide + JS reader + custom cards)
 - **Bez wyróżnionych**: jeśli `.container-hotspot` nie istnieje na stronie, skrypt się nie odpali — bezpieczne
 
+## ⚠️ CRITICAL TRAPS (apply EVERY new client)
+
+Pełna dokumentacja w `docs/KNOWN-FIXES.md` (31 traps, CRITICAL-O do CRITICAL-SS).
+
+**TOP 5 najważniejszych** (must-apply z dnia 1):
+
+1. **fullpage.js detection** — IdoBooking homepage używa fullpage.js. `window.scrollY` ZAWSZE = 0. Use MutationObserver na `body.className.match(/fp-viewing-(\d+)/)`.
+
+2. **JS teleport hero into section.parallax** — body_top content domyślnie ląduje w section 2, nie hero. JS teleport `.{prefix}-hero-wrap` do `.section.parallax .fp-tableCell`.
+
+3. **Header `.menu-wrapper` child has bg** — `header` może być transparent ALE `<div class="bgd-color-light menu-wrapper">` ma `bg: white`. Target child.
+
+4. **Wikimedia URL verification** — NIGDY nie zgaduj hashy. `curl pl.wikipedia.org | grep upload.wikimedia.org | curl -sI verify 200`.
+
+5. **DevTools MCP od pierwszej debug sesji** — sprawdź computed styles + ancestor chain + fp-enabled przed jakąkolwiek CSS zmianą.
+
+**Master release notes**: `clients/MountainPrestige/RELEASE_NOTES_v1.14.md` — wzorzec dokumentacji per klient.
+
 ## GitHub repo
-https://github.com/Cisek25/claude-strony — kopia plików klientów
+https://github.com/Cisek25/jarvis — JARVIS pipeline + clients
 
 ## PLAN ROZWOJU
 

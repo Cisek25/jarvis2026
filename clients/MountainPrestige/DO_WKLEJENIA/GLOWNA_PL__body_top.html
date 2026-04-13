@@ -1,130 +1,429 @@
-<!-- MOUNTAIN PRESTIGE — Strona główna PL (body_top)
-     Wkleić: Wygląd → Strona główna → Edytor treści → HTML mode -->
+<!-- ═══════════════════════════════════════════════════════════════
+     MOUNTAIN PRESTIGE — Strona główna PL
+     Paste into: Panel → Strony → / (strona główna) → Początek BODY
+     ═══════════════════════════════════════════════════════════════ -->
 
-<!-- ▸ O NAS -->
-<div id="mp-about" class="mp-section mp-section--white">
-  <div class="mp-asym">
-    <div class="mp-asym__img mp-reveal-left">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Giewont_widziany_z_Polany_Stawianki.jpg/600px-Giewont_widziany_z_Polany_Stawianki.jpg" alt="Giewont — widok z Podhala" loading="lazy">
-    </div>
-    <div class="mp-asym__text mp-reveal-right">
-      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--mp-gold);margin-bottom:8px;">O NAS</p>
-      <h2>Mountain Prestige</h2>
-      <div class="mp-section-header__line" style="margin:16px 0 24px;"></div>
-      <p>Apartamenty premium w&nbsp;sercu polskich gór. Starannie wyselekcjonowane wnętrza, atrakcyjne lokalizacje i&nbsp;kompleksowa obsługa pobytu.</p>
-      <p>Stawiamy na <strong>komfort, estetykę i&nbsp;spokój</strong> — tworzymy idealne miejsce do&nbsp;wypoczynku jak i&nbsp;pracy zdalnej, z&nbsp;widokiem na&nbsp;Tatry.</p>
-      <a href="/offers" class="mp-btn mp-btn--outline" style="margin-top:16px;">Nasze apartamenty</a>
-    </div>
+<!-- ───── HERO + SEARCH (unified flex wrap) ─────
+     v1.8: Search widget moved INSIDE mp-hero-wrap as flex-bottom item
+     for visibility without scrolling. mp-hero__content fills top,
+     mp-hero__search-bar pinned to bottom of hero area. -->
+<div class="mp-hero-wrap">
+  <div class="mp-hero__content">
+    <span class="mp-hero__subtitle">Apartamenty premium w Tatrach</span>
+    <h1 class="mp-hero__title">
+      Twój <em>prestiż</em> w sercu gór
+    </h1>
+  </div>
+
+  <div class="mp-hero__search-bar" id="mp-search">
+    <form class="mp-search" role="search" aria-label="Wyszukaj apartamenty">
+      <div class="mp-search__field">
+        <label class="mp-search__label" for="mp-date-from">Przyjazd</label>
+        <input class="mp-search__input" type="date" id="mp-date-from" name="mp-date-from" placeholder="Wybierz datę">
+      </div>
+      <div class="mp-search__field">
+        <label class="mp-search__label" for="mp-date-to">Wyjazd</label>
+        <input class="mp-search__input" type="date" id="mp-date-to" name="mp-date-to" placeholder="Wybierz datę">
+      </div>
+      <div class="mp-search__field mp-search__field--select">
+        <label class="mp-search__label" for="mp-location">Lokalizacja</label>
+        <select class="mp-search__select" id="mp-location" name="mp-location">
+          <option value="all">Wszystkie lokalizacje</option>
+          <option value="koscielisko">Kościelisko</option>
+          <option value="skibowki">Skibówki (Zakopane)</option>
+        </select>
+      </div>
+      <div class="mp-search__field mp-search__field--select">
+        <label class="mp-search__label" for="mp-guests">Goście</label>
+        <select class="mp-search__select" id="mp-guests" name="mp-guests">
+          <option value="2">2 osoby</option>
+          <option value="3">3 osoby</option>
+          <option value="4">4 osoby</option>
+          <option value="5">5 osób</option>
+          <option value="6">6 osób</option>
+          <option value="7">7 osób</option>
+        </select>
+      </div>
+      <button type="submit" class="mp-search__submit">
+        Sprawdź
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
+      </button>
+    </form>
   </div>
 </div>
 
-<!-- ▸ WYROŻNIONE OFERTY — generowane automatycznie przez JS z .container-hotspot -->
-
-<!-- ▸ UDOGODNIENIA -->
-<div class="mp-section mp-section--cream">
-  <div class="mp-inner">
-    <div class="mp-section-header mp-reveal">
-      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--mp-gold);margin-bottom:8px;">KOMFORT</p>
-      <h2>Udogodnienia</h2>
-      <p>Wszystko, czego potrzebujesz na&nbsp;komfortowy pobyt w&nbsp;górach.</p>
-      <div class="mp-section-header__line"></div>
+<!-- ───── ABOUT / STORY (split) ───── -->
+<section class="mp-about">
+  <div class="mp-about__split">
+    <div class="mp-about__img mp-reveal mp-reveal--left">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Giewont_58.3.jpg/1280px-Giewont_58.3.jpg"
+        alt="Giewont — symbol Tatr"
+        loading="lazy">
     </div>
-    <div class="mp-features">
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3z"/><circle cx="17.5" cy="17.5" r="3.5"/></svg></div>
-        <h3>W pełni wyposażone</h3>
-        <p>Kuchnia, pralka, zmywarka, ekspres do kawy. Wszystko na&nbsp;miejscu.</p>
-      </div>
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg></div>
-        <h3>Szybkie Wi-Fi</h3>
-        <p>Pracuj zdalnie z&nbsp;widokiem na&nbsp;góry. Stabilne łącze w&nbsp;każdym apartamencie.</p>
-      </div>
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 21h10M12 3v2M5.6 5.6l1.4 1.4M18.4 5.6l-1.4 1.4M12 9c-2.2 0-4 1.8-4 4v4h8v-4c0-2.2-1.8-4-4-4z"/><path d="M6 17h12" stroke-dasharray="2 2"/></svg></div>
-        <h3>Sauna</h3>
-        <p>Strefa relaksu z&nbsp;sauną w&nbsp;obiekcie Wilczy Spokój. Regeneracja po&nbsp;dniu w&nbsp;górach.</p>
-      </div>
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 012 2v6a2 2 0 01-2 2H6"/><line x1="8" y1="21" x2="12" y2="21"/></svg></div>
-        <h3>Smart TV</h3>
-        <p>Netflix i&nbsp;streaming. Wieczory filmowe z&nbsp;widokiem na&nbsp;ośnieżone szczyty.</p>
-      </div>
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <h3>Widok na góry</h3>
-        <p>Panoramiczne widoki na&nbsp;Tatry i&nbsp;Giewont. Natura za&nbsp;oknem.</p>
-      </div>
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-        <h3>Parking</h3>
-        <p>Bezpłatne miejsca parkingowe przy każdym obiekcie. Bez stresu.</p>
-      </div>
+    <div class="mp-about__text mp-reveal mp-reveal--right">
+      <span class="mp-kicker">Mountain Prestige</span>
+      <h2>Gdzie <em style="font-style:italic;color:var(--ido-primary)">spokój</em> spotyka elegancję</h2>
+      <span class="mp-heading-rule"></span>
+      <p>
+        Jesteśmy marką oferującą starannie wyselekcjonowane apartamenty premium
+        w najpiękniejszych zakątkach Podhala. Każdy z naszych obiektów to miejsce,
+        gdzie wysoki standard wykończenia spotyka się z unikalną lokalizacją.
+      </p>
+      <p>
+        Tworzymy przestrzeń idealną zarówno do wypoczynku, jak i pracy zdalnej —
+        z widokiem na Tatry, szybkim WiFi i kompleksową obsługą pobytu.
+        Indywidualne podejście do każdego gościa to nasz znak rozpoznawczy.
+      </p>
+      <div class="mp-about__signature">— Maria Makuch, założycielka</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ▸ PARALLAX — góry -->
-<div class="mp-parallax-bg mp-reveal" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Tatry_o_poranku.jpg/600px-Tatry_o_poranku.jpg');">
-  <div class="mp-inner" style="position:relative;z-index:1;">
-    <h2 style="color:#fff!important;font-size:clamp(28px,4vw,44px)!important;">Kościelisko — u&nbsp;stóp Tatr</h2>
-    <p style="color:rgba(255,255,255,.8)!important;max-width:550px;margin:0 auto 24px;">Cisza, natura i&nbsp;górski klimat. Twoja baza wypadowa w&nbsp;serce Tatr Zachodnich.</p>
+<!-- ───── BANNER IMAGE (parallax divider after about) ───── -->
+<section class="mp-banner-image mp-banner-image--parallax">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Tatra_mountains_western_side_2.jpg/1920px-Tatra_mountains_western_side_2.jpg"
+    alt="Tatry Zachodnie — panorama"
+    loading="lazy">
+  <div class="mp-banner-image__overlay">
+    <p class="mp-banner-image__quote">
+      "Góry są miejscem, gdzie <em>czas zwalnia</em>, a myśli znów stają się jasne."
+    </p>
+    <span class="mp-banner-image__author">— Mountain Prestige</span>
   </div>
-</div>
+</section>
 
-<!-- ▸ DODATKOWE USŁUGI -->
-<div class="mp-section mp-section--white">
-  <div class="mp-inner">
-    <div class="mp-section-header mp-reveal">
-      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--mp-gold);margin-bottom:8px;">EXTRA</p>
-      <h2>Dodatkowe usługi</h2>
-      <div class="mp-section-header__line"></div>
-    </div>
-    <div class="mp-features" style="grid-template-columns:repeat(3,1fr);">
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <h3>Transfer lotniskowy</h3>
-        <p>Odbiór z&nbsp;lotniska w&nbsp;Krakowie lub na&nbsp;miejscu. Wygodnie i&nbsp;bez stresu.</p>
+<!-- ───── FEATURED OFFERS (system wypełnia JS z .container-hotspot) ───── -->
+<section class="mp-featured">
+  <div class="mp-featured__header mp-reveal">
+    <span class="mp-kicker">Nasze apartamenty</span>
+    <h2>Zamieszkaj w <em style="font-style:italic;color:var(--ido-primary)">prestiżu</em></h2>
+    <span class="mp-heading-rule"></span>
+    <p style="margin-top:20px;">
+      Dwa wyjątkowe apartamenty premium — każdy z własnym charakterem,
+      ale jednym wspólnym mianownikiem: komfortem najwyższej klasy.
+    </p>
+  </div>
+
+  <!-- Grid z klasą fallback — JS podmieni na prawdziwe dane z panelu -->
+  <div class="mp-apartments__grid mp-featured-fallback">
+    <!-- Fallback static cards (ukryte CSS-em, jeśli container-hotspot działa) -->
+    <article class="mp-offer-card mp-offer-card--static">
+      <div class="mp-offer-card__img">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Tatry_Wysokie_1-T9.jpg/1280px-Tatry_Wysokie_1-T9.jpg"
+          alt="Frajda pod Giewontem — widok na Tatry Wysokie" loading="lazy">
+        <span class="mp-offer-card__badge">Premium</span>
+        <span class="mp-offer-card__price">280 zł<small>od / doba</small></span>
       </div>
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3"/></svg></div>
-        <h3>Śniadania</h3>
-        <p>Lokalne produkty podhalańskie. Świeże pieczywo, oscypki, miody.</p>
+      <div class="mp-offer-card__body">
+        <h3 class="mp-offer-card__name">Frajda pod Giewontem</h3>
+        <p class="mp-offer-card__desc">Apartament z widokiem na Giewont, w prestiżowej lokalizacji Skibówki.</p>
+        <div class="mp-offer-card__meta">
+          <span class="mp-offer-card__meta-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>
+            7 os.
+          </span>
+        </div>
+        <a href="/offer/1" class="mp-offer-card__cta">Zobacz szczegóły <span aria-hidden="true">→</span></a>
       </div>
-      <div class="mp-feature mp-reveal">
-        <div class="mp-feature__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
-        <h3>Przewodnik górski</h3>
-        <p>Wyjścia w&nbsp;Tatry z&nbsp;licencjonowanym przewodnikiem. Kuligi, quady, skutery.</p>
+    </article>
+    <article class="mp-offer-card mp-offer-card--static">
+      <div class="mp-offer-card__img">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Kasprowy_Wierch-Kasprov_vrch_winter_1.jpg/1280px-Kasprowy_Wierch-Kasprov_vrch_winter_1.jpg"
+          alt="Wilczy Spokój — zimowe Tatry" loading="lazy">
+        <span class="mp-offer-card__badge">Z Sauną</span>
+        <span class="mp-offer-card__price">280 zł<small>od / doba</small></span>
+      </div>
+      <div class="mp-offer-card__body">
+        <h3 class="mp-offer-card__name">Wilczy Spokój by Mountain Prestige</h3>
+        <p class="mp-offer-card__desc">Apartament z sauną w sercu Kościeliska — idealny na relaks po dniu w górach.</p>
+        <div class="mp-offer-card__meta">
+          <span class="mp-offer-card__meta-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>
+            6 os.
+          </span>
+        </div>
+        <a href="/offer/2" class="mp-offer-card__cta">Zobacz szczegóły <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;" class="mp-reveal">
+    <a href="/offers" class="mp-offer-card__cta" style="padding:18px 44px;">
+      Wszystkie apartamenty <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- ───── FEATURES GRID (6 udogodnień) ───── -->
+<section class="mp-features">
+  <div class="mp-features__header mp-reveal">
+    <span class="mp-kicker">Dlaczego Mountain Prestige</span>
+    <h2>Szczegóły, które robią <em style="font-style:italic;color:var(--ido-primary)">różnicę</em></h2>
+    <span class="mp-heading-rule"></span>
+  </div>
+
+  <div class="mp-features__grid">
+    <div class="mp-feature mp-reveal">
+      <div class="mp-feature__icon">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M24 4L6 12v12c0 11 8 20 18 22 10-2 18-11 18-22V12L24 4z"/>
+          <path d="M17 24l5 5 10-10"/>
+        </svg>
+      </div>
+      <h3 class="mp-feature__title">Wysoki standard</h3>
+      <p class="mp-feature__desc">Starannie wykończone apartamenty premium — jakość, której dotykasz w każdym szczególe.</p>
+    </div>
+
+    <div class="mp-feature mp-reveal mp-reveal--delay-1">
+      <div class="mp-feature__icon">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M24 4C15 4 8 11 8 20c0 12 16 24 16 24s16-12 16-24c0-9-7-16-16-16z"/>
+          <circle cx="24" cy="20" r="6"/>
+        </svg>
+      </div>
+      <h3 class="mp-feature__title">Unikalna lokalizacja</h3>
+      <p class="mp-feature__desc">Kościelisko i Skibówki — najpiękniejsze zakątki Podhala, krok od Tatr i centrum Zakopanego.</p>
+    </div>
+
+    <div class="mp-feature mp-reveal mp-reveal--delay-2">
+      <div class="mp-feature__icon">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="4"/>
+          <path d="M13 24a11 11 0 0 1 22 0"/>
+          <path d="M6 24a18 18 0 0 1 36 0"/>
+        </svg>
+      </div>
+      <h3 class="mp-feature__title">Szybkie WiFi</h3>
+      <p class="mp-feature__desc">Światłowód idealny do pracy zdalnej — pracuj z widokiem na Giewont, odpoczywaj po godzinach.</p>
+    </div>
+
+    <div class="mp-feature mp-reveal">
+      <div class="mp-feature__icon">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="20"/>
+          <path d="M18 34V14h8a6 6 0 0 1 0 12h-8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="mp-feature__title">Parking</h3>
+      <p class="mp-feature__desc">Bezpieczne miejsca parkingowe na terenie obiektu — nie szukaj, nie martw się.</p>
+    </div>
+
+    <div class="mp-feature mp-reveal mp-reveal--delay-1">
+      <div class="mp-feature__icon">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <rect x="8" y="18" width="32" height="24" rx="2" stroke-linejoin="round"/>
+          <path d="M14 30c1-2 3-2 4 0s3 2 4 0s3-2 4 0s3 2 4 0s3-2 4 0" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 36c1-2 3-2 4 0s3 2 4 0s3-2 4 0s3 2 4 0s3-2 4 0" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 14c0 3-3 3-3 6M26 10c0 3-3 3-3 6M34 14c0 3-3 3-3 6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="mp-feature__title">Sauna</h3>
+      <p class="mp-feature__desc">W apartamencie Wilczy Spokój — sauna sucha dla Ciebie i Twoich bliskich po dniu na stoku.</p>
+    </div>
+
+    <div class="mp-feature mp-reveal mp-reveal--delay-2">
+      <div class="mp-feature__icon">
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="14" r="6"/>
+          <path d="M12 42c0-8 5-14 12-14s12 6 12 14"/>
+        </svg>
+      </div>
+      <h3 class="mp-feature__title">Indywidualne podejście</h3>
+      <p class="mp-feature__desc">Każdy gość to dla nas priorytet — pomagamy zaplanować pobyt od transferu po kulig.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───── GALLERY (bento-style photo grid) ───── -->
+<section class="mp-gallery">
+  <div class="mp-gallery__header mp-reveal">
+    <span class="mp-kicker">Galeria</span>
+    <h2>Obrazy <em style="font-style:italic;color:var(--ido-primary)">prestiżu</em></h2>
+    <span class="mp-heading-rule"></span>
+    <p style="margin-top:20px;">
+      Apartamenty, widoki, atmosfera. Zobacz miejsce, w którym
+      komfort spotyka się z górską naturą.
+    </p>
+  </div>
+
+  <div class="mp-gallery__grid">
+    <button type="button" class="mp-gallery__item mp-gallery__item--large mp-reveal">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Morskie_Oko_od_schroniska.JPG/1280px-Morskie_Oko_od_schroniska.JPG"
+        alt="Morskie Oko — jedna z perła Tatr" loading="lazy">
+      <span class="mp-gallery__caption">Morskie Oko</span>
+    </button>
+    <button type="button" class="mp-gallery__item mp-reveal mp-reveal--delay-1">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Tatry_Dolina_Koscieliska_dron_%281%29.jpg/1280px-Tatry_Dolina_Koscieliska_dron_%281%29.jpg"
+        alt="Dolina Kościeliska z drona" loading="lazy">
+      <span class="mp-gallery__caption">Dolina Kościeliska</span>
+    </button>
+    <button type="button" class="mp-gallery__item mp-reveal mp-reveal--delay-2">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Tatry_widok_z_Tarasowek.jpg/1280px-Tatry_widok_z_Tarasowek.jpg"
+        alt="Tatry — widok z Tarasówek" loading="lazy">
+      <span class="mp-gallery__caption">Panorama Tatr</span>
+    </button>
+    <button type="button" class="mp-gallery__item mp-reveal mp-reveal--delay-3">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Morskie_Oko_i_%C5%82a%C5%84cuch_Tatr.jpg/1280px-Morskie_Oko_i_%C5%82a%C5%84cuch_Tatr.jpg"
+        alt="Morskie Oko i łańcuch Tatr" loading="lazy">
+      <span class="mp-gallery__caption">Łańcuch Tatr</span>
+    </button>
+    <button type="button" class="mp-gallery__item mp-reveal mp-reveal--delay-4">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Rysy_2.jpg/1280px-Rysy_2.jpg"
+        alt="Rysy — najwyższy szczyt polskich Tatr" loading="lazy">
+      <span class="mp-gallery__caption">Rysy</span>
+    </button>
+  </div>
+</section>
+
+<!-- ───── LOCATION SPLIT ───── -->
+<section class="mp-location">
+  <div class="mp-location__split">
+    <div class="mp-reveal mp-reveal--left">
+      <span class="mp-kicker">Gdzie jesteśmy</span>
+      <h2>W sercu <em style="font-style:italic;color:var(--ido-primary)">Tatr</em></h2>
+      <span class="mp-heading-rule"></span>
+      <p>
+        Nasze apartamenty znajdują się w dwóch prestiżowych lokalizacjach Podhala —
+        w Kościelisku, tuż przy Dolinie Kościeliskiej, oraz w Zakopanem,
+        w dzielnicy Skibówki z widokiem na Giewont.
+      </p>
+      <p>
+        Krok od szlaków górskich, kilometry od codziennego zgiełku. To tu natura
+        i komfort tworzą prawdziwy luksus.
+      </p>
+      <div class="mp-location__places">
+        <span class="mp-location__place"><strong>5 min</strong> do Doliny Kościeliskiej</span>
+        <span class="mp-location__place"><strong>10 min</strong> do centrum Zakopanego</span>
+        <span class="mp-location__place"><strong>15 min</strong> do Krupówek</span>
+        <span class="mp-location__place"><strong>20 min</strong> do Morskiego Oka (dojazd)</span>
       </div>
     </div>
+    <div class="mp-location__img mp-reveal mp-reveal--right">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Dolina_Bia%C5%82ej_Wody_a5.jpg/1280px-Dolina_Bia%C5%82ej_Wody_a5.jpg"
+        alt="Dolina Białej Wody — Tatry zimą" loading="lazy">
+    </div>
   </div>
-</div>
+</section>
 
-<!-- ▸ WSPÓŁPRACA TEASER -->
-<div class="mp-section mp-section--cream">
-  <div class="mp-asym mp-asym--reverse">
-    <div class="mp-asym__text mp-reveal-left">
-      <p style="font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--mp-gold);margin-bottom:8px;">DLA WŁAŚCICIELI</p>
-      <h2>Współpraca</h2>
-      <div class="mp-section-header__line" style="margin:16px 0 24px;"></div>
-      <p>Jesteś właścicielem apartamentu w&nbsp;górach? Zapewniamy profesjonalne zarządzanie najmem — od&nbsp;promocji i&nbsp;obsługi rezerwacji po&nbsp;opiekę nad&nbsp;nieruchomością.</p>
-      <p>Naszym celem jest <strong>maksymalizacja Twoich zysków</strong> przy najwyższej jakości usług dla gości.</p>
-      <a href="/txt/201/" class="mp-btn mp-btn--outline" style="margin-top:16px;">Dowiedz się więcej</a>
-    </div>
-    <div class="mp-asym__img mp-reveal-right">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Koscielisko_Valley_01.jpg/600px-Koscielisko_Valley_01.jpg" alt="Dolina Kościeliska" loading="lazy">
-    </div>
+<!-- ───── BANNER IMAGE (before services) ───── -->
+<section class="mp-banner-image mp-banner-image--parallax">
+  <img
+    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kasprowy_Wierch_a1.jpg/1920px-Kasprowy_Wierch_a1.jpg"
+    alt="Kasprowy Wierch — panorama"
+    loading="lazy">
+  <div class="mp-banner-image__overlay">
+    <p class="mp-banner-image__quote">
+      <em>Prestiż</em> nie polega na tym, co <em>masz</em>.<br>
+      Lecz na tym, jak się <em>czujesz</em>.
+    </p>
+    <span class="mp-banner-image__author">— Mountain Prestige</span>
   </div>
-</div>
+</section>
 
-<!-- ▸ CTA -->
-<div class="mp-cta-section mp-reveal">
-  <div class="mp-inner">
-    <div class="mp-section-header">
-      <h2 style="color:#fff!important;">Zarezerwuj pobyt w&nbsp;górach</h2>
-      <p style="color:rgba(255,255,255,.85)!important;max-width:500px;margin:0 auto 24px;">Apartamenty premium w&nbsp;Kościelisku. Rezerwacja bezpośrednia — najlepsza cena.</p>
-      <div class="mp-section-header__line" style="background:rgba(255,255,255,.4);"></div>
+<!-- ───── STATS BAR (counter animation) ───── -->
+<section class="mp-stats">
+  <div class="mp-stats__grid">
+    <div class="mp-stat mp-reveal">
+      <span class="mp-stat__number" data-count="2">0</span>
+      <span class="mp-stat__label">Apartamenty premium</span>
     </div>
-    <a href="/offers" class="mp-btn mp-btn--dark">SPRAWDŹ DOSTĘPNOŚĆ</a>
+    <div class="mp-stat mp-reveal mp-reveal--delay-1">
+      <span class="mp-stat__number" data-count="24" data-suffix="/7">0</span>
+      <span class="mp-stat__label">Wsparcie gości</span>
+    </div>
+    <div class="mp-stat mp-reveal mp-reveal--delay-2">
+      <span class="mp-stat__number" data-count="100" data-suffix="%">0</span>
+      <span class="mp-stat__label">Indywidualna obsługa</span>
+    </div>
+    <div class="mp-stat mp-reveal mp-reveal--delay-3">
+      <span class="mp-stat__number" data-count="10" data-suffix="+">0</span>
+      <span class="mp-stat__label">Km od centrum Zakopanego</span>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- ───── ADDITIONAL SERVICES ───── -->
+<section class="mp-services">
+  <div class="mp-features__header mp-reveal">
+    <span class="mp-kicker">Oferty dodatkowe</span>
+    <h2>Więcej niż <em style="font-style:italic;color:var(--ido-primary)">nocleg</em></h2>
+    <span class="mp-heading-rule"></span>
+  </div>
+
+  <div class="mp-services__grid">
+    <div class="mp-service mp-reveal">
+      <div class="mp-service__icon">✈</div>
+      <h3 class="mp-service__title">Transfer lotniskowy</h3>
+      <p class="mp-service__desc">Odbierzemy Cię z lotniska w Krakowie lub Katowicach — komfortowy dojazd do Tatr.</p>
+    </div>
+    <div class="mp-service mp-reveal mp-reveal--delay-1">
+      <div class="mp-service__icon">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px;display:block;margin:0 auto;">
+          <path d="M8 22h28v8a8 8 0 0 1-8 8H16a8 8 0 0 1-8-8v-8z"/>
+          <path d="M36 24h4a4 4 0 0 1 0 8h-4"/>
+          <path d="M14 14c0-3 4-3 4-6"/>
+          <path d="M22 14c0-3 4-3 4-6"/>
+          <path d="M30 14c0-3 4-3 4-6"/>
+        </svg>
+      </div>
+      <h3 class="mp-service__title">Śniadania</h3>
+      <p class="mp-service__desc">Poranne śniadanie dostarczone do apartamentu — start dnia w górach z dobrej strony.</p>
+    </div>
+    <div class="mp-service mp-reveal mp-reveal--delay-2">
+      <div class="mp-service__icon">⛰</div>
+      <h3 class="mp-service__title">Przewodnik górski</h3>
+      <p class="mp-service__desc">Zaplanujemy wyjście w Tatry z licencjonowanym przewodnikiem — bezpiecznie i z historią.</p>
+    </div>
+    <div class="mp-service mp-reveal mp-reveal--delay-3">
+      <div class="mp-service__icon">❄</div>
+      <h3 class="mp-service__title">Kuligi i skutery</h3>
+      <p class="mp-service__desc">Zima w stylu premium: kuligi po zboczach, jazda na skuterach i quadach z instruktorem.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───── COLLABORATION CTA (dla właścicieli) ───── -->
+<section class="mp-collab">
+  <div class="mp-collab__inner mp-reveal">
+    <span class="mp-kicker">Współpraca</span>
+    <h2>Masz apartament? Zadbamy o niego jak o swój.</h2>
+    <p>
+      Oferujemy profesjonalne zarządzanie najmem — od promocji i obsługi rezerwacji,
+      po pełną opiekę nad nieruchomością. Maksymalizujemy zyski właścicieli,
+      zachowując najwyższą jakość usług dla gości.
+    </p>
+    <a href="/txt/wspolpraca" class="mp-collab__cta">Dowiedz się więcej <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<!-- ───── FINAL CTA ───── -->
+<section class="mp-final-cta">
+  <div class="mp-reveal">
+    <span class="mp-kicker">Zarezerwuj pobyt</span>
+    <h2>Zapraszamy do Mountain Prestige</h2>
+    <span class="mp-heading-rule"></span>
+    <div class="mp-final-cta__contacts">
+      <a href="tel:+48535267585" class="mp-phone-auto">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3 4.2 2 2 0 0 1 5 2h3a2 2 0 0 1 2 1.7l.5 3a2 2 0 0 1-.6 2l-1.3 1.3a16 16 0 0 0 6.6 6.6l1.3-1.3a2 2 0 0 1 2-.6l3 .5a2 2 0 0 1 1.7 2z"/></svg>
+        +48 535 267 585
+      </a>
+      <a href="mailto:mtnprestigepodhale@gmail.com" class="mp-email-auto">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+        mtnprestigepodhale@gmail.com
+      </a>
+    </div>
+    <a href="/offers" class="mp-hero__cta" style="margin-top:8px;">
+      Zarezerwuj apartament
+    </a>
+  </div>
+</section>

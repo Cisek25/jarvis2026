@@ -1,91 +1,1899 @@
-══════════════════════════════════════════════════════════
-  MOUNTAIN PRESTIGE — "Górski Ciepły"
-  INSTRUKCJA WDROŻENIA
-══════════════════════════════════════════════════════════
+════════════════════════════════════════════════════════════════
+  MOUNTAIN PRESTIGE — Instrukcja wklejania plików do IdoBooking
+  Generated: 2026-04-13 | JARVIS v1.0
+  Patched: 2026-04-13 v1.1 — 3 critical post-deploy fixes
+════════════════════════════════════════════════════════════════
 
-PALETA: #FAF6EF / #A67C52 (copper gold) / #C8A97D / #2A2118
-FONTY:  Cormorant Garamond + DM Sans (Google Fonts @import)
-PREFIX: mp-
-ENGINE: client57060.idobooking.com
+════════════════════════════════════════════════════════════════
+  ⚠️  POST-DEPLOY TRAPS LOG — NIGDY WIĘCEJ TYCH BŁĘDÓW
+════════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════════
+  ⚠️⚠️⚠️ TRAP CRITICAL-QQ/RR/SS (v1.14) — NAJWAŻNIEJSZE ⚠️⚠️⚠️
+════════════════════════════════════════════════════════════════
+
+TRAP CRITICAL-QQ — fullpage.js breaks scroll-based shrink:
+
+  ROOT CAUSE (DevTools LIVE verified):
+  IdoBooking homepage używa fullpage.js. `window.scrollY` ZAWSZE
+  = 0 bo fullpage używa CSS transforms, nie native scroll.
+  Mój initHeaderShrink z addEventListener('scroll') NIGDY nie
+  firował — przez 3 iteracje klient narzekał "menu nie białe".
+
+  FIX (JS): MutationObserver on body class `fp-viewing-N`:
+    function checkFullpageState() {
+      var match = document.body.className.match(/fp-viewing-(\d+)/);
+      if (match) {
+        applyState(parseInt(match[1]) > 1);  /* 1=hero, 2+=scrolled */
+        return true;
+      }
+      return false;
+    }
+    var observer = new MutationObserver(muts => {
+      muts.forEach(m => { if (m.attributeName === 'class') checkFullpageState(); });
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    /* Regular scroll — works na non-fullpage (/offer, /contact) */
+    function scrollUpdate() {
+      if (document.body.className.match(/fp-viewing-/)) return; /* skip if fullpage */
+      applyState(window.scrollY > 80);
+    }
+
+TRAP CRITICAL-RR — Hero height full viewport:
+  Hero max-height nie działa bo fullpage forces 100vh.
+  FIX: margin-top: 0 + height: 100vh + max-height: none
+  (was margin-top: -88px z v1.7 — już nie potrzebne).
+
+TRAP CRITICAL-SS — "Powered by IdoBooking" badge gray square:
+  System renderuje .powered_by > img SVG 120x88 + filter invert
+  = biały/gray kwadrat na ciemnym footerze.
+
+  FIX CSS:
+    .powered_by, .powered_by_logo {
+      background: transparent !important;
+      padding: 12px 0 !important;
+    }
+    .powered_by_logo img, .powered_by img {
+      max-width: 80px !important;
+      max-height: 18px !important;
+      filter: brightness(0) invert(1) opacity(0.35) !important;
+    }
+  (IdoBooking TOS wymaga visible badge — nie można entirely hide)
+
+HTML v1.14 changes:
+  - Parking SVG: litera P w kółku (bardziej czytelne)
+  - Sauna SVG: kabina z 3 falami pary + 3 słupkami kamieni
+
+════════════════════════════════════════════════════════════════
+
+════════════════════════════════════════════════════════════════
+  TRAP CRITICAL-MM/NN/OO/PP (v1.13) — 5 more fixes
+════════════════════════════════════════════════════════════════
+
+TRAP CRITICAL-MM — Universal lightbox dla ALL section images:
+  Klient chce zoom dla .mp-about__img, .mp-location__img,
+  .mp-banner-image (nie tylko gallery). FIX: JS module
+  initGalleryLightbox() rozszerzony — collect from multiple
+  sources do allItems array, modal handles same way.
+
+  CSS: .mp-about__img, .mp-location__img, .mp-banner-image,
+  .mp-zoomable { cursor: zoom-in !important }
+
+TRAP CRITICAL-NN — /txt subpages system H1/H2 push content:
+  System renderuje H1 (CMS title) PRZED body_top → 100px space.
+  FIX: body.page-txt h1.big-label, body.page-txt > h1:first-of-type,
+  body.page-txt .section_sub > h1:first-of-type { display: none }
+  + .section_sub padding-top: 0 + section:first-child padding-top: 100px
+
+TRAP CRITICAL-OO — Hero subtitle "APARTAMENTY PREMIUM W TATRACH" weak:
+  Soft text-shadow blends z hero image. FIX: 8-directional outline
+  (1px shadow rgba(0,0,0,0.85) × 8 dirs) + deep blur 14px +
+  -webkit-text-stroke: 0.3px. Same pattern jak menu.
+
+TRAP CRITICAL-PP — Gallery hover pokazuje /offers preview:
+  Anchor `<a href>` triggers browser hover preview link nawet
+  z JS preventDefault. FIX: zamień na `<button type="button">`.
+  Plus CSS button reset (border:0, padding:0, appearance:none).
+
+§18 ROOT CAUSE FIX (białe boxy /contact):
+  Moja CRITICAL-KK rule była EARLIER w CSS, §18 LATER nadpisał
+  (same specificity, later wins). FIX: edit §18 directly:
+    body.page-contact a[href^="tel:"], a[href^="mailto:"],
+    .contact__tel, .contact__email,
+    footer a[href^="tel:"], footer a[href^="mailto:"] {
+      background: transparent !important;
+      border: none !important;
+      padding: 4px 0 !important;
+      color: var(--ido-primary) !important;
+    }
+  Footer-specific: color: var(--ido-accent) (light gold na dark).
+
+HTML CHANGES:
+  - Banner 2 quote: "Premium nie polega" → "Prestiż nie polega"
+  - Śniadania ☕ emoji → SVG (teapot z steam, stroke: currentColor)
+  - Gallery items: <a href="/offers"> → <button type="button">
+
+────────────────────────────────────────────────────────────────
+
+════════════════════════════════════════════════════════════════
+  TRAP CRITICAL-HH/II/JJ/KK/LL (v1.12) — 5 fixes batch
+════════════════════════════════════════════════════════════════
+
+TRAP CRITICAL-HH — Gray strip 30px nad stopką:
+  `.section.fp-auto-height.pb-5` (fullpage.js wrapper) ma:
+    background: rgb(241, 241, 241) — system gray
+    padding-bottom: 30px — Bootstrap pb-5 = 3rem
+  FIX: body.page-index .section.fp-auto-height {
+    background: var(--ido-bg) !important;
+    padding-bottom: 0 !important;
+  }
+
+TRAP CRITICAL-II — VISA/MC musi być ostatnia (no dead space):
+  Footer ma 30-70px ciemnej przestrzeni po strip.
+  FIX:
+    footer { padding-bottom: 0 !important; }
+    .footer-contact-baner ~ * { display: none !important; }
+    .footer.container { padding-bottom: 0 !important; }
+
+TRAP CRITICAL-JJ — Scrolled header SOLID white:
+  Poprzednio `rgba(255,255,255,0.98)` — semi-transparent.
+  Klient: "po zjechaniu ten pasek musi niestety byc bialy"
+  FIX: body header.mp-header--scrolled .menu-wrapper {
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+  }
+
+TRAP CRITICAL-KK — /contact pusty telefon + białe kwadraty:
+  System renderuje 2 .contact__tel, drugi z `href="tel: "` pusty.
+  Moja §18 CSS dała białe bg/border = pusty kwadrat widoczny.
+  FIX CSS:
+    body.page-contact .contact__tel:empty,
+    body.page-contact a[href="tel: "] {
+      display: none !important;
+    }
+    body.page-contact a[href^="tel:"],
+    body.page-contact a[href^="mailto:"] {
+      background: transparent !important;
+      border: none !important;
+      padding: 4px 8px !important;
+    }
+  FIX JS (module 10c):
+    function initContactPageCleanup() {
+      document.querySelectorAll('.contact__tel, .contact__email').forEach(function(el) {
+        var text = (el.textContent || '').trim();
+        var href = (el.getAttribute('href') || '').trim();
+        if (!text || href === 'tel:' || href === 'tel: ') {
+          el.style.display = 'none';
+        }
+      });
+    }
+
+TRAP CRITICAL-LL — Gallery click zoom lightbox (nie /offers):
+  `.mp-gallery__item` miało `href="/offers"` — klient chce zoom.
+  FIX JS (module 10d):
+    function initGalleryLightbox() {
+      /* Create <div class="mp-lightbox"> with:
+         backdrop + close + prev + next + img + caption */
+      /* items forEach: e.preventDefault() → open modal at index */
+      /* keyboard: ESC = close, ←/→ = prev/next */
+    }
+  FIX CSS:
+    .mp-lightbox { position: fixed; inset: 0; z-index: 99999; }
+    .mp-lightbox.mp-lightbox--open { display: flex; }
+    .mp-lightbox__backdrop {
+      background: rgba(20,15,10,0.95);
+      backdrop-filter: blur(8px);
+    }
+    .mp-gallery__item { cursor: zoom-in !important; }
+
+  Keep `<a href="/offers">` — fallback gdy JS fail (SEO OK).
+
+════════════════════════════════════════════════════════════════
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-GG — Banner quote tekst blenduje z obrazem (v1.12)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Banner image dividers z italic quote blendują z varied-color
+  obrazem (sky bright, rocks dark, trees mid-tone). Simple
+  `text-shadow: 0 2px 16px rgba(0,0,0,0.3)` za słabe.
+
+KLIENT (cytat):
+  "slabo widoczne, kolory wchodza w zdjecie... moze trzeba cos
+  z czcionkami, z otoczka w okol czcionki albo jakos inaczej
+  kolorystycznie"
+
+FIX (CSS §CRITICAL-GG) — 3 warstwy:
+
+1. STRONGER GRADIENT na overlay:
+   .mp-banner-image__overlay {
+     background: linear-gradient(180deg,
+       rgba(20, 15, 10, 0.55) 0%,    /* dark top */
+       rgba(20, 15, 10, 0.35) 30%,   /* fade in */
+       rgba(20, 15, 10, 0.35) 70%,   /* light middle (obraz beauty) */
+       rgba(20, 15, 10, 0.65) 100%   /* dark bottom */
+     );
+     backdrop-filter: blur(1px);
+   }
+
+2. TEXT-STROKE OUTLINE na quote (8-directional + deep blur):
+   .mp-banner-image__quote {
+     color: #ffffff;
+     font-weight: 500;
+     text-shadow:
+       /* 1.5px outline 8 directions */
+       1.5px 0 0 rgba(0,0,0,0.9),
+       -1.5px 0 0 rgba(0,0,0,0.9),
+       0 1.5px 0 rgba(0,0,0,0.9),
+       0 -1.5px 0 rgba(0,0,0,0.9),
+       1.5px 1.5px 0 rgba(0,0,0,0.9),
+       -1.5px -1.5px 0 rgba(0,0,0,0.9),
+       1.5px -1.5px 0 rgba(0,0,0,0.9),
+       -1.5px 1.5px 0 rgba(0,0,0,0.9),
+       /* atmospheric depth */
+       0 4px 24px rgba(0,0,0,0.8),
+       0 0 40px rgba(0,0,0,0.5);
+     -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.6);
+   }
+
+3. AUTHOR BADGE glass morphism:
+   .mp-banner-image__author {
+     background: rgba(0, 0, 0, 0.3);
+     padding: 6px 20px;
+     border: 1px solid rgba(255, 255, 255, 0.3);
+     backdrop-filter: blur(6px);
+     border-radius: 2px;
+     display: inline-block;
+     text-shadow:
+       0 2px 10px rgba(0,0,0,0.9),
+       0 0 4px rgba(0,0,0,0.6);
+   }
+
+Em italic cream `#E8D5B0` z takim samym outline.
+
+Działa na 2 banner images:
+  - "Góry są miejscem, gdzie czas zwalnia, a myśli znów stają się jasne."
+  - "Premium nie polega na tym, co masz. Lecz na tym, jak się czujesz."
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-DD — Navbar-brand logo overflow (v1.11)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  IdoBooking używa `.navbar-brand` (Bootstrap pattern) NIE `.logo`.
+  Klienci uploadują `wideLogo.svg` 333x95+ → menu-wrapper 235px tall
+  → zasłania H1 + content na /contact + /offer subpages.
+
+  LIVE verified (client57060 /contact):
+    menuWrapperRect.height: 235
+    h1Rect.y: 208 ← H1 ZASŁONIĘTE przez menu (0-235)
+
+FIX (CSS §CRITICAL-DD):
+  /* Target BOTH .logo AND .navbar-brand */
+  header .menu-wrapper .navbar-brand,
+  header .menu-wrapper .navbar-brand img,
+  header .navbar-brand, header .navbar-brand img,
+  .menu-wrapper .navbar-brand, .menu-wrapper .navbar-brand img {
+    max-height: 56px !important;
+    width: auto !important;
+    max-width: 240px !important;
+    height: auto !important;
+  }
+
+  header .menu-wrapper .navbar {
+    min-height: 56px !important;
+    padding: 8px 0 !important;
+    align-items: center !important;
+  }
+
+  header .menu-wrapper,
+  header .menu-wrapper .container {
+    max-height: 88px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  /* Scrolled state */
+  header.mp-header--scrolled .menu-wrapper,
+  header.mp-header--scrolled .menu-wrapper .container {
+    max-height: 66px !important;
+  }
+  header.mp-header--scrolled .navbar-brand img {
+    max-height: 46px !important;
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-EE — .tabs.--fixed width + dynamic top (v1.11)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  System JS dodaje `--fixed` class na tabs gdy user scroll past tabs
+  natural position. Tabs zostają `position: fixed`. ALE:
+  - Width 1140px (container width) zamiast 100vw → tabs przesunięte
+  - Top: 88px ale header scrolled do 66px → 22px visible gap
+
+  LIVE verified (client57060 /offer/11):
+    After scroll: tabs.--fixed { width: 1140px; top: 88px; left: 142.5 }
+    Header scrolled: 66px height
+    Gap: 22px widoczna ciemna przerwa między header a tabs
+
+FIX (CSS §CRITICAL-EE):
+  /* Higher specificity — beat system + other rules */
+  body .tabs.--fixed,
+  body.page-offer .tabs.--fixed,
+  html body .tabs.--fixed,
+  .offer-desc-wrapper .tabs.--fixed {
+    position: fixed !important;
+    top: var(--mp-current-header-h, 88px) !important;  /* DYNAMIC! */
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    z-index: 1000 !important;
+    background: var(--ido-light) !important;
+    transition: top 0.25s ease !important;
+  }
+
+FIX (JS — updateHeaderVar w initHeaderShrink):
+  function update() {
+    if (window.scrollY > threshold) {
+      header.classList.add('mp-header--scrolled');
+    } else {
+      header.classList.remove('mp-header--scrolled');
+    }
+    /* Update CSS var — tabs fixed top follows header shrink */
+    document.documentElement.style.setProperty(
+      '--mp-current-header-h',
+      header.classList.contains('mp-header--scrolled') ? '66px' : '88px'
+    );
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-FF — .offer-price span asymmetric padding (v1.11)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  System dodaje `padding: 0 0 0 5px` na `.offer-price span`.
+  Flex-center parent ale child ma 5px left padding = text przesunięty
+  w prawo = krzywo w cirkle.
+
+OBJAW (klient):
+  "cena od na podstronach oferty jest krzywo"
+
+FIX (CSS §CRITICAL-FF):
+  body.page-offer .offer-price small,
+  body.page-offer .offer-price span,
+  .offer-price small,
+  .offer-price span {
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center !important;
+    width: 100% !important;
+    display: block !important;
+  }
+  body.page-offer .offer-price {
+    padding: 0 !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-CC — /offers filtry ZAWSZE collapsed bazowo (v1.11)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  System IdoBooking na /offers renderuje filtry jako Bootstrap collapse:
+    <div class="filter_header" id="filter_header_objectTypes">...</div>
+    <div class="filter_content collapse show" id="filter_objectTypes_content">
+      ... checkboxy ...
+    </div>
+
+  Klasa `show` = OPEN. System dodaje ją do WSZYSTKICH filtrów bazowo.
+  System NIE DAJE toggle JavaScript — headers nie mają `data-target`
+  ani Bootstrap init.
+
+  Klient zawsze chce: filtry CLOSED bazowo, klik = open.
+
+OBJAW:
+  Wchodząc na /offers widać wszystkie filtry rozwinięte (4+ checkbox
+  list wypełniających sidebar). Zagracone, trzeba ręcznie zwijać.
+
+FIX (JS module 10b w MP_KONIEC_BODY.html):
+  function initOffersFilters() {
+    if (!document.body.classList.contains('page-offers')) return;
+
+    var filters = document.querySelectorAll('.filter_content.collapse');
+    var headers = document.querySelectorAll('.filter_header');
+
+    /* Step 1: close all filters on init */
+    filters.forEach(function(f) { f.classList.remove('show'); });
+
+    /* Step 2: aria + click + keyboard handlers */
+    headers.forEach(function(h) {
+      h.setAttribute('aria-expanded', 'false');
+      h.setAttribute('role', 'button');
+      h.setAttribute('tabindex', '0');
+      if (h.dataset.mpFilterInit) return;
+      h.dataset.mpFilterInit = 'true';
+
+      h.addEventListener('click', function() {
+        var match = h.id.match(/filter_header_(.+)/);
+        if (!match) return;
+        var content = document.getElementById('filter_' + match[1] + '_content');
+        if (!content) return;
+        var expanded = h.getAttribute('aria-expanded') === 'true';
+        h.setAttribute('aria-expanded', !expanded);
+        content.classList.toggle('show');
+      });
+
+      h.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          h.click();
+        }
+      });
+    });
+  }
+
+CSS (already in Layer 1):
+  body.page-offers .filter_content.collapse:not(.show) {
+    display: none !important;
+  }
+  body.page-offers .filter_content.collapse.show {
+    display: block !important;
+  }
+  body.page-offers .filter_header[aria-expanded="true"]::after {
+    transform: rotate(-135deg) !important;  /* chevron points up */
+  }
+
+Verified LIVE Chrome DevTools MCP:
+  - 4 filtry: Typ obiektu, Udogodnienia, Powierzchnia, Lokalizacja
+  - Po init: wszystkie collapsed
+  - Click header: toggle show class + aria-expanded + chevron rotate
 
 
-── KROK 1: CSS ────────────────────────────────────────────
-Panel → Wygląd → Arkusz stylów CSS
-→ Wklej: CSS_EDYTOR.css
-→ Zapisz
+
+════════════════════════════════════════════════════════════════
+⚠️⚠️⚠️ TRAP CRITICAL-AA + BB v1.10 — fullpage.js + menu-wrapper ⚠️⚠️⚠️
+════════════════════════════════════════════════════════════════
+
+NAJWAŻNIEJSZE ODKRYCIE v1.10 — zweryfikowane LIVE przez Chrome
+DevTools MCP na client57060.idobooking.com.
+
+ROOT CAUSE 1 — fullpage.js tworzy DWIE osobne .section:
+  Struktura DOM na homepage:
+    main.fullpage-wrapper
+      .section.parallax (SECTION 1 — hero image, y=-176 to 608)
+        .fp-tableCell
+          .index-info (system content)
+      .section.fp-auto-height.fp-section.fp-table (SECTION 2)
+        .fp-tableCell
+          .section_sub.container
+            .mp-hero-wrap  ← moj wrap LANDED TUTAJ (body_top)
+            .mp-about, .mp-featured, .mp-gallery, ...
+
+  Moje `.mp-hero-wrap` jest w SECTION 2 (body_top), NIE w Section 1.
+  Dlatego y=608 (pod hero). Absolute positioning relative do
+  .section.fp-auto-height NIE do .section.parallax.
+
+FIX 1 (JS teleport):
+  function teleportHeroWrap() {
+    var heroWrap = document.querySelector('.mp-hero-wrap');
+    var sectionParallax = document.querySelector('.section.parallax');
+    if (!heroWrap || !sectionParallax) return false;
+    if (sectionParallax.contains(heroWrap)) return true;
+
+    /* Prefer .fp-tableCell for proper fullpage layout */
+    var target = sectionParallax.querySelector('.fp-tableCell')
+                 || sectionParallax;
+    target.appendChild(heroWrap);
+    return true;
+  }
+
+  /* Retry async — fullpage.js may init late */
+  if (!teleportHeroWrap()) {
+    [100, 500, 1500, 3000].forEach(function(delay) {
+      setTimeout(teleportHeroWrap, delay);
+    });
+  }
+
+ROOT CAUSE 2 — Header transparent AŁE menu-wrapper biały:
+  Computed style: `header.default13 { background: rgba(0,0,0,0) }` OK.
+  ALE wewnątrz jest `<div class="bgd-color-light menu-wrapper">`
+  z `background: rgb(255,255,255)` — TO widać jako biały header!
+
+  Moje selektory `header:not(.mp-header--scrolled)` nie targetowały
+  dziecka `.menu-wrapper`. To ono miało bg, nie header.
+
+FIX 2 (CSS §CRITICAL-AA):
+  body.page-index header .menu-wrapper,
+  body.page-index header .bgd-color-light,
+  body.mp-homepage header .menu-wrapper,
+  body.mp-homepage header .bgd-color-light {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    transition: background 0.3s ease !important;
+  }
+
+  /* Scrolled state bringuje bg */
+  body header.mp-header--scrolled .menu-wrapper,
+  body header.mp-header--scrolled .bgd-color-light {
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  /* Language dropdown + select */
+  body.page-index header:not(.mp-header--scrolled) .language {
+    background: transparent !important;
+  }
+  body.page-index header:not(.mp-header--scrolled) select {
+    background: rgba(0, 0, 0, 0.3) !important;
+    color: #fff !important;
+  }
+
+FIX 3 (CSS §CRITICAL-BB) — hero-wrap fills section.parallax:
+  body.page-index .section.parallax .mp-hero-wrap,
+  .section.parallax .mp-hero-wrap,
+  .section.parallax .fp-tableCell .mp-hero-wrap {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 100px 20px 40px !important;
+    z-index: 11 !important;
+    pointer-events: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: visible !important;
+  }
+
+FIX 4 — Hero title contrast:
+  .mp-hero__title {
+    color: #ffffff !important;
+    text-shadow:
+      0 2px 20px rgba(0, 0, 0, 0.7),
+      0 4px 60px rgba(0, 0, 0, 0.5),
+      0 0 4px rgba(0, 0, 0, 0.4) !important;
+  }
+  .mp-hero__subtitle {
+    color: #ffffff !important;
+    text-shadow:
+      0 2px 12px rgba(0, 0, 0, 0.7),
+      0 0 6px rgba(0, 0, 0, 0.5) !important;
+  }
+
+════════════════════════════════════════════════════════════════
+ZWERYFIKOWANE LIVE (Chrome DevTools screenshot, client57060):
+  ✓ Hero image Morskie Oko fullscreen, Ken Burns animating
+  ✓ Menu transparent — OFERTA KONTAKT WSPÓŁPRACA widoczne
+  ✓ IdoBooking logo widoczny (system placeholder, klient wymieni)
+  ✓ "APARTAMENTY PREMIUM W TATRACH" subtitle white with shadow
+  ✓ "Twój prestiż w sercu gór" centered, white + cream italic "prestiż"
+  ✓ Search widget (PRZYJAZD/WYJAZD/LOKALIZACJA/GOŚCIE/SPRAWDŹ) na dole hero
+  ✓ PL dropdown widoczny
+════════════════════════════════════════════════════════════════
 
 
-── KROK 2: STRONA GŁÓWNA ─────────────────────────────────
-Panel → Wygląd → Strona główna → Edytor treści → HTML
-→ Wklej: GLOWNA_PL__body_top.html
-→ Zapisz
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-Z — Widget shift left + header not transparent (v1.9)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE 1 (widget shift):
+  `.mp-hero-wrap` używało breakout trick:
+    width: 100vw;
+    left: 50%;
+    margin-left: -50vw;
+
+  To DZIAŁA tylko gdy parent = viewport width (bez padding).
+  IdoBooking wraps body_top w `.container` z padding-left/right:15px.
+  Matematyka breakout nie account'ował za padding → widget
+  przesunięty o 15-30px w lewo.
+
+ROOT CAUSE 2 (header not transparent):
+  Mój selektor `body.page-index` nie zawsze matchuje — IdoBooking
+  różne template używają `.home`, `.frontpage`, albo żadnej klasy
+  na homepage. CSS rule nie aplikował się.
+
+FIX 1 — Zmień breakout na `position: absolute`:
+  body.page-index, body.mp-homepage, body.home {
+    position: relative !important;  /* needed for absolute ref */
+  }
+
+  .mp-hero-wrap {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    height: 85vh !important;
+    margin: 0 !important;
+    /* ... */
+  }
+
+  Absolute z left:0/right:0 = precise viewport-width independent
+  od parent padding. Element OUT of flow → section.parallax (85vh)
+  w flow wypełnia space, mp-about startuje od 85vh.
+
+FIX 2 — Multi-fallback selector + JS class:
+
+  CSS:
+    body.page-index header:not(.mp-header--scrolled),
+    body.mp-homepage header:not(.mp-header--scrolled),
+    body.home header:not(.mp-header--scrolled),
+    body.frontpage header:not(.mp-header--scrolled),
+    html.mp-homepage body header:not(.mp-header--scrolled) {
+      background: transparent !important;
+    }
+
+  JS (MP_KONIEC_BODY.html detectHomepage IIFE):
+    var isHomepage =
+      document.body.classList.contains('page-index') ||
+      document.body.classList.contains('home') ||
+      document.body.classList.contains('frontpage') ||
+      window.location.pathname === '/' ||
+      /^\/[a-z]{2}\/?$/.test(window.location.pathname) ||
+      document.querySelector('.mp-hero-wrap');  /* presence fallback */
+
+    if (isHomepage) {
+      document.body.classList.add('mp-homepage');
+      document.documentElement.classList.add('mp-homepage');
+    }
+
+  Efekt: klasa `.mp-homepage` ZAWSZE dodana jeśli jesteśmy na
+  homepage. CSS transparent rule ALWAYS matches.
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-Y — Search widget INSIDE hero-wrap (v1.8)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Poprzednie wersje (v1.3-v1.7): search widget w osobnej sekcji
+  `<section id="mp-search">` po hero, pull-up przez margin-top:-140px.
+  Na wyższych ekranach ciągle za nisko w viewport.
+
+FIX STRUKTURALNY (v1.8):
+  Search widget PRZENIESIONY INSIDE `.mp-hero-wrap` jako flex-bottom
+  child `.mp-hero__search-bar`. Hero wrap = flex column:
+    - .mp-hero__content (flex: 1, centered text) zajmuje góra/środek
+    - .mp-hero__search-bar (margin-top: auto) pinned do bottom hero
+
+  CSS:
+    .mp-hero-wrap {
+      display: flex;
+      flex-direction: column;
+      overflow: visible;  /* search może wystawać poza hero edge */
+      padding: 88px 0 40px;
+    }
+    .mp-hero__content { flex: 1; justify-content: center; }
+    .mp-hero__search-bar {
+      margin-top: auto;  /* push to bottom */
+      pointer-events: auto;
+      padding: 0 20px;
+    }
+
+  HTML:
+    <div class="mp-hero-wrap">
+      <div class="mp-hero__content">...title/subtitle...</div>
+      <div class="mp-hero__search-bar" id="mp-search">
+        <form class="mp-search">...</form>
+      </div>
+    </div>
+
+  KEY: nie ma już `<section id="mp-search">` po hero — cały widget
+  jest w hero-wrap. Widoczny zawsze w viewport bo w 85vh hero area.
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-V v1.8 — Fully transparent header + text-stroke menu
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  v1.6 dał semi-dark gradient (rgba(26,21,16,0.75)→transparent) dla
+  menu legibility. Klient v1.8: "nieh bedzie przezroczytse menu
+  w ogole i widoczne napisy" — chce PEŁNĄ transparent + widoczny text.
+
+FIX:
+  /* Header: fully transparent, zero bg */
+  body.page-index header.default13:not(.mp-header--scrolled) {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Menu: 8-directional pixel shadow = text-stroke outline effect */
+  body.page-index header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]) {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    text-shadow:
+      1px  0 0 rgba(0,0,0,0.95),
+     -1px  0 0 rgba(0,0,0,0.95),
+      0  1px 0 rgba(0,0,0,0.95),
+      0 -1px 0 rgba(0,0,0,0.95),
+      1px 1px 0 rgba(0,0,0,0.95),
+     -1px -1px 0 rgba(0,0,0,0.95),
+      1px -1px 0 rgba(0,0,0,0.95),
+     -1px 1px 0 rgba(0,0,0,0.95),
+      0 2px 10px rgba(0,0,0,0.85),
+      0 0 24px rgba(0,0,0,0.6) !important;
+    -webkit-text-stroke: 0.4px rgba(0,0,0,0.5) !important;
+  }
+
+  EFEKT: czarny outline wokół każdej litery (niezależnie od tła)
+  + depth shadow dla atmospheric lift. Readable na dowolnym image.
+
+  Logo dostaje drop-shadow filter (nie filter invert — zachowuje
+  oryginalne kolory logo klienta).
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-X — Hero CSS bg leak + zoom invisible + text offset (v1.7)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  v1.6: ustawiłem `background-image` na BOTH `.section.parallax` AND
+  `.parallax-slider`. System `.parallax-slider` w niektórych template
+  versions jest `position: fixed` → bg image widać przez CAŁĄ przewijalną
+  stronę (a nie tylko w hero area).
+
+  Ken Burns animation 110% → 120% też nie był widoczny (za subtelny).
+
+  Hero text padding: 88px/140px (top/bottom asymetryczny) = tekst
+  przesunięty do GÓRY w padding-box, nie w środku.
+
+OBJAWY (3 bugi w jednym):
+  1. "zdjecie jest jakby na cale tlo sekcji body, calosci jakby"
+  2. "zdjecie jest teraz jakies na start przyblizone? i sie nie
+     przybliza dalej"
+  3. "napis nie jest wycentrowany na srodku"
+
+FIX (CSS §CRITICAL-U+X):
+
+1. Bg TYLKO na `.section.parallax::before` pseudo (contained):
+   body.page-index .section.parallax {
+     position: relative !important;
+     height: 85vh !important;
+     max-height: 85vh !important;
+     min-height: 85vh !important;
+     overflow: hidden !important;  /* KLUCZOWE — contain bg */
+     background-image: none !important;
+   }
+
+   body.page-index .section.parallax::before {
+     content: '' !important;
+     position: absolute !important;
+     top: -4% !important; left: -4% !important;
+     right: -4% !important; bottom: -4% !important;
+     background-image: url('WIKIMEDIA_URL') !important;
+     background-size: cover !important;
+     background-position: center center !important;
+     z-index: 0 !important;
+     animation: mp-ken-burns 22s ease-in-out infinite alternate !important;
+   }
+
+2. EXPLICITLY CLEAR bg from .parallax-slider + absolute positioning:
+   body.page-index .parallax-slider {
+     background-image: none !important;
+     background-color: transparent !important;
+     position: absolute !important;
+     top: 0 !important; left: 0 !important;
+     right: 0 !important; bottom: 0 !important;
+     z-index: 1 !important;
+   }
+
+3. Visible Ken Burns (transform, not bg-size):
+   @keyframes mp-ken-burns {
+     0%   { transform: scale(1) translate(0, 0); }
+     100% { transform: scale(1.08) translate(-1%, -1%); }
+   }
+
+4. Symmetric padding na hero content:
+   .mp-hero__content {
+     padding: 100px 24px 100px;  /* było 88/140 */
+     max-width: 1100px;
+     margin: 0 auto;
+   }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-U — Hero image missing (CSS bg fallback) (v1.6)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  System `.parallax-slider` pobiera zdjęcia z panelu frontpageGallery.
+  Jeśli klient nie wgrał zdjęcia, system renderuje PUSTY slider lub
+  placeholder. Moja CSS nie kontroluje tego — czekam aż klient wgra.
+
+OBJAW:
+  Klient: "nadal nie widac glownego zdjecia" (3x w rzędzie). Mimo
+  że CSS/JS poprawne, obraz nie pojawia się.
+
+FIX (CSS §CRITICAL-U):
+  body.page-index .section.parallax,
+  body.page-index .parallax-slider {
+    background-image: url('WIKIMEDIA_GIEWONT_URL') !important;
+    background-size: cover !important;
+    background-position: center 30% !important;
+    background-color: #1a1510 !important;
+  }
+
+  Plus Ken Burns animation na background:
+  @keyframes mp-ken-burns-bg {
+    0%   { background-size: 110% auto; background-position: center 30%; }
+    100% { background-size: 120% auto; background-position: center 40%; }
+  }
+
+  Efekt: jeśli klient NIE wgrał zdjęcia, widać Giewont z Wikimedia.
+  Gdy klient wgra własne zdjęcie do panelu, <img> systemu pojawia się
+  NAD tłem CSS i przykrywa je.
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-V — Menu niewidoczne na transparent hero (v1.6)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Fully transparent header z białym tekstem menu był NIEWYRAŹNY
+  nad niejednolitym tłem hero (jasne chmury, kolorowe niebo).
+  Biały tekst bez strong shadow = invisible on bright bg.
+
+OBJAW:
+  Klient: "menu troche widac, ale moze zmien jakos kolorystyke".
+
+FIX (CSS §CRITICAL-V):
+  /* Subtle dark gradient top of header on homepage */
+  body.page-index header.default13:not(.mp-header--scrolled) {
+    background: linear-gradient(
+      to bottom,
+      rgba(26, 21, 16, 0.75) 0%,
+      rgba(26, 21, 16, 0.45) 60%,
+      rgba(26, 21, 16, 0.0) 100%
+    ) !important;
+    backdrop-filter: blur(4px) saturate(1.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Stronger menu text shadow */
+  body.page-index header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]) {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    text-shadow:
+      0 2px 12px rgba(0, 0, 0, 0.85),
+      0 0 4px rgba(0, 0, 0, 0.6),
+      0 1px 1px rgba(0, 0, 0, 0.8) !important;
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-W — Wikimedia Commons weryfikacja URL-i (v1.6)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Używałem URL-i typu client57060.idobooking.com/.../N.jpg które
+  zwracały 404 (klient nie wgrał zdjęć). Fallback Wikimedia miał
+  ZGADNIĘTE hashe które też 404-owały.
+
+FIX METHODOLOGY (dla każdego nowego klienta):
+  1. curl https://pl.wikipedia.org/wiki/{page} | grep upload.wikimedia.org
+  2. Wyciągnij RZECZYWISTE URLs z page embeds
+  3. curl -sI https://upload.wikimedia.org/.../1280px-X.jpg — sprawdź 200
+  4. Użyj tylko VERIFIED URLs
+
+ZWERYFIKOWANE URL-e ZAKOPANE/TATRY (kwiecień 2026):
+  ✓ Giewont_58.3.jpg (hash 5/54) — GIEWONT symbol Tatr
+  ✓ Giewont_T58.jpg (hash d/d7) — GIEWONT od Kuźnic (HERO bg)
+  ✓ Tatry_Dolina_Koscieliska_dron_(1).jpg (hash 0/04) — z drona
+  ✓ Morskie_Oko_i_łańcuch_Tatr.jpg (hash 4/43) — jezioro z łańcuchem
+  ✓ Morskie_Oko_od_schroniska.JPG (hash 2/22) — od schroniska
+  ✓ Kasprowy_Wierch_a1.jpg (hash a/a9) — Kasprowy panorama
+  ✓ Kasprowy_Wierch-Kasprov_vrch_winter_1.jpg (hash 7/79) — zima
+  ✓ Tatry_widok_z_Tarasowek.jpg (hash 8/8f) — panorama z Tarasówek
+  ✓ Tatra_mountains_western_side_2.jpg (hash d/db) — Tatry Zachodnie
+  ✓ Tatry_Wysokie_1-T9.jpg (hash 0/0f) — Tatry Wysokie
+  ✓ Rysy_2.jpg (hash 1/1e) — Rysy
+  ✓ Dolina_Białej_Wody_a5.jpg (hash 2/2b) — Dolina Białej Wody zima
+
+MAPPING do sekcji homepage:
+  - Hero CSS bg: Giewont_T58 (najmajestatyczniejszy)
+  - About: Giewont_58.3
+  - Banner 1: Tatra_mountains_western_side_2
+  - Card 1 (Frajda): Tatry_Wysokie_1-T9
+  - Card 2 (Wilczy Spokój): Kasprowy_Wierch-Kasprov_vrch_winter_1
+  - Gallery LARGE: Morskie_Oko_od_schroniska
+  - Gallery 2: Tatry_Dolina_Koscieliska_dron
+  - Gallery 3: Tatry_widok_z_Tarasowek
+  - Gallery 4: Morskie_Oko_i_łańcuch_Tatr
+  - Gallery 5: Rysy_2
+  - Location: Dolina_Białej_Wody_a5
+  - Banner 2: Kasprowy_Wierch_a1
 
 
-── KROK 3: GLOBAL JS ──────────────────────────────────────
-Panel → Ustawienia → Kody śledzące → Koniec sekcji BODY
-→ Wklej: KONIEC_BODY.html
-→ Zapisz
 
-⚠️  BODY BOTTOM, nie body_top! CMS stripuje <script>.
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-R — Layer 1 white gradient engulfs hero image (v1.5)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Layer 1 TRAP #15 daje `.section.parallax::after` białą gradient
+  z 85% opacity u góry (top 22% hero). Efekt: obraz bohaterski
+  wygląda jak wyblakły, użytkownik myśli że "nie widać zdjęcia".
+
+OBJAW:
+  Klient: "nadal nie widac glownego zdjecia". Po wgraniu 4.jpg
+  system pokazuje, ale obraz wygląda jak pastelowy/wypłukany.
+
+FIX (CSS §CRITICAL-R):
+  body.page-index .section.parallax::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.15) 0%,
+      rgba(0, 0, 0, 0)    30%,
+      rgba(0, 0, 0, 0)    60%,
+      rgba(0, 0, 0, 0.4) 100%
+    ) !important;
+  }
+
+  Efekt: tylko subtle dark fade u góry (dla text legibility) +
+  dark fade u dołu. Środek obrazu CZYSTY — pełna widoczność.
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-S — Menu NIGDY niewidoczne (ultra-selektory)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  System IdoBooking renderuje menu w różnych strukturach DOM
+  (nav > ul > li > a, ALBO div.menu > a, ALBO navbar-nav > a).
+  Moje poprzednie selektory (`header nav a`, `header ul li a`)
+  nie zawsze matchują.
+
+OBJAW:
+  Klient: "nadal nie widac napisow menu". Linki są w DOM ale
+  z niewłaściwym kolorem / opacity / visibility.
+
+FIX (CSS §CRITICAL-S):
+  Fallback selektor `a[href]:not(.logo):not([class*="btn"])` —
+  każdy link w header który NIE jest logo/przyciskiem = menu item.
+
+  body header a[href]:not(.logo):not([class*="logo"]):not([class*="btn"]):not([class*="reserv"]),
+  body header.default13 a[href]:not(.logo):not([class*="btn"]),
+  body .defaultsb a[href]:not(.logo):not([class*="btn"]) {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline-block !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Kolor zależny od stanu headera */
+  body:not(.page-index) header a[href]:not(.logo):not([class*="btn"]),
+  body header.mp-header--scrolled a[href]:not(.logo):not([class*="btn"]) {
+    color: var(--ido-dark) !important;
+  }
+
+  body.page-index header:not(.mp-header--scrolled) a[href]:not(.logo):not([class*="btn"]) {
+    color: #ffffff !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7) !important;
+  }
+
+  body header a[href]:not(.logo):not([class*="btn"]):hover {
+    color: var(--ido-primary) !important;
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-T — Flatpickr auto-ustawia checkout na następny dzień
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Mój poprzedni JS onChange po wybraniu check-in automatycznie
+  ustawiał check-out na następny dzień:
+    checkOut._flatpickr.setDate(nextDay);  // auto-fill
+
+OBJAW:
+  Klient: "jak klikniemy przyjazd, to system od razu sam sobie
+  dodaje wyjazd na kolejny dzień". User chce sam wybrać wyjazd.
+
+FIX (JS):
+  onChange: function(selectedDates) {
+    var nextDay = new Date(selectedDates[0]);
+    nextDay.setDate(nextDay.getDate() + 1);
+    if (checkOut && checkOut._flatpickr) {
+      checkOut._flatpickr.set('minDate', nextDay);  // OK — update constraint
+      /* Clear if invalid (was before new min) */
+      var currentOut = checkOut._flatpickr.selectedDates[0];
+      if (currentOut && currentOut <= selectedDates[0]) {
+        checkOut._flatpickr.clear();
+      }
+      /* ❌ REMOVED: checkOut._flatpickr.setDate(nextDay);
+         Let user pick manually. */
+    }
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-O — .ido-hero__content inset:0 COVERS WHOLE BODY
+────────────────────────────────────────────────────────────────
+⚠️ NAJWAŻNIEJSZY BŁĄD ARCHITEKTONICZNY ZNALEZIONY W v1.3 ⚠️
+
+ROOT CAUSE:
+  Layer 2 (biblioteka JARVIS) definiuje:
+    .ido-hero__content {
+      position: absolute;
+      inset: 0;   ← WYPEŁNIA cały positioned ancestor
+      z-index: 10;
+      ...
+    }
+
+  Założenie: .ido-hero__content rendered INSIDE .section.parallax
+  (positioned), więc inset:0 wypełnia tylko hero area.
+
+  RZECZYWISTOŚĆ: body_top content jest insertowany PO .section.parallax,
+  NIE wewnątrz. .ido-hero__content z inset:0 wypełnia wtedy NAJBLIŻSZY
+  positioned ancestor — najczęściej body/html → pokrywa CAŁĄ STRONĘ.
+
+OBJAW:
+  - Hero text "Twój prestiż w sercu gór" + CTA widoczne ZANIM nad
+    sekcją gallery (bardzo daleko na dole strony)
+  - Menu znika (overlay z-index:10 pokrywa header)
+  - Hero image nie widać bo overlay z pełną wysokością pokrywa
+  - Gallery section image leak (LARGE item bleeds z grid cell)
+  - Wszystkie sections "wysypują się" - overlay na górze
+
+FIX (CSS §CRITICAL-O):
+  /* Neutralize Layer 2 absolute positioning */
+  .ido-hero__content {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important; left: auto !important;
+    right: auto !important; bottom: auto !important;
+    z-index: auto !important;
+    display: block !important;
+  }
+
+  /* New constrained wrapper */
+  .mp-hero-wrap {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    margin-left: -50vw;
+    height: 85vh;
+    margin-top: calc(-85vh);  /* pull up over system hero image */
+    z-index: 11;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .mp-hero__content {
+    position: relative;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 88px 24px 140px;
+    color: #fff;
+  }
+
+  .mp-hero-wrap a,
+  .mp-hero-wrap button {
+    pointer-events: auto !important;
+  }
+
+FIX (HTML):
+  /* BEFORE (bug): */
+  <div class="ido-hero__content">...</div>
+
+  /* AFTER (fixed): */
+  <div class="mp-hero-wrap">
+    <div class="mp-hero__content">
+      <span class="mp-hero__subtitle">...</span>
+      <h1 class="mp-hero__title">...</h1>
+      <a class="mp-hero__cta" href="#mp-search">...</a>
+    </div>
+  </div>
+
+JAK DZIAŁA WRAP:
+  - .mp-hero-wrap ma height:85vh + margin-top:-85vh
+  - Zajmuje 85vh w normal flow ALE jest wizualnie przesunięty
+    85vh DO GÓRY — czyli dokładnie nad .section.parallax (hero image)
+  - Children są constrained do wrap (85vh × 100vw)
+  - pointer-events:none na wrap → kliknięcia przechodzą na hero image
+  - pointer-events:auto na a/button → CTA nadal klikalne
+
+GLOBAL FIX FOR JARVIS:
+  Dla każdego NOWEGO klienta: ZAWSZE używaj wrap pattern.
+  NIE używaj .ido-hero__content z Layer 2 bezpośrednio w body_top.
+  Zamiast: .{prefix}-hero-wrap > .{prefix}-hero__content pattern.
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-P — Menu znika (force visibility)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Hero overlay z bug'u CRITICAL-O pokrywał header + menu.
+  Plus: niektóre systemowe CSS rules (i moje transparency z TRAP F)
+  mogą kolidować i hide menu items.
+
+FIX (CSS §CRITICAL-P): Force visibility na wszystkich header elements:
+  header.default13, .defaultsb {
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1100 !important;
+  }
+  header.default13 nav a, header.default13 ul li a,
+  .defaultsb ul li a {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP CRITICAL-Q — Brązowy pasek pod VISA/Mastercard footer
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Po .footer-contact-baner (payment strip) system render ma jakiś
+  element z brązowym bg (prawdopodobnie .powered_by lub pusty div).
+  Między strip a ten element (lub pod nim) body bg przebija się.
+
+OBJAW:
+  Screenshot user: pod VISA/MC strip widoczny brązowy pasek ~60-80px
+  ciągnący się do dołu viewportu.
+
+FIX (CSS §CRITICAL-Q):
+  html { background: var(--ido-bg) !important; min-height: 100vh; }
+  body, body.default13 { background: var(--ido-bg) !important; }
+
+  footer, .footer, .page-footer {
+    background: var(--ido-dark) !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .powered_by, .footer-contact-add, .footer-bottom, .footer__bottom {
+    background: var(--ido-dark) !important;
+    margin: 0 !important;
+  }
+
+  .footer-contact-baner, .footer__strip {
+    background: #1C1510 !important;
+    margin: 0 !important;
+    padding-bottom: 30px !important;  /* extra bottom */
+  }
+
+  /* Safety: kill stray elements after strip */
+  .footer-contact-baner + *, .footer__strip + * {
+    background: #1C1510 !important;
+    margin: 0 !important;
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP J — Flatpickr altInput pokazuje szare paski na dacie
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Flatpickr z altInput:true tworzy WIDOCZNY alt input (readonly,
+  display date formatted) oraz chowa oryginalny <input type=date>.
+  Oryginalny input nadal ma wymiary i gdy browser rendruje go jako
+  readonly pokazuje domyślny gray bar / bordery.
+
+OBJAW:
+  Klient: "pojawi sie jakies szare paseckzi na datach wyboru".
+  Pod wyborem daty widoczny gray bar (real flatpickr-input
+  z browser default readonly styling).
+
+FIX (CSS §J):
+  /* Hide real input completely */
+  input.flatpickr-input {
+    position: absolute !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Alt input - enforce MP styling (no browser defaults) */
+  .mp-search__input[readonly],
+  .mp-search__input.flatpickr-alt-input,
+  .flatpickr-alt-input.mp-search__input {
+    background: transparent !important;
+    color: var(--ido-dark) !important;
+    cursor: pointer !important;
+    border: none !important;
+    outline: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+  }
+
+FIX (JS): altInputClass preserve MP styling:
+  flatpickr(input, {
+    altInput: true,
+    altInputClass: 'mp-search__input mp-search__input-alt flatpickr-alt-input',
+    // ...
+  });
+
+────────────────────────────────────────────────────────────────
+TRAP K — Menu items gray/faded (low specificity)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Pierwotne selektory `header nav a` + `header.default13 nav a`
+  miały specificity pokonywalną przez system stylesheet
+  (np. `ul.nav-header li a` ma wyższą specificity).
+
+OBJAW:
+  Klient: "menu te jakies dziwne". W scrolled state menu items
+  wyglądają jak light gray/faded zamiast dark warm charcoal.
+
+FIX (CSS §K):
+  /* Increased specificity with body prefix + multiple variants */
+  body header.default13 nav a,
+  body header.default13 .menu a,
+  body header.default13 .navbar-nav a,
+  body header.default13 ul li a,
+  body header.default13 li a,
+  body .defaultsb ul li a,
+  body header.default13.mp-header--scrolled nav a,
+  body header.default13.mp-header--scrolled ul li a {
+    color: var(--ido-dark) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 500 !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Also: hover + active + language switcher explicit */
+
+────────────────────────────────────────────────────────────────
+TRAP L — Gallery section (bento grid) — nowy komponent
+────────────────────────────────────────────────────────────────
+Dodany nowy komponent na homepage po Features, przed Location.
+
+HTML: <section class="mp-gallery">
+  + .mp-gallery__header (kicker + h2 + rule + opis)
+  + .mp-gallery__grid (5 itemów: 1 large 2x2 + 4 normalne)
+  + .mp-gallery__item > img + .mp-gallery__caption
+
+CSS §L:
+  - Grid 4 kolumny x 2 rzędy (240px each), gap 16px
+  - .mp-gallery__item--large: grid-column: span 2; row: span 2
+  - Hover: scale 1.06 obraz + dark gradient overlay + caption slide-in
+  - Mobile (< 900px): 2 kolumny x 4 rzędy
+
+────────────────────────────────────────────────────────────────
+TRAP M — Banner image blocks (full-width photo dividers) — nowy
+────────────────────────────────────────────────────────────────
+Dodane 2 banner imagery na homepage:
+1. Po sekcji About: "Góry są miejscem, gdzie czas zwalnia..."
+2. Przed sekcją Services: "Premium nie polega na tym, co masz..."
+
+HTML: <section class="mp-banner-image mp-banner-image--parallax">
+  + <img> z Ken Burns animation
+  + .mp-banner-image__overlay (dark gradient + quote + author)
+
+CSS §M:
+  - Full-width breakout (width:100vw + left:50% + margin-left:-50vw)
+  - Height 480px desktop, 320px mobile
+  - Image: object-fit cover + Ken Burns 30s animation
+  - Overlay: cream italic quote Cormorant + small uppercase author
+
+PHOTO URLs (wszystkie z client57060 system gallery):
+  - /0/0/1.jpg — About section left
+  - /0/0/2.jpg — Banner 1 (after about)
+  - /0/0/3.jpg — Offer card 1 (Frajda)
+  - /0/0/4.jpg — Hero slider (panel frontpageGallery)
+  - /0/0/5.jpg — Offer card 2 (Wilczy Spokój)
+  - /0/0/6.jpg — Gallery large
+  - /0/0/7.jpg — Gallery - Tatry
+  - /0/0/8.jpg — Gallery - Sypialnia
+  - /0/0/9.jpg — Gallery - Sauna
+  - /0/0/10.jpg — Gallery - Taras
+  - /0/0/11.jpg — Location split image
+  - /0/0/12.jpg — Banner 2 (before services)
+
+Każdy <img> ma onerror fallback do Wikimedia Commons na wypadek
+gdy klient jeszcze nie wgrał danej pozycji. Po wgraniu przez
+klienta 12 zdjęć do frontpageGallery — wszystko auto-wyświetli się.
+
+Instrukcja dla klienta (upload):
+  Panel → Wygląd → Galeria / Zdjęcia strony głównej
+  Wgraj 12 zdjęć (będą numerowane /1.jpg, /2.jpg, ... /12.jpg)
 
 
-── KROK 4: PODSTRONY ──────────────────────────────────────
-Panel → Treści → Strony tekstowe → Nowa
-
-  /txt/201/ → "Współpraca"  → WSPOLPRACA_PL__body_top.html
-  /txt/202/ → "Lokalizacja" → LOKALIZACJA_PL__body_top.html
-
-⚠️  /kontakt/ → NIE MA pliku HTML — CSS-only!
 
 
-── KROK 5: MENU ───────────────────────────────────────────
-Panel → Wygląd → Menu
+Następujące 3 problemy zostały WYKRYTE PO DEPLOY i NAPRAWIONE w v1.1.
+Każdy NOWY KLIENT JARVIS musi mieć te fixy z automatu.
 
-  1. Oferta        → /offers
-  2. Lokalizacja   → /txt/202/
-  3. Współpraca    → /txt/201/
-  4. Kontakt       → /contact
+────────────────────────────────────────────────────────────────
+TRAP A — Sekcje nie sięgają krawędzi strony (full-width breakout)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  System IdoBooking wraps body_top content w `.container`
+  z max-width:1170px. Wszystkie sekcje typu .mp-features,
+  .mp-about, .mp-location dostają max szer 1170px zamiast 100vw.
 
-⚠️  REZERWUJ button dodawany automatycznie przez JS.
-⚠️  Blog — do dodania później (wymaga treści).
+OBJAW:
+  Sekcje są wycentrowane w wąskiej kolumnie z bocznymi pasami
+  pustego tła. Wyglądają jak pudełko, nie jak full-width sections.
+
+FIX (CSS L3 §0):
+  html, body { overflow-x: hidden !important; max-width: 100vw; }
+
+  .mp-about, .mp-features, .mp-location, .mp-stats,
+  .mp-services, .mp-collab, .mp-featured, .mp-final-cta,
+  .mp-search-wrapper, .mp-offers-intro, section.mp-full {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    position: relative !important;
+    left: 50% !important;
+    margin-left: -50vw !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Inner wrappers nadal max 1200px dla czytelności */
+  .mp-about__split, .mp-features__grid, .mp-location__split,
+  .mp-stats__grid, .mp-services__grid, .mp-collab__inner {
+    max-width: 1200px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+UWAGA: html/body MUSI mieć overflow-x: hidden bo inaczej breakout
+       powoduje horizontal scroll na mobile.
+
+────────────────────────────────────────────────────────────────
+TRAP B — Przyciski i linki na homepage NIE KLIKALNE
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  L1 TRAP #8 (system traps file) ustawia:
+    .index-info * { pointer-events: none !important; }
+
+  Cel: aby system .index-info nie blokowało hero area kliknięć.
+  PROBLEM: gdy CMS wraps body_top w .index-info (a często wraps!),
+  WSZYSTKO co wkleimy w body_top dziedziczy pointer-events:none
+  i przestaje być klikalne.
+
+OBJAW:
+  - Hero CTA "Sprawdź dostępność" nie reaguje na klik
+  - Wyszukiwarka pozwala otworzyć picker daty ale select dropdown
+    może nie reagować, submit button niefunkcjonalny
+  - Karty ofert klikają się w nicość
+  - Wszystkie .mp-* przyciski wyglądają jak działające ale nie
+    nawigują nigdzie
+
+FIX (CSS L3 §0):
+  /* Re-enable pointer events na MP content + .index-info kids */
+  .ido-hero__content,
+  .ido-hero__content *,
+  .mp-hero__cta,
+  .mp-search, .mp-search *,
+  .mp-offer-card, .mp-offer-card *,
+  .mp-feature, .mp-service,
+  .mp-collab__cta, .mp-final-cta__contacts a,
+  .mp-about, .mp-about *,
+  .mp-features, .mp-features *,
+  .mp-location, .mp-location *,
+  .mp-services, .mp-services *,
+  .mp-collab, .mp-collab *,
+  .mp-featured, .mp-featured *,
+  .mp-final-cta, .mp-final-cta *,
+  .index-info .mp-hero__cta,
+  .index-info .mp-search, .index-info .mp-search *,
+  .index-info .mp-offer-card, .index-info .mp-offer-card *,
+  .index-info a[href], .index-info button,
+  .index-info input, .index-info select, .index-info textarea {
+    pointer-events: auto !important;
+  }
+
+UWAGA: Selektory MUSZĄ explicit listować wszystkie .mp-* sekcje.
+       Selector `.mp-* *` (gwiazdka) nie wystarczy bo trzeba
+       PRZEBIĆ specificity `.index-info *` z !important.
+
+────────────────────────────────────────────────────────────────
+TRAP E — Wyszukiwarka przenosi do /offers zamiast na ENGINE
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Custom search widget na homepage submitował do /offers z query
+  params. Klient oczekuje przeniesienia BEZPOŚREDNIO na engine
+  (booking engine — engine{N}.idobooking.com) gdzie user finalizuje
+  rezerwację.
+
+OBJAW:
+  User klika "SPRAWDŹ" w wyszukiwarce → ląduje na /offers (listing),
+  zamiast na stronie booking engine z pre-wypełnionymi datami.
+
+FIX (JS MP_KONIEC_BODY.html):
+  Strategia 2-poziomowa:
+  1. Szukaj systemowego #iai_book_form (IdoBooking native search)
+     i submit go z naszymi wartościami. System zna poprawny engine URL.
+  2. Fallback: redirect do MP_CONFIG.engineFallback (engine57060.idobooking.com)
+
+  Konfiguracja w JS:
+    var MP_CONFIG = {
+      engineUrl: null,  // jeśli null → auto-detect
+      engineFallback: 'https://engine57060.idobooking.com/',
+      preferSystemForm: true
+    };
+
+  Jeśli engine URL dla MP jest inny — zmień `engineFallback` w JS.
+
+────────────────────────────────────────────────────────────────
+TRAP F — Kremowy pasek u góry hero image (header nad obrazem)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Header `position: fixed` z cream tłem rgba(250,246,237,0.96) stoi
+  na górze. Hero section startowała POD headerem (natural flow),
+  więc między headerem a hero była przerwa wypełniona cream bg.
+  Visual: "cream strip" pomiędzy header a obrazem hero.
+
+OBJAW:
+  Hero image nie startuje od top viewport — widać kremowy pasek
+  tam gdzie powinno być pełne zdjęcie gór. Klient: "zdjecie ma byc
+  widoczne ciagle".
+
+FIX (CSS L3 §0 TRAP F):
+  /* Pull hero under header */
+  body.page-index .section.parallax,
+  body.page-index .parallax-slider {
+    margin-top: calc(-1 * var(--ido-header-h)) !important;
+    min-height: 100vh !important;
+  }
+
+  /* Transparent header on homepage top */
+  body.page-index header.default13:not(.mp-header--scrolled) {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    box-shadow: none !important;
+  }
+
+  /* White menu + logo invert over image */
+  body.page-index header:not(.mp-header--scrolled) nav a { color: #fff; }
+  body.page-index header:not(.mp-header--scrolled) .logo img {
+    filter: brightness(0) invert(1);
+  }
+
+  (JS threshold dla .mp-header--scrolled liczony od hero bottom,
+   nie od fixed 80px — patrz initHeaderShrink)
+
+────────────────────────────────────────────────────────────────
+TRAP G — Hero image nie ma animacji (powolny zoom = Ken Burns)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Hero image było statyczne. Klient wymaga cinematic feel — slow zoom
+  na zdjęcie bohaterskie (Ken Burns effect).
+
+FIX (CSS L3 §0 TRAP G):
+  @keyframes mp-ken-burns {
+    0%   { transform: scale(1.00); }
+    100% { transform: scale(1.08); }
+  }
+
+  .parallax-slider img,
+  .section.parallax img:not(.logo-img):not([class*="icon"]) {
+    animation: mp-ken-burns 20s ease-in-out infinite alternate !important;
+    transform-origin: center center;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .parallax-slider img { animation: none !important; }
+  }
+
+  20 sekund scale 1.00 → 1.08, alternate (w tył i w przód).
+  Accessibility: wyłączone dla user z reduced-motion.
+
+────────────────────────────────────────────────────────────────
+TRAP H — Brzydki natywny date picker (Flatpickr replacement)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  `<input type="date">` używa natywnego pickera przeglądarki —
+  szary/niebieski, system UI, nie pasuje do premium design.
+  Każda przeglądarka render inaczej (Chrome vs Safari vs Firefox).
+
+OBJAW:
+  User klika w pole daty → otwiera się natywny calendar UI —
+  obcy dla reszty strony, wygląda tanio.
+
+FIX (3-częściowy):
+  1. HEAD: Flatpickr CDN
+     <link href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+     <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" defer></script>
+     <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/pl.js" defer></script>
+
+  2. JS: Flatpickr.init z polską lokalizacją:
+     flatpickr(checkIn, {
+       dateFormat: 'Y-m-d',
+       altFormat: 'd.m.Y',
+       altInput: true,
+       minDate: 'today',
+       locale: flatpickr.l10ns.pl,
+       disableMobile: true,
+       onChange: ... // auto-advance checkout min
+     });
+
+  3. CSS §H: Custom theme (gold/cream MP palette):
+     .flatpickr-calendar { background:#fff; border:1px solid mp-border; }
+     .flatpickr-day.selected { background: var(--ido-primary); color:#fff; }
+     .flatpickr-current-month { font-family: Cormorant Garamond; font-style: italic; }
+     ... (pełny theme w CSS §H)
+
+  Support: Flatpickr CDN = Chrome, Safari, Firefox, Edge, mobile.
+  Fallback: jeśli CDN failuje → natywny picker (opt 2 w TRAP C).
+
+────────────────────────────────────────────────────────────────
+TRAP I — Search widget za nisko (poza hero, w cream bg)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  .mp-search miało margin: -56px auto 0 (za mało). Widget renderował
+  się w sekcji PONIŻEJ hero, z lekkim podciągnięciem -56px — wciąż
+  był w cream bg, nie nakładał się na hero image.
+
+OBJAW:
+  Wyszukiwarka wisiała w cream przestrzeni pomiędzy hero a następną
+  sekcją, wyglądała jak "oddzielna sekcja" zamiast integrować z hero.
+
+FIX (CSS L3 §0 TRAP E):
+  .mp-search-wrapper {
+    position: relative !important;
+    width: 100vw !important;
+    left: 50% !important;
+    margin-left: -50vw !important;
+    margin-top: -88px !important;   /* większe wciągnięcie w hero */
+    margin-bottom: 60px !important;
+    z-index: 30 !important;
+    background: transparent !important;
+  }
+
+  @media (max-width: 900px) {
+    .mp-search-wrapper { margin-top: -40px !important; }
+  }
+
+────────────────────────────────────────────────────────────────
+TRAP D — /offers NIE MA edytora body_top (tylko CSS + HEAD globalnie)
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  Strona /offers w IdoBooking jest AUTO-GENEROWANA przez system
+  jako listing ofert. W panelu NIE MA pola "Początek BODY" ani
+  "Koniec BODY" per podstrona /offers.
+  Dostępne są TYLKO:
+    ✓ Globalny arkusz CSS (body.page-offers { ... })
+    ✓ Globalny HEAD (meta, Google Fonts)
+  Niedostępne:
+    ✗ body_top / body_bottom per-page dla /offers
+    ✗ Edycja HTML treści /offers w CMS
+
+OBJAW:
+  Próba wklejenia OBIEKTY_PL__body_top.html do panelu — brak miejsca.
+  Operator szuka edytora /offers → nie znajduje.
+
+FIX:
+  NIE TWÓRZ plików typu OBIEKTY_*__body_top.html dla /offers.
+  Cały styling przez globalny CSS w sekcji §16 (body.page-offers).
+  Jeśli klient chce tekst wstępny nad listą ofert — dodaj go do
+  tekstu kategorii w panelu OFERTY, NIE jako body_top.
+
+PODSTRONY KTÓRE OBSŁUGUJĄ body_top:
+  ✓ / (homepage)                  → GLOWNA_PL__body_top.html
+  ✓ /txt/{slug} (własne CMS)       → *_PL__body_top.html
+  ✓ /news (blog) — czasem          → opcjonalnie
+  ✓ /opinions                      → opcjonalnie
+
+PODSTRONY KTÓRE NIE OBSŁUGUJĄ body_top (tylko CSS + HEAD):
+  ✗ /offers                        → CSS §16
+  ✗ /offer/X (detail)              → CSS §17
+  ✗ /contact                       → CSS §18
+  ✗ /en/offers, /en/contact etc.   → CSS (z odpowiednim selektorem)
+
+────────────────────────────────────────────────────────────────
+TRAP C — Date picker nie otwiera się w wyszukiwarce
+────────────────────────────────────────────────────────────────
+ROOT CAUSE:
+  CSS na inputach miało:
+    .mp-search__input { -webkit-appearance: none; appearance: none; }
+
+  Dla type="text"/"select" to ok, ale dla type="date" KILLS native
+  date picker:
+    - Safari: usuwa picker calendar zupełnie
+    - Chrome: chowa calendar icon (user nie wie gdzie kliknąć)
+    - iOS: blokuje native date wheel
+  Plus: na kontenerze .mp-search__field jest cursor:pointer ale
+  click handler nie był delegowany do inputu.
+
+OBJAW:
+  - Klik w pole "Przyjazd" → nic się nie dzieje
+  - Brak ikony kalendarza
+  - Można wpisać datę z klawiatury ale nie wybrać myszką
+
+FIX 1 (CSS L3 §0):
+  .mp-search__input[type="date"],
+  .mp-search__input[type="time"],
+  .mp-search__input[type="datetime-local"] {
+    -webkit-appearance: auto !important;
+    appearance: auto !important;
+    cursor: pointer !important;
+  }
+
+FIX 2 (JS MP_KONIEC_BODY.html):
+  /* Click anywhere in field → opens picker */
+  fields.forEach(function(field) {
+    var input = field.querySelector('input, select');
+    field.addEventListener('click', function(e) {
+      if (e.target === input) return;
+      if (typeof input.showPicker === 'function') {
+        try { input.showPicker(); } catch(err) {}
+      } else {
+        input.focus();
+      }
+    });
+  });
+
+  /* Explicit showPicker on date input */
+  dateInputs.forEach(function(inp) {
+    inp.addEventListener('click', function() {
+      if (typeof inp.showPicker === 'function') {
+        try { inp.showPicker(); } catch(err) {}
+      }
+    });
+  });
+
+UWAGA: showPicker() = Chrome 99+, Safari 16+. Fallback: focus().
+
+════════════════════════════════════════════════════════════════
+  KONIEC TRAP LOG — kontynuacja standardowej instrukcji
+════════════════════════════════════════════════════════════════
 
 
-── KROK 6: WYRÓŻNIONE OFERTY ─────────────────────────────
-Panel → Oferty → Wyróżnij: Frajda pod Giewontem + Wilczy Spokój
-→ JS zbuduje karty automatycznie z .container-hotspot
+WAZNE: Wykonaj kroki DOKŁADNIE w tej kolejności!
+Po każdym kroku wykonaj Hard Refresh (Ctrl+Shift+R / Cmd+Shift+R)
+żeby zobaczyć zmiany.
 
 
-── KROK 7: SLIDER ─────────────────────────────────────────
-Panel → Wygląd → Slider
-→ 2-3 zdjęcia gór/apartamentów (1920x1080+)
-→ Tymczasowo: zdjęcia z Wikimedia Tatry
+────────────────────────────────────────────────────────────────
+KROK 1 — HEAD (Google Fonts, meta, JSON-LD)
+────────────────────────────────────────────────────────────────
+Plik: MP_HEAD.html
+
+Panel IdoBooking:
+  → Ustawienia
+  → Kody śledzące / Ustawienia zaawansowane
+  → Sekcja: HEAD (lub "Kod w sekcji <head>")
+
+1. Skopiuj CAŁĄ zawartość pliku MP_HEAD.html
+2. Wklej do pola HEAD (nadpisz istniejącą zawartość, jeśli jest)
+3. Zapisz zmiany
 
 
-── KROK 8: DANE FOOTER ────────────────────────────────────
-Panel → Wizytówka → Konfiguracja
-→ Uzupełnij: adres, telefon (535267585), email
+────────────────────────────────────────────────────────────────
+KROK 2 — CSS (główny arkusz stylów, 3427 linii)
+────────────────────────────────────────────────────────────────
+Plik: MP_CSS_EDYTOR.css
+
+Panel IdoBooking:
+  → Wygląd strony
+  → Edytor CSS / Arkusz stylów własny
+
+1. Skopiuj CAŁĄ zawartość pliku MP_CSS_EDYTOR.css
+2. Wklej do edytora CSS (nadpisz istniejącą zawartość)
+3. Zapisz — może to chwilę potrwać (duży plik)
+4. Hard Refresh
 
 
-══════════════════════════════════════════════════════════
-  PLIKI
-══════════════════════════════════════════════════════════
+────────────────────────────────────────────────────────────────
+KROK 3 — JavaScript (koniec BODY)
+────────────────────────────────────────────────────────────────
+Plik: MP_KONIEC_BODY.html
 
-  CSS_EDYTOR.css              Kompletny CSS (26 sekcji)
-  KONIEC_BODY.html            JS (14 modułów)
-  GLOWNA_PL__body_top.html    Homepage PL
-  WSPOLPRACA_PL__body_top.html /txt/201/
-  LOKALIZACJA_PL__body_top.html /txt/202/
-  INSTRUKCJA.txt              Ten plik
+Panel IdoBooking:
+  → Ustawienia
+  → Kody śledzące / Ustawienia zaawansowane
+  → Sekcja: "Koniec BODY" (lub "Kod przed zamknięciem </body>")
+
+1. Skopiuj CAŁĄ zawartość pliku MP_KONIEC_BODY.html
+   (UWAGA: plik ZAWIERA tagi <script>...</script> — wklej z tagami)
+2. Wklej do pola KONIEC BODY (nadpisz)
+3. Zapisz
 
 
-══════════════════════════════════════════════════════════
-  TODO PO WDROŻENIU
-══════════════════════════════════════════════════════════
+────────────────────────────────────────────────────────────────
+KROK 4 — Strona główna (HOMEPAGE)
+────────────────────────────────────────────────────────────────
+Plik: GLOWNA_PL__body_top.html
 
-  [ ] Klientka prześle zdjęcia (Google Drive)
-  [ ] Logo — weryfikacja jakości (AI-generated)
-  [ ] EN version
-  [ ] Blog — potrzebne treści
-  [ ] Dane kontaktowe w footerze
-  [ ] Domena (mountainprestige.com zajęta)
-  [ ] Oferty promocyjne (Wielkanoc, majówka)
+Panel IdoBooking:
+  → Strony
+  → Strona główna (/)
+  → Edytor treści → TRYB HTML (nie WYSIWYG!)
+  → Sekcja: "Początek BODY" lub "CMS content" (na górze)
+
+1. Skopiuj CAŁĄ zawartość pliku GLOWNA_PL__body_top.html
+2. Wklej do edytora HTML (nadpisz istniejącą zawartość)
+3. Zapisz
+4. Hard Refresh stronę główną
+
+WAŻNE: Upewnij się, że edytor jest w TRYBIE HTML
+       (ikona </> lub "Source" / "Kod źródłowy").
+       W trybie WYSIWYG HTML zostanie podwójnie zakodowane!
+
+
+────────────────────────────────────────────────────────────────
+KROK 5 — Podstrona "Obiekty" (/offers) — CSS ONLY!
+────────────────────────────────────────────────────────────────
+BRAK PLIKU do wklejania! Zobacz TRAP D wyżej.
+
+Strona /offers jest AUTO-GENEROWANA przez system (lista ofert).
+W panelu NIE MA edytora body_top dla /offers!
+
+Styling WYŁĄCZNIE przez globalny CSS:
+  - MP_CSS_EDYTOR.css §16 — body.page-offers { ... }
+  - Już wklejony w kroku 2 ✓
+
+Menu "Obiekty" w nawigacji linkuje do /offers — żadnego dodatkowego
+kroku. Premium karty, filtry, sticky search — wszystko z CSS.
+
+Jeśli klient chce tekst wstępny nad listą ofert:
+  Panel → Oferty → Kategorie → opis kategorii (pole tekstowe)
+  System wyświetli ten tekst na /offers (nie przez body_top!)
+
+
+────────────────────────────────────────────────────────────────
+KROK 6 — Podstrona "Lokalizacja"
+────────────────────────────────────────────────────────────────
+Plik: LOKALIZACJA_PL__body_top.html
+
+Panel IdoBooking:
+  → Strony → Dodaj nową stronę CMS
+  → URL: /txt/lokalizacja  (lub zbliżony)
+  → Tytuł: "Lokalizacja"
+  → Treść → TRYB HTML
+
+1. Wklej zawartość LOKALIZACJA_PL__body_top.html
+2. Zapisz, dodaj do menu (Menu → Lokalizacja → /txt/lokalizacja)
+
+
+────────────────────────────────────────────────────────────────
+KROK 7 — Podstrona "Współpraca"
+────────────────────────────────────────────────────────────────
+Plik: WSPOLPRACA_PL__body_top.html
+
+Panel IdoBooking:
+  → Strony → Dodaj nową stronę CMS
+  → URL: /txt/wspolpraca
+  → Tytuł: "Współpraca"
+  → Treść → TRYB HTML
+
+1. Wklej zawartość WSPOLPRACA_PL__body_top.html
+2. Zapisz, dodaj do menu (Menu → Współpraca → /txt/wspolpraca)
+
+
+────────────────────────────────────────────────────────────────
+KROK 8 — STRONA KONTAKT (AUTOMATYCZNE — TYLKO CSS)
+────────────────────────────────────────────────────────────────
+Panel IdoBooking:
+  → Strona /contact jest AUTOMATYCZNA (system-generated)
+  → NIE MA dostępu do body_top!
+  → CSS w MP_CSS_EDYTOR.css (§18) STYLIZUJE automatycznie
+
+Co styluje CSS:
+  - Nagłówek strony (Cormorant Garamond italic)
+  - Pola formularza (Inter, warm gold focus)
+  - Przyciski (złoty CTA)
+  - Linki tel: i mailto: (warm cards z hover)
+  - Mapa Leaflet (border-radius)
+
+Sprawdź wizualnie: /contact wyświetla premium look — bez body_top!
+
+
+────────────────────────────────────────────────────────────────
+KROK 9 — MENU GŁÓWNE
+────────────────────────────────────────────────────────────────
+Panel IdoBooking → Menu nawigacji:
+
+Struktura menu (PL):
+  1. Wyszukaj nocleg   → /offers
+  2. Obiekty           → /offers
+  3. Lokalizacja       → /txt/lokalizacja
+  4. Współpraca        → /txt/wspolpraca
+  5. Blog              → /news  (jeśli włączony w systemie)
+  6. Kontakt           → /contact
+
+Dodatkowo w nagłówku:
+  - Logo po lewej (upload w panelu Wygląd)
+  - Przycisk "Rezerwuj" → /offers
+  - Przełącznik PL/EN (po dodaniu wersji EN)
+
+
+────────────────────────────────────────────────────────────────
+KROK 10 — WYRÓŻNIONE OFERTY (panel)
+────────────────────────────────────────────────────────────────
+Panel IdoBooking:
+  → Oferta → Oferty (lista apartamentów)
+  → Edytuj KAŻDY apartament, który ma być wyróżniony
+  → Zaznacz checkbox: "Wyróżniona" / "Featured"
+  → Zapisz
+
+System automatycznie wygeneruje .container-hotspot na homepage.
+JavaScript (MP_KONIEC_BODY.html) przeczyta go i zbuduje
+nasze premium karty .mp-offer-card — automatycznie!
+
+Fallback: jeśli żadna oferta nie jest wyróżniona, wyświetlą się
+statyczne karty z HTML (Frajda, Wilczy Spokój).
+
+
+────────────────────────────────────────────────────────────────
+KROK 11 — ZDJĘCIA (TODO po stronie klienta)
+────────────────────────────────────────────────────────────────
+Obecne placeholdery używają zdjęć Wikimedia Commons (licencja CC).
+
+Do podmienienia (klientka ma przesłać link do Google Drive):
+  1. Logo (SVG w panelu)
+  2. Hero slider (min. 3 zdjęcia 1920px, Tatry/Kościelisko/apartamenty)
+  3. Zdjęcia apartamentów (w panelu ofert)
+  4. Zdjęcie w sekcji "O nas" (Tatry, klimat)
+  5. Zdjęcia Dolina Kościeliska + Giewont (Lokalizacja)
+
+Po otrzymaniu zdjęć — zamień URL w:
+  - MP_HEAD.html (og:image)
+  - GLOWNA_PL__body_top.html (szukaj "upload.wikimedia.org")
+  - LOKALIZACJA_PL__body_top.html (szukaj "upload.wikimedia.org")
+
+
+────────────────────────────────────────────────────────────────
+CHECKLIST POST-DEPLOY (WERYFIKACJA)
+────────────────────────────────────────────────────────────────
+
+[ ] /  (homepage) — hero + search + wszystkie sekcje wyświetlają się
+[ ] /offers — lista ofert z premium kartami
+[ ] /offer/X — strona szczegółów apartamentu (CSS z MP)
+[ ] /contact — formularz + dane kontaktowe (CSS only)
+[ ] /txt/lokalizacja — Kościelisko + Skibówki + atrakcje
+[ ] /txt/wspolpraca — dla właścicieli, 6 benefits + proces
+[ ] Header — shrink on scroll (95px → 66px)
+[ ] Wyszukiwarka — daty, lokalizacja, goście, submit → /offers
+[ ] Wyróżnione oferty — auto z panelu (zaznacz checkbox)
+[ ] Telefon w CTA — ciągnie z footer (automatycznie)
+[ ] Animacje — fade-in on scroll na każdej sekcji
+[ ] Counter animation — stats pokazują 0 → liczba
+[ ] Mobile — wszystko czytelne, search stack vertically
+[ ] Font rendering — Cormorant Garamond (hero) + Inter (body)
+[ ] Kolory — zero orange #AD5009, brand gold #C19B76
+[ ] Body font — 16px (nie 22.4px!)
+[ ] Footer — ciemny, gold akcenty, payment strip bez bocznych pasków
+
+
+────────────────────────────────────────────────────────────────
+SYSTEM TRAPS (FYI — wszystkie obsłużone w CSS §1-22)
+────────────────────────────────────────────────────────────────
+
+✓ body font-size 22.4px → 16px
+✓ System orange #AD5009 → brand gold #C19B76
+✓ Header position:fixed (nie sticky!)
+✓ .parallax-slider dark overlay → gentle gradient
+✓ .index-info z-index trap → pointer-events:none
+✓ System z-index:-1 na inputach → z-index:2
+✓ Litepicker width:944px → fit-content
+✓ .iai-search hidden na /offers (system ma własny filtr)
+✓ FA icons hidden, CSS chevrons
+✓ span.btn /offers line-height:49px → auto 1.4
+✓ .tabs.--fixed class (nie .sticky)
+✓ .footer-contact-baner full-width breakout
+✓ .container-hotspot hidden → rebuild JS
+✓ System h2/h3/.price rozmiary → clamp overrides
+✓ Leaflet map overflow → .leaflet-container only
+✓ CMS body_top stripuje <script> → JS w KONIEC_BODY (nie body_top)
+✓ #bounce, #backTop, .ck_dsclr → hardcoded hex
+
+
+────────────────────────────────────────────────────────────────
+FAZA 2 (POTEM) — WERSJA ANGIELSKA
+────────────────────────────────────────────────────────────────
+Po zatwierdzeniu PL, wygenerujemy:
+  - GLOWNA_EN__body_top.html
+  - LOKALIZACJA_EN__body_top.html
+  - WSPOLPRACA_EN__body_top.html
+  - OBIEKTY_EN__body_top.html
+
+CSS i JS są UNIWERSALNE — działają dla obu wersji.
+
+
+────────────────────────────────────────────────────────────────
+KONTAKT
+────────────────────────────────────────────────────────────────
+Klient: Maria Makuch
+Tel: +48 535 267 585
+Email: mtnprestigepodhale@gmail.com
+
+Strona live: client57060.idobooking.com (engine) lub finalna domena
+(mountainprestige.com zajęta — klientka szuka)
+
+
+════════════════════════════════════════════════════════════════
+                    POWODZENIA Z DEPLOY!
+════════════════════════════════════════════════════════════════

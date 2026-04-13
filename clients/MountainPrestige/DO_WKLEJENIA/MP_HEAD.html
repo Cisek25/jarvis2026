@@ -1,0 +1,119 @@
+<!-- ═══════════════════════════════════════════════════════════════
+     MOUNTAIN PRESTIGE — HEAD Content
+     Paste into: Panel IdoBooking → Ustawienia → Kody śledzące → HEAD
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- Viewport & Charset (guards — system should set these but double-check) -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<!-- Primary Meta -->
+<meta name="description" content="Mountain Prestige — wynajem apartamentów premium w Tatrach. Kościelisko, Zakopane, Skibówki. Sauna, WiFi, parking. Komfort, estetyka, spokój w sercu gór.">
+<meta name="keywords" content="apartamenty Tatry, wynajem Kościelisko, apartamenty premium Zakopane, sauna apartamenty, Wilczy Spokój, Frajda pod Giewontem, Mountain Prestige">
+<meta name="author" content="Mountain Prestige">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#C19B76">
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mountain Prestige — Apartamenty premium w Tatrach">
+<meta property="og:description" content="Starannie wyselekcjonowane apartamenty w górach. Wysoki standard, atrakcyjne lokalizacje, kompleksowa obsługa.">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="Mountain Prestige">
+<!-- <meta property="og:image" content="https://..."> TODO: wypełnić po publikacji -->
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mountain Prestige — Apartamenty premium w Tatrach">
+<meta name="twitter:description" content="Komfort, estetyka, spokój w sercu gór.">
+
+<!-- Google Fonts — Cormorant Garamond (headings) + Inter (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Flatpickr — premium date picker (replaces native ugly calendar)
+     CDN via jsDelivr. Styled by MP_CSS_EDYTOR.css §H (gold/cream theme). -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/pl.js" defer></script>
+
+<!-- Preload hero image (replace URL after publikacji) -->
+<!-- <link rel="preload" as="image" href="https://..."> -->
+
+<!-- JSON-LD: Organization + 2 Apartments -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LodgingBusiness",
+      "@id": "#mountainprestige",
+      "name": "Mountain Prestige",
+      "description": "Wynajem apartamentów premium w Tatrach. Starannie wyselekcjonowane apartamenty, atrakcyjne lokalizacje, kompleksowa obsługa pobytu.",
+      "url": "",
+      "telephone": "+48535267585",
+      "email": "mtnprestigepodhale@gmail.com",
+      "priceRange": "$$$",
+      "image": "",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "PL",
+        "addressRegion": "Małopolskie",
+        "addressLocality": "Kościelisko"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "49.2836",
+        "longitude": "19.8803"
+      },
+      "amenityFeature": [
+        {"@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Sauna", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Widok na góry", "value": true}
+      ],
+      "sameAs": []
+    },
+    {
+      "@type": "Accommodation",
+      "@id": "#frajda",
+      "name": "Frajda pod Giewontem",
+      "description": "Apartament premium w Skibówkach z widokiem na Giewont. 7 osób.",
+      "numberOfRooms": "3",
+      "occupancy": {"@type": "QuantitativeValue", "maxValue": 7},
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Skibówki 9d/6",
+        "addressLocality": "Zakopane",
+        "addressCountry": "PL"
+      },
+      "amenityFeature": [
+        {"@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Widok na góry", "value": true}
+      ]
+    },
+    {
+      "@type": "Accommodation",
+      "@id": "#wilczy",
+      "name": "Wilczy Spokój by Mountain Prestige",
+      "description": "Apartament premium z sauną w Kościelisku. 6 osób. Idealny do wypoczynku i pracy zdalnej.",
+      "numberOfRooms": "2",
+      "occupancy": {"@type": "QuantitativeValue", "maxValue": 6},
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Nędzy Kubińca 245/3",
+        "postalCode": "34-511",
+        "addressLocality": "Kościelisko",
+        "addressCountry": "PL"
+      },
+      "amenityFeature": [
+        {"@type": "LocationFeatureSpecification", "name": "Sauna", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Wi-Fi", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true}
+      ]
+    }
+  ]
+}
+</script>

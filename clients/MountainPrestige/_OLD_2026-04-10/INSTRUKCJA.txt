@@ -1,0 +1,91 @@
+══════════════════════════════════════════════════════════
+  MOUNTAIN PRESTIGE — "Górski Ciepły"
+  INSTRUKCJA WDROŻENIA
+══════════════════════════════════════════════════════════
+
+PALETA: #FAF6EF / #A67C52 (copper gold) / #C8A97D / #2A2118
+FONTY:  Cormorant Garamond + DM Sans (Google Fonts @import)
+PREFIX: mp-
+ENGINE: client57060.idobooking.com
+
+
+── KROK 1: CSS ────────────────────────────────────────────
+Panel → Wygląd → Arkusz stylów CSS
+→ Wklej: CSS_EDYTOR.css
+→ Zapisz
+
+
+── KROK 2: STRONA GŁÓWNA ─────────────────────────────────
+Panel → Wygląd → Strona główna → Edytor treści → HTML
+→ Wklej: GLOWNA_PL__body_top.html
+→ Zapisz
+
+
+── KROK 3: GLOBAL JS ──────────────────────────────────────
+Panel → Ustawienia → Kody śledzące → Koniec sekcji BODY
+→ Wklej: KONIEC_BODY.html
+→ Zapisz
+
+⚠️  BODY BOTTOM, nie body_top! CMS stripuje <script>.
+
+
+── KROK 4: PODSTRONY ──────────────────────────────────────
+Panel → Treści → Strony tekstowe → Nowa
+
+  /txt/201/ → "Współpraca"  → WSPOLPRACA_PL__body_top.html
+  /txt/202/ → "Lokalizacja" → LOKALIZACJA_PL__body_top.html
+
+⚠️  /kontakt/ → NIE MA pliku HTML — CSS-only!
+
+
+── KROK 5: MENU ───────────────────────────────────────────
+Panel → Wygląd → Menu
+
+  1. Oferta        → /offers
+  2. Lokalizacja   → /txt/202/
+  3. Współpraca    → /txt/201/
+  4. Kontakt       → /contact
+
+⚠️  REZERWUJ button dodawany automatycznie przez JS.
+⚠️  Blog — do dodania później (wymaga treści).
+
+
+── KROK 6: WYRÓŻNIONE OFERTY ─────────────────────────────
+Panel → Oferty → Wyróżnij: Frajda pod Giewontem + Wilczy Spokój
+→ JS zbuduje karty automatycznie z .container-hotspot
+
+
+── KROK 7: SLIDER ─────────────────────────────────────────
+Panel → Wygląd → Slider
+→ 2-3 zdjęcia gór/apartamentów (1920x1080+)
+→ Tymczasowo: zdjęcia z Wikimedia Tatry
+
+
+── KROK 8: DANE FOOTER ────────────────────────────────────
+Panel → Wizytówka → Konfiguracja
+→ Uzupełnij: adres, telefon (535267585), email
+
+
+══════════════════════════════════════════════════════════
+  PLIKI
+══════════════════════════════════════════════════════════
+
+  CSS_EDYTOR.css              Kompletny CSS (26 sekcji)
+  KONIEC_BODY.html            JS (14 modułów)
+  GLOWNA_PL__body_top.html    Homepage PL
+  WSPOLPRACA_PL__body_top.html /txt/201/
+  LOKALIZACJA_PL__body_top.html /txt/202/
+  INSTRUKCJA.txt              Ten plik
+
+
+══════════════════════════════════════════════════════════
+  TODO PO WDROŻENIU
+══════════════════════════════════════════════════════════
+
+  [ ] Klientka prześle zdjęcia (Google Drive)
+  [ ] Logo — weryfikacja jakości (AI-generated)
+  [ ] EN version
+  [ ] Blog — potrzebne treści
+  [ ] Dane kontaktowe w footerze
+  [ ] Domena (mountainprestige.com zajęta)
+  [ ] Oferty promocyjne (Wielkanoc, majówka)

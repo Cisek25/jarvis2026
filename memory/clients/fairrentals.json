@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.9",
+  "version": "v1.10",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -158,6 +158,9 @@
     { "date": "2026-05-07", "action": "v1.9 BUILD: (a) §78 CSS hide ALL system widget elements (display:none + position:absolute left:-9999 + height/width 0 + overflow hidden + opacity 0 + 11 properties total per selector), (b) restore .fr-search-banner visibility (cofnij v1.3 cleanup), (c) hero padding-bottom: 0 (cofnij v1.8), (d) HTML GLOWNA_PL/EN restore <section class='fr-search-banner' id='fr-search'> z .fr-cmd-bar custom form (Przyjazd/Wyjazd/Goście select 1-6 + button Szukaj, action engine58360.idobooking.com/widget/index.php), (e) hero CTA href #fr-search anchor, (f) JS forceShowSystemSearch early-return (disable v1.7-v1.8 logic, dead code w _forceShowSystemSearch_disabled_v1_7)" },
     { "date": "2026-05-07", "action": "v1.9 walidacja: SEO 8/8 PASS, UX 27 critical (false positives jak v1.6-v1.8). CSS 248→250 KB, GLOWNA 18→20 KB (po dodaniu sekcji search), JS 37 KB" },
     { "date": "2026-05-07", "action": "v1.9 LESSON: nie walcz z system widget IdoBooking default13. 5 iteracji v1.3-v1.8 walki ze systemową .iai-search (CSS specificity, JS inline style, DOM order) bez sukcesu z perspektywy klienta. JARVIS standard od SA v1.0 do v1.7.6: HIDE system + REPLACE custom. To wzorzec dla WSZYSTKICH klientów IdoBooking. Do zapisania: lessons/idobooking-system-search-fight-vs-replace.md" },
-    { "date": "2026-05-07", "action": "v1.9 dostawa: RELEASE_NOTES_v1.9.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN) + 1 niezmieniony (FR_KONIEC_BODY ma forceShowSystemSearch early-return ale nie szkodzi)" }
+    { "date": "2026-05-07", "action": "v1.9 dostawa: RELEASE_NOTES_v1.9.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN) + 1 niezmieniony (FR_KONIEC_BODY ma forceShowSystemSearch early-return ale nie szkodzi)" },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.9: 'za nisko ta wyszukiwarka' — hero 100vh + search sister sekcja = search poza viewport, wymaga skrolu" },
+    { "date": "2026-05-07", "action": "v1.10 BUILD §79: hero asym min-height 100vh→72vh, .fr-hero-asym__media 72vh, .fr-search-banner margin-top -110px (overlap z dolną częścią hero), z-index 5, border-radius lg na top corners (premium hospitality overlap look). Padding-top zmniejszony do clamp(40-56). Mobile @768 fallback: min-height auto + margin-top 0 (natural flow). CSS 250→251 KB." },
+    { "date": "2026-05-07", "action": "v1.10 walidacja: SEO 8/8 PASS, UX 27 critical (false positives). 1 plik delivery (CSS only)." }
   ]
 }

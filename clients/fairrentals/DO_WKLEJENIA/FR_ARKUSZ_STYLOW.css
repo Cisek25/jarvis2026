@@ -8504,4 +8504,45 @@ html body .fr-hero-asym {
 }
 
 /* PATCH MARKER — v1.9 */
+
+/* ============================================================
+   §79. v1.10 — search bar w viewport: skróć hero + overlap
+        Damian: "za nisko ta wyszukiwarka". Hero 100vh + search
+        sister sekcja = search poza viewport. Fix: hero 72vh +
+        search margin-top:-100px (overlap z dolną częścią hero).
+   ============================================================ */
+
+html body .fr-hero-asym {
+  min-height: 72vh !important;
+}
+
+html body .fr-hero-asym__media {
+  min-height: 72vh !important;
+}
+
+html body .fr-search-banner {
+  margin-top: -110px !important;
+  position: relative !important;
+  z-index: 5 !important;
+  padding-top: clamp(40px, 5vw, 56px) !important;
+  padding-bottom: clamp(48px, 6vw, 72px) !important;
+  border-radius: var(--fr-radius-lg) var(--fr-radius-lg) 0 0 !important;
+}
+
+/* Mobile — bez overlap (search natural flow pod hero) */
+@media (max-width: 768px) {
+  html body .fr-hero-asym {
+    min-height: auto !important;
+  }
+  html body .fr-hero-asym__media {
+    min-height: auto !important;
+  }
+  html body .fr-search-banner {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+    padding-top: clamp(32px, 6vw, 48px) !important;
+  }
+}
+
+/* PATCH MARKER — v1.10 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

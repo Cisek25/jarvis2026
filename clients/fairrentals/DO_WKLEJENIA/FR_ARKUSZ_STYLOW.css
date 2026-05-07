@@ -9030,4 +9030,290 @@ html body footer .footer-contact-baner > span:first-child {
 }
 
 /* PATCH MARKER — v1.12 */
+
+/* ============================================================
+   §82. v1.13 — STOPKA REBUILD CLEAN (block flow, no grid)
+        v1.12 BUG: system ma 2 zagnieżdżone <div.footer.container>.
+        Mój grid aplikował się do obu → ::before/::after wpadały
+        do cells zamiast top/bottom flow. Layout chaos.
+        Fix: block flow na .footer.container (outer + inner),
+        grid TYLKO na .footer__contact ul (3-col adres/tel/mail).
+   ============================================================ */
+
+/* Outer .footer.container (i inner, ta sama klasa) — pure block flow */
+html body footer .footer.container,
+html body footer > .footer.container,
+html body footer .footer.container .footer.container {
+  display: block !important;
+  background: transparent !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Outer container — only one to have padding */
+html body footer > .footer.container {
+  background: #0A0A09 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: clamp(72px, 9vw, 120px) clamp(24px, 4vw, 48px) clamp(40px, 5vw, 64px) !important;
+  position: relative !important;
+}
+
+/* Inner container — natural width with horizontal padding */
+html body footer .footer.container .footer.container {
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  background: transparent !important;
+}
+
+/* Brand pseudo — top of outer */
+html body footer > .footer.container::before {
+  content: "Fair Rentals" !important;
+  display: block !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(48px, 7.5vw, 96px) !important;
+  font-style: italic !important;
+  color: #FFFFFF !important;
+  text-align: center !important;
+  letter-spacing: -0.025em !important;
+  line-height: 0.95 !important;
+  margin: 0 auto clamp(8px, 1.2vw, 16px) !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  width: auto !important;
+  height: auto !important;
+  position: relative !important;
+  inset: auto !important;
+}
+
+/* Tagline pseudo — OUTER ::after (bottom block flow) */
+html body footer > .footer.container::after {
+  content: none !important;
+}
+
+/* Inner container ::before/::after — WYŁĄCZ żeby nie duplikować pseudo elements */
+html body footer .footer.container .footer.container::before,
+html body footer .footer.container .footer.container::after {
+  content: none !important;
+}
+
+/* Tagline — block flow PO brand, PRZED inner */
+/* Use a positioned ::before on .footer__wrapper instead */
+html body footer .footer__wrapper {
+  width: 100% !important;
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+
+html body footer .footer__wrapper::before {
+  content: "Rodzinny operator wynajmu · Wrocław · est. 2020" !important;
+  display: block !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 3.5px !important;
+  text-transform: uppercase !important;
+  color: var(--fr-primary) !important;
+  text-align: center !important;
+  margin: 0 auto clamp(48px, 6vw, 72px) !important;
+  font-weight: 600 !important;
+  width: 100% !important;
+}
+
+/* Row — flex centered column */
+html body footer .row,
+html body footer .footer .row,
+html body footer .footer__wrapper .row {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Footer__contact ul — 3-col grid (adres, tel, mail) + terms full row */
+html body footer ul.footer__contact,
+html body footer .row > ul.footer__contact {
+  list-style: none !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: clamp(24px, 3.5vw, 48px) !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  text-align: center !important;
+  align-items: start !important;
+  justify-items: center !important;
+}
+
+/* List items */
+html body footer ul.footer__contact > li {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-align: center !important;
+  list-style: none !important;
+  width: 100% !important;
+}
+
+html body footer ul.footer__contact > li::before,
+html body footer ul.footer__contact > li::after {
+  content: none !important;
+  display: none !important;
+}
+
+html body footer ul.footer__contact a {
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  border: none !important;
+}
+
+/* Address — serif italic */
+html body footer ul.footer__contact > li.footer-contact-adress {
+  font-family: var(--fr-font-display) !important;
+  font-size: 17px !important;
+  font-style: italic !important;
+  line-height: 1.4 !important;
+  color: #FFFFFF !important;
+}
+
+/* Phone + email — yellow display */
+html body footer ul.footer__contact > li.footer-contact-phone a,
+html body footer ul.footer__contact > li.footer-contact-mail a {
+  color: var(--fr-primary) !important;
+  font-weight: 400 !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: 19px !important;
+  letter-spacing: 0 !important;
+  font-style: italic !important;
+}
+
+html body footer ul.footer__contact > li.footer-contact-phone a:hover,
+html body footer ul.footer__contact > li.footer-contact-mail a:hover {
+  color: #FFFFFF !important;
+}
+
+/* Terms — full row pod 3-col */
+html body footer ul.footer__contact > li.footer-contact-terms {
+  grid-column: 1 / -1 !important;
+  margin-top: clamp(24px, 3vw, 40px) !important;
+  padding-top: clamp(20px, 2.5vw, 32px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: clamp(20px, 3vw, 40px) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+}
+
+html body footer ul.footer__contact > li.footer-contact-terms a {
+  font-size: 11px !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600 !important;
+  font-family: var(--fr-font-body) !important;
+  font-style: normal !important;
+}
+
+html body footer ul.footer__contact > li.footer-contact-terms a:hover {
+  color: var(--fr-primary) !important;
+}
+
+/* Hide unused .footer__social, .footer-contact-add, scripts */
+html body footer .footer__social,
+html body footer .footer__social_media,
+html body footer .footer-contact-add,
+html body footer .powered_by {
+  display: none !important;
+}
+
+/* BANER — copyright + payments split flex */
+html body footer > .footer.container > .footer-contact-baner,
+html body footer .footer-contact-baner {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  margin: clamp(40px, 5vw, 64px) calc(-1 * clamp(24px, 4vw, 48px)) 0 !important;
+  padding: 20px clamp(24px, 4vw, 48px) !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  flex-wrap: wrap !important;
+  position: relative !important;
+}
+
+html body footer .footer-contact-baner::before {
+  content: "© Fair Rentals Sp. z o.o. · Wszelkie prawa zastrzeżone" !important;
+  display: inline-block !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 10px !important;
+  letter-spacing: 1.6px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+  width: auto !important;
+  height: auto !important;
+  position: relative !important;
+  inset: auto !important;
+}
+
+html body footer .footer-contact-baner::after {
+  content: none !important;
+}
+
+html body footer .footer-contact-baner img,
+html body footer .footer-contact-baner svg {
+  display: inline-block !important;
+  margin: 0 4px !important;
+  max-height: 18px !important;
+  width: auto !important;
+  filter: brightness(1.6) saturate(0.3) opacity(0.55) !important;
+}
+
+html body footer .footer-contact-baner img.powered_by_logo,
+html body footer .footer-contact-baner > span:first-child {
+  display: none !important;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  html body footer ul.footer__contact {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  html body footer .footer-contact-baner {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  html body footer > .footer.container::before {
+    font-size: clamp(40px, 12vw, 72px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html body footer .footer__wrapper::before {
+    font-size: 10px !important;
+    letter-spacing: 2.5px !important;
+  }
+}
+
+/* PATCH MARKER — v1.13 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

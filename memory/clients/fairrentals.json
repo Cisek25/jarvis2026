@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.10",
+  "version": "v1.11",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -161,6 +161,10 @@
     { "date": "2026-05-07", "action": "v1.9 dostawa: RELEASE_NOTES_v1.9.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN) + 1 niezmieniony (FR_KONIEC_BODY ma forceShowSystemSearch early-return ale nie szkodzi)" },
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.9: 'za nisko ta wyszukiwarka' — hero 100vh + search sister sekcja = search poza viewport, wymaga skrolu" },
     { "date": "2026-05-07", "action": "v1.10 BUILD §79: hero asym min-height 100vh→72vh, .fr-hero-asym__media 72vh, .fr-search-banner margin-top -110px (overlap z dolną częścią hero), z-index 5, border-radius lg na top corners (premium hospitality overlap look). Padding-top zmniejszony do clamp(40-56). Mobile @768 fallback: min-height auto + margin-top 0 (natural flow). CSS 250→251 KB." },
-    { "date": "2026-05-07", "action": "v1.10 walidacja: SEO 8/8 PASS, UX 27 critical (false positives). 1 plik delivery (CSS only)." }
+    { "date": "2026-05-07", "action": "v1.10 walidacja: SEO 8/8 PASS, UX 27 critical (false positives). 1 plik delivery (CSS only)." },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.10: 'lepiej, ale search bar ma być tak zrobiony i cała strona główna tak dostosowana, że wchodzimy i z każdego urządzenia od razu na porcie widzimy wyszukiwarkę bez względu na wielkość ekranu, musi być responsywne'" },
+    { "date": "2026-05-07", "action": "v1.11 BUILD: (a) HTML GLOWNA_PL/EN — przesunięto <section class='fr-search-banner'> WEWNĄTRZ <div class='fr-hero-wrap'> (po </section> hero-asym, przed </div> hero-wrap). Search siostrą hero-asym wewnątrz wspólnego parent. (b) CSS §80 — hero-wrap position relative + min-height 100vh/100svh, hero-asym padding-bottom clamp(220-360px) responsive. (c) .fr-search-banner absolute bottom clamp(16-40), left/right clamp(12-48), max-width 1180, z-index 10, dark bg + heavy shadow. (d) Search inner grid 2-col (intro | bar) desktop, 1-col tablet @991, form 4-col desktop, 2-col mobile @600 button span 2, 1-col iPhone SE @380. (e) Compact dimensions: input 42px height (z 48), font 13px, button 42×140px, kicker 9px label." },
+    { "date": "2026-05-07", "action": "v1.11 walidacja: SEO 8/8 PASS, UX 29 critical (false positives + extra dark .fr-search-banner z białym tekstem na ciemnym tle). CSS 251→257 KB / 290 limit. GLOWNA 20→20 KB (tylko struktura zmiana)." },
+    { "date": "2026-05-07", "action": "v1.11 dostawa: 3 zmienione pliki (CSS + GLOWNA_PL + GLOWNA_EN). Search bar visible w viewport (above fold) na: desktop 1920×1080 (kompaktowy 2-col intro+bar grid), laptop 1440×900, tablet portrait 820×1180 (intro nad bar 1-col), mobile 390×844 (form 2-col + button span 2), iPhone SE 320×568 (form 1-col, padding-bottom hero 380-480px)" }
   ]
 }

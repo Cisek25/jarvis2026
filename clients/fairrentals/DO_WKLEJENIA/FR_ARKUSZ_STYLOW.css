@@ -8545,4 +8545,220 @@ html body .fr-search-banner {
 }
 
 /* PATCH MARKER — v1.10 */
+
+/* ============================================================
+   §80. v1.11 — search ABSOLUTE wewnątrz hero-wrap, visible na
+        KAŻDYM urządzeniu (desktop/tablet/mobile/iPhone SE).
+        Damian: "z każdego urządzenia od razu na porcie widzimy
+        wyszukiwarkę, musi być responsywne".
+   ============================================================ */
+
+html body .fr-hero-wrap {
+  position: relative !important;
+  min-height: 100vh !important;
+  min-height: 100svh !important; /* small viewport (mobile bez UI) */
+}
+
+html body .fr-hero-asym {
+  min-height: 100vh !important;
+  min-height: 100svh !important;
+  padding-bottom: clamp(220px, 28vh, 360px) !important;
+}
+
+html body .fr-hero-asym__media {
+  min-height: 100vh !important;
+  min-height: 100svh !important;
+}
+
+html body .fr-hero-wrap > .fr-search-banner,
+html body div.fr-hero-wrap > section.fr-search-banner {
+  position: absolute !important;
+  bottom: clamp(16px, 3vh, 40px) !important;
+  left: clamp(12px, 3vw, 48px) !important;
+  right: clamp(12px, 3vw, 48px) !important;
+  top: auto !important;
+  margin: 0 auto !important;
+  max-width: 1180px !important;
+  width: calc(100% - clamp(24px, 6vw, 96px)) !important;
+  z-index: 10 !important;
+  padding: clamp(16px, 2.4vw, 28px) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  background: var(--fr-text-dark) !important;
+  box-shadow: 0 24px 60px rgba(15, 15, 14, 0.45), 0 6px 16px rgba(15, 15, 14, 0.3) !important;
+}
+
+/* Cofa v1.10 overlap — w v1.11 search jest wewnątrz hero z absolute */
+html body .fr-search-banner {
+  margin-top: 0 !important;
+}
+
+/* Search inner layout — compact dla viewport */
+html body .fr-hero-wrap .fr-search-banner__inner {
+  display: grid !important;
+  grid-template-columns: minmax(180px, 1fr) minmax(420px, 1.6fr) !important;
+  gap: clamp(16px, 2vw, 32px) !important;
+  align-items: center !important;
+}
+
+html body .fr-hero-wrap .fr-search-banner__intro {
+  color: #FFFFFF !important;
+}
+
+html body .fr-hero-wrap .fr-search-banner__kicker {
+  font-size: 10px !important;
+  margin-bottom: 6px !important;
+  color: var(--fr-primary) !important;
+}
+
+html body .fr-hero-wrap .fr-search-banner__title {
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(15px, 1.6vw, 20px) !important;
+  line-height: 1.2 !important;
+  color: #FFFFFF !important;
+  margin: 0 !important;
+}
+
+html body .fr-hero-wrap .fr-search-banner__title em {
+  display: inline !important;
+  color: var(--fr-primary) !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar {
+  background: #FFFFFF !important;
+  border-radius: var(--fr-radius-md) !important;
+  padding: clamp(10px, 1.4vw, 16px) !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__head {
+  display: none !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__form {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 0.8fr 1.05fr !important;
+  gap: clamp(6px, 0.8vw, 10px) !important;
+  align-items: end !important;
+  margin: 0 !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__field {
+  margin: 0 !important;
+  min-width: 0 !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__label {
+  font-size: 9px !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  color: var(--fr-text-muted) !important;
+  margin-bottom: 4px !important;
+  font-weight: 600 !important;
+  display: block !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__input,
+html body .fr-hero-wrap .fr-cmd-bar__select {
+  height: 42px !important;
+  padding: 0 10px !important;
+  font-size: 13px !important;
+  font-family: var(--fr-font-body) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: var(--fr-radius-sm) !important;
+  background: var(--fr-cream) !important;
+  color: var(--fr-text-dark) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__submit {
+  height: 42px !important;
+  padding: 0 14px !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-text-dark) !important;
+  border: none !important;
+  border-radius: var(--fr-radius-sm) !important;
+  font-size: 11px !important;
+  letter-spacing: 1.2px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  white-space: nowrap !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__submit:hover {
+  background: var(--fr-primary-hover) !important;
+}
+
+html body .fr-hero-wrap .fr-cmd-bar__submit svg {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+/* TABLET 991px — intro nad search bar (1 col) */
+@media (max-width: 991.98px) {
+  html body .fr-hero-wrap .fr-search-banner__inner {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  html body .fr-hero-asym {
+    padding-bottom: clamp(280px, 36vh, 420px) !important;
+  }
+}
+
+/* MOBILE 600px — form 2-col, button span 2 */
+@media (max-width: 600px) {
+  html body .fr-hero-wrap > .fr-search-banner,
+  html body div.fr-hero-wrap > section.fr-search-banner {
+    bottom: clamp(12px, 2vh, 24px) !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: calc(100% - 16px) !important;
+    padding: 12px !important;
+  }
+  html body .fr-hero-wrap .fr-search-banner__title {
+    font-size: 14px !important;
+  }
+  html body .fr-hero-wrap .fr-cmd-bar {
+    padding: 10px !important;
+  }
+  html body .fr-hero-wrap .fr-cmd-bar__form {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+  }
+  html body .fr-hero-wrap .fr-cmd-bar__submit {
+    grid-column: span 2 !important;
+  }
+  html body .fr-hero-asym {
+    padding-bottom: clamp(320px, 42vh, 420px) !important;
+  }
+}
+
+/* iPhone SE (320×568) — last resort: form 1 col, search compact */
+@media (max-width: 380px) {
+  html body .fr-hero-wrap .fr-cmd-bar__form {
+    grid-template-columns: 1fr !important;
+  }
+  html body .fr-hero-wrap .fr-cmd-bar__submit {
+    grid-column: span 1 !important;
+  }
+  html body .fr-hero-wrap .fr-cmd-bar__input,
+  html body .fr-hero-wrap .fr-cmd-bar__select,
+  html body .fr-hero-wrap .fr-cmd-bar__submit {
+    height: 38px !important;
+  }
+  html body .fr-hero-asym {
+    padding-bottom: clamp(380px, 50vh, 480px) !important;
+  }
+}
+
+/* PATCH MARKER — v1.11 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

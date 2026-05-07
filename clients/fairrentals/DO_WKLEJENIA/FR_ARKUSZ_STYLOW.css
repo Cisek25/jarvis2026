@@ -8761,4 +8761,273 @@ html body .fr-hero-wrap .fr-cmd-bar__submit svg {
 }
 
 /* PATCH MARKER — v1.11 */
+
+/* ============================================================
+   §81. v1.12 — STOPKA REBUILD: editorial magazine masthead
+        Damian: "całkiem inna stopka, na bazie danych z panelu".
+        + fix duplicated labels (TELEFON / TELEFON · numer)
+   ============================================================ */
+
+/* RESET previous footer rules from v1.2/v1.4/v1.9 — wholesale override */
+html body footer:not(.fr-disable-light-footer),
+html body footer .footer.container,
+html body footer > .footer.container {
+  background: #0A0A09 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-top: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Yellow gradient separator on top */
+html body footer::before {
+  content: '' !important;
+  display: block !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent 0%, var(--fr-primary) 30%, var(--fr-primary) 70%, transparent 100%) !important;
+  width: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1 !important;
+}
+
+html body footer .footer.container {
+  padding: clamp(72px, 9vw, 120px) clamp(24px, 4vw, 48px) clamp(40px, 5vw, 64px) !important;
+  background: transparent !important;
+}
+
+/* MASTHEAD — brand "Fair Rentals" big centered + tagline */
+html body footer .footer.container::before {
+  content: "Fair Rentals" !important;
+  display: block !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(56px, 8.5vw, 112px) !important;
+  font-style: italic !important;
+  color: #FFFFFF !important;
+  text-align: center !important;
+  letter-spacing: -0.025em !important;
+  line-height: 0.95 !important;
+  margin: 0 auto clamp(8px, 1.2vw, 16px) !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  max-width: 100% !important;
+  width: auto !important;
+  position: relative !important;
+}
+
+html body footer .footer.container::after {
+  content: "Rodzinny operator wynajmu · Wrocław · est. 2020" !important;
+  display: block !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 3.5px !important;
+  text-transform: uppercase !important;
+  color: var(--fr-primary) !important;
+  text-align: center !important;
+  margin: 0 auto clamp(56px, 7vw, 96px) !important;
+  font-weight: 600 !important;
+  max-width: 100% !important;
+  position: relative !important;
+}
+
+/* Inner footer 3-col grid */
+html body footer .footer.container .footer {
+  background: transparent !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: clamp(28px, 3.5vw, 48px) !important;
+  align-items: start !important;
+  border: none !important;
+  padding: 0 !important;
+  max-width: 1000px !important;
+  margin: 0 auto clamp(48px, 6vw, 72px) !important;
+  position: relative !important;
+  text-align: center !important;
+}
+
+/* Each column ul = label kicker + value */
+html body footer .footer.container .footer ul {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  position: relative !important;
+}
+
+html body footer .footer.container .footer ul li {
+  margin: 0 0 4px 0 !important;
+  padding: 0 !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-align: center !important;
+  list-style: none !important;
+}
+
+html body footer .footer.container .footer ul li::before,
+html body footer .footer.container .footer ul li::after {
+  content: none !important;
+  display: none !important;
+}
+
+html body footer .footer.container .footer ul a {
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  border: none !important;
+}
+
+/* USUŃ duplikujące się ::before labels (z v1.4) — system już ma labels w tekście */
+html body footer .footer.container .footer .footer-contact-adress::before,
+html body footer .footer.container .footer .footer-contact-phone::before,
+html body footer .footer.container .footer .footer-contact-mail::before,
+html body footer .footer.container .footer .footer-contact-terms::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Phone + email — duże brand display, żółte */
+html body footer .footer.container .footer .footer-contact-phone a,
+html body footer .footer.container .footer .footer-contact-mail a {
+  color: var(--fr-primary) !important;
+  font-weight: 400 !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: 19px !important;
+  letter-spacing: 0 !important;
+  font-style: italic !important;
+}
+
+html body footer .footer.container .footer .footer-contact-phone a:hover,
+html body footer .footer.container .footer .footer-contact-mail a:hover {
+  color: #FFFFFF !important;
+}
+
+/* Address column — bigger serif text */
+html body footer .footer.container .footer .footer-contact-adress li {
+  font-family: var(--fr-font-display) !important;
+  font-size: 17px !important;
+  font-style: italic !important;
+  line-height: 1.4 !important;
+  color: #FFFFFF !important;
+}
+
+/* Terms — full row underneath, inline links */
+html body footer .footer.container .footer .footer-contact-terms {
+  grid-column: 1 / -1 !important;
+  margin-top: clamp(32px, 4vw, 56px) !important;
+  padding-top: clamp(24px, 3vw, 40px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: clamp(20px, 3vw, 40px) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: wrap !important;
+}
+
+html body footer .footer.container .footer .footer-contact-terms li {
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  font-size: 0 !important; /* hide system labels if any */
+}
+
+html body footer .footer.container .footer .footer-contact-terms a {
+  font-size: 11px !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600 !important;
+  font-family: var(--fr-font-body) !important;
+  font-style: normal !important;
+}
+
+html body footer .footer.container .footer .footer-contact-terms a:hover {
+  color: var(--fr-primary) !important;
+}
+
+/* Bottom strip — copyright + payment baner */
+html body footer .footer-contact-baner {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  margin: 0 !important;
+  padding: 20px clamp(24px, 4vw, 48px) !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  flex-wrap: wrap !important;
+  position: relative !important;
+}
+
+html body footer .footer-contact-baner::before {
+  content: "© Fair Rentals Sp. z o.o. · Wszelkie prawa zastrzeżone" !important;
+  display: inline-block !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 10px !important;
+  letter-spacing: 1.6px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+  width: auto !important;
+  height: auto !important;
+  position: relative !important;
+  inset: auto !important;
+}
+
+html body footer .footer-contact-baner::after {
+  content: none !important;
+}
+
+html body footer .footer-contact-baner img,
+html body footer .footer-contact-baner svg {
+  display: inline-block !important;
+  margin: 0 4px !important;
+  max-height: 18px !important;
+  width: auto !important;
+  filter: brightness(1.6) saturate(0.3) opacity(0.55) !important;
+  transition: opacity 0.2s ease !important;
+}
+
+html body footer .footer-contact-baner img:hover,
+html body footer .footer-contact-baner svg:hover {
+  filter: brightness(1.6) saturate(0.3) opacity(1) !important;
+}
+
+html body footer .footer-contact-baner img.powered_by_logo,
+html body footer .footer-contact-baner > span:first-child {
+  display: none !important;
+}
+
+/* Mobile masthead */
+@media (max-width: 768px) {
+  html body footer .footer.container .footer {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  html body footer .footer-contact-baner {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  html body footer .footer.container::before {
+    font-size: clamp(40px, 12vw, 72px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html body footer .footer.container::after {
+    font-size: 10px !important;
+    letter-spacing: 2.5px !important;
+  }
+}
+
+/* PATCH MARKER — v1.12 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

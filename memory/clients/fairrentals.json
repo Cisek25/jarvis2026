@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.11",
+  "version": "v1.12",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -165,6 +165,10 @@
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.10: 'lepiej, ale search bar ma być tak zrobiony i cała strona główna tak dostosowana, że wchodzimy i z każdego urządzenia od razu na porcie widzimy wyszukiwarkę bez względu na wielkość ekranu, musi być responsywne'" },
     { "date": "2026-05-07", "action": "v1.11 BUILD: (a) HTML GLOWNA_PL/EN — przesunięto <section class='fr-search-banner'> WEWNĄTRZ <div class='fr-hero-wrap'> (po </section> hero-asym, przed </div> hero-wrap). Search siostrą hero-asym wewnątrz wspólnego parent. (b) CSS §80 — hero-wrap position relative + min-height 100vh/100svh, hero-asym padding-bottom clamp(220-360px) responsive. (c) .fr-search-banner absolute bottom clamp(16-40), left/right clamp(12-48), max-width 1180, z-index 10, dark bg + heavy shadow. (d) Search inner grid 2-col (intro | bar) desktop, 1-col tablet @991, form 4-col desktop, 2-col mobile @600 button span 2, 1-col iPhone SE @380. (e) Compact dimensions: input 42px height (z 48), font 13px, button 42×140px, kicker 9px label." },
     { "date": "2026-05-07", "action": "v1.11 walidacja: SEO 8/8 PASS, UX 29 critical (false positives + extra dark .fr-search-banner z białym tekstem na ciemnym tle). CSS 251→257 KB / 290 limit. GLOWNA 20→20 KB (tylko struktura zmiana)." },
-    { "date": "2026-05-07", "action": "v1.11 dostawa: 3 zmienione pliki (CSS + GLOWNA_PL + GLOWNA_EN). Search bar visible w viewport (above fold) na: desktop 1920×1080 (kompaktowy 2-col intro+bar grid), laptop 1440×900, tablet portrait 820×1180 (intro nad bar 1-col), mobile 390×844 (form 2-col + button span 2), iPhone SE 320×568 (form 1-col, padding-bottom hero 380-480px)" }
+    { "date": "2026-05-07", "action": "v1.11 dostawa: 3 zmienione pliki (CSS + GLOWNA_PL + GLOWNA_EN). Search bar visible w viewport (above fold) na: desktop 1920×1080 (kompaktowy 2-col intro+bar grid), laptop 1440×900, tablet portrait 820×1180 (intro nad bar 1-col), mobile 390×844 (form 2-col + button span 2), iPhone SE 320×568 (form 1-col, padding-bottom hero 380-480px)" },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.11: chce CAŁKIEM INNĄ stopkę (na bazie danych z panelu). Plus screenshot pokazuje duplikujące się labels TELEFON/TELEFON · numer + E-MAIL/E-MAIL · email — bug v1.4 ::before labels koliduje z system tekst" },
+    { "date": "2026-05-07", "action": "v1.12 BUILD §81 STOPKA REBUILD: editorial magazine masthead style. (a) brand 'Fair Rentals' italic clamp(56-112px) centered top z negative letter-spacing, (b) tagline 'Rodzinny operator wynajmu · Wrocław · est. 2020' żółty uppercase 11px letter-spacing 3.5px centered pod brandem, (c) yellow gradient separator linia na top stopki (linear-gradient transparent → primary → transparent), (d) 3-col grid centered max-width 1000px (Adres serif italic 17px / Tel serif italic 19px żółty / Email serif italic 19px żółty), (e) usuń ::before duplikujące labels z v1.4 (system tekst już ma 'TELEFON · '), (f) terms full-row pod 3-col z border-top, font 11px uppercase letter-spacing 2px, (g) bottom strip flex space-between: copyright '© Fair Rentals Sp. z o.o. · Wszelkie prawa zastrzeżone' lewa + Visa/Mastercard prawa, (h) IAI logo + powered_by hide" },
+    { "date": "2026-05-07", "action": "v1.12 walidacja: SEO 8/8 PASS, UX 33 critical (false positives — extra dark stopka rules zwiększyły count). CSS 257→266 KB / 290 limit." },
+    { "date": "2026-05-07", "action": "v1.12 dostawa: 1 plik delivery (CSS only). Footer rebuild = signature element FR — radikalnie różny od poprzednich stopek SA/AP/MP (które miały lewa-brand + 3-col info). Tu: hero-style brand top duży + tagline yellow + 3-col centered + bottom flex copyright/payments." }
   ]
 }

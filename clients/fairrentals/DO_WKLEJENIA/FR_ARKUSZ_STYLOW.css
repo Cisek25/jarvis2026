@@ -6292,7 +6292,7 @@ html body .litepicker .container__days > div {
 /* §70a. ASYMMETRIC HERO — text left, image portrait right + Booking badge */
 .fr-hero-asym {
   position: relative;
-  min-height: 100vh;
+  min-height: 70vh;
   display: grid;
   grid-template-columns: 1.05fr 1fr;
   gap: 0;
@@ -6391,7 +6391,7 @@ html body .litepicker .container__days > div {
   position: relative;
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
+  min-height: 70vh;
 }
 .fr-hero-asym__media::after {
   content: "";
@@ -7500,4 +7500,182 @@ html body .fr-apt-card .fr-apt-features {
   html body .fr-apt-card { aspect-ratio: 3 / 4 !important; }
 }
 /* PATCH MARKER — v1.2 */
+
+/* ============================================================
+   §72. v1.3 — show + style system .iai-search widget
+   (replaces custom .fr-search-banner — Damian feedback: użyj systemowy)
+   ============================================================ */
+
+/* Override v1.0 hide of system search (instinct 037 said hide; v1.3 reverts for FR) */
+html body.page-index .iai-search,
+html body.page-index .iai_frontpage,
+html body.page-index #iai_book_form,
+html body.page-index .index-info {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Container for system search — sits below hero asym, in viewport */
+html body.page-index .iai-search {
+  position: relative !important;
+  margin: 24px auto 64px !important;
+  max-width: 1100px !important;
+  width: calc(100% - 48px) !important;
+  background: #FFFFFF !important;
+  border-radius: var(--fr-radius-lg) !important;
+  padding: clamp(20px, 3vw, 32px) !important;
+  box-shadow: var(--fr-shadow-lg) !important;
+  z-index: 5 !important;
+  box-sizing: border-box !important;
+}
+
+html body.page-index .iai-search::before {
+  content: "Sprawdź dostępność";
+  display: block;
+  font-family: var(--fr-font-display);
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--fr-text-dark);
+  margin-bottom: 4px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+html body.page-index .iai_frontpage,
+html body.page-index #iai_book_se {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  margin-top: 14px !important;
+}
+
+/* Form layout: 4 fields + submit button */
+html body.page-index #iai_book_form {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr 0.85fr auto !important;
+  gap: 12px !important;
+  align-items: end !important;
+  margin: 0 !important;
+}
+
+/* Inputs — uniform brand styling */
+html body.page-index .iai_widget_input,
+html body.page-index #iai_booking_location,
+html body.page-index #iai_booking_date_from,
+html body.page-index #iai_booking_date_to,
+html body.page-index #iai_booking_persons,
+html body.page-index #iai_book_form input[type="text"],
+html body.page-index #iai_book_form input[type="number"] {
+  height: 48px !important;
+  padding: 0 14px !important;
+  font-size: 14px !important;
+  font-family: var(--fr-font-body) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: var(--fr-radius-sm) !important;
+  background: var(--fr-cream) !important;
+  color: var(--fr-text-dark) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+html body.page-index .iai_widget_input:focus,
+html body.page-index #iai_booking_location:focus,
+html body.page-index #iai_booking_date_from:focus,
+html body.page-index #iai_booking_date_to:focus,
+html body.page-index #iai_booking_persons:focus {
+  outline: 2px solid var(--fr-primary) !important;
+  outline-offset: 0 !important;
+  border-color: var(--fr-primary) !important;
+  background: #FFFFFF !important;
+}
+
+/* Field labels */
+html body.page-index #iai_book_form label {
+  font-size: 10px !important;
+  letter-spacing: 1.6px !important;
+  text-transform: uppercase !important;
+  color: var(--fr-text-muted) !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+  font-weight: 600 !important;
+  font-family: var(--fr-font-body) !important;
+}
+
+/* Submit button — yellow brand */
+html body.page-index #iai_book_form button[type="submit"],
+html body.page-index #iai_book_form .btn,
+html body.page-index #iai_book_form input[type="submit"] {
+  height: 48px !important;
+  padding: 0 24px !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-text-dark) !important;
+  border: none !important;
+  border-radius: var(--fr-radius-sm) !important;
+  font-size: 12px !important;
+  letter-spacing: 1.4px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  font-family: var(--fr-font-body) !important;
+  white-space: nowrap !important;
+  transition: background 0.2s ease !important;
+}
+
+html body.page-index #iai_book_form button[type="submit"]:hover,
+html body.page-index #iai_book_form .btn:hover {
+  background: var(--fr-primary-hover) !important;
+}
+
+/* Datepicker overlays from system widget */
+html body.page-index #iai_booking_data1,
+html body.page-index #iai_booking_data2 {
+  z-index: 100 !important;
+}
+
+/* Persons +/- buttons (if rendered) */
+html body.page-index #iai_book_form .persons-controls,
+html body.page-index #iai_book_form button[type="button"] {
+  background: transparent !important;
+  border: 1px solid var(--fr-border-light) !important;
+  color: var(--fr-text-dark) !important;
+  border-radius: var(--fr-radius-sm) !important;
+  cursor: pointer !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 991.98px) {
+  html body.page-index .iai-search {
+    margin: 16px auto 48px !important;
+    width: calc(100% - 32px) !important;
+  }
+  html body.page-index #iai_book_form {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+  html body.page-index #iai_book_form button[type="submit"] {
+    grid-column: span 2 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html body.page-index #iai_book_form {
+    grid-template-columns: 1fr !important;
+  }
+  html body.page-index #iai_book_form button[type="submit"] {
+    grid-column: span 1 !important;
+  }
+}
+
+/* Hide v1.2 .fr-search-banner section if still in DOM (cleanup) */
+html body section.fr-search-banner {
+  display: none !important;
+}
+
+/* PATCH MARKER — v1.3 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

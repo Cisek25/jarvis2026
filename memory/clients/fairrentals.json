@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.2",
+  "version": "v1.3",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -120,6 +120,13 @@
     { "date": "2026-05-07", "action": "v1.2 FEATURED CARDS: §71d — editorial portrait 4:5 z dark overlay gradient + content w bottom + price top-left żółty pill, hover translateY(-6px) + img scale(1.05). Inny mood od standardowego boutique chain pattern" },
     { "date": "2026-05-07", "action": "v1.2 TESTING_STRATEGY_v1.2.md — pełen plan testowy 12 sekcji: środowiska, urządzenia 10 viewportów, 40+ scenariuszy F-XX, A-XX (10 WCAG), S-XX (10 SEO), P-XX (10 perf), Sec-XX (6), IdoBooking trapy 11, regression smoke test JS snippet 8 punktów, bug taxonomy P0-P3, checklist pre/post-delivery" },
     { "date": "2026-05-07", "action": "v1.2 walidacja: SEO 8/8 PASS, UX 11 PASS + 7 warnings + 19 critical (false positives — białe na ciemnych v1.2 NEW: search-banner + trust bar dark, plus istniejące magazine + stats-asym hero + final-cta). CSS 217 KB / 290 limit." },
-    { "date": "2026-05-07", "action": "v1.2 dostawa: RELEASE_NOTES_v1.2.md + TESTING_STRATEGY_v1.2.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN). 8/13 sekcji home to unikatowe wzorce w portfolio JARVIS (search banner, magazine quote, principles 01/02/03, districts pins, journey timeline, trust score, light footer, editorial cards). Charakterystyczny rytm light/dark/light/dark FR vs all-cream poprzedników" }
+    { "date": "2026-05-07", "action": "v1.2 dostawa: RELEASE_NOTES_v1.2.md + TESTING_STRATEGY_v1.2.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN). 8/13 sekcji home to unikatowe wzorce w portfolio JARVIS (search banner, magazine quote, principles 01/02/03, districts pins, journey timeline, trust score, light footer, editorial cards). Charakterystyczny rytm light/dark/light/dark FR vs all-cream poprzedników" },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.2: wyszukiwarka za nisko, widać kawałki systemowej w tle, ma być natywny widget IdoBooking zamiast custom" },
+    { "date": "2026-05-07", "action": "v1.3 DIAGNOZA playwright: system renderuje widget IdoBooking w .section.parallax .fp-tableCell .index-info > .iai-search > #iai_book_form (pola location/dateFrom/dateTo/persons + submit). Aktualnie ukryty CSS-em (relikt instinct 037)." },
+    { "date": "2026-05-07", "action": "v1.3 BUILD: §72 CSS — odkryj systemowy .iai-search (override display:none), brand styling (biała karta z DM Serif tytułem, brand inputs cream + focus outline, żółty submit button uppercase). Hero asym min-height 100vh→70vh + .fr-hero-asym__media 100vh→70vh — widget natywny widoczny w viewport." },
+    { "date": "2026-05-07", "action": "v1.3 GLOWNA_PL/EN: usuń .fr-search-banner section całkowicie (~38 linii). Hero CTA 'Sprawdź dostępność' anchor #fr-search → /pl/offers (gdzie też jest natywny searcher + listing). Plus CSS hide pozostałości .fr-search-banner cleanup." },
+    { "date": "2026-05-07", "action": "v1.3 walidacja: SEO 8/8 PASS, UX 11 PASS + 7 warnings + 19 critical (wszystkie false positives — białe na ciemnych v1.2 NEW + magazine + stats-asym hero + trust bar + final-cta). CSS 217→223 KB / 290 limit. GLOWNA_PL 20→18 KB, GLOWNA_EN 20→18 KB (mniejsze)." },
+    { "date": "2026-05-07", "action": "v1.3 LESSON: dla Fair Rentals system .iai-search WIDOCZNY (zamiast hidden jak instinct 037 nakazywał dla SA/AP). Decision per-klient. Do zapisania w lessons/idobooking-system-search-on-vs-custom.md w następnej sesji." },
+    { "date": "2026-05-07", "action": "v1.3 dostawa: RELEASE_NOTES_v1.3.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN). Pozostałe 11 plików DO_WKLEJENIA bez zmian." }
   ]
 }

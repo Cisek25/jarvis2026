@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.5",
+  "version": "v1.6",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -136,6 +136,11 @@
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.4: ma być zdjęcie główne, nie ta panorama Wrocławia z systemowego parallax slidera w tle hero" },
     { "date": "2026-05-07", "action": "v1.5 BUILD §74 CSS (~150 linii): (a) hide #parallax_topslider + .parallax-slider (display none + position offscreen), (b) hero .fr-hero-asym z custom photo full-bleed bg (drewniane wnętrze 1564013799919) + asymmetric dark gradient overlay 0.65→0.20, min-height 86vh, (c) hero text white + heavy text-shadow + żółte akcenty (kicker line + title underline 96px), (d) CTA primary żółty z box-shadow + ghost glassmorphism, (e) meta strip glass card (rgba dark + blur + yellow border-top), (f) header logo drop-shadow na page-index transparent" },
     { "date": "2026-05-07", "action": "v1.5 walidacja: SEO 8/8 PASS, UX 8 PASS + 5 warnings + 27 critical (wszystkie false positives — biały tekst na gradient/photo bg, walidator nie parsuje url() jako dark). CSS 233→239 KB / 290 limit." },
-    { "date": "2026-05-07", "action": "v1.5 dostawa: RELEASE_NOTES_v1.5.md + 1 zmieniony plik (CSS only). HTML bez zmian (kontynuacja revert-friendly approach). Smoke test JS snippet 6 punktów: parallax hidden, photo bg, text white, text-shadow, meta glass, no panorama" }
+    { "date": "2026-05-07", "action": "v1.5 dostawa: RELEASE_NOTES_v1.5.md + 1 zmieniony plik (CSS only). HTML bez zmian (kontynuacja revert-friendly approach). Smoke test JS snippet 6 punktów: parallax hidden, photo bg, text white, text-shadow, meta glass, no panorama" },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.5: 'źle, właśnie ma nie być tego, a ma być normalne zdjęcie systemowe... tak jak w innych wdrożeniach'. Custom Unsplash URL hardcoded w CSS jako bg jest niewłaściwe — chce systemowe photo z panelu (#parallax_topslider)" },
+    { "date": "2026-05-07", "action": "v1.6 BUILD §75 CSS (~60 linii): (a) cofnij ukrycie #parallax_topslider (display block + position absolute inset 0 + z-index 0), slick slides fill 100% z object-fit cover; (b) hero .fr-hero-asym { background: transparent + background-image: none } cofnij hardcoded URL z v1.5; (c) ::after pseudo z gradient overlay rgba 0.62→0.18 z-index 1 (nad photo, pod tekstem); (d) text z-index 3 (nad overlay)" },
+    { "date": "2026-05-07", "action": "v1.6 walidacja: SEO 8/8 PASS, UX 27 critical (false positives biały na overlay/photo, walidator cascade-blind). CSS 239→242 KB / 290 limit." },
+    { "date": "2026-05-07", "action": "v1.6 LESSON: system #parallax_topslider zostaje WIDOCZNY by default. Custom photo realizujemy przez ::after overlay nad systemowym photo, nie przez ukrywanie systemu. Klient kontroluje content przez panel — STANDARD JARVIS." },
+    { "date": "2026-05-07", "action": "v1.6 dostawa: RELEASE_NOTES_v1.6.md + 1 zmieniony plik (CSS). HTML bez zmian. Smoke test JS 6 punktów. Klient musi wgrać własne zdjęcia do panel→Galeria strony głównej żeby system parallax pokazał Fair Rentals photos zamiast domyślnej IdoBooking panoramy." }
   ]
 }

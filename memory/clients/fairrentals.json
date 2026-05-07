@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.13",
+  "version": "v1.14",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -172,6 +172,8 @@
     { "date": "2026-05-07", "action": "v1.12 dostawa: 1 plik delivery (CSS only). Footer rebuild = signature element FR — radikalnie różny od poprzednich stopek SA/AP/MP (które miały lewa-brand + 3-col info). Tu: hero-style brand top duży + tagline yellow + 3-col centered + bottom flex copyright/payments." },
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.12: 'krzywe elementy, porozjeżdżane'. Diagnoza playwright KRYTYCZNA: system IdoBooking renderuje DWA zagnieżdżone <div class='footer container'> (outer + inner ta sama klasa). Mój v1.12 grid aplikował się do obu → ::before/::after wpadały do cells outer 3-col grid zamiast top/bottom block flow. Layout chaos." },
     { "date": "2026-05-07", "action": "v1.13 BUILD §82 STOPKA REBUILD CLEAN: (a) outer + inner .footer.container → display:block (cofnij grid), grid-template-columns: none, padding: 0/margin: 0 reset, (b) outer ma padding clamp(72-120px) i background dark, inner max-width 1100px margin auto, (c) ::before brand 'Fair Rentals' 48-96px italic centered TYLKO na outer (nie inner — nieduplikowane), (d) ::after wyłączone (zamiast użyć ::before na .footer__wrapper dla tagline), (e) .footer__wrapper::before tagline yellow uppercase między brand a contact, (f) .row flex-direction column align-center, (g) ul.footer__contact display:grid 3-col z .footer-contact-terms grid-column 1/-1 full row pod, (h) hide .footer__social/.footer-contact-add/.powered_by, (i) .footer-contact-baner flex space-between z ::before © copyright + Visa/Mastercard prawa, margin-x calc(-1 * padding) żeby full-width" },
-    { "date": "2026-05-07", "action": "v1.13 walidacja: SEO 8/8 PASS, UX 37 critical (false positives). CSS 266→275 KB / 290 limit." }
+    { "date": "2026-05-07", "action": "v1.13 walidacja: SEO 8/8 PASS, UX 37 critical (false positives). CSS 266→275 KB / 290 limit." },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.13: 'wyżej wyszukiwarkę, nadal jest za nisko według mnie'. v1.11 ustawił bottom clamp(16-40) — Damian chce wyżej w viewport." },
+    { "date": "2026-05-07", "action": "v1.14 BUILD §83: search bar bottom clamp(72-144) desktop (z 16-40), tablet @991 56-120, mobile @600 40-80, iPhone SE @380 24-56. Hero padding-bottom clamp(280-440) desktop (z 220-360), responsive bigger na mniejszych viewport żeby search nie zachodził na hero text. CSS 275→277 KB." }
   ]
 }

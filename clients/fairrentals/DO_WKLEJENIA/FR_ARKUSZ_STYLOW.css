@@ -9665,4 +9665,47 @@ html body footer .powered_by {
 }
 
 /* PATCH MARKER — v1.17 */
+
+/* ============================================================
+   §87. v1.18 — payment logos równo wyrównane (uniform height + center)
+        Damian: "prawie ok, czemu nie są równo?"
+        Diagnoza: SVG mają różne aspect ratio (Visa wąski, Mastercard
+        kwadratowy z tekstem) — różne real heights mimo height:28.
+        Fix: fixed-height span containers + SVG max-height + center.
+   ============================================================ */
+
+html body footer .footer-contact-baner > span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+}
+
+html body footer .footer-contact-baner > span svg,
+html body footer .footer-contact-baner > span img {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 70px !important;
+  max-height: 32px !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  vertical-align: middle !important;
+  filter: brightness(1.2) saturate(0.7) opacity(0.85) !important;
+}
+
+html body footer .footer-contact-baner > span:hover svg,
+html body footer .footer-contact-baner > span:hover img {
+  filter: brightness(1.2) saturate(1) opacity(1) !important;
+}
+
+/* PATCH MARKER — v1.18 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.4",
+  "version": "v1.5",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -132,6 +132,10 @@
     { "date": "2026-05-07", "action": "v1.4 DIAGNOZA live (playwright): system app.css IdoBooking ukrywa .iai-search przez position: absolute + left: -9999px + transform translateX(-550px) — moja v1.3 reguła display: block nie wystarczyła. Plus .index-info parent też offscreen z translateX(-585px). KRYTYCZNA lekcja: każdy override systemowego elementu wymaga 6 properties: display + visibility + opacity + position + left + transform" },
     { "date": "2026-05-07", "action": "v1.4 BUILD §73 CSS (~280 linii): (a) hero single column bez photo (.fr-hero-asym__media display: none, grid 1fr, max-width text 880px), (b) system .iai-search position FIX (relative + left: auto + transform: none + overflow: visible), (c) dark premium footer #0F0F0E z żółtymi telefon/email (różny od SA), (d) UX contrast fixes (text-muted → text-body w trust cards, magazine opacity force 1)" },
     { "date": "2026-05-07", "action": "v1.4 walidacja: SEO 8/8 PASS, UX 11 PASS + 7 warnings + 20 critical (wszystkie false positives — biały na dark: magazine + stats-asym hero + trust bar + final-cta + dark footer NEW v1.4). CSS 223→233 KB / 290 limit." },
-    { "date": "2026-05-07", "action": "v1.4 dostawa: RELEASE_NOTES_v1.4.md + 1 zmieniony plik (CSS only). HTML GLOWNA bez zmian (media element ukryty CSS-em żeby łatwy revert). Smoke test JS snippet w release notes do uruchamiania w Console po wklejeniu." }
+    { "date": "2026-05-07", "action": "v1.4 dostawa: RELEASE_NOTES_v1.4.md + 1 zmieniony plik (CSS only). HTML GLOWNA bez zmian (media element ukryty CSS-em żeby łatwy revert). Smoke test JS snippet w release notes do uruchamiania w Console po wklejeniu." },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.4: ma być zdjęcie główne, nie ta panorama Wrocławia z systemowego parallax slidera w tle hero" },
+    { "date": "2026-05-07", "action": "v1.5 BUILD §74 CSS (~150 linii): (a) hide #parallax_topslider + .parallax-slider (display none + position offscreen), (b) hero .fr-hero-asym z custom photo full-bleed bg (drewniane wnętrze 1564013799919) + asymmetric dark gradient overlay 0.65→0.20, min-height 86vh, (c) hero text white + heavy text-shadow + żółte akcenty (kicker line + title underline 96px), (d) CTA primary żółty z box-shadow + ghost glassmorphism, (e) meta strip glass card (rgba dark + blur + yellow border-top), (f) header logo drop-shadow na page-index transparent" },
+    { "date": "2026-05-07", "action": "v1.5 walidacja: SEO 8/8 PASS, UX 8 PASS + 5 warnings + 27 critical (wszystkie false positives — biały tekst na gradient/photo bg, walidator nie parsuje url() jako dark). CSS 233→239 KB / 290 limit." },
+    { "date": "2026-05-07", "action": "v1.5 dostawa: RELEASE_NOTES_v1.5.md + 1 zmieniony plik (CSS only). HTML bez zmian (kontynuacja revert-friendly approach). Smoke test JS snippet 6 punktów: parallax hidden, photo bg, text white, text-shadow, meta glass, no panorama" }
   ]
 }

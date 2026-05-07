@@ -8004,4 +8004,201 @@ html body.page-index .iai-search > * {
 }
 
 /* PATCH MARKER — v1.4 */
+
+/* ============================================================
+   §74. v1.5 — hero z głównym custom zdjęciem (full-bleed bg)
+        + hide system #parallax_topslider (panorama Wrocławia w tle)
+   Damian feedback v1.4: ma być zdjęcie główne, nie ta panorama z systemu
+   ============================================================ */
+
+/* §74a. HIDE SYSTEM PARALLAX SLIDER — system pokazuje panoramę Wrocławia w tle hero */
+html body.page-index #parallax_topslider,
+html body.page-index .parallax-slider,
+html body.page-index .section.parallax > .parallax-slider {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* §74b. HERO — custom full-bleed photo + dark overlay + white text */
+html body .fr-hero-asym {
+  grid-template-columns: 1fr !important;
+  min-height: 86vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  position: relative !important;
+  isolation: isolate !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(115deg, rgba(15, 15, 14, 0.65) 0%, rgba(15, 15, 14, 0.35) 55%, rgba(15, 15, 14, 0.20) 100%),
+    url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=2400&q=80')
+    center/cover no-repeat !important;
+}
+
+html body .fr-hero-asym::before {
+  display: none !important;
+}
+
+html body .fr-hero-asym__text {
+  padding: clamp(96px, 10vw, 140px) clamp(40px, 6vw, 96px) clamp(64px, 8vw, 96px) !important;
+  max-width: 760px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Kicker — yellow accent line + white uppercase */
+html body .fr-hero-asym__kicker {
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  letter-spacing: 2.6px !important;
+  margin-bottom: 28px !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+}
+html body .fr-hero-asym__kicker::before {
+  background: var(--fr-primary) !important;
+  width: 36px !important;
+  height: 2px !important;
+}
+
+/* Title — white serif w/ heavy text-shadow for legibility on photo */
+html body .fr-hero-asym__title {
+  color: #FFFFFF !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(36px, 5vw, 72px) !important;
+  line-height: 1.04 !important;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.4) !important;
+}
+
+html body .fr-hero-asym__title em {
+  color: #FFFFFF !important;
+  font-style: italic !important;
+}
+
+html body .fr-hero-asym__title em::after {
+  background: var(--fr-primary) !important;
+  width: 96px !important;
+  height: 4px !important;
+}
+
+/* Lead — white with text-shadow */
+html body .fr-hero-asym__lead {
+  color: #FFFFFF !important;
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+  max-width: 540px !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+  font-weight: 400 !important;
+  margin-bottom: 36px !important;
+}
+
+/* CTA buttons — primary (yellow) + ghost white border on dark */
+html body .fr-hero-asym__cta-row {
+  margin-bottom: 40px !important;
+}
+
+html body .fr-hero-asym .fr-btn--primary {
+  background: var(--fr-primary) !important;
+  color: var(--fr-text-dark) !important;
+  border: 2px solid var(--fr-primary) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+  font-weight: 700 !important;
+}
+html body .fr-hero-asym .fr-btn--primary:hover {
+  background: var(--fr-primary-hover) !important;
+  border-color: var(--fr-primary-hover) !important;
+  transform: translateY(-2px) !important;
+}
+
+html body .fr-hero-asym .fr-btn--ghost-light {
+  background: rgba(255, 255, 255, 0.10) !important;
+  color: #FFFFFF !important;
+  border: 2px solid rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  font-weight: 600 !important;
+}
+html body .fr-hero-asym .fr-btn--ghost-light:hover {
+  background: rgba(255, 255, 255, 0.20) !important;
+  border-color: #FFFFFF !important;
+}
+
+/* Meta strip — semi-transparent white background card on photo */
+html body .fr-hero-asym__meta {
+  background: rgba(15, 15, 14, 0.55) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: var(--fr-radius-md) !important;
+  padding: 20px 28px !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-top-color: rgba(226, 215, 0, 0.4) !important;
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  gap: 36px !important;
+  margin-top: 32px !important;
+}
+html body .fr-hero-asym__meta > div {
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-size: 12px !important;
+  letter-spacing: 1.6px !important;
+}
+html body .fr-hero-asym__meta strong {
+  color: #FFFFFF !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: 24px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  display: block !important;
+  margin-bottom: 4px !important;
+}
+
+/* Hero media element — completely hidden (replaced by bg) */
+html body .fr-hero-asym__media,
+html body .fr-hero-asym__badge {
+  display: none !important;
+}
+
+/* Mobile hero */
+@media (max-width: 991.98px) {
+  html body .fr-hero-asym {
+    min-height: 78vh !important;
+  }
+  html body .fr-hero-asym__text {
+    padding: 100px 24px 56px !important;
+    max-width: 100% !important;
+  }
+  html body .fr-hero-asym__title {
+    font-size: clamp(32px, 8vw, 48px) !important;
+  }
+  html body .fr-hero-asym__meta {
+    padding: 14px 18px !important;
+    gap: 20px !important;
+  }
+  html body .fr-hero-asym__meta strong {
+    font-size: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html body .fr-hero-asym__cta-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+  html body .fr-hero-asym__cta-row .fr-btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* §74c. Header on hero — ensure visible against photo bg */
+html body.page-index header.default13:not(.fr-header--scrolled) .navbar-brand img {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45)) !important;
+}
+
+/* PATCH MARKER — v1.5 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

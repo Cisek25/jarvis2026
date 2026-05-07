@@ -9365,4 +9365,162 @@ html body .fr-hero-asym {
 }
 
 /* PATCH MARKER — v1.14 */
+
+/* ============================================================
+   §84. v1.15 — żółty muted dla TEKSTU (na dark + na cream)
+        Damian: "na ciemnym za żarówiasty, na beżu za słaby kontrast".
+        Strategy: 3 odcienie żółtego per kontekst:
+        --fr-primary       #E2D700  (signature) — BG pills/buttons
+        --fr-yellow-text   #C8B43E  — tekst/akcenty na DARK (muted)
+        --fr-yellow-deep   #8A7300  — tekst/akcenty na CREAM (AA contrast)
+   ============================================================ */
+
+:root, html:root {
+  --fr-yellow-text: #C8B43E !important;
+  --fr-yellow-deep: #8A7300 !important;
+}
+
+/* === TEKST/AKCENTY ŻÓŁTE NA DARK BG → muted #C8B43E === */
+
+/* Magazine quote (background dark) */
+html body .fr-magazine__quote em,
+html body .fr-magazine__mark,
+html body .fr-magazine__attr {
+  color: var(--fr-yellow-text) !important;
+}
+html body .fr-magazine__attr::before {
+  color: var(--fr-yellow-text) !important;
+}
+
+/* Stats asymmetric hero (dark card) */
+html body .fr-stats-asym__hero-kicker,
+html body .fr-stats-asym__hero-num {
+  color: var(--fr-yellow-text) !important;
+}
+
+/* Trust score bar (dark) */
+html body .fr-trust__bar-num {
+  color: var(--fr-yellow-text) !important;
+}
+
+/* Final CTA (dark gradient) */
+html body .fr-final-cta .fr-kicker {
+  color: var(--fr-yellow-text) !important;
+  background: rgba(200, 180, 62, 0.15) !important;
+  border-color: rgba(200, 180, 62, 0.4) !important;
+}
+
+/* Footer dark — phone/email/tagline/separator */
+html body footer ul.footer__contact > li.footer-contact-phone a,
+html body footer ul.footer__contact > li.footer-contact-mail a,
+html body footer .footer.container .footer .footer-contact-phone a,
+html body footer .footer.container .footer .footer-contact-mail a,
+html body footer .footer__wrapper::before {
+  color: var(--fr-yellow-text) !important;
+}
+
+html body footer .footer.container .footer .footer-contact-terms a:hover,
+html body footer ul.footer__contact > li.footer-contact-terms a:hover {
+  color: var(--fr-yellow-text) !important;
+}
+
+html body footer::before {
+  background: linear-gradient(90deg, transparent 0%, var(--fr-yellow-text) 30%, var(--fr-yellow-text) 70%, transparent 100%) !important;
+}
+
+/* Hero photo overlay — text shadow tones, kicker line, title underline */
+html body .fr-hero-asym__kicker::before,
+html body .fr-hero-asym__title em::after {
+  background: var(--fr-yellow-text) !important;
+}
+
+/* Search banner kicker (na dark) */
+html body .fr-search-banner__kicker,
+html body .fr-hero-wrap .fr-search-banner__kicker,
+html body .fr-search-banner__title em,
+html body .fr-hero-wrap .fr-search-banner__title em {
+  color: var(--fr-yellow-text) !important;
+}
+
+/* Hero badge label brand */
+html body .fr-hero-asym__badge,
+html body .fr-hero-wrap .fr-hero-asym__badge {
+  border-color: rgba(200, 180, 62, 0.6) !important;
+}
+
+/* === TEKST/AKCENTY ŻÓŁTE NA CREAM/LIGHT BG → deep #8A7300 === */
+
+/* Principles 01/02/03 (cream bg) */
+html body .fr-principle__num {
+  color: var(--fr-yellow-deep) !important;
+}
+
+/* Districts pin (cream card) */
+html body .fr-district__pin {
+  background: var(--fr-yellow-deep) !important;
+  color: #FFFFFF !important;
+}
+
+/* Trust card source dot (white card on cream) */
+html body .fr-trust-card__source-dot {
+  background: var(--fr-yellow-deep) !important;
+}
+
+/* Trust card link border bottom */
+html body .fr-trust-card__link {
+  border-bottom-color: var(--fr-yellow-deep) !important;
+}
+
+/* Trust score note links */
+html body .fr-trust__note a {
+  text-decoration-color: var(--fr-yellow-deep) !important;
+}
+
+/* Section kicker rule (cream) */
+html body .fr-kicker::before,
+html body .fr-section__header .fr-rule,
+html body .fr-rule {
+  background: var(--fr-yellow-deep) !important;
+}
+
+/* Principles head em underline (cream) */
+html body .fr-principles__head-title em::after {
+  background: var(--fr-yellow-deep) !important;
+}
+
+/* Journey filled circle on cream */
+html body .fr-journey-step--filled .fr-journey-step__circle {
+  background: var(--fr-yellow-deep) !important;
+  border-color: var(--fr-yellow-deep) !important;
+  color: #FFFFFF !important;
+}
+
+html body .fr-journey-step__circle {
+  border-color: var(--fr-yellow-deep) !important;
+}
+
+/* Journey timeline line connector */
+html body .fr-journey__steps::before {
+  background: rgba(138, 115, 0, 0.3) !important;
+}
+
+/* District hover — border color */
+html body .fr-district:hover {
+  border-color: var(--fr-yellow-deep) !important;
+}
+
+/* Trust score note text-decoration */
+html body .fr-trust__note a {
+  text-decoration-color: var(--fr-yellow-deep) !important;
+}
+
+/* === BUTTONS + PILLS — keep --fr-primary #E2D700 (BG context, czarny tekst → 11.7:1 AAA) === */
+/* Te elementy nie zmieniam — żółty jest BG, czarny tekst na nim:
+   - .fr-btn--primary
+   - .fr-apt-card .fr-apt-price
+   - .fr-cmd-bar__submit
+   - hero badge num
+*/
+
+/* PATCH MARKER — v1.15 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

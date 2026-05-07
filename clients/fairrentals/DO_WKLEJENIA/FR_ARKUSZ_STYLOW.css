@@ -9708,4 +9708,68 @@ html body footer .footer-contact-baner > span:hover img {
 }
 
 /* PATCH MARKER — v1.18 */
+
+/* ============================================================
+   §88. v1.19 — payment logos EQUAL visual height + min-width
+        Diagnoza playwright: Visa SVG 51×16 (h=16), MC 143×25 (h=25).
+        Mastercard 56% wyższy + 2.8× szerszy. Wynik: nieporządny.
+        Fix: force height: 24px na SVG (oba) — Visa scale up, MC scale
+        slightly down. Span min-width 80 — równe boxy mimo różnych
+        proporcji content.
+   ============================================================ */
+
+html body footer .footer-contact-baner > span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  min-width: 80px !important;
+  margin: 0 !important;
+  padding: 0 4px !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+}
+
+html body footer .footer-contact-baner > span svg,
+html body footer .footer-contact-baner > span img {
+  display: block !important;
+  height: 24px !important;
+  width: auto !important;
+  max-width: 110px !important;
+  max-height: 24px !important;
+  min-height: 24px !important;
+  object-fit: contain !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  vertical-align: middle !important;
+  filter: brightness(1.2) saturate(0.7) opacity(0.9) !important;
+}
+
+html body footer .footer-contact-baner > span:hover svg,
+html body footer .footer-contact-baner > span:hover img {
+  filter: brightness(1.2) saturate(1) opacity(1) !important;
+}
+
+/* Mobile — slightly smaller but still equal */
+@media (max-width: 600px) {
+  html body footer .footer-contact-baner > span {
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    min-width: 70px !important;
+  }
+  html body footer .footer-contact-baner > span svg,
+  html body footer .footer-contact-baner > span img {
+    height: 20px !important;
+    max-height: 20px !important;
+    min-height: 20px !important;
+    max-width: 90px !important;
+  }
+}
+
+/* PATCH MARKER — v1.19 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

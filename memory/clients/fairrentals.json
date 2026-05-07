@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.18",
+  "version": "v1.19",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -183,6 +183,8 @@
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.16: 'Visa i Mastercard jedna pod drugą, słabo widoczne'. Bug: v1.13 baner flex space-between z 3 children (::before + 2 spans) rozsypywał się. Plus filter brightness 1.6 saturate 0.3 opacity 0.55 za słaby." },
     { "date": "2026-05-07", "action": "v1.17 BUILD §86: baner display:flex flex-wrap row justify-center. ::before © copyright flex-basis: 100% (full row 1) + spans Visa/MC inline-flex w row 2 obok siebie centered z gap 20px. Logo bigger 28px (z 18) + filter brightness 1.2 saturate 0.7 opacity 0.85 (z 1.6/0.3/0.55) + hover brightness 1.2 saturate 1 opacity 1. Mobile @600 24px height utrzymuje row layout. CSS 283→286 KB. 1 plik delivery." },
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.17: 'prawie ok, czemu nie są równo?' — Visa i MC obok siebie ale niezgodne wysokości. Diagnoza: Visa SVG wąski/niski (~75×24 viewBox), MC kwadratowy z tekstem koło (~100×60). height:28 daje różne real visual heights." },
-    { "date": "2026-05-07", "action": "v1.18 BUILD §87: fixed-height span containers (32px wysokości min/max) + SVG max-height 32 max-width 70 + object-fit: contain + width/height auto (proporcje zachowane). Logos teraz centered w identycznych boxach 32px wysokości, równo align baseline. CSS 286→288 KB. 1 plik delivery." }
+    { "date": "2026-05-07", "action": "v1.18 BUILD §87: fixed-height span containers (32px wysokości min/max) + SVG max-height 32 max-width 70 + object-fit: contain + width/height auto (proporcje zachowane). Logos teraz centered w identycznych boxach 32px wysokości, równo align baseline. CSS 286→288 KB. 1 plik delivery." },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.18: 'nie są równo'. Diagnoza playwright precyzyjna: Visa SVG natural 51×16 (h=16), Mastercard 143×25 (h=25). Mastercard 56% wyższy + 2.8× szerszy. Mój v1.18 max-height 32 + height auto pozwalał SVG renderować się na natural sizes — różne visible heights." },
+    { "date": "2026-05-07", "action": "v1.19 BUILD §88: force height: 24px na OBA SVG (Visa scale up od 16, MC scale down od 25). max-height 24 + min-height 24 + max-width 110 + object-fit contain. Span min-width 80 — równe boxy. Container height 36px + padding-x 4. Mobile @600 SVG height 20, span 32×70min. CSS 288→290 KB." }
   ]
 }

@@ -1,0 +1,851 @@
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function() {
+  'use strict';
+
+  var PREFIX = 'fr-';
+
+  /* ------------------------------------------------------------
+     1. Header scroll handler (transparent -> white)
+        On homepage with fullpage.js: watch body class for fp-viewing-N
+        On other pages: watch window.scrollY
+     ------------------------------------------------------------ */
+
+  function initHeaderScroll() {
+    var header = document.querySelector('header.default13');
+    if (!header) return;
+
+    var isFp = document.documentElement.classList.contains('fp-enabled');
+    var threshold = 1;
+
+    var update = function() {
+      var scrolled = false;
+
+      if (isFp) {
+        var m = document.body.className.match(/fp-viewing-(\d+)/);
+        if (m && parseInt(m[1], 10) > 1) scrolled = true;
+      }
+
+      var y = window.pageYOffset || document.documentElement.scrollTop || (document.scrollingElement && document.scrollingElement.scrollTop) || 0;
+      if (y > threshold) scrolled = true;
+
+      var notHomepage = !document.body.classList.contains('page-index');
+      if (notHomepage) scrolled = true;
+
+      header.classList.toggle('fr-header--scrolled', scrolled);
+    };
+
+    if (isFp) {
+      new MutationObserver(update).observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    document.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('wheel', update, { passive: true });
+    window.addEventListener('touchmove', update, { passive: true });
+
+    update();
+  }
+
+  /* ------------------------------------------------------------
+     2. Hero teleport into fullpage.js section.parallax
+        Hero is rendered in body_top inside .container — fullpage
+        wraps it in section 1 which often is .section.parallax
+     ------------------------------------------------------------ */
+
+  function teleportHero() {
+    if (!document.documentElement.classList.contains('fp-enabled')) return;
+    var hero = document.querySelector('.fr-hero-wrap');
+    if (!hero) return;
+    var parallax = document.querySelector('.section.parallax .fp-tableCell, .section.parallax');
+    if (!parallax) return;
+    if (parallax.contains(hero)) return;
+    var firstSection = parallax.querySelector('.fp-tableCell') || parallax;
+    if (firstSection !== hero.parentNode) {
+      firstSection.appendChild(hero);
+    }
+  }
+
+  /* ------------------------------------------------------------
+     3. Featured offers — Pattern A (parse .container-hotspot)
+     ------------------------------------------------------------ */
+
+  function buildFeatureIcon(svgPath, label) {
+    return '<span class="fr-apt-feature">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true">' + svgPath + '</svg>' +
+      '<span>' + label + '</span></span>';
+  }
+
+  var ICON_AREA = '<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="3" x2="9" y2="21"></line>';
+  var ICON_GUESTS = '<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="10" cy="7" r="4"></circle><path d="M21 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>';
+
+  function parseSystemOffer(offerEl) {
+    var link = offerEl.querySelector('a.object-icon') || offerEl.querySelector('a[href*="/offer/"]');
+    if (!link) return null;
+    var href = link.getAttribute('href');
+
+    var img = offerEl.querySelector('img[data-src], img[src], img');
+    if (!img) return null;
+    var imgSrc = img.getAttribute('data-src') || img.getAttribute('src') || img.src || '';
+    if (!imgSrc) return null;
+
+    var titleEl = offerEl.querySelector('h3 a, h3, .offer__title');
+    var title = titleEl ? titleEl.textContent.trim() : (img.getAttribute('alt') || 'Apartament');
+
+    var descEl = offerEl.querySelector('.offer__description');
+    var desc = descEl ? descEl.textContent.trim() : '';
+    if (desc && desc === title) desc = '';
+    if (desc.length > 180) desc = desc.slice(0, 178).replace(/[.,;\s]+$/, '') + '…';
+
+    var areaEl = offerEl.querySelector('.accommodation-meters');
+    var area = '';
+    if (areaEl) {
+      var m = areaEl.textContent.match(/([\d,.]+)\s*m/i);
+      if (m) area = m[1].replace(',', '.') + ' m²';
+    }
+
+    var guestsEl = offerEl.querySelector('.accommodation-roomspace');
+    var guests = '';
+    if (guestsEl) {
+      var g = guestsEl.textContent.match(/(\d+)/);
+      if (g) guests = g[1];
+    }
+
+    var priceEl = offerEl.querySelector('.offer__price .price') || offerEl.querySelector('.price');
+    var price = '';
+    var currency = 'zł';
+    if (priceEl) {
+      var priceTxt = priceEl.textContent.trim();
+      var pm = priceTxt.match(/([\d,.]+)/);
+      if (pm) price = pm[1].replace(/\s/g, '').replace(',', '.');
+      if (/€/.test(priceTxt)) currency = '€';
+      else if (/\$/.test(priceTxt)) currency = '$';
+    }
+
+    return {
+      href: href,
+      imgSrc: imgSrc,
+      title: title,
+      desc: desc,
+      area: area,
+      guests: guests,
+      price: price,
+      currency: currency
+    };
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  function escapeText(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function renderFeaturedCards(offers) {
+    var grid = document.getElementById('fr-apt-grid');
+    var section = document.getElementById('fr-apartments');
+    if (!grid) return;
+
+    if (!offers.length) {
+      if (section) section.style.display = 'none';
+      grid.setAttribute('data-offers-loaded', 'empty');
+      return;
+    }
+
+    grid.setAttribute('data-offers-loaded', String(offers.length));
+
+    var html = '';
+    offers.forEach(function(o) {
+      var priceNum = Math.round(parseFloat(o.price) || 0);
+      html += '<a href="' + escapeAttr(o.href) + '" class="fr-apt-card">';
+      html += '<div class="fr-apt-img">';
+      var altText = escapeAttr(o.title || 'Apartament Fair Rentals Wroclan');
+      var imgTag = '<img loading="lazy" src="' + escapeAttr(o.imgSrc) + '"';
+      imgTag += ' alt="' + altText + '">';
+      html += imgTag;
+      if (priceNum > 0) {
+        html += '<div class="fr-apt-price">od <strong>' + priceNum + ' ' + escapeText(o.currency) + '</strong> <span>/ noc</span></div>';
+      }
+      html += '</div>';
+      html += '<div class="fr-apt-body">';
+      html += '<h3 class="fr-h3">' + escapeText(o.title) + '</h3>';
+      if (o.desc) {
+        html += '<p class="fr-apt-desc">' + escapeText(o.desc) + '</p>';
+      }
+      html += '<div class="fr-apt-features">';
+      if (o.area) html += buildFeatureIcon(ICON_AREA, escapeText(o.area));
+      if (o.guests) html += buildFeatureIcon(ICON_GUESTS, escapeText(o.guests) + (parseInt(o.guests, 10) === 1 ? ' osoba' : ' osób'));
+      html += '</div>';
+      html += '</div>';
+      html += '</a>';
+    });
+    grid.innerHTML = html;
+  }
+
+  function buildFromHotspot() {
+    var grid = document.getElementById('fr-apt-grid');
+    if (!grid) return false;
+    var loaded = grid.getAttribute('data-offers-loaded');
+    if (loaded && loaded !== 'pending') return true;
+
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot) return false;
+
+    var nodes = hotspot.querySelectorAll('.slick-slide:not(.slick-cloned) .offer');
+    if (!nodes.length) nodes = hotspot.querySelectorAll('.offer');
+
+    if (!nodes.length) {
+      var section = document.getElementById('fr-apartments');
+      if (section) section.style.display = 'none';
+      grid.setAttribute('data-offers-loaded', 'empty');
+      return true;
+    }
+
+    var seen = {};
+    var offers = [];
+    Array.prototype.forEach.call(nodes, function(node) {
+      var parsed = parseSystemOffer(node);
+      if (!parsed || seen[parsed.href]) return;
+      seen[parsed.href] = true;
+      offers.push(parsed);
+    });
+
+    renderFeaturedCards(offers);
+    return true;
+  }
+
+  function initFeaturedOffers() {
+    if (!document.getElementById('fr-apt-grid')) return;
+
+    [0, 400, 1200, 2500].forEach(function(delay) {
+      setTimeout(function() {
+        var grid = document.getElementById('fr-apt-grid');
+        if (!grid) return;
+        var loaded = grid.getAttribute('data-offers-loaded');
+        if (loaded && loaded !== 'pending') return;
+        buildFromHotspot();
+      }, delay);
+    });
+
+    setTimeout(function() {
+      var grid = document.getElementById('fr-apt-grid');
+      var section = document.getElementById('fr-apartments');
+      if (!grid) return;
+      var loaded = grid.getAttribute('data-offers-loaded');
+      if (!loaded || loaded === 'pending') {
+        if (section) section.style.display = 'none';
+        grid.setAttribute('data-offers-loaded', 'empty');
+      }
+    }, 4000);
+  }
+
+  /* ------------------------------------------------------------
+     4. Universal lightbox (blacklist approach)
+     ------------------------------------------------------------ */
+
+  function initLightbox() {
+    var EXCLUDE = [
+      'header', 'footer', '.menu-wrapper', '.navbar-brand', '.logo',
+      '.footer-contact-baner', '.powered_by', '.news-container',
+      '.fr-attr-card', '.fr-apt-card', '.fr-loc-card__pin',
+      '.fr-feature__icon', '.fr-loc-map'
+    ];
+
+    var modal = document.createElement('div');
+    modal.className = 'fr-lightbox';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Powiększone zdjęcie');
+    modal.innerHTML = '<button class="fr-lightbox__close" aria-label="Zamknij"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg></button><img class="fr-lightbox__img" alt="Powiekszone zdjecie apartamentu">';
+    document.body.appendChild(modal);
+
+    var modalImg = modal.querySelector('.fr-lightbox__img');
+    var closeBtn = modal.querySelector('.fr-lightbox__close');
+
+    function openLightbox(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('fr-lightbox--open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      modal.classList.remove('fr-lightbox--open');
+      modalImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal || e.target === closeBtn || closeBtn.contains(e.target)) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('fr-lightbox--open')) {
+        closeLightbox();
+      }
+    });
+
+    function attachToImages() {
+      var imgs = Array.prototype.filter.call(document.querySelectorAll('img'), function(img) {
+        if (img.hasAttribute('data-no-lightbox')) return false;
+        if (img.hasAttribute('data-fr-lightbox-attached')) return false;
+        var link = img.closest('a[href]');
+        if (link && link.getAttribute('href') !== '#') return false;
+        for (var i = 0; i < EXCLUDE.length; i++) {
+          if (img.closest(EXCLUDE[i])) return false;
+        }
+        var rect = img.getBoundingClientRect();
+        var maxW = Math.max(rect.width, img.naturalWidth || 0);
+        if (maxW > 0 && maxW < 60) return false;
+        var src = img.getAttribute('src') || img.src || '';
+        if (!src || src.indexOf('data:image/svg') === 0) return false;
+        return true;
+      });
+
+      imgs.forEach(function(img) {
+        img.setAttribute('data-fr-lightbox', '1');
+        img.setAttribute('data-fr-lightbox-attached', '1');
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', function(e) {
+          e.preventDefault();
+          openLightbox(img.currentSrc || img.src, img.alt);
+        });
+      });
+    }
+
+    attachToImages();
+    setTimeout(attachToImages, 1500);
+    setTimeout(attachToImages, 3500);
+  }
+
+  /* ------------------------------------------------------------
+     5. Reveal-on-scroll for .fr-reveal
+     ------------------------------------------------------------ */
+
+  function initReveal() {
+    if (!('IntersectionObserver' in window)) {
+      var fallback = document.querySelectorAll('.fr-reveal');
+      Array.prototype.forEach.call(fallback, function(el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    var els = document.querySelectorAll('.fr-reveal');
+    Array.prototype.forEach.call(els, function(el) { io.observe(el); });
+  }
+
+  /* ------------------------------------------------------------
+     6. Smooth scroll for in-page anchors
+     ------------------------------------------------------------ */
+
+  function initSmoothScroll() {
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var hash = link.getAttribute('href');
+      if (!hash || hash === '#') return;
+      var target = document.querySelector(hash);
+      if (!target) return;
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  }
+
+  /* ------------------------------------------------------------
+     7. /offers filter_header collapse (FontAwesome not loaded)
+     ------------------------------------------------------------ */
+
+  function initFilterCollapse() {
+    if (!document.body.classList.contains('page-offers')) return;
+    var headers = document.querySelectorAll('.filter_header');
+    if (!headers.length) return;
+
+    Array.prototype.forEach.call(headers, function(header, idx) {
+      var content = header.nextElementSibling;
+      if (!content || !content.classList.contains('filter_content')) return;
+
+      content.classList.add('collapse');
+
+      // PATCH v1.6.5: collapse ALL filters by default (including TYP OBIEKTU)
+      content.classList.remove('show');
+      header.setAttribute('aria-expanded', 'false');
+
+      header.style.cursor = 'pointer';
+      header.addEventListener('click', function(e) {
+        e.preventDefault();
+        var isOpen = content.classList.toggle('show');
+        header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------
+     8. Image 404 fallback — hide broken images
+     ------------------------------------------------------------ */
+
+  function initImageFallback() {
+    var imgs = document.querySelectorAll('img');
+    Array.prototype.forEach.call(imgs, function(img) {
+      if (img.complete && img.naturalWidth === 0 && img.src) {
+        handleBrokenImage(img);
+      } else {
+        img.addEventListener('error', function() { handleBrokenImage(img); });
+      }
+    });
+  }
+
+  function handleBrokenImage(img) {
+    var card = img.closest('.fr-attr-card, .fr-apt-card, .fr-loc-card, .fr-corp-benefit, .fr-narrative__media, .fr-attr-row__media');
+    if (card) {
+      card.style.background = 'linear-gradient(135deg, var(--fr-cream), var(--fr-light-accent))';
+      img.style.opacity = '0';
+    } else {
+      img.style.display = 'none';
+    }
+  }
+
+  /* ------------------------------------------------------------
+     9. Custom search widget — Litepicker date range
+        Submit: GET /offers?date_from=YYYY-MM-DD&date_to=YYYY-MM-DD&persons-adult=N&location=ID
+     ------------------------------------------------------------ */
+
+  var litepickerInstance = null;
+
+  function setupLitepicker() {
+    if (litepickerInstance) return;
+    if (typeof window.Litepicker === 'undefined') return;
+
+    var form = document.querySelector('.fr-cmd-bar__form');
+    if (!form) return;
+
+    var fromInput = form.querySelector('input[name="dateFrom"], input[name="date_from"]');
+    var toInput = form.querySelector('input[name="dateTo"], input[name="date_to"]');
+    if (!fromInput || !toInput) return;
+
+    fromInput.setAttribute('readonly', 'readonly');
+    toInput.setAttribute('readonly', 'readonly');
+    fromInput.setAttribute('type', 'text');
+    toInput.setAttribute('type', 'text');
+    if (!fromInput.placeholder) fromInput.setAttribute('placeholder', 'Wybierz date');
+    if (!toInput.placeholder) toInput.setAttribute('placeholder', 'Wybierz date');
+
+    var isDesktop = window.matchMedia('(min-width: 720px)').matches;
+    var thisYear = new Date().getFullYear();
+    try {
+      litepickerInstance = new window.Litepicker({
+        element: fromInput,
+        elementEnd: toInput,
+        singleMode: false,
+        numberOfMonths: isDesktop ? 2 : 1,
+        numberOfColumns: isDesktop ? 2 : 1,
+        minDate: new Date(),
+        format: 'YYYY-MM-DD',
+        lang: 'pl-PL',
+        autoApply: true,
+        mobileFriendly: false,
+        dropdowns: {
+          minYear: thisYear,
+          maxYear: thisYear + 3,
+          months: true,
+          years: true
+        },
+        moveByOneMonth: true,
+        resetButton: true,
+        zIndex: 99999,
+        inlineMode: false,
+        // PATCH v1.6.9: explicit 'bottom-start' instead of 'auto'.
+        // 'auto' on fullpage.js page-index sometimes flipped picker to
+        // wrong location (middle of viewport). 'bottom-start' = always
+        // below the triggering input, aligned to its left edge.
+        position: 'bottom-start'
+      });
+
+      // PATCH v1.6.9: manual anchor reposition on show.
+      // Reason: body.page-index uses fullpage.js (transform-based scroll).
+      // window.scrollY is always 0; Litepicker's internal calc may misplace
+      // picker. We force exact viewport-relative coords below the active
+      // trigger input on every show event. Picker is position:fixed (CSS),
+      // so top/left are viewport coords — reliable regardless of fullpage state.
+      var anchorPickerToTrigger = function(triggerEl) {
+        if (!litepickerInstance || !triggerEl) return;
+        var ui = (litepickerInstance.ui || litepickerInstance.picker);
+        if (!ui) return;
+        var rect = triggerEl.getBoundingClientRect();
+        var pickerW = ui.offsetWidth || 360;
+        var viewportW = window.innerWidth;
+        var gutter = 12;
+        var top = rect.bottom + 8;
+        var left = rect.left;
+        // Keep picker on-screen — flip to right edge if overflows
+        if (left + pickerW + gutter > viewportW) {
+          left = Math.max(gutter, viewportW - pickerW - gutter);
+        }
+        // Flip up if not enough space below
+        var spaceBelow = window.innerHeight - rect.bottom;
+        if (spaceBelow < (ui.offsetHeight || 360) + 20 && rect.top > spaceBelow) {
+          top = Math.max(gutter, rect.top - (ui.offsetHeight || 360) - 8);
+        }
+        ui.style.position = 'fixed';
+        ui.style.top = top + 'px';
+        ui.style.left = left + 'px';
+      };
+
+      // Hook into Litepicker's show event
+      if (typeof litepickerInstance.on === 'function') {
+        litepickerInstance.on('show', function() {
+          // Determine which input is currently focused (or default to fromInput)
+          var active = document.activeElement;
+          var trigger = (active === toInput) ? toInput : fromInput;
+          // Defer to next tick so picker is in DOM
+          setTimeout(function() { anchorPickerToTrigger(trigger); }, 0);
+        });
+      }
+
+      // Also anchor when each input is clicked (Litepicker may not refire show)
+      [fromInput, toInput].forEach(function(input) {
+        input.addEventListener('click', function() {
+          setTimeout(function() { anchorPickerToTrigger(input); }, 50);
+        });
+        input.addEventListener('focus', function() {
+          setTimeout(function() { anchorPickerToTrigger(input); }, 50);
+        });
+      });
+
+      // Reposition on viewport resize while picker is open
+      window.addEventListener('resize', function() {
+        var ui = (litepickerInstance.ui || litepickerInstance.picker);
+        if (ui && ui.style.display !== 'none' && ui.offsetWidth > 0) {
+          anchorPickerToTrigger(document.activeElement === toInput ? toInput : fromInput);
+        }
+      });
+
+      // PATCH v1.7.6: Bulletproof alignment via inline !important + MutationObserver.
+      // After 5 attempts (4x CSS, 1x JS without !important) still misaligned.
+      // Final approach: setProperty(prop, val, 'important') = inline !important =
+      // CSS specificity LEVEL 6 (highest possible). Wins over EVERYTHING.
+      // Plus MutationObserver re-runs on ANY DOM change = catches all render moments.
+      var setImportant = function(el, prop, val) {
+        if (el && el.style && typeof el.style.setProperty === 'function') {
+          el.style.setProperty(prop, val, 'important');
+        }
+      };
+
+      var alignMonthItems = function() {
+        var ui = litepickerInstance.ui || litepickerInstance.picker;
+        if (!ui) return;
+        var months = ui.querySelectorAll('.month-item');
+        if (months.length < 2) return;
+
+        // Step 1: normalize .month-item itself (reset padding/margin that may differ
+        // between .no-previous-month and regular month classes)
+        for (var i = 0; i < months.length; i++) {
+          setImportant(months[i], 'padding', '0');
+          setImportant(months[i], 'margin', '0');
+          setImportant(months[i], 'box-sizing', 'border-box');
+        }
+
+        // Step 2: collect headers and weekday-rows, reset their inline heights
+        var headers = [], weekdays = [];
+        for (var j = 0; j < months.length; j++) {
+          var h = months[j].querySelector('.month-item-header');
+          var w = months[j].querySelector('.month-item-weekdays-row');
+          if (h) {
+            h.style.removeProperty('height');
+            h.style.removeProperty('min-height');
+            h.style.removeProperty('max-height');
+            headers.push(h);
+          }
+          if (w) {
+            w.style.removeProperty('height');
+            w.style.removeProperty('min-height');
+            w.style.removeProperty('max-height');
+            weekdays.push(w);
+          }
+        }
+
+        // Step 3: force reflow, measure, apply max — TWICE (immediate + RAF)
+        var apply = function() {
+          if (headers.length < 2 && weekdays.length < 2) return;
+          var maxHeader = 0, maxWeekday = 0;
+          headers.forEach(function(h) { if (h.offsetHeight > maxHeader) maxHeader = h.offsetHeight; });
+          weekdays.forEach(function(w) { if (w.offsetHeight > maxWeekday) maxWeekday = w.offsetHeight; });
+
+          headers.forEach(function(h) {
+            setImportant(h, 'height', maxHeader + 'px');
+            setImportant(h, 'min-height', maxHeader + 'px');
+            setImportant(h, 'max-height', maxHeader + 'px');
+            setImportant(h, 'box-sizing', 'border-box');
+            setImportant(h, 'padding', '0');
+            setImportant(h, 'margin', '0');
+          });
+          weekdays.forEach(function(w) {
+            setImportant(w, 'height', maxWeekday + 'px');
+            setImportant(w, 'min-height', maxWeekday + 'px');
+            setImportant(w, 'max-height', maxWeekday + 'px');
+            setImportant(w, 'box-sizing', 'border-box');
+            setImportant(w, 'padding', '0');
+            setImportant(w, 'margin', '0');
+          });
+
+          // Step 4: force every .day-item to 36px height for row consistency
+          var days = ui.querySelectorAll('.container__days .day-item, .container__days > div');
+          days.forEach(function(d) {
+            setImportant(d, 'height', '36px');
+            setImportant(d, 'min-height', '36px');
+            setImportant(d, 'max-height', '36px');
+            setImportant(d, 'line-height', '36px');
+            setImportant(d, 'box-sizing', 'border-box');
+            setImportant(d, 'padding', '0');
+            setImportant(d, 'margin', '0');
+            setImportant(d, 'display', 'flex');
+            setImportant(d, 'align-items', 'center');
+            setImportant(d, 'justify-content', 'center');
+          });
+        };
+
+        // Apply immediately + on next frame (catches both sync and async layout)
+        apply();
+        requestAnimationFrame(apply);
+      };
+
+      // Hook 1: Litepicker events (render = month/year change, show = open)
+      if (typeof litepickerInstance.on === 'function') {
+        litepickerInstance.on('render', function() { alignMonthItems(); });
+        litepickerInstance.on('show', function() {
+          setTimeout(alignMonthItems, 0);
+          setTimeout(alignMonthItems, 30);
+          setTimeout(alignMonthItems, 100);
+          setTimeout(alignMonthItems, 300);
+        });
+      }
+
+      // Hook 2: MutationObserver — runs on ANY DOM change inside picker
+      // Most reliable catch-all for late renders, dropdown changes, etc.
+      var pickerObserver = null;
+      var setupObserver = function() {
+        var ui = litepickerInstance.ui || litepickerInstance.picker;
+        if (!ui || pickerObserver) return;
+        var debounceTimer = null;
+        pickerObserver = new MutationObserver(function() {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(alignMonthItems, 16);  // ~1 frame debounce
+        });
+        pickerObserver.observe(ui, { childList: true, subtree: true });
+      };
+      // Defer observer setup until picker DOM is ready
+      setTimeout(setupObserver, 100);
+      if (typeof litepickerInstance.on === 'function') {
+        litepickerInstance.on('show', setupObserver);
+      }
+
+      // Hook 3: also align after our anchor reposition (override)
+      var origAnchor = anchorPickerToTrigger;
+      anchorPickerToTrigger = function(triggerEl) {
+        origAnchor(triggerEl);
+        setTimeout(alignMonthItems, 0);
+        setTimeout(alignMonthItems, 50);
+      };
+
+      form.addEventListener('submit', function(e) {
+        if (!fromInput.value || !toInput.value) {
+          e.preventDefault();
+          if (litepickerInstance && typeof litepickerInstance.show === 'function') {
+            litepickerInstance.show();
+          }
+        }
+      });
+    } catch (err) { litepickerInstance = null; }
+  }
+
+  function initLitepickerWhenReady() {
+    var attempts = 0;
+    var tryInit = function() {
+      attempts++;
+      if (typeof window.Litepicker !== 'undefined') {
+        setupLitepicker();
+        return;
+      }
+      if (attempts < 30) setTimeout(tryInit, 200);
+    };
+    tryInit();
+  }
+
+  function initCustomSearch() {
+    initLitepickerWhenReady();
+  }
+
+  /* ------------------------------------------------------------
+     11. Leaflet map — 3 location markers
+     ------------------------------------------------------------ */
+
+  function initLeafletMap() {
+    var attempts = 0;
+    var tryInit = function() {
+      attempts++;
+      if (typeof window.L === 'undefined') {
+        if (attempts < 30) setTimeout(tryInit, 200);
+        return;
+      }
+      var mapEl = document.getElementById('fr-map');
+      if (!mapEl) return;
+      if (mapEl.dataset.initialized) return;
+      mapEl.dataset.initialized = '1';
+
+      var locations = [
+        { lat: 52.4037628, lng: 16.9277562, name: 'Białowieska 69/11', district: 'Stare Miasto / Centrum', num: 1 },
+        { lat: 52.413013,  lng: 16.9371,    name: 'Grochowe Laki 7', district: 'Stare Miasto', num: 2 },
+        { lat: 52.3946573, lng: 17.0214297, name: 'Dzieci Wrzesinskich 3', district: 'Wilda', num: 3 }
+      ];
+
+      var avgLat = (locations[0].lat + locations[1].lat + locations[2].lat) / 3;
+      var avgLng = (locations[0].lng + locations[1].lng + locations[2].lng) / 3;
+
+      var map = window.L.map('fr-map', { scrollWheelZoom: false, zoomControl: true })
+        .setView([avgLat, avgLng], 13);
+
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      locations.forEach(function(loc) {
+        var icon = window.L.divIcon({
+          className: 'fr-map-pin',
+          html: '<div class="fr-map-pin__inner">' + loc.num + '</div>',
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
+        });
+        var marker = window.L.marker([loc.lat, loc.lng], { icon: icon }).addTo(map);
+        marker.bindPopup('<strong>' + loc.name + '</strong><br>' + loc.district);
+      });
+    };
+    tryInit();
+  }
+
+  /* ------------------------------------------------------------
+     10. Boot
+     ------------------------------------------------------------ */
+
+  function initMobileMenuToggle() {
+    var toggler = document.querySelector('.navbar-toggler');
+    var header = document.querySelector('header.default13');
+    if (!toggler || !header) return;
+
+    toggler.addEventListener('click', function() {
+      setTimeout(function() {
+        var menu = document.querySelector('.navbar-collapse');
+        var open = menu && (menu.classList.contains('show') || menu.classList.contains('collapsing') || menu.getAttribute('aria-expanded') === 'true' || toggler.getAttribute('aria-expanded') === 'true');
+        header.classList.toggle('fr-menu-open', !!open);
+      }, 50);
+    });
+
+    document.addEventListener('click', function(e) {
+      var menu = document.querySelector('.navbar-collapse');
+      if (!menu) return;
+      var clickInside = e.target.closest('.navbar-collapse, .navbar-toggler, header.default13');
+      if (!clickInside) {
+        header.classList.remove('fr-menu-open');
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------
+     12. Policy modal (instinct 032) — Cookies/Regulamin/Polityka
+         intercept clicks and open in iframe modal instead of new tab
+     ------------------------------------------------------------ */
+
+  function initPolicyModal() {
+    if (document.getElementById('saPolicyModal')) return;
+    var m = document.createElement('div');
+    m.id = 'saPolicyModal';
+    m.className = 'fr-policy-modal';
+    m.innerHTML =
+      '<div class="fr-policy-modal__box">' +
+        '<button type="button" class="fr-policy-modal__close" aria-label="Zamknij">×</button>' +
+        '<iframe class="fr-policy-modal__iframe" src="about:blank" title="Polityka"></iframe>' +
+      '</div>';
+    document.body.appendChild(m);
+
+    m.addEventListener('click', function(e) {
+      if (e.target === m || e.target.classList.contains('fr-policy-modal__close')) {
+        m.classList.remove('fr-policy-modal--active');
+        document.body.style.overflow = '';
+        var ifr = m.querySelector('iframe');
+        if (ifr) ifr.src = 'about:blank';
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && m.classList.contains('fr-policy-modal--active')) {
+        m.classList.remove('fr-policy-modal--active');
+        document.body.style.overflow = '';
+        var ifr = m.querySelector('iframe');
+        if (ifr) ifr.src = 'about:blank';
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest(
+        'a[href*="module=cookies"], a[href*="module=terms"], ' +
+        'a[href*="module=privacy"], a[href*="regulamin" i], ' +
+        'a[href*="polityka" i], a[href*="cookies" i]'
+      );
+      if (!link) return;
+      if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+      e.preventDefault();
+      var modal = document.getElementById('saPolicyModal');
+      if (!modal) return;
+      modal.querySelector('iframe').setAttribute('src', link.href);
+      modal.classList.add('fr-policy-modal--active');
+      document.body.style.overflow = 'hidden';
+    }, true);
+  }
+
+  function boot() {
+    initHeaderScroll();
+    teleportHero();
+    initFeaturedOffers();
+    initLightbox();
+    initReveal();
+    initSmoothScroll();
+    initFilterCollapse();
+    initImageFallback();
+    initCustomSearch();
+    initLeafletMap();
+    initMobileMenuToggle();
+    initPolicyModal();
+    setTimeout(initFilterCollapse, 800);
+    setTimeout(initImageFallback, 1500);
+    setTimeout(setupLitepicker, 1500);
+    setTimeout(setupLitepicker, 3000);
+    setTimeout(initMobileMenuToggle, 800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  setTimeout(function() {
+    teleportHero();
+  }, 800);
+
+})();
+</script>

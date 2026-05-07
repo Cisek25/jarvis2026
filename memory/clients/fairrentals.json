@@ -1,0 +1,109 @@
+{
+  "clientId": "fairrentals",
+  "name": "Fair Rentals Sp. z o.o.",
+  "ownerName": "Karolina Banaś",
+  "version": "v1.0",
+  "status": "do_wklejenia",
+  "createdAt": "2026-05-07",
+  "panel": "https://client58360.idosell.com/panel/",
+  "site": "https://client58360.idobooking.com/",
+  "currentSite": "https://fairrentals.pl",
+  "template": "default13",
+  "prefix": "fr-",
+  "fpEnabled": true,
+  "rootFontSize": "10px",
+  "languages": ["pl", "en"],
+  "languagesPhase1": ["pl", "en"],
+  "city": "Wrocław",
+  "company": {
+    "legalName": "FAIR RENTALS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ",
+    "address": "Białowieska 69/11, 54-234 Wrocław",
+    "phone": "+48 575 092 755",
+    "email": "biuro@fairrentals.pl"
+  },
+  "logo": {
+    "source": "panel",
+    "url": "https://client58360.idobooking.com/images/owner/wideLogo.svg"
+  },
+  "checkInOut": { "checkIn": "16:00", "checkOut": "11:00" },
+  "brief": {
+    "summary": "Fair Rentals to rodzinna firma z Wrocławia zarządzająca 19 apartamentami krótkoterminowymi. Usługa premium-przystępna, oparta o indywidualne zaangażowanie, proaktywność i wysokie ratingi (Booking 9.8, Google 4.7). Klient celuje w 3 segmenty: Goście (B2C), Właściciele mieszkań do oddania w zarząd, Klienci firmowi.",
+    "tone": "nowoczesny, elegancki, premium, ale przystępny i budujący zaufanie",
+    "feeling": "porządek, bezpieczeństwo, zaufanie, komfort, jakość, opieka, estetyka",
+    "minimal": true,
+    "competitors": ["rentplanet.pl", "sunandsnow.pl"],
+    "references": [
+      { "url": "https://baltic-apartments.com/", "use": "cała koncepcja" },
+      { "url": "https://www.apartly.pl/", "use": "tylko strona główna" },
+      { "url": "https://wh.waw.pl/", "use": "całość" }
+    ]
+  },
+  "decisionsFromDamian_2026-05-07": {
+    "languages": "PL + EN (bez DE w fazie 1)",
+    "featuredOffersStrategy": "Pattern A — wszystkie wyróżnione z panelu, klient sam zaznacza (testowo 2: Golden Hour, Apartament Śrutowa 8). ZERO hardcoded fallback (instinct 015).",
+    "contentAuthor": "JARVIS pisze całość drafty (PL + EN tłumaczenia)",
+    "photosStrategy": {
+      "apartments": "z panelu IdoBooking (wgrane przez klienta — aktualnie 2 oferty udostępnione)",
+      "attractions_hero_blog": "JARVIS wskazuje URL z internetu do pobrania, Damian pobiera i wgrywa do panelu (Unsplash, Pexels — NIGDY Wikimedia, instinct 029)"
+    },
+    "policies": "obsługiwane przez system IdoBooking, widoczne w stopce — NIE zmieniamy"
+  },
+  "informationArchitecture": [
+    { "url": "/pl/", "name": "Strona główna", "audience": "Goście B2C", "type": "page-index", "fp": true, "components": ["hero", "search-bar", "usp-stats", "featured-offers (auto)", "about", "atrakcje-teaser", "dual-segment-cta", "final-cta"] },
+    { "url": "/pl/offers", "name": "Apartamenty", "audience": "Goście B2C", "type": "page-offers", "fp": false, "render": "system + theme styling + filters_submit override (instinct 005)" },
+    { "url": "/pl/offer/{id}/{slug}", "name": "Apartament szczegóły", "audience": "Goście B2C", "type": "page-offer", "fp": false, "render": "system + sticky tabs + price block override (instinct 038)" },
+    { "url": "/pl/txt/{id}/Obsluga-najmu", "name": "Obsługa najmu", "audience": "Właściciele mieszkań", "type": "page-txt", "fp": false, "components": ["hero", "intro", "features-process (8 kroków)", "benefits-cards", "social-proof", "cta-dark", "faq", "final-cta"] },
+    { "url": "/pl/txt/{id}/Dla-biznesu", "name": "Dla Biznesu", "audience": "Klienci firmowi", "type": "page-txt", "fp": false, "components": ["hero", "intro", "benefits-grid", "use-cases-cards", "cta-dark", "faq", "final-cta"] },
+    { "url": "/pl/txt/{id}/Atrakcje-Wroclawia", "name": "Atrakcje Wrocławia", "audience": "Goście B2C", "type": "page-txt", "fp": false, "components": ["hero", "cards-grid (10-12 atrakcji)", "map-overview", "final-cta"] },
+    { "url": "/pl/news", "name": "Blog", "audience": "wszyscy", "type": "system listing", "fp": false, "render": "system + theme styling, placeholder pusty pod przyszły content" },
+    { "url": "/pl/contact", "name": "Kontakt", "audience": "wszyscy", "type": "page-contact", "fp": false, "render": "system Bootstrap grid + map override (NIE override .container, instinct 007)" }
+  ],
+  "designDirection": {
+    "palette_planned": {
+      "primary": "yellow accent (musztardowy / ciepły żółty)",
+      "primaryHover": "darker shade",
+      "secondary": "warm charcoal #1A1814 lub #2A2A28",
+      "accent": "soft cream / warm beige",
+      "bgLight": "#FAF7F2 (warm off-white)",
+      "bgWhite": "#FFFFFF",
+      "textBody": "#3F3A35 (warm dark)",
+      "textMuted": "#7A736B",
+      "border": "rgba(0,0,0,0.08)"
+    },
+    "fonts_planned": {
+      "heading": "DM Serif Display | Cormorant Garamond | Playfair Display (decision pending)",
+      "body": "Inter (default safe choice)"
+    },
+    "style": "minimalist editorial premium, mocna typografia serif, biała przestrzeń, zdjęcia full-bleed, żółty jako akcent na CTA i kicker pills"
+  },
+  "trapsAppliedFromDayOne": [
+    "#1 fullpage.js MutationObserver (homepage)",
+    "#7 every-image-lightbox blacklist (instinct 011)",
+    "#14 custom.css size discipline + bash heredoc avoid (port-by-sed)",
+    "#15 IdoBooking default13 vars override !important (instinct 020/042)",
+    "#18 page-index full-width + system hides (instinct 037)",
+    "#26 featured offers Pattern A ZERO hardcoded (instinct 015, 026 MASTER)",
+    "#27 zero emoji zero panel comments (instinct 027)",
+    "#28 one shared JS file per page all languages (instinct 028)",
+    "#29 NIGDY Wikimedia, Unsplash/Pexels only (instinct 029)",
+    "#30 px over rem when system root 10px (instinct 024)",
+    "#33 inline script in body_top stripped → JS only in body_bottom (instinct 028)"
+  ],
+  "openQuestionsForDamian": [
+    "Charakter wdrożenia formalny: Migracja / Redesign / Nowa wizytówka — domyślnie traktuję jako NOWA WIZYTÓWKA (potwierdź przy commicie)",
+    "Czy logo jest w wersji wektorowej (SVG) z transparency dla użycia na ciemnym/jasnym tle, czy korzystamy WYŁĄCZNIE z tego co już jest w panelu (/images/owner/wideLogo.svg)?",
+    "Płatności: czy karta kredytowa jest aktywna w IdoPay/Stripe? Pytanie tylko dla wzmianki w treści (sekcja Bezpieczne płatności na home)",
+    "Pakiet wdrożeniowy: 6 podstron + Blog placeholder + 2 języki = OK?",
+    "Adresy /txt/* po stronie panelu mają już ID? Jeśli nie — Damian utworzy puste podstrony PL+EN i poda ID?"
+  ],
+  "history": [
+    { "date": "2026-05-07", "action": "Brief received: Fair Rentals Brief-booking_v2.docx + live URL client58360.idobooking.com" },
+    { "date": "2026-05-07", "action": "FAZA 0+1 zakończone — rekonesans JARVIS 9 master files + 44 instincts + live audit (2 featured offers w panelu, EN domyślny język)" },
+    { "date": "2026-05-07", "action": "Decyzje od Damiana: PL+EN, wszystkie wyróżnione z panelu, JARVIS pisze treści, zdjęcia atrakcji do pobrania z linków, polityki systemowe bez zmian" },
+    { "date": "2026-05-07", "action": "Damian potwierdził architekturę 8 stron (Home, /offers, Obsługa najmu /txt/201, Dla biznesu /txt/202, Atrakcje /txt/200, /news, /contact, /offer/{id}) + design tokens (#E2D700 + #1A1A18 + DM Serif + Inter)" },
+    { "date": "2026-05-07", "action": "FAZA 5 build v1.0: port-by-sed z solidneapartamenty v1.7.6 → CSS 181KB + JS 32KB + HEAD PL+EN + GLOWNA PL+EN + 3 podstrony /txt/* PL+EN + SEO + ZDJECIA_LINKI = 14 plików w DO_WKLEJENIA (314KB total)" },
+    { "date": "2026-05-07", "action": "FAZA 6 walidacja: SEO 8/8 PASS, UX 11 PASS + 9 warnings + 10 critical (wszystkie false positives — UX-020 9× white text false-positive bo cascade na .fr-final-cta dark, UX-002 1× JS template alt runtime). 0 emoji, 0 panel refs, 0 bash heredoc escape. CSS 181KB / 290KB limit." },
+    { "date": "2026-05-07", "action": "Trapy zaadresowane: #1 fp.js MutObs, #7+11 lightbox blacklist, #14 CSS limit, #15+20+42 vars override !important, #18+037 page-index full-width, #26+15+026MASTER featured Pattern A ZERO hardcoded, #27 zero emoji, #28 JS w body_bottom, #29 NIGDY Wikimedia, #30+24 px nie rem, #34 inline script w body_top wycinane" },
+    { "date": "2026-05-07", "action": "Dostawa v1.0: RELEASE_NOTES_v1.0.md + golden path checklist + 14 plików gotowych do wklejenia. Pozostaje: Damian wkleja CSS+JS+HEAD+6 stron+SEO, podmienia 14 URL Unsplash na zdjęcia z galerii klienta, klient zaznacza więcej wyróżnionych w panelu" }
+  ]
+}

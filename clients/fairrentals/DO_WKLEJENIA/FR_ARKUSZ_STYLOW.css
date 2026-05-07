@@ -1,0 +1,6287 @@
+/* Fair Rentals - theme v1.0 */
+/* Layer 3: brand override + boutique components for IdoBooking default13 */
+
+/* ============================================================
+   1. BRAND VARS + IDOBOOKING SYSTEM OVERRIDE
+   ============================================================ */
+
+:root,
+html:root {
+  --fr-primary:        #E2D700;
+  --fr-primary-hover:  #C8BD00;
+  --fr-primary-deep:   #8A7A00;
+  --fr-light-accent:   #F4EE8A;
+  --fr-secondary:      #1A1A18;
+  --fr-cream:          #F0EAE0;
+  --fr-cream-deep:     #DDD0BE;
+  --fr-sage:           #7A736B;
+  --fr-light-gray:     #DEDEDE;
+  --fr-text-body:      #3F3A35;
+  --fr-text-dark:      #0F0F0E;
+  --fr-text-muted:     #7A736B;
+  --fr-bg:             #FAF7F2;
+  --fr-bg-alt:         #F4ECE2;
+  --fr-white:          #FFFFFF;
+  --fr-border-light:   #E5DCD4;
+  --fr-border-medium:  #C9C2B8;
+  --fr-shadow-sm:      0 2px 8px rgba(26, 26, 24, 0.06);
+  --fr-shadow-md:      0 8px 24px rgba(26, 26, 24, 0.10);
+  --fr-shadow-lg:      0 18px 48px rgba(26, 26, 24, 0.14);
+
+  --fr-font-display:   'DM Serif Display', 'Times New Roman', Georgia, serif;
+  --fr-font-body:      'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+  --fr-radius-sm:      6px;
+  --fr-radius-md:      12px;
+  --fr-radius-lg:      20px;
+  --fr-radius-pill:    100px;
+
+  /* Override IdoBooking default13 vars */
+  --maincolor1:        #E2D700 !important;
+  --maincolor2:        #C8BD00 !important;
+  --maincolor1_rgba:   rgba(226, 215, 0, 0.9) !important;
+  --supportcolor1:     #E2D700 !important;
+  --supportcolor2:     #1A1A18 !important;
+  --bgcolor1:          #FAF7F2 !important;
+  --bgcolor2:          #FFFFFF !important;
+  --bgcolor3:          #F0EAE0 !important;
+  --hovercolor1:       #C8BD00 !important;
+  --hovercolor2:       #8A7A00 !important;
+  --widget_header:     #1A1A18 !important;
+  --btn_large:         #E2D700 !important;
+  --btn_medium:        #E2D700 !important;
+  --bgaside:           #F4ECE2 !important;
+}
+
+/* ============================================================
+   2. BASE TYPOGRAPHY
+   ============================================================ */
+
+html body {
+  font-family: var(--fr-font-body) !important;
+  color: var(--fr-text-body) !important;
+  background: var(--fr-bg) !important;
+}
+
+html body:not(.page-offers):not(.page-offer):not(.page-contact) {
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+}
+
+html body.page-offers,
+html body.page-offer,
+html body.page-contact {
+  font-size: 16px !important;
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body h5,
+html body h6 {
+  font-family: var(--fr-font-display) !important;
+  color: var(--fr-text-dark) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.005em !important;
+}
+
+html body p {
+  font-family: var(--fr-font-body) !important;
+  color: var(--fr-text-body) !important;
+  line-height: 1.7 !important;
+}
+
+html body a {
+  color: var(--fr-primary) !important;
+  transition: color 0.2s ease, opacity 0.2s ease !important;
+}
+
+html body a:hover {
+  color: var(--fr-primary-hover) !important;
+}
+
+/* Selection */
+::selection { background: var(--fr-light-accent); color: var(--fr-text-dark); }
+
+/* ============================================================
+   3. HEADER & NAVIGATION
+   ============================================================ */
+
+/* Default header — light, dark text (used on all subpages) */
+html body header.default13 {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: saturate(140%) blur(14px) !important;
+  -webkit-backdrop-filter: saturate(140%) blur(14px) !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+  border-bottom: none !important;
+  transition: background 0s, box-shadow 0.2s ease !important;
+}
+
+html body header.default13 .menu-wrapper,
+html body header.default13 .bgd-color-light.menu-wrapper {
+  background: transparent !important;
+  border-bottom: 1px solid var(--fr-border-light) !important;
+}
+
+/* Homepage transparent state — only when not scrolled */
+html body.page-index header.default13:not(.fr-header--scrolled) {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+html body.page-index header.default13:not(.fr-header--scrolled) .menu-wrapper,
+html body.page-index header.default13:not(.fr-header--scrolled) .bgd-color-light.menu-wrapper {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Scrolled state — instant white background (homepage when scrolled) */
+html body header.default13.fr-header--scrolled {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: saturate(140%) blur(14px) !important;
+  -webkit-backdrop-filter: saturate(140%) blur(14px) !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+}
+
+html body header.default13.fr-header--scrolled .menu-wrapper,
+html body header.default13.fr-header--scrolled .bgd-color-light.menu-wrapper {
+  background: transparent !important;
+  border-bottom: 1px solid var(--fr-border-light) !important;
+}
+
+/* Header nav typography — DEFAULT dark (subpages + scrolled state) */
+html body header.default13 .nav-link.nav-link,
+html body header.default13 .navbar a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler) {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  color: var(--fr-text-dark) !important;
+  padding: 12px 14px !important;
+  transition: color 0.2s ease !important;
+}
+
+/* Homepage transparent header — white nav text */
+html body.page-index header.default13:not(.fr-header--scrolled) .nav-link.nav-link,
+html body.page-index header.default13:not(.fr-header--scrolled) .navbar a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler) {
+  color: var(--fr-white) !important;
+}
+
+html body header.default13 .nav-link.nav-link:hover,
+html body header.default13 .navbar a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler):hover {
+  color: var(--fr-primary) !important;
+}
+
+html body.page-index header.default13:not(.fr-header--scrolled) .nav-link.nav-link:hover,
+html body.page-index header.default13:not(.fr-header--scrolled) .navbar a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler):hover {
+  color: var(--fr-light-accent) !important;
+}
+
+/* Active link */
+html body header.default13 .nav-link.active,
+html body header.default13 .nav-link.nav-link.active {
+  color: var(--fr-primary) !important;
+}
+
+html body.page-index header.default13:not(.fr-header--scrolled) .nav-link.active,
+html body.page-index header.default13:not(.fr-header--scrolled) .nav-link.nav-link.active {
+  color: var(--fr-light-accent) !important;
+}
+
+/* Language toggler — DEFAULT dark border (subpages + scrolled) */
+/* PATCH v1.6.4: Hide language toggler everywhere — site is PL-only */
+html body .language__toggler,
+html body .language__toggler.language__toggler,
+html body header.default13 .language__toggler,
+html body header.default13 .language__toggler.language__toggler,
+html body.page-index header.default13:not(.fr-header--scrolled) .language__toggler,
+html body header.default13 .language-list,
+html body .language-list,
+html body .language__menu {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Hide fontello icons (system does not load them on default13) */
+html body header.default13 .icon[class^="icon-"]:not(.fr-icon),
+html body .language__toggler .icon,
+html body .navbar-toggler .icon-menu {
+  display: none !important;
+}
+
+/* ============================================================
+   4. LOGO — chip ONLY on homepage transparent state
+   ============================================================ */
+
+/* Default — no chip on subpages and scrolled state */
+html body header.default13 .navbar-brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  align-self: center !important;
+  padding: 4px 0 !important;
+  margin: 8px 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Homepage transparent header — WHITE CHIP for logo contrast over photo */
+html body.page-index header.default13:not(.fr-header--scrolled) .navbar-brand {
+  align-self: flex-start !important;
+  padding: 8px 18px !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  border-radius: var(--fr-radius-md) !important;
+  box-shadow: 0 8px 24px rgba(26, 26, 24, 0.18) !important;
+}
+
+html body header.default13 .navbar-brand img {
+  max-height: 100px !important;
+  height: 80px !important;
+  width: auto !important;
+  max-width: 320px !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 991.98px) {
+  html body header.default13 .navbar-brand img {
+    max-height: 60px !important;
+    height: 60px !important;
+    max-width: 240px !important;
+  }
+}
+
+/* Hide full company name fallback text under logo */
+html body header.default13 .navbar-brand .navbar-brand-text,
+html body header.default13 .navbar-brand-text,
+html body header.default13 .navbar-brand-name,
+html body header.default13 .navbar-brand small,
+html body header.default13 .navbar-brand .company-name,
+html body header.default13 .navbar-brand .powered_by,
+html body header.default13 .navbar-brand[title]::after,
+html body header.default13 a.navbar-brand > span:not(:has(img)),
+html body header.default13 a.navbar-brand > div:not(:has(img)),
+html body header.default13 a.navbar-brand .text {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  font-size: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* Tooltip on logo (full company name) — disable */
+html body header.default13 .navbar-brand[title]:hover::before,
+html body header.default13 .navbar-brand[title]:hover::after {
+  display: none !important;
+}
+
+/* ============================================================
+   5. NAVBAR TOGGLER (mobile only)
+   ============================================================ */
+
+/* PATCH v1.6.2: Mobile menu dropdown — force DARK text on white bg
+   Reason: page-index transparent header rule sets .nav-link color:white,
+   which makes mobile dropdown items invisible (white text on white panel).
+   Mobile dropdown ALWAYS has white background → text MUST be dark
+   regardless of header state (transparent / scrolled / subpage). */
+@media (max-width: 991.98px) {
+  html body header.default13 .navbar-nav,
+  html body header.default13 .navbar-collapse,
+  html body header.default13 .navbar-collapse.show,
+  html body header.default13 .navbar-collapse.collapsing,
+  html body.page-index header.default13:not(.fr-header--scrolled) .navbar-nav,
+  html body.page-index header.default13:not(.fr-header--scrolled) .navbar-collapse {
+    background: var(--fr-white) !important;
+    border-radius: var(--fr-radius-md) !important;
+    box-shadow: var(--fr-shadow-md) !important;
+    border: 1px solid var(--fr-border-light) !important;
+    padding: 12px 0 !important;
+    margin-top: 8px !important;
+  }
+
+  html body header.default13 .navbar-nav .nav-link,
+  html body header.default13 .navbar-nav a[href]:not(.btn),
+  html body header.default13 .navbar-collapse .nav-link,
+  html body header.default13 .navbar-collapse a[href]:not(.btn),
+  html body.page-index header.default13:not(.fr-header--scrolled) .navbar-nav .nav-link,
+  html body.page-index header.default13:not(.fr-header--scrolled) .navbar-nav a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler),
+  html body.page-index header.default13:not(.fr-header--scrolled) .navbar-collapse .nav-link {
+    color: var(--fr-text-dark) !important;
+    padding: 14px 24px !important;
+    font-family: var(--fr-font-body) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    display: block !important;
+    border-bottom: 1px solid var(--fr-border-light) !important;
+  }
+
+  html body header.default13 .navbar-nav .nav-link:last-child,
+  html body header.default13 .navbar-collapse .nav-link:last-child,
+  html body header.default13 .navbar-nav li:last-child .nav-link {
+    border-bottom: none !important;
+  }
+
+  html body header.default13 .navbar-nav .nav-link:hover,
+  html body header.default13 .navbar-nav .nav-link.active,
+  html body header.default13 .navbar-collapse .nav-link:hover,
+  html body header.default13 .navbar-collapse .nav-link.active,
+  html body.page-index header.default13:not(.fr-header--scrolled) .navbar-nav .nav-link:hover,
+  html body.page-index header.default13:not(.fr-header--scrolled) .navbar-nav .nav-link.active {
+    color: var(--fr-primary) !important;
+    background: var(--fr-cream) !important;
+  }
+}
+
+html body .navbar-toggler { display: none !important; }
+
+@media (max-width: 991.98px) {
+  /* PATCH v1.6.1: white chip background + visible "Menu" label
+     Reason: on hero photo background, transparent toggler with thin white
+     hamburger lines + black "Menu" span = unreadable. Now: white chip with
+     dark icon + dark "Menu" text — readable on any header state. */
+  html body .navbar-toggler {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    position: relative !important;
+    min-width: 64px !important;
+    min-height: 48px !important;
+    padding: 10px 14px !important;
+    border: 1px solid var(--fr-border-light) !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+    cursor: pointer !important;
+    color: var(--fr-text-dark) !important;
+  }
+
+  /* On scrolled header / subpages — flat white chip without strong shadow */
+  html body header.default13.fr-header--scrolled .navbar-toggler,
+  html body:not(.page-index) header.default13 .navbar-toggler {
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: var(--fr-shadow-sm) !important;
+    border-color: var(--fr-border-light) !important;
+  }
+
+  /* 3 hamburger lines — always dark for contrast on white chip */
+  html body .navbar-toggler::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 14px;
+    color: var(--fr-text-dark);
+    background-image:
+      linear-gradient(to bottom, currentColor 2px, transparent 2px),
+      linear-gradient(to bottom, currentColor 2px, transparent 2px),
+      linear-gradient(to bottom, currentColor 2px, transparent 2px);
+    background-position: 0 0, 0 6px, 0 12px;
+    background-repeat: no-repeat;
+    background-size: 20px 2px, 20px 2px, 20px 2px;
+    flex-shrink: 0;
+  }
+
+  /* "Menu" label — visible, brand typography */
+  html body .navbar-toggler > span,
+  html body .navbar-toggler span {
+    color: var(--fr-text-dark) !important;
+    font-family: var(--fr-font-body) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Hide system <i class="icon icon-menu"> placeholder (fontello not loaded) */
+  html body .navbar-toggler > i.icon,
+  html body .navbar-toggler i[class^="icon-"] {
+    display: none !important;
+  }
+
+  /* Expand hit-area without affecting visuals */
+  html body .navbar-toggler::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
+
+  /* Children non-interactive (button itself catches clicks) */
+  html body .navbar-toggler > * {
+    pointer-events: none !important;
+  }
+
+  /* Hide "Menu" label on very small screens (<360px) — icon alone suffices */
+  @media (max-width: 359px) {
+    html body .navbar-toggler > span,
+    html body .navbar-toggler span {
+      display: none !important;
+    }
+    html body .navbar-toggler { padding: 12px !important; gap: 0 !important; }
+  }
+}
+
+/* ============================================================
+   6. SECTION HELPERS
+   ============================================================ */
+
+.fr-kicker {
+  display: inline-block;
+  font-family: var(--fr-font-body);
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2.5px !important;
+  text-transform: uppercase;
+  color: var(--fr-primary);
+  margin: 0 0 18px;
+  padding: 6px 18px;
+  background: rgba(231, 187, 186, 0.30);
+  border-radius: var(--fr-radius-pill);
+}
+
+html body .fr-kicker {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2.5px !important;
+}
+
+.fr-h1 {
+  font-family: var(--fr-font-display);
+  font-size: clamp(38px, 5.5vw, 68px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: var(--fr-text-dark);
+  margin: 0 0 24px;
+}
+
+.fr-h2 {
+  font-family: var(--fr-font-display);
+  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--fr-text-dark);
+  margin: 0 0 20px;
+}
+
+.fr-h2 em {
+  font-style: italic;
+  color: var(--fr-primary);
+  font-weight: 300;
+}
+
+.fr-h3 {
+  font-family: var(--fr-font-display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--fr-text-dark);
+  margin: 0 0 12px;
+}
+
+.fr-lead {
+  font-family: var(--fr-font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--fr-text-body);
+  max-width: 640px;
+  margin: 0 0 24px;
+}
+
+.fr-text {
+  font-family: var(--fr-font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--fr-text-body);
+}
+
+.fr-rule {
+  display: inline-block;
+  width: 60px;
+  height: 1px;
+  background: var(--fr-primary);
+  margin: 14px 0 22px;
+}
+
+.fr-section {
+  padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 60px);
+  position: relative;
+}
+
+.fr-section--cream { background: var(--fr-bg-alt); }
+.fr-section--white { background: var(--fr-white); }
+.fr-section--bg    { background: var(--fr-bg); }
+
+.fr-section__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.fr-section__header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 56px;
+}
+
+.fr-section__header .fr-h2 { margin-bottom: 16px; }
+.fr-section__header .fr-lead { margin: 0 auto; }
+
+/* ============================================================
+   7. BUTTONS
+   ============================================================ */
+
+.fr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 32px;
+  border-radius: var(--fr-radius-pill);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-height: 52px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.fr-btn--primary {
+  background: var(--fr-primary);
+  color: var(--fr-white) !important;
+  border-color: var(--fr-primary);
+  box-shadow: 0 6px 18px rgba(226, 215, 0, 0.32);
+}
+
+.fr-btn--primary:hover {
+  background: var(--fr-primary-hover);
+  border-color: var(--fr-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(200, 189, 0, 0.40);
+}
+
+.fr-btn--outline {
+  background: transparent;
+  color: var(--fr-primary) !important;
+  border-color: var(--fr-primary);
+}
+
+.fr-btn--outline:hover {
+  background: var(--fr-primary);
+  color: var(--fr-white) !important;
+  transform: translateY(-2px);
+}
+
+.fr-btn--ghost-light {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--fr-white) !important;
+  border-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.fr-btn--ghost-light:hover {
+  background: var(--fr-white);
+  color: var(--fr-primary) !important;
+  border-color: var(--fr-white);
+  transform: translateY(-2px);
+}
+
+.fr-btn--small {
+  padding: 11px 22px;
+  font-size: 12px;
+  min-height: 42px;
+}
+
+/* Override system btn classes on /offers page */
+html body.page-offers .btn,
+html body.page-offer .btn {
+  background: var(--fr-primary) !important;
+  border-color: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  border-radius: var(--fr-radius-pill) !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  padding: 13px 28px !important;
+  min-height: 46px !important;
+  transition: all 0.25s ease !important;
+}
+
+html body.page-offers .btn:hover,
+html body.page-offer .btn:hover {
+  background: var(--fr-primary-hover) !important;
+  border-color: var(--fr-primary-hover) !important;
+  transform: translateY(-2px) !important;
+}
+
+html body.page-offers #filters_submit {
+  background: var(--fr-primary) !important;
+  border-radius: var(--fr-radius-pill) !important;
+  padding: 14px 28px !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  font-size: 13px !important;
+  letter-spacing: 1.5px !important;
+}
+
+/* ============================================================
+   8. HERO SECTION
+   ============================================================ */
+
+.fr-hero-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+.fr-hero {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.fr-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 26, 24, 0.45) 0%,
+    rgba(26, 26, 24, 0.30) 50%,
+    rgba(26, 26, 24, 0.62) 100%
+  );
+  z-index: 1;
+}
+
+.fr-hero__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 80px;
+  align-items: center;
+}
+
+.fr-hero__text { color: var(--fr-white); }
+
+.fr-hero__kicker {
+  display: inline-block;
+  font-family: var(--fr-font-body);
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase;
+  color: var(--fr-light-accent);
+  padding: 8px 22px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: var(--fr-radius-pill);
+  margin: 0 0 28px;
+  backdrop-filter: blur(8px);
+}
+
+.fr-hero__title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(42px, 6.2vw, 84px) !important;
+  font-weight: 300 !important;
+  line-height: 1.0 !important;
+  color: var(--fr-white) !important;
+  margin: 0 0 28px !important;
+  letter-spacing: -0.012em;
+}
+
+.fr-hero__title em {
+  font-style: italic;
+  color: var(--fr-light-accent);
+  font-weight: 300;
+}
+
+.fr-hero__lead {
+  font-family: var(--fr-font-body);
+  font-size: 18px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 540px;
+  margin: 0 0 36px;
+}
+
+.fr-hero__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.fr-hero__facts {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  margin-top: 44px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.20);
+}
+
+.fr-hero__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--fr-white);
+}
+
+.fr-hero__fact strong {
+  font-family: var(--fr-font-display);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--fr-light-accent);
+  line-height: 1;
+}
+
+.fr-hero__fact span {
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 500;
+  opacity: 0.86;
+}
+
+/* Hero search card */
+.fr-hero__search {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: var(--fr-radius-lg);
+  padding: 36px 32px;
+  box-shadow: 0 30px 80px rgba(26, 26, 24, 0.30);
+  backdrop-filter: blur(8px);
+}
+
+.fr-hero__search-title {
+  display: block;
+  font-family: var(--fr-font-display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--fr-text-dark);
+  margin: 0 0 8px;
+}
+
+.fr-hero__search-sub {
+  display: block;
+  font-family: var(--fr-font-body);
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--fr-text-muted);
+  font-weight: 600;
+  margin: 0 0 24px;
+}
+
+.fr-search { display: grid; gap: 14px; }
+
+.fr-search__field { display: flex; flex-direction: column; gap: 6px; }
+
+.fr-search__label {
+  font-family: var(--fr-font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--fr-text-muted);
+}
+
+.fr-search__input,
+.fr-search__select {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  color: var(--fr-text-dark);
+  background: var(--fr-bg);
+  border: 1px solid var(--fr-border-light);
+  border-radius: var(--fr-radius-md);
+  padding: 13px 16px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 48px;
+  width: 100%;
+}
+
+.fr-search__input:focus,
+.fr-search__select:focus {
+  border-color: var(--fr-primary);
+  box-shadow: 0 0 0 3px rgba(226, 215, 0, 0.18);
+}
+
+.fr-search__submit {
+  margin-top: 10px;
+  width: 100%;
+  background: var(--fr-primary);
+  color: var(--fr-white);
+  border: 2px solid var(--fr-primary);
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  padding: 16px 24px;
+  border-radius: var(--fr-radius-pill);
+  cursor: pointer;
+  min-height: 52px;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.fr-search__submit:hover {
+  background: var(--fr-primary-hover);
+  border-color: var(--fr-primary-hover);
+  transform: translateY(-2px);
+}
+
+.fr-search__submit svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* ============================================================
+   9. ABOUT / DIFFERENTIATORS
+   ============================================================ */
+
+.fr-about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 80px;
+  align-items: center;
+}
+
+.fr-about__media {
+  position: relative;
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--fr-shadow-lg);
+  aspect-ratio: 4 / 5;
+}
+
+.fr-about__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fr-about__media::after {
+  content: '';
+  position: absolute;
+  bottom: -28px;
+  right: -28px;
+  width: 120px;
+  height: 120px;
+  background: var(--fr-light-accent);
+  border-radius: var(--fr-radius-md);
+  z-index: -1;
+}
+
+.fr-about__text { padding: 16px 0; }
+
+.fr-features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin-top: 36px;
+}
+
+.fr-feature {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.fr-feature__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(231, 187, 186, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fr-primary-deep);
+  flex-shrink: 0;
+}
+
+.fr-feature__icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.fr-feature__title {
+  font-family: var(--fr-font-display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--fr-text-dark);
+  margin: 0 0 6px;
+}
+
+.fr-feature__text {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--fr-text-body);
+  margin: 0;
+}
+
+/* ============================================================
+   10. FEATURED APARTMENTS
+   ============================================================ */
+
+html body .container-hotspot {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.fr-apartments { background: var(--fr-bg); }
+
+.fr-apt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 36px;
+  transition: opacity 0.4s ease;
+}
+
+#fr-apt-grid[data-offers-loaded="pending"] {
+  min-height: 380px;
+  opacity: 0.3;
+}
+
+#fr-apt-grid[data-offers-loaded]:not([data-offers-loaded="pending"]):not([data-offers-loaded="empty"]) {
+  opacity: 1;
+}
+
+#fr-apt-grid[data-offers-loaded="empty"] {
+  display: none !important;
+}
+
+.fr-apt-card {
+  display: block;
+  text-decoration: none !important;
+  background: var(--fr-white);
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--fr-shadow-md);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--fr-border-light);
+}
+
+.fr-apt-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--fr-shadow-lg);
+}
+
+.fr-apt-img {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+
+.fr-apt-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.fr-apt-card:hover .fr-apt-img img { transform: scale(1.06); }
+
+.fr-apt-price {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--fr-white);
+  color: var(--fr-text-dark);
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: var(--fr-radius-pill);
+  box-shadow: var(--fr-shadow-sm);
+}
+
+.fr-apt-price strong {
+  font-family: var(--fr-font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fr-primary);
+}
+
+.fr-apt-price span {
+  font-size: 11px;
+  color: var(--fr-text-muted);
+  letter-spacing: 0.8px;
+}
+
+.fr-apt-body {
+  padding: 26px 26px 28px;
+}
+
+.fr-apt-card .fr-h3 {
+  font-family: var(--fr-font-display) !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+  margin: 0 0 10px !important;
+  line-height: 1.25 !important;
+}
+
+.fr-apt-desc {
+  font-family: var(--fr-font-body);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--fr-text-body);
+  margin: 0 0 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fr-apt-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid var(--fr-border-light);
+}
+
+.fr-apt-feature {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  color: var(--fr-text-muted);
+  font-weight: 500;
+}
+
+.fr-apt-feature svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--fr-primary);
+  stroke-width: 1.6;
+  fill: none;
+}
+
+/* ============================================================
+   11. LOCATIONS
+   ============================================================ */
+
+.fr-locations { background: var(--fr-bg-alt); }
+
+.fr-loc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  margin-bottom: 56px;
+}
+
+.fr-loc-card {
+  background: var(--fr-white);
+  border-radius: var(--fr-radius-lg);
+  padding: 32px 28px;
+  border: 1px solid var(--fr-border-light);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fr-loc-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--fr-shadow-md);
+}
+
+.fr-loc-card__pin {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--fr-light-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fr-primary-deep);
+  margin: 0 0 18px;
+}
+
+.fr-loc-card__pin svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  fill: none;
+}
+
+.fr-loc-card__title {
+  font-family: var(--fr-font-display);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--fr-text-dark);
+  margin: 0 0 8px;
+}
+
+.fr-loc-card__address {
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  color: var(--fr-text-muted);
+  margin: 0 0 14px;
+  letter-spacing: 0.4px;
+}
+
+.fr-loc-card__desc {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--fr-text-body);
+  margin: 0;
+}
+
+.fr-loc-map {
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--fr-shadow-md);
+  border: 1px solid var(--fr-border-light);
+  aspect-ratio: 21 / 9;
+  background: var(--fr-light-gray);
+}
+
+.fr-loc-map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .fr-loc-map { aspect-ratio: 4 / 3; }
+}
+
+/* ============================================================
+   12. DLA FIRM TEASER (split)
+   ============================================================ */
+
+.fr-corp { background: var(--fr-bg); }
+
+.fr-corp__split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 80px;
+  align-items: center;
+}
+
+.fr-corp__media {
+  position: relative;
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--fr-shadow-lg);
+  aspect-ratio: 5 / 4;
+}
+
+.fr-corp__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fr-corp__list {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 32px;
+  display: grid;
+  gap: 14px;
+}
+
+.fr-corp__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-family: var(--fr-font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fr-text-body);
+}
+
+.fr-corp__list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E2D700' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* ============================================================
+   13. ATRAKCJE TEASER
+   ============================================================ */
+
+.fr-attractions { background: var(--fr-bg-alt); }
+
+.fr-attr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 44px;
+}
+
+.fr-attr-card {
+  position: relative;
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  box-shadow: var(--fr-shadow-md);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display: block;
+  text-decoration: none !important;
+}
+
+.fr-attr-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--fr-shadow-lg);
+}
+
+.fr-attr-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.fr-attr-card:hover img { transform: scale(1.07); }
+
+.fr-attr-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(26, 26, 24, 0.78) 100%);
+}
+
+.fr-attr-card__body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 22px 22px;
+  z-index: 2;
+  color: var(--fr-white);
+}
+
+.fr-attr-card__title {
+  font-family: var(--fr-font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--fr-white);
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.fr-attr-card__meta {
+  font-family: var(--fr-font-body);
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--fr-light-accent);
+  font-weight: 600;
+}
+
+/* ============================================================
+   14. FINAL CTA (dark)
+   ============================================================ */
+
+.fr-final-cta {
+  background: linear-gradient(135deg, var(--fr-text-dark) 0%, var(--fr-primary-deep) 60%, var(--fr-secondary) 100%);
+  color: var(--fr-white) !important;
+  padding: clamp(96px, 12vw, 144px) clamp(20px, 5vw, 60px) !important;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.fr-final-cta::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(231, 187, 186, 0.22), transparent 70%);
+  pointer-events: none;
+}
+
+.fr-final-cta::after {
+  content: '';
+  position: absolute;
+  bottom: -160px;
+  left: -100px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 210, 208, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.fr-final-cta__inner {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+html body .fr-final-cta .fr-kicker {
+  display: inline-block;
+  font-size: 13px !important;
+  letter-spacing: 2.6px !important;
+  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1.5px solid rgba(255, 255, 255, 0.40);
+  color: var(--fr-white);
+  padding: 10px 24px;
+  margin-bottom: 26px;
+}
+
+html body .fr-final-cta h2,
+html body .fr-final-cta .fr-h2 {
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(36px, 4.6vw, 56px) !important;
+  font-weight: 300 !important;
+  color: var(--fr-white) !important;
+  margin: 0 0 22px !important;
+  line-height: 1.1 !important;
+}
+
+html body .fr-final-cta h2 em,
+html body .fr-final-cta .fr-h2 em {
+  font-style: italic;
+  color: var(--fr-light-accent);
+}
+
+html body .fr-final-cta p {
+  color: rgba(255, 255, 255, 0.90) !important;
+  font-size: 17px !important;
+  line-height: 1.7 !important;
+  max-width: 560px;
+  margin: 0 auto 36px !important;
+}
+
+.fr-final-cta__contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin: 36px 0 0;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.fr-final-cta__contact a {
+  font-family: var(--fr-font-body);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  color: var(--fr-light-accent) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.fr-final-cta__contact a:hover { color: var(--fr-white) !important; }
+
+.fr-final-cta__contact svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  fill: none;
+}
+
+.fr-final-cta__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin: 36px 0 0;
+}
+
+html body .fr-final-cta .fr-btn--primary {
+  background: var(--fr-white) !important;
+  color: var(--fr-primary-deep) !important;
+  border-color: var(--fr-white) !important;
+}
+
+html body .fr-final-cta .fr-btn--primary:hover {
+  background: var(--fr-light-accent) !important;
+  color: var(--fr-text-dark) !important;
+  border-color: var(--fr-light-accent) !important;
+}
+
+html body .fr-final-cta .fr-btn--ghost-light {
+  background: transparent !important;
+  color: var(--fr-white) !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+html body .fr-final-cta .fr-btn--ghost-light:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: var(--fr-white) !important;
+}
+
+/* ============================================================
+   15. FOOTER OVERRIDES — PATCH v1.6.4 (fullwidth dark band + structured)
+   Reason: system renders footer as <footer> > <div.footer.container> >
+   [<div.footer>UL contact</div>, <div.footer-contact-baner>SVG icons</div>].
+   Bootstrap .container limits to 1170px → island effect on wide screens.
+   Now: <footer> = fullwidth dark band (margin trick), inner sections
+   in a 3-zone grid: [Brand+Address] [Contact] [Legal+Payments].
+   ============================================================ */
+
+/* Outer <footer> — fullwidth dark band with brand top border */
+html body footer {
+  position: relative !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+  background: var(--fr-text-dark) !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-family: var(--fr-font-body) !important;
+  border-top: 1px solid rgba(231, 187, 186, 0.20) !important;
+  box-sizing: border-box !important;
+  padding: 72px 24px 32px !important;
+}
+
+/* PATCH v1.6.5: Footer 3-col layout per user request — fills width naturally,
+   no more "tekst tylko na środku" effect */
+html body footer .footer.container,
+html body footer > .footer {
+  max-width: 1400px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1.2fr auto !important;
+  gap: 48px 80px !important;
+  align-items: start !important;
+}
+
+/* PATCH v1.6.5: Add brand column (col 1) via ::before injection on .footer.container.
+   PATCH v1.6.7: removed duplicate selector "html body footer > .footer::before"
+   which matched inner nested div, causing the brand text to render twice. */
+html body footer .footer.container::before {
+  content: "Fair Rentals\A Boutique \A Wrocla\0144" !important;
+  white-space: pre !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.5px !important;
+  color: var(--fr-white) !important;
+  display: block !important;
+  align-self: start !important;
+  padding-right: 16px !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.10) !important;
+}
+
+/* Inner .footer (contact UL) — nested div */
+html body footer .footer > .footer,
+html body footer .footer.container > .footer {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Footer UL — list reset + flex layout for contact rows
+   align-items: flex-start = left-align text in left column */
+html body footer ul,
+html body footer .footer ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  gap: 14px !important;
+}
+
+html body footer li,
+html body footer .footer li {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: left !important;
+  width: 100% !important;
+}
+
+/* PATCH v1.6.4: Kill system "|" separators (::after { content: "|" })
+   on .footer-contact-* LI elements — replaced by our own visual separator
+   (border-top on .footer-contact-terms) */
+html body footer .footer-contact-adress::after,
+html body footer .footer-contact-adress::before,
+html body footer .footer-contact-phone::after,
+html body footer .footer-contact-phone::before,
+html body footer .footer-contact-mail::after,
+html body footer .footer-contact-mail::before,
+html body footer .footer-contact-terms::after,
+html body footer .footer-contact-terms::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* PATCH v1.6.4: Hide IAI Booking SVG logo — client uses own brand,
+   no need for vendor badge in footer */
+html body .footer-contact-baner > span:first-child {
+  display: none !important;
+}
+
+/* PATCH v1.6.4: Hide IdoSell "Powered by IAI Booking" logo IMG
+   (img.powered_by_logo inside div.powered_by inside div.footer__social).
+   Client uses own brand — vendor attribution not desired. */
+html body .powered_by,
+html body .powered_by_logo,
+html body a.powered_by_logo,
+html body img.powered_by_logo,
+html body footer .footer__social .powered_by,
+html body footer .powered_by {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* ============================================================
+   PATCH v1.6.5: POLICY MODAL (instinct 032)
+   Cookies/Regulamin/Polityka linki -> open in modal iframe
+   instead of new tab (out-of-brand IdoBooking page)
+   ============================================================ */
+
+.fr-policy-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(42, 34, 38, 0.78) !important;
+  backdrop-filter: blur(6px) !important;
+  z-index: 99999 !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 24px !important;
+}
+
+.fr-policy-modal--active {
+  display: flex !important;
+}
+
+.fr-policy-modal__box {
+  width: min(960px, 100%) !important;
+  height: min(720px, 90vh) !important;
+  background: var(--fr-white) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45) !important;
+}
+
+.fr-policy-modal__close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  width: 44px !important;
+  height: 44px !important;
+  border: none !important;
+  background: var(--fr-text-dark) !important;
+  color: var(--fr-white) !important;
+  border-radius: 50% !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  z-index: 2 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background 0.2s ease !important;
+}
+
+.fr-policy-modal__close:hover {
+  background: var(--fr-primary) !important;
+}
+
+.fr-policy-modal__iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  background: var(--fr-white) !important;
+}
+
+@media (max-width: 720px) {
+  .fr-policy-modal { padding: 12px !important; }
+  .fr-policy-modal__box { height: 92vh !important; border-radius: 14px !important; }
+}
+
+/* Address line — display font, kicker style */
+html body footer .footer-contact-adress {
+  font-family: var(--fr-font-display) !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  color: var(--fr-white) !important;
+  letter-spacing: 0.2px !important;
+  margin-bottom: 4px !important;
+}
+
+html body footer .footer-contact-adress span {
+  font-family: var(--fr-font-display) !important;
+  font-size: 22px !important;
+  color: var(--fr-white) !important;
+}
+
+/* Phone & email — emphasis, brand light accent */
+html body footer .footer-contact-phone a,
+html body footer .footer-contact-mail a {
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: var(--fr-white) !important;
+  letter-spacing: 0.3px !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  padding: 4px 0 !important;
+}
+
+html body footer .footer-contact-phone a:hover,
+html body footer .footer-contact-mail a:hover {
+  color: var(--fr-light-accent) !important;
+  text-decoration: none !important;
+}
+
+html body footer .footer-contact-phone a::before {
+  content: "Telefon · ";
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  display: block;
+  margin-bottom: 2px;
+}
+
+html body footer .footer-contact-mail a::before {
+  content: "E-mail · ";
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Legal links (Regulamin, Polityka prywatności) — smaller, secondary */
+html body footer .footer-contact-terms {
+  margin-top: 16px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 24px !important;
+}
+
+html body footer .footer-contact-terms a {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.8px !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+
+html body footer .footer-contact-terms a:hover,
+html body footer .footer-contact-terms a:focus-visible {
+  color: var(--fr-light-accent) !important;
+}
+
+/* Payment + IAI banner — right column on desktop, separator on mobile */
+html body .footer-contact-baner,
+html body .footer-contact-baner::before,
+html body .footer-contact-baner::after {
+  background: transparent !important;
+}
+
+html body .footer-contact-baner {
+  position: static !important;
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: flex-start !important;
+  gap: 16px !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+html body .footer-contact-baner > span {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+html body .footer-contact-baner svg {
+  fill: rgba(255, 255, 255, 0.55) !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* IAI logo */
+html body .footer-contact-baner > span:first-child svg {
+  max-width: 120px !important;
+  opacity: 0.65 !important;
+}
+
+/* Payment icons (VISA + Mastercard) */
+html body .footer-contact-baner > span:last-child svg {
+  max-width: 160px !important;
+  opacity: 0.85 !important;
+}
+
+/* DEFAULT TEXT — light gray on dark band */
+html body .footer-contact-baner * {
+  font-family: var(--fr-font-body) !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+  line-height: 1.7 !important;
+}
+
+/* Body text size */
+html body .footer-contact-baner span,
+html body .footer-contact-baner p,
+html body .footer-contact-baner li,
+html body .footer-contact-baner div:not(.payments_method):not([class*="powered"]) {
+  font-size: 15px !important;
+}
+
+/* LINKS — brand accent, hover white */
+html body .footer-contact-baner a {
+  color: var(--fr-light-accent) !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.2px !important;
+  transition: color 0.2s ease !important;
+}
+
+html body .footer-contact-baner a:hover,
+html body .footer-contact-baner a:focus-visible {
+  color: var(--fr-white) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+}
+
+/* HEADINGS in footer — display font, white */
+html body .footer-contact-baner h1,
+html body .footer-contact-baner h2,
+html body .footer-contact-baner h3,
+html body .footer-contact-baner h4 {
+  font-family: var(--fr-font-display) !important;
+  font-size: 22px !important;
+  color: var(--fr-white) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+  margin: 0 0 16px !important;
+}
+
+/* Logo inside footer (system renders SVG iaibooking logo) — push aside */
+html body .footer-contact-baner > span:first-child > svg {
+  fill: rgba(255, 255, 255, 0.55) !important;
+  max-width: 160px !important;
+  height: auto !important;
+  margin-bottom: 24px !important;
+  display: block !important;
+}
+
+/* Phone + email visual emphasis */
+html body .footer-contact-baner a[href^="tel:"],
+html body .footer-contact-baner a[href^="mailto:"] {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--fr-white) !important;
+}
+
+html body .footer-contact-baner a[href^="tel:"]:hover,
+html body .footer-contact-baner a[href^="mailto:"]:hover {
+  color: var(--fr-light-accent) !important;
+}
+
+/* Legal links (Regulamin, Polityka prywatności) — secondary tier */
+html body .footer-contact-baner a[href*="terms"],
+html body .footer-contact-baner a[href*="cookies"] {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+html body .footer-contact-baner a[href*="terms"]:hover,
+html body .footer-contact-baner a[href*="cookies"]:hover {
+  color: var(--fr-light-accent) !important;
+}
+
+/* Payment-method strip (VISA/Mastercard) — separated band */
+html body .footer-contact-baner .payments_method,
+html body .payments_method,
+html body .payments-method {
+  background: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+  padding: 24px 0 0 !important;
+  margin: 32px auto 0 !important;
+  text-align: center !important;
+}
+
+html body .payments_method img,
+html body .payments-method img,
+html body .footer-contact-baner img[alt*="visa" i],
+html body .footer-contact-baner img[alt*="master" i] {
+  filter: grayscale(0.3) brightness(1.1) !important;
+  opacity: 0.85 !important;
+  margin: 0 8px !important;
+}
+
+/* Powered by badge — minimal opacity */
+html body .powered_by,
+html body .powered_by a,
+html body .powered_by * {
+  font-size: 12px !important;
+  color: rgba(255, 255, 255, 0.45) !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Mobile footer — single column, centered alignment */
+@media (max-width: 720px) {
+  html body footer {
+    padding: 56px 20px 28px !important;
+    text-align: center !important;
+  }
+  html body footer .footer.container,
+  html body footer > .footer {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  html body .footer-contact-baner {
+    align-items: center !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 24px !important;
+    padding-top: 24px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+  }
+  html body footer .footer-contact-adress { font-size: 18px !important; }
+  html body footer .footer-contact-adress span { font-size: 18px !important; }
+  html body footer .footer-contact-terms {
+    justify-content: center !important;
+  }
+  html body footer ul,
+  html body footer .footer ul {
+    align-items: center !important;
+  }
+}
+
+/* ============================================================
+   16. SUBPAGE HERO + NARRATIVE (only /txt/*)
+   ============================================================ */
+
+body.page-txt main .container,
+body.page-txt #pageContent .container {
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body.page-txt main .container > .row { margin: 0 !important; }
+body.page-txt main .container > .row > [class^="col"] { padding: 0 !important; }
+
+.fr-page-hero {
+  position: relative;
+  min-height: 56vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 200px 24px 80px;
+  overflow: hidden;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+/* PATCH v1.6.4: stronger overlay for guaranteed white-text contrast over any photo */
+.fr-page-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26, 26, 24, 0.50) 0%, rgba(42, 34, 38, 0.85) 100%);
+}
+
+.fr-page-hero__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.fr-page-hero__kicker {
+  display: inline-block;
+  font-family: var(--fr-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--fr-light-accent);
+  padding: 8px 22px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: var(--fr-radius-pill);
+  margin: 0 0 22px;
+}
+
+/* PATCH v1.6.4: !important to override global h1 dark-text rule */
+html body .fr-page-hero__title,
+.fr-page-hero__title {
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(36px, 5vw, 64px) !important;
+  font-weight: 300 !important;
+  line-height: 1.05 !important;
+  color: var(--fr-white) !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.40) !important;
+  margin: 0 !important;
+}
+
+html body .fr-page-hero__title em,
+.fr-page-hero__title em {
+  color: var(--fr-light-accent) !important;
+  font-style: italic !important;
+}
+
+html body .fr-page-hero__lead,
+.fr-page-hero__lead {
+  color: rgba(255, 255, 255, 0.96) !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35) !important;
+}
+
+.fr-page-hero__title em {
+  font-style: italic;
+  color: var(--fr-light-accent);
+}
+
+.fr-page-hero__lead {
+  font-family: var(--fr-font-body);
+  font-size: 18px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 640px;
+  margin: 22px 0 0;
+}
+
+.fr-narrative {
+  background: var(--fr-bg);
+  padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 60px);
+}
+
+.fr-narrative__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.fr-narrative__split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.fr-narrative__split:nth-child(even) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.fr-narrative__split:last-child { margin-bottom: 0; }
+
+.fr-narrative__media {
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--fr-shadow-md);
+  aspect-ratio: 5 / 6;
+}
+
+.fr-narrative__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fr-narrative__split--reverse .fr-narrative__media { order: 2; }
+
+.fr-narrative__text p {
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--fr-text-body);
+}
+
+.fr-narrative__text p:last-child { margin-bottom: 0; }
+
+/* Stats / facts row */
+.fr-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 28px;
+  padding: 56px 0 0;
+  margin: 56px 0 0;
+  border-top: 1px solid var(--fr-border-light);
+}
+
+.fr-stat {
+  text-align: center;
+}
+
+.fr-stat__num {
+  font-family: var(--fr-font-display);
+  font-size: 44px;
+  font-weight: 500;
+  color: var(--fr-primary);
+  line-height: 1;
+  display: block;
+  margin: 0 0 8px;
+}
+
+.fr-stat__label {
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--fr-text-muted);
+  font-weight: 500;
+}
+
+/* ============================================================
+   17. ATTRACTIONS PAGE GRID (full /txt/wroclan-warte-wroclania)
+   ============================================================ */
+
+.fr-attractions-page {
+  background: var(--fr-bg);
+  padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 60px);
+}
+
+.fr-attractions-page__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.fr-attr-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+  margin-bottom: 80px;
+  padding-bottom: 80px;
+  border-bottom: 1px solid var(--fr-border-light);
+}
+
+.fr-attr-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.fr-attr-row--reverse .fr-attr-row__media { order: 2; }
+
+.fr-attr-row__media {
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  box-shadow: var(--fr-shadow-md);
+  cursor: pointer;
+}
+
+.fr-attr-row__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.fr-attr-row__media:hover img { transform: scale(1.04); }
+
+.fr-attr-row__title {
+  font-family: var(--fr-font-display);
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--fr-text-dark);
+  margin: 14px 0 12px;
+  line-height: 1.15;
+}
+
+.fr-attr-row__meta {
+  font-family: var(--fr-font-body);
+  font-size: 12px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--fr-primary);
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.fr-attr-row__text {
+  font-family: var(--fr-font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--fr-text-body);
+}
+
+.fr-attr-row__text p { margin: 0 0 14px; }
+.fr-attr-row__text p:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   18. CORPORATE PAGE
+   ============================================================ */
+
+.fr-corp-page {
+  background: var(--fr-bg);
+  padding: clamp(72px, 9vw, 120px) clamp(20px, 5vw, 60px);
+}
+
+.fr-corp-page__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.fr-corp-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin: 56px 0;
+}
+
+.fr-corp-benefit {
+  background: var(--fr-white);
+  border-radius: var(--fr-radius-lg);
+  padding: 32px 28px;
+  border: 1px solid var(--fr-border-light);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fr-corp-benefit:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--fr-shadow-md);
+}
+
+.fr-corp-benefit__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(231, 187, 186, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fr-primary-deep);
+  margin: 0 0 18px;
+}
+
+.fr-corp-benefit__icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.fr-corp-benefit__title {
+  font-family: var(--fr-font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--fr-text-dark);
+  margin: 0 0 10px;
+}
+
+.fr-corp-benefit__text {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--fr-text-body);
+  margin: 0;
+}
+
+/* ============================================================
+   19. LIGHTBOX
+   ============================================================ */
+
+.fr-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  cursor: zoom-out;
+}
+
+.fr-lightbox--open { display: flex; }
+
+.fr-lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+
+.fr-lightbox__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  color: var(--fr-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fr-lightbox__close:hover { background: rgba(255, 255, 255, 0.22); }
+
+.fr-lightbox__close svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Cursor for lightbox-able images */
+img[data-fr-lightbox] { cursor: zoom-in; }
+
+/* ============================================================
+   20. UTILS / REVEAL
+   ============================================================ */
+
+.fr-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.fr-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   21. /OFFERS LIST PAGE TWEAKS
+   ============================================================ */
+
+html body.page-offers main {
+  background: var(--fr-bg) !important;
+}
+
+html body.page-offers .offer,
+html body.page-offers .offers-list .offer-card,
+html body.page-offers .offer-card {
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+html body.page-offers .offer:hover,
+html body.page-offers .offer-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: var(--fr-shadow-md) !important;
+}
+
+html body.page-offers h1,
+html body.page-offers h2,
+html body.page-offers h3 {
+  font-family: var(--fr-font-display) !important;
+  color: var(--fr-text-dark) !important;
+}
+
+html body.page-offers .price,
+html body.page-offer .price {
+  color: var(--fr-primary) !important;
+  font-family: var(--fr-font-display) !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   22. /CONTACT PAGE TWEAKS (preserve Bootstrap grid)
+   ============================================================ */
+
+html body.page-contact main { background: var(--fr-bg) !important; }
+
+html body.page-contact h1,
+html body.page-contact h2,
+html body.page-contact h3 {
+  font-family: var(--fr-font-display) !important;
+  color: var(--fr-text-dark) !important;
+}
+
+html body.page-contact input,
+html body.page-contact select,
+html body.page-contact textarea {
+  border-radius: var(--fr-radius-md) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 15px !important;
+  padding: 12px 16px !important;
+  min-height: 46px !important;
+}
+
+html body.page-contact input:focus,
+html body.page-contact select:focus,
+html body.page-contact textarea:focus {
+  border-color: var(--fr-primary) !important;
+  box-shadow: 0 0 0 3px rgba(226, 215, 0, 0.18) !important;
+  outline: none !important;
+}
+
+/* ============================================================
+   23. RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .fr-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 110px 24px 70px;
+    text-align: left;
+  }
+
+  .fr-hero__search { max-width: 460px; }
+
+  .fr-about,
+  .fr-corp__split,
+  .fr-attr-row {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .fr-narrative__split {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    margin-bottom: 56px;
+  }
+
+  .fr-narrative__split--reverse .fr-narrative__media { order: 0; }
+  .fr-attr-row--reverse .fr-attr-row__media { order: 0; }
+
+  .fr-about__media { aspect-ratio: 16 / 11; }
+  .fr-corp__media { aspect-ratio: 16 / 11; }
+  .fr-narrative__media { aspect-ratio: 16 / 11; }
+}
+
+/* ============================================================
+   24. RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .fr-section { padding: 64px 20px; }
+
+  .fr-hero-wrap { min-height: 92vh; }
+
+  .fr-hero__inner { padding: 100px 20px 60px; gap: 40px; }
+
+  .fr-hero__title {
+    font-size: clamp(34px, 9vw, 48px) !important;
+  }
+
+  .fr-hero__lead { font-size: 16px; }
+
+  .fr-hero__facts { gap: 24px; }
+
+  .fr-hero__fact strong { font-size: 26px; }
+
+  .fr-hero__search { padding: 26px 22px; }
+
+  .fr-h1 { font-size: clamp(34px, 8vw, 48px); }
+  .fr-h2 { font-size: clamp(28px, 6.5vw, 36px); }
+
+  .fr-section__header { margin-bottom: 40px; }
+
+  .fr-feature {
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+  }
+
+  .fr-feature__icon { width: 48px; height: 48px; }
+  .fr-feature__icon svg { width: 22px; height: 22px; }
+
+  .fr-apt-grid { gap: 24px; }
+  .fr-apt-body { padding: 22px 22px 24px; }
+
+  .fr-loc-grid { gap: 18px; }
+  .fr-loc-card { padding: 26px 22px; }
+
+  .fr-corp__list li { font-size: 15px; }
+
+  .fr-attr-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .fr-attr-card__title { font-size: 18px; }
+
+  .fr-attr-row__title { font-size: 26px; }
+
+  .fr-stat__num { font-size: 36px; }
+  .fr-stats { gap: 22px; padding: 40px 0 0; margin: 40px 0 0; }
+
+  .fr-page-hero {
+    min-height: 44vh;
+    padding: 160px 20px 56px;
+  }
+
+  .fr-page-hero__title { font-size: clamp(30px, 7.5vw, 44px); }
+  .fr-page-hero__lead { font-size: 16px; }
+
+  html body .fr-final-cta {
+    padding: 80px 20px !important;
+  }
+
+  html body .fr-final-cta h2,
+  html body .fr-final-cta .fr-h2 {
+    font-size: clamp(28px, 7vw, 38px) !important;
+  }
+
+  html body .fr-final-cta__contact {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .fr-btn { padding: 14px 24px; font-size: 13px; min-height: 48px; }
+}
+
+/* ============================================================
+   25. RESPONSIVE — SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .fr-attr-grid { grid-template-columns: 1fr; }
+
+  .fr-hero__cta-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .fr-hero__cta-row .fr-btn {
+    width: 100%;
+  }
+
+  .fr-final-cta__cta-row .fr-btn {
+    width: 100%;
+  }
+
+  .fr-stats { grid-template-columns: 1fr 1fr; }
+
+  .fr-hero__facts {
+    flex-direction: column;
+    gap: 18px;
+    align-items: flex-start;
+  }
+}
+
+/* ============================================================
+   26. PAGE-INDEX FULL WIDTH + HIDE SYSTEM DUPLICATES
+   ============================================================ */
+
+html body.page-index main .container,
+html body.page-index #pageContent .container,
+html body.page-index main > .container,
+html body.page-index .section_sub.container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+html body.page-index main .container > .row,
+html body.page-index #pageContent .container > .row {
+  margin: 0 !important;
+}
+
+html body.page-index main .container > .row > [class^="col"],
+html body.page-index #pageContent .container > .row > [class^="col"] {
+  padding: 0 !important;
+}
+
+html body.page-index main {
+  padding: 0 !important;
+}
+
+/* Hide system H1 and H2 that ship with default homepage placeholder */
+html body.page-index .section.parallax h1:not(.fr-hero__title):not([class*="fr-"]),
+html body.page-index .section.parallax h2:not([class*="fr-"]),
+html body.page-index .section.parallax > h1,
+html body.page-index .section.parallax > h2,
+html body.page-index .section.parallax .fp-tableCell > h1:not(.fr-hero__title):not([class*="fr-"]),
+html body.page-index .section.parallax .fp-tableCell > h2:not([class*="fr-"]) {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* Hide entire .cmshotspot (system "Wyróżnione Oferty" container with searcher) */
+html body .cmshotspot,
+html body .row.cmshotspot,
+html body .section_sub.cmshotspot {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hide system search widget if it appears anywhere outside of cmshotspot */
+html body.page-index .searcher,
+html body.page-index .iai-booking-search:not(.fr-search),
+html body.page-index .booking-search:not(.fr-search),
+html body.page-index #booking-engine-form:not(.fr-search),
+html body.page-index form[action*="search"]:not(.fr-search):not([class*="fr-"]),
+html body.page-index .searcher_default,
+html body.page-index .row.searcher {
+  display: none !important;
+}
+
+/* Hide system page header strip on homepage (duplicate of our hero) */
+html body.page-index .page-header,
+html body.page-index .breadcrumb,
+html body.page-index .breadcrumbs {
+  display: none !important;
+}
+
+/* ============================================================
+   27. /OFFERS LIST PAGE — COMPREHENSIVE STYLING
+   ============================================================ */
+
+html body.page-offers main,
+html body.page-offers #pageContent {
+  background: var(--fr-bg) !important;
+  padding: clamp(120px, 14vw, 160px) clamp(20px, 4vw, 40px) clamp(56px, 7vw, 80px) !important;
+}
+
+html body.page-offers .container {
+  max-width: 1320px !important;
+}
+
+html body.page-offers h1,
+html body.page-offers .page-title,
+html body.page-offers .h1 {
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(36px, 4.5vw, 52px) !important;
+  font-weight: 400 !important;
+  color: var(--fr-text-dark) !important;
+  margin: 0 0 12px !important;
+  line-height: 1.1 !important;
+}
+
+html body.page-offers .page-subtitle,
+html body.page-offers .lead {
+  font-family: var(--fr-font-body) !important;
+  font-size: 16px !important;
+  color: var(--fr-text-muted) !important;
+  margin: 0 0 36px !important;
+}
+
+/* Filters sidebar */
+html body.page-offers #menu_filter_form,
+html body.page-offers .filters-sidebar,
+html body.page-offers aside.filters,
+html body.page-offers .left-side-filter {
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  padding: 28px 24px !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+}
+
+html body.page-offers .filter-title,
+html body.page-offers .filters-title,
+html body.page-offers #menu_filter_form > h2,
+html body.page-offers #menu_filter_form > h3,
+html body.page-offers #menu_filter_form .filter_section_title,
+html body.page-offers .filter-section__title {
+  font-family: var(--fr-font-display) !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+  margin: 0 0 14px !important;
+  padding: 0 0 14px !important;
+  border-bottom: 1px solid var(--fr-border-light) !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+html body.page-offers .filter_section,
+html body.page-offers .filter-section {
+  margin: 0 0 20px !important;
+  padding: 0 0 20px !important;
+  border-bottom: 1px solid var(--fr-border-light) !important;
+}
+
+html body.page-offers .filter_section:last-child,
+html body.page-offers .filter-section:last-child {
+  border-bottom: none !important;
+}
+
+html body.page-offers input[type="text"],
+html body.page-offers input[type="number"],
+html body.page-offers input[type="date"],
+html body.page-offers input[type="search"],
+html body.page-offers select {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  color: var(--fr-text-dark) !important;
+  background: var(--fr-bg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: var(--fr-radius-md) !important;
+  padding: 10px 14px !important;
+  min-height: 42px !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+html body.page-offers input:focus,
+html body.page-offers select:focus {
+  border-color: var(--fr-primary) !important;
+  box-shadow: 0 0 0 3px rgba(226, 215, 0, 0.18) !important;
+  outline: none !important;
+}
+
+html body.page-offers input[type="checkbox"],
+html body.page-offers input[type="radio"] {
+  accent-color: var(--fr-primary) !important;
+}
+
+html body.page-offers label {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  color: var(--fr-text-body) !important;
+  font-weight: 500 !important;
+}
+
+/* Sort dropdown */
+html body.page-offers .sort-by,
+html body.page-offers .sortby,
+html body.page-offers .results-header,
+html body.page-offers .offers-header,
+html body.page-offers .listing-header {
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-md) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  padding: 14px 20px !important;
+  margin: 0 0 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+}
+
+html body.page-offers .results-count,
+html body.page-offers .offers-count {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  color: var(--fr-text-muted) !important;
+  font-weight: 500 !important;
+}
+
+/* Pagination */
+html body.page-offers .pagination,
+html body.page-offers .pager {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  margin: 56px 0 0 !important;
+  list-style: none !important;
+  padding: 0 !important;
+}
+
+html body.page-offers .pagination a,
+html body.page-offers .pagination li a,
+html body.page-offers .pagination .page-link,
+html body.page-offers .pager a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  padding: 0 14px !important;
+  border-radius: var(--fr-radius-md) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  background: var(--fr-white) !important;
+  color: var(--fr-text-dark) !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+html body.page-offers .pagination a:hover,
+html body.page-offers .pagination .page-link:hover {
+  background: var(--fr-light-accent) !important;
+  border-color: var(--fr-light-accent) !important;
+  color: var(--fr-primary-deep) !important;
+}
+
+html body.page-offers .pagination .active a,
+html body.page-offers .pagination li.active .page-link,
+html body.page-offers .pagination .current {
+  background: var(--fr-primary) !important;
+  border-color: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+}
+
+/* Offer cards on listing */
+html body.page-offers .offer,
+html body.page-offers .offers-list .offer,
+html body.page-offers .offers-grid .offer,
+html body.page-offers article.offer-card {
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+  overflow: hidden !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+  margin: 0 0 24px !important;
+}
+
+html body.page-offers .offer:hover,
+html body.page-offers article.offer-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: var(--fr-shadow-md) !important;
+  border-color: var(--fr-border-medium) !important;
+}
+
+html body.page-offers .offer h3,
+html body.page-offers .offer h2,
+html body.page-offers .offer .offer__title,
+html body.page-offers article.offer-card h3 {
+  font-family: var(--fr-font-display) !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+  margin: 0 0 8px !important;
+}
+
+html body.page-offers .offer__description,
+html body.page-offers .offer p {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14.5px !important;
+  line-height: 1.65 !important;
+  color: var(--fr-text-body) !important;
+}
+
+html body.page-offers .offer__price,
+html body.page-offers .price,
+html body.page-offer .price {
+  font-family: var(--fr-font-display) !important;
+  color: var(--fr-primary) !important;
+  font-weight: 600 !important;
+}
+
+html body.page-offers .offer__price .price-value,
+html body.page-offers .price-value {
+  font-size: 24px !important;
+}
+
+/* No results / empty state */
+html body.page-offers .empty-state,
+html body.page-offers .no-results {
+  text-align: center !important;
+  padding: 72px 24px !important;
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+}
+
+/* ============================================================
+   28. /OFFER (single offer detail) — STYLING
+   ============================================================ */
+
+html body.page-offer main,
+html body.page-offer #pageContent {
+  background: var(--fr-bg) !important;
+  padding: clamp(120px, 14vw, 160px) clamp(20px, 4vw, 40px) clamp(56px, 7vw, 80px) !important;
+}
+
+html body.page-offer h1,
+html body.page-offer .offer-title,
+html body.page-offer .h1 {
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(34px, 4.4vw, 48px) !important;
+  font-weight: 400 !important;
+  color: var(--fr-text-dark) !important;
+  margin: 0 0 14px !important;
+  line-height: 1.1 !important;
+}
+
+html body.page-offer h2,
+html body.page-offer h3 {
+  font-family: var(--fr-font-display) !important;
+  color: var(--fr-text-dark) !important;
+}
+
+html body.page-offer .offer-gallery img,
+html body.page-offer .gallery img,
+html body.page-offer .offer-photo img {
+  border-radius: var(--fr-radius-md) !important;
+}
+
+html body.page-offer .offer-features,
+html body.page-offer .amenities,
+html body.page-offer .features-list {
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  padding: 28px !important;
+}
+
+html body.page-offer .booking-form,
+html body.page-offer .reservation-form,
+html body.page-offer aside {
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  padding: 28px !important;
+  box-shadow: var(--fr-shadow-md) !important;
+}
+
+html body.page-offer input,
+html body.page-offer select,
+html body.page-offer textarea {
+  font-family: var(--fr-font-body) !important;
+  font-size: 15px !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: var(--fr-radius-md) !important;
+  padding: 12px 16px !important;
+  min-height: 46px !important;
+}
+
+html body.page-offer input:focus,
+html body.page-offer select:focus,
+html body.page-offer textarea:focus {
+  border-color: var(--fr-primary) !important;
+  box-shadow: 0 0 0 3px rgba(226, 215, 0, 0.18) !important;
+  outline: none !important;
+}
+
+/* ============================================================
+   29. CONTACT — EXTENDED
+   ============================================================ */
+
+html body.page-contact main,
+html body.page-contact #pageContent {
+  padding: clamp(120px, 14vw, 160px) clamp(20px, 4vw, 40px) clamp(56px, 7vw, 80px) !important;
+}
+
+html body.page-contact h1,
+html body.page-contact .h1 {
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(34px, 4.4vw, 52px) !important;
+  font-weight: 400 !important;
+  color: var(--fr-text-dark) !important;
+  margin: 0 0 12px !important;
+  line-height: 1.1 !important;
+}
+
+html body.page-contact textarea {
+  min-height: 140px !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 15px !important;
+  padding: 14px 16px !important;
+}
+
+html body.page-contact .form-group,
+html body.page-contact .field {
+  margin-bottom: 18px !important;
+}
+
+html body.page-contact label {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-body) !important;
+  letter-spacing: 0.3px !important;
+  margin: 0 0 6px !important;
+  display: block !important;
+}
+
+/* ============================================================
+   30. /TXT/* SUBPAGE EXTRA OVERRIDES (page-txt)
+   ============================================================ */
+
+html body.page-txt main,
+html body.page-txt #pageContent {
+  padding: 0 !important;
+  background: var(--fr-bg) !important;
+}
+
+html body.page-txt h1:not(.fr-page-hero__title):not([class*="fr-"]) {
+  font-family: var(--fr-font-display) !important;
+  color: var(--fr-text-dark) !important;
+}
+
+/* Hide systemowy H1 + page header + subtitle na /txt — wszystkie warianty */
+html body.page-txt .page-header,
+html body.page-txt .page-header h1,
+html body.page-txt .page-subtitle,
+html body.page-txt .page-title:not([class*="fr-"]),
+html body.page-txt main > h1:not([class*="fr-"]),
+html body.page-txt #pageContent > h1:not([class*="fr-"]),
+html body.page-txt main > .container > h1:not([class*="fr-"]),
+html body.page-txt #pageContent > .container > h1:not([class*="fr-"]),
+html body.page-txt main > .container > .row > [class^="col"] > h1:not([class*="fr-"]),
+html body.page-txt #pageContent > .container > .row > [class^="col"] > h1:not([class*="fr-"]),
+html body.page-txt main > h2:not([class*="fr-"]),
+html body.page-txt #pageContent > h2:not([class*="fr-"]),
+html body.page-txt .breadcrumb,
+html body.page-txt .breadcrumbs,
+html body.page-txt h1.h1:not([class*="fr-"]) {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* ============================================================
+   30b. SUBPAGE FOOTER GAP FIX
+   ============================================================ */
+
+html body.page-txt main,
+html body.page-txt #pageContent,
+html body.page-contact main,
+html body.page-contact #pageContent,
+html body.page-offers main,
+html body.page-offers #pageContent,
+html body.page-offer main,
+html body.page-offer #pageContent {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+html body:not(.page-index) .footer-contact-baner,
+html body:not(.page-index) footer {
+  margin-top: 0 !important;
+}
+
+html body:not(.page-index) .fr-final-cta + .footer-contact-baner,
+html body:not(.page-index) .fr-final-cta + footer {
+  margin-top: 0 !important;
+  border-top: none !important;
+}
+
+html body main + .footer-contact-baner,
+html body #pageContent + .footer-contact-baner,
+html body main ~ footer:last-of-type {
+  margin-top: 0 !important;
+}
+
+/* gallery-lightbox margin reset (validator hint) */
+html body .gallery-lightbox,
+html body .ido-gallery,
+html body .ido-lightbox {
+  margin-bottom: 0 !important;
+}
+
+/* ============================================================
+   30c. PROCESS STEPS (Dla Firm — 4 kroki)
+   ============================================================ */
+
+.fr-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: fr-step;
+}
+
+.fr-step {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 20px;
+  margin-bottom: 32px;
+  counter-increment: fr-step;
+}
+
+.fr-step:last-child { margin-bottom: 0; }
+
+.fr-step__num {
+  font-family: var(--fr-font-display);
+  font-size: 38px;
+  font-weight: 500;
+  color: var(--fr-primary);
+  line-height: 1;
+  padding-top: 4px;
+}
+
+.fr-step__title {
+  font-family: var(--fr-font-display);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--fr-text-dark);
+  margin: 0 0 6px;
+}
+
+.fr-step__text {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--fr-text-body);
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .fr-step {
+    grid-template-columns: 48px 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .fr-step__num { font-size: 30px; }
+  .fr-step__title { font-size: 19px; }
+}
+
+/* ============================================================
+   31. NAVBAR-COLLAPSE MOBILE MENU STYLING
+   ============================================================ */
+
+@media (max-width: 991.98px) {
+  html body header.default13 .navbar-collapse {
+    background: var(--fr-white) !important;
+    border-radius: var(--fr-radius-md) !important;
+    margin-top: 14px !important;
+    padding: 14px 16px !important;
+    box-shadow: var(--fr-shadow-md) !important;
+    border: 1px solid var(--fr-border-light) !important;
+  }
+
+  html body header.default13 .navbar-collapse .nav-link.nav-link,
+  html body header.default13 .navbar-collapse a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler) {
+    color: var(--fr-text-dark) !important;
+    padding: 14px 12px !important;
+    border-bottom: 1px solid var(--fr-border-light) !important;
+    text-align: left !important;
+    border-radius: 0 !important;
+    font-family: var(--fr-font-body) !important;
+  }
+
+  html body header.default13 .navbar-collapse .nav-link.nav-link:last-child,
+  html body header.default13 .navbar-collapse a:last-child {
+    border-bottom: none !important;
+  }
+
+  html body header.default13 .navbar-collapse .nav-link.nav-link:hover {
+    color: var(--fr-primary) !important;
+    background: var(--fr-bg) !important;
+  }
+
+  html body header.default13 .navbar-collapse .language__toggler {
+    margin-top: 12px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    color: var(--fr-primary) !important;
+    border-color: var(--fr-primary) !important;
+  }
+}
+
+/* ============================================================
+   32. /OFFERS SYSTEM TRAPS — TRAP #13, #14, #16, etc.
+   ============================================================ */
+
+/* TRAP #13 — hide system search bar on ALL pages
+   (homepage has custom command bar, /offers has filter sidebar, /txt makes no sense) */
+html body .iai-search:not(.fr-search):not(.fr-cmd-bar__form),
+html body #iai_book_se,
+html body #iai_book_form:not(.fr-search):not(.fr-cmd-bar__form),
+html body .iai-search-wrapper,
+html body .row.searcher,
+html body .searcher_default {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* TRAP #14 — FontAwesome NOT loaded on default13.
+   Hide broken FA icons in filter headers (replaced with CSS chevron below). */
+html body.page-offers .filter_header .fa,
+html body.page-offers .filter_header .fa-angle-down,
+html body.page-offers .filter_header .fa-angle-up,
+html body.page-offers .filter_header [class^="fa-"],
+html body.page-offers .filter_header [class*=" fa-"] {
+  display: none !important;
+}
+
+/* Filter header — branded layout with CSS chevron */
+html body.page-offers .filter_header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  padding: 14px 18px !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: var(--fr-radius-md) !important;
+  margin-bottom: 8px !important;
+  background: var(--fr-white) !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  color: var(--fr-text-dark) !important;
+  transition: background 0.2s ease, border-color 0.2s ease !important;
+}
+
+html body.page-offers .filter_header:hover {
+  background: var(--fr-bg) !important;
+  border-color: var(--fr-border-medium) !important;
+}
+
+/* CSS chevron replacement for missing FontAwesome */
+html body.page-offers .filter_header::after {
+  content: "" !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  width: 9px !important;
+  height: 9px !important;
+  border-right: 2px solid var(--fr-primary) !important;
+  border-bottom: 2px solid var(--fr-primary) !important;
+  transform: rotate(45deg) !important;
+  transition: transform 0.3s ease !important;
+  margin-bottom: 3px !important;
+}
+
+html body.page-offers .filter_header[aria-expanded="true"]::after {
+  transform: rotate(-135deg) !important;
+  margin-top: 3px !important;
+  margin-bottom: 0 !important;
+}
+
+/* Bootstrap collapse guard */
+html body.page-offers .filter_content.collapse:not(.show) {
+  display: none !important;
+}
+
+html body.page-offers .filter_content.collapse.show {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding: 14px 4px 18px !important;
+}
+
+/* TRAP #16 — span.btn line-height 49px override */
+html body.page-offers span.btn,
+html body.page-offers .accommodation-buttons span.btn,
+html body .offer span.btn {
+  line-height: 1.4 !important;
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 11px 24px !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  border-radius: var(--fr-radius-pill) !important;
+  border: 2px solid var(--fr-primary) !important;
+  min-height: 44px !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+html body.page-offers span.btn:hover,
+html body .offer span.btn:hover {
+  background: var(--fr-primary-hover) !important;
+  border-color: var(--fr-primary-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* .index-info z-index reset — system traps it above hero */
+html body .index-info {
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+
+html body .index-info * {
+  pointer-events: none !important;
+}
+
+html body .index-info button,
+html body .index-info .navbar-reservation {
+  display: none !important;
+}
+
+/* Force Inter on system widgets (litepicker, flatpickr, iai-search) */
+html body .litepicker,
+html body .litepicker *,
+html body .container__months,
+html body .container__months *,
+html body .month-item,
+html body .month-item *,
+html body .day-item,
+html body .container__days,
+html body .container__days *,
+html body .flatpickr-calendar,
+html body .flatpickr-calendar *,
+html body .iai-search,
+html body .iai-search *,
+html body #iai_book_form,
+html body #iai_book_form *,
+html body .widget__option,
+html body .widget__option * {
+  font-family: var(--fr-font-body) !important;
+}
+
+/* Force DM Serif Display on Litepicker month names */
+html body .litepicker .cur-month,
+html body .litepicker .month-item-name,
+html body .container__months .cur-month {
+  font-family: var(--fr-font-display) !important;
+  font-weight: 500 !important;
+}
+
+/* Persons dropdown chevron — system btn 8x8 invisible without FA */
+html body #iai_book_form .widget__option.iai_input-small .iai_widget_btn,
+html body .iai-search .widget__option .iai_widget_btn {
+  position: absolute !important;
+  top: 50% !important;
+  right: 16px !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  opacity: 1 !important;
+  font-size: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+html body #iai_book_form .widget__option.iai_input-small .iai_widget_btn::after,
+html body .iai-search .widget__option .iai_widget_btn::after {
+  content: '' !important;
+  display: block !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-right: 2px solid var(--fr-text-dark) !important;
+  border-bottom: 2px solid var(--fr-text-dark) !important;
+  transform: rotate(45deg) !important;
+  margin: 2px auto 0 !important;
+}
+
+/* Form button on system widgets */
+html body .formbutton,
+html body #iai_book_form .formbutton {
+  background: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  border: none !important;
+  border-radius: var(--fr-radius-pill) !important;
+  font-family: var(--fr-font-body) !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  padding: 14px 28px !important;
+  cursor: pointer !important;
+}
+
+html body .formbutton:hover,
+html body #iai_book_form .formbutton:hover {
+  background: var(--fr-primary-hover) !important;
+}
+
+/* /offer detail — hide d-none search and book form (system toggle) */
+html body.page-offer #iai_book_form.d-none,
+html body.page-offer .iai-search.d-none {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* /offer price circle — system renders 244x161 oval, force 150 circle */
+html body .offer-price {
+  width: 150px !important;
+  height: 150px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  font-family: var(--fr-font-display) !important;
+}
+
+/* /offer tabs sticky — system uses --fixed (BEM modifier), not .sticky */
+html body .tabs.--fixed {
+  position: fixed !important;
+  top: 88px !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  z-index: 1000 !important;
+  background: var(--fr-white) !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+}
+
+/* All headings and text on /offers + /offer should use brand fonts */
+html body.page-offers .filter_section_title,
+html body.page-offers .filter_title,
+html body.page-offers .sidebar h4,
+html body.page-offers h4,
+html body.page-offer h4 {
+  font-family: var(--fr-font-display) !important;
+  color: var(--fr-text-dark) !important;
+}
+
+/* "Brak wyników" / empty state on /offers */
+html body.page-offers .offers-empty,
+html body.page-offers .empty,
+html body.page-offers .no-offers {
+  text-align: center !important;
+  padding: 64px 24px !important;
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  font-family: var(--fr-font-body) !important;
+  color: var(--fr-text-muted) !important;
+}
+
+/* ============================================================
+   33. LITEPICKER COMPREHENSIVE BRAND STYLING
+   ============================================================ */
+
+html body .litepicker {
+  font-family: var(--fr-font-body) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: var(--fr-radius-lg) !important;
+  box-shadow: var(--fr-shadow-lg) !important;
+  background: var(--fr-white) !important;
+  padding: 18px !important;
+}
+
+html body .litepicker .container__months,
+html body .litepicker .month-item-header {
+  background: var(--fr-white) !important;
+}
+
+html body .litepicker .container__months .month-item-name,
+html body .litepicker .cur-month {
+  font-family: var(--fr-font-display) !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+  letter-spacing: 0.3px !important;
+}
+
+html body .litepicker .container__months .month-item-year {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  color: var(--fr-text-muted) !important;
+  margin-left: 6px !important;
+  font-weight: 500 !important;
+}
+
+html body .litepicker .button-previous-month,
+html body .litepicker .button-next-month {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: var(--fr-bg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  color: var(--fr-text-dark) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+}
+
+html body .litepicker .button-previous-month:hover,
+html body .litepicker .button-next-month:hover {
+  background: var(--fr-light-accent) !important;
+  border-color: var(--fr-light-accent) !important;
+  color: var(--fr-primary-deep) !important;
+}
+
+html body .litepicker .container__days .day-item {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+  border-radius: var(--fr-radius-sm) !important;
+  width: 38px !important;
+  height: 38px !important;
+  line-height: 38px !important;
+  margin: 2px !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+html body .litepicker .container__days .day-item:hover:not(.is-locked) {
+  background: var(--fr-light-accent) !important;
+  color: var(--fr-primary-deep) !important;
+}
+
+html body .litepicker .container__days .day-item.is-today {
+  color: var(--fr-primary) !important;
+  font-weight: 700 !important;
+}
+
+html body .litepicker .container__days .day-item.is-locked,
+html body .litepicker .container__days .day-item.is-locked:hover {
+  color: var(--fr-light-gray) !important;
+  background: transparent !important;
+  text-decoration: line-through !important;
+  cursor: not-allowed !important;
+}
+
+html body .litepicker .container__days .day-item.is-start-date,
+html body .litepicker .container__days .day-item.is-end-date,
+html body .litepicker .container__days .day-item.is-start-date:hover,
+html body .litepicker .container__days .day-item.is-end-date:hover {
+  background: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  font-weight: 600 !important;
+}
+
+html body .litepicker .container__days .day-item.is-in-range {
+  background: var(--fr-cream) !important;
+  color: var(--fr-text-dark) !important;
+  border-radius: 0 !important;
+}
+
+html body .litepicker .container__days .day-item.is-start-date {
+  border-top-left-radius: var(--fr-radius-sm) !important;
+  border-bottom-left-radius: var(--fr-radius-sm) !important;
+}
+
+html body .litepicker .container__days .day-item.is-end-date {
+  border-top-right-radius: var(--fr-radius-sm) !important;
+  border-bottom-right-radius: var(--fr-radius-sm) !important;
+}
+
+html body .litepicker .container__days .week-number {
+  color: var(--fr-text-muted) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+/* Day-of-week header */
+html body .litepicker .container__days > div:nth-child(-n+7),
+html body .litepicker .container__days .day-name {
+  color: var(--fr-text-muted) !important;
+  font-size: 11px !important;
+  letter-spacing: 1.2px !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+}
+
+/* Litepicker footer/buttons (Wyczyść, Dzisiaj) */
+html body .litepicker .container__footer {
+  border-top: 1px solid var(--fr-border-light) !important;
+  margin-top: 12px !important;
+  padding: 12px 4px 4px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+html body .litepicker .container__footer .button-apply,
+html body .litepicker .container__footer .button-cancel,
+html body .litepicker .container__footer button {
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.6px !important;
+  color: var(--fr-primary) !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 6px 10px !important;
+}
+
+html body .litepicker .container__footer .button-apply:hover,
+html body .litepicker .container__footer button:hover {
+  color: var(--fr-primary-hover) !important;
+  text-decoration: underline !important;
+}
+
+/* Native input[type=date] popover (Chrome-only) — best-effort brand color */
+html body input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(54%) sepia(13%) saturate(1145%) hue-rotate(297deg) brightness(91%) contrast(85%);
+  cursor: pointer;
+}
+
+/* PATCH v1.6: Litepicker responsive 2-month layout
+   System Litepicker on /offer renders 2 months stacked (flex-direction:column).
+   Force grid 2-col on desktop so months sit side-by-side.
+   Mobile (<720px) keeps single column / single month for usability. */
+html body .litepicker .container__main {
+  width: auto !important;
+  max-width: none !important;
+}
+
+@media (min-width: 720px) {
+  html body .litepicker .container__months,
+  html body .litepicker .container__months.columns-2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+    width: auto !important;
+    min-width: 660px !important;
+  }
+  html body .litepicker .container__months > .month-item {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+@media (max-width: 719px) {
+  html body .litepicker .container__months {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  html body .litepicker .container__months > .month-item {
+    width: 100% !important;
+  }
+  html body .litepicker {
+    max-width: calc(100vw - 24px) !important;
+  }
+}
+
+/* ============================================================
+   34. NEW HERO — UNIQUE LAYOUT (centered big typography)
+   ============================================================ */
+
+/* Hero v3: 100vh, text top, search bar bottom — both visible without scroll */
+.fr-hero-v2 {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  overflow: hidden;
+}
+
+.fr-hero-v2__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.fr-hero-v2__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 14, 16, 0.18) 0%, rgba(20, 14, 16, 0.08) 35%, rgba(20, 14, 16, 0.30) 70%, rgba(20, 14, 16, 0.50) 100%);
+}
+
+.fr-hero-v2__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  flex: 1;
+  min-height: 100vh;
+  padding: 130px 24px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.fr-hero-v2__text {
+  align-self: center;
+  text-align: center;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.fr-hero-v2__kicker {
+  display: inline-block;
+  font-family: var(--fr-font-body);
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase;
+  color: var(--fr-light-accent);
+  padding: 9px 24px;
+  border: 1px solid rgba(231, 187, 186, 0.55);
+  border-radius: var(--fr-radius-pill);
+  margin: 0 0 28px;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.fr-hero-v2__title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(44px, 7.2vw, 96px) !important;
+  font-weight: 400 !important;
+  line-height: 0.96 !important;
+  color: var(--fr-white) !important;
+  margin: 0 0 24px !important;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55), 0 0 8px rgba(0, 0, 0, 0.30);
+}
+
+.fr-hero-v2__title em {
+  font-style: italic;
+  color: var(--fr-light-accent);
+  font-weight: 300;
+  display: block;
+}
+
+/* PATCH v1.6.5: TDD-fixed responsive typography for mobile S (<360px)
+   Audit results: viewport 320 = 3 overflow elements (hero title, lead, btn--outline)
+   Fix: tighter padding + smaller min font-size + max-width 100% on buttons */
+@media (max-width: 359px) {
+  /* Safety net for very small phones (Galaxy Fold etc) — fullpage.js may
+     keep section width >320px; clip horizontal overflow at body level */
+  html body { overflow-x: hidden !important; max-width: 100vw !important; }
+  html body .fr-hero-v2,
+  html body .fr-hero-v2__inner,
+  html body .fr-hero-v2__text { max-width: 100vw !important; overflow-x: hidden !important; }
+  .fr-hero-v2__inner {
+    padding: 100px 12px 24px !important;
+  }
+  .fr-hero-v2__title {
+    font-size: clamp(26px, 8vw, 38px) !important;
+    line-height: 1.05 !important;
+  }
+  .fr-hero-v2__lead {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    padding: 0 8px !important;
+  }
+  .fr-btn,
+  .fr-btn--outline,
+  .fr-btn--primary,
+  .fr-btn--ghost-light {
+    max-width: 100% !important;
+    width: auto !important;
+    padding: 14px 16px !important;
+    font-size: 12px !important;
+    letter-spacing: 1.2px !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+  .fr-section,
+  .fr-section__inner {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .fr-h2 {
+    font-size: clamp(22px, 6.5vw, 30px) !important;
+  }
+}
+
+/* PATCH v1.6.5: bold lead per user request — was 500, now 700 for emphasis.
+   PATCH v1.6.7: color #000 -> #FFFFFF + dark text-shadow for readability on
+   the photo hero (user feedback: "zrob go bialy"). */
+.fr-hero-v2__lead {
+  font-family: var(--fr-font-body);
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.7;
+  color: #FFFFFF;
+  max-width: 640px;
+  margin: 0 auto 36px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.55);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  display: block;
+  border: none;
+}
+
+.fr-hero-v2__cta-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 0 56px;
+}
+
+/* Hero search bar — DOCKED at bottom of hero, always visible */
+.fr-hero-v2__search {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: var(--fr-radius-lg);
+  padding: 22px clamp(20px, 3vw, 32px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.30);
+  backdrop-filter: saturate(140%) blur(14px);
+  align-self: end;
+  margin: 0 auto 24px;
+  width: 100%;
+  max-width: 1180px;
+}
+
+.fr-hero-v2__search .fr-cmd-bar__head {
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--fr-border-light);
+}
+
+.fr-hero-v2__search .fr-cmd-bar__title {
+  font-size: 19px;
+}
+
+.fr-hero-v2__search .fr-cmd-bar__form {
+  gap: 14px;
+}
+
+.fr-hero-v2__facts {
+  display: flex;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 56px);
+  flex-wrap: wrap;
+  align-self: end;
+  padding: 18px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.fr-hero-v2__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+
+.fr-hero-v2__fact strong {
+  font-family: var(--fr-font-display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--fr-light-accent);
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.40);
+}
+
+.fr-hero-v2__fact span {
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.40);
+}
+
+@media (max-width: 1100px) {
+  .fr-hero-v2 { min-height: auto; }
+  .fr-hero-v2__inner { padding: 110px 18px 24px; min-height: auto; }
+  .fr-hero-v2__title { font-size: clamp(38px, 8vw, 64px) !important; }
+  .fr-hero-v2__search { padding: 18px 18px; margin-bottom: 18px; }
+  .fr-hero-v2__cta-row { flex-direction: column; align-items: stretch; max-width: 320px; margin-left: auto; margin-right: auto; }
+  .fr-hero-v2__cta-row .fr-btn { width: 100%; }
+  .fr-hero-v2__facts { gap: 18px; padding-top: 14px; }
+  .fr-hero-v2__fact strong { font-size: 22px; }
+}
+
+@media (max-width: 600px) {
+  .fr-hero-v2__inner { padding: 100px 14px 18px; }
+  .fr-hero-v2__title { font-size: clamp(34px, 9vw, 48px) !important; }
+  .fr-hero-v2__lead { font-size: 15px; }
+  .fr-hero-v2__search { padding: 16px 14px; }
+  .fr-hero-v2__facts { gap: 14px; }
+  .fr-hero-v2__fact { flex: 0 0 calc(50% - 8px); }
+}
+
+/* ============================================================
+   35. COMMAND BAR — custom search docked under hero
+   ============================================================ */
+
+/* External fr-cmd-bar — only used if NOT inside hero (legacy / fallback) */
+.fr-cmd-bar:not(.fr-hero-v2__search) {
+  background: var(--fr-white);
+  position: relative;
+  z-index: 5;
+  margin: 32px auto;
+  max-width: 1180px;
+  width: calc(100% - 48px);
+  border-radius: var(--fr-radius-lg);
+  box-shadow: 0 24px 60px rgba(26, 26, 24, 0.16);
+  padding: 28px clamp(20px, 3vw, 36px);
+  border: 1px solid var(--fr-border-light);
+}
+
+.fr-cmd-bar__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--fr-border-light);
+}
+
+.fr-cmd-bar__title {
+  font-family: var(--fr-font-display);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--fr-text-dark);
+  margin: 0;
+}
+
+.fr-cmd-bar__hint {
+  font-family: var(--fr-font-body);
+  font-size: 12px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--fr-text-muted);
+  font-weight: 600;
+}
+
+.fr-cmd-bar__form {
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 0.9fr 1fr auto;
+  gap: 18px;
+  align-items: end;
+}
+
+.fr-cmd-bar__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fr-cmd-bar__label {
+  font-family: var(--fr-font-body);
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--fr-text-muted);
+  font-weight: 600;
+}
+
+.fr-cmd-bar__input,
+.fr-cmd-bar__select {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  color: var(--fr-text-dark);
+  background: var(--fr-bg);
+  border: 1px solid var(--fr-border-light);
+  border-radius: var(--fr-radius-md);
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 52px;
+  width: 100%;
+}
+
+.fr-cmd-bar__input:focus,
+.fr-cmd-bar__select:focus {
+  border-color: var(--fr-primary);
+  box-shadow: 0 0 0 3px rgba(226, 215, 0, 0.20);
+}
+
+.fr-cmd-bar__submit {
+  background: var(--fr-primary);
+  color: var(--fr-white);
+  border: 2px solid var(--fr-primary);
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: var(--fr-radius-pill);
+  cursor: pointer;
+  min-height: 56px;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(226, 215, 0, 0.32);
+}
+
+.fr-cmd-bar__submit:hover {
+  background: var(--fr-primary-hover);
+  border-color: var(--fr-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(200, 189, 0, 0.40);
+}
+
+.fr-cmd-bar__submit svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+@media (max-width: 1100px) {
+  .fr-cmd-bar__form {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .fr-cmd-bar__submit { grid-column: 1 / -1; width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .fr-cmd-bar {
+    margin-top: -36px;
+    padding: 24px 20px;
+    width: calc(100% - 24px);
+  }
+  .fr-cmd-bar__form { grid-template-columns: 1fr; gap: 14px; }
+  .fr-cmd-bar__title { font-size: 21px; }
+}
+
+/* ============================================================
+   36. ATTRACTIONS PAGE — UX FIXES (contrast, alignment)
+   ============================================================ */
+
+/* Equal-height attraction rows + improved typography */
+html body .fr-attr-row {
+  align-items: stretch !important;
+}
+
+html body .fr-attr-row > div:last-child {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding: 8px 0 !important;
+}
+
+html body .fr-attr-row__title {
+  color: var(--fr-text-dark) !important;
+  font-size: clamp(28px, 3.2vw, 38px) !important;
+  font-weight: 500 !important;
+  line-height: 1.1 !important;
+  margin: 6px 0 14px !important;
+  letter-spacing: -0.005em !important;
+}
+
+html body .fr-attr-row__meta {
+  color: var(--fr-primary-deep) !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  letter-spacing: 2px !important;
+  margin: 0 0 8px !important;
+}
+
+html body .fr-attr-row__text {
+  color: var(--fr-text-dark) !important;
+  font-size: 16.5px !important;
+  line-height: 1.75 !important;
+}
+
+html body .fr-attr-row__text p {
+  color: var(--fr-text-body) !important;
+  margin: 0 0 14px !important;
+}
+
+html body .fr-attr-row__text p:last-child {
+  margin-bottom: 0 !important;
+}
+
+html body .fr-attr-row__text strong {
+  color: var(--fr-text-dark) !important;
+  font-weight: 600 !important;
+}
+
+/* Attraction cards on homepage — readable title contrast */
+html body .fr-attr-card {
+  background: var(--fr-cream) !important;
+}
+
+html body .fr-attr-card .fr-attr-card__body {
+  background: linear-gradient(180deg, transparent 0%, rgba(26, 26, 24, 0.42) 35%, rgba(26, 26, 24, 0.92) 100%) !important;
+  padding: 28px 22px 24px !important;
+}
+
+html body .fr-attr-card .fr-attr-card__title {
+  color: var(--fr-white) !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+  margin: 0 !important;
+}
+
+html body .fr-attr-card .fr-attr-card__meta {
+  color: var(--fr-light-accent) !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+  margin: 0 0 8px !important;
+}
+
+/* Page hero on subpages — stronger overlay for readable text */
+html body .fr-page-hero::after {
+  background: linear-gradient(180deg, rgba(26, 26, 24, 0.55) 0%, rgba(26, 26, 24, 0.85) 100%) !important;
+}
+
+html body .fr-page-hero__lead {
+  color: rgba(255, 255, 255, 0.96) !important;
+  font-weight: 400 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.30) !important;
+}
+
+/* Narrative section — improved text contrast */
+html body .fr-narrative__text p {
+  color: var(--fr-text-dark) !important;
+  font-size: 16.5px !important;
+  line-height: 1.75 !important;
+  font-weight: 400 !important;
+}
+
+html body .fr-narrative__text p strong {
+  color: var(--fr-primary-deep) !important;
+  font-weight: 600 !important;
+}
+
+html body .fr-text {
+  color: var(--fr-text-dark) !important;
+}
+
+/* Section headers — equal margins, no skewed alignment */
+html body .fr-section__header {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+html body .fr-section__header .fr-rule,
+html body .fr-narrative .fr-rule,
+html body .fr-attr-row .fr-rule {
+  display: block !important;
+  width: 60px !important;
+  margin: 14px auto 22px !important;
+}
+
+html body .fr-attr-row .fr-rule {
+  margin: 0 0 18px !important;
+}
+
+html body .fr-narrative__text .fr-rule {
+  margin: 14px 0 22px !important;
+}
+
+/* Lead text on subpages — dark contrast on cream */
+html body .fr-section--cream .fr-lead,
+html body .fr-section--bg .fr-lead,
+html body .fr-narrative .fr-lead {
+  color: var(--fr-text-dark) !important;
+  font-weight: 400 !important;
+  font-size: 17px !important;
+}
+
+/* Stats — better contrast */
+html body .fr-stat__num {
+  color: var(--fr-primary) !important;
+  font-weight: 600 !important;
+}
+
+html body .fr-stat__label {
+  color: var(--fr-text-dark) !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.8px !important;
+}
+
+/* ============================================================
+   37. NAVBAR-BRAND alignment fix (logo not centered weirdly)
+   ============================================================ */
+
+html body header.default13 .navbar {
+  align-items: center !important;
+}
+
+html body header.default13 .navbar-brand-wrapper,
+html body header.default13 .navbar-brand-container {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Footer — improve contrast */
+html body .footer-contact-baner * {
+  color: rgba(255, 255, 255, 0.86) !important;
+}
+
+html body .footer-contact-baner a {
+  color: var(--fr-light-accent) !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   38. BUTTON HIT-AREA — full width clickable, min 48x48
+   ============================================================ */
+
+html body .fr-btn,
+html body a.fr-btn,
+html body button.fr-btn {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 52px !important;
+  padding: 16px 32px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: rgba(226, 215, 0, 0.2) !important;
+}
+
+html body .fr-btn::after {
+  content: '' !important;
+  position: absolute !important;
+  inset: -4px !important;
+}
+
+html body .fr-cmd-bar__submit,
+html body .fr-search__submit {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 56px !important;
+  cursor: pointer !important;
+  -webkit-tap-highlight-color: rgba(226, 215, 0, 0.2) !important;
+}
+
+/* Touch targets — all interactive elements ≥44x44px (WCAG 2.5.5) */
+html body a,
+html body button,
+html body input[type="submit"],
+html body input[type="button"],
+html body .clickable {
+  min-height: auto;
+}
+
+html body .fr-btn--small {
+  min-height: 42px !important;
+  padding: 11px 22px !important;
+}
+
+/* ============================================================
+   39. ATTRACTIONS — TYPOGRAPHIC CARDS (no stock photos)
+   ============================================================ */
+
+html body .fr-attractions .fr-attr-grid {
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+html body .fr-attractions .fr-attr-card {
+  position: relative !important;
+  aspect-ratio: 4 / 5 !important;
+  border-radius: var(--fr-radius-lg) !important;
+  overflow: hidden !important;
+  background: linear-gradient(160deg, var(--fr-cream) 0%, var(--fr-light-accent) 100%) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 28px 24px !important;
+  text-decoration: none !important;
+}
+
+html body .fr-attractions .fr-attr-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: var(--fr-shadow-lg) !important;
+  border-color: var(--fr-border-medium) !important;
+}
+
+html body .fr-attractions .fr-attr-card img {
+  display: none !important;
+}
+
+html body .fr-attractions .fr-attr-card::after {
+  display: none !important;
+}
+
+html body .fr-attractions .fr-attr-card .fr-attr-card__icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fr-primary-deep);
+  flex-shrink: 0;
+  margin: 0 0 auto;
+  border: 1px solid var(--fr-border-light);
+}
+
+html body .fr-attractions .fr-attr-card .fr-attr-card__icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+html body .fr-attractions .fr-attr-card .fr-attr-card__body {
+  position: static !important;
+  padding: 0 !important;
+  background: none !important;
+  z-index: auto !important;
+  color: var(--fr-text-dark) !important;
+  margin-top: 0 !important;
+}
+
+html body .fr-attractions .fr-attr-card .fr-attr-card__title {
+  color: var(--fr-text-dark) !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+  line-height: 1.15 !important;
+  margin: 12px 0 8px !important;
+  text-shadow: none !important;
+}
+
+html body .fr-attractions .fr-attr-card .fr-attr-card__meta {
+  color: var(--fr-primary-deep) !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.8px !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+  margin: 0 !important;
+}
+
+html body .fr-attractions .fr-attr-card .fr-attr-card__hint {
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  color: var(--fr-text-body) !important;
+  line-height: 1.55 !important;
+  margin: 0 !important;
+}
+
+/* ============================================================
+   40. WCAG FOCUS INDICATORS (2.4.7 + 2.4.11)
+   ============================================================ */
+
+html body a:focus-visible,
+html body button:focus-visible,
+html body input:focus-visible,
+html body select:focus-visible,
+html body textarea:focus-visible,
+html body [tabindex]:focus-visible {
+  outline: 3px solid var(--fr-primary) !important;
+  outline-offset: 3px !important;
+  border-radius: var(--fr-radius-sm) !important;
+}
+
+html body .fr-btn:focus-visible,
+html body .fr-cmd-bar__submit:focus-visible {
+  outline: 3px solid var(--fr-text-dark) !important;
+  outline-offset: 3px !important;
+}
+
+/* Skip-to-content (a11y) */
+html body .fr-skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--fr-primary);
+  color: var(--fr-white);
+  padding: 12px 18px;
+  border-radius: var(--fr-radius-md);
+  font-family: var(--fr-font-body);
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 99999;
+  transition: top 0.2s ease;
+}
+
+html body .fr-skip-link:focus {
+  top: 16px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html body *,
+  html body *::before,
+  html body *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html body .fr-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================================
+   41. ATTRACTIONS PAGE — TYPOGRAPHIC ROWS (no stock photos)
+   ============================================================ */
+
+html body .fr-page-hero--solid {
+  background: linear-gradient(135deg, var(--fr-text-dark) 0%, var(--fr-primary-deep) 70%, var(--fr-secondary) 100%) !important;
+  min-height: 48vh;
+}
+
+html body .fr-page-hero--solid::after {
+  background: radial-gradient(circle at 70% 30%, rgba(231, 187, 186, 0.18), transparent 60%) !important;
+}
+
+html body .fr-attr-row--type {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 56px !important;
+  align-items: center !important;
+  margin-bottom: 80px !important;
+  padding-bottom: 80px !important;
+  border-bottom: 1px solid var(--fr-border-light) !important;
+}
+
+html body .fr-attr-row--type:nth-child(even) .fr-attr-row__media-block {
+  order: 2 !important;
+}
+
+html body .fr-attr-row__media-block {
+  position: relative;
+  border-radius: var(--fr-radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  box-shadow: var(--fr-shadow-md);
+}
+
+html body .fr-attr-row__media-block img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+html body .fr-attr-row__media-block:hover img {
+  transform: scale(1.04);
+}
+
+html body .fr-attr-row__media-block .fr-attr-row__num {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: var(--fr-white);
+  color: var(--fr-primary);
+  font-family: var(--fr-font-display);
+  font-size: 22px;
+  font-weight: 600;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--fr-shadow-sm);
+  z-index: 2;
+}
+
+html body .fr-attr-row--type:last-child {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+html body .fr-attr-row__icon-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  background: var(--fr-cream);
+  border-radius: var(--fr-radius-lg);
+  border: 1px solid var(--fr-border-light);
+  position: sticky;
+  top: 110px;
+}
+
+html body .fr-attr-row__icon {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fr-primary-deep);
+  border: 1px solid var(--fr-border-light);
+}
+
+html body .fr-attr-row__icon svg {
+  width: 44px;
+  height: 44px;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+html body .fr-attr-row__num {
+  font-family: var(--fr-font-display);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--fr-primary);
+  letter-spacing: 0.5px;
+}
+
+html body .fr-attr-row__body {
+  padding: 8px 0;
+}
+
+@media (max-width: 900px) {
+  html body .fr-attr-row--type {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    margin-bottom: 48px !important;
+    padding-bottom: 48px !important;
+  }
+  html body .fr-attr-row__icon-block {
+    flex-direction: row;
+    justify-content: center;
+    position: static;
+    padding: 18px 24px;
+    max-width: 320px;
+  }
+  html body .fr-attr-row__icon {
+    width: 64px;
+    height: 64px;
+  }
+  html body .fr-attr-row__icon svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ============================================================
+   42. LITEPICKER container z-index over hero
+   ============================================================ */
+
+html body .litepicker {
+  z-index: 9999 !important;
+}
+
+html body .litepicker .container__main {
+  background: var(--fr-white) !important;
+}
+
+/* PATCH v1.6.9: REVERTED to position:fixed.
+   v1.6.8 used position:absolute which broke visibility on body.page-index
+   because fullpage.js uses transform:translate3d (not scroll) and
+   scrollY is always 0. With position:absolute and offsetParent=body,
+   picker placed at "top: <viewportY>" landed off-screen.
+   With position:fixed, viewport-relative coords from Litepicker JS
+   correctly anchor the picker on screen.
+   Anchor accuracy is then tightened in JS via Litepicker option
+   `position: 'bottom-start'` (explicit, not auto) — see SA_KONIEC_BODY.html. */
+html body .litepicker {
+  position: fixed !important;
+}
+
+/* ============================================================
+   43. SCROLL ARROW HINT (decorative, optional)
+   ============================================================ */
+
+html body .fr-scroll-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fr-white);
+  z-index: 3;
+  pointer-events: none;
+  animation: fr-bounce 2s ease-in-out infinite;
+}
+
+html body .fr-scroll-hint svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+@keyframes fr-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ============================================================
+   44. WCAG color tokens — replace lower-contrast tokens
+   ============================================================ */
+
+html body .fr-text {
+  color: var(--fr-text-dark) !important;
+}
+
+/* When .fr-text-muted appears on cream/white bg, ensure 4.5:1 minimum */
+html body .fr-text-muted,
+html body .fr-search__sub,
+html body .fr-cmd-bar__hint {
+  color: var(--fr-text-muted) !important;
+}
+
+/* About feature text — needs to be readable */
+html body .fr-feature__text {
+  color: var(--fr-text-body) !important;
+  font-size: 15.5px !important;
+  line-height: 1.7 !important;
+}
+
+html body .fr-feature__title {
+  color: var(--fr-text-dark) !important;
+}
+
+/* Apartment description on cards */
+html body .fr-apt-desc {
+  color: var(--fr-text-body) !important;
+}
+
+/* Location card descriptions */
+html body .fr-loc-card__desc {
+  color: var(--fr-text-body) !important;
+}
+
+html body .fr-loc-card__address {
+  color: var(--fr-text-muted) !important;
+  font-weight: 500 !important;
+}
+
+/* ============================================================
+   45. MAP CAPTION (location pins description)
+   ============================================================ */
+
+html body .fr-loc-map__caption {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 24px 0 0;
+  padding: 22px 26px;
+  background: var(--fr-white);
+  border: 1px solid var(--fr-border-light);
+  border-radius: var(--fr-radius-md);
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  color: var(--fr-text-body);
+}
+
+html body .fr-loc-map__caption span {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.5;
+}
+
+html body .fr-loc-map__caption strong {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--fr-primary);
+  color: var(--fr-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  html body .fr-loc-map__caption {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 18px 18px;
+  }
+}
+
+/* ============================================================
+   46. PAGE-HERO PADDING — H1 not obscured by header
+   ============================================================ */
+
+html body .fr-page-hero {
+  padding-top: 220px !important;
+  padding-bottom: 80px !important;
+}
+
+@media (max-width: 991.98px) {
+  html body .fr-page-hero {
+    padding-top: 180px !important;
+    padding-bottom: 56px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  html body .fr-page-hero {
+    padding-top: 150px !important;
+    padding-bottom: 48px !important;
+  }
+}
+
+/* ============================================================
+   47. /OFFER detail — price circle CENTERED, tabs CENTERED
+   ============================================================ */
+
+/* Price circle — flex center within container */
+html body.page-offer .offer-price,
+html body .offer-price-wrap,
+html body .price-block {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+html body.page-offer .offer-price {
+  width: 150px !important;
+  height: 150px !important;
+  border-radius: 50% !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  font-family: var(--fr-font-display) !important;
+  text-align: center !important;
+  padding: 18px !important;
+  box-shadow: 0 12px 32px rgba(226, 215, 0, 0.32) !important;
+  margin: 0 auto 18px !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+}
+
+html body.page-offer .offer-price * {
+  color: var(--fr-white) !important;
+  font-family: var(--fr-font-display) !important;
+}
+
+/* ============================================================
+   50. ATTRACTIONS CARDS — RESTORE PHOTOS (override v1.4 typo)
+   ============================================================ */
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo {
+  aspect-ratio: 4 / 5 !important;
+  padding: 0 !important;
+  background: var(--fr-cream) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  display: block !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.6s ease !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo:hover img {
+  transform: scale(1.06) !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo::after {
+  content: '' !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, transparent 30%, rgba(20, 14, 16, 0.40) 60%, rgba(20, 14, 16, 0.92) 100%) !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo .fr-attr-card__icon {
+  display: none !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo .fr-attr-card__body {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding: 28px 22px 24px !important;
+  z-index: 2 !important;
+  background: none !important;
+  margin: 0 !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo .fr-attr-card__title {
+  color: var(--fr-white) !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.70), 0 0 6px rgba(0, 0, 0, 0.50) !important;
+  margin: 0 !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo .fr-attr-card__meta {
+  color: var(--fr-light-accent) !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.8px !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.70) !important;
+  margin: 0 0 8px !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+}
+
+html body .fr-attractions .fr-attr-card.fr-attr-card--photo .fr-attr-card__hint {
+  display: none !important;
+}
+
+/* ============================================================
+   51. LEAFLET MAP — custom branded pins
+   ============================================================ */
+
+html body .fr-loc-map {
+  aspect-ratio: 21 / 9 !important;
+  min-height: 360px !important;
+  border-radius: var(--fr-radius-lg) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--fr-border-light) !important;
+  box-shadow: var(--fr-shadow-md) !important;
+}
+
+@media (max-width: 768px) {
+  html body .fr-loc-map { aspect-ratio: 4 / 3 !important; min-height: 320px !important; }
+}
+
+html body #fr-map {
+  width: 100% !important;
+  height: 100% !important;
+  background: var(--fr-cream);
+}
+
+html body .fr-map-pin {
+  background: transparent !important;
+  border: none !important;
+}
+
+html body .fr-map-pin__inner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--fr-primary);
+  color: var(--fr-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fr-font-display);
+  font-size: 18px;
+  font-weight: 600;
+  border: 3px solid var(--fr-white);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+html body .fr-map-pin:hover .fr-map-pin__inner,
+html body .fr-map-pin__inner:hover {
+  transform: scale(1.15);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.40);
+}
+
+html body .leaflet-popup-content-wrapper {
+  background: var(--fr-white) !important;
+  border-radius: var(--fr-radius-md) !important;
+  font-family: var(--fr-font-body) !important;
+  border: 1px solid var(--fr-border-light) !important;
+}
+
+html body .leaflet-popup-content {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  color: var(--fr-text-dark) !important;
+  margin: 14px 18px !important;
+  line-height: 1.55 !important;
+}
+
+html body .leaflet-popup-content strong {
+  font-family: var(--fr-font-display) !important;
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+}
+
+html body .leaflet-popup-tip { background: var(--fr-white) !important; }
+
+html body .leaflet-control-attribution {
+  font-size: 10px !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+html body .leaflet-control-zoom a {
+  background: var(--fr-white) !important;
+  color: var(--fr-text-dark) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  font-family: var(--fr-font-body) !important;
+}
+
+html body .leaflet-control-zoom a:hover {
+  background: var(--fr-light-accent) !important;
+  color: var(--fr-primary-deep) !important;
+}
+
+/* ============================================================
+   52. HEADER white instantly + mobile menu bg white
+   ============================================================ */
+
+/* Mobile menu — hide system reservation button, force white bg */
+@media (max-width: 991.98px) {
+  html body header.default13 .navbar-reservation,
+  html body header.default13 a[href*="offers"].btn:not(.fr-btn):not(.navbar-toggler),
+  html body header.default13 .navbar-reservation-mobile,
+  html body header.default13 .navbar > a.btn:not(.fr-btn):not(.navbar-toggler),
+  html body header.default13 .reservation-button,
+  html body header.default13 .menu-wrapper > .btn:not(.fr-btn):not(.navbar-toggler),
+  html body header.default13 [class*="reservation"]:not(.fr-cmd-bar):not(.fr-btn):not(.navbar-toggler):not(.fr-cmd-bar__submit) {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+  }
+
+  /* Force navbar-toggler ALWAYS visible on mobile (override any system hide) */
+  html body header.default13 .navbar-toggler,
+  html body .navbar-toggler,
+  html body button.navbar-toggler {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    height: auto !important;
+    min-width: 64px !important;
+    min-height: 48px !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+    z-index: 100 !important;
+    margin-left: auto !important;
+  }
+
+  /* Navbar layout — flex with toggler on right */
+  html body header.default13 .navbar,
+  html body header.default13 nav.navbar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  html body header.default13 .navbar-brand {
+    margin-right: auto !important;
+  }
+
+  /* Force white bg on EVERY menu container on mobile */
+  html body header.default13 .navbar-collapse,
+  html body header.default13 div.navbar-collapse,
+  html body header.default13 .navbar-collapse.show,
+  html body header.default13 .navbar-collapse.collapsing,
+  html body header.default13 .menu-wrapper .navbar-collapse,
+  html body header.default13 nav.navbar-nav,
+  html body header.default13 ul.navbar-nav,
+  html body header.default13 .navbar-nav,
+  html body header.default13 .navbar > nav,
+  html body header.default13 .navbar > ul,
+  html body header.default13 .menu-wrapper nav,
+  html body header.default13 .menu-wrapper > div:not(.container):not(.navbar-brand-wrapper),
+  html body header.default13 .navigation,
+  html body header.default13 .main-menu,
+  html body header.default13 .menu,
+  html body header.default13 ul[class*="menu"],
+  html body header.default13 nav[class*="menu"] {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+  }
+
+  html body header.default13 .navbar-collapse {
+    border-radius: var(--fr-radius-md) !important;
+    margin-top: 14px !important;
+    padding: 18px 18px !important;
+    box-shadow: 0 18px 48px rgba(26, 26, 24, 0.18) !important;
+    border: 1px solid var(--fr-border-light) !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 16px !important;
+    right: 16px !important;
+    z-index: 9999 !important;
+    width: auto !important;
+  }
+
+  /* Force HEADER white when menu visible (any of these classes) */
+  html body header.default13:has(.navbar-collapse.show),
+  html body header.default13:has(nav[aria-expanded="true"]),
+  html body header.default13:has([aria-expanded="true"]) {
+    background: #FFFFFF !important;
+    background-color: #FFFFFF !important;
+  }
+
+  /* All children inside header on mobile — text dark, no shadow */
+  html body header.default13 .navbar-collapse,
+  html body header.default13 .navbar-collapse *,
+  html body header.default13 .navbar-nav,
+  html body header.default13 .navbar-nav *,
+  html body header.default13 nav.navbar-nav,
+  html body header.default13 nav.navbar-nav * {
+    color: var(--fr-text-dark) !important;
+    text-shadow: none !important;
+  }
+
+  html body header.default13 .navbar-collapse a,
+  html body header.default13 .navbar-nav a,
+  html body header.default13 nav a {
+    background: transparent !important;
+    color: var(--fr-text-dark) !important;
+    padding: 14px 12px !important;
+    border-bottom: 1px solid var(--fr-border-light) !important;
+    text-align: left !important;
+    display: block !important;
+  }
+
+  html body header.default13 .navbar-collapse a:last-child,
+  html body header.default13 .navbar-nav a:last-child {
+    border-bottom: none !important;
+  }
+}
+
+/* JS-toggled class for whole-header white bg */
+html body header.default13.fr-menu-open {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+}
+
+html body header.default13.fr-menu-open .menu-wrapper {
+  background: #FFFFFF !important;
+}
+
+/* ============================================================
+   53. LITEPICKER — viewport fitting (mobile only, since v1.6.8)
+   PATCH v1.6.8: previously this section forced max-width:360px on ALL
+   viewports, breaking the desktop 2-month layout. Now scoped to mobile.
+   ============================================================ */
+
+/* Mobile: fit viewport with safe padding */
+@media (max-width: 719px) {
+  html body .litepicker {
+    max-width: 360px !important;
+    width: min(360px, calc(100vw - 24px)) !important;
+    padding: 14px !important;
+  }
+}
+
+/* z-index + box-sizing apply on all viewports */
+html body .litepicker {
+  z-index: 99999 !important;
+  box-sizing: border-box !important;
+}
+
+/* PATCH v1.6.7: wrap mobile-only Litepicker rules in @media (max-width: 719px).
+   Previously these rules were unscoped and bled into desktop, overriding the
+   2-month grid from section 33 (line 3614+) — user saw only 1 month on desktop
+   with overflow:hidden hiding navigation. Mobile keeps single column stack. */
+@media (max-width: 719px) {
+  html body .litepicker .container__main {
+    width: 100% !important;
+    overflow: hidden !important;
+    display: block !important;
+  }
+
+  html body .litepicker .container__months {
+    flex-direction: column !important;
+    display: flex !important;
+    width: 100% !important;
+    gap: 0 !important;
+  }
+
+  html body .litepicker .month-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    flex: 0 0 100% !important;
+  }
+
+  html body .litepicker .month-item-header {
+    padding: 4px 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+}
+
+html body .litepicker .container__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 0 !important;
+  width: 100% !important;
+}
+
+html body .litepicker .container__days > div,
+html body .litepicker .container__days .day-item {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 13.5px !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+html body .litepicker .container__days .day-name {
+  font-size: 10px !important;
+  letter-spacing: 0.5px !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  text-transform: lowercase !important;
+}
+
+@media (max-width: 480px) {
+  html body .litepicker {
+    max-width: calc(100vw - 16px) !important;
+    width: calc(100vw - 16px) !important;
+    padding: 12px !important;
+  }
+
+  html body .litepicker .container__days .day-item {
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 12.5px !important;
+  }
+
+  html body .litepicker .container__months .month-item-name,
+  html body .litepicker .cur-month {
+    font-size: 16px !important;
+  }
+}
+
+/* Force same look on all viewports — single month, full width */
+html body .litepicker .container__months .month-item:not(:first-child) {
+  margin-top: 12px !important;
+}
+
+/* Hide secondary month spacing if it ever shows */
+html body .litepicker.litepicker--single-month .container__months,
+html body .litepicker .container__months[data-months="1"] {
+  gap: 0 !important;
+}
+
+html body.page-offer .offer-price .price-from-label,
+html body.page-offer .offer-price .price-prefix {
+  font-family: var(--fr-font-body) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: 1.4px !important;
+  text-transform: lowercase !important;
+  opacity: 0.92 !important;
+  margin: 0 0 4px !important;
+}
+
+html body.page-offer .offer-price .price-value,
+html body.page-offer .offer-price .price {
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  line-height: 1.1 !important;
+}
+
+/* Sticky tabs on /offer — drugie menu po scroll
+   PATCH v1.6: max-width:none + inset:0 to defeat system .tabs{max-width:1140px}
+   System app.css limits .tabs to 1140px; we need viewport-wide centered band */
+html body .tabs.--fixed,
+html body.page-offer .tabs.--fixed,
+html body .tabs.tabs--fixed,
+html body .tabs.sticky {
+  position: fixed !important;
+  top: 95px !important;
+  left: 0 !important;
+  right: 0 !important;
+  inset-inline: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 24px !important;
+  z-index: 100 !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: var(--fr-shadow-sm) !important;
+  border-bottom: 1px solid var(--fr-border-light) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  backdrop-filter: blur(10px) !important;
+  box-sizing: border-box !important;
+}
+
+html body .tabs.--fixed .tabs__inner,
+html body .tabs.--fixed > ul,
+html body .tabs.--fixed > div {
+  max-width: 1320px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+html body .tabs.--fixed a,
+html body .tabs.--fixed li a,
+html body .tabs.--fixed button,
+html body.page-offer .tabs a {
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 1.2px !important;
+  text-transform: uppercase !important;
+  color: var(--fr-text-dark) !important;
+  padding: 14px 18px !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+}
+
+html body .tabs.--fixed a:hover,
+html body .tabs.--fixed a.active {
+  color: var(--fr-primary) !important;
+  border-bottom: 2px solid var(--fr-primary) !important;
+}
+
+/* ============================================================
+   48. LIGHTER OVERALL FEEL — soften final CTA gradient
+   ============================================================ */
+
+html body .fr-final-cta {
+  background: linear-gradient(135deg, #7A736B 0%, var(--fr-primary-deep) 50%, var(--fr-secondary) 100%) !important;
+}
+
+html body .fr-page-hero--solid {
+  background: linear-gradient(135deg, var(--fr-primary-deep) 0%, var(--fr-secondary) 60%, var(--fr-primary) 100%) !important;
+  min-height: 44vh !important;
+}
+
+html body .fr-page-hero--solid::after {
+  background: radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.18), transparent 60%),
+              linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.20) 100%) !important;
+}
+
+/* Subpage page-hero (with photo) — lighter overlay */
+html body .fr-page-hero:not(.fr-page-hero--solid)::after {
+  background: linear-gradient(180deg, rgba(26, 26, 24, 0.30) 0%, rgba(26, 26, 24, 0.55) 100%) !important;
+}
+
+/* Section --cream lighter, more breathable */
+html body .fr-section--cream {
+  background: #F5EFE3 !important;
+}
+
+html body .fr-section--bg-alt,
+html body .fr-locations,
+html body .fr-attractions {
+  background: #EDE4D2 !important;
+}
+
+/* ============================================================
+   49. SKIP-LINK — hidden offscreen by default (no visible chip)
+   ============================================================ */
+
+html body .fr-skip-link {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  top: -100px !important;
+  left: -100px !important;
+}
+
+html body .fr-skip-link:focus,
+html body .fr-skip-link:focus-visible {
+  position: fixed !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 12px 18px !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  top: 16px !important;
+  left: 16px !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  border-radius: var(--fr-radius-md) !important;
+  z-index: 99999 !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   50. PATCH v1.6.6 — FOOTER STRIPE FIX + DARK CRESCENDO + SECTION RHYTHM
+   Reason (user feedback v1.6.5): "stopka wyglada zle, ma pasy takie jakby
+   sekcje nad i pod, te kremowe kolory, kolory w dolnej czesci strony maja
+   miec sens, czyli sekcje maja miec kolory".
+   Diagnosis (live audit at 1440x900):
+   - .fr-final-cta uses off-brand grey-purple gradient (#7A736B) = looks
+     desaturated cream/grey, not a proper crescendo before footer
+   - 30px white stripe between fr-final-cta and footer = padding-bottom:30px
+     of .section.fp-auto-height.pb-5 wrapper with bg:rgb(255,255,255)
+   - Footer feels detached because no visual continuity from CTA to dark band
+   Fix per /design-system principles:
+   (a) Color hierarchy: cream sections -> DARK crescendo (CTA) -> DARK footer
+   (b) Token consistency: use --fr-text-dark, drop hardcoded #7A736B
+   (c) Eliminate white stripe + ensure wrapper bg merges into dark closer
+   (d) Stronger section rhythm — alternating cream-light / cream-alt with
+       a clear escalation in saturation toward the bottom
+   ============================================================ */
+
+/* (1) FINAL CTA — dark crescendo (replaces off-brand grey-purple from v1.5) */
+html body .fr-final-cta {
+  background: linear-gradient(180deg, #1A1A18 0%, var(--fr-text-dark) 60%, #050505 100%) !important;
+  margin-bottom: 0 !important;
+  position: relative;
+}
+
+/* Subtle brand glow accents — softened to match the darker crescendo */
+html body .fr-final-cta::before {
+  background: radial-gradient(circle, rgba(231, 187, 186, 0.20), transparent 70%) !important;
+}
+html body .fr-final-cta::after {
+  background: radial-gradient(circle, rgba(196, 210, 208, 0.10), transparent 70%) !important;
+}
+
+/* CTA buttons stay readable on darker bg */
+html body .fr-final-cta .fr-btn--primary {
+  background: var(--fr-primary) !important;
+  color: var(--fr-white) !important;
+  border: 1px solid var(--fr-primary) !important;
+}
+html body .fr-final-cta .fr-btn--primary:hover {
+  background: var(--fr-primary-deep) !important;
+  border-color: var(--fr-primary-deep) !important;
+}
+
+/* (2) KILL THE 30px WHITE STRIPE — pb-5 padding-bottom of fp-auto-height wrapper.
+   Verified live: this alone is sufficient. Sa-section abut perfectly (gap=0px
+   between consecutive sections), so wrapper bg is never visible between them.
+   Painting the wrapper dark caused bleed-through under fullPage scale on mobile
+   — REMOVED. Only zeroing pb-5 padding here. */
+body.page-index .section.fp-auto-height.pb-5 {
+  padding-bottom: 0 !important;
+}
+
+/* (3) FOOTER — remove top border-glow that emphasizes the seam,
+   ensure flush contact with fr-final-cta */
+html body.page-index footer {
+  margin-top: 0 !important;
+  border-top: none !important;
+}
+
+/* (4) SECTION COLOR RHYTHM — strengthen escalation toward dark crescendo
+   Pattern: warm cream (welcome) -> deeper cream (transition) ->
+   cream (return) -> deeper cream (anticipation) -> DARK CTA -> DARK footer.
+   Existing tokens already alternate correctly (#FAF7F2 / #EDE4D2);
+   we just nudge .fr-attractions slightly darker for stronger pre-CTA build-up */
+html body .fr-attractions {
+  background: #E8DDC9 !important;  /* was #EDE4D2 — ~5% darker for build-up */
+}
+
+/* PATCH MARKER — for live verification */
+/* PATCH-V1.6.6-FOOTER-STRIPES-AND-DARK-CRESCENDO */
+
+/* ============================================================
+   51. PATCH v1.6.7 — LITEPICKER NAVIGATION + DROPDOWNS
+   User feedback v1.6.7: "nie ma zmiany daty jak klikam w pole i
+   wyskakuje litepicker" — Litepicker pokazuje 1 miesiąc bez strzałek
+   na desktop. Fix: (a) JS init wymusza mobileFriendly:false +
+   dropdowns:{months:true,years:true}, (b) CSS gwarantuje że nav
+   buttons są visible na desktop oraz styluje system dropdowny
+   wstrzyknięte przez Litepicker w month-item-header.
+   ============================================================ */
+
+/* (a) Force header layout + visible nav buttons on desktop (>= 720px) */
+@media (min-width: 720px) {
+  html body .litepicker .month-item-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    padding: 4px 0 14px !important;
+  }
+
+  html body .litepicker .button-previous-month,
+  html body .litepicker .button-next-month {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* Center title block (month name + year) between prev/next buttons */
+  html body .litepicker .month-item-header > div {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+}
+
+/* (b) Style Litepicker dropdowns (month + year selects) */
+html body .litepicker .month-item-header select,
+html body .litepicker .month-item-header .month-item-name select,
+html body .litepicker .month-item-header .month-item-year select {
+  font-family: var(--fr-font-display) !important;
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+  background: var(--fr-bg) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: 8px !important;
+  padding: 6px 28px 6px 12px !important;
+  margin: 0 4px !important;
+  cursor: pointer !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%235E5E5E' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+  background-size: 10px 6px !important;
+  letter-spacing: 0.2px !important;
+  line-height: 1.2 !important;
+}
+
+html body .litepicker .month-item-header select:hover,
+html body .litepicker .month-item-header select:focus,
+html body .litepicker .month-item-header select:focus-visible {
+  border-color: var(--fr-primary) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(226, 215, 0, 0.25) !important;
+}
+
+html body .litepicker .month-item-header select option {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  color: var(--fr-text-dark) !important;
+  background: var(--fr-white) !important;
+}
+
+/* PATCH MARKER — v1.6.7 */
+/* PATCH-V1.6.7-LITEPICKER-DROPDOWNS-AND-NAV */
+
+/* ============================================================
+   52. PATCH v1.6.8 — SENIOR REBUILD: 3 fixes
+   (1) Footer: bulletproof guard against duplicate brand-text ::before
+   (2) Hero lead: lock white color with maximum specificity
+   (3) Litepicker: complete CSS rewrite from scratch as senior-grade
+       date picker (no fragmentation, predictable layout, proper
+       anchoring to input field, desktop 2-month, mobile 1-month)
+   ============================================================ */
+
+/* (1) FOOTER — guard against any duplicate brand text ::before.
+   The brand text is injected via `.footer.container::before` on the FIRST
+   matching element. If IdoBooking renders multiple .footer.container
+   wrappers (some deployments do), null all subsequent ::before content. */
+html body footer .footer.container ~ .footer.container::before,
+html body footer .footer.container .footer.container::before,
+html body footer .footer:not(.container)::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* (2) HERO LEAD — lock white color with stronger specificity than any
+   global p/text rule. Previous color: #FFFFFF was without !important. */
+html body section.fr-hero-v2 p.fr-hero-v2__lead,
+html body .fr-hero-v2 .fr-hero-v2__lead,
+html body p.fr-hero-v2__lead {
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75),
+               0 1px 3px rgba(0, 0, 0, 0.65),
+               0 0 1px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* (3) LITEPICKER — complete senior rebuild
+   ============================================================
+   Goals:
+   - Anchored to the input that triggered it (no viewport-floating)
+   - Desktop (>= 720px): 2 months side-by-side, gap 18px
+   - Mobile (< 720px): single month, full-width-friendly
+   - Header: [prev arrow] [month-dropdown year-dropdown] [next arrow]
+   - Days: 7-col grid, brand-styled selection range
+   - Clean typography: DM Serif Display display, Inter body
+   - Predictable z-index above hero overlay
+   ============================================================ */
+
+/* --- Container --- */
+html body .litepicker {
+  z-index: 99999 !important;
+  font-family: var(--fr-font-body) !important;
+  background: #ffffff !important;
+  border: 1px solid var(--fr-border-light) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(26, 26, 24, 0.18),
+              0 4px 12px rgba(26, 26, 24, 0.10) !important;
+  padding: 18px !important;
+  /* position:absolute already enforced earlier (was position:fixed bug) */
+}
+
+/* --- Inner wrapper --- */
+html body .litepicker .container__main {
+  background: transparent !important;
+  display: block !important;
+  width: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+/* --- Months row: desktop side-by-side, mobile stacked --- */
+html body .litepicker .container__months {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 24px !important;
+  background: transparent !important;
+  width: auto !important;
+  min-width: 0 !important;
+  align-items: flex-start !important;
+}
+
+@media (max-width: 719px) {
+  html body .litepicker .container__months {
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+  html body .litepicker {
+    max-width: calc(100vw - 24px) !important;
+    padding: 14px !important;
+  }
+}
+
+/* --- Single month-item --- */
+html body .litepicker .month-item {
+  flex: 1 1 0 !important;
+  min-width: 280px !important;
+  max-width: 320px !important;
+  width: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 719px) {
+  html body .litepicker .month-item {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  html body .litepicker .container__months > .month-item:not(:first-child) {
+    margin-top: 0 !important;
+  }
+}
+
+/* --- Header: prev | dropdowns | next --- */
+html body .litepicker .month-item-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 0 0 14px !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+html body .litepicker .month-item-header > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  flex: 1 1 auto !important;
+}
+
+/* Hide vestigial month-item-name span when dropdowns are active */
+html body .litepicker .month-item-header .month-item-name:not(select):not(:has(select)) {
+  display: none !important;
+}
+
+/* --- Nav buttons --- */
+html body .litepicker .button-previous-month,
+html body .litepicker .button-next-month {
+  width: 32px !important;
+  height: 32px !important;
+  flex: 0 0 32px !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  border: 1px solid var(--fr-border-light) !important;
+  color: var(--fr-text-dark) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition: background 0.18s ease, border-color 0.18s ease !important;
+  padding: 0 !important;
+}
+
+html body .litepicker .button-previous-month:hover,
+html body .litepicker .button-next-month:hover {
+  background: var(--fr-light-accent) !important;
+  border-color: var(--fr-primary) !important;
+  color: var(--fr-primary-deep) !important;
+}
+
+html body .litepicker .button-previous-month svg,
+html body .litepicker .button-next-month svg {
+  width: 12px !important;
+  height: 12px !important;
+  fill: currentColor !important;
+}
+
+/* Hide nav buttons when they would lead before minDate */
+html body .litepicker .button-previous-month.is-hidden,
+html body .litepicker .button-next-month.is-hidden {
+  visibility: hidden !important;
+}
+
+/* --- Dropdown selects (months + years) --- */
+html body .litepicker .month-item-header select {
+  font-family: var(--fr-font-display) !important;
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark) !important;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 4px 26px 4px 10px !important;
+  cursor: pointer !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%235E5E5E' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+  background-size: 10px 6px !important;
+  letter-spacing: 0.2px !important;
+  line-height: 1.3 !important;
+  text-align-last: center !important;
+  margin: 0 !important;
+}
+
+html body .litepicker .month-item-header select:hover {
+  background-color: rgba(226, 215, 0, 0.10) !important;
+  border-color: var(--fr-light-accent) !important;
+}
+
+html body .litepicker .month-item-header select:focus,
+html body .litepicker .month-item-header select:focus-visible {
+  outline: none !important;
+  border-color: var(--fr-primary) !important;
+  box-shadow: 0 0 0 3px rgba(226, 215, 0, 0.25) !important;
+}
+
+html body .litepicker .month-item-header select option {
+  font-family: var(--fr-font-body) !important;
+  font-size: 14px !important;
+  color: var(--fr-text-dark) !important;
+  background: #ffffff !important;
+}
+
+/* --- Weekday labels --- */
+html body .litepicker .container__days > div:nth-child(-n+7) {
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-muted) !important;
+  letter-spacing: 0.4px !important;
+  text-transform: lowercase !important;
+  height: 28px !important;
+  line-height: 28px !important;
+  text-align: center !important;
+  background: transparent !important;
+}
+
+/* --- Days grid --- */
+html body .litepicker .container__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 2px !important;
+  background: transparent !important;
+}
+
+html body .litepicker .day-item {
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  margin: 1px auto !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  color: var(--fr-text-dark) !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  text-align: center !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+html body .litepicker .day-item:hover:not(.is-locked):not(.is-start-date):not(.is-end-date) {
+  background: var(--fr-light-accent) !important;
+  color: var(--fr-primary-deep) !important;
+}
+
+html body .litepicker .day-item.is-today {
+  font-weight: 700 !important;
+  color: var(--fr-primary-deep) !important;
+  box-shadow: inset 0 0 0 1.5px var(--fr-primary) !important;
+}
+
+html body .litepicker .day-item.is-locked,
+html body .litepicker .day-item.is-locked:hover {
+  color: var(--fr-text-muted) !important;
+  cursor: not-allowed !important;
+  background: transparent !important;
+  text-decoration: line-through !important;
+  opacity: 0.42 !important;
+}
+
+html body .litepicker .day-item.is-start-date,
+html body .litepicker .day-item.is-end-date,
+html body .litepicker .day-item.is-start-date:hover,
+html body .litepicker .day-item.is-end-date:hover {
+  background: var(--fr-primary) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+html body .litepicker .day-item.is-in-range {
+  background: rgba(226, 215, 0, 0.20) !important;
+  color: var(--fr-text-dark) !important;
+  border-radius: 0 !important;
+}
+
+html body .litepicker .day-item.is-start-date {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+}
+
+html body .litepicker .day-item.is-end-date {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+}
+
+/* --- Footer (Apply / Reset buttons) --- */
+html body .litepicker .container__footer {
+  padding: 14px 0 0 !important;
+  margin-top: 12px !important;
+  border-top: 1px solid var(--fr-border-light) !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: transparent !important;
+}
+
+html body .litepicker .container__footer button {
+  font-family: var(--fr-font-body) !important;
+  font-size: 12px !important;
+  letter-spacing: 1.2px !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  padding: 9px 18px !important;
+  border-radius: 22px !important;
+  border: 1px solid var(--fr-primary) !important;
+  background: var(--fr-primary) !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+  transition: background 0.18s ease, border-color 0.18s ease !important;
+  min-height: 36px !important;
+}
+
+html body .litepicker .container__footer .button-cancel,
+html body .litepicker .container__footer .preset-buttons button:not(.button-apply) {
+  background: transparent !important;
+  color: var(--fr-text-dark) !important;
+  border-color: var(--fr-border-light) !important;
+}
+
+html body .litepicker .container__footer button:hover {
+  background: var(--fr-primary-deep) !important;
+  border-color: var(--fr-primary-deep) !important;
+  color: #ffffff !important;
+}
+
+html body .litepicker .container__footer .button-cancel:hover {
+  background: var(--fr-bg-alt) !important;
+  border-color: var(--fr-text-muted) !important;
+  color: var(--fr-text-dark) !important;
+}
+
+/* PATCH MARKER — v1.6.8 */
+/* PATCH-V1.6.8-SENIOR-LITEPICKER-REBUILD-AND-FOOTER-HERO-GUARDS */
+
+/* ============================================================
+   54. PATCH v1.7.0 — SENIOR POLISH LAYER
+   Comprehensive audit findings + fixes:
+   (a) Z-INDEX HIERARCHY normalization — single source of truth scale
+   (b) MOBILE OVERFLOW guards — box-sizing + horizontal-scroll prevention
+   (c) CLICK TARGETS — WCAG 2.1 AAA 48x48 min on ALL interactive elements
+   (d) SECTION RHYTHM — consistent vertical spacing across all sections
+   (e) FOCUS RINGS — visible keyboard navigation indicator everywhere
+   ============================================================ */
+
+/* (a) Z-INDEX HIERARCHY — predictable layering scale.
+   Rule: each layer gets a 100x gap so individual z-index tweaks
+   within a layer don't bleed into another. Litepicker on top
+   because date picker is the most "modal" UI of all. */
+
+/* Layer 5 — Litepicker (date picker popup) — HIGHEST */
+html body .litepicker { z-index: 99999 !important; }
+
+/* Layer 4 — Modals / lightboxes (image gallery, policy iframe) */
+html body .fr-policy-modal,
+html body .fr-policy-modal__backdrop,
+html body .fr-lightbox,
+html body .fr-lightbox__backdrop { z-index: 90000 !important; }
+
+/* Layer 3 — Mobile nav drawer (when open) — under modals */
+html body header.default13 .navbar-collapse.show,
+html body header.default13 .navbar-nav.show { z-index: 50000 !important; }
+
+/* Layer 2 — Sticky tabs (offer page), header in scrolled state */
+html body .tabs.--fixed,
+html body .tabs.tabs--fixed { z-index: 1000 !important; }
+
+/* Layer 1 — Header (default13 system level) — system handles default,
+   we don't override unless conflict reported. */
+
+/* Layer 0 — Reveal animations, decorative pseudo-elements (existing 1-5 OK) */
+
+/* (b) MOBILE OVERFLOW GUARDS — prevent horizontal scroll trap on narrow viewports.
+   Common cause: width: calc(100% - 24px) without box-sizing, or 100vw with margins. */
+@media (max-width: 600px) {
+  html body .fr-cmd-bar:not(.fr-hero-v2__search) {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Belt-and-suspenders: never let body scroll horizontally on mobile */
+  html body { overflow-x: hidden !important; }
+}
+
+/* (c) CLICK TARGETS — WCAG 2.1 AAA 48x48 minimum
+   Catches: nav links, footer links, language toggler, social icons */
+@media (max-width: 991.98px) {
+  html body header.default13 .navbar-nav .nav-link {
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+/* Footer terms links (Regulamin, Polityka) — small text but must be tappable */
+html body footer .footer-contact-terms a {
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 4px 0 !important;
+}
+
+/* Phone + email links — already large but force min for safety */
+html body footer .footer-contact-phone a,
+html body footer .footer-contact-mail a {
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* (d) SECTION RHYTHM — uniform vertical breathing space
+   fr-section base: clamp(80px, 10vw, 120px) padding-block
+   fr-final-cta gets a slight bump (12% vw) for crescendo emphasis */
+html body section.fr-section:not(.fr-final-cta):not(.fr-hero-v2) {
+  padding-block: clamp(72px, 9vw, 110px) !important;
+}
+
+/* fr-final-cta keeps its existing larger padding (clamp 96-144) — emphasis */
+
+/* (e) FOCUS RINGS — visible keyboard navigation everywhere.
+   Browsers default outline often invisible on brand backgrounds.
+   We force a 3px brand-tint ring on all interactive elements when focused via keyboard. */
+html body a:focus-visible,
+html body button:focus-visible,
+html body input:focus-visible,
+html body select:focus-visible,
+html body textarea:focus-visible,
+html body [role="button"]:focus-visible,
+html body [tabindex]:focus-visible {
+  outline: 3px solid rgba(226, 215, 0, 0.55) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+/* Skip link already has its own focus style (preserved) */
+html body .fr-skip-link:focus,
+html body .fr-skip-link:focus-visible {
+  outline: 3px solid #ffffff !important;
+}
+
+/* PATCH MARKER — v1.7.0 */
+/* PATCH-V1.7.0-SENIOR-POLISH-AUDIT-FIXES */
+
+/* ============================================================
+   55. PATCH v1.7.1 — LITEPICKER VISUAL SYMMETRY FIX
+   User feedback v1.7.0: "nie jest rowny w ogole ten kalendarzyk".
+   Three causes of asymmetry diagnosed:
+   (a) Month dropdowns auto-size: "maj" (3 chars) gives narrower select
+       than "czerwiec" (8 chars) -> right header visually wider
+   (b) Reset button (⌚ icon) appears only on right side of picker,
+       creating off-balance look. With autoApply:true the reset is
+       redundant anyway (user can re-click days to change selection)
+   (c) Both months show prev+next arrows. On desktop 2-month view,
+       prev on right month and next on left month are redundant
+       (months must stay consecutive). Better UX: hide redundant
+       arrows to leave only [<-prev maj] [czerwiec next->].
+   ============================================================ */
+
+/* (a) Equal-width dropdowns — symmetric headers regardless of month length */
+@media (min-width: 720px) {
+  html body .litepicker .month-item-header select.month-item-name,
+  html body .litepicker .month-item-header > div > select:first-of-type {
+    min-width: 110px !important;
+    width: 110px !important;
+    text-align: center !important;
+    text-align-last: center !important;
+    padding-left: 8px !important;
+  }
+
+  html body .litepicker .month-item-header select.month-item-year,
+  html body .litepicker .month-item-header > div > select:nth-of-type(2) {
+    min-width: 86px !important;
+    width: 86px !important;
+    text-align: center !important;
+    text-align-last: center !important;
+    padding-left: 8px !important;
+  }
+}
+
+/* (b) Hide reset button — redundant with autoApply:true UX
+       (user can click any day to reset selection) */
+html body .litepicker .reset-button,
+html body .litepicker button.reset-button,
+html body .litepicker .container__months button.reset-button {
+  display: none !important;
+}
+
+/* (c) Hide redundant arrows on desktop 2-month view.
+       Use visibility:hidden (not display:none) to preserve space
+       so headers maintain identical width. */
+@media (min-width: 720px) {
+  /* First month: hide its NEXT arrow (right arrow on left month) */
+  html body .litepicker .container__months > .month-item:first-child .button-next-month {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Last month: hide its PREVIOUS arrow (left arrow on right month) */
+  html body .litepicker .container__months > .month-item:last-child .button-previous-month {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+/* Equal padding inside each month-item — guarantees both grids have
+   identical inner box for visual symmetry */
+html body .litepicker .container__months > .month-item {
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
+}
+
+/* PATCH MARKER — v1.7.1 */
+/* PATCH-V1.7.1-LITEPICKER-VISUAL-SYMMETRY */
+
+/* ============================================================
+   56. PATCH v1.7.2 — LITEPICKER GRID-BASED EQUAL COLUMNS
+   User feedback v1.7.1: "lewa cześc kalendarza i prawa nadal nie sa równe".
+   Root cause v1.7.1 fix nie zadzialal:
+   - .container__months bylo flex z .month-item { flex: 1 1 0; min-width: 280; max-width: 320 }
+   - flex pozwala month-item rosnac w zakresie 280-320 ZALEZNIE od content
+   - "czerwiec" dropdown jest szerszy niz "maj" -> prawy item rosnie do max,
+     lewy zostaje przy min -> rozne szerokosci ~20-40px
+   Fix v1.7.2: grid-template-columns: 1fr 1fr gwarantuje matematycznie
+   rowne kolumny niezaleznie od content (CSS grid 1fr distribution).
+   Plus bump month-name select width na 140px (pomesci pazdziernik + listopad).
+   ============================================================ */
+
+/* (a) Desktop: GRID (not flex) — guarantees equal column widths */
+@media (min-width: 720px) {
+  html body .litepicker .container__months {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 24px !important;
+    align-items: start !important;
+  }
+
+  /* Override section 52 flex constraints — let grid size columns equally */
+  html body .litepicker .container__months > .month-item {
+    flex: unset !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+}
+
+/* (b) Mobile: stay column-stack (single month, full width) */
+@media (max-width: 719px) {
+  html body .litepicker .container__months {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+  }
+}
+
+/* (c) Bump month-name select width to safely fit longest Polish months
+       ("październik" 11 chars, "wrzesień" 8 chars + diacritics, "listopad" 8 chars) */
+@media (min-width: 720px) {
+  html body .litepicker .month-item-header select.month-item-name,
+  html body .litepicker .month-item-header > div > select:first-of-type {
+    min-width: 140px !important;
+    width: 140px !important;
+    text-align: center !important;
+    text-align-last: center !important;
+    padding-left: 8px !important;
+  }
+
+  /* Year dropdown stays compact (4 digits + chevron) */
+  html body .litepicker .month-item-header select.month-item-year,
+  html body .litepicker .month-item-header > div > select:nth-of-type(2) {
+    min-width: 86px !important;
+    width: 86px !important;
+    text-align: center !important;
+    text-align-last: center !important;
+    padding-left: 8px !important;
+  }
+}
+
+/* (d) Force header inner div to fixed natural-content width — prevents flex
+       reflow if browsers do unexpected sizing on selects */
+html body .litepicker .month-item-header {
+  display: grid !important;
+  grid-template-columns: 32px 1fr 32px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 0 0 14px !important;
+}
+
+html body .litepicker .month-item-header > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+/* PATCH MARKER — v1.7.2 */
+/* PATCH-V1.7.2-LITEPICKER-GRID-EQUAL-COLUMNS */
+
+/* ============================================================
+   57. PATCH v1.7.3 — LITEPICKER VERTICAL Y-ALIGNMENT
+   User feedback v1.7.2 (z DevTools screenshot): container__days
+   349.75x300 IDENTYCZNE w obu miesiacach ALE na roznym Y w viewport.
+   Root cause: .month-item-header oraz .month-item-weekdays-row maja
+   ROZNE wysokosci miedzy lewym a prawym miesiacem (visible vs
+   visibility:hidden buttons + dropdowns auto-sizing efekt). Day-grid
+   startuje na roznym Y nawet jesli sam grid ma identyczny rozmiar.
+   Fix: pin FIXED heights na header (44px) i weekdays-row (32px) -
+   gwarancja ze .container__days zaczyna na identycznym offset Y w obu
+   miesiacach. Plus naprawa bledu: nth-child(-n+7) w sekcji 52 stylowal
+   pierwsze 7 day-itemow jako "weekdays" (height:28px) zamiast prawdziwych
+   weekday-row labels — usuwam to.
+   ============================================================ */
+
+/* (a) FIXED HEIGHTS na header + weekdays-row — gwarancja ze container__days
+       zaczyna na identycznym Y offset wewnatrz kazdego month-item */
+html body .litepicker .month-item-header {
+  height: 44px !important;
+  min-height: 44px !important;
+  max-height: 44px !important;
+  padding: 0 !important;
+  margin: 0 0 10px !important;
+  box-sizing: border-box !important;
+}
+
+html body .litepicker .month-item-weekdays-row {
+  height: 32px !important;
+  min-height: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  margin: 0 0 4px !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 2px !important;
+  align-items: center !important;
+}
+
+html body .litepicker .month-item-weekdays-row > div {
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-muted) !important;
+  letter-spacing: 0.4px !important;
+  text-transform: lowercase !important;
+  text-align: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* (b) USUN BLEDNA REGULE z sekcji 52 — :nth-child(-n+7) w container__days
+       stylowal pierwsze 7 DAT (nie weekdays) na 28px wysokosc.
+       Litepicker renderuje weekdays w SEPARATE .month-item-weekdays-row,
+       nie w .container__days. Anuluje przez wyzsza specyficznosc. */
+html body .litepicker .container__days > div:nth-child(-n+7) {
+  height: 36px !important;          /* wroc do day-item default height */
+  font-size: 13px !important;       /* wroc do day-item font */
+  color: var(--fr-text-dark) !important;
+  font-family: var(--fr-font-body) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-weight: 500 !important;
+}
+
+/* Locked (out of range) day-items zachowuja swoj styling */
+html body .litepicker .container__days > div.day-item.is-locked,
+html body .litepicker .container__days > div.day-item.is-locked:hover {
+  color: var(--fr-text-muted) !important;
+  text-decoration: line-through !important;
+  opacity: 0.42 !important;
+}
+
+/* (c) Force month-item internal layout — natural block flow z fixed-height
+       sekcjami zapewnia ze .container__days zaczyna w identycznym miejscu */
+html body .litepicker .container__months > .month-item {
+  display: block !important;
+  padding: 0 !important;
+}
+
+/* (d) Container__days — ensure no margin/padding causing extra Y offset */
+html body .litepicker .container__days {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* PATCH MARKER — v1.7.3 */
+/* PATCH-V1.7.3-LITEPICKER-VERTICAL-Y-ALIGNMENT */
+
+/* ============================================================
+   58. PATCH v1.7.4 — BULLETPROOF GRID STRUCTURE
+   User feedback: "te pola po lewej i prawej nie sa w tej samej lini".
+   v1.7.3 fixed heights nie zadzialalo — prawdopodobnie Litepicker
+   default CSS lub .no-previous-month wciaz nadpisywaly.
+   ROZWIAZANIE: zamiast prosic month-item zeby mial fixed-height children,
+   ZRÓB .month-item samo CSS Grid z explicit grid-template-rows.
+   To wymusi wysokosci kazdego row niezaleznie od inner content.
+   Plus grid-auto-rows: 36px na .container__days gwarantuje ze KAZDA
+   linia dat (week row) bedzie dokladnie 36px wysoka — niezaleznie od
+   tego ile Litepicker rendered placeholder'ow czy ile rows.
+   ============================================================ */
+
+/* (a) MONTH-ITEM jako CSS GRID z explicit rows.
+       Wymusza strukture: 44px header + 32px weekdays + reszta dla days.
+       Gap 10px miedzy header a weekdays, 4px miedzy weekdays a days.
+       Te wymiary IDENTYCZNE w lewym i prawym month-item -> .container__days
+       zaczyna na DOKLADNIE tym samym Y w obu miesiacach. */
+@media (min-width: 720px) {
+  html body .litepicker .container__months > .month-item {
+    display: grid !important;
+    grid-template-rows: 44px 32px 1fr !important;
+    grid-template-columns: 1fr !important;
+    row-gap: 8px !important;
+    align-content: start !important;
+    width: 100% !important;
+  }
+}
+
+/* Reset margins na inner elementach — grid gap kontroluje spacing */
+html body .litepicker .month-item-header,
+html body .litepicker .month-item-weekdays-row,
+html body .litepicker .container__days {
+  margin: 0 !important;
+}
+
+/* Header sam w sobie nadal grid 32px 1fr 32px (z v1.7.2) ale bez margin */
+html body .litepicker .month-item-header {
+  height: 44px !important;
+  padding: 0 !important;
+  align-self: start !important;
+}
+
+/* Weekdays-row 32px (z v1.7.3) bez margin */
+html body .litepicker .month-item-weekdays-row {
+  height: 32px !important;
+  padding: 0 !important;
+  align-self: start !important;
+}
+
+/* (b) CONTAINER__DAYS — grid-auto-rows 36px wymusza KAZDY row dokladnie 36px
+       niezaleznie od ile rows Litepicker wyrenderowal (5, 6 dla pelnego widoku) */
+html body .litepicker .container__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  grid-auto-rows: 36px !important;
+  gap: 2px !important;
+  align-content: start !important;
+  padding: 0 !important;
+}
+
+/* Day-item: usun height (grid-auto-rows kontroluje), zostaw line-height dla
+   wertikalnego centrowania tekstu */
+html body .litepicker .container__days .day-item,
+html body .litepicker .container__days > div {
+  height: 36px !important;
+  line-height: 36px !important;
+  min-height: 0 !important;
+  max-height: 36px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* (c) Mobile bez zmian (zachowuje single column natural flow) */
+@media (max-width: 719px) {
+  html body .litepicker .container__months > .month-item {
+    display: block !important;  /* override desktop grid */
+  }
+}
+
+/* PATCH MARKER — v1.7.4 */
+/* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

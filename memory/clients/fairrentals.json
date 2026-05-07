@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.7",
+  "version": "v1.8",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -148,6 +148,11 @@
     { "date": "2026-05-07", "action": "v1.7 BUILD JS forceShowSystemSearch w FR_KONIEC_BODY (~80 linii): setProperty(prop, val, 'important') na .iai-search/.index-info/.iai_frontpage/#iai_book_form. Retry timing [50, 200, 600, 1500, 3000, 5000]. MutationObserver na 3 elementy z attributeFilter ['style', 'class', 'hidden'] re-apply jeśli system aplikuje display:none po nas." },
     { "date": "2026-05-07", "action": "v1.7 walidacja: SEO 8/8 PASS, UX 27 critical (false positives jak v1.6 — biały na overlay/photo). CSS 242→245 KB / 290 limit. JS 32→36 KB." },
     { "date": "2026-05-07", "action": "v1.7 LESSON: system IdoBooking widget hide pattern używa position:absolute + left:-9999 + inline style='display:none' przez JS. Override wymaga 2 warstw: (1) CSS path-based wyższa specyficzność (2) JS setProperty('!important') + MutationObserver. Inline style wygrywa CSS !important — jedyny override przez inny inline style." },
-    { "date": "2026-05-07", "action": "v1.7 dostawa: RELEASE_NOTES_v1.7.md + 2 zmienione pliki (CSS + JS body_bottom). Damian musi wkleić OBYDWA — CSS sam nie wystarczy, JS nowy potrzebny dla MutationObserver guard." }
+    { "date": "2026-05-07", "action": "v1.7 dostawa: RELEASE_NOTES_v1.7.md + 2 zmienione pliki (CSS + JS body_bottom). Damian musi wkleić OBYDWA — CSS sam nie wystarczy, JS nowy potrzebny dla MutationObserver guard." },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.7: 'gdzieś w menu się pojawiła źle' — search wyrenderował się na samej górze viewport, nad heroem. Diagnoza: fp-tableCell DOM order: parallax → index-info → hero-wrap. Index-info pierwszy (y=0, h=154), hero pod (y=154)" },
+    { "date": "2026-05-07", "action": "v1.8 BUILD: (a) JS reorder w forceShowSystemSearch — insertBefore(indexInfo, heroWrap.nextSibling) jeśli compareDocumentPosition pokazuje preceding, (b) CSS §77 — .index-info position absolute bottom 32px left 50% translateX(-50%) max-width 1148, z-index 10. Hero asym padding-bottom clamp(180-240px) żeby tekst nie zachodził na search. Mobile @600 fallback do relative + margin" },
+    { "date": "2026-05-07", "action": "v1.8 walidacja: SEO 8/8 PASS, UX 27 critical (false positives). CSS 245→248 KB. JS 36→37 KB." },
+    { "date": "2026-05-07", "action": "v1.8 LESSON: floating search bar pattern dla page-index z fp.js — .fp-tableCell relative + .index-info absolute bottom + hero padding-bottom. System renderuje index-info przed body_top content w DOM, override przez JS reorder po teleport." },
+    { "date": "2026-05-07", "action": "v1.8 dostawa: RELEASE_NOTES_v1.8.md + 2 zmienione pliki (CSS + JS). Damian wkleja oba + hard refresh." }
   ]
 }

@@ -8378,4 +8378,71 @@ html body.page-index .section.parallax form#iai_book_form {
 }
 
 /* PATCH MARKER — v1.7 */
+
+/* ============================================================
+   §77. v1.8 — search bar pozycja: floating bottom hero (zamiast top)
+        Damian: search wyrenderowała się na samej górze, nad heroem.
+   ============================================================ */
+
+html body.page-index .section.parallax {
+  position: relative !important;
+}
+html body.page-index .section.parallax > .fp-tableCell {
+  position: relative !important;
+}
+
+/* Search bar — floating absolute at bottom of hero/fp viewport */
+html body.page-index .section.parallax .index-info,
+html body.page-index .section.parallax .fp-tableCell .index-info {
+  position: absolute !important;
+  bottom: 32px !important;
+  left: 50% !important;
+  right: auto !important;
+  top: auto !important;
+  transform: translateX(-50%) !important;
+  width: calc(100% - 48px) !important;
+  max-width: 1148px !important;
+  margin: 0 !important;
+  z-index: 10 !important;
+  padding: 0 !important;
+}
+
+/* Hero leaves room at bottom for floating search bar */
+html body .fr-hero-asym {
+  padding-bottom: clamp(180px, 22vh, 240px) !important;
+}
+
+/* Search card — center title */
+html body.page-index .section.parallax .iai-search::before {
+  text-align: center !important;
+  margin-bottom: 12px !important;
+}
+
+@media (max-width: 991.98px) {
+  html body.page-index .section.parallax .index-info,
+  html body.page-index .section.parallax .fp-tableCell .index-info {
+    bottom: 16px !important;
+    width: calc(100% - 24px) !important;
+  }
+  html body .fr-hero-asym {
+    padding-bottom: clamp(220px, 30vh, 320px) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  html body.page-index .section.parallax .index-info,
+  html body.page-index .section.parallax .fp-tableCell .index-info {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 24px 16px !important;
+    width: calc(100% - 32px) !important;
+  }
+  html body .fr-hero-asym {
+    padding-bottom: clamp(56px, 8vh, 80px) !important;
+  }
+}
+
+/* PATCH MARKER — v1.8 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

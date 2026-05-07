@@ -833,7 +833,30 @@
       });
     };
 
+    /* v1.8 — move .index-info AFTER .fr-hero-wrap in DOM
+       (system renders it BEFORE hero by default — search lands on top,
+       above text. We need search UNDER hero text/photo) */
+    var reorder = function() {
+      var fpCell = document.querySelector('.section.parallax > .fp-tableCell');
+      var indexInfo = document.querySelector('.index-info');
+      var heroWrap = document.querySelector('.fr-hero-wrap');
+      if (!fpCell || !indexInfo || !heroWrap) return;
+      if (indexInfo.parentNode !== fpCell || heroWrap.parentNode !== fpCell) return;
+      // Check if index-info comes BEFORE hero in DOM order
+      var pos = heroWrap.compareDocumentPosition(indexInfo);
+      if (pos & Node.DOCUMENT_POSITION_PRECEDING) {
+        // index-info is BEFORE hero — move it AFTER
+        if (heroWrap.nextSibling) {
+          fpCell.insertBefore(indexInfo, heroWrap.nextSibling);
+        } else {
+          fpCell.appendChild(indexInfo);
+        }
+      }
+    };
+
     var apply = function() {
+      reorder();
+
       var search = document.querySelector('.iai-search');
       var indexInfo = document.querySelector('.index-info');
       var frontpage = document.querySelector('.iai_frontpage') || document.querySelector('#iai_book_se');

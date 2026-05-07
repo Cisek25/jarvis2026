@@ -9523,4 +9523,47 @@ html body .fr-trust__note a {
 */
 
 /* PATCH MARKER — v1.15 */
+
+/* ============================================================
+   §85. v1.16 — show Visa (cofnij ukrycie pierwszego span baner)
+        Bug v1.13: zakładałem że > span:first-child to IAI logo,
+        a system ma 2 spany dla Visa+Mastercard (IAI to .powered_by_logo).
+        Damian: "czemu jest tylko mastercard? systemowo mamy oba".
+   ============================================================ */
+
+/* Show ALL spans w baner (cofnij v1.13 hide first-child) */
+html body footer .footer-contact-baner > span,
+html body footer .footer-contact-baner > span:first-child {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Hide TYLKO IAI logo (powered_by) — żaden span */
+html body footer .footer-contact-baner img.powered_by_logo,
+html body footer .footer-contact-baner .powered_by,
+html body footer .powered_by_logo {
+  display: none !important;
+}
+
+/* SVG inside spans — visible w pełni */
+html body footer .footer-contact-baner > span svg,
+html body footer .footer-contact-baner > span img {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 4px !important;
+  max-height: 18px !important;
+  width: auto !important;
+  filter: brightness(1.6) saturate(0.3) opacity(0.55) !important;
+}
+
+html body footer .footer-contact-baner > span:hover svg,
+html body footer .footer-contact-baner > span:hover img {
+  filter: brightness(1.6) saturate(0.3) opacity(1) !important;
+}
+
+/* PATCH MARKER — v1.16 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

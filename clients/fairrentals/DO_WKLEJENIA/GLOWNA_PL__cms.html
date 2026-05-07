@@ -9,38 +9,10 @@
       </h1>
       <p class="fr-hero-asym__lead">19 starannie urządzonych apartamentów we Wrocławiu prowadzonych osobiście. Booking 9.8, Google 4.7 &mdash; liczby, którym ufamy, bo zbudowaliśmy je sami.</p>
 
-      <aside class="fr-hero-v2__search fr-cmd-bar" id="fr-cmd-bar" aria-label="Sprawdź dostępność" style="position: relative; max-width: 580px; margin: 0;">
-        <div class="fr-cmd-bar__head">
-          <h2 class="fr-cmd-bar__title">Sprawdź dostępność</h2>
-          <span class="fr-cmd-bar__hint">Wybierz daty &middot; potwierdzenie online</span>
-        </div>
-        <form class="fr-cmd-bar__form" role="search" action="https://engine58360.idobooking.com/widget/index.php" method="get" target="_top">
-          <div class="fr-cmd-bar__field">
-            <label class="fr-cmd-bar__label" for="fr-cmd-from">Przyjazd</label>
-            <input class="fr-cmd-bar__input fr-cmd-bar__date-trigger" type="text" id="fr-cmd-from" name="dateFrom" placeholder="Wybierz datę" required autocomplete="off" readonly>
-          </div>
-          <div class="fr-cmd-bar__field">
-            <label class="fr-cmd-bar__label" for="fr-cmd-to">Wyjazd</label>
-            <input class="fr-cmd-bar__input fr-cmd-bar__date-trigger" type="text" id="fr-cmd-to" name="dateTo" placeholder="Wybierz datę" required autocomplete="off" readonly>
-          </div>
-          <div class="fr-cmd-bar__field">
-            <label class="fr-cmd-bar__label" for="fr-cmd-guests">Goście</label>
-            <select class="fr-cmd-bar__select" id="fr-cmd-guests" name="persons-adult">
-              <option value="1">1 osoba</option>
-              <option value="2" selected>2 osoby</option>
-              <option value="3">3 osoby</option>
-              <option value="4">4 osoby</option>
-              <option value="5">5 osób</option>
-              <option value="6">6 osób</option>
-            </select>
-          </div>
-          <input type="hidden" name="lang" value="pl">
-          <button type="submit" class="fr-cmd-bar__submit">
-            Szukaj wolnych terminów
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="16" y1="16" x2="21" y2="21"></line></svg>
-          </button>
-        </form>
-      </aside>
+      <div class="fr-hero-asym__cta-row">
+        <a href="#fr-search" class="fr-btn fr-btn--primary">Sprawdź dostępność</a>
+        <a href="#fr-apartments" class="fr-btn fr-btn--ghost-light">Zobacz apartamenty</a>
+      </div>
 
       <div class="fr-hero-asym__meta">
         <div>
@@ -75,11 +47,51 @@
   </section>
 </div>
 
+<section class="fr-search-banner" id="fr-search">
+  <div class="fr-search-banner__inner">
+
+    <div class="fr-search-banner__intro">
+      <span class="fr-search-banner__kicker">Rezerwacja online</span>
+      <h2 class="fr-search-banner__title">Sprawdź dostępność <em>i zarezerwuj online</em></h2>
+    </div>
+
+    <aside class="fr-cmd-bar" id="fr-cmd-bar" aria-label="Sprawdź dostępność">
+      <form class="fr-cmd-bar__form" role="search" action="https://engine58360.idobooking.com/widget/index.php" method="get" target="_top">
+        <div class="fr-cmd-bar__field">
+          <label class="fr-cmd-bar__label" for="fr-cmd-from">Przyjazd</label>
+          <input class="fr-cmd-bar__input fr-cmd-bar__date-trigger" type="text" id="fr-cmd-from" name="dateFrom" placeholder="Wybierz datę" required autocomplete="off" readonly>
+        </div>
+        <div class="fr-cmd-bar__field">
+          <label class="fr-cmd-bar__label" for="fr-cmd-to">Wyjazd</label>
+          <input class="fr-cmd-bar__input fr-cmd-bar__date-trigger" type="text" id="fr-cmd-to" name="dateTo" placeholder="Wybierz datę" required autocomplete="off" readonly>
+        </div>
+        <div class="fr-cmd-bar__field">
+          <label class="fr-cmd-bar__label" for="fr-cmd-guests">Goście</label>
+          <select class="fr-cmd-bar__select" id="fr-cmd-guests" name="persons-adult">
+            <option value="1">1 osoba</option>
+            <option value="2" selected>2 osoby</option>
+            <option value="3">3 osoby</option>
+            <option value="4">4 osoby</option>
+            <option value="5">5 osób</option>
+            <option value="6">6 osób</option>
+          </select>
+        </div>
+        <input type="hidden" name="lang" value="pl">
+        <button type="submit" class="fr-cmd-bar__submit">
+          Szukaj
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="16" y1="16" x2="21" y2="21"></line></svg>
+        </button>
+      </form>
+    </aside>
+
+  </div>
+</section>
+
 <section class="fr-magazine fr-reveal">
   <div class="fr-magazine__inner">
     <span class="fr-magazine__mark">&ldquo;</span>
-    <p class="fr-magazine__quote">Apartament to nie pokój hotelowy. Pobyt to nie transakcja. <em>Gość to nie numer rezerwacji.</em></p>
-    <span class="fr-magazine__attr">Zasada Fair Rentals</span>
+    <p class="fr-magazine__quote">Bardzo rzadko mówimy &bdquo;nie da się&rdquo; &mdash; zarówno Gościom, jak i Właścicielom. <em>Dla nas ważniejsza jest jakość niż ilość.</em></p>
+    <span class="fr-magazine__attr">Karolina Banaś &middot; Fair Rentals</span>
   </div>
 </section>
 
@@ -320,60 +332,94 @@
   </div>
 </section>
 
-<section class="fr-testimonials fr-reveal">
-  <div class="fr-testimonials__inner">
+<section class="fr-trust fr-reveal" id="fr-trust">
+  <div class="fr-trust__inner">
 
-    <div class="fr-testimonials__header fr-section__header">
-      <span class="fr-kicker">Co mówią Goście</span>
-      <h2 class="fr-h2">Opinie <em>z portali rezerwacyjnych</em></h2>
+    <div class="fr-trust__header fr-section__header">
+      <span class="fr-kicker">Zaufanie Gości</span>
+      <h2 class="fr-h2">Liczby z <em>Booking i Google</em></h2>
       <span class="fr-rule"></span>
-      <p class="fr-lead">Wybrane wypowiedzi Gości, którzy ocenili nas powyżej 9.5 na Booking. Pełen zestaw opinii dostępny jest na stronie każdej oferty oraz w naszej wizytówce Google.</p>
+      <p class="fr-lead">Wszystkie oceny i liczba opinii pochodzą z publicznych profili Fair Rentals na Booking.com oraz wizytówki w Google Reviews. Dane z dnia oddania strony.</p>
     </div>
 
-    <div class="fr-testimonials__grid">
+    <div class="fr-trust__bar">
+      <div class="fr-trust__bar-cell">
+        <div class="fr-trust__bar-num">9.6</div>
+        <div class="fr-trust__bar-label">Średnia Booking<br>top 6 obiektów</div>
+      </div>
+      <div class="fr-trust__bar-cell">
+        <div class="fr-trust__bar-num">4.7</div>
+        <div class="fr-trust__bar-label">Wizytówka<br>Google</div>
+      </div>
+      <div class="fr-trust__bar-cell">
+        <div class="fr-trust__bar-num">19</div>
+        <div class="fr-trust__bar-label">Apartamentów<br>w portfelu</div>
+      </div>
+      <div class="fr-trust__bar-cell">
+        <div class="fr-trust__bar-num">200+</div>
+        <div class="fr-trust__bar-label">Zweryfikowanych<br>opinii Booking</div>
+      </div>
+    </div>
 
-      <article class="fr-testimonial">
-        <div class="fr-testimonial__rating" aria-label="Ocena 10 na 10 w serwisie Booking">
-          &#9733;&#9733;&#9733;&#9733;&#9733;
-          <span class="fr-testimonial__rating-num">10/10</span>
-          <span class="fr-testimonial__rating-source">Booking</span>
+    <div class="fr-trust__cards">
+
+      <article class="fr-trust-card">
+        <div class="fr-trust-card__head">
+          <div class="fr-trust-card__source">
+            <span class="fr-trust-card__source-dot"></span>
+            Booking.com
+          </div>
+          <div class="fr-trust-card__rating">9.6<span class="fr-trust-card__rating-suffix">/10</span></div>
         </div>
-        <p class="fr-testimonial__text">Apartament idealny: czysty, pachnący, z pełnym wyposażeniem. Komunikacja z gospodarzem na bardzo wysokim poziomie. Zameldowanie samoobsługowe, ale zawsze z możliwością kontaktu telefonicznego.</p>
-        <div class="fr-testimonial__author">
-          <strong>Anna K.</strong>
-          Wrocław &middot; pobyt rodzinny
-        </div>
+        <h3 class="fr-trust-card__name">Białowieska 69 &mdash; przytulny z ogródkiem</h3>
+        <div class="fr-trust-card__meta">46 zweryfikowanych opinii</div>
+        <ul class="fr-trust-card__attrs">
+          <li>Personel <strong>9.7</strong></li>
+          <li>Czystość <strong>9.5</strong></li>
+          <li>Lokalizacja <strong>9.4</strong></li>
+        </ul>
+        <a href="https://www.booking.com/hotel/pl/przytulny-apartament-w-porcie-popowice-fair-rentals.pl.html" class="fr-trust-card__link" target="_blank" rel="noopener noreferrer">Zobacz opinie na Booking &rarr;</a>
       </article>
 
-      <article class="fr-testimonial">
-        <div class="fr-testimonial__rating" aria-label="Ocena 5 na 5 w Google Reviews">
-          &#9733;&#9733;&#9733;&#9733;&#9733;
-          <span class="fr-testimonial__rating-num">5/5</span>
-          <span class="fr-testimonial__rating-source">Google</span>
+      <article class="fr-trust-card">
+        <div class="fr-trust-card__head">
+          <div class="fr-trust-card__source">
+            <span class="fr-trust-card__source-dot"></span>
+            Booking.com
+          </div>
+          <div class="fr-trust-card__rating">9.4<span class="fr-trust-card__rating-suffix">/10</span></div>
         </div>
-        <p class="fr-testimonial__text">Korzystam z Fair Rentals regularnie przy wyjazdach służbowych do Wrocławia. Zawsze ten sam standard, faktura VAT bez przypominania, jeden kontakt do wszystkich rezerwacji. Polecam każdej firmie.</p>
-        <div class="fr-testimonial__author">
-          <strong>Tomasz M.</strong>
-          Klient biznesowy &middot; delegacja
-        </div>
+        <h3 class="fr-trust-card__name">Kromera &mdash; cisza i wygoda</h3>
+        <div class="fr-trust-card__meta">26 zweryfikowanych opinii</div>
+        <ul class="fr-trust-card__attrs">
+          <li>Komfort <strong>9.5</strong></li>
+          <li>Wyposażenie <strong>9.4</strong></li>
+          <li>Stosunek jakości do ceny <strong>9.4</strong></li>
+        </ul>
+        <a href="https://www.booking.com/hotel/pl/kromera-wroclaw.pl.html" class="fr-trust-card__link" target="_blank" rel="noopener noreferrer">Zobacz opinie na Booking &rarr;</a>
       </article>
 
-      <article class="fr-testimonial">
-        <div class="fr-testimonial__rating" aria-label="Ocena 9.6 na 10 w serwisie Booking">
-          &#9733;&#9733;&#9733;&#9733;&#9733;
-          <span class="fr-testimonial__rating-num">9.6/10</span>
-          <span class="fr-testimonial__rating-source">Booking</span>
+      <article class="fr-trust-card">
+        <div class="fr-trust-card__head">
+          <div class="fr-trust-card__source">
+            <span class="fr-trust-card__source-dot"></span>
+            Booking.com
+          </div>
+          <div class="fr-trust-card__rating">9.4<span class="fr-trust-card__rating-suffix">/10</span></div>
         </div>
-        <p class="fr-testimonial__text">Świetna lokalizacja, blisko Rynku, ale w cichej okolicy. Apartament urządzony ze smakiem, ręczniki hotelowej jakości, kawa do ekspresu. Wracamy chętnie.</p>
-        <div class="fr-testimonial__author">
-          <strong>Marta i Piotr</strong>
-          Para &middot; weekend turystyczny
-        </div>
+        <h3 class="fr-trust-card__name">Czysta 4 &mdash; Premium w sercu Wrocławia</h3>
+        <div class="fr-trust-card__meta">48 zweryfikowanych opinii</div>
+        <ul class="fr-trust-card__attrs">
+          <li>Lokalizacja <strong>9.7</strong></li>
+          <li>Czystość <strong>9.5</strong></li>
+          <li>Personel <strong>9.4</strong></li>
+        </ul>
+        <a href="https://www.booking.com/hotel/pl/czysta-apartament-premium-w-sercu-wroclawia-fair-rentals.pl.html" class="fr-trust-card__link" target="_blank" rel="noopener noreferrer">Zobacz opinie na Booking &rarr;</a>
       </article>
 
     </div>
 
-    <p class="fr-testimonials__note">Treści powyżej to przykłady reprezentatywne. Po pierwszych importach z Booking i Google opinie zostaną zastąpione cytatami z prawdziwych rezerwacji.</p>
+    <p class="fr-trust__note">Pełen zestaw opinii dostępny jest na <a href="https://www.booking.com/searchresults.pl.html?ss=fair+rentals+wroclaw" target="_blank" rel="noopener noreferrer">Booking.com (Fair Rentals)</a> oraz w <a href="https://www.google.com/maps?q=fair+rentals+wroclaw" target="_blank" rel="noopener noreferrer">profilu Google Maps</a>.</p>
 
   </div>
 </section>

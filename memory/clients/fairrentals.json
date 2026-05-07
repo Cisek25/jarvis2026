@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.0",
+  "version": "v1.1",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -104,6 +104,13 @@
     { "date": "2026-05-07", "action": "FAZA 5 build v1.0: port-by-sed z solidneapartamenty v1.7.6 → CSS 181KB + JS 32KB + HEAD PL+EN + GLOWNA PL+EN + 3 podstrony /txt/* PL+EN + SEO + ZDJECIA_LINKI = 14 plików w DO_WKLEJENIA (314KB total)" },
     { "date": "2026-05-07", "action": "FAZA 6 walidacja: SEO 8/8 PASS, UX 11 PASS + 9 warnings + 10 critical (wszystkie false positives — UX-020 9× white text false-positive bo cascade na .fr-final-cta dark, UX-002 1× JS template alt runtime). 0 emoji, 0 panel refs, 0 bash heredoc escape. CSS 181KB / 290KB limit." },
     { "date": "2026-05-07", "action": "Trapy zaadresowane: #1 fp.js MutObs, #7+11 lightbox blacklist, #14 CSS limit, #15+20+42 vars override !important, #18+037 page-index full-width, #26+15+026MASTER featured Pattern A ZERO hardcoded, #27 zero emoji, #28 JS w body_bottom, #29 NIGDY Wikimedia, #30+24 px nie rem, #34 inline script w body_top wycinane" },
-    { "date": "2026-05-07", "action": "Dostawa v1.0: RELEASE_NOTES_v1.0.md + golden path checklist + 14 plików gotowych do wklejenia. Pozostaje: Damian wkleja CSS+JS+HEAD+6 stron+SEO, podmienia 14 URL Unsplash na zdjęcia z galerii klienta, klient zaznacza więcej wyróżnionych w panelu" }
+    { "date": "2026-05-07", "action": "Dostawa v1.0: RELEASE_NOTES_v1.0.md + golden path checklist + 14 plików gotowych do wklejenia. Pozostaje: Damian wkleja CSS+JS+HEAD+6 stron+SEO, podmienia 14 URL Unsplash na zdjęcia z galerii klienta, klient zaznacza więcej wyróżnionych w panelu" },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.0: za duże czcionki, układ zbyt podobny do innych klientów (port-by-sed z SA pokazał DNA), zdjęcia placeholdery na home zbyt generic" },
+    { "date": "2026-05-07", "action": "v1.1 BUILD: typografia globalna redukcja ~15-20% (body 17→16, fr-h1 38→30 / 68→54, hero-v2 84→60, final-cta 56→42). 5 punktów Edit w CSS." },
+    { "date": "2026-05-07", "action": "v1.1 NOWE KOMPONENTY CSS §70 (470 linii): fr-hero-asym + fr-magazine + fr-stats-asym + fr-principles + fr-districts + fr-journey + fr-testimonials. CSS 181→201 KB / 290 limit." },
+    { "date": "2026-05-07", "action": "v1.1 GLOWNA_PL/EN REBUILD: 6 sekcji v1.0 → 10 sekcji v1.1 unikatowy editorial layout. Hero asymmetric split + magazine quote band + stats asymmetric (1 big 19 + 3 small) + principles 01/02/03 numbered + districts of Wrocław (4 dzielnice mapping z 19 adresów) + journey timeline 5 kroków + dual CTA + testimonials placeholder. Atrakcje teaser wycięte z home (są na /txt/200)." },
+    { "date": "2026-05-07", "action": "v1.1 ZDJĘCIA: 2 nowe URL Unsplash (curl 200 verified) — hero asym media: photo-1564013799919 (drewniane skandynawskie zamiast 1522708323590), corp split: photo-1554995207 (balkon urban view zamiast 1582719478250)." },
+    { "date": "2026-05-07", "action": "v1.1 walidacja: SEO 8/8 PASS, UX 11 PASS + 7 warnings + 14 critical (wszystkie false positives — UX-020 13x białego na ciemnych sekcjach magazine/stats-asym-hero/final-cta cascade nie znana walidatorowi)" },
+    { "date": "2026-05-07", "action": "v1.1 dostawa: RELEASE_NOTES_v1.1.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN). Pliki bez zmian: HEAD PL/EN, KONIEC_BODY, OBSLUGA_NAJMU PL/EN, DLA_BIZNESU PL/EN, ATRAKCJE_WROCLAWIA PL/EN, SEO, ZDJECIA_LINKI" }
   ]
 }

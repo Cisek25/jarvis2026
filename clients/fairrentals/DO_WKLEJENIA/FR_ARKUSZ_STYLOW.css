@@ -7678,4 +7678,330 @@ html body section.fr-search-banner {
 }
 
 /* PATCH MARKER — v1.3 */
+
+/* ============================================================
+   §73. v1.4 — hero single column (no photo) + dark premium footer
+        + system search position FIX (left:-9999 → left:0)
+        + UX contrast fixes
+   Damian feedback v1.3: usuń photo z hero, search ukryta nadal,
+   stopka za jasna, audit kontrastów.
+   ============================================================ */
+
+/* §73a. HERO — single column, hide right photo column */
+html body .fr-hero-asym {
+  grid-template-columns: 1fr !important;
+  min-height: 56vh !important;
+  background: var(--fr-cream) !important;
+  position: relative !important;
+}
+html body .fr-hero-asym::before {
+  display: none !important; /* no left half background */
+}
+html body .fr-hero-asym__text {
+  padding: clamp(96px, 10vw, 140px) 24px clamp(48px, 6vw, 80px) !important;
+  max-width: 880px !important;
+  margin: 0 auto !important;
+  background: transparent !important;
+  text-align: left !important;
+}
+html body .fr-hero-asym__media {
+  display: none !important;
+}
+@media (max-width: 991.98px) {
+  html body .fr-hero-asym {
+    min-height: auto !important;
+  }
+  html body .fr-hero-asym__text {
+    padding: 100px 20px 48px !important;
+  }
+}
+
+/* §73b. SYSTEM SEARCH — position FIX (system app.css uses left:-9999px to hide) */
+html body.page-index .iai-search,
+html body.page-index .index-info {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  overflow: visible !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: auto !important;
+  max-width: 1100px !important;
+}
+
+html body.page-index .index-info {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: 1px !important;
+  margin: 0 auto 64px !important;
+  padding: 0 24px !important;
+  width: 100% !important;
+  max-width: 1148px !important;
+  z-index: 8 !important;
+}
+
+html body.page-index .iai-search {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  background: #FFFFFF !important;
+  border-radius: var(--fr-radius-lg) !important;
+  padding: clamp(20px, 3vw, 32px) !important;
+  box-shadow: 0 24px 60px rgba(15, 15, 14, 0.18), 0 4px 12px rgba(15, 15, 14, 0.08) !important;
+  border: 1px solid rgba(226, 215, 0, 0.4) !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+html body.page-index .iai_frontpage,
+html body.page-index #iai_book_se {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  position: relative !important;
+  left: auto !important;
+  transform: none !important;
+  background: transparent !important;
+}
+
+html body.page-index #iai_book_form {
+  display: grid !important;
+  grid-template-columns: 1.1fr 1fr 1fr 0.85fr auto !important;
+  gap: 12px !important;
+  align-items: end !important;
+  margin: 0 !important;
+  position: relative !important;
+}
+
+/* §73c. PREMIUM DARK FOOTER — override v1.2 cream */
+html body footer:not(.fr-disable-light-footer),
+html body footer .footer.container,
+html body footer > .footer.container {
+  background: #0F0F0E !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  border-top: 2px solid var(--fr-primary) !important;
+  margin-top: 0 !important;
+  position: relative !important;
+}
+
+html body footer .footer.container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: clamp(56px, 7vw, 88px) 24px clamp(32px, 4vw, 48px) !important;
+  margin: 0 !important;
+}
+
+/* Override v1.2 ::before brand-text — keep but darker context */
+html body footer .footer.container::before {
+  content: "Fair Rentals" !important;
+  display: block !important;
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(28px, 3.5vw, 44px) !important;
+  color: #FFFFFF !important;
+  font-style: italic !important;
+  letter-spacing: -0.005em !important;
+  line-height: 1 !important;
+  margin: 0 auto 32px !important;
+  padding: 0 !important;
+  position: relative !important;
+  background: transparent !important;
+  text-align: center !important;
+  max-width: 1200px !important;
+}
+html body footer .footer.container::before {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  padding-bottom: 32px !important;
+}
+
+/* Inner footer grid: 3-col centered */
+html body footer .footer.container .footer {
+  background: transparent !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  gap: 48px !important;
+  align-items: start !important;
+  border: none !important;
+  padding: 0 !important;
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+}
+
+/* List items — white text */
+html body footer .footer.container .footer ul li,
+html body footer .footer.container .footer ul a {
+  color: rgba(255, 255, 255, 0.92) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px !important;
+  text-decoration: none !important;
+}
+
+html body footer .footer.container .footer ul a:hover {
+  color: var(--fr-primary) !important;
+}
+
+/* Phone + email — yellow highlight (AAA contrast on dark) */
+html body footer .footer.container .footer .footer-contact-phone a,
+html body footer .footer.container .footer .footer-contact-mail a {
+  color: var(--fr-primary) !important;
+  font-weight: 500 !important;
+}
+
+/* Column labels — uppercase, lighter on dark */
+html body footer .footer.container .footer .footer-contact-adress::before {
+  content: "Adres" !important;
+  display: block !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 2.4px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-weight: 600 !important;
+  margin-bottom: 16px !important;
+}
+html body footer .footer.container .footer .footer-contact-phone::before {
+  content: "Telefon" !important;
+  display: block !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 2.4px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-weight: 600 !important;
+  margin-bottom: 16px !important;
+}
+html body footer .footer.container .footer .footer-contact-mail::before {
+  content: "E-mail" !important;
+  display: block !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 2.4px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-weight: 600 !important;
+  margin-bottom: 16px !important;
+}
+
+/* Hide terms inline — move to separate row below */
+html body footer .footer.container .footer .footer-contact-terms {
+  grid-column: 1 / -1 !important;
+  margin-top: 32px !important;
+  padding-top: 24px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 32px !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+}
+html body footer .footer.container .footer .footer-contact-terms::before {
+  content: none !important;
+}
+html body footer .footer.container .footer .footer-contact-terms li {
+  flex: 0 0 auto !important;
+}
+html body footer .footer.container .footer .footer-contact-terms a {
+  font-size: 12px !important;
+  letter-spacing: 1.4px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+  font-weight: 500 !important;
+}
+html body footer .footer.container .footer .footer-contact-terms a:hover {
+  color: var(--fr-primary) !important;
+}
+
+/* Payment baner — dark, centered, white-tinted icons */
+html body footer .footer-contact-baner {
+  background: #0F0F0E !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  margin: 0 !important;
+  padding: 24px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  text-align: center !important;
+  position: relative !important;
+}
+html body footer .footer-contact-baner img,
+html body footer .footer-contact-baner svg {
+  display: inline-block !important;
+  margin: 0 8px !important;
+  max-height: 22px !important;
+  width: auto !important;
+  filter: brightness(1.4) saturate(0.6) opacity(0.78) !important;
+}
+html body footer .footer-contact-baner img.powered_by_logo,
+html body footer .footer-contact-baner > span:first-child {
+  display: none !important;
+}
+
+/* Mobile footer */
+@media (max-width: 991.98px) {
+  html body footer .footer.container .footer {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 32px !important;
+  }
+  html body footer .footer.container .footer .footer-contact-mail {
+    grid-column: 1 / -1 !important;
+  }
+}
+@media (max-width: 600px) {
+  html body footer .footer.container .footer {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+  html body footer .footer.container .footer .footer-contact-terms {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+}
+
+/* §73d. UX CONTRAST FIXES — increase muted text on cream backgrounds */
+html body .fr-trust-card__meta,
+html body .fr-trust-card__source,
+html body .fr-section__header .fr-lead,
+html body .fr-districts__header .fr-lead {
+  color: var(--fr-text-body) !important; /* was muted, now darker for AA contrast */
+}
+
+html body .fr-district__count {
+  color: var(--fr-text-dark) !important;
+  font-weight: 700 !important;
+}
+
+/* Magazine quote opacity FIX — reveal animation might leave it stuck */
+html body .fr-magazine,
+html body .fr-final-cta {
+  opacity: 1 !important;
+}
+
+/* Trust card link — increase contrast */
+html body .fr-trust-card__link {
+  color: var(--fr-text-dark) !important;
+  border-bottom-width: 2px !important;
+}
+
+/* Hide v1.3 .fr-search-banner if any leftover */
+html body section.fr-search-banner,
+html body .fr-search-banner {
+  display: none !important;
+}
+
+/* Hide override on .iai-search default13 specifications that conflict */
+html body.page-index .iai-search > * {
+  position: static !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+/* PATCH MARKER — v1.4 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

@@ -8445,4 +8445,63 @@ html body.page-index .section.parallax .iai-search::before {
 }
 
 /* PATCH MARKER — v1.8 */
+
+/* ============================================================
+   §78. v1.9 — REVERT to JARVIS proven pattern
+        Hide system widget completely, restore custom .fr-search-banner.
+        Damian: "tak jak na innych stronach — dodawałeś swoją sekcję
+        po prostu po ukryciu systemowej".
+        Cofa próby fixu .iai-search z v1.3-v1.8 (specificity wars).
+   ============================================================ */
+
+/* Hide system widget completely (revert v1.3 onwards) */
+html body.page-index .iai-search,
+html body.page-index .index-info,
+html body.page-index .iai_frontpage,
+html body.page-index #iai_book_se,
+html body.page-index #iai_book_form,
+html body.page-index .section.parallax .iai-search,
+html body.page-index .section.parallax .index-info,
+html body.page-index .section.parallax .iai_frontpage,
+html body.page-index .section.parallax .fp-tableCell .index-info,
+html body.page-index .section.parallax .fp-tableCell .index-info .iai-search,
+html body.page-index .section.parallax #iai_book_form,
+html body.page-index .section.parallax form#iai_book_form {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  z-index: -100 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+  opacity: 0 !important;
+  min-height: 0 !important;
+}
+
+/* Restore .fr-search-banner section visibility (was hidden in v1.3 cleanup) */
+html body section.fr-search-banner,
+html body .fr-search-banner {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  position: relative !important;
+}
+
+/* Hero — remove v1.8 padding-bottom (search bar no longer floating on hero) */
+html body .fr-hero-asym {
+  padding-bottom: 0 !important;
+}
+
+/* PATCH MARKER — v1.9 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

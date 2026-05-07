@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.8",
+  "version": "v1.9",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -153,6 +153,11 @@
     { "date": "2026-05-07", "action": "v1.8 BUILD: (a) JS reorder w forceShowSystemSearch — insertBefore(indexInfo, heroWrap.nextSibling) jeśli compareDocumentPosition pokazuje preceding, (b) CSS §77 — .index-info position absolute bottom 32px left 50% translateX(-50%) max-width 1148, z-index 10. Hero asym padding-bottom clamp(180-240px) żeby tekst nie zachodził na search. Mobile @600 fallback do relative + margin" },
     { "date": "2026-05-07", "action": "v1.8 walidacja: SEO 8/8 PASS, UX 27 critical (false positives). CSS 245→248 KB. JS 36→37 KB." },
     { "date": "2026-05-07", "action": "v1.8 LESSON: floating search bar pattern dla page-index z fp.js — .fp-tableCell relative + .index-info absolute bottom + hero padding-bottom. System renderuje index-info przed body_top content w DOM, override przez JS reorder po teleport." },
-    { "date": "2026-05-07", "action": "v1.8 dostawa: RELEASE_NOTES_v1.8.md + 2 zmienione pliki (CSS + JS). Damian wkleja oba + hard refresh." }
+    { "date": "2026-05-07", "action": "v1.8 dostawa: RELEASE_NOTES_v1.8.md + 2 zmienione pliki (CSS + JS). Damian wkleja oba + hard refresh." },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.8: 'teraz znowu w ogóle nie widać, zobacz jak to robiłeś na innych stronach za pomocą jarvisa, dodawałeś swoją sekcję po prostu po ukryciu systemowej'. 5 iteracji v1.3-v1.8 walki ze systemem .iai-search NIE ZADZIAŁAŁO. Powrót do JARVIS proven pattern z innych klientów (SA, AP, MP, Najmar, Madera): hide system + custom .fr-search-banner sekcja w HTML." },
+    { "date": "2026-05-07", "action": "v1.9 BUILD: (a) §78 CSS hide ALL system widget elements (display:none + position:absolute left:-9999 + height/width 0 + overflow hidden + opacity 0 + 11 properties total per selector), (b) restore .fr-search-banner visibility (cofnij v1.3 cleanup), (c) hero padding-bottom: 0 (cofnij v1.8), (d) HTML GLOWNA_PL/EN restore <section class='fr-search-banner' id='fr-search'> z .fr-cmd-bar custom form (Przyjazd/Wyjazd/Goście select 1-6 + button Szukaj, action engine58360.idobooking.com/widget/index.php), (e) hero CTA href #fr-search anchor, (f) JS forceShowSystemSearch early-return (disable v1.7-v1.8 logic, dead code w _forceShowSystemSearch_disabled_v1_7)" },
+    { "date": "2026-05-07", "action": "v1.9 walidacja: SEO 8/8 PASS, UX 27 critical (false positives jak v1.6-v1.8). CSS 248→250 KB, GLOWNA 18→20 KB (po dodaniu sekcji search), JS 37 KB" },
+    { "date": "2026-05-07", "action": "v1.9 LESSON: nie walcz z system widget IdoBooking default13. 5 iteracji v1.3-v1.8 walki ze systemową .iai-search (CSS specificity, JS inline style, DOM order) bez sukcesu z perspektywy klienta. JARVIS standard od SA v1.0 do v1.7.6: HIDE system + REPLACE custom. To wzorzec dla WSZYSTKICH klientów IdoBooking. Do zapisania: lessons/idobooking-system-search-fight-vs-replace.md" },
+    { "date": "2026-05-07", "action": "v1.9 dostawa: RELEASE_NOTES_v1.9.md + 3 zmienione pliki (CSS, GLOWNA_PL, GLOWNA_EN) + 1 niezmieniony (FR_KONIEC_BODY ma forceShowSystemSearch early-return ale nie szkodzi)" }
   ]
 }

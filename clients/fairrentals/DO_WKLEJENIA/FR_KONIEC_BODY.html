@@ -818,13 +818,16 @@
   }
 
   /* ------------------------------------------------------------
-     v1.7 — force show system .iai-search widget
-     System app.css + JS hide it via position:absolute left:-9999px
-     and inline style="display:none". CSS !important loses to system
-     specificity. Force inline !important via JS + MutationObserver.
+     v1.9 — DISABLED. Revert do JARVIS proven pattern: ukryj system
+     widget całkowicie + dodaj custom .fr-search-banner sekcję.
+     Funkcja zachowana ale early-return — żadne side effects.
      ------------------------------------------------------------ */
 
   function forceShowSystemSearch() {
+    return;
+  }
+
+  function _forceShowSystemSearch_disabled_v1_7() {
     var setProps = function(el, props) {
       if (!el) return;
       Object.keys(props).forEach(function(p) {

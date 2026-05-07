@@ -10,7 +10,7 @@
       <p class="fr-hero-asym__lead">19 thoughtfully furnished apartments in Wrocław, run personally. Booking 9.8, Google 4.7 &mdash; numbers we trust because we built them ourselves.</p>
 
       <div class="fr-hero-asym__cta-row">
-        <a href="/en/offers" class="fr-btn fr-btn--primary">Check availability</a>
+        <a href="#fr-search" class="fr-btn fr-btn--primary">Check availability</a>
         <a href="#fr-apartments" class="fr-btn fr-btn--ghost-light">See apartments</a>
       </div>
 
@@ -46,6 +46,46 @@
 
   </section>
 </div>
+
+<section class="fr-search-banner" id="fr-search">
+  <div class="fr-search-banner__inner">
+
+    <div class="fr-search-banner__intro">
+      <span class="fr-search-banner__kicker">Online booking</span>
+      <h2 class="fr-search-banner__title">Check availability <em>and book online</em></h2>
+    </div>
+
+    <aside class="fr-cmd-bar" id="fr-cmd-bar" aria-label="Check availability">
+      <form class="fr-cmd-bar__form" role="search" action="https://engine58360.idobooking.com/widget/index.php" method="get" target="_top">
+        <div class="fr-cmd-bar__field">
+          <label class="fr-cmd-bar__label" for="fr-cmd-from">Check-in</label>
+          <input class="fr-cmd-bar__input fr-cmd-bar__date-trigger" type="text" id="fr-cmd-from" name="dateFrom" placeholder="Select date" required autocomplete="off" readonly>
+        </div>
+        <div class="fr-cmd-bar__field">
+          <label class="fr-cmd-bar__label" for="fr-cmd-to">Check-out</label>
+          <input class="fr-cmd-bar__input fr-cmd-bar__date-trigger" type="text" id="fr-cmd-to" name="dateTo" placeholder="Select date" required autocomplete="off" readonly>
+        </div>
+        <div class="fr-cmd-bar__field">
+          <label class="fr-cmd-bar__label" for="fr-cmd-guests">Guests</label>
+          <select class="fr-cmd-bar__select" id="fr-cmd-guests" name="persons-adult">
+            <option value="1">1 guest</option>
+            <option value="2" selected>2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+            <option value="5">5 guests</option>
+            <option value="6">6 guests</option>
+          </select>
+        </div>
+        <input type="hidden" name="lang" value="en">
+        <button type="submit" class="fr-cmd-bar__submit">
+          Search
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="16" y1="16" x2="21" y2="21"></line></svg>
+        </button>
+      </form>
+    </aside>
+
+  </div>
+</section>
 
 <section class="fr-magazine fr-reveal">
   <div class="fr-magazine__inner">

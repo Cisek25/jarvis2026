@@ -2,7 +2,7 @@
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
   "ownerName": "Karolina Banaś",
-  "version": "v1.16",
+  "version": "v1.17",
   "status": "do_wklejenia",
   "createdAt": "2026-05-07",
   "panel": "https://client58360.idosell.com/panel/",
@@ -179,6 +179,8 @@
     { "date": "2026-05-07", "action": "v1.15 BUILD §84: 3-tier yellow palette per kontekst. (a) --fr-primary #E2D700 — signature BG na buttons/pills (zachowany), (b) --fr-yellow-text #C8B43E (mniej fluo) — TEKST i akcenty na DARK bg (magazine quote em/mark/attr, stats-asym hero kicker/num, trust bar num, final-cta kicker, footer phone/email/tagline/separator, hero kicker line + title underline, search banner kicker + em), (c) --fr-yellow-deep #8A7300 (musztardowy AA contrast) — TEKST i akcenty na CREAM bg (principle num 01/02/03, district pin, trust card source dot + link border, kicker rule, principles head em underline, journey filled circle + line connector, district hover border)" },
     { "date": "2026-05-07", "action": "v1.15 walidacja: SEO 8/8 PASS, UX 39 critical (false positives extra rules zwiększyły count). CSS 277→282 KB / 290 limit. 1 plik delivery." },
     { "date": "2026-05-07", "action": "Bug feedback Damiana po v1.15: 'czemu na dole tylko mastercard a nie ma VISA? systemowo mamy oba'. Diagnoza: w v1.13 §82 footer rebuild miał regułę '.footer-contact-baner > span:first-child { display: none }' — błędne założenie że pierwszy span to IAI logo. System ma 2 spany dla Visa+Mastercard, IAI logo jest w osobnym img.powered_by_logo." },
-    { "date": "2026-05-07", "action": "v1.16 BUILD §85: show Visa — cofnij ukrycie pierwszego span baner. .footer-contact-baner > span (i > span:first-child) display: inline-flex (override v1.13 hide). Hide TYLKO img.powered_by_logo + .powered_by class (rzeczywisty IAI logo). SVG w obu spanach visible z filter brightness 1.6 saturate 0.3 opacity 0.55, hover opacity 1. CSS 282→283 KB. 1 plik delivery." }
+    { "date": "2026-05-07", "action": "v1.16 BUILD §85: show Visa — cofnij ukrycie pierwszego span baner. .footer-contact-baner > span (i > span:first-child) display: inline-flex (override v1.13 hide). Hide TYLKO img.powered_by_logo + .powered_by class (rzeczywisty IAI logo). SVG w obu spanach visible z filter brightness 1.6 saturate 0.3 opacity 0.55, hover opacity 1. CSS 282→283 KB. 1 plik delivery." },
+    { "date": "2026-05-07", "action": "Feedback Damiana po v1.16: 'Visa i Mastercard jedna pod drugą, słabo widoczne'. Bug: v1.13 baner flex space-between z 3 children (::before + 2 spans) rozsypywał się. Plus filter brightness 1.6 saturate 0.3 opacity 0.55 za słaby." },
+    { "date": "2026-05-07", "action": "v1.17 BUILD §86: baner display:flex flex-wrap row justify-center. ::before © copyright flex-basis: 100% (full row 1) + spans Visa/MC inline-flex w row 2 obok siebie centered z gap 20px. Logo bigger 28px (z 18) + filter brightness 1.2 saturate 0.7 opacity 0.85 (z 1.6/0.3/0.55) + hover brightness 1.2 saturate 1 opacity 1. Mobile @600 24px height utrzymuje row layout. CSS 283→286 KB. 1 plik delivery." }
   ]
 }

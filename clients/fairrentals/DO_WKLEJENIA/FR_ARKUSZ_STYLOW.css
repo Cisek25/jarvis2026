@@ -9566,4 +9566,103 @@ html body footer .footer-contact-baner > span:hover img {
 }
 
 /* PATCH MARKER — v1.16 */
+
+/* ============================================================
+   §86. v1.17 — payment baner: Visa + MC obok siebie + lepsza widoczność
+        Damian: "logo jedno pod drugim, słabo widoczne"
+   ============================================================ */
+
+/* Baner: flex-wrap, copyright row 1 (full-width via flex-basis 100%),
+   payment SVGs row 2 (inline obok siebie centered) */
+html body footer > .footer.container > .footer-contact-baner,
+html body footer .footer-contact-baner {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px 20px !important;
+  padding: 24px clamp(24px, 4vw, 48px) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  margin: clamp(40px, 5vw, 64px) calc(-1 * clamp(24px, 4vw, 48px)) 0 !important;
+  position: relative !important;
+}
+
+/* Copyright via ::before — full row (flex-basis: 100%) */
+html body footer .footer-contact-baner::before {
+  content: "© Fair Rentals Sp. z o.o. · Wszelkie prawa zastrzeżone" !important;
+  display: block !important;
+  flex-basis: 100% !important;
+  width: 100% !important;
+  text-align: center !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 11px !important;
+  letter-spacing: 1.6px !important;
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  inset: auto !important;
+}
+
+html body footer .footer-contact-baner::after {
+  content: none !important;
+}
+
+/* Spans z payment logos — inline-flex obok siebie, BIGGER + bardziej widoczne */
+html body footer .footer-contact-baner > span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+html body footer .footer-contact-baner > span svg,
+html body footer .footer-contact-baner > span img {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 0 !important;
+  max-height: 28px !important;
+  height: 28px !important;
+  width: auto !important;
+  filter: brightness(1.2) saturate(0.7) opacity(0.85) !important;
+  transition: filter 0.2s ease !important;
+}
+
+html body footer .footer-contact-baner > span:hover svg,
+html body footer .footer-contact-baner > span:hover img {
+  filter: brightness(1.2) saturate(1) opacity(1) !important;
+}
+
+html body footer .footer-contact-baner img.powered_by_logo,
+html body footer .footer-contact-baner .powered_by,
+html body footer .powered_by_logo,
+html body footer .powered_by {
+  display: none !important;
+}
+
+/* Mobile — keep flex row but smaller logos */
+@media (max-width: 600px) {
+  html body footer .footer-contact-baner {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+  }
+  html body footer .footer-contact-baner > span svg,
+  html body footer .footer-contact-baner > span img {
+    max-height: 24px !important;
+    height: 24px !important;
+  }
+}
+
+/* PATCH MARKER — v1.17 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

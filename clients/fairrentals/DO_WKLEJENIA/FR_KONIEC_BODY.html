@@ -817,6 +817,100 @@
     }, true);
   }
 
+  /* ------------------------------------------------------------
+     v1.7 — force show system .iai-search widget
+     System app.css + JS hide it via position:absolute left:-9999px
+     and inline style="display:none". CSS !important loses to system
+     specificity. Force inline !important via JS + MutationObserver.
+     ------------------------------------------------------------ */
+
+  function forceShowSystemSearch() {
+    var setProps = function(el, props) {
+      if (!el) return;
+      Object.keys(props).forEach(function(p) {
+        var cssProp = p.replace(/([A-Z])/g, '-$1').toLowerCase();
+        el.style.setProperty(cssProp, props[p], 'important');
+      });
+    };
+
+    var apply = function() {
+      var search = document.querySelector('.iai-search');
+      var indexInfo = document.querySelector('.index-info');
+      var frontpage = document.querySelector('.iai_frontpage') || document.querySelector('#iai_book_se');
+      var form = document.querySelector('#iai_book_form');
+
+      setProps(indexInfo, {
+        display: 'block',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', right: 'auto', top: 'auto', bottom: 'auto',
+        transform: 'none',
+        overflow: 'visible',
+        height: 'auto',
+        minHeight: '120px',
+        marginLeft: 'auto', marginRight: 'auto',
+        width: '100%',
+        maxWidth: '1148px'
+      });
+
+      setProps(search, {
+        display: 'block',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', right: 'auto', top: 'auto', bottom: 'auto',
+        transform: 'none',
+        overflow: 'visible',
+        height: 'auto',
+        width: '100%',
+        maxWidth: 'none'
+      });
+
+      setProps(frontpage, {
+        display: 'block',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', transform: 'none',
+        overflow: 'visible',
+        height: 'auto'
+      });
+
+      setProps(form, {
+        display: 'grid',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', transform: 'none',
+        overflow: 'visible',
+        height: 'auto'
+      });
+    };
+
+    apply();
+
+    /* Retry — system JS may override after DOMContentLoaded */
+    [50, 200, 600, 1500, 3000, 5000].forEach(function(d) {
+      setTimeout(apply, d);
+    });
+
+    /* Long-term — observe attribute changes and re-apply */
+    var search = document.querySelector('.iai-search');
+    var form = document.querySelector('#iai_book_form');
+    var observerOpts = { attributes: true, attributeFilter: ['style', 'class', 'hidden'] };
+    var observer = new MutationObserver(function() {
+      var s = document.querySelector('.iai-search');
+      var f = document.querySelector('#iai_book_form');
+      if (s && getComputedStyle(s).display === 'none') apply();
+      if (f && (f.style.display === 'none' || getComputedStyle(f).display === 'none')) apply();
+    });
+    if (search) observer.observe(search, observerOpts);
+    if (form) observer.observe(form, observerOpts);
+    var indexInfo = document.querySelector('.index-info');
+    if (indexInfo) observer.observe(indexInfo, observerOpts);
+  }
+
   function boot() {
     initHeaderScroll();
     teleportHero();
@@ -830,6 +924,7 @@
     initLeafletMap();
     initMobileMenuToggle();
     initPolicyModal();
+    forceShowSystemSearch();
     setTimeout(initFilterCollapse, 800);
     setTimeout(initImageFallback, 1500);
     setTimeout(setupLitepicker, 1500);

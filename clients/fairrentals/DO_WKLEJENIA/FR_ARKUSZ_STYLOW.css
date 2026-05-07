@@ -8271,4 +8271,111 @@ html body .fr-hero-asym__text {
 }
 
 /* PATCH MARKER — v1.6 */
+
+/* ============================================================
+   §76. v1.7 — system search higher-specificity override
+        Damian: nie ma żadnej wyszukiwarki. System wygrywa
+        specyficznością (path through .section.parallax).
+        Plus JS w body_bottom force show — dwa filary obronne.
+   ============================================================ */
+
+html body.page-index .section.parallax .index-info,
+html body.page-index .section.parallax .fp-tableCell .index-info {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  overflow: visible !important;
+  height: auto !important;
+  min-height: 120px !important;
+  width: 100% !important;
+  max-width: 1148px !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+  z-index: 8 !important;
+}
+
+html body.page-index .section.parallax .iai-search,
+html body.page-index .section.parallax .index-info .iai-search,
+html body.page-index .section.parallax .fp-tableCell .index-info .iai-search {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  overflow: visible !important;
+  height: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  background: #FFFFFF !important;
+  border-radius: var(--fr-radius-lg) !important;
+  padding: clamp(20px, 3vw, 32px) !important;
+  box-shadow: 0 24px 60px rgba(15, 15, 14, 0.18) !important;
+  border: 1px solid rgba(226, 215, 0, 0.4) !important;
+  margin: 0 !important;
+}
+
+html body.page-index .section.parallax .iai_frontpage,
+html body.page-index .section.parallax #iai_book_se,
+html body.page-index .section.parallax .iai-search .iai_frontpage,
+html body.page-index .section.parallax .iai-search #iai_book_se {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  left: auto !important;
+  transform: none !important;
+  overflow: visible !important;
+  height: auto !important;
+  background: transparent !important;
+}
+
+html body.page-index .section.parallax #iai_book_form,
+html body.page-index .section.parallax .iai-search #iai_book_form,
+html body.page-index .section.parallax form#iai_book_form {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative !important;
+  left: auto !important;
+  transform: none !important;
+  overflow: visible !important;
+  height: auto !important;
+  grid-template-columns: 1.1fr 1fr 1fr 0.85fr auto !important;
+  gap: 12px !important;
+  align-items: end !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 991.98px) {
+  html body.page-index .section.parallax #iai_book_form,
+  html body.page-index .section.parallax .iai-search #iai_book_form {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+  html body.page-index .section.parallax #iai_book_form button[type="submit"] {
+    grid-column: span 2 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html body.page-index .section.parallax #iai_book_form,
+  html body.page-index .section.parallax .iai-search #iai_book_form {
+    grid-template-columns: 1fr !important;
+  }
+  html body.page-index .section.parallax #iai_book_form button[type="submit"] {
+    grid-column: span 1 !important;
+  }
+}
+
+/* PATCH MARKER — v1.7 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */

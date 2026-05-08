@@ -6268,6 +6268,57 @@ html body .litepicker .container__days > div {
 
 /* PATCH MARKER — v1.7.4 */
 
+/* §92 v1.26 — Mobile fixes (TDD audit): button overflow + hero shrink + final-cta footer gap */
+
+@media (max-width: 600px) {
+  /* fr-btn--outline z długim tekstem ("ZOBACZ WSZYSTKIE 19 APARTAMENTÓW")
+     przekracza viewport — wrap text + max-width + zmniejszone padding */
+  html body .fr-btn--outline,
+  html body .fr-btn {
+    max-width: calc(100% - 32px) !important;
+    white-space: normal !important;
+    padding: 14px 18px !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+    letter-spacing: 1.2px !important;
+    text-align: center !important;
+    word-break: break-word !important;
+  }
+
+  /* Hero shrink na mobile — search bar in viewport */
+  html body .fr-hero-asym {
+    min-height: 78vh !important;
+    padding-bottom: clamp(160px, 22vh, 220px) !important;
+  }
+  html body .fr-hero-wrap {
+    min-height: auto !important;
+  }
+
+  /* Final-cta footer gap fix (24px overlap) */
+  html body .fr-final-cta {
+    padding-bottom: 56px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html body .fr-hero-asym {
+    min-height: 86vh !important;
+  }
+  html body .fr-search-banner {
+    bottom: 16px !important;
+    left: 8px !important;
+    right: 8px !important;
+  }
+  html body .fr-search-banner__inner {
+    padding: 14px !important;
+  }
+
+  /* Apt-grid card — w mobile single column */
+  html body .fr-apt-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* §91 v1.24 — TDD audit hit-area fixes (WCAG 44px touch target mobile) */
 
 html body .fr-trust-card__link {
@@ -6442,19 +6493,25 @@ html body header .page-top__language #language_menu .flags {
 }
 
 html body header .page-top__language #language_menu .flags a {
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: 28px 1fr !important;
   align-items: center !important;
-  gap: 10px !important;
-  padding: 10px 14px !important;
+  gap: 12px !important;
+  padding: 10px 16px !important;
   border-radius: var(--fr-radius-sm) !important;
   font-family: var(--fr-font-body) !important;
   font-size: 13px !important;
-  letter-spacing: 1.2px !important;
-  text-transform: uppercase !important;
-  font-weight: 600 !important;
+  letter-spacing: 0.6px !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
   color: var(--fr-text-dark) !important;
   text-decoration: none !important;
   transition: background 0.15s ease, color 0.15s ease !important;
+  white-space: nowrap !important;
+  min-height: 44px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  font-size: 14px !important;
 }
 
 html body header .page-top__language #language_menu .flags a:hover,
@@ -6478,11 +6535,36 @@ html body header .page-top__language #language_menu .flags a[hreflang="en"]::aft
 html body header .page-top__language #language_menu .flags a[hreflang="de"]::after { content: 'Deutsch'; }
 html body header .page-top__language #language_menu .flags a::after {
   font-family: var(--fr-font-body) !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   letter-spacing: 0.6px !important;
   text-transform: none !important;
   color: var(--fr-text-dark) !important;
   font-weight: 500 !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-align: left !important;
+  min-width: 80px !important;
+}
+
+/* Fix system rule that hides span:not(.visuallyhidden) inside .page-top__language —
+   needed for img alt fallback if flag image fails to load. Also ensures flag visibility. */
+html body header .page-top__language #language_menu .flags a img.flag,
+html body header .page-top__language #language_menu .flags a img {
+  display: block !important;
+  width: 24px !important;
+  height: 16px !important;
+  flex-shrink: 0 !important;
+  object-fit: cover !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Ensure menu has enough width for longest label + flag */
+html body header .page-top__language #language_menu,
+html body header .page-top__language .language {
+  min-width: 168px !important;
+  max-width: 240px !important;
 }
 
 /* Mobile — show in drawer or compact in nav */

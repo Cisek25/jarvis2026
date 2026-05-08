@@ -185,6 +185,14 @@
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.17: 'prawie ok, czemu nie są równo?' — Visa i MC obok siebie ale niezgodne wysokości. Diagnoza: Visa SVG wąski/niski (~75×24 viewBox), MC kwadratowy z tekstem koło (~100×60). height:28 daje różne real visual heights." },
     { "date": "2026-05-07", "action": "v1.18 BUILD §87: fixed-height span containers (32px wysokości min/max) + SVG max-height 32 max-width 70 + object-fit: contain + width/height auto (proporcje zachowane). Logos teraz centered w identycznych boxach 32px wysokości, równo align baseline. CSS 286→288 KB. 1 plik delivery." },
     { "date": "2026-05-07", "action": "Feedback Damiana po v1.18: 'nie są równo'. Diagnoza playwright precyzyjna: Visa SVG natural 51×16 (h=16), Mastercard 143×25 (h=25). Mastercard 56% wyższy + 2.8× szerszy. Mój v1.18 max-height 32 + height auto pozwalał SVG renderować się na natural sizes — różne visible heights." },
-    { "date": "2026-05-07", "action": "v1.19 BUILD §88: force height: 24px na OBA SVG (Visa scale up od 16, MC scale down od 25). max-height 24 + min-height 24 + max-width 110 + object-fit contain. Span min-width 80 — równe boxy. Container height 36px + padding-x 4. Mobile @600 SVG height 20, span 32×70min. CSS 288→290 KB." }
+    { "date": "2026-05-07", "action": "v1.19 BUILD §88: force height: 24px na OBA SVG (Visa scale up od 16, MC scale down od 25). max-height 24 + min-height 24 + max-width 110 + object-fit contain. Span min-width 80 — równe boxy. Container height 36px + padding-x 4. Mobile @600 SVG height 20, span 32×70min. CSS 288→290 KB." },
+    { "date": "2026-05-07", "action": "SESSION END — 19 iteracji v1.0→v1.19. Memory zapisana. Nowe instincts: 045-MASTER-idobooking-system-widget-hide-replace, 046-MASTER-double-nested-class-direct-child-selectors, 047-yellow-3-tier-per-context-palette. Nowe lessons: css-loses-to-system-path-selectors-and-inline-style, svg-logos-different-aspect-ratio-equal-height." }
+  ],
+  "openIssuesNextSession": [
+    "Live verify v1.19 — Damian wkleja CSS (290KB / 290KB limit), screenshot stopki, weryfikuje równość Visa+Mastercard. Po wklejeniu uruchom playwright getBoundingClientRect na obu SVG.",
+    "CSS limit 290KB — następna iteracja wymaga port-by-sed cleanup zbędnych reguł lub konsolidacji selektorów. Sekcje §72-§88 mają overlap rules z §70-§71 które można wyciąć.",
+    "Klient wgrywa zdjęcia w panel → Wygląd → Galeria strony głównej. Aktualnie #parallax_topslider pokazuje default IdoBooking panoramę Wrocławia. Po wgraniu Fair Rentals photos system rotuje swoim sliderem.",
+    "Klient zaznacza więcej apartamentów jako 'Wyróżnione' w panelu (aktualnie 2/19: Golden Hour Apartment + Apartament Śrutowa 8). Featured cards na home auto-update przez Pattern A parser.",
+    "Live audit (FAZA 7) wymagany po wklejeniu pełnego pakietu: screenshots desktop+mobile, Lighthouse ≥80, sprawdzenie że hero search bar widoczny w viewport na każdym device (1920/1440/1024/820/414/390/360/320), test fullpage.js przejścia między sekcjami, Litepicker pozycjonowanie pod inputem."
   ]
 }

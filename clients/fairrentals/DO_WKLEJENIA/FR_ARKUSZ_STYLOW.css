@@ -193,28 +193,11 @@ html body.page-index header.default13:not(.fr-header--scrolled) .nav-link.nav-li
 }
 
 /* Language toggler — DEFAULT dark border (subpages + scrolled) */
-/* PATCH v1.6.4: Hide language toggler everywhere — site is PL-only */
-html body .language__toggler,
-html body .language__toggler.language__toggler,
-html body header.default13 .language__toggler,
-html body header.default13 .language__toggler.language__toggler,
-html body.page-index header.default13:not(.fr-header--scrolled) .language__toggler,
-html body header.default13 .language-list,
-html body .language-list,
-html body .language__menu {
-  display: none !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  pointer-events: none !important;
-}
+/* v1.25 — PATCH v1.6.4 USUNIĘTY (relikt SA port): hide .language__toggler.
+   FR ma 3 języki PL/EN/DE — system widget w v1.24 §90 odkryty + ostylowany. */
 
 /* Hide fontello icons (system does not load them on default13) */
 html body header.default13 .icon[class^="icon-"]:not(.fr-icon),
-html body .language__toggler .icon,
 html body .navbar-toggler .icon-menu {
   display: none !important;
 }
@@ -6395,6 +6378,17 @@ html body header .page-top__language .language__toggler #language_label {
   align-items: center !important;
   gap: 6px !important;
   text-transform: uppercase !important;
+}
+
+/* System app.css ukrywa wszystkie span:not(.visuallyhidden) w .page-top__language.
+   Override żeby labels (PL/EN/DE) były widoczne w naszym togglerze. */
+html body header .page-top__language .language__toggler span:not(.visuallyhidden),
+html body header.default13 .page-top__language .language__toggler span:not(.visuallyhidden),
+html body header .page-top__language .language__toggler #language_label span:not(.visuallyhidden) {
+  display: inline-flex !important;
+  align-items: center !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 html body header .page-top__language .language__toggler .icon-arrow_smaller_down {

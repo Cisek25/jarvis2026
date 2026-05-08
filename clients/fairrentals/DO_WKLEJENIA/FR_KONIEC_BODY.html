@@ -827,6 +827,63 @@
     return;
   }
 
+  /* v1.25 — Force show system .language__toggler PL/EN/DE.
+     System app.css ma '.page-top__language button { display: none }' (specyficzność 0,1,1).
+     Plus relikt v1.6.4 SA port hide patch (cofnięty w v1.25 CSS).
+     JS setProperty inline !important = highest specificity gwarancja. */
+  function forceShowLanguageToggler() {
+    var apply = function() {
+      var wrap = document.querySelector('.page-top__language');
+      var btn = document.querySelector('.language__toggler');
+      if (wrap) {
+        wrap.style.setProperty('display', 'inline-flex', 'important');
+        wrap.style.setProperty('visibility', 'visible', 'important');
+        wrap.style.setProperty('opacity', '1', 'important');
+      }
+      if (btn) {
+        btn.style.setProperty('display', 'inline-flex', 'important');
+        btn.style.setProperty('visibility', 'visible', 'important');
+        btn.style.setProperty('opacity', '1', 'important');
+        btn.style.setProperty('width', 'auto', 'important');
+        btn.style.setProperty('height', 'auto', 'important');
+
+        // Show labels (PL/EN/DE) — system hides span:not(.visuallyhidden)
+        Array.prototype.forEach.call(
+          btn.querySelectorAll('span:not(.visuallyhidden)'),
+          function(s) {
+            s.style.setProperty('display', 'inline-flex', 'important');
+            s.style.setProperty('visibility', 'visible', 'important');
+            s.style.setProperty('opacity', '1', 'important');
+          }
+        );
+
+        // Bind click toggle if not already
+        if (!btn.dataset.frBound) {
+          btn.dataset.frBound = '1';
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var menu = document.querySelector('#language_menu, .page-top__language .language');
+            if (!menu) return;
+            var open = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+            menu.style.setProperty('display', open ? 'none' : 'block', 'important');
+          });
+          // Close on outside click
+          document.addEventListener('click', function(e) {
+            if (!btn.contains(e.target)) {
+              var menu = document.querySelector('#language_menu, .page-top__language .language');
+              if (menu) menu.style.setProperty('display', 'none', 'important');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+      }
+    };
+    apply();
+    [50, 200, 600, 1500, 3000].forEach(function(d) { setTimeout(apply, d); });
+  }
+
   function _forceShowSystemSearch_disabled_v1_7() {
     var setProps = function(el, props) {
       if (!el) return;
@@ -950,6 +1007,7 @@
     initLeafletMap();
     initMobileMenuToggle();
     initPolicyModal();
+    forceShowLanguageToggler();
     forceShowSystemSearch();
     setTimeout(initFilterCollapse, 800);
     setTimeout(initImageFallback, 1500);

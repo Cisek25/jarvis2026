@@ -1,4 +1,4 @@
-# SEO — Fair Rentals (PL + EN)
+# SEO — Fair Rentals (PL + EN + DE)
 
 STRONA GŁÓWNA (PL)
 Nazwa: Strona główna
@@ -83,3 +83,45 @@ Nazwa: Contact
 Podpis pod nazwą: Białowieska 69/11, Wrocław
 META Tytuł: Contact — Fair Rentals Wrocław
 META Opis: Fair Rentals office in Wrocław — phone, email and address. We reply to messages within one business day, with a 24/7 on-call line for guests.
+
+STRONA GŁÓWNA (DE)
+Nazwa: Startseite
+Podpis pod nazwą: Kurzzeit-Apartmentvermietung in Breslau
+META Tytuł: Apartments in Breslau mieten | Fair Rentals
+META Opis: Familienunternehmen, 19 Apartments in Breslau. Booking 9.8, Google 4.7. Verfügbarkeit prüfen und online buchen — sofortige Bestätigung.
+
+APARTAMENTY (DE)
+Nazwa: Apartments
+Podpis pod nazwą: 19 sorgfältig eingerichtete Apartments in Breslau
+META Tytuł: Apartments Breslau — komplettes Angebot | Fair Rentals
+META Opis: Komplette Liste der 19 Fair Rentals Apartments in Breslau. Filter nach Datum, Gästezahl und Stadtteil. Sichere Online-Buchung mit sofortiger Bestätigung.
+
+OBSŁUGA NAJMU (DE)
+Nazwa: Mietverwaltung
+Podpis pod nazwą: Für Wohnungseigentümer in Breslau
+META Tytuł: Kurzzeit-Mietverwaltung Breslau | Fair Rentals
+META Opis: Übergeben Sie uns Ihr Apartment in Breslau. Marketing, 24/7 Gästebetreuung, monatliche Berichte. Keine versteckten Kosten. Angebot anfragen.
+
+DLA BIZNESU (DE)
+Nazwa: Für Unternehmen
+Podpis pod nazwą: Firmenapartments und Geschäftsreisen
+META Tytuł: Firmenapartments Breslau — Angebot | Fair Rentals
+META Opis: Apartments für entsandte Mitarbeiter in Breslau. MwSt.-Rechnung, Monatstarife, persönlicher Account Manager. Individuelles Angebot anfragen.
+
+ATRAKCJE WROCŁAWIA (DE)
+Nazwa: Sehenswürdigkeiten Breslau
+Podpis pod nazwą: Sechs Orte, mit denen man beginnen sollte
+META Tytuł: Sehenswürdigkeiten Breslau — was sehen | Fair Rentals
+META Opis: Marktplatz, Dominsel, Jahrhunderthalle, Oder-Promenaden, Szczytnicki-Park, Hydropolis. Sechs Orte Breslau in Geh- oder Straßenbahnnähe.
+
+BLOG (DE)
+Nazwa: Blog
+Podpis pod nazwą: Breslau, Reisen und Tipps für Gäste
+META Tytuł: Fair Rentals Blog — Breslau und Reisen
+META Opis: Aktuelles, Tipps für Gäste und Geschichten aus Breslau. Was sehen, wo essen und wie den Aufenthalt in der Hauptstadt Niederschlesiens planen.
+
+KONTAKT (DE)
+Nazwa: Kontakt
+Podpis pod nazwą: Białowieska 69/11, Breslau
+META Tytuł: Kontakt — Fair Rentals Breslau
+META Opis: Fair Rentals Büro in Breslau — Telefon, E-Mail und Adresse. Wir antworten auf Nachrichten innerhalb eines Werktages, 24/7 Bereitschaftstelefon.

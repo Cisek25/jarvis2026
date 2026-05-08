@@ -6285,6 +6285,66 @@ html body .litepicker .container__days > div {
 
 /* PATCH MARKER — v1.7.4 */
 
+/* §89 v1.20 — FAQ accordion (HTML5 details/summary) */
+.fr-faq {
+  max-width: 920px;
+  margin: 0 auto;
+}
+.fr-faq__item {
+  border-bottom: 1px solid var(--fr-border-light);
+}
+.fr-faq__item summary {
+  cursor: pointer;
+  padding: 22px 48px 22px 0;
+  font-family: var(--fr-font-display);
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.35;
+  color: var(--fr-text-dark);
+  list-style: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+.fr-faq__item summary::-webkit-details-marker { display: none; }
+.fr-faq__item summary::after {
+  content: '+';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--fr-font-body);
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--fr-yellow-deep);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--fr-border-light);
+  transition: transform 0.25s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.fr-faq__item[open] summary::after {
+  content: '\2212';
+  background: var(--fr-yellow-deep);
+  color: #FFFFFF;
+  border-color: var(--fr-yellow-deep);
+}
+.fr-faq__item:hover summary {
+  color: var(--fr-yellow-deep);
+}
+.fr-faq__a {
+  padding: 0 48px 22px 0;
+  color: var(--fr-text-body);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.fr-faq__a p {
+  margin: 0;
+  font-family: var(--fr-font-body) !important;
+  font-size: 15px !important;
+}
+
 /* ============================================================
    §70. v1.1 — UNIQUE HOME COMPONENTS (Fair Rentals editorial)
    ============================================================ */

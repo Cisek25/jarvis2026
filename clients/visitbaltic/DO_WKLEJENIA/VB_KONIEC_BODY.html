@@ -1,0 +1,436 @@
+<!-- ═══════════════════════════════════════════════════════════════════
+     VISIT BALTIC ŚWINOUJŚCIE — KONIEC BODY (body_bottom)
+     v1.0 · 2026-05-16
+     Wklej do: Panel IdoBooking → Ustawienia → Koniec BODY
+     ───────────────────────────────────────────────────────────────────
+     STRUKTURA:
+     §1  Istniejący hack dla iai_location (zachowany)
+     §2  Botsonic chatbot widget (naprawiony — był urwany </script>)
+     §3  Hero teleport do .section.parallax (CRITICAL-O / CRITICAL-AA)
+     §4  Wyróżnione oferty — vb-offer-card builder (pattern MADERA/NAJMAR)
+     §5  Auto-galeria z frontpageGallery
+     §6  Auto-lista dzielnic Świnoujścia
+     §7  Sticky header on scroll
+     §8  Smooth scroll do kotwic + ESC dla modal
+     §9  Lazy image observer (performance)
+     ═══════════════════════════════════════════════════════════════════ -->
+
+
+<!-- §1 ═══════════════════════════════════════════════════════════
+     HACK iai_location (zachowany z istniejącego BODY klientki)
+     Po otwarciu widgetu lokalizacji, ukrywa licznik ofert (X)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  function hideDistrictCounts() {
+    document.querySelectorAll('.iailocation-district').forEach(function(el) {
+      var txt = el.textContent;
+      var idx = txt.indexOf(' (');
+      if (idx > -1) {
+        var districtName = txt.substring(0, idx);
+        el.innerHTML = districtName + ' <span class="vb-sr-only">(' + txt.substring(idx + 2).replace(')','') + ')</span>';
+      }
+    });
+  }
+  function bindLocationBtn() {
+    var locationBtn = document.querySelector('.showlocation');
+    if (!locationBtn) return false;
+    locationBtn.addEventListener('click', function() {
+      setTimeout(hideDistrictCounts, 50);
+      setTimeout(hideDistrictCounts, 250);
+    });
+    return true;
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindLocationBtn);
+  } else {
+    bindLocationBtn();
+  }
+})();
+</script>
+
+
+<!-- §2 ═══════════════════════════════════════════════════════════
+     Botsonic chatbot (NAPRAWIONY — poprzednio </script> urwany)
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function (w, d, s, o, f, js, fjs) {
+  w["botsonic_widget"] = o;
+  w[o] = w[o] || function () { (w[o].q = w[o].q || []).push(arguments); };
+  js = d.createElement(s);
+  fjs = d.getElementsByTagName(s)[0];
+  js.id = o;
+  js.src = f;
+  js.async = 1;
+  if (fjs && fjs.parentNode) fjs.parentNode.insertBefore(js, fjs);
+})(window, document, "script", "botsonic", "https://widget.botsonic.com/CDN/botsonic.min.js");
+</script>
+
+
+<!-- §3 ═══════════════════════════════════════════════════════════
+     HERO TELEPORT (CRITICAL-O / CRITICAL-AA dla fullpage.js default13)
+     body_top content domyślnie ląduje w section 2 zamiast hero.
+     Teleportujemy .vb-hero-wrap do .section.parallax .fp-tableCell
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  function teleportHero() {
+    var heroWrap = document.querySelector('.vb-hero-wrap');
+    var parallax = document.querySelector('.section.parallax .fp-tableCell');
+    if (heroWrap && parallax && heroWrap.parentNode !== parallax) {
+      parallax.appendChild(heroWrap);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', teleportHero);
+  } else {
+    teleportHero();
+  }
+  // Re-teleport po każdej zmianie sekcji fullpage.js
+  var lastFp = '';
+  var observer = new MutationObserver(function() {
+    var fp = (document.body.className.match(/fp-viewing-\d+/) || [''])[0];
+    if (fp !== lastFp) {
+      lastFp = fp;
+      teleportHero();
+    }
+  });
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+
+
+<!-- §4 ═══════════════════════════════════════════════════════════
+     WYRÓŻNIONE OFERTY — vb-offer-card builder
+     Pattern: MADERA/NAJMAR (CLAUDE.md §"Wyróżnione oferty — OBOWIĄZKOWY WZORZEC")
+
+     Czyta dane z .container-hotspot (slick carousel systemowy ukryty CSS-em)
+     i buduje karty .vb-offer-card w gridzie .vb-featured__grid
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  var ICON_AREA = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v2H3V3zm0 16h18v2H3v-2zM5 5v14h14V5H5zm2 2h10v10H7V7z"/></svg>';
+  var ICON_USERS = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>';
+  var ICON_ARROW = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"/></svg>';
+  var ICON_PIN = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>';
+
+  function extractOfferData(offerEl) {
+    var link = offerEl.querySelector('a.object-icon, a[href*="/offer/"]');
+    var img = offerEl.querySelector('img');
+    var titleEl = offerEl.querySelector('h3 a, h4 a, .offer h4 a');
+    var descEl = offerEl.querySelector('.offer__description, .offer__hover p');
+    var metersEl = offerEl.querySelector('.accommodation-meters');
+    var roomspaceEl = offerEl.querySelector('.accommodation-roomspace');
+    var priceEl = offerEl.querySelector('.offer__price .price, .offer__price');
+
+    if (!link || !img) return null;
+
+    var areaMatch = metersEl ? metersEl.textContent.match(/([\d,.]+)\s*m/i) : null;
+    var guestsMatch = roomspaceEl ? roomspaceEl.textContent.match(/(\d+)/) : null;
+    var priceMatch = priceEl ? priceEl.textContent.replace(/\s+/g, ' ').match(/([\d\s,.]+)\s*(zł|pln|eur|usd|gbp)/i) : null;
+
+    return {
+      href: link.getAttribute('href'),
+      img: img.getAttribute('data-src') || img.getAttribute('src'),
+      alt: img.getAttribute('alt') || '',
+      title: titleEl ? titleEl.textContent.trim() : (link.getAttribute('title') || ''),
+      desc: descEl ? descEl.textContent.trim() : '',
+      area: areaMatch ? areaMatch[1] + ' m²' : null,
+      guests: guestsMatch ? guestsMatch[1] : null,
+      price: priceMatch ? priceMatch[0].trim() : null
+    };
+  }
+
+  function buildCard(d, prefix) {
+    var card = document.createElement('article');
+    card.className = 'vb-offer-card';
+    var priceBadge = d.price ? '<span class="vb-offer-card__price-badge"><small>od</small> ' + d.price + '</span>' : '';
+    var areaItem = d.area ? '<span class="vb-offer-card__meta-item">' + ICON_AREA + d.area + '</span>' : '';
+    var guestsItem = d.guests ? '<span class="vb-offer-card__meta-item">' + ICON_USERS + d.guests + ' os.</span>' : '';
+    var desc = d.desc ? '<p class="vb-offer-card__desc">' + d.desc + '</p>' : '';
+
+    card.innerHTML = ''
+      + '<div class="vb-offer-card__media">'
+      +   '<a href="' + d.href + '" tabindex="-1" aria-hidden="true">'
+      +     '<img class="vb-offer-card__img" loading="lazy" src="' + d.img + '" alt="' + d.alt + '">'
+      +   '</a>'
+      +   priceBadge
+      + '</div>'
+      + '<div class="vb-offer-card__body">'
+      +   '<h3 class="vb-offer-card__name"><a href="' + d.href + '">' + d.title + '</a></h3>'
+      +   desc
+      +   '<div class="vb-offer-card__meta">' + areaItem + guestsItem + '</div>'
+      +   '<a class="vb-offer-card__cta" href="' + d.href + '">Sprawdź dostępność' + ICON_ARROW + '</a>'
+      + '</div>';
+    return card;
+  }
+
+  function buildFeatured() {
+    var grid = document.querySelector('.vb-featured__grid');
+    if (!grid) return;
+
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot) {
+      // Brak wyróżnionych w systemie — pozostawiamy fallback hardcoded jeśli jest
+      return;
+    }
+
+    // Iteruj po .offer w slick-slide (pomijaj klony slick)
+    var slides = hotspot.querySelectorAll('.slick-slide:not(.slick-cloned) .offer');
+    if (slides.length === 0) {
+      // Fallback gdy slick nie zainicjalizowany
+      slides = hotspot.querySelectorAll('.offer');
+    }
+
+    // Deduplikacja po href (slick robi duplikaty)
+    var seen = {};
+    var cards = [];
+    slides.forEach(function(slide) {
+      var data = extractOfferData(slide);
+      if (!data || !data.href) return;
+      if (seen[data.href]) return;
+      seen[data.href] = true;
+      cards.push(data);
+    });
+
+    if (cards.length === 0) return;
+
+    // Wyczyść fallback content (jeśli jest hardcoded)
+    grid.innerHTML = '';
+    grid.classList.remove('vb-featured-fallback');
+
+    cards.forEach(function(d) {
+      grid.appendChild(buildCard(d, 'vb'));
+    });
+  }
+
+  // Czekaj na slick inicjalizację — próba x3
+  function bootFeatured(attempt) {
+    attempt = attempt || 0;
+    if (attempt > 6) return;
+    var hotspot = document.querySelector('.container-hotspot');
+    if (hotspot && hotspot.querySelector('.slick-initialized')) {
+      buildFeatured();
+    } else if (hotspot) {
+      setTimeout(function() { bootFeatured(attempt + 1); }, 400);
+    } else if (attempt === 0) {
+      // .container-hotspot nie istnieje na tej stronie — to OK
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { bootFeatured(0); });
+  } else {
+    bootFeatured(0);
+  }
+})();
+</script>
+
+
+<!-- §5 ═══════════════════════════════════════════════════════════
+     AUTO-GALERIA — pobiera zdjęcia z /strony/galeria (systemowa galeria
+     idobooking) i renderuje w .vb-gallery-grid
+
+     Workflow dla klientki: panel → "Galerie" → wgraj zdjęcia
+     Strona automatycznie się aktualizuje (bez wklejania HTML).
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  function buildGallery() {
+    var grid = document.querySelector('.vb-gallery-grid');
+    if (!grid || grid.dataset.vbBuilt) return;
+
+    fetch('/strony/galeria', { credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.text() : null; })
+      .then(function(html) {
+        if (!html) return;
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var imgs = doc.querySelectorAll('.frontpageGallery img, [class*="gallery"] img, .frontpage_gallery img');
+        if (imgs.length === 0) return;
+
+        var urls = [];
+        imgs.forEach(function(img) {
+          var src = img.getAttribute('data-src') || img.getAttribute('src');
+          if (src && urls.indexOf(src) === -1) urls.push(src);
+        });
+
+        grid.innerHTML = '';
+        urls.slice(0, 12).forEach(function(src, i) {
+          var item = document.createElement('div');
+          item.className = 'vb-gallery-item';
+          if (i === 0) item.classList.add('vb-gallery-item--wide', 'vb-gallery-item--tall');
+          if (i === 3) item.classList.add('vb-gallery-item--wide');
+          item.innerHTML = '<img loading="lazy" src="' + src + '" alt="Visit Baltic — galeria zdjęcie ' + (i+1) + '">';
+          grid.appendChild(item);
+        });
+        grid.dataset.vbBuilt = '1';
+      })
+      .catch(function() { /* gallery brak — nie kruszymy strony */ });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', buildGallery);
+  } else {
+    buildGallery();
+  }
+})();
+</script>
+
+
+<!-- §6 ═══════════════════════════════════════════════════════════
+     AUTO-LISTA DZIELNIC — odczyt z #iai_location (po pierwszym kliknięciu)
+     i wstawia pills w sekcji .vb-districts. Dynamiczne — zmienia się gdy
+     klientka doda nową lokalizację w panelu.
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  function populateDistricts() {
+    var container = document.querySelector('.vb-districts');
+    if (!container || container.dataset.vbBuilt) return;
+
+    // System renderuje #iai_location dopiero po kliknięciu .showlocation
+    // Wymuszamy pre-load przez krótki klik (ukryty)
+    var trigger = document.querySelector('.showlocation');
+    if (!trigger) return;
+
+    var origDisplay = trigger.style.display;
+    trigger.click();
+
+    setTimeout(function() {
+      var districts = document.querySelectorAll('.iailocation-district');
+      if (districts.length === 0) return;
+
+      container.innerHTML = '';
+      var seen = {};
+      districts.forEach(function(el) {
+        var txt = el.textContent.trim();
+        var idx = txt.indexOf(' (');
+        var name = idx > -1 ? txt.substring(0, idx) : txt;
+        var count = idx > -1 ? txt.substring(idx + 2).replace(')','') : '';
+        if (!name || seen[name]) return;
+        seen[name] = true;
+
+        var pill = document.createElement('a');
+        pill.className = 'vb-district-pill';
+        pill.href = '/offers?location=' + encodeURIComponent(name);
+        pill.innerHTML = name + (count ? ' <span class="vb-district-pill__count">' + count + '</span>' : '');
+        container.appendChild(pill);
+      });
+
+      container.dataset.vbBuilt = '1';
+
+      // Zamknij dropdown po pre-load
+      var locationDropdown = document.querySelector('#iai_location');
+      if (locationDropdown) locationDropdown.style.display = 'none';
+    }, 800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(populateDistricts, 1500); });
+  } else {
+    setTimeout(populateDistricts, 1500);
+  }
+})();
+</script>
+
+
+<!-- §7 ═══════════════════════════════════════════════════════════
+     STICKY HEADER on scroll — header zmienia tło gdy scrollujemy
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  var header = document.querySelector('header.default13');
+  if (!header) return;
+
+  // fullpage.js — używamy MutationObserver na body.className (CRITICAL-QQ)
+  var lastFp = -1;
+  function handleFpChange() {
+    var match = document.body.className.match(/fp-viewing-(\d+)/);
+    var section = match ? parseInt(match[1], 10) : 0;
+    if (section === lastFp) return;
+    lastFp = section;
+    if (section === 0) header.classList.remove('vb-header--scrolled');
+    else header.classList.add('vb-header--scrolled');
+  }
+
+  new MutationObserver(handleFpChange).observe(document.body, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+  handleFpChange();
+})();
+</script>
+
+
+<!-- §8 ═══════════════════════════════════════════════════════════
+     SMOOTH SCROLL anchors + ESC dla modali
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href^="#"]:not([href="#"])');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1);
+    var target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  });
+
+  // ESC zamyka Litepicker
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.litepicker').forEach(function(p) {
+      if (p.style.display === 'block') p.style.display = 'none';
+    });
+    var backdrop = document.querySelector('.litepicker-backdrop');
+    if (backdrop) backdrop.style.display = 'none';
+  });
+})();
+</script>
+
+
+<!-- §9 ═══════════════════════════════════════════════════════════
+     LAZY IMAGE OBSERVER — performance dla zdjęć poza viewport
+     IdoBooking używa data-src zamiast src na <img> — handle that
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  if (!('IntersectionObserver' in window)) {
+    // Fallback: native lazy + manual data-src swap
+    document.querySelectorAll('img[data-src]').forEach(function(img) {
+      img.src = img.dataset.src;
+    });
+    return;
+  }
+
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      var img = entry.target;
+      if (img.dataset.src) {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+      }
+      img.removeAttribute('loading');
+      io.unobserve(img);
+    });
+  }, { rootMargin: '200px 0px' });
+
+  document.querySelectorAll('img[data-src], img[loading="lazy"]').forEach(function(img) {
+    io.observe(img);
+  });
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     KONIEC body_bottom v1.0
+     Planowane moduły dla v1.10+:
+     §10 Leaflet mapa Airbnb-style z price markers
+     §11 Blog content fetcher (pobiera 3 ostatnie posty z /txt/blog/*)
+     §12 Booking widget — sticky mobile bottom sheet
+     §13 A11y announce regions (aria-live dla filtrów)
+     ═══════════════════════════════════════════════════════════════════ -->

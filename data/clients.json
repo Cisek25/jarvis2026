@@ -293,6 +293,99 @@
       "languages": ["pl"],
       "status": "deployed",
       "source": "manual"
+    },
+    {
+      "name": "Visit Baltic Świnoujście",
+      "folder": "visitbaltic",
+      "id": "client16580",
+      "template": "default13",
+      "engine": "engine16580.idobooking.com",
+      "domain": "visitbaltic.pl",
+      "uses_fullpage_js": true,
+      "palette": "Honey Baltic (custom)",
+      "prefix": "vb",
+      "colors": {
+        "primary": "#ECAF09",
+        "primary_dark": "#C9920A",
+        "primary_light": "#FFF4D1",
+        "secondary": "#3E475E",
+        "accent": "#FFD96A",
+        "bg": "#FFFFFF",
+        "bg_soft": "#F7F7F5",
+        "dark": "#282828",
+        "ink_muted": "#555E6E",
+        "light": "#FFFFFF",
+        "ok": "#2E7D32",
+        "ok_bg": "#E8F5E9",
+        "err": "#C62828",
+        "err_bg": "#FADBD8"
+      },
+      "fonts": {
+        "heading": "Fraunces",
+        "body": "Inter",
+        "accent": "Manrope",
+        "pair": "custom-fraunces-inter-manrope"
+      },
+      "type": "apartamenty-nadmorskie",
+      "location": "Świnoujście",
+      "scale": {
+        "objects": "100+",
+        "localizations": "100+",
+        "districts": 32,
+        "languages": ["pl", "en", "de"],
+        "currencies": 13
+      },
+      "owner": "visit baltic Beata Barkas",
+      "contact": {
+        "address": "Wojska Polskiego 4ab/5a, 72-600 Świnoujście",
+        "phone": "+48 600 138 900",
+        "email": "kontakt@visitbaltic.pl",
+        "social": ["Facebook", "Instagram", "TikTok"]
+      },
+      "tracking": {
+        "google_ads": "AW-16616472794",
+        "google_analytics": "G-SB57T7EBJZ",
+        "chatbot": "Botsonic"
+      },
+      "status": "in-development",
+      "version": "v1.0",
+      "source": "jarvis-build-2026-05-16",
+      "files_to_paste": [
+        "VB_ARKUSZ_STYLOW.css → Wygląd → Edytor CSS",
+        "VB_HEAD_PL.html → Ustawienia → HEAD (PL)",
+        "VB_HEAD_EN.html → Ustawienia → HEAD (EN)",
+        "VB_HEAD_DE.html → Ustawienia → HEAD (DE)",
+        "VB_KONIEC_BODY.html → Ustawienia → Koniec BODY",
+        "GLOWNA_{PL,EN,DE}__cms.html → Strona główna → Sekcje CMS",
+        "O_NAS_{PL,EN,DE}__body_top.html → Strony → /txt/onas",
+        "OBSLUGA_NAJMU_{PL,EN,DE}__body_top.html → Strony → /txt/obsluga-najmu",
+        "DLA_BIZNESU_{PL,EN,DE}__body_top.html → Strony → /txt/dla-biznesu",
+        "ATRAKCJE_SWINOUJSCIA_{PL,EN,DE}__body_top.html → Strony → /txt/atrakcje",
+        "FAQ_{PL,EN,DE}__body_top.html → Strony → /txt/faq",
+        "BLOG_LIST_{PL,EN,DE}__body_top.html → Strony → /txt/blog",
+        "KONTAKT_{PL,EN,DE}__body_top.html → Strony → /txt/kontakt"
+      ],
+      "features_planned": [
+        "Litepicker reskin (miodowy żółty, ukośne daty halfBegin/halfEnd)",
+        "Wyróżnione oferty vb-offer-card (MADERA/NAJMAR pattern)",
+        "Auto-galeria z /strony/galeria (klientka wrzuca, JS pobiera)",
+        "Auto-lista apartamentów po dzielnicach (32 dystrykty)",
+        "Mapa Airbnb-style z Leaflet + price markers (v1.10+)",
+        "Blog automatyczny (10 outlines startowych)",
+        "3 języki PL/EN/DE z hreflang + sitemap.xml",
+        "WCAG 2.1 AA + Mobile-first + Performance audit",
+        "Schema markup: LodgingBusiness, BlogPosting, FAQPage"
+      ],
+      "critical_traps_to_apply": [
+        "CRITICAL-O: hero-wrap absolute positioning",
+        "CRITICAL-P: force header visibility",
+        "CRITICAL-AA: fullpage.js teleport hero into section.parallax",
+        "CRITICAL-BB: target .menu-wrapper + .bgd-color-light child",
+        "CRITICAL-QQ: fullpage.js MutationObserver scroll detection",
+        "CRITICAL-RR: hero 100vh embrace fullpage",
+        "CRITICAL-Y: search widget INSIDE hero-wrap",
+        "iai_location: districts visible, city + addresses hidden (already in HEAD)"
+      ]
     }
   ],
   "palettes": {

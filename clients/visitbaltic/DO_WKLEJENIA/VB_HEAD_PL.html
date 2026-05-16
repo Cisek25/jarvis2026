@@ -1,0 +1,145 @@
+<!-- ═══════════════════════════════════════════════════════════════════
+     VISIT BALTIC ŚWINOUJŚCIE — HEAD (Polski)
+     v1.0 · 2026-05-16
+     Wklej do: Panel IdoBooking → Ustawienia → HEAD (wersja PL)
+     ───────────────────────────────────────────────────────────────────
+     ZACHOWANE z istniejącego HEAD: GTM AW-16616472794 + GA G-SB57T7EBJZ
+     NAPRAWIONE: zdublowany GA tag (był 2× w starym HEAD)
+     PRZENIESIONE: CSS hack iai_location → do VB_ARKUSZ_STYLOW.css §4
+     DODANE: fonts (Fraunces+Inter+Manrope), Litepicker CSS, Leaflet CSS,
+             pełen zestaw meta + OG + Twitter Card + schema.org
+     ═══════════════════════════════════════════════════════════════════ -->
+
+
+<!-- ─── Performance hints ──────────────────────────────────────── -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://www.google-analytics.com">
+
+
+<!-- ─── Google Fonts — Fraunces / Inter / Manrope ──────────────── -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+
+<!-- ─── Third-party CSS (Litepicker reskinowany w VB_ARKUSZ_STYLOW.css §7) ── -->
+<link href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" rel="stylesheet">
+
+<!-- ─── Leaflet (mapa Airbnb-style, używana od v1.10 — zostawiamy preload teraz) ── -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+
+<!-- ─── SEO core meta ──────────────────────────────────────────── -->
+<title>Apartamenty Świnoujście nad morzem — Visit Baltic | 100+ obiektów</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ECAF09">
+<meta name="description" content="Visit Baltic — apartamenty wakacyjne w Świnoujściu nad Bałtykiem. 100+ obiektów w 32 dzielnicach (Centrum, Plażowa, Sienkiewicza, Posejdon). Rezerwacja online 24/7.">
+<meta name="keywords" content="apartamenty Świnoujście, noclegi Świnoujście, apartamenty nad morzem, wynajem apartamentów Świnoujście, apartamenty blisko plaży, Visit Baltic, wyspa Uznam, Bałtyk apartamenty, Świnoujście wakacje">
+<meta name="author" content="visit baltic Beata Barkas">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="geo.region" content="PL-ZP">
+<meta name="geo.placename" content="Świnoujście">
+<meta name="geo.position" content="53.9094;14.2473">
+<meta name="ICBM" content="53.9094, 14.2473">
+
+<!-- ─── Hreflang (3 języki) ────────────────────────────────────── -->
+<link rel="alternate" hreflang="pl-PL" href="https://visitbaltic.pl/">
+<link rel="alternate" hreflang="en-GB" href="https://visitbaltic.pl/en">
+<link rel="alternate" hreflang="de-DE" href="https://visitbaltic.pl/de">
+<link rel="alternate" hreflang="x-default" href="https://visitbaltic.pl/">
+<link rel="canonical" href="https://visitbaltic.pl/">
+
+
+<!-- ─── Open Graph ─────────────────────────────────────────────── -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Visit Baltic">
+<meta property="og:title" content="Apartamenty Świnoujście nad morzem — Visit Baltic">
+<meta property="og:description" content="100+ apartamentów w 32 dzielnicach Świnoujścia. Plaża, uzdrowisko, restauracje, parking. Rezerwacja online 24/7.">
+<meta property="og:url" content="https://visitbaltic.pl/">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="de_DE">
+<meta property="og:image" content="https://visitbaltic.pl/images/frontpageGallery/pictures/large/0/0/141.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Plaża i morze Bałtyckie w Świnoujściu — apartamenty Visit Baltic">
+
+
+<!-- ─── Twitter Card ───────────────────────────────────────────── -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Apartamenty Świnoujście — Visit Baltic">
+<meta name="twitter:description" content="100+ apartamentów w 32 dzielnicach Świnoujścia. Plaża, uzdrowisko, restauracje. Rezerwacja online.">
+<meta name="twitter:image" content="https://visitbaltic.pl/images/frontpageGallery/pictures/large/0/0/141.jpg">
+
+
+<!-- ─── Schema.org JSON-LD: LodgingBusiness ────────────────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "Visit Baltic",
+  "alternateName": "visit baltic Beata Barkas",
+  "description": "Apartamenty wakacyjne w Świnoujściu nad Morzem Bałtyckim — ponad 100 obiektów w 32 dzielnicach.",
+  "url": "https://visitbaltic.pl/",
+  "logo": "https://visitbaltic.pl/images/owner/wideLogo.png",
+  "image": "https://visitbaltic.pl/images/frontpageGallery/pictures/large/0/0/141.jpg",
+  "telephone": "+48 600 138 900",
+  "email": "kontakt@visitbaltic.pl",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Wojska Polskiego 4ab/5a",
+    "addressLocality": "Świnoujście",
+    "postalCode": "72-600",
+    "addressRegion": "Zachodniopomorskie",
+    "addressCountry": "PL"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 53.9094,
+    "longitude": 14.2473
+  },
+  "priceRange": "$$",
+  "currenciesAccepted": "PLN, EUR, GBP, USD, CZK, UAH, DKK, NOK, SEK, HRK, HUF, THB",
+  "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+  "sameAs": [
+    "https://www.facebook.com/visitbaltic",
+    "https://www.instagram.com/visitbaltic",
+    "https://www.tiktok.com/@visitbaltic"
+  ]
+}
+</script>
+
+<!-- ─── Schema.org JSON-LD: BreadcrumbList (homepage) ──────────── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Strona główna",
+    "item": "https://visitbaltic.pl/"
+  }]
+}
+</script>
+
+
+<!-- ─── Favicon (fallback do logo) ─────────────────────────────── -->
+<link rel="icon" type="image/png" href="https://visitbaltic.pl/images/owner/wideLogo.png">
+<link rel="apple-touch-icon" href="https://visitbaltic.pl/images/owner/wideLogo.png">
+
+
+<!-- ─── Google Tag — Ads conversion (AW-16616472794) ───────────── -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16616472794"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-16616472794');
+  gtag('config', 'G-SB57T7EBJZ');
+</script>
+
+<!-- ─── Google Analytics 4 (G-SB57T7EBJZ) — pojedynczo, nie duplikat ── -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SB57T7EBJZ"></script>

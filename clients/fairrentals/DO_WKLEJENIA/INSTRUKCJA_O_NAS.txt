@@ -1,0 +1,139 @@
+═══════════════════════════════════════════════════════════════════════
+Fair Rentals — Sprint C: Sekcja "O nas" (v1.32, 2026-05-15)
+INSTRUKCJA dodania nowej podstrony do panelu IdoBooking
+═══════════════════════════════════════════════════════════════════════
+
+
+KROK 1 — DODAJ ARKUSZ STYLÓW (jeśli jeszcze nie wgrany)
+─────────────────────────────────────────────────────────
+• Panel IdoBooking → Wygląd → Arkusz stylów CSS
+• Wklej całość: FR_ARKUSZ_STYLOW.css
+  (już zawiera §102 — style dla podstrony "O nas")
+• Zapisz
+
+
+KROK 2 — UTWÓRZ PODSTRONĘ /o-nas w panelu (PL)
+─────────────────────────────────────────────────────────
+• Panel → Treści → Strony tekstowe → NOWA STRONA
+• Język: Polski
+• Tytuł strony (h1): "O nas"
+• Title SEO: "O nas — Fair Rentals | Rodzinna firma we Wrocławiu"
+• Meta description: "Agnieszka i Małgorzata — założycielki Fair Rentals. 21 apartamentów we Wrocławiu, dziewięć lat doświadczenia, Booking 9.6."
+• URL slug: o-nas
+• Status: Aktywna, widoczna w menu
+
+
+KROK 3 — WKLEJ HTML PL (body_top)
+─────────────────────────────────────────────────────────
+• W edytorze podstrony "O nas" przełącz na tryb HTML
+  (źródło / Code view)
+• Wklej ZAWARTOŚĆ pliku: O_NAS_PL__body_top.html
+  (UWAGA: bez komentarza w pierwszej linii — komentarz <!--…--> to
+   dokumentacja dla nas, NIE wklejaj go do panelu)
+• Zapisz
+
+
+KROK 4 — DODAJ POZYCJĘ W MENU GŁÓWNYM (PL)
+─────────────────────────────────────────────────────────
+• Panel → Wygląd → Menu → Język PL
+• Dodaj nową pozycję:
+    - Tekst: "O NAS"
+    - Link: /txt/[ID_strony]/o-nas (system wygeneruje URL po Kroku 2)
+    - Pozycja: między "Najem korporacyjny" a "Kontakt"
+• Zapisz
+
+
+KROK 5 — POWTÓRZ DLA EN (English)
+─────────────────────────────────────────────────────────
+• Panel → Treści → Strony tekstowe → NOWA STRONA
+• Język: English
+• Tytuł: "About us"
+• Title: "About us — Fair Rentals | Family business in Wrocław"
+• Meta description: "Agnieszka and Małgorzata — founders of Fair Rentals. 21 apartments in Wrocław, nine years of experience, Booking 9.6."
+• URL slug: about-us
+• Wklej: O_NAS_EN__body_top.html
+• Menu EN: dodaj "ABOUT US" między "CORPORATE HOUSING" a "CONTACT"
+
+
+KROK 6 — POWTÓRZ DLA DE (Deutsch)
+─────────────────────────────────────────────────────────
+• Panel → Treści → Strony tekstowe → NOWA STRONA
+• Język: Deutsch
+• Tytuł: "Über uns"
+• Title: "Über uns — Fair Rentals | Familienunternehmen in Breslau"
+• Meta description: "Agnieszka und Małgorzata — Gründerinnen von Fair Rentals. 21 Apartments in Breslau, neun Jahre Erfahrung, Booking 9.6."
+• URL slug: ueber-uns
+• Wklej: O_NAS_DE__body_top.html
+• Menu DE: dodaj "ÜBER UNS" między "FIRMENUNTERKÜNFTE" a "KONTAKT"
+
+
+KROK 7 — WERYFIKACJA (po wgraniu)
+─────────────────────────────────────────────────────────
+• Otwórz:
+    PL: https://client58360.idobooking.com/txt/[ID]/o-nas
+    EN: https://client58360.idobooking.com/en/txt/[ID]/about-us
+    DE: https://client58360.idobooking.com/de/txt/[ID]/ueber-uns
+• Cmd+Shift+R (twardy reload)
+• Sprawdź:
+    ☐ Hero z kicker "Poznaj nas" + h1 "Rodzinna firma z Wrocławia"
+    ☐ Sekcja "Jak to się zaczęło" — split layout z placeholder po lewej + tekst
+    ☐ 4 wartości (cards z ikonkami)
+    ☐ 2 portrety w 2 kolumnach (MB + AB) — gold gradient placeholdery
+    ☐ Stats na ciemnym tle (2018 / 21 / 9.6 / 9 lat)
+    ☐ CTA na końcu (Zobacz apartamenty + Powierz nam apartament)
+• Mobile: wszystko w jednej kolumnie (responsive)
+
+
+KROK 8 — ZASTĄPIENIE PLACEHOLDERÓW PRAWDZIWYMI ZDJĘCIAMI
+─────────────────────────────────────────────────────────
+W HTML są 2 placeholdery do podmiany (po dostarczeniu zdjęć):
+
+1. ZDJĘCIE NAGŁÓWKOWE (sekcja "Jak to się zaczęło"):
+   Znajdź w body_top:
+   <div class="fr-about__placeholder fr-about__placeholder--team"
+        aria-hidden="true">
+     <span class="fr-about__placeholder-initials">AB</span>
+     <span class="fr-about__placeholder-label">Agnieszka Barańska</span>
+   </div>
+
+   Zastąp tagiem <img>:
+   <img src="https://client58360.idobooking.com/userdata/public/about/agnieszka-large.jpg"
+        alt="Agnieszka Barańska — założycielka Fair Rentals">
+
+   Może to być zdjęcie portretowe lub kontekstowe (Agnieszka przy
+   apartamencie, w pracy, na tle Wrocławia). Format 4:3 horyzontalny.
+
+2. PORTRET AGNIESZKI (sekcja "Założycielka"):
+   Znajdź:
+   <div class="fr-about__placeholder fr-about__placeholder--portrait"
+        aria-hidden="true">
+     <span class="fr-about__placeholder-initials">AB</span>
+   </div>
+
+   Zastąp:
+   <img src="https://client58360.idobooking.com/userdata/public/about/agnieszka.jpg"
+        alt="Agnieszka Barańska — założycielka Fair Rentals">
+
+   Format 3:4 (pionowy). Tradycyjny portret biznesowy.
+
+Zalecane wymiary zdjęć:
+   - Zdjęcie nagłówkowe: 1200×900 px, format 4:3
+   - Portret: 900×1200 px, format 3:4 (pionowo)
+   - Format: JPG, jakość 85%, waga <300KB
+   - Tonacja: ciepła, neutralne tło lub apartament Fair Rentals
+
+
+KROK 9 — ADRES E-MAIL
+─────────────────────────────────────────────────────────
+HTML używa wspólnego adresu:
+   biuro@fairrentals.pl
+
+(Jest to świadoma decyzja — 1 osoba = 1 punkt kontaktowy.
+Jeśli Agnieszka chce dedykowanego adresu typu agnieszka@fairrentals.pl,
+zamień w 3 plikach O_NAS_PL/EN/DE__body_top.html w sekcji
+"fr-about__member-contact".)
+
+
+═══════════════════════════════════════════════════════════════════════
+GOTOWE — Sekcja "O nas" działa na 3 językach z linkiem w menu.
+═══════════════════════════════════════════════════════════════════════

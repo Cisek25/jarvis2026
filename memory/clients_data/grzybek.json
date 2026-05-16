@@ -1,0 +1,207 @@
+{
+  "clientId": "grzybek",
+  "brand": "GeoStay (Batumi, Gruzja)",
+  "panel": "https://client57156.idosell.com/panel/",
+  "site": "https://geostay.ge/",
+  "prefix": "gs-",
+  "note": "Nazwa folderu JARVIS to 'grzybek' ale to w rzeczywistości GeoStay (apartamenty Batumi). Zmienić folder w przyszłości.",
+  "languages": ["PL", "RU", "EN"],
+  "colors": {
+    "primary": "terracotta",
+    "var_css": "--gs-terracotta"
+  },
+  "featured_offers_pattern": "Pattern B — fetch /offers (nie .container-hotspot). Script w 00_STRONA_GLOWNA.html parsuje system offers page i renderuje custom cards.",
+  "history": [
+    {
+      "date": "2026-04-21",
+      "action": "v1.1 — Fix zdjęcia 404 + EN version + lesson captured",
+      "trigger": "User: 'przygotuj tez ta strone po angielsku i powiedz czmeu przestały działać zdjęcia'",
+      "root_cause_images_404": {
+        "1_hardcoded_stale_urls": "CMS miał hardcoded <img src='/images/objects/pictures/large/0/1/29.jpg'> dla offer 10 i '/large/1/1/38.jpg' dla offer 11. Offers 10+11 już NIE istnieją (zastąpione offer 16). URLe → HTTP 404.",
+        "2_js_auto_sync_not_parsing_lazy": "JS auto-sync fetch'ował /pl/offers ALE parsował tylko img.getAttribute('src'). System IdoBooking lazy-loaduje obrazy — prawdziwy URL w data-src. src był null → skrypt nie renderował → hardcoded fallback zostawał → user widział 404."
+      },
+      "fixes": [
+        "00_STRONA_GLOWNA.html — usunięto hardcoded fallback cards, grid pusty + data-offers-loaded='pending'",
+        "00_STRONA_GLOWNA.html — JS parseOffers() teraz czyta data-src || src || img.src (fallback chain)",
+        "00_STRONA_GLOWNA.html — JS renderOffers() hide section gdy 0 offers (zamiast fallback)",
+        "00_STRONA_GLOWNA.html — catch handler hide section gdy fetch failed",
+        "00_STRONA_GLOWNA.html — about-img zaktualizowany z /29.jpg (404) na /173.jpg (offer 16 active)",
+        "00_STRONA_GLOWNA_EN.html — nowy plik, symetryczna struktura z PL, teksty przetłumaczone, JS fetch /en/offers, nawigacja z /en/ prefixami"
+      ],
+      "memory_artifacts": [
+        "memory/instincts/000-MASTER-PLAYBOOK-idobooking-default13.md — konsolidacja wszystkich lekcji z AP (005-024) jako master reference",
+        "memory/instincts/025-featured-fetch-lazy-src-handling.md — data-src lazy loading handling + zero hardcoded"
+      ],
+      "files_modified": [
+        "clients/grzybek/DO_WKLEJENIA/00_STRONA_GLOWNA.html (v1.1 — JS fix + hardcoded removed)",
+        "clients/grzybek/DO_WKLEJENIA/00_STRONA_GLOWNA_EN.html (NEW — pełna wersja EN)"
+      ],
+      "verification_needed": "Po wklejeniu: (a) /pl — sekcja Nasze apartamenty pokazuje aktualne offers z działającymi zdjęciami; (b) /en — nowa podstrona z identyczną strukturą, teksty EN, linki /en/offer/X; (c) DevTools: document.getElementById('gs-apt-grid').getAttribute('data-offers-loaded') = '3' lub 'empty' (nigdy 'pending' po 3s); (d) console: obrazy z /en/offers i /pl/offers renderują się poprawnie, network tab shows 200 dla każdego /images/objects/pictures/large/X/Y/ID.jpg"
+    },
+    {
+      "date": "2026-04-22",
+      "action": "v1.2 CRITICAL FIX — Pattern A (container-hotspot) zamiast Pattern B (fetch /offers)",
+      "trigger": "User: 'to u geostay nie dzialaja w ogole wyroznione oferty? to to przygotruj i popraw od nowa te wyroznione, jarvis MUSI WIEDZIEC JAK SIE TO ROBI'",
+      "root_cause_discovered": "GeoStay MA systemowy .container-hotspot z prawdziwymi wyróżnionymi (3 oferty) — widoczny na stronie obok naszych custom cards. V1.1 używał Pattern B (fetch /pl/offers) który pobierał WSZYSTKIE oferty (7 sztuk) zamiast tylko wyróżnionych z hotspot. Plus user widział 2 sekcje apartamentów (systemowa + custom).",
+      "fix_v1_2": {
+        "strategy_change": "Pattern B (fetch /offers) → Pattern A (parse .container-hotspot)",
+        "00_STRONA_GLOWNA.html": "Przepisany script od zera: parseSystemOffer() — parsuje a.object-icon, h3 a, .offer__description, .accommodation-meters, .accommodation-roomspace, .offer__price .price. Obsługuje data-src lazy. renderCards() jak dawniej — zero hardcoded, hide section przy 0. buildFromHotspot() z retry [0, 400, 1200, 2500] + final guard 4s. Wykrywa currency ($, €, zł, ₾).",
+        "00_STRONA_GLOWNA_EN.html": "Symetryczna implementacja po angielsku (guest/guests labels zamiast osoba/osoby)",
+        "gs_ARKUSZ_STYLOW.css": "Dodany PATCH 2026-04-22 — `.container-hotspot { display: none }` + fade-in grid states + feature icon styling"
+      },
+      "memory_artifacts": [
+        "memory/instincts/026-MASTER-featured-offers-implementation.md — DEFINITYWNY master instinct dla wszystkich klientów. Pattern A preferred. Decision tree. Pełny kod do copy-paste. 6 common bugs. Checklist."
+      ],
+      "verification_on_live": "chrome-devtools eval: .container-hotspot ma 3 offers (hotspot slick slides widoczne). Parsowanie pokazuje: Batumi View Apartments (/offer/10), href OK, img data-src /large/0/1/94.jpg, 40m², 3 osoby, 66.99$. Struktura tej samej jakości co MADERA/NAJMAR/AP.",
+      "not_yet_deployed": true,
+      "what_user_must_do": "Wklej ponownie 3 pliki: gs_ARKUSZ_STYLOW.css, 00_STRONA_GLOWNA.html (PL), 00_STRONA_GLOWNA_EN.html (EN). Hard reload (Ctrl+Shift+R). Sprawdź: systemowy 'Wyróżnione Oferty' hotspot znika, nasza sekcja 'Wybierz swoje miejsce w Batumi' pokazuje 3 wyróżnione z działającymi zdjęciami z /images/objects/pictures/large/6/1/173.jpg etc."
+    },
+    {
+      "date": "2026-04-22",
+      "action": "v1.3 CRITICAL DISCOVERY — IdoSell CMS wycina inline <script> z Treści",
+      "trigger": "User: 'https://geostay.ge/pl nie widac apartamentow, cos ja zle zrobile?'. Po v1.2 wklejeniu user widział pustą sekcję 'Wybierz swoje miejsce w Batumi'.",
+      "live_diagnosis": {
+        "hotspot_exists": true,
+        "hotspot_display": "none (CSS hide działa)",
+        "hotspot_offers": 3,
+        "grid_loaded": "pending (stuck)",
+        "grid_cards": 0,
+        "has_pattern_A_script_in_dom": false,
+        "has_pattern_B_script_in_dom": false,
+        "has_debug_logger": false,
+        "conclusion": "User wkleił HTML + CSS poprawnie, ALE inline <script> TAGS ZOSTAŁY WYCIĘTE przez IdoSell CMS podczas save w polu 'Treść' (dla bezpieczeństwa)."
+      },
+      "verification_injection": "Wstrzyknąłem script przez DevTools → 3 karty wyrenderowane, loaded='3', wszystkie image URLs HTTP 200 ✓. Kod działa, problem był w deployment mechanism.",
+      "fix_v1_3": {
+        "split_files": "JS wydzielony z body_top do osobnych plików dedicated for 'Koniec BODY' field",
+        "created": [
+          "00_STRONA_GLOWNA_JS.html — script PL (do Koniec BODY pl)",
+          "00_STRONA_GLOWNA_JS_EN.html — script EN (do Koniec BODY en)"
+        ],
+        "cleaned": [
+          "00_STRONA_GLOWNA.html — usunięto <script> block (linie 30-241). Pozostał tylko markup + komentarz gdzie wkleić JS",
+          "00_STRONA_GLOWNA_EN.html — symetrycznie"
+        ],
+        "enhanced_js": "Dodany [GS-FEATURED] console logger + fallback selectors (.cmshotspot, [class*='hotspot'], .offerslist > *) dla robustness. Retry extended do [0, 400, 1200, 2500, 3500] + final guard 5s."
+      },
+      "memory_artifacts": [
+        "memory/instincts/026-MASTER-featured-offers-implementation.md — dodana sekcja KRYTYCZNE: 2 OSOBNE PLIKI + panel paths",
+        "CLAUDE.md trap #34 — IdoSell wycina inline scripts z Treści"
+      ],
+      "what_user_must_do_v1_3": [
+        "1. Panel IdoSell → Strona główna PL → Edytor treści (TRYB HTML) → wyczyść i wklej 00_STRONA_GLOWNA.html (bez script)",
+        "2. Panel → Ustawienia → Kody śledzące → Koniec BODY (pl) → wklej zawartość 00_STRONA_GLOWNA_JS.html",
+        "3. Symetrycznie dla EN: Strona główna EN → 00_STRONA_GLOWNA_EN.html, Koniec BODY (en) → 00_STRONA_GLOWNA_JS_EN.html",
+        "4. Arkusz stylów → nadpisz gs_ARKUSZ_STYLOW.css (jeśli nie wklejony)",
+        "5. Hard reload (Ctrl+Shift+R) → DevTools Console: szukaj [GS-FEATURED] logów. Expected: 'nodes found: 3', 'parsed: 3', 'cards rendered'",
+        "6. getBoundingClientRect check: document.getElementById('gs-apt-grid').getAttribute('data-offers-loaded') → '3'"
+      ]
+    }
+  ],
+  "lessons_applied_from_AP_session": [
+    "instinct 015 — zero hardcoded fallback, section hide gdy 0 offers",
+    "instinct 011 — data-no-lightbox dla about-img (decorative, nie zoomable)",
+    "master playbook — wszystkie zasady IdoBooking default13"
+  ],
+  "history_continued": [
+    {
+      "date": "2026-04-23",
+      "action": "v1.4 — Clean HTML + unified JS (1 plik zamiast 3) + emoji → SVG",
+      "trigger": "User: 'popraw u grzybka dla geostay te html głównej strony. I czy poprawiłeś wersję rosyjską. Czy musisz robić JS inny dla języka rosyjskiego — 1 plik od teraz rób, już tu zostaw 3, zapisz żeby robić 1.'",
+      "changes": {
+        "00_STRONA_GLOWNA.html": "Usunięto JARVIS headers, encji &#127968; &#128172; zastąpione SVG line icons (location pin, speech bubble)",
+        "00_STRONA_GLOWNA_EN.html": "Ten sam cleanup co PL",
+        "00_STRONA_GLOWNA_RU.html": "Dodatkowo: usunięto hardcoded fallback cards, usunięto inline <script> z body_top (trap #34)",
+        "00_STRONA_GLOWNA_JS.html": "UJEDNOLICONY — 1 plik JS z auto-detekcją LANG (var lang = document.documentElement.lang || location.pathname.split('/')[1]). Wszystkie SVG w stringu escapowane jako <\\/svg> żeby HTML parser nie gubił. Zastąpił 3 osobne pliki per język.",
+        "deleted": ["00_STRONA_GLOWNA_JS_EN.html", "00_STRONA_GLOWNA_JS_RU.html — zastąpione przez shared JS"]
+      },
+      "memory_artifacts": [
+        "memory/instincts/027-no-emoji-no-comments-in-client-code.md — WAF block diagnoza + zasada clean delivery",
+        "memory/instincts/028-one-shared-js-file-per-page-all-languages.md — ujednolicenie multi-lang skryptów"
+      ],
+      "deployment_instruction": "Panel → Kody śledzące → Koniec BODY (pl + en + ru) — wklej TO SAMO 00_STRONA_GLOWNA_JS.html w każdym języku. Skrypt sam wykryje LANG z URL-a i wyświetli poprawne etykiety (osoby/guests/гости itd.)."
+    },
+    {
+      "date": "2026-05-08",
+      "action": "v1.5 — Pełny audyt JARVIS (Opcja B): brakujące EN, telefon +995, scrape galerii z /offers, WhatsApp FAB, audyt klikalności",
+      "trigger": "User: pełny audyt JARVIS strony, klient zgłosił 5 problemów (currency switcher, mobile labels, brak tłumaczeń, popup, menu) + galeria nie działa, dodaj WhatsApp FAB",
+      "scope": [
+        "Brakujące pliki EN: 4 podstrony + 1 JS",
+        "Telefon +48 → +995 597934445 (z systemowej lokalizacji panel)",
+        "Galeria z 11 placeholderów → 114 prawdziwych zdjęć z 8 apartamentów (auto-scrape z /offers)",
+        "Atrakcje + Wycieczki: 7/10 broken Wikimedia thumb URLs → URL klienta /images/frontpageGallery/2/0/X.jpg (10 zdjęć, weryfikowane HEAD 200)",
+        "WhatsApp FAB pływający w prawym dolnym rogu z JS-teleport-to-body (CSS transform na footer-contact-add łamał position:fixed)",
+        "META titles + slugi PL/EN/RU dla 5 podstron (200, 201, 202, 203, 204)",
+        "Slug 204 'Poznaj Batumi' → DO USUNIĘCIA (decyzja klienta)",
+        "Linki /en/ → / (system mapuje EN jako /), iframe maps !2spl! → !2sge!",
+        "Sekcja Social Media na homepage usunięta (FB/IG miały href='#' martwe)"
+      ],
+      "files_modified": [
+        "00_STRONA_GLOWNA.html, _EN, _RU — telefon +995 + tel: link + WhatsApp FAB + JS teleport, EN naprawione linki, Social Media usunięte",
+        "01_GALERIA.html, _EN, _RU — REGENERATED z 8 apartamentów × 9-17 zdjęć = 114 total, 9 tabów filtrów + lightbox",
+        "01_GALERIA_JS_EN.html — NEW",
+        "02_ATRAKCJE.html, _EN, _RU — 8 zdjęć z URL klienta + WhatsApp FAB",
+        "02_ATRAKCJE_EN.html — NEW",
+        "03_DLA_WLASCICIELI.html, _RU — telefon +995 w CTA + WhatsApp FAB",
+        "03_DLA_WLASCICIELI_EN.html — NEW",
+        "04_WYCIECZKI.html, _EN, _RU — 3 zdjęcia z URL klienta + WhatsApp FAB",
+        "04_WYCIECZKI_EN.html, _JS_EN.html — NEW",
+        "gs_ARKUSZ_STYLOW.css — sekcja PATCH 2026-05-08 — WhatsApp FAB (pulse animation, mobile bp)",
+        "WHATSAPP_FAB.html — NEW standalone snippet"
+      ],
+      "image_mapping_atrakcje": {
+        "Bulwar nadmorski": "/images/frontpageGallery/pictures/large/2/0/7.jpg",
+        "Plaża miejska": "/images/frontpageGallery/pictures/large/2/0/12.jpg",
+        "Stare Miasto": "/images/frontpageGallery/pictures/large/2/0/6.jpg",
+        "Ogród Botaniczny": "/images/frontpageGallery/pictures/large/2/0/11.jpg (panorama Z ogrodu — best available)",
+        "Twierdza Gonio": "/images/frontpageGallery/pictures/large/2/0/9.jpg",
+        "Ali i Nino": "/images/frontpageGallery/pictures/large/2/0/4.jpg",
+        "Wodospad Machuntseti": "/images/frontpageGallery/pictures/large/2/0/10.jpg",
+        "Goderdzi Pass": "/images/frontpageGallery/pictures/large/2/0/8.jpg"
+      },
+      "gallery_mapping": {
+        "16 Batumi-View-nad-samym-morzem": "/images/objects/pictures/large/6/1/ × 9",
+        "10 Batumi-View-Apartments": "/images/objects/pictures/large/0/1/ × 14",
+        "11 Sunrise": "/images/objects/pictures/large/1/1/ × 16",
+        "12 White-Sails": "/images/objects/pictures/large/2/1/ × 16",
+        "13 SOLIS-Residence": "/images/objects/pictures/large/3/1/ × 17",
+        "18 Infinity-Sea-Corner": "/images/objects/pictures/large/8/1/ × 13",
+        "19 BV-Promenada": "/images/objects/pictures/large/9/1/ × 14",
+        "21 La-Quinta-Wyndham": "/images/objects/pictures/large/1/2/ × 15"
+      },
+      "panel_slugs_real": {
+        "200": "Wycieczki / Tours / Экскурсии",
+        "201": "Galeria / Gallery / Галерея",
+        "202": "Atrakcje / Attractions / Достопримечательности",
+        "203": "Oferta-dla-wlascicieli-apartamentow / Apartment-owners / Vladelcam-apartamentov",
+        "204": "Poznaj-Batumi → DO USUNIĘCIA"
+      },
+      "memory_artifacts": [
+        "memory/instincts/050-MASTER-whatsapp-fab-with-teleport-js.md — wzorzec FAB + JS teleport żeby ominąć transform na ancestor",
+        "memory/instincts/051-MASTER-auto-scrape-gallery-from-offers.md — wzorzec auto-generowania galerii z systemowych /offers",
+        "memory/lessons/wikimedia-thumb-urls-broken-original-works.md — Wikimedia /thumb/ wraca 400, oryginał (bez /thumb/) działa 200",
+        "memory/lessons/idobooking-footer-transform-breaks-fixed.md — stopka IdoBooking ma transform/filter na rodzicu, łamie position:fixed"
+      ],
+      "live_audit_2026-05-08": {
+        "homepage_pl": "✅ +995, działa, mobile OK",
+        "wycieczki_pl": "✅ tytuł META poprawiony przez klienta",
+        "galeria_pl": "✅ 114 zdjęć w 9 tabach DZIAŁA",
+        "atrakcje_pl": "⏳ klient nie wkleił jeszcze nowego pliku — wciąż stare URLs Wikimedia (broken)",
+        "dla_wlascicieli_pl": "✅ literówka 'ferta'→'Oferta' poprawiona przez klienta, +995 OK",
+        "contact_pl": "⚠️ tytuł META 'GeoStay LLC' (systemowy fallback), 9 pustych 'Zobacz ofertę' w stopce systemowej (bug IdoBooking)",
+        "offers_pl": "✅ 8 ofert, 0 broken images",
+        "whatsapp_fab": "❌ klient wkleił HTML do stopki ALE bez JS teleport — wisi w stopce zamiast pływać. Nowy snippet z JS teleport wgenerowany, czeka na ponowne wklejenie",
+        "ru_pages": "❌ slug 200 = 404 (klient nie utworzył), 202 pusty (klient nie wkleił), 201/203 META po polsku",
+        "en_pages": "❌ tylko homepage + 204 (puste), brak 200/201/202/203 EN"
+      },
+      "deployment_summary_for_user": {
+        "css": "gs_ARKUSZ_STYLOW.css — wklej całość (z sekcją WhatsApp na końcu)",
+        "body_top_pl": "5 plików PL: 00, 01, 02, 03, 04 — wklej do każdej podstrony PL",
+        "body_top_en": "5 plików EN: utwórz najpierw zakładkę EN dla podstron 200-203 w panelu, potem wklej",
+        "body_top_ru": "5 plików RU: 00 + 01 + 03 wklej (PL już ma), utwórz 200 RU (404), wklej 02 RU (pusta)",
+        "body_bottom_js": "00_STRONA_GLOWNA_JS.html (1 unified) + 01_GALERIA_JS.html (× 3 lang)",
+        "panel_meta": "Z META_TYTULY_PL_EN_RU.md — Tytuł w menu / Nagłówek strony / Tytuł META / Opis META dla każdej podstrony × język"
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "client": "stayoldtown",
+  "idobooking_id": "client56944",
+  "url": "https://client56944.idobooking.com",
+  "name": "Stay Old Town",
+  "location": "Warszawa, Stare Miasto",
+  "prefix": "sot",
+  "colors": {
+    "primary": "#106166",
+    "secondary": "#ff7218",
+    "accent": "#106166",
+    "bg": "#ffffff",
+    "dark": "#282828",
+    "light": "#f5f5f5"
+  },
+  "fonts": {
+    "heading": "Unna",
+    "body": "Arial, Noto Sans"
+  },
+  "gallery_path": "/images/frontpageGallery/pictures/large/0/0/",
+  "gallery_ids": [],
+  "subpages": {
+    "/txt/201/": "O Nas (PL)",
+    "/en/txt/201/": "About Us (EN)"
+  },
+  "known_traps": [],
+  "history": [
+    {
+      "date": "2026-04-16",
+      "action": "Nowa strona O Nas (PL + EN) — body_top only, inline CSS",
+      "files": "ONAS_PL__body_top.html, ONAS_EN__body_top.html"
+    }
+  ],
+  "status": "do_wklejenia",
+  "last_updated": "2026-04-16"
+}

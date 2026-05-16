@@ -1,0 +1,80 @@
+{
+  "$schema": "Skeleton manifest dla blog modulu. Hostuj jako:",
+  "$location_hint": "https://<klient>.idobooking.com/customStyles/default13/custom2/blog-manifest.json",
+  "$update_via": "Wgranie nowej wersji do panelu IdoBooking jako custom static file lub link do hostowanego pliku.",
+
+  "brand": "Fair Rentals",
+  "brandLogo": "https://client58360.idobooking.com/images/owner/wideLogo.svg",
+  "defaultAuthor": "Agnieszka Baranska",
+
+  "labels": {
+    "all_filter": "Wszystkie",
+    "empty": "Brak wpisow w tej kategorii."
+  },
+
+  "categories": {
+    "dla-gosci": "Dla Gosci",
+    "dla-wlascicieli": "Dla Wlascicieli",
+    "dla-firm": "Dla Firm"
+  },
+
+  "posts": [
+    {
+      "slug": "10-atrakcji-wroclawia",
+      "lang": "pl",
+      "title": "10 atrakcji Wroclawia, ktore musisz zobaczyc",
+      "excerpt": "Subiektywny przewodnik po Wroclawiu z perspektywy gospodarza apartamentow. Co warto zobaczyc, kiedy najlepiej i jak dotrzec.",
+      "category": "dla-gosci",
+      "publishedAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "author": "Agnieszka Baranska",
+      "featuredImage": "https://client58360.idobooking.com/images/frontpageGallery/pictures/large/0/0/4.jpg",
+      "readTime": "5 min",
+      "url": "/pl/txt/301/10-atrakcji-wroclawia",
+      "published": true
+    },
+    {
+      "slug": "ile-zarabia-wlasciciel-apartamentu",
+      "lang": "pl",
+      "title": "Ile zarabia wlasciciel apartamentu na wynajmie krotkoterminowym we Wroclawiu?",
+      "excerpt": "Realne liczby z portfolio 21 apartamentow Fair Rentals. ROI, sezonowosc, koszty, ryzyka. Konkretne case study.",
+      "category": "dla-wlascicieli",
+      "publishedAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "author": "Agnieszka Baranska",
+      "featuredImage": "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1600&q=80",
+      "readTime": "7 min",
+      "url": "/pl/txt/302/ile-zarabia-wlasciciel-apartamentu",
+      "published": true
+    },
+    {
+      "slug": "najem-korporacyjny-wroclaw-koszty",
+      "lang": "pl",
+      "title": "Najem korporacyjny we Wroclawiu — czy sie oplaca?",
+      "excerpt": "Apartament vs hotel dla pracownika oddelegowanego: porownanie kosztow, wygody, rozliczenia podatkowego. Kalkulacja na 30 dni.",
+      "category": "dla-firm",
+      "publishedAt": "2026-05-25",
+      "updatedAt": "2026-05-25",
+      "author": "Agnieszka Baranska",
+      "featuredImage": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+      "readTime": "6 min",
+      "url": "/pl/txt/303/najem-korporacyjny-wroclaw-koszty",
+      "published": true
+    },
+
+    {
+      "$comment_en": "EN versions (same posts, language=en, different URLs)",
+      "slug": "10-attractions-wroclaw",
+      "lang": "en",
+      "title": "10 must-see attractions in Wroclaw",
+      "excerpt": "A host's subjective guide to Wroclaw. What's worth seeing, when's best, and how to get there.",
+      "category": "dla-gosci",
+      "publishedAt": "2026-05-20",
+      "author": "Agnieszka Baranska",
+      "featuredImage": "https://client58360.idobooking.com/images/frontpageGallery/pictures/large/0/0/4.jpg",
+      "readTime": "5 min",
+      "url": "/en/txt/301/10-attractions-wroclaw",
+      "published": true
+    }
+  ]
+}

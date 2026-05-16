@@ -16,19 +16,19 @@ POLSKI
 Nazwa: Apartamenty na wynajem we Wrocławiu
 Podpis pod nazwą: Rodzinny operator najmu krótkoterminowego
 META Tytuł: Apartamenty Wrocław na wynajem | Fair Rentals
-META Opis: Rodzinna firma, 19 apartamentów we Wrocławiu. Booking 9.8, Google 4.7. Sprawdź dostępność i zarezerwuj online — potwierdzenie natychmiast.
+META Opis: Rodzinna firma, 21 apartamentów we Wrocławiu. Booking 9.6, Google 4.7. Sprawdź dostępność i zarezerwuj online — potwierdzenie natychmiast.
 
 ANGIELSKI
 Nazwa: Apartments for rent in Wrocław
 Podpis pod nazwą: Family-run short-term rental operator
 META Tytuł: Apartments for rent in Wrocław | Fair Rentals
-META Opis: Family-run, 19 apartments in Wrocław. Booking 9.8, Google 4.7. Check availability and book online — instant confirmation.
+META Opis: Family-run, 21 apartments in Wrocław. Booking 9.6, Google 4.7. Check availability and book online — instant confirmation.
 
 NIEMIECKI
 Nazwa: Apartments zur Miete in Breslau
 Podpis pod nazwą: Familiengeführter Kurzzeit-Vermietungsbetreiber
 META Tytuł: Apartments in Breslau mieten | Fair Rentals
-META Opis: amilienunternehmen, 19 Apartments in Breslau. Booking 9.8, Google 4.7. Verfügbarkeit prüfen und online buchen — sofortige BestätigunFg.
+META Opis: Familienunternehmen, 21 Apartments in Breslau. Booking 9.6, Google 4.7. Verfügbarkeit prüfen und online buchen — sofortige Bestätigung.
 
 ---
 
@@ -36,21 +36,21 @@ META Opis: amilienunternehmen, 19 Apartments in Breslau. Booking 9.8, Google 4.7
 
 POLSKI
 Nazwa: Apartamenty Wrocław — pełna oferta
-Podpis pod nazwą: 19 starannie urządzonych mieszkań w 4 dzielnicach
+Podpis pod nazwą: 21 starannie urządzonych mieszkań w 4 dzielnicach
 META Tytuł: Apartamenty Wrocław — pełna oferta | Fair Rentals
-META Opis: Pełna lista 19 apartamentów Fair Rentals we Wrocławiu. Filtry dat, liczby gości, dzielnicy. Bezpieczna rezerwacja online z natychmiastowym potwierdzeniem.
+META Opis: Pełna lista 21 apartamentów Fair Rentals we Wrocławiu. Filtry dat, liczby gości, dzielnicy. Bezpieczna rezerwacja online z natychmiastowym potwierdzeniem.
 
 ANGIELSKI
 Nazwa: Wrocław apartments — full lineup
-Podpis pod nazwą: 19 thoughtfully furnished homes across 4 districts
+Podpis pod nazwą: 21 thoughtfully furnished homes across 4 districts
 META Tytuł: Wrocław apartments — full lineup | Fair Rentals
-META Opis: Full list of 19 Fair Rentals apartments in Wrocław. Filter by date, guests and district. Secure online booking with instant confirmation.
+META Opis: Full list of 21 Fair Rentals apartments in Wrocław. Filter by date, guests and district. Secure online booking with instant confirmation.
 
 NIEMIECKI
 Nazwa: Apartments Breslau — komplettes Angebot
-Podpis pod nazwą: 19 sorgfältig eingerichtete Wohnungen in 4 Stadtteilen
+Podpis pod nazwą: 21 sorgfältig eingerichtete Wohnungen in 4 Stadtteilen
 META Tytuł: Apartments Breslau — komplettes Angebot | Fair Rentals
-META Opis: Komplette Liste der 19 Fair Rentals Apartments in Breslau. Filter nach Datum, Gästezahl und Stadtteil. Sichere Online-Buchung mit sofortiger Bestätigung.
+META Opis: Komplette Liste der 21 Fair Rentals Apartments in Breslau. Filter nach Datum, Gästezahl und Stadtteil. Sichere Online-Buchung mit sofortiger Bestätigung.
 
 ---
 
@@ -120,6 +120,28 @@ META Opis: Marktplatz, Dominsel, Jahrhunderthalle, Oder-Promenaden, Szczytnicki-
 
 ---
 
+## O NAS (/txt/204/o-nas) — Sprint C v1.32
+
+POLSKI
+Nazwa: O nas — Agnieszka Barańska
+Podpis pod nazwą: Rodzinna firma z Wrocławia, 21 apartamentów, 9 lat doświadczenia
+META Tytuł: O nas — Fair Rentals | Rodzinna firma we Wrocławiu
+META Opis: Agnieszka Barańska — założycielka Fair Rentals. 21 apartamentów we Wrocławiu, dziewięć lat doświadczenia, Booking 9.6. Poznaj historię firmy.
+
+ANGIELSKI
+Nazwa: About us — Agnieszka Barańska
+Podpis pod nazwą: Family business from Wrocław, 21 apartments, 9 years of experience
+META Tytuł: About us — Fair Rentals | Family business in Wrocław
+META Opis: Agnieszka Barańska — founder of Fair Rentals. 21 apartments in Wrocław, nine years of experience, Booking 9.6. Meet the person behind the brand.
+
+NIEMIECKI
+Nazwa: Über uns — Agnieszka Barańska
+Podpis pod nazwą: Familienunternehmen aus Breslau, 21 Apartments, 9 Jahre Erfahrung
+META Tytuł: Über uns — Fair Rentals | Familienunternehmen in Breslau
+META Opis: Agnieszka Barańska — Gründerin von Fair Rentals. 21 Apartments in Breslau, neun Jahre Erfahrung, Booking 9.6. Lernen Sie die Person hinter der Marke kennen.
+
+---
+
 ## BLOG (/news)
 
 POLSKI
@@ -174,6 +196,7 @@ POLSKI
 - Obsługa najmu → Obsługa najmu
 - Dla biznesu → Dla Biznesu
 - Atrakcje Wrocławia → Atrakcje Wrocławia
+- O nas → O nas
 - Blog → Blog
 - Kontakt → Kontakt
 
@@ -183,6 +206,7 @@ ANGIELSKI
 - Obsługa najmu → Rental management
 - Dla biznesu → For Business
 - Atrakcje Wrocławia → Wrocław attractions
+- O nas → About us
 - Blog → Blog
 - Kontakt → Contact
 
@@ -192,5 +216,122 @@ NIEMIECKI
 - Obsługa najmu → Mietverwaltung
 - Dla biznesu → Für Unternehmen
 - Atrakcje Wrocławia → Sehenswürdigkeiten
+- O nas → Über uns
 - Blog → Blog
 - Kontakt → Kontakt
+
+---
+
+## KOLEJNOŚĆ POZYCJI W MENU (rekomendacja)
+
+Naturalny user flow: discovery → conversion → trust → support.
+
+```
+1. Strona główna       (home)
+2. Apartamenty         (offer browse)
+3. Atrakcje Wrocławia  (decision support)
+4. Obsługa najmu       (B2B path 1)
+5. Dla biznesu         (B2B path 2)
+6. O nas               (trust building)
+7. Blog                (long-form content)
+8. Kontakt             (always last)
+```
+
+**Uwaga**: "O nas" powinien być **przed Kontaktem** — gość który chce się skontaktować często najpierw chce wiedzieć **kto** za firmą stoi.
+
+---
+
+# SKRÓCONE NAZWY MENU (max ~13 znaków per pozycja)
+
+**WAŻNE**: To są **etykiety w nawigacji**, NIE H1/title strony. Pełne nazwy (np. "O nas — Agnieszka Barańska") wpisuj w pole **"Nazwa"** (H1). Krótka etykieta menu idzie do pola **"Krótka nazwa"** / **"Etykieta menu"** w panelu IdoBooking.
+
+**Cel**: 8 pozycji menu musi zmieścić się w jednym wierszu na desktopie ≥1100 px. Aktualne nazwy ("Atrakcje Wrocławia", "Najem korporacyjny") są za długie — system Idosell automatycznie tworzy overflow "..." dropdown.
+
+## Wersja PODSTAWOWA (zalecana)
+
+POLSKI (8 pozycji, max 13 znaków):
+| # | Pełna nazwa (H1) | Krótka nazwa MENU |
+|---|---|---|
+| 1 | Apartamenty na wynajem we Wrocławiu | **Strona główna** |
+| 2 | Apartamenty Wrocław — pełna oferta | **Apartamenty** |
+| 3 | Atrakcje Wrocławia — co warto zobaczyć | **Atrakcje** |
+| 4 | Obsługa najmu krótkoterminowego | **Obsługa najmu** |
+| 5 | Najem korporacyjny we Wrocławiu | **Dla biznesu** |
+| 6 | O nas — Agnieszka Barańska | **O nas** |
+| 7 | Blog Fair Rentals | **Blog** |
+| 8 | Skontaktuj się z Fair Rentals | **Kontakt** |
+
+ANGIELSKI (8 pozycji):
+| # | Pełna nazwa (H1) | Krótka nazwa MENU |
+|---|---|---|
+| 1 | Apartments for rent in Wrocław | **Home** |
+| 2 | Wrocław apartments — full lineup | **Apartments** |
+| 3 | Wrocław attractions — what to see | **Attractions** |
+| 4 | Short-term rental management | **Management** |
+| 5 | Corporate housing in Wrocław | **Business** |
+| 6 | About us — Agnieszka Barańska | **About us** |
+| 7 | Fair Rentals blog | **Blog** |
+| 8 | Contact Fair Rentals | **Contact** |
+
+NIEMIECKI (8 pozycji):
+| # | Pełna nazwa (H1) | Krótka nazwa MENU |
+|---|---|---|
+| 1 | Apartments zur Miete in Breslau | **Startseite** |
+| 2 | Apartments Breslau — komplettes Angebot | **Apartments** |
+| 3 | Sehenswürdigkeiten Breslau | **Highlights** |
+| 4 | Kurzzeit-Mietverwaltung | **Vermietung** |
+| 5 | Firmenapartments in Breslau | **Business** |
+| 6 | Über uns — Agnieszka Barańska | **Über uns** |
+| 7 | Fair Rentals Blog | **Blog** |
+| 8 | Kontakt zu Fair Rentals | **Kontakt** |
+
+
+## Wersja JESZCZE KRÓTSZA (fallback gdy 8 pozycji wciąż nie mieści się)
+
+Jeśli po wgraniu skróconych nazw menu wciąż pokazuje "..." na średnich monitorach (1024-1199 px), użyj tej wersji:
+
+POLSKI:
+- Strona główna → **Start**
+- Apartamenty → **Oferta**
+- Atrakcje → **Atrakcje**
+- Obsługa najmu → **Dla właścicieli** *(lub: **Najem**)*
+- Dla biznesu → **Biznes**
+- O nas → **O nas**
+- Blog → **Blog**
+- Kontakt → **Kontakt**
+
+ANGIELSKI:
+- Home → **Home**
+- Apartments → **Stays**
+- Attractions → **Wrocław**
+- Management → **Owners**
+- Business → **B2B**
+- About us → **About**
+- Blog → **Blog**
+- Contact → **Contact**
+
+NIEMIECKI:
+- Startseite → **Start**
+- Apartments → **Wohnen**
+- Highlights → **Stadt**
+- Vermietung → **Eigentümer**
+- Business → **Firmen**
+- Über uns → **Team**
+- Blog → **Blog**
+- Kontakt → **Kontakt**
+
+
+## ROZWIĄZANIE TECHNICZNE — bez skracania nazw
+
+Alternatywnie, **§103 w CSS v1.32** wymusza zmniejszony rozmiar menu na średnich viewportach (font 13 px zamiast 14 px, padding 10×14 zamiast 12×24) — to powinno zmieścić wszystkie 8 pozycji bez konieczności skracania etykiet, na monitorach ≥1100 px. Skróty wyżej to fallback dla bardzo wąskich viewportów lub gdy klient woli krótsze.
+
+
+## CZĘSTY BŁĄD KLIENTA
+
+W panelu IdoBooking są DWA pola dla każdej podstrony:
+1. **Nazwa** = H1 strony (długi, marketing tytuł, np. "O nas — Agnieszka Barańska")
+2. **Krótka nazwa / Etykieta menu** = pozycja w nawigacji (krótka, max ~13 znaków)
+
+Jeśli klient wpisze długi tytuł w polu "Krótka nazwa", menu się rozjedzie (jak na screenshocie z 15.05.2026 — "O NAS — AGNIESZKA I MAŁGORZATA" trafiało do menu).
+
+**Reguła**: do pola "Nazwa" idzie wszystko z kolumny **Pełna nazwa (H1)**. Do pola "Krótka nazwa / Etykieta menu" idzie wszystko z kolumny **Krótka nazwa MENU**.

@@ -1,0 +1,42 @@
+{
+  "clientId": "madera",
+  "brand": "Madera Centrum",
+  "panel": "https://client45553.idosell.com/panel/",
+  "site": "https://client45553.idobooking.com/",
+  "prefix": "md-",
+  "languages": ["PL", "EN"],
+  "note": "Referencyjny klient dla wzorca 'WYRÓŻNIONE OFERTY' — zaawansowany, z grupowaniem po markach. Używany jako template dla MOUNTAINPRESTIGE, NAJMAR, AP.",
+  "files": {
+    "css": "DO_WKLEJENIA/madera.css (3280 linii)",
+    "homepage_pl": "DO_WKLEJENIA/HOMEPAGE_PL__body_top.html",
+    "homepage_en": "DO_WKLEJENIA/HOMEPAGE_EN__body_top.html",
+    "homepage_bottom_pl": "DO_WKLEJENIA/HOMEPAGE_PL__body_bottom.html"
+  },
+  "history": [
+    {
+      "date": "2026-04-23",
+      "action": "v1 — Fix 8 Wikimedia 429 + hide .gallery-lightbox na /txt/202/Galeria",
+      "trigger": "User: 'na madera centrum przestały działać zdjęcia, czemu?'",
+      "root_cause": "Template zawierał 8 URL-i z upload.wikimedia.org. Wikimedia zaczął blokować hotlinking (HTTP 429). Drugi bug: /txt/202/Galeria pokazywał systemowy .gallery-lightbox z utility photos (ślepo zaciągnięte z panelu galerii).",
+      "fixes": [
+        "HOMEPAGE_PL + HOMEPAGE_EN body_top — 8 URL-i Wikimedia wymienione na /images/frontpageGallery/pictures/large/2/0/{44-47}.{jpg|webp}",
+        "madera.css — sekcja 'HIDE SYSTEM GALLERY-LIGHTBOX ON /txt PAGES': body.page-txt .container:has(.md-albums) .gallery-lightbox { display: none !important }",
+        "Powstał instinct 029 (never Wikimedia always client gallery or Unsplash)"
+      ],
+      "bash_heredoc_trap_encountered": "Pierwsza próba edycji madera.css przez 'cat >> file << EOF' skonwertowała !important na \\!important. Naprawione Edit tool. Lekcja: CLAUDE.md trap #14b — bash heredoc + !important bug.",
+      "pending_next_session": [
+        "Weryfikacja live: wszystkie 8 zdjęć renderują się po wymianie URL-i (status 200)",
+        "Weryfikacja /txt/202/Galeria: systemowy .gallery-lightbox ukryty, widać tylko własne albumy .md-albums",
+        "Audyt innych /txt/* podstron Madery pod kątem tego samego problemu (gallery-lightbox)",
+        "Sprawdzić czy pozostałe klienty (np. MountainPrestige, Najmar) mają analogiczny systemowy lightbox do ukrycia"
+      ]
+    }
+  ],
+  "traps_applicable": [
+    "#13 — Wikimedia 429 (rozwiązane)",
+    "#14b — bash heredoc + !important escape (encountered, fixed)",
+    "#18 — body.page-txt dla /txt/*",
+    "#34 — IdoSell wycina inline <script> (stosowane: JS jest w body_bottom)"
+  ],
+  "featured_offers_pattern": "Pattern A (container-hotspot) + grouping po markach — REFERENCYJNA implementacja (MADERA + NAJMAR są wzorcem dla innych klientów)"
+}

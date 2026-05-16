@@ -234,7 +234,7 @@ Każdy bug pre-delivery raportowany w RELEASE_NOTES jako known limitation; każd
 ## 12. Continuous improvement
 
 Po każdej delivery v1.x:
-1. Zapisz feedback Damiana w `memory/clients/fairrentals.json` history
+1. Zapisz feedback Damiana w `memory/clients_data/fairrentals.json` history
 2. Jeśli pojawił się nowy pattern (np. "Trust Score zamiast fake testimonials") → instinct (`memory/instincts/045-...`)
 3. Jeśli odkryto bug nieobjęty trapami → lesson (`memory/lessons/...`)
 4. Update tego pliku (TESTING_STRATEGY) o nowy scenariusz

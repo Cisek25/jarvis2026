@@ -1,0 +1,36 @@
+<!-- ============================================================
+     JARVIS BLOG MODULE — Strona-LISTA (body_top)
+     ============================================================
+     Cel: szablon body_top dla podstrony /pl/txt/300 (lista wpisow blog).
+
+     Uzycie:
+     1. Znajdz/zamien {PREFIX} (np. fr)
+     2. Znajdz/zamien {BRAND_KICKER} (np. "BAZA WIEDZY")
+     3. Znajdz/zamien {LIST_TITLE} (np. "Praktyczna wiedza o Wroclawiu i wynajmie")
+     4. Znajdz/zamien {LIST_LEAD} (1-2 zdania opisu)
+     5. Znajdz/zamien {MANIFEST_URL} jesli niedefault (np. /customStyles/blog-manifest.json)
+     6. Wklej w panel: /pl/txt/300/blog → body_top
+     ============================================================ -->
+
+<section class="{PREFIX}-blog-list-hero">
+  <div class="container">
+    <span class="{PREFIX}-blog-list-hero__kicker">{BRAND_KICKER}</span>
+    <h1 class="{PREFIX}-blog-list-hero__title">{LIST_TITLE}</h1>
+    <p class="{PREFIX}-blog-list-hero__lead">{LIST_LEAD}</p>
+    <div class="{PREFIX}-blog-filters" data-blog-filters role="tablist" aria-label="Filter posts by category">
+      <!-- Filter chips wstrzykiwane przez JS -->
+    </div>
+  </div>
+</section>
+
+<section
+  class="{PREFIX}-blog-section"
+  data-blog-list
+  data-manifest-url="{MANIFEST_URL}"
+  aria-label="Lista wpisow blog"
+>
+  <div class="{PREFIX}-blog-grid" data-blog-grid>
+    <!-- Karty wstrzykiwane przez JS — fallback: empty state -->
+    <div class="{PREFIX}-blog-empty">Ladowanie wpisow...</div>
+  </div>
+</section>

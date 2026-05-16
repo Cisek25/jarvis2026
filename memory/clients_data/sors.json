@@ -1,0 +1,82 @@
+{
+  "clientId": "sors",
+  "brand": "Eagle Tower Benidorm (SORS / Paweł Pasławski)",
+  "panel": "https://client51651.idosell.com/panel/",
+  "site": "https://client51651.idobooking.com/",
+  "prefix": "et-",
+  "languages": ["PL", "EN", "DE", "ES"],
+  "note": "Apartament na wynajem w Eagle Tower w Benidorm (Hiszpania). Właściciel Monika (kontakt) + Paweł Pasławski (faktury).",
+  "colors": {
+    "palette": "morski / piaskowy / granatowy (Benidorm beach vibe)",
+    "source": "00_CUSTOM_CSS_v3.css"
+  },
+  "files": {
+    "css": "DO_WKLEJENIA/00_CUSTOM_CSS_v3.css (1495 linii)",
+    "homepage": "DO_WKLEJENIA/GLOWNA_*.html",
+    "subpages": "DO_WKLEJENIA/*_body_top.html (O nas, Galeria, Lokalizacja, Kontakt)"
+  },
+  "history": [
+    {
+      "date": "2026-04-23",
+      "action": "v2 — Footer logo override + aspect-ratio fix dla kolaży 720x1080 + hero image swap",
+      "trigger_email_monika": "Monika zgłosiła: (a) logo w stopce jest inne niż w nagłówku; (b) zdjęcia w sekcjach są przycinane; (c) na Lokalizacji nie widać pinu mapy; (d) kilka zmian wizualnych.",
+      "fixes_applied": {
+        "hero_image_swap": "00_CUSTOM_CSS_v3.css linia 261: --hero-bg zmienione z /frontpageGallery/.../5.webp na /98.jpg",
+        "footer_logo_override": "00_CUSTOM_CSS_v3.css linie ~1478+: hide .footer-contact__logo img + background-image na .footer-contact__logo z /images/owner/wideLogo.png (180x110, mobile 150x90)",
+        "collages_aspect_ratio": "Zmienione z aspect-ratio: 3/4 na 2/3 dla .et-about__img img (linia 423), .et-location__img img (linia 495), .et-media-row__img img (linia 905). Powód: pliki 720x1080 od Moniki to GOTOWE KOLAŻE, nie pojedyncze foto — 2/3 matchuje idealnie, zero crop."
+      },
+      "diagnosed_not_fixed": {
+        "lokalizacja_pin": "Na /txt/204/Lokalizacja istnieje iframe Google Maps ale BEZ PINU. URL zawiera sfabrykowane Place ID (0xd6209e89fc7c9a1) — Google pokazuje obszar koło 38.535,-0.1425 bez markera.",
+        "lokalizacja_photos": "Czekamy na URL-e do Plaży Poniente i Gastronomii (od Moniki) — line-art placeholder do zastąpienia prawdziwymi zdjęciami."
+      }
+    },
+    {
+      "date": "2026-05-06",
+      "action": "v3 — Lokalizacja: SVG line-art placeholders → prawdziwe zdjęcia z gallery upload",
+      "trigger": "Monika wgrała 4 zdjęcia do galerii strony Lokalizacja w panelu IdoBooking. User chciał aby pojawiły się w sekcjach (zamiast piktogramów).",
+      "client_uploaded_filenames": [
+        "apartament-plaza-poniente-morze-srodziemne — sekcja Plaża Poniente",
+        "eagle-tower-wynajem-las-rejas — sekcja Golf tuż za progiem",
+        "poniente-promenada-nocleg-wynajem — sekcja Gastronomia i zakupy",
+        "aeropuerto-benidorm — sekcja Komunikacja"
+      ],
+      "image_id_mapping_verified_visually": {
+        "100.webp": "Plaża Poniente (panorama Benidormu z plażą)",
+        "101.webp": "Golf Las Rejas (zielony green z dziurką)",
+        "102.webp": "Gastronomia (kawa+sok+oliwki na stoliku, plaża w tle)",
+        "99.webp": "Komunikacja (lotnisko Alicante-Elche, 3 samoloty na pasie)"
+      },
+      "image_url_pattern": "https://client51651.idobooking.com/images/frontpageGallery/pictures/large/4/0/{ID}.webp",
+      "files_modified": [
+        "clients/SORS/DO_WKLEJENIA/05_LOKALIZACJA/lokalizacja_PL.html",
+        "clients/SORS/DO_WKLEJENIA/05_LOKALIZACJA/lokalizacja_EN.html",
+        "clients/SORS/DO_WKLEJENIA/05_LOKALIZACJA/lokalizacja_DE.html",
+        "clients/SORS/DO_WKLEJENIA/05_LOKALIZACJA/lokalizacja_ES.html"
+      ],
+      "what_changed": "4× <div class='et-media-row__img'> z SVG line-art zastąpione <img src='...'> z URL-em do gallery upload. Alty per język. Dodane <style>.page-txt .gallery-lightbox{display:none}</style> aby ukryć auto-galerię na dole strony (IdoBooking renderuje ją automatycznie z gallery upload, dawałoby duplikat).",
+      "session_blocker_lesson": "User wkleił z /Users/user/Desktop/jarvis/clients/SORS/... ale moje edyty trafiały do .claude/worktrees/priceless-jackson-c3fc4a/clients/SORS/... Pod koniec sesji cp z worktree do main repo aby user widział aktualne pliki.",
+      "pending_user_action": "Wkleić body_top do CMS panelu (PL/EN/DE/ES osobno) — patrz pending_next_session"
+    }
+  ],
+  "pending_next_session": [
+    "Sprawdzić live czy user wkleił nowe body_top — czy zdjęcia widoczne w sekcjach (PL/EN/DE/ES)",
+    "Zweryfikować czy <style>.page-txt .gallery-lightbox{display:none}</style> przeszedł WAF — jeśli wycięty, przenieść regułę do 00_CUSTOM_CSS_v3.css (znany trap #34: IdoSell wycina <script> z body_top, <style> może mieć podobny los)",
+    "Pin mapy w iframe Google Maps (z poprzedniej sesji 2026-04-23): URL zawiera fake Place ID — propozycja podmiana na świeży embed lub Panel → Lokalizacje (Leaflet z pinem)",
+    "Audyt mobile 375px na Lokalizacji po wklejeniu (et-media-row stack vertical, img height: 420px)",
+    "Sprawdzić DE/ES wersje — czy mają wszystkie sekcje przetłumaczone (były dodawane w późniejszych iteracjach)"
+  ],
+  "traps_applicable": [
+    "#6 — footer-contact-baner::before",
+    "#13 — nigdy Wikimedia (nie stosowane tu ale pamiętać)",
+    "#18 — body.page-txt dla /txt/*",
+    "#34 — IdoSell wycina inline <script> z body_top (i prawdopodobnie <style> też)"
+  ],
+  "instincts_applied": [
+    "030 — footer logo separate field CSS override",
+    "031 — client photos may be collages (aspect-ratio 2/3 match)",
+    "044 — CMS subpage auto-gallery hide gdy używamy zdjęć inline (NEW 2026-05-06)"
+  ],
+  "lessons_avoided_or_learned": [
+    "worktree-vs-main-repo-stale-paste — NEW 2026-05-06"
+  ]
+}

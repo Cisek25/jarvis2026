@@ -1,0 +1,92 @@
+<!-- ============================================================
+     JARVIS BLOG MODULE — Strona POSTA (body_top)
+     ============================================================
+     Cel: szablon body_top dla pojedynczego artykulu /pl/txt/30X.
+
+     Uzycie:
+     1. Znajdz/zamien {PREFIX} (np. fr)
+     2. Znajdz/zamien {POST_SLUG} (np. "10-atrakcji-wroclawia")
+        ten slug MUSI matchowac wpis "slug" w blog-manifest.json
+     3. Znajdz/zamien {POST_CATEGORY_LABEL} (np. "Dla Gosci")
+     4. Znajdz/zamien {POST_TITLE}, {POST_DATE_DISPLAY}, {POST_READ_TIME}
+     5. Znajdz/zamien {AUTHOR_NAME}
+     6. Znajdz/zamien {FEATURED_IMG_URL}, {FEATURED_IMG_ALT}
+     7. Wypelnij sekcje <article class="{PREFIX}-post-body"> wlasna trescia (HTML)
+     8. Wypelnij CTA na koncu (lub usun jesli nie pasuje)
+     9. Wklej w panel: /pl/txt/30X/slug-postu → body_top
+
+     JS automatycznie:
+     - wstrzyknie Schema.org BlogPosting JSON-LD do <head>
+     - zaladuje related posts z manifestu (te same kategoria)
+     ============================================================ -->
+
+<section class="{PREFIX}-post-hero">
+  <span class="{PREFIX}-post-hero__category">{POST_CATEGORY_LABEL}</span>
+  <h1 class="{PREFIX}-post-hero__title">{POST_TITLE}</h1>
+  <div class="{PREFIX}-post-hero__meta">
+    <span class="{PREFIX}-post-hero__author">{AUTHOR_NAME}</span>
+    <span>·</span>
+    <span>{POST_DATE_DISPLAY}</span>
+    <span>·</span>
+    <span>{POST_READ_TIME}</span>
+  </div>
+</section>
+
+<figure class="{PREFIX}-post-featured-img">
+  <img
+    src="{FEATURED_IMG_URL}"
+    alt="{FEATURED_IMG_ALT}"
+    decoding="async"
+    fetchpriority="high"
+    width="1600"
+    height="900"
+  >
+</figure>
+
+<article
+  class="{PREFIX}-post-body"
+  data-blog-post="{POST_SLUG}"
+  data-manifest-url="/customStyles/default13/custom2/blog-manifest.json"
+>
+  <p><strong>Lead paragraph</strong> — Wypelnij ten paragraf 2-3 zdaniami wprowadzajacymi czytelnika w temat artykulu. Lead powinien zawierac glowne slowo kluczowe SEO i klarownie wskazywac, czego czytelnik sie dowie.</p>
+
+  <h2>Pierwszy podnaglowek H2</h2>
+  <p>Tresc paragrafu rozwijajacego punkt 1...</p>
+
+  <h2>Drugi podnaglowek H2</h2>
+  <p>Tresc rozwijajaca punkt 2...</p>
+
+  <ul>
+    <li>Punkt listy 1</li>
+    <li>Punkt listy 2</li>
+    <li>Punkt listy 3</li>
+  </ul>
+
+  <h3>Podpunkt H3</h3>
+  <p>Tresc...</p>
+
+  <blockquote>Cytat lub wyrozniony fragment, np. statystyka albo opinia.</blockquote>
+
+  <h2>Podsumowanie</h2>
+  <p>Tresc podsumowania + transition do CTA...</p>
+
+  <!-- ── CTA box — usun jesli nie pasuje do tematu ── -->
+  <div class="{PREFIX}-post-cta">
+    <h3>Tytul CTA — np. "Sprawdz dostepne apartamenty"</h3>
+    <p>Krotki opis + zacheta do akcji (1-2 zdania).</p>
+    <a class="{PREFIX}-post-cta__btn" href="/pl/offers">
+      Zobacz oferte →
+    </a>
+  </div>
+</article>
+
+<section
+  class="{PREFIX}-post-related"
+  data-blog-related
+  aria-label="Powiazane artykuly"
+>
+  <h2 class="{PREFIX}-post-related__title">Czytaj rowniez</h2>
+  <div class="{PREFIX}-post-related__grid" data-blog-related-grid>
+    <!-- Wstrzykiwane przez JS — 3 powiazane posty z tej samej kategorii -->
+  </div>
+</section>

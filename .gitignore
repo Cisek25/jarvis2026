@@ -3,3 +3,20 @@ node_modules/
 *.log
 .DS_Store
 Thumbs.db
+
+# Claude Code lokalne worktrees (embedded git repos — nie commitujemy)
+.claude/worktrees/
+
+# Claude Code per-machine settings
+.claude/settings.local.json
+
+# Audyt screenshoty root-level (relikty z poprzednich sesji — przeniesione do clients/<klient>/audit_screenshots/)
+/mobile-*.png
+/offer*.png
+/v*.png
+/*-fix.png
+/*-verified.png
+
+# Temp/cache
+*.tmp
+.cache/

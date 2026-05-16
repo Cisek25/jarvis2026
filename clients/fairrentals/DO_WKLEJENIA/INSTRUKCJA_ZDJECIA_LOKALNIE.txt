@@ -1,0 +1,159 @@
+================================================================
+FAIR RENTALS — INSTRUKCJA: MIGRACJA ZDJEC Z UNSPLASH NA WLASNE
+================================================================
+
+Cel: zastapic 7 zdjec stockowych z Unsplash zdjeciami wlasnymi
+     (apartamentow + zespol) hostowanymi w panelu IdoBooking.
+
+Korzysci:
+- Pelne prawa autorskie (Unsplash to licencja darmowa, ale nie nasza)
+- Brak zaleznosci od zewnetrznego CDN (szybsze ladowanie)
+- Lepszy SEO (Google preferuje unikalne obrazy)
+- Wieksza wiarygodnosc (klient widzi REALNE apartamenty Fair Rentals)
+
+
+================================================================
+LISTA ZDJEC DO PRZYGOTOWANIA (7 sztuk)
+================================================================
+
+ZDJECIE 1: Wnetrze apartamentu (hero strony glownej)
+  Aktualny URL: photo-1564013799919-ab600027ffc6
+  Uzycie: Strona glowna — duzy hero (background)
+  Sugerowane: cieple wnetrze jednego z 21 apartamentow,
+              naturalne swiatlo, widok od strony lozka/salonu
+  Format: JPG, min. 2400x1500 px (zostanie skompresowane do 1600px)
+  Aspect: 16:10 lub 3:2 (landscape)
+
+ZDJECIE 2: Apartament z widokiem (sekcja "Dla biznesu" na home)
+  Aktualny URL: photo-1554995207-c18c203602cb
+  Uzycie: GLOWNA — sekcja "Apartamenty dla firm"
+  Sugerowane: salon z widokiem na panorame Wroclawia
+              (Most Grunwaldzki, Hala Stulecia, Odra)
+  Format: JPG, 1400x933 px
+  Aspect: 3:2
+
+ZDJECIE 3: Stanowisko pracy w apartamencie
+  Aktualny URL: photo-1582719478250-c89cae4dc85b
+  Uzycie: "Dla biznesu" subpage — sekcja "Praca zdalna"
+  Sugerowane: biurko z laptopem w apartamencie,
+              widok na miasto przez okno
+  Format: JPG, 1400x933 px
+  Aspect: 3:2
+
+ZDJECIE 4: Spotkanie biznesowe / podpisanie umowy
+  Aktualny URL: photo-1554224155-6726b3ff858f
+  Uzycie: "Dla biznesu" subpage + "Obsluga najmu"
+  Sugerowane: Agnieszka z klientem korporacyjnym (handshake,
+              omawianie umowy przy stole)
+  Format: JPG, 1400x933 px
+  Aspect: 3:2
+  UWAGA: jesli niewykonalne fotograficznie — zostawic Unsplash
+         tymczasowo, oznaczyc jako STOCK w stopce strony
+
+ZDJECIE 5: Klucze w drzwiach (hero "Obsluga najmu")
+  Aktualny URL: photo-1556909114-f6e7ad7d3136
+  Uzycie: Obsluga najmu — duzy hero
+  Sugerowane: detalal kluczy w drzwiach apartamentu,
+              moze logo Fair Rentals na breloku
+  Format: JPG, 2400x1500 px
+  Aspect: 16:10
+
+ZDJECIE 6: Wnetrze przygotowane na gosci
+  Aktualny URL: photo-1551776235-dde6d4829808
+  Uzycie: Obsluga najmu — sekcja "Zaufanie Gosci"
+  Sugerowane: lozko zaslane, swieze recznikii, kwiaty,
+              powitalna butelka wina / koszyk
+  Format: JPG, 1400x933 px
+  Aspect: 3:2
+
+ZDJECIE 7: Hero homepage OG/social
+  Aktualny URL: photo-1522708323590-d24dbb6b0267
+  Uzycie: Open Graph / Twitter Card (preview na FB/LinkedIn/Twitter)
+  Sugerowane: estetyczny shot apartamentu z brandingiem Fair Rentals
+              (moze logo na poduszce, kubku, ksiazce gosci)
+  Format: JPG, dokladnie 1200x630 px (standard OG)
+  Aspect: 1.91:1
+
+
+================================================================
+JAK WGRAC ZDJECIA W PANELU IDOBOOKING
+================================================================
+
+KROK 1: Panel IdoBooking → Tresci → Galeria
+        (lub: Wyglad → Galeria strony glownej)
+
+KROK 2: Kliknij "Dodaj zdjecie" / "Upload"
+
+KROK 3: Wgraj zdjecia w odpowiednich nazwach plikow:
+        hero-home.jpg          (zdjecie 1)
+        skyline-corp.jpg       (zdjecie 2)
+        workspace.jpg          (zdjecie 3)
+        meeting.jpg            (zdjecie 4)
+        keys-hero.jpg          (zdjecie 5)
+        room-ready.jpg         (zdjecie 6)
+        og-image.jpg           (zdjecie 7)
+
+KROK 4: Po wgraniu zanotuj URL kazdego zdjecia, format:
+        https://client58360.idobooking.com/images/frontpageGallery/pictures/large/X/Y/Z.jpg
+
+KROK 5: Wyslij liste 7 URL-i do Damiana — on podmieni w kodzie
+        Unsplash linki na URL-e z panelu (5 plikow HTML do edycji).
+
+
+================================================================
+POSREDNIE ROZWIAZANIE (jesli klient nie ma jeszcze zdjec)
+================================================================
+
+Mozna tymczasowo:
+1. Pobrac zdjecia z Unsplash w wysokiej rozdzielczosci
+   (na Unsplash.com → "Download free" → "Original size")
+2. Wgrac do panelu IdoBooking jak wlasne pliki
+   (Unsplash License pozwala na to: free to use, no attribution required)
+3. Podmienic linki w HTML
+
+To eliminuje zewnetrzna zaleznosc, ale nie zmienia zdjec na unikalne.
+
+
+================================================================
+P27 — LOGO: ZALECENIA OPTYMALIZACJI
+================================================================
+
+Aktualny logo: https://client58360.idobooking.com/images/owner/wideLogo.svg
+
+Sprawdzenia do wykonania:
+1. CZY plik to SVG? (preferowane) Czy PNG/JPG?
+   - SVG = idealny: skalowalny, lekki (<5 KB), ostry na retinie
+   - PNG = zalecane jesli SVG niemozliwy
+   - JPG = NIE polecane dla logo (artefakty, brak alpha)
+
+2. Rozmiar pliku:
+   - SVG: <5 KB
+   - PNG: <20 KB
+   - Jesli wiekszy — kompresja w https://tinypng.com lub https://svgomg.net
+
+3. Wymiary loga:
+   - SVG: zachowac aspect ratio, viewBox 0 0 X Y
+   - PNG: 2x rozdzielczosc dla retina (np. 240x80 displayed, 480x160 file)
+
+4. Test:
+   Otworz https://client58360.idobooking.com/ w Chrome
+   F12 → Network → przeladuj
+   Sprawdz Size kolumne dla loga — powinno byc <20 KB
+
+JAK WGRAC NOWE LOGO:
+Panel → Wyglad → Logo / Tozsamosc wizualna
+→ Wgraj plik SVG (lub PNG)
+→ Zaznacz "Wyswietlaj na naglowku"
+→ Zapisz
+
+
+================================================================
+PYTANIA / KONTAKT
+================================================================
+
+Damian (IAI) — przekierowanie URL-i z panelu do kodu HTML
+biuro@fairrentals.pl — zgloszenie nowych zdjec
+
+Data wystawienia instrukcji: 2026-05-15
+Wersja JARVIS: v1.33
+Status: Sprint E — UX MEDIUM/LOW

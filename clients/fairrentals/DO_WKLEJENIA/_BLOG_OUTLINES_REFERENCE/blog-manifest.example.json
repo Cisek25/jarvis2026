@@ -1,0 +1,82 @@
+{
+  "brand": "Fair Rentals",
+  "brandLogo": "https://client58360.idobooking.com/images/owner/wideLogo.svg",
+  "defaultAuthor": "Agnieszka Baranska",
+
+  "labels": {
+    "all_filter": "Wszystkie",
+    "empty": "Brak wpisow w tej kategorii."
+  },
+
+  "listLabels": {
+    "pl": {
+      "kicker": "BAZA WIEDZY",
+      "lead": "Praktyczna wiedza z prowadzenia 21 apartamentow we Wroclawiu — porady dla Gosci, Wlascicieli i Firm. Bez teorii, tylko konkretne przypadki."
+    },
+    "en": {
+      "kicker": "KNOWLEDGE BASE",
+      "lead": "Practical insights from managing 21 short-term apartments in Wroclaw — guides for Guests, Owners and Corporate clients. No theory, only real cases."
+    },
+    "de": {
+      "kicker": "WISSENSBASIS",
+      "lead": "Praktisches Wissen aus der Verwaltung von 21 Kurzzeit-Apartments in Breslau — Ratgeber fuer Gaeste, Eigentuemer und Firmen. Keine Theorie, nur konkrete Faelle."
+    }
+  },
+
+  "relatedLabels": {
+    "pl": { "title": "Czytaj rowniez" },
+    "en": { "title": "Read also" },
+    "de": { "title": "Lesen Sie auch" }
+  },
+
+  "categories": {
+    "dla-gosci": "Dla Gosci",
+    "dla-wlascicieli": "Dla Wlascicieli",
+    "dla-firm": "Dla Firm"
+  },
+
+  "posts": [
+    {
+      "slug": "10-atrakcji-wroclawia",
+      "lang": "pl",
+      "title": "10 atrakcji Wroclawia, ktore musisz zobaczyc",
+      "excerpt": "Subiektywny przewodnik gospodarza po Wroclawiu — od Rynku przez Ostrow Tumski po Hale Stulecia. Co warto zobaczyc, kiedy najlepiej i jak dotrzec.",
+      "category": "dla-gosci",
+      "publishedAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "author": "Agnieszka Baranska",
+      "featuredImage": "https://client58360.idobooking.com/images/frontpageGallery/pictures/large/0/0/4.jpg",
+      "readTime": "5 min",
+      "url": "/pl/txt/301/10-atrakcji-wroclawia",
+      "published": true
+    },
+    {
+      "slug": "ile-zarabia-wlasciciel-apartamentu",
+      "lang": "pl",
+      "title": "Ile zarabia wlasciciel apartamentu na wynajmie krotkoterminowym we Wroclawiu?",
+      "excerpt": "Realne liczby z portfolio 21 apartamentow Fair Rentals. ROI, sezonowosc, koszty operacyjne i ryzyka. Kalkulacja na konkretnym przykladzie 2-pokojowego mieszkania.",
+      "category": "dla-wlascicieli",
+      "publishedAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "author": "Agnieszka Baranska",
+      "featuredImage": "https://client58360.idobooking.com/images/frontpageGallery/pictures/large/1/0/14.jpg",
+      "readTime": "7 min",
+      "url": "/pl/txt/302/ile-zarabia-wlasciciel-apartamentu",
+      "published": true
+    },
+    {
+      "slug": "najem-korporacyjny-wroclaw",
+      "lang": "pl",
+      "title": "Najem korporacyjny we Wroclawiu — czy sie oplaca?",
+      "excerpt": "Apartament vs hotel dla pracownika oddelegowanego. Porownanie kosztow 30-dniowego pobytu, rozliczenia VAT, wygody i jakosci. Kalkulacja krok po kroku.",
+      "category": "dla-firm",
+      "publishedAt": "2026-05-25",
+      "updatedAt": "2026-05-25",
+      "author": "Agnieszka Baranska",
+      "featuredImage": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+      "readTime": "6 min",
+      "url": "/pl/txt/303/najem-korporacyjny-wroclaw",
+      "published": true
+    }
+  ]
+}

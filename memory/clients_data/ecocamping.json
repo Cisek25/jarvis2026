@@ -1,0 +1,148 @@
+{
+  "clientId": "ecocamping",
+  "brand": "EcoCamping (ośrodek kempingowy)",
+  "panel": "https://client57820.idosell.com/panel/",
+  "site": "https://client57820.idobooking.com/",
+  "prefix": "ec-",
+  "languages": ["PL", "EN"],
+  "colors": {
+    "palette": "zielony (leśny) + beż + cream",
+    "primary_var": "--ec-green-dark",
+    "source": "DO_WKLEJENIA/CSS_EDYTOR.css"
+  },
+  "files": {
+    "css": "DO_WKLEJENIA/CSS_EDYTOR.css",
+    "homepage_pl": "DO_WKLEJENIA/GLOWNA_PL__body_top.html",
+    "homepage_en": "DO_WKLEJENIA/GLOWNA_EN__body_top.html",
+    "homepage_bottom_pl": "DO_WKLEJENIA/GLOWNA_PL__body_bottom.html"
+  },
+  "history": [
+    {
+      "date": "2026-04-24",
+      "action": "v2 — mobile fixes + custom search widget (flatpickr port z AP) + mapa cleanup",
+      "session_triggers": [
+        "User: 'brakuje w cenniku oferty namiotu z widokiem' (retracted — 3 tent nie był w brief)",
+        "User: 'logo w prostokącie nie ładne' (mobile)",
+        "User: 'brak możliwości zamawiania' (mobile — kalendarz obcięty, widget blokowany przez rabat sticker)",
+        "User: 'dziwnie ten kalendarz, moze osobno przyjazd i wyjazd jak w innych wdrozeniach?'",
+        "User: 'zbuduj od zera jak w innych' — pełny port AP widget",
+        "User: 'w menu za wysoko' — widget wchodzi pod header po teleport",
+        "User: 'drop kalendarza w dół nie mieści się' — bottom-sheet modal potrzebny",
+        "User: 'deep testing clickability iOS/Android' + 'usun recepcje z mapy'"
+      ],
+      "mobile_fixes_iterative": [
+        "1. Logo chip → CSS transparent + mix-blend-mode multiply (limit: PNG ma wbudowane tło)",
+        "2. Rabat sticker → X button + sessionStorage dismiss + mobile reposition bottom:80px right:12px",
+        "3. Kalendarz off-screen → początkowo litepicker fixed positioning + grid 7-col (potem zastąpione)",
+        "4. Separate pickers → pełny port AP widget .ec-search z flatpickr CDN 4.6.13"
+      ],
+      "custom_widget_implementation": {
+        "pattern_source": "Apartamenty Parkowe AP_KONIEC_BODY.html §13 + AP_CSS_EDYTOR.css §6",
+        "files_changed": [
+          "HEAD_META_OG.html — +3 linie flatpickr CDN",
+          "GLOWNA_PL__body_top.html — +§0 widget HTML (form.ec-search z 4 polami)",
+          "CSS_EDYTOR.css — +§33B widget CSS (~270 linii) +§33C flatpickr theme (~100 linii)",
+          "GLOWNA_PL__body_bottom.html — +§20 initEcSearchWidget +§21 teleport do .section.parallax"
+        ],
+        "design_tokens_used": [
+          "--ec-green, --ec-green-dark, --ec-cream, --ec-cream-dark, --ec-shadow-lg, --ec-radius, --ec-font-heading, --ec-font-body"
+        ],
+        "accessibility": [
+          "role=search + aria-label",
+          "label for= bridges (native click forwarding)",
+          "tap target min 44x44px (WCAG 2.5.5)",
+          ":focus-within + :focus-visible outline",
+          "pointer-events: none na labels/icons"
+        ],
+        "cross_device_clickability": [
+          "touch-action: manipulation → iOS 300ms delay gone",
+          "-webkit-tap-highlight-color: transparent → no grey iOS square",
+          "user-select: none + -webkit-user-select: none",
+          ":active feedback (bg change + transform) zastępuje tap-highlight"
+        ],
+        "mobile_bottom_sheet": [
+          "flatpickr na mobile: position: fixed; bottom: 0; full-width",
+          "onOpen → body.ec-fp-open class → CSS backdrop ::after",
+          "onClose → cleanup + restore scroll",
+          "document click handler (capture) → tap backdrop zamyka"
+        ],
+        "teleport_trap_2": {
+          "problem": "fullpage.js renderuje widget w section 2 (pod hero) — user: 'za nisko'",
+          "fix": "JS teleport .ec-search-wrap → .section.parallax .fp-tableCell + retry burst + MutationObserver (15s)",
+          "css_support": ".fp-tableCell { display: table-cell; vertical-align: middle } + min-height: 100vh + padding-top kompensacja headera"
+        },
+        "submit_strategy": [
+          "Strategy 1: proxy przez systemowy #iai_book_form (engine submit)",
+          "Strategy 2: fallback redirect /offers z URLSearchParams",
+          "persons-adult (trap #10) — hidden input dopisany dynamicznie"
+        ]
+      },
+      "testing_tdd": {
+        "test_plan": "DO_WKLEJENIA/TEST_PLAN_WIDGET.md — 10 funkcjonalnych T1-T10 + 7 niefunkcjonalnych R1-R7",
+        "test_suite": "DO_WKLEJENIA/TEST_WIDGET_CLICKABILITY.js — 9 sekcji, console.table PASS/FAIL",
+        "viewports": ["Chrome desktop 1440", "iOS Safari 390 + 375", "Chrome Android 412 + 360"],
+        "status": "Testy napisane, NIE wykonane (browser MCP zajęty)"
+      },
+      "mapa_cleanup": {
+        "request": "User: 'usun recepcje z sekcji Mapa obiektu'",
+        "fix": "GLOWNA_PL__body_top.html — pin+zone card recepcja dodane style=display:none",
+        "scope": "TYLKO mapa interaktywna. Sekcja §3 AMENITIES (Recepcja i sklep card) pozostała."
+      },
+      "pending_next_session": [
+        "LIVE TDD audit — uruchom TEST_WIDGET_CLICKABILITY.js na żywej stronie po wklejeniu",
+        "Weryfikacja na fizycznym iPhone + Android (real touch, nie emulator)",
+        "Sprawdzić czy widget teleport działa przy pierwszym ładowaniu strony (bez re-teleport)",
+        "Zweryfikować czy logo 'chip' znika (prawdopodobnie wymaga nowego PNG z transparentnym tłem)",
+        "Weryfikacja submit flow: czy /offers dostaje poprawne params (date-from, date-to, persons-adult)",
+        "Potwierdzić z klientem że IdoBooking engine akceptuje params naszego submit (trap #10)",
+        "Rozważyć dodanie pola location (tylko jeśli klient doda więcej obiektów)"
+      ]
+    },
+    {
+      "date": "2026-04-22",
+      "action": "v1 — WAF block fix + 8 uwag Moniki (właścicielka) + orphan protection",
+      "trigger_waf": "User: 'nie mogę zapisać HTML dla głównej strony polskiej, nie dodawaj emotikonek'",
+      "root_cause_waf": "IdoSell WAF/sanitizer odrzucał body_top gdy zawierał emotikonki 🌿 🎯 + komentarze JARVIS z URL-ami panelu (https://panel.idosell.com/...) + sygnatury tool (Claude / generated). Powstał instinct 027.",
+      "uwagi_moniki_fixed": [
+        "1. OSOBY kafel w hero — padding-left/right 44px (kompensacja chevronu)",
+        "2. Witamy kicker — font-size clamp(16px, 1.5vw, 22px) — większy",
+        "3. Tent image — aspect-ratio 5/4 + object-position 0% 50% (usunięto biały pasek po prawej)",
+        "4. Polskie sieroty (w/z/i/o/a/u) — 206 nbsp w 8 plikach (Perl -0777)",
+        "5. Kolejność atrakcji — przestawiona wg briefu",
+        "6. Footer 'Ul.' — spacing + separator ' | ' między linkami legal (regulamin/polityka)",
+        "7. Premium → Deluxe (rename kategorii)",
+        "8. Polityka prywatności w modal popup (iframe) zamiast nowej karty"
+      ],
+      "css_additions": [
+        ".footer-contact-terms a:not(:last-child)::after { content: ' | ' !important }",
+        ".footer-contact-baner::before/::after { background: var(--ec-green-dark) !important } — trap #6",
+        ".ec-policy-modal + __box + __close + __iframe (instinct 032)",
+        "flex: 1 1 0 on widget tiles — wyrównanie wysokości"
+      ],
+      "js_additions": [
+        "§9 w body_bottom — przechwytuje kliki na linkach cookies/terms/privacy i otwiera modal iframe (instinct 032)"
+      ],
+      "pending_next_session": [
+        "Wymienić 18 Wikimedia URL-i w ATRAKCJE (9 PL + 9 EN) na IdoSell gallery / Pexels / Unsplash",
+        "Dodać SEO_TYTULY_ECOCAMPING.md (per instinct 009 format)",
+        "Pełny audyt live po wklejeniu WSZYSTKICH plików",
+        "Weryfikacja mobile 375px całej strony"
+      ]
+    }
+  ],
+  "traps_applicable": [
+    "#2 — JS teleport hero/widget do .section.parallax (fullpage.js homepage)",
+    "#6 — footer-contact-baner::before blue override",
+    "#10 — persons-adult (nie persons) w submit do /offers",
+    "#13 — Wikimedia (wciąż 18 URL-i do wymiany)",
+    "#17 — live verify po każdym deploy",
+    "#34 — IdoSell wycina inline <script> z body_top"
+  ],
+  "instincts_applied": [
+    "027 — no emoji / no panel URLs / no tool signatures w client code",
+    "028 — one shared JS per page all languages",
+    "032 — policy links modal iframe popup",
+    "033 — live audit TDD after deploy (test plan + console script)",
+    "034 — custom search widget port pattern (NEW, created this session)"
+  ]
+}

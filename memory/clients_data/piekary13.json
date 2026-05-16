@@ -1,0 +1,321 @@
+{
+  "client": "piekary13",
+  "idobooking_id": "client23326",
+  "url": "https://client23326.idobooking.com",
+  "name": "Piekary 1-3",
+  "location": "Toruń",
+  "prefix": "pk",
+  "colors": {
+    "primary": "#8B4513",
+    "secondary": "#D2691E",
+    "accent": "#DAA520",
+    "bg": "#FFF8F0",
+    "dark": "#1a1a1a",
+    "light": "#f5f0eb"
+  },
+  "fonts": {
+    "heading": "Playfair Display",
+    "body": "DM Sans"
+  },
+  "gallery_path": "/images/frontpageGallery/pictures/large/4/0/",
+  "gallery_ids": ["4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg"],
+  "subpages": {
+    "/": "Strona główna (fullpage.js, body_top w sekcji 2)",
+    "/txt/201/Galeria": "Galeria (POTWIERDZONE NA LIVE 2026-05-08 — moja stara INSTRUKCJA miała Galeria=/txt/202/, faktyczne live=/txt/201/)",
+    "/txt/{ID-O-nas}/O-nas": "O Nas — ID DO USTALENIA z panelu (NIE /txt/201/, bo to Galeria)",
+    "/txt/{ID-Atrakcje}/Atrakcje": "Atrakcje — ID DO USTALENIA z panelu",
+    "/txt/{ID-Lokalizacja}/Lokalizacja": "Lokalizacja — ID DO USTALENIA z panelu",
+    "/txt/{ID-Regulamin}/Regulamin": "Regulamin — ID DO USTALENIA z panelu (w stopce, nie w menu)",
+    "/txt/{ID-Oferta}/Oferta": "Oferta — NOWA 2026-05-08, statyczna; zastępuje /offers w menu by uniknąć podwójnego suwaka. ID przydzieli IdoBooking przy tworzeniu.",
+    "/offers": "Systemowa lista ofert IdoBooking (modal-iframe wciąż jej używa, nie pojawia się w menu)",
+    "/contact": "Kontakt (systemowa strona IdoBooking, brak pól SEO)"
+  },
+  "known_traps": [
+    "Wikimedia URLs — wszystkie zamienione na Pexels/IdoBooking (2026-04-16)",
+    "Footer gap na podstronach — naprawione w CSS (gallery-lightbox + main.page)",
+    "Pierniki image — Unsplash 404, użyto Pexels 29703346",
+    "Emoji ikony w atrakcjach — zamienione na SVG outline",
+    "Inline grid-template-columns nadpisuje media queries — usunięte inline styles z GLOWNA, ATRAKCJE, GALERIA (2026-04-16)",
+    "Page title = systemowy placeholder 'Wypełnij to pole tytułem...' — KRYTYCZNE, zmienić w panelu",
+    "Powered by IdoBooking ukryty/zdimowany w CSS — NARUSZENIE wymogu licencyjnego. Naprawione 2026-05-14: filter:none + height:40px + max:none. Instinct 059.",
+    "/offers podstrona popsuta + ukryta — wszystkie linki przekierowane na /txt/200/ (homepage, galeria, menu, click interceptor w JS) 2026-05-14",
+    "Systemowa mapa Leaflet na /contact pokazuje ~122 markery wszystkich obiektów Mentalis — ukryta przez CSS+JS, zostaje Google Maps Piekary w naszym .pk-contact-location 2026-05-14",
+    "Broken image /4/0/9.jpg w galerii (Widok znad Wisły) — usunięty, sekcja Toruń przebudowana na 5 zdjęć 2026-05-14",
+    "Markdown links w odpowiedziach Claude'a resolve'ują się względem worktree CWD nawet gdy edytuje pliki w main repo — używaj absolute paths przy crossowaniu worktree boundary 2026-05-14"
+  ],
+  "content_corrections": [
+    {
+      "date": "2026-05-08",
+      "issue": "Tura uwag klienta (RL) — doprecyzowania wyróżników i terminologii",
+      "action": "Aneks kuchenny → PRYWATNY w każdym apartamencie (nie wspólny), w standardzie BEZ tostera. Smart check-in → karty meldunkowe + obsługa telefoniczna 8-22. Pralnia → 'Strefa prania' (wspólna strefa, nie pomieszczenie). Krzywa Wieża → ~20 m (ta sama ulica co obiekt, widoczna z okna apartamentów). Wisła → widoczna z okien wybranych apartamentów. Wyróżniki dodane: wanny w sypialniach + widok na Wisłę. Malarstwo: oryginał nie zachowany, w apartamentach autorskie malarstwo inspirowane renowacją.",
+      "source": "Ticket #1239859174#43 — Radosław Lewandowski"
+    },
+    {
+      "date": "2026-05-08",
+      "issue": "Linki/przyciski nie działały na live: Nasza historia, Odkryj Toruń, Kontakt (z regulaminu)",
+      "action": "Nasza historia: /txt/201/ → /txt/201/O-nas (slug). Odkryj Toruń: /txt/203/ (błędny=Lokalizacja) → /txt/204/Atrakcje. Kontakt w regulaminie: /kontakt/ → /contact (systemowa IdoBooking).",
+      "source": "Ticket #1239859174#43 — Radosław Lewandowski"
+    },
+    {
+      "date": "2026-05-08",
+      "issue": "Podstrona /offers — dwa suwaki przewijania (system iframe wewnątrz strony)",
+      "action": "Utworzono statyczną OFERTA_PL (/txt/207/) — opis 11 apartamentów + sauna + strefa prania + CTA otwierające silnik w modal-iframe. W menu Apartamenty → /txt/207/Oferta zamiast /offers. JEDEN pasek przewijania.",
+      "source": "Ticket #1239859174#43 — Radosław Lewandowski"
+    },
+    {
+      "date": "2026-05-08",
+      "issue": "Mobile: booking iframe (.pk-booking-modal) lekko przesunięty na telefonach",
+      "action": "CSS_EDYTOR.css @media(max-width:768px): frame width:100% (nie 100vw, eliminuje przesunięcie o pasek), 100dvh (iOS Safari fix), align-items/justify-content: stretch, reset transform na .pk-active frame, iframe wymuszone 100%×100%+display:block.",
+      "source": "Ticket #1239859174#43 — Radosław Lewandowski + zrzut ekranu mobile"
+    },
+    {
+      "date": "2026-04-16",
+      "issue": "Malowidła ścienne NIE ISTNIEJĄ — nie przetrwały remontu",
+      "action": "Usunięto wszystkie wzmianki o malowidłach jako istniejących z: GLOWNA, ONAS, GALERIA, TRESCI_HISTORIA, BRIEF. UWAGA: korekta nie była utrwalona w paczce v2 — naprawione w turze 2026-05-08.",
+      "source": "Korekta od klienta (Damian)"
+    },
+    {
+      "date": "2026-04-16",
+      "issue": "Odsłonięta wysoka sień NIE ISTNIEJE — podzielona nowożytnym stropem",
+      "action": "Usunięto wzmianki o 5-metrowej sieni jako istniejącej. Zmieniono opis na historyczny. Counter '5 m sień' → '11 apartamentów' (turę 2026-05-08).",
+      "source": "Korekta od klienta (Damian)"
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-05-14 (v3.5)",
+      "action": "Sesja konserwacyjna: galeria + apartamenty + /offers cleanup + contact map + powered_by + folder consolidation. (1) GALERIA — 4 nazwane sekcje zamiast placeholderów: Kamienica (1 hero 16:9, /1/0/24.jpg), Wnętrza apartamentów (6 zdjęć asym grid, /1/0/26-31.jpg), Sauna+Kuchnia (2 zdjęcia side-by-side, /1/0/23+25.jpg), Toruń i okolica (5 zdjęć po usunięciu broken /4/0/9.jpg — layout 1 hero + 4 small w 6col×3row inline grid). + Marker .pk-gallery-catch. (2) JS catch-all initExtraGallery (KONIEC_BODY sekcja 18) — nowe zdjęcia wgrane do panelu automatycznie wpadają do sekcji 'Pozostałe zdjęcia' pod naszymi sekcjami, dedup po normalized URL, ukrywa oryginalne CMS-owe kontenery. (3) APARTAMENTY (/txt/200/) — highlight row z 3 zdjęciami nad iframe: Sauna fińska (23), Aneks kuchenny (25), Wnętrza (26) z labelkami w dark overlay pill. Usunięty redundantny przycisk ZOBACZ WSZYSTKIE APARTAMENTY (był i tak na tej samej stronie). (4) /offers cleanup — wszystkie linki przekierowane do /txt/200/: GLOWNA bottom CTA, GALERIA bottom CTA, KONIEC_BODY menu fix (OFERTA/APARTAMENTY → /txt/200/). + click interceptor w initEngineIntercept który łapie każdy stray a[href*=/offers] i przekierowuje + statyczny rewrite href. (5) Contact map filter (KONIEC_BODY sekcja 19, initContactMapFilter) — najpierw próba filtrowania markerów Leaflet po Piekary coords, potem (po feedback) zmienione na simple HIDE: .leaflet-container display:none + parent .contact__sect (zostaje Google Maps Piekary w naszym custom bloku z initContactPageFilter). 4 retry (0/500/2000/5000ms) bo system loads mapę async. (6) Powered by IdoBooking — 4 iteracje, finalny pattern: filter:none + height:40px (2× natywnego ~20px) + max:none + inline-block. Brand colors zachowane, czytelny rozmiar, pozycja inline w footer row. Library template też zaktualizowany (layer1-traps.css linia ~419 + bug-3 comment ~1972). (7) Folder consolidation — DO_WKLEJENIA spłaszczony do clients/piekary13/ (19 plików w jednym folderze), DO_WKLEJENIA_v2 finalnie usunięty (już wcześniej, dokończone). nervous-zhukovsky worktree clients/ przemianowane na clients_backup_2026-05-14/ przez git mv (WIP mazurski_chill zachowany).",
+      "files": "GALERIA_PL__body_top.html, KONIEC_BODY.html (3 nowe sekcje JS: 18 EXTRA GALLERY, 19 CONTACT MAP HIDE, + menu fix + click interceptor), APARTAMENTY_PL__body_top.html, GLOWNA_PL__body_top.html, CSS_EDYTOR.css (sekcja 2 + sekcja 36 CRITICAL-SS REWRITE v4), ENGINE_CSS.css (§8b), INSTRUKCJA.txt (ZMIANY v3.5 block)"
+    },
+    {
+      "date": "2026-05-08 (v2)",
+      "action": "Druga część tury 2026-05-08 — po odpowiedzi klienta i zrzutach ekranu. (1) FOOTER FIX: zaaplikowano JARVIS trap §1 z KNOWN-FIXES.md — .footer-contact-baner full-width breakout (width:100vw + left:50% + margin-left:-50vw + dark bg na footer/.powered_by/.footer-contact-add). Eliminuje niebieskie paski wokół VISA/Mastercard. (2) MAPPING ID poprawione w memory: na live /txt/201/=Galeria (potwierdzone przez klienta), nie /txt/202/. INSTRUKCJA zmieniona — sugeruje weryfikację ID w panelu zamiast hardcode. (3) OFERTA_PL PRZEBUDOWANE: dodano hero z bg-image apartamentu, sekcje wyróżników (lokalizacja/prywatny aneks/autorskie malarstwo), 2 sekcje asym z placeholderami na zdjęcia (sauna, strefa prania), dwa CTA otwierające iframe-modal. (4) GLOWNA: link Nasza historia /txt/201/O-nas → /txt/202/O-nas (z notą do podstawienia faktycznego ID O Nas). (5) NOWY plik SEO_PIEKARY.md — tytuł/meta description/slug/keywords dla 8 podstron + globalne ustawienia obiektu + Open Graph + Search Console. (6) INSTRUKCJA: dodano workflow zdjęć Drive→IdoBooking gallery (8 plików: flisak, krzywa wieza, obraz z remontu, pralnia, ratusz, szeroka, ulica piekary, uliczka w toruniu) z mapowaniem gdzie który należy.",
+      "files": "CSS_EDYTOR.css, GLOWNA_PL, OFERTA_PL (przebudowane), SEO_PIEKARY.md (NOWY), INSTRUKCJA.txt"
+    },
+    {
+      "date": "2026-05-08",
+      "action": "Tura uwag klienta (Radosław Lewandowski, ticket #1239859174#43). Zmiany treści + nowa podstrona OFERTA + fix mobile iframe. Files: GLOWNA_PL (malowidła→obrazy renowacja, aneks prywatny bez tostera, smart check-in karty+8-22, Pralnia→Strefa prania, counter 5m sień→11 apartamentów, parallax bg z Wikimedia→galeria IdoBooking, link Odkryj Toruń /txt/203→/txt/204/Atrakcje, CTA jeden przycisk, Nasza historia → /txt/201/O-nas, dopisano wanny+Wisła), ONAS (Zachowane malowidła→Malarstwo inspirowane miejscem, sień obecnie podzielona stropem), ATRAKCJE (Krzywa Wieża 200m→20m, usunięto restauracje, dodano Toruńskie Apartamenty Polecają), LOKALIZACJA (KW 200m→20m, Wisła widoczna, ta sama ulica co KW), REGULAMIN (FAQ aneks bez tostera, FAQ strefa prania, smart check-in 8-22, /kontakt/→/contact), CSS (mobile iframe 100%+100dvh+stretch+reset transform). Memory update.",
+      "files": "GLOWNA_PL, ONAS_PL, ATRAKCJE_PL, LOKALIZACJA_PL, REGULAMIN_PL, OFERTA_PL (NOWA), CSS_EDYTOR.css, INSTRUKCJA.txt"
+    },
+    {
+      "date": "2026-04-15",
+      "action": "Nowa strona v3",
+      "files": "DO_WKLEJENIA (v3 — teraz jedyny folder)"
+    },
+    {
+      "date": "2026-04-16",
+      "action": "Fix: Wikimedia URLs, footer gap, pierniki img, emoji→SVG",
+      "files": "CSS_EDYTOR.css, GLOWNA, ONAS, GALERIA, ATRAKCJE"
+    },
+    {
+      "date": "2026-04-16",
+      "action": "AUDYT: (1) Korekta treści — usunięto malowidła+sień jako istniejące, (2) Fix inline grid overrides na mobile, (3) Dodano CTA na APARTAMENTY, (4) Utworzono SEO_TYTULY_PIEKARY.md, (5) Dodano pk-gallery--3col do CSS",
+      "files": "GLOWNA_PL, ONAS_PL, GALERIA_PL, ATRAKCJE_PL, APARTAMENTY_PL, CSS_EDYTOR.css, SEO_TYTULY_PIEKARY.md, BRIEF, TRESCI_HISTORIA"
+    },
+    {
+      "date": "2026-05-05",
+      "action": "ENGINE CSS v1: osobny plik CSS dla silnika rezerwacji (Panel → Silnik rezerwacji → Arkusz stylów). Hide logo header+footer, override system vars, brand burgundy+gold+Playfair, Flatpickr+offers+inputs+footer styled, footer-contact-baner ::before/::after (trap #6). 588 linii / 20KB.",
+      "files": "ENGINE_CSS.css (NOWY), INSTRUKCJA.txt (KROK 8 dopisany), docs/plans/2026-05-05-piekary13-engine-css-design.md"
+    },
+    {
+      "date": "2026-05-05",
+      "action": "ENGINE CSS v2: rozbudowa po user feedback ('kolory totalnie niedopasowane'). Pokrycie WSZYSTKICH systemowych klas. 1290 linii / 40KB.",
+      "files": "ENGINE_CSS.css (v2)"
+    },
+    {
+      "date": "2026-05-05",
+      "action": "ENGINE CSS v3: DESIGN OVERHAUL Hotel Concierge — przeprojektowany layout search bar. ODRZUCONE.",
+      "files": "ENGINE_CSS.css (v3 — replaced by v4)"
+    },
+    {
+      "date": "2026-05-05",
+      "action": "ENGINE CSS v4: REVERT do minimal coloring po user feedback. System layout zostaje, tylko kolorowanie. 1331 linii.",
+      "files": "ENGINE_CSS.css (v4 — replaced by v5)"
+    },
+    {
+      "date": "2026-05-05",
+      "action": "ENGINE CSS v5: top menu bez pill, .btn-grenade burgundy, inner divs transparent. 1360 linii.",
+      "files": "ENGINE_CSS.css (v5 — replaced by v6/v7)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v6: tiles .calendar-menu-from/to/row/persons/filterFilter transparent default zamiast white. Cream container baseline + hover cream2 + active burgundy = 2-stanowy system zamiast 3-tonowego. TDD batch 49 testów / 47 PASS / 0 real fails. Live verified.",
+      "files": "ENGINE_CSS.css (v6 — replaced by v7)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v7: §3 header transparent + box-shadow:none. Top menu zlewa się z body. 1390 linii.",
+      "files": "ENGINE_CSS.css (v7 — replaced by v8)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v8: MCP audit przyciski — height/min-height/max-height 48px exact + min-width 160px. 1430 linii.",
+      "files": "ENGINE_CSS.css (v8 — replaced by v9)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v9: §4c .select-option burgundy + §4d tabs OFERTA/PROMOCJE pill switcher. 1585 linii.",
+      "files": "ENGINE_CSS.css (v9 — replaced by v10)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v10: FILTRY box-shadow fix + mobile audit @ 390. 1625 linii.",
+      "files": "ENGINE_CSS.css (v10 — replaced by v11)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v11: FILTRY pełny kafelek (240x110 fills_parent), text centered, hover bg burgundy-soft. 1659 linii.",
+      "files": "ENGINE_CSS.css (v11 — replaced by v12)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v12: 2 fixy po user feedback ('na liczbie osób hover dodatkowy kafelek, delikatne obrysowanie kafelków'). FIX 1: hover na LICZBA OSÓB tworzył 'kafelek wewnątrz kafelka' bo v8 hover selector obejmował też .calendar-menu-persons (inner 62x47 element). Wykluczyłem inner z hover, force transparent + border:0 nawet na hover. FIX 2: delikatne obrysy wszystkim tile (POCZĄTEK/KONIEC/LICZBA OSÓB/FILTRY) — border 1px solid var(--pk-cream3) #E5DDD0 default, hover burgundy rgba 30%. Specificity html body .calendar-menu .X (0,2,2) pokonuje v8 (0,1,0). Live verified: 4/4 PASS borders cream3, inner .calendar-menu-persons transparent. 1700 linii / 59KB / 0 escaped.",
+      "files": "ENGINE_CSS.css (v12 — replaced by v13)"
+    },
+    {
+      "date": "2026-05-06",
+      "action": "ENGINE CSS v13: 2 fixy po user feedback ('polityka dotycząca cookies za duża, stopka rozjechana w iframe na client23326'). FIX 1 stopka: MCP diagnoza .footer_links display:block + linki <a> system width:100% (260px) + height 110px = vertical stack 244px wysokości. Force flex row + flex-wrap + inline-block + width:auto na linkach. Live verified: REGULAMIN 76×25, POLITYKA PRYWATNOŚCI 160×25, footer_links 260×25 (zamiast 260×244). Linki obok payment icons + BLIK w jednym rzędzie. FIX 2 cookie: defensywnie wymuszone font-size 13px DM Sans + text-transform:none + letter-spacing:0 dla .ck_dsclr_v2 a oraz .ck_dsclr_v2 h1-h5/strong (system mógł renderować h-tag z dużym fontem). 1798 linii / 63KB / 0 escaped.",
+      "files": "ENGINE_CSS.css (v13)"
+    }
+  ],
+  "engine_css": {
+    "version": "v13.0",
+    "design_aesthetic": "Minimal coloring — system layout zachowany, tylko brand colors + typography. Iteracja v3 (Hotel Concierge restructure) odrzucona — user 'tylko pokoloruj'.",
+    "design_principle": "Restraint > maximalism. NIE przestawiać elementów, NIE hide internals, NIE custom labels, NIE flex restructure DOM. Tylko visual coloring + typography + subtle borders.",
+    "file": "DO_WKLEJENIA/ENGINE_CSS.css",
+    "panel_field": "Silnik rezerwacji → Arkusz stylów CSS",
+    "test_env": "https://client9933.idobooking.com/book-now/index.php?language=1&persons-adult=2&from_own_button=1",
+    "production_url": "https://client23326.idobooking.com/book-now/",
+    "size_lines": 1798,
+    "size_bytes": 62988,
+    "marker": "ENGINE_CSS_v13",
+    "iterations_history": "v1→v2 podstawowa pokrycie, v3 Hotel Concierge OFF (restructure rozsypał DOM), v4 revert minimal, v5 top menu pill off + .btn-grenade burgundy, v6 tiles transparent default (1 odcień zamiast 3), v7 header box-shadow off, v8 buttons height 48 + min-width 160 uniform, v9 .select-option burgundy + tabs OFERTA/PROMOCJE pill, v10 FILTRY box-shadow off, v11 FILTRY full tile clickable + center, v12 obrysy tile cream3 + hover persons-fix, v13 footer_links horizontal + cookie h-tag font-fix",
+    "key_classes_styled": ".navbar-brand, .iai-logo, .calendar-menu*, .date_d/m/Y, .number_of_persons*, .hd-label, .filterFilter*, .icon-calendar/lock/wallet, .btn-green/grenade/aside-* (uniform 48px+min-160), .btn-modal-link.btn-big (FILTRY full-tile), .ck_dsclr_v2*, .object-price/price/currency, .accommodation-*, .payment-info/checkbox, .footer_wrapper/links/iai-logo, .modal/white-box/dialog, .flatpickr/litepicker/ui-datepicker, .select-option/option-1/option-2, .main-nav/btn-main-nav (segmented control)",
+    "specificity_strategy": "Większość rules: 0,1,0 (single class). Dla konfliktów z system: 0,2,2 (html body .X .Y) lub 0,3,2 (ul.main-nav li.btn-main-nav.active). Mój wcześniejszy v8 .btn-big (0,1,0) konfliktował z FILTRY .btn-modal-link.btn-big — fix przez wyższą specificity reguły OFF.",
+    "verify_on_live": "fetch(link[href*=customStyles]).text() → has 'ENGINE_CSS_v13' marker, size>60KB, escaped \\!important == 0, getPropertyValue('--maincolor1') == '#722F37', .navbar-brand img display=none, .calendar-menu computed bg cream rgb(242,237,228), .calendar-menu-from border cream3 rgb(229,221,208), .footer_links display flex row + height < 60px, .ck_dsclr_v2 a font-size 13px"
+  },
+  "session_2026-05-06_summary": {
+    "iterations": 13,
+    "user_feedbacks": 9,
+    "mcp_audits_run": 12,
+    "tdd_batches_passed": "47/49 (v5), 4/4 (v7), 3/3 (v9), 5/5 (v13)",
+    "key_breakthrough": "Aktywacja chrome-devtools/playwright MCP — zamiast zgadywania selektorów przez screenshot, prawdziwy DOM inspect + computed styles + TDD batch test PASS/FAIL → 90%+ trafność fixów.",
+    "biggest_failure": "v3 Hotel Concierge restructure — radykalna przebudowa search bar (flex 50%, ::before labels, gold arrow, hide internals) bez znajomości DOM constraints. Layout się rozsypał. Cofnięte w v4.",
+    "biggest_win": "v8 MCP-driven button audit wykrył inconsistencies (50px vs 48px, 125px vs 171px) niewidoczne 'na oko'. Fix uniform 48×min-160 spójny dla wszystkich CTA."
+  },
+  "status": "READY_TO_LAUNCH — 100% próśb klienta zrealizowane, wszystko na live (audit 2026-05-11 v7 przez Playwright MCP)",
+  "session_2026-05-11_summary": {
+    "tures_completed": 7,
+    "client_requests_resolved": "100% (z 6 podstron + booking + footer + SEO)",
+    "verified_live_via_playwright_mcp": ["GLOWNA", "ONAS", "ATRAKCJE", "LOKALIZACJA", "OFERTA (/txt/200/)", "REGULAMIN", "Booking iframe (ob[183-193])", "Footer payment strip"],
+    "biggest_discoveries": [
+      "Trap 35: .parallax-slider ma z-index:-2 systemowo — bez containing stacking context slider ucieka pod tło body. Wymaga override z-index:0/1 + .section.parallax z-index:1.",
+      "Trap 38: BOOKING_URL IdoBooking filtruje przez ?ob[N]= (offer IDs), nie /location/N,M/. Format /location/ deprecated/nie działa.",
+      "Trap 37: /txt/ID/ z błędnym slugiem redirektuje OK, ale złe ID = inna podstrona bez 404. Audit linków musi weryfikować ID matchuje target.",
+      "Trap 36: NIGDY inline style='grid-template-columns' — nadpisuje media queries, na mobile 375px overflow 251px. Powracający bug — w v6 worktree wciąż były inline.",
+      "Konwencja JARVIS SEO IdoBooking: 5 pól (Nazwa, Podpis pod nazwą, Tytuł, Tytuł meta, Opis meta) — NIE keywords."
+    ],
+    "tooling_milestone": "Pierwsze KOMPLETNE QA audit przez Playwright MCP. Sprawdzane: tytuł meta, naturalWidth każdego <img>, mobile overflow detection, booking iframe URL parsing, footer payment strip width, internal link routing. 100x szybsze niż curl + manual inspection."
+  },
+  "previous_status": "do_wklejenia_2026-05-14_v3.5",
+  "last_updated": "2026-05-14 (v3.5)",
+  "folder_structure_note": "Spłaszczono ostatecznie (2026-05-14): wszystkie pliki w clients/piekary13/ bezpośrednio, BEZ podfolderu DO_WKLEJENIA. 19 plików + folder zdjecia/. User explicit: 'jeden folder dla klienta i w środku wszystkie pliki'. Stary DO_WKLEJENIA_v2 finalnie usunięty (był pusty już wcześniej, git index doczyszczony przez git add -A).",
+  "critical_note": "Tura 2026-05-08 v2 — po zwrotnej odpowiedzi klienta. Zaaplikowano: (1) JARVIS footer trap §1 (niebieskie paski wokół VISA/MC → full-width breakout 100vw), (2) przebudowane OFERTA_PL z hero + placeholderami na sauna/pralnia, (3) NOWY SEO_PIEKARY.md z meta dla 8 podstron, (4) workflow zdjęć z Drive → IdoBooking gallery w INSTRUKCJA. CZEKAMY NA klienta: (a) potwierdzenie ID podstron z panelu (na live /txt/201/=Galeria, reszta nieznana — w INSTRUKCJA jest do podstawienia), (b) URLe zdjęć po uploadzie do IdoBooking gallery (8 plików z Drive), (c) decyzja czy wdrażamy SEO meta z SEO_PIEKARY.md jak proponuję.",
+  "jarvis_convention_seo_fields": {
+    "note": "JARVIS SEO convention dla podstron IdoBooking — POPRAWKA 2026-05-08 v4 (klient RL): 5 pól, nie 4. W IdoBooking panelu Tytuł (główny nagłówek H1 na stronie) i Tytuł meta (<title> dla Google) to OSOBNE pola.",
+    "fields_used": ["Nazwa", "Podpis pod nazwą", "Tytuł", "Tytuł meta", "Opis meta"],
+    "fields_NOT_used": ["Słowa kluczowe (keywords) — Google ignoruje", "Slug (osobna sprawa, w INSTRUKCJI)"],
+    "rationale": "Tytuł = H1 na samej stronie (system renderuje jako nagłówek). Tytuł meta = <title> w przeglądarce/wynikach Google. Klient RL wskazał że Tytuł to osobne pole — wcześniej miałem tylko Tytuł meta, dodano Tytuł w SEO_PIEKARY.md v4."
+  },
+  "open_tasks_from_client_2026-05-08": [
+    "Klient: zweryfikować /txt/ID każdej podstrony w panelu i potwierdzić, by podstawić w GLOWNA_PL (link Nasza historia) + w menu nawigacji",
+    "Klient: potwierdzić czy 15.jpg → ulica Piekary to typo (sugeruję że to 16.jpg) — patrz INSTRUKCJA sekcja PYTANIE",
+    "Klient: wgrać brakujące zdjęcia: Krzywa Wieża (sugeruję 17.jpg, priorytet 1), Sauna (19.jpg), Wnętrza apartamentu/aneks/wanna/widok-Wisła (20-23.jpg), Elewacja (24.jpg), Klatka (25.jpg)",
+    "Klient: weryfikacja domeny apart-torun.pl, SSL, redirect po stronie infrastruktury IdoBooking",
+    "Klient: program partnerski 'Toruńskie Apartamenty Polecają' — uzupełnić sekcję po uruchomieniu",
+    "Klient: opinia / akceptacja propozycji SEO_PIEKARY.md (tytuły + meta description + keywords)"
+  ],
+  "photo_registry_2026-05-08_v3": {
+    "source": "Panel klienta IdoBooking. Pattern: https://client23326.idobooking.com/images/frontpageGallery/pictures/large/{ALBUM}/0/{N}.jpg (album 1/0 = pierwsza partia, 3/0 = druga partia z atrakcjami)",
+    "uploaded_by_client": {
+      "1/0/11.jpg": "Flisak — pomnik. Used: GALERIA (Toruń, kafelek 5)",
+      "1/0/12.jpg": "Obraz z remontu (autorskie malarstwo). Used: ONAS (Malarstwo), GALERIA (Kamienica, k.2)",
+      "1/0/13.jpg": "Pralnia (strefa prania). Used: OFERTA (W obiekcie), GALERIA (Kamienica, k.3)",
+      "1/0/14.jpg": "Ratusz Staromiejski. Used: ATRAKCJE (Ratusz), LOKALIZACJA (grid k.1), GALERIA (Toruń k.1). UWAGA: usunięto z ONAS Kamienica mieszczańska (zastąpione 4/0/4.jpg w turze v6).",
+      "1/0/15.jpg": "Ulica Szeroka. Used: GLOWNA (parallax sekcja 6), GALERIA (Toruń k.2)",
+      "1/0/16.jpg": "KRZYWA WIEŻA. Used: GLOWNA (sekcja 1), OFERTA (hero), ATRAKCJE (sekcja Krzywa Wieża), LOKALIZACJA (grid k.2), GALERIA (Toruń k.3). UWAGA: usunięto z ONAS Ulica Piekary (zastąpione 18.jpg w turze v6).",
+      "1/0/18.jpg": "ULICA PIEKARY (potwierdzone 2026-05-08 v6). Used: ONAS (Ulica Piekary), ATRAKCJE (parallax Gotycki Toruń), GALERIA (Toruń k.4)",
+      "3/0/19.jpg": "Dom Mikołaja Kopernika. Used: ATRAKCJE (Dom Kopernika), LOKALIZACJA (grid k.3), GALERIA (Toruń k.6)",
+      "3/0/20.jpg": "Pierniki toruńskie. Used: ATRAKCJE (sekcja Pierniki)",
+      "4/0/4.jpg": "ELEWACJA KAMIENICY Piekary 1-3 (dodane 2026-05-08 v6). Used: ONAS (Kamienica mieszczańska), GALERIA (Kamienica k.1 — zastąpienie placeholdera)",
+      "4/0/21.jpg": "Katedra św. Janów (dodane 2026-05-08 v6). Used: LOKALIZACJA (grid k.5 — zastąpienie Wikimedia)",
+      "4/0/22.png": "Bulwar nad Wisłą (dodane 2026-05-08 v6). Used: LOKALIZACJA (grid k.6 — zastąpienie Wikimedia)"
+    },
+    "missing_using_wikimedia_fallback": [
+      "Mury obronne — Wikimedia w LOKALIZACJA grid (jedyne pozostałe Wikimedia)"
+    ],
+    "missing_placeholders_only": [
+      "Sauna fińska — placeholder w OFERTA + GALERIA",
+      "Wnętrze apartamentu — placeholder w GALERIA",
+      "Aneks kuchenny (zbliżenie) — placeholder w GALERIA"
+    ],
+    "booking_url_fix_2026-05-08_v4_FINAL": {
+      "issue": "Przycisk REZERWUJ pokazywał WSZYSTKIE oferty zamiast filtru Piekary 1-3",
+      "root_cause_v3": "PROBLEM rozwiązany w v3 niewłaściwie — wtedy myślałem że problem to showOtherOffers=1 i separator. ZA MAŁO. Faktyczny root cause: cały format URL był zły — używał /location/16,23 zamiast filtra przez ID OFERT.",
+      "fix_v4": "Przywrócono URL z głównego repo (poza worktree, /Users/user/Desktop/jarvis/clients/piekary13/DO_WKLEJENIA/) który filtruje przez ob[N] — konkretne ID 11 apartamentów: ob[183]&ob[184]&ob[185]&ob[186]&ob[187]&ob[188]&ob[189]&ob[190]&ob[191]&ob[192]&ob[193]. Plus query: transparentbackground=1&from_own_button=1.",
+      "lesson": "URL silnika IdoBooking filtruje przez ID OFERTY (ob[N]), nie przez ID lokalizacji. Pattern URL: /book-now/booking/defaultchoice/currency/0/language/0?ob[X]&ob[Y]&...&transparentbackground=1&from_own_button=1",
+      "verify_with_client": "Apartamenty Piekary 1-3 mają ID 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193. Jeśli dodajemy/usuwamy apartamenty — zaktualizować listę ob[N] w BOOKING_URL."
+    },
+    "full_qa_audit_2026-05-11_v7": {
+    "method": "Playwright MCP — navigate każdą podstronę + evaluate JS (img naturalWidth, links, mobile overflow, booking iframe URL)",
+    "tested_pages": ["/", "/txt/202/O-kamienicy-Piekary-1-3", "/txt/204/Lokalizacja", "/txt/203/Atrakcje-Torunia-przewodnik", "/txt/201/Galeria", "/txt/205/Regulamin-i-FAQ"],
+    "live_url_mapping_confirmed": {
+      "/txt/200/": "Nasze-apartamenty (klient utworzył dodatkową podstronę!)",
+      "/txt/201/": "Galeria",
+      "/txt/202/": "O-kamienicy-Piekary-1-3 (O nas)",
+      "/txt/203/": "Atrakcje-Torunia-przewodnik",
+      "/txt/204/": "Lokalizacja",
+      "/txt/205/": "Regulamin-i-FAQ"
+    },
+    "what_works_on_live": [
+      "Tytuły meta — klient wkleił SEO_PIEKARY.md (wszystkie podstrony mają poprawny <title>)",
+      "Home hero slider — 3_full.jpg renderuje się prawidłowo (fix v6 parallax-slider z-index)",
+      "Booking iframe — URL filtruje przez 11 ob[183-193] (fix v4 BOOKING_URL)",
+      "Footer payment strip — dark bg #1A1A1A, width 1200px = full viewport (fix v4 100vw breakout)",
+      "ATRAKCJE — 4/4 images + parallax bg OK",
+      "ONAS Section 1+2 — 18.jpg (Ulica Piekary) i 4/0/4.jpg (Kamienica) renderują OK",
+      "GALERIA Toruń — 6/6 + Kamienica 3/6 obrazów OK"
+    ],
+    "issues_found": {
+      "MOBILE_OVERFLOW_375px": "Sekcja Czy wiesz, że (.pk-facts) miała inline style grid-template-columns:repeat(3,1fr) — nadpisywało media query 480px, kolumny 2/3 wychodziły 251px poza viewport. JARVIS trap (memory note z 2026-04-16) — w worktree wciąż było. FIX v7: usunięto inline z 4 plików (GLOWNA pk-facts, GALERIA pk-gallery→pk-gallery--3col, ATRAKCJE pk-features, OFERTA pk-features). Test po fix: scrollWidth=clientWidth=375 ✓",
+      "HOME_LINKI_BLEDNE": "1. Nasza historia: /txt/202/O-nas → poprawione /txt/202/O-kamienicy-Piekary-1-3 (slug klient utworzył inny). 2. Odkryj Toruń: /txt/204/Atrakcje → KRYTYCZNY błąd: /txt/204/ to Lokalizacja (nie Atrakcje!), Atrakcje są na /txt/203/. Poprawione /txt/203/Atrakcje-Torunia-przewodnik.",
+      "KLIENT_NIE_WKLEIL_NAJNOWSZYCH_HTML": "Na live wciąż stare wersje: GALERIA (placeholder Elewacja zamiast 4/0/4.jpg, alt Uliczka zamiast Piekary), LOKALIZACJA (Wikimedia Katedra/Bulwar zamiast 4/0/21,22), REGULAMIN (przycisk KONTAKT /kontakt/ zamiast /contact, brak nowego FAQ pralni), GLOWNA (stare linki). Wszystko jest GOTOWE w worktree — czeka na wklejenie.",
+      "OBRAZY_LAZY_LOADING": "Obrazy poniżej fold mają loading=lazy — natural=0x0 przy pierwszym check, ładują się po scrollu. Działa zgodnie z planem (performance), nie jest błędem."
+    },
+    "added_css_class": "pk-gallery--3col (sekcja 12 CSS_EDYTOR.css) — zastępuje inline style w GALERIA Kamienica",
+    "screenshots_captured": ["audit-footer-desktop.png (desktop, footer + payment strip)", "audit-mobile-home-PRE-FIX.png (overflow visible)", "audit-mobile-home-POST-FIX.png (after JS-injected fix)"],
+    "jarvis_instynkty_potwierdzone": [
+      "Trap nr 36: NIGDY nie używaj inline style grid-template-columns — nadpisuje media queries i ŁAMIE mobile. Memory note z 2026-04-16 dla piekary13 — TRAP powraca jeśli nie pilnuje się go w nowych body_top.",
+      "Trap nr 37: IdoBooking redirektuje /txt/{ID}/ z dowolnym slugiem do correct slug, ALE jeśli ID jest złe (np. /txt/204/Atrakcje = idzie do Lokalizacji) — gość trafia na ZŁĄ podstronę bez błędu 404. Audit każdego linku numerycznie nie wystarczy — trzeba weryfikować że ID matchuje docelową podstronę."
+    ]
+  },
+  "parallax_slider_zindex_fix_2026-05-08_v6": {
+      "issue": "System slider hero (.parallax-slider) renderował się bez obrazu na home page mimo że obraz BYŁ załadowany (Chrome DevTools potwierdziło: imgComplete=true, naturalWidth=1620, backgroundImage set).",
+      "root_cause": "System ustawia .parallax-slider { z-index: -2 }. Parent .section.parallax ma z-index:auto + position:relative — NIE tworzy stacking context bez explicit z-index. Bez stacking context, ujemny z-index slidera ucieka w górę aż za tło body (#FAFAF5 pk-white). Slider rendered za tłem strony = niewidoczny.",
+      "diagnostic_method": "Chrome DevTools MCP — evaluate_script: zwrócił sliderZ:-2, sliderBg:url(small/0/0/3.jpg), imgComplete:true, naturalWidth:1620. Parent chain: slider→fp-tableCell(z:auto,static)→section.parallax(z:auto,relative)→body(bg:#FAFAF5). Diagnoza: ujemny z-index bez containing stacking context.",
+      "fix": "CSS_EDYTOR.css sekcja 6: .parallax-slider { z-index: 0 !important; } i .section.parallax { z-index: 1 !important; } (drugie tworzy stacking context który zatrzymuje ujemne z-index slidera, gdyby pojawiły się ponownie). Plus defensywne reguły na .parallax-image img.",
+      "verified_live": "Wstrzyknięto fix przez Chrome DevTools MCP w live page — zdjęcie panoramy Torunia natychmiast się pokazało za tytułem PIEKARY. Screenshot potwierdza.",
+      "instinkt_jarvis": "Trap nr 35 — IdoBooking system slider .parallax-slider ma z-index:-2 bez containing stacking context. Bez fixu obraz hero NIE BĘDZIE WIDOCZNY. Każdy nowy projekt z fullpage IdoBooking wymaga: .parallax-slider { z-index:0 !important; } + .section.parallax { z-index:1 !important; }",
+      "files": "CSS_EDYTOR.css (sekcja 6 — Hero section)"
+    },
+    "fullpage_reveal_fix_2026-05-08_v5_FINAL": {
+      "issue": "Na stronie głównej zdjęcia w sekcji 1 (O kamienicy, 16.jpg) i parallax sekcji 6 (15.jpg) nie były widoczne — opacity:0 + parallax background-attachment:fixed nie działa w sekcjach fullpage.",
+      "root_cause": "fullpage.js sekcje używają transform: translateY do scrollowania. (a) IntersectionObserver nie odpala się dla elementów w nieaktywnych sekcjach — klasy .pk-reveal* zostają z opacity:0. (b) background-attachment:fixed w transformowanym kontekście nie istnieje.",
+      "fix_v4_INSUFFICIENT": "Selektor .fp-section ALE w IdoBooking piekary13 fullpage używa klas `.section` (bez prefiksu fp-). Selektor body[class*=fp-viewing-] też nie zadziałał, bo na pierwszym renderze body ma tylko `page-index` — fp-viewing- jest dodawane PO inicie JS (race condition).",
+      "fix_v5_CORRECT": "Użyto selektora `body.page-index` (systemowy IdoBooking dla home) — działa natychmiast od pierwszej pixel-bytes CSS. Plus dodano `.fp-section` i `body[class*=fp-viewing-]` jako fallback (działają jeśli fullpage JS się odpali). Plus defensywne `body.page-index .pk-asym__img img { opacity:1 !important }` — gwarantuje że obrazy w asym layout się pokażą niezależnie od stanu reveal-classów.",
+      "files": "CSS_EDYTOR.css (sekcja 21b — v5), KONIEC_BODY.html (initScrollReveal — setTimeout 2000ms safety net z v4)",
+      "selectors_confirmed_via_curl": "Pobranie /customStyles/.../custom.css?v=... potwierdziło że v4 CSS BYŁ na live. Curl strony głównej pokazał że body ma klasę `page-index` (nie fp-viewing-) i fullpage section ma klasę `section` (nie fp-section). Stąd v5 selektor body.page-index.",
+      "instinkt_jarvis": "IdoBooking fullpage trap: na home używać body.page-index jako selektora (nie .fp-section ani fp-viewing-) — to jedyny pewny target od pierwszej fazy renderowania."
+    }
+  }
+}

@@ -22,6 +22,11 @@ html:root {
   --fr-bg:             #FAF7F2;
   --fr-bg-alt:         #F4ECE2;
   --fr-white:          #FFFFFF;
+
+  /* Dark theme colors — używane w sekcjach z ciemnym tłem */
+  --fr-dark:           #0F0F0E;
+  --fr-dark-deep:      #050505;
+  --fr-primary-dark:   #806C00;
   --fr-border-light:   #E5DCD4;
   --fr-border-medium:  #C9C2B8;
   --fr-shadow-sm:      0 2px 8px rgba(26, 26, 24, 0.06);
@@ -3226,9 +3231,11 @@ html body.page-offers .filter_header[aria-expanded="true"]::after {
   margin-bottom: 0 !important;
 }
 
-/* Bootstrap collapse guard */
-html body.page-offers .filter_content.collapse:not(.show) {
-  display: none !important;
+/* Bootstrap collapse guard — desktop only (v1.48 fix: mobile auto-expand) */
+@media (min-width: 992px) {
+  html body.page-offers .filter_content.collapse:not(.show) {
+    display: none !important;
+  }
 }
 
 html body.page-offers .filter_content.collapse.show {
@@ -3386,10 +3393,11 @@ html body .offer-price {
   font-family: var(--fr-font-display) !important;
 }
 
-/* /offer tabs sticky — system uses --fixed (BEM modifier), not .sticky */
+/* /offer tabs sticky — system uses --fixed (BEM modifier), not .sticky
+   v1.40: top 88→65 zeby skleic z header scrolled (65px) bez luki */
 html body .tabs.--fixed {
   position: fixed !important;
-  top: 88px !important;
+  top: 65px !important;
   left: 0 !important;
   right: 0 !important;
   width: 100vw !important;
@@ -5188,13 +5196,14 @@ html body.page-offer .offer-price .price {
 
 /* Sticky tabs on /offer — drugie menu po scroll
    PATCH v1.6: max-width:none + inset:0 to defeat system .tabs{max-width:1140px}
-   System app.css limits .tabs to 1140px; we need viewport-wide centered band */
+   System app.css limits .tabs to 1140px; we need viewport-wide centered band
+   v1.40: top 95→65 — sklejone z header scrolled (65px), brak luki */
 html body .tabs.--fixed,
 html body.page-offer .tabs.--fixed,
 html body .tabs.tabs--fixed,
 html body .tabs.sticky {
   position: fixed !important;
-  top: 95px !important;
+  top: 65px !important;
   left: 0 !important;
   right: 0 !important;
   inset-inline: 0 !important;
@@ -5212,6 +5221,15 @@ html body .tabs.sticky {
   align-items: center !important;
   backdrop-filter: blur(10px) !important;
   box-sizing: border-box !important;
+}
+
+/* Mobile sticky tabs — header height 56px → top: 56px */
+@media (max-width: 991.98px) {
+  html body .tabs.--fixed,
+  html body.page-offer .tabs.--fixed,
+  html body .tabs.tabs--fixed {
+    top: 56px !important;
+  }
 }
 
 html body .tabs.--fixed .tabs__inner,
@@ -7595,12 +7613,20 @@ html body header .page-top__language .language {
   text-underline-offset: 4px;
 }
 @media (max-width: 991.98px) {
-  .fr-trust__bar { grid-template-columns: repeat(2, 1fr); }
+  .fr-trust__bar { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .fr-trust__bar-cell { min-width: 0; }
   .fr-trust__bar-cell:nth-child(2) { border-right: none; }
   .fr-trust__bar-cell:nth-child(1), .fr-trust__bar-cell:nth-child(2) {
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .fr-trust__cards { grid-template-columns: 1fr; }
+}
+
+/* Very small mobile (≤480) — pojedyncza kolumna trust bar */
+@media (max-width: 480px) {
+  .fr-trust__bar { grid-template-columns: 1fr; }
+  .fr-trust__bar-cell { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .fr-trust__bar-cell:last-child { border-bottom: none; }
 }
 
 /* §71c. LIGHT FOOTER — cream override of system footer (replaces dark SA-style) */
@@ -8633,179 +8659,6 @@ html body .fr-hero-asym__text {
 
 /* PATCH MARKER — v1.6 */
 
-/* ============================================================
-   §76. v1.7 — system search higher-specificity override
-        Damian: nie ma żadnej wyszukiwarki. System wygrywa
-        specyficznością (path through .section.parallax).
-        Plus JS w body_bottom force show — dwa filary obronne.
-   ============================================================ */
-
-html body.page-index .section.parallax .index-info,
-html body.page-index .section.parallax .fp-tableCell .index-info {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  overflow: visible !important;
-  height: auto !important;
-  min-height: 120px !important;
-  width: 100% !important;
-  max-width: 1148px !important;
-  margin: 0 auto !important;
-  padding: 0 24px !important;
-  z-index: 8 !important;
-}
-
-html body.page-index .section.parallax .iai-search,
-html body.page-index .section.parallax .index-info .iai-search,
-html body.page-index .section.parallax .fp-tableCell .index-info .iai-search {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  overflow: visible !important;
-  height: auto !important;
-  width: 100% !important;
-  max-width: none !important;
-  background: #FFFFFF !important;
-  border-radius: var(--fr-radius-lg) !important;
-  padding: clamp(20px, 3vw, 32px) !important;
-  box-shadow: 0 24px 60px rgba(15, 15, 14, 0.18) !important;
-  border: 1px solid rgba(226, 215, 0, 0.4) !important;
-  margin: 0 !important;
-}
-
-html body.page-index .section.parallax .iai_frontpage,
-html body.page-index .section.parallax #iai_book_se,
-html body.page-index .section.parallax .iai-search .iai_frontpage,
-html body.page-index .section.parallax .iai-search #iai_book_se {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  left: auto !important;
-  transform: none !important;
-  overflow: visible !important;
-  height: auto !important;
-  background: transparent !important;
-}
-
-html body.page-index .section.parallax #iai_book_form,
-html body.page-index .section.parallax .iai-search #iai_book_form,
-html body.page-index .section.parallax form#iai_book_form {
-  display: grid !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  left: auto !important;
-  transform: none !important;
-  overflow: visible !important;
-  height: auto !important;
-  grid-template-columns: 1.1fr 1fr 1fr 0.85fr auto !important;
-  gap: 12px !important;
-  align-items: end !important;
-  margin: 0 !important;
-}
-
-@media (max-width: 991.98px) {
-  html body.page-index .section.parallax #iai_book_form,
-  html body.page-index .section.parallax .iai-search #iai_book_form {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 10px !important;
-  }
-  html body.page-index .section.parallax #iai_book_form button[type="submit"] {
-    grid-column: span 2 !important;
-  }
-}
-
-@media (max-width: 480px) {
-  html body.page-index .section.parallax #iai_book_form,
-  html body.page-index .section.parallax .iai-search #iai_book_form {
-    grid-template-columns: 1fr !important;
-  }
-  html body.page-index .section.parallax #iai_book_form button[type="submit"] {
-    grid-column: span 1 !important;
-  }
-}
-
-/* PATCH MARKER — v1.7 */
-
-/* ============================================================
-   §77. v1.8 — search bar pozycja: floating bottom hero (zamiast top)
-        Damian: search wyrenderowała się na samej górze, nad heroem.
-   ============================================================ */
-
-html body.page-index .section.parallax {
-  position: relative !important;
-}
-html body.page-index .section.parallax > .fp-tableCell {
-  position: relative !important;
-}
-
-/* Search bar — floating absolute at bottom of hero/fp viewport */
-html body.page-index .section.parallax .index-info,
-html body.page-index .section.parallax .fp-tableCell .index-info {
-  position: absolute !important;
-  bottom: 32px !important;
-  left: 50% !important;
-  right: auto !important;
-  top: auto !important;
-  transform: translateX(-50%) !important;
-  width: calc(100% - 48px) !important;
-  max-width: 1148px !important;
-  margin: 0 !important;
-  z-index: 10 !important;
-  padding: 0 !important;
-}
-
-/* Hero leaves room at bottom for floating search bar */
-html body .fr-hero-asym {
-  padding-bottom: clamp(180px, 22vh, 240px) !important;
-}
-
-/* Search card — center title */
-html body.page-index .section.parallax .iai-search::before {
-  text-align: center !important;
-  margin-bottom: 12px !important;
-}
-
-@media (max-width: 991.98px) {
-  html body.page-index .section.parallax .index-info,
-  html body.page-index .section.parallax .fp-tableCell .index-info {
-    bottom: 16px !important;
-    width: calc(100% - 24px) !important;
-  }
-  html body .fr-hero-asym {
-    padding-bottom: clamp(220px, 30vh, 320px) !important;
-  }
-}
-
-@media (max-width: 600px) {
-  html body.page-index .section.parallax .index-info,
-  html body.page-index .section.parallax .fp-tableCell .index-info {
-    position: relative !important;
-    bottom: auto !important;
-    left: auto !important;
-    transform: none !important;
-    margin: 24px 16px !important;
-    width: calc(100% - 32px) !important;
-  }
-  html body .fr-hero-asym {
-    padding-bottom: clamp(56px, 8vh, 80px) !important;
-  }
-}
-
-/* PATCH MARKER — v1.8 */
 
 /* ============================================================
    §78. v1.9 — REVERT to JARVIS proven pattern
@@ -8866,46 +8719,6 @@ html body .fr-hero-asym {
 
 /* PATCH MARKER — v1.9 */
 
-/* ============================================================
-   §79. v1.10 — search bar w viewport: skróć hero + overlap
-        Damian: "za nisko ta wyszukiwarka". Hero 100vh + search
-        sister sekcja = search poza viewport. Fix: hero 72vh +
-        search margin-top:-100px (overlap z dolną częścią hero).
-   ============================================================ */
-
-html body .fr-hero-asym {
-  min-height: 72vh !important;
-}
-
-html body .fr-hero-asym__media {
-  min-height: 72vh !important;
-}
-
-html body .fr-search-banner {
-  margin-top: -110px !important;
-  position: relative !important;
-  z-index: 5 !important;
-  padding-top: clamp(40px, 5vw, 56px) !important;
-  padding-bottom: clamp(48px, 6vw, 72px) !important;
-  border-radius: var(--fr-radius-lg) var(--fr-radius-lg) 0 0 !important;
-}
-
-/* Mobile — bez overlap (search natural flow pod hero) */
-@media (max-width: 768px) {
-  html body .fr-hero-asym {
-    min-height: auto !important;
-  }
-  html body .fr-hero-asym__media {
-    min-height: auto !important;
-  }
-  html body .fr-search-banner {
-    margin-top: 0 !important;
-    border-radius: 0 !important;
-    padding-top: clamp(32px, 6vw, 48px) !important;
-  }
-}
-
-/* PATCH MARKER — v1.10 */
 
 /* ============================================================
    §80. v1.11 — search ABSOLUTE wewnątrz hero-wrap, visible na
@@ -9678,54 +9491,6 @@ html body footer .footer-contact-baner > span:first-child {
 
 /* PATCH MARKER — v1.13 */
 
-/* ============================================================
-   §83. v1.14 — search bar WYŻEJ w viewport (Damian: "nadal za nisko")
-        Cofa v1.11 bottom 16-40 → bottom 72-144 (wyżej od dołu hero).
-   ============================================================ */
-
-html body .fr-hero-wrap > .fr-search-banner,
-html body div.fr-hero-wrap > section.fr-search-banner {
-  bottom: clamp(72px, 11vh, 144px) !important;
-}
-
-html body .fr-hero-asym {
-  padding-bottom: clamp(280px, 35vh, 440px) !important;
-}
-
-/* Tablet @991 */
-@media (max-width: 991.98px) {
-  html body .fr-hero-asym {
-    padding-bottom: clamp(320px, 40vh, 480px) !important;
-  }
-  html body .fr-hero-wrap > .fr-search-banner,
-  html body div.fr-hero-wrap > section.fr-search-banner {
-    bottom: clamp(56px, 8vh, 120px) !important;
-  }
-}
-
-/* Mobile @600 */
-@media (max-width: 600px) {
-  html body .fr-hero-wrap > .fr-search-banner,
-  html body div.fr-hero-wrap > section.fr-search-banner {
-    bottom: clamp(40px, 6vh, 80px) !important;
-  }
-  html body .fr-hero-asym {
-    padding-bottom: clamp(360px, 48vh, 460px) !important;
-  }
-}
-
-/* iPhone SE @380 */
-@media (max-width: 380px) {
-  html body .fr-hero-wrap > .fr-search-banner,
-  html body div.fr-hero-wrap > section.fr-search-banner {
-    bottom: clamp(24px, 4vh, 56px) !important;
-  }
-  html body .fr-hero-asym {
-    padding-bottom: clamp(420px, 56vh, 520px) !important;
-  }
-}
-
-/* PATCH MARKER — v1.14 */
 
 /* ============================================================
    §84. v1.15 — żółty muted dla TEKSTU (na dark + na cream)
@@ -10133,4 +9898,4380 @@ html body footer .footer-contact-baner > span:hover img {
 }
 
 /* PATCH MARKER — v1.19 */
+
+/* ============================================================
+   §94. v1.28 — Damian feedback 2026-05-12 (poprawka §93):
+        Hero ma być WYCENTROWANY (nie left-aligned), search bar
+        ma być POD hero (nie absolute bottom) — wszystko w jednej
+        viewport above-fold.
+   ============================================================ */
+
+/* §94a. Hero-wrap = full viewport flex column, content centered */
+html body .fr-hero-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 100vh !important;
+  min-height: 100svh !important;
+  padding: clamp(96px, 12vh, 160px) clamp(20px, 4vw, 56px) clamp(48px, 7vh, 96px) !important;
+  gap: clamp(28px, 4vh, 56px) !important;
+  position: relative !important;
+}
+
+/* §94b. Hero-wrap subtle dark overlay — full viewport, brak "kwadratu" */
+html body .fr-hero-wrap::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, rgba(15,15,14,0.45) 0%, rgba(15,15,14,0.20) 50%, rgba(15,15,14,0.50) 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+/* §94c. Hero-asym = centered content card, no longer the visual frame */
+html body .fr-hero-asym {
+  width: 100% !important;
+  max-width: 1080px !important;
+  min-height: auto !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Remove §75 dark gradient from hero-asym (now on hero-wrap) */
+html body .fr-hero-asym::after {
+  display: none !important;
+}
+
+/* §94d. Hero-text — centered text + flex column */
+html body .fr-hero-asym__text {
+  max-width: 920px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  background: transparent !important;
+}
+
+html body .fr-hero-asym__kicker {
+  justify-content: center !important;
+}
+
+html body .fr-hero-asym__title {
+  text-align: center !important;
+}
+
+html body .fr-hero-asym__title em::after {
+  margin: 14px auto 0 !important;
+}
+
+html body .fr-hero-asym__lead {
+  text-align: center !important;
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+html body .fr-hero-asym__cta-row {
+  justify-content: center !important;
+}
+
+html body .fr-hero-asym__meta {
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+}
+
+/* §94e. Search bar — INLINE flow pod hero, NOT absolute bottom */
+html body .fr-hero-wrap > section.fr-search-banner,
+html body div.fr-hero-wrap > section.fr-search-banner {
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  width: 100% !important;
+  max-width: 1100px !important;
+  margin: 0 auto !important;
+  z-index: 2 !important;
+}
+
+/* §94f. Mobile @991 — tighter spacing, natural height */
+@media (max-width: 991.98px) {
+  html body .fr-hero-wrap {
+    padding: clamp(80px, 12vh, 120px) 16px clamp(40px, 6vh, 64px) !important;
+    gap: clamp(20px, 3vh, 36px) !important;
+    min-height: auto !important;
+  }
+  html body .fr-hero-asym {
+    max-width: 100% !important;
+  }
+  html body .fr-hero-asym__meta {
+    gap: 18px !important;
+  }
+}
+
+/* §94g. Mobile @480 — najmniejsze paddings */
+@media (max-width: 480px) {
+  html body .fr-hero-wrap {
+    padding: 72px 12px 36px !important;
+    gap: 18px !important;
+  }
+}
+
+/* ============================================================
+   §95. v1.28 — KICKER REDESIGN (Damian: napisy "Zaufanie Gości"
+        słabo widoczne, powtarzają się). Editorial minimal:
+        usuń pill bg, dark tekst, subtelny żółty horizontal accent.
+   ============================================================ */
+
+/* §95a. Base .fr-kicker — usuń pill bg, dark text, horizontal line */
+html body .fr-kicker {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 0 16px !important;
+  color: var(--fr-text-dark) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2.8px !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  opacity: 0.92 !important;
+}
+
+/* §95b. Yellow horizontal line BEFORE text (deep yellow for AA contrast on cream) */
+html body .fr-kicker::before {
+  content: "" !important;
+  display: inline-block !important;
+  width: 28px !important;
+  height: 1.5px !important;
+  background: var(--fr-primary-deep) !important;
+  flex-shrink: 0 !important;
+}
+
+/* §95c. Kicker on DARK sections (magazine, stats-asym hero, trust bar, final-cta,
+        search-banner) — keep light primary yellow for visibility */
+html body .fr-magazine .fr-kicker,
+html body .fr-stats-asym__hero .fr-stats-asym__hero-kicker,
+html body .fr-trust__bar .fr-kicker,
+html body .fr-final-cta .fr-kicker,
+html body .fr-hero-wrap .fr-search-banner__kicker {
+  color: var(--fr-primary) !important;
+  opacity: 1 !important;
+}
+
+html body .fr-magazine .fr-kicker::before,
+html body .fr-final-cta .fr-kicker::before {
+  background: var(--fr-primary) !important;
+}
+
+/* §95d. Stats-asym hero kicker (own class, not .fr-kicker) */
+html body .fr-stats-asym__hero-kicker {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  color: var(--fr-primary) !important;
+  letter-spacing: 2.8px !important;
+}
+html body .fr-stats-asym__hero-kicker::before {
+  content: "" !important;
+  display: inline-block !important;
+  width: 28px !important;
+  height: 1.5px !important;
+  background: var(--fr-primary) !important;
+  flex-shrink: 0 !important;
+}
+
+/* §95e. Page-hero kicker (Dla Właścicieli / Dla Biznesu / Atrakcje subpages)
+        — already styled with white on photo bg, keep it minimal */
+html body .fr-page-hero__kicker {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* PATCH MARKER — v1.28 */
 /* PATCH-V1.7.4-LITEPICKER-BULLETPROOF-GRID-STRUCTURE */
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §96. v1.29 LIGHTHOUSE FIXES (2026-05-14)
+   Po audycie SEO=61, A11y=94: 7 failing audits.
+   Naprawiamy w CSS to co mozemy bez ruszania panelu Idosell.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ─── §96a. Cookie button kontrast (AA) ───
+   Problem: white (#fff) na yellow (#e2d700) = 1.5 contrast (WCAG: 4.5 needed).
+   Fix: czarny tekst na żółtym = 11.5 contrast (AAA). */
+html body .ck_dsclr__btn_v2,
+html body .ck_dsclr_v2 .ck_dsclr__btn_v2,
+html body span[class*="ck_dsclr__btn"] {
+  color: #1a1a1a !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+}
+
+/* ─── §96b. Cookie banner — dodatkowe wzmocnienie kontrastu links ─── */
+html body .ck_dsclr_v2 a {
+  color: #1a1a1a !important;
+  text-decoration: underline !important;
+  font-weight: 600 !important;
+}
+
+html body .ck_dsclr_v2 a:hover,
+html body .ck_dsclr_v2 a:focus-visible {
+  color: #000 !important;
+  background: rgba(255,255,255,0.4) !important;
+}
+
+/* ─── §96c. Focus indicator dla cookie button (klawiatura A11y) ─── */
+html body .ck_dsclr__btn_v2:focus-visible {
+  outline: 2px solid #1a1a1a !important;
+  outline-offset: 2px !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §97. MODELE WSPÓŁPRACY — tabela porównawcza 8% / 10% (Sprint B, v1.29)
+
+   Layout:
+   • Desktop ≥768px: 2-kolumnowa siatka (grid 1fr 1fr), karty side-by-side
+   • Mobile ≤767px: 1 kolumna, karty pionowo (lepsze skanowanie)
+
+   Akcent: model "Zarządzanie" (10%) = highlight color (gold), model
+   "Co-host" (8%) = standard. Klient widzi że 10% to "premium offer".
+   ══════════════════════════════════════════════════════════════════════ */
+
+.fr-compare-models {
+  background: var(--fr-bg-alt, #faf8f3);
+  padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.fr-compare-models__inner {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+}
+
+.fr-compare-models__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 3vw, 36px);
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+@media (min-width: 768px) {
+  .fr-compare-models__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── KARTA POJEDYNCZA ─── */
+.fr-compare-model {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: clamp(14px, 1.5vw, 20px);
+  padding: clamp(28px, 4vw, 44px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 28px);
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.fr-compare-model:hover,
+.fr-compare-model:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.16);
+}
+
+/* Premium accent na modelu Zarządzanie (10%) */
+.fr-compare-model--manage {
+  border-color: rgba(226, 215, 0, 0.45);
+  background: linear-gradient(180deg, #fffceb 0%, #fff 12%);
+}
+
+.fr-compare-model--manage:hover,
+.fr-compare-model--manage:focus-within {
+  border-color: #e2d700;
+  box-shadow: 0 12px 32px rgba(226, 215, 0, 0.18);
+}
+
+/* ─── HEADER KARTY ─── */
+.fr-compare-model__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: clamp(20px, 3vw, 28px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.fr-compare-model__badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.06);
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 100px;
+}
+
+.fr-compare-model__badge--accent {
+  background: #e2d700;
+  color: #1a1a1a;
+}
+
+.fr-compare-model__title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.fr-compare-model__subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(14px, 1.4vw, 15px);
+  font-weight: 400;
+  line-height: 1.55;
+  color: #4a4a4a;
+  margin: 0;
+}
+
+.fr-compare-model__price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.fr-compare-model__price-num {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(40px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+  color: #1a1a1a;
+}
+
+.fr-compare-model--manage .fr-compare-model__price-num {
+  color: #8a7300; /* AA contrast gold-deep */
+}
+
+.fr-compare-model__price-unit {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.3vw, 14px);
+  font-weight: 500;
+  color: #4a4a4a;
+  line-height: 1.45;
+  max-width: 220px;
+}
+
+.fr-compare-model__price-note {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(12px, 1.2vw, 13px);
+  font-weight: 400;
+  line-height: 1.55;
+  color: #6a6a6a;
+  margin: 4px 0 0;
+}
+
+/* ─── BODY KARTY (listy zakresów) ─── */
+.fr-compare-model__body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 28px);
+}
+
+.fr-compare-model__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fr-compare-model__section-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin: 0;
+  position: relative;
+  padding-left: 16px;
+}
+
+.fr-compare-model__section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: #1a1a1a;
+  border-radius: 50%;
+}
+
+.fr-compare-model__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fr-compare-model__list li {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.35vw, 14.5px);
+  font-weight: 400;
+  line-height: 1.55;
+  color: #2a2a2a;
+  padding-left: 22px;
+  position: relative;
+}
+
+.fr-compare-model__list li::before {
+  content: '·';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  font-weight: 700;
+  color: #9a9a9a;
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+/* Lista z checkmarkami (zakres Fair Rentals = co dostajesz) */
+.fr-compare-model__list--check li::before {
+  content: '✓';
+  font-size: 13px;
+  font-weight: 700;
+  color: #8a7300;
+  line-height: 1.6;
+  left: 4px;
+}
+
+.fr-compare-model--manage .fr-compare-model__list--check li::before {
+  color: #c4a900;
+}
+
+/* ─── FOOTER + CTA ─── */
+.fr-compare-model__footer {
+  margin-top: auto;
+  padding-top: clamp(8px, 1.5vw, 14px);
+}
+
+.fr-compare-model__footer .fr-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ─── WSPÓLNE WSPARCIE (aside) ─── */
+.fr-compare-models__common {
+  margin-top: clamp(32px, 5vw, 48px);
+  padding: clamp(24px, 3vw, 36px);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: clamp(14px, 1.5vw, 20px);
+}
+
+.fr-compare-models__common-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(20px, 2vw, 24px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: #1a1a1a;
+  margin: 0 0 clamp(14px, 2vw, 20px);
+}
+
+.fr-compare-models__common-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .fr-compare-models__common-list {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: clamp(16px, 2vw, 28px);
+  }
+}
+
+.fr-compare-models__common-list li {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13px, 1.35vw, 14.5px);
+  font-weight: 400;
+  line-height: 1.55;
+  color: #2a2a2a;
+}
+
+.fr-compare-models__common-list li strong {
+  display: block;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+/* ─── Mobile-only ulepszenia ─── */
+@media (max-width: 767px) {
+  .fr-compare-model {
+    padding: 24px 22px;
+  }
+
+  .fr-compare-model__price {
+    flex-wrap: wrap;
+  }
+
+  .fr-compare-model__price-unit {
+    max-width: 100%;
+  }
+}
+
+/* ─── Reduced motion (A11y) ─── */
+@media (prefers-reduced-motion: reduce) {
+  .fr-compare-model {
+    transition: none;
+  }
+  .fr-compare-model:hover,
+  .fr-compare-model:focus-within {
+    transform: none;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §98. v1.30 SCROLLED HEADER LOGO FIX (2026-05-14)
+
+   Problem: header.fr-header--scrolled collapse do ~80px wysokości,
+   ale logo (.navbar-brand img) ma height: 80px → wciska się w header,
+   wygląda na "ucięte" na górze. Klient: "logo jest jakby uciete troche
+   na górze, coś jest nie tak z menu" (mail 2026-05-14).
+
+   Fix: w scrolled state zmniejszamy logo do 48-56px i upraszczamy
+   chip wokół logo (brak background w scrolled = czyste minimal header).
+   ══════════════════════════════════════════════════════════════════════ */
+
+html body header.default13.fr-header--scrolled .navbar-brand img {
+  height: 48px !important;
+  max-height: 56px !important;
+  width: auto !important;
+}
+
+html body header.default13.fr-header--scrolled .navbar-brand {
+  padding: 8px 14px !important;
+  margin: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  align-self: center !important;
+}
+
+/* Mobile scrolled — jeszcze mniejsze logo (header krótszy na mobile) */
+@media (max-width: 991.98px) {
+  html body header.default13.fr-header--scrolled .navbar-brand img {
+    height: 40px !important;
+    max-height: 48px !important;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §99. SPRINT F HIGH — PDF Agnieszka 2026-05-14 (21 punktów)
+
+   Bundle HIGH priority fix-y wedug rangki visual UX (4-5h pracy).
+   Każdy oznaczony PDF P# dla traceability.
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── §99a. Hover button — USUŃ przeskok (PDF P2) ───
+   Klient: "Zostawić tylko zmianę koloru, usunąć skok." */
+html body .fr-btn--primary:hover,
+html body .fr-btn--outline:hover,
+html body .fr-btn--ghost-light:hover,
+html body .fr-btn:hover {
+  transform: none !important;
+}
+
+/* Zachowujemy box-shadow + bg change jako visual feedback */
+html body .fr-btn {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+
+/* ─── §99b. Hover kart apartamentów (PDF P6a, P6b) ───
+   "Hover powiększa się cały blok ze zdjęciem — tylko kadr ma się powiększać"
+   Fix: transform na .__img zamiast .__card */
+html body .fr-apt-card:hover,
+html body .fr-offer-card:hover,
+html body article[class*="apt-card"]:hover,
+html body article[class*="offer-card"]:hover {
+  transform: none !important;
+}
+
+html body .fr-apt-card .fr-apt-card__img,
+html body .fr-apt-card img,
+html body .fr-offer-card img,
+html body article[class*="apt-card"] img {
+  transition: transform 0.4s ease !important;
+}
+
+html body .fr-apt-card:hover .fr-apt-card__img,
+html body .fr-apt-card:hover img:not(.fr-apt-card__icon img),
+html body .fr-offer-card:hover img,
+html body article[class*="apt-card"]:hover img {
+  transform: scale(1.04) !important;
+}
+
+
+/* ─── §99c. Kontrast tekstów na ciemnym tle (PDF P6c, P8) ───
+   "Mało czytelne — szare na ciemnym. Zrobić bardziej widoczne." */
+
+/* Karty apartamentów meta (m², osoby) */
+html body .fr-apt-card__meta,
+html body .fr-apt-card__meta-item,
+html body .fr-offer-card__meta,
+html body [class*="apt-card"] [class*="meta"],
+html body [class*="offer-card"] [class*="meta"] {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Hero stats trust bar — opis pod liczbami */
+html body .fr-stats-asym__desc,
+html body .fr-stats-asym__hero-desc {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+/* Trust bar labels */
+html body .fr-trust__bar-label {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+
+/* ─── §99d. Widget SZUKAJ button (PDF P4) ───
+   "Powiększyć czcionkę i ikonę. Przycisk za duży vs pola — niespójność."
+   Fix: button rozmiar w linii z polami search (min-height: 56) */
+html body .fr-cmd-bar__submit,
+html body .fr-cmd-bar button[type="submit"],
+html body .fr-search-banner button[type="submit"] {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  padding: 14px 28px !important;
+  min-height: 56px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+html body .fr-cmd-bar__submit svg,
+html body .fr-cmd-bar button[type="submit"] svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+
+/* ─── §99e. Ucięte teksty na kartach apartamentów (PDF P13) ───
+   "Dodać ellipsis (…) gdy tekst się nie mieści." */
+html body .fr-apt-card__name,
+html body .fr-offer-card__title,
+html body [class*="apt-card"] h3,
+html body [class*="offer-card"] h3 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+html body .fr-apt-card__desc,
+html body .fr-offer-card__desc,
+html body [class*="apt-card"] p,
+html body [class*="offer-card"] .description {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+
+/* ─── §99f. Cena wyróżniona kolorystycznie (PDF P12d, P14b, P15b) ───
+   "Wyróżnić cenę kolorystycznie", "Bloczek z ceną w ciemnym kolorze",
+   "Kolor ceny zlewa się z przyciskiem" */
+html body .fr-apt-card__price,
+html body .fr-offer-card__price,
+html body [class*="apt-card"] [class*="price"],
+html body [class*="offer-card"] [class*="price"],
+html body .accommodation-price,
+html body .offer-price {
+  color: var(--fr-text-dark, #1a1a1a) !important;
+  font-weight: 700 !important;
+  background: rgba(226, 215, 0, 0.18) !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+}
+
+
+/* ─── §99g. Wersja językowa redesign (PDF P1a-e) ───
+   a) hover czcionka mało czytelny
+   b) ikona strzałki niewyśrodkowana + mała
+   c) lista nie wyrównana w pionie
+   d) klik w PL nie zamyka menu (JS w FR_KONIEC_BODY)
+   e) flagi przed skrótem (PL/EN/DE)
+   Fix CSS: kontrast hover, ikona size, align items */
+html body .page-top__language {
+  position: relative;
+}
+
+html body .page-top__language .language__toggler {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  font-weight: 600 !important;
+}
+
+html body .page-top__language .language__toggler::after,
+html body .page-top__language .language__toggler svg {
+  width: 12px !important;
+  height: 12px !important;
+  flex-shrink: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Hover wersja językowa — zwiększ kontrast */
+html body .page-top__language .language__toggler:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: var(--fr-primary, #e2d700) !important;
+}
+
+/* Dropdown items — wyrównanie + hover */
+html body .page-top__language ul,
+html body .page-top__language .languages-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  padding: 8px !important;
+}
+
+html body .page-top__language ul li,
+html body .page-top__language .languages-list li,
+html body .page-top__language .languages-list a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: background 0.2s ease !important;
+}
+
+html body .page-top__language ul li:hover,
+html body .page-top__language ul a:hover {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: var(--fr-text-dark, #1a1a1a) !important;
+}
+
+
+/* ─── §99h. USUNIETE v1.46 ───
+   Klient: "Glowny napis ma nie miec tego znaczka cudzyslowia na poczatku".
+   Wczesniej (v1.30) dodawalismy ::after z zamykajacym " (PDF P5).
+   Teraz klient wolny wariant bez dekoracyjnych cudzyslow — sam tekst
+   wystarczy (treść juz ma „nie da się" wewnatrz). Usunieto tez
+   span.fr-magazine__mark z body_top PL/EN/DE. */
+
+
+/* ─── §99i. Aktywne pozycje menu (PDF P11, P18) ───
+   "Brak aktywnej pozycji menu na /offers" + "Aktywna kategoria mało czytelna" */
+html body header .nav-link.active,
+html body header a[aria-current="page"],
+html body .navbar-nav .nav-link.active {
+  color: var(--fr-primary, #e2d700) !important;
+  font-weight: 700 !important;
+  position: relative;
+}
+
+html body header .nav-link.active::after,
+html body header a[aria-current="page"]::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 4px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+
+/* ─── §99j. Strzałki kalendarza ucięte (PDF P3) ───
+   "Strzałki w kalendarzu są ucięte"
+   ZAWĘŻONY selector — TYLKO konkretne strzałki nawigacyjne miesięcy,
+   nie wszystko z "button-" w klasie (popsuje to grid komórek dnia).
+   Dodatkowo: NIE rusza margin — to grid-spacing litepicker, override
+   psuje pozycjonowanie nagłówków. */
+html body .litepicker .button-previous-month,
+html body .litepicker .button-next-month {
+  padding: 6px !important;
+  overflow: visible !important;
+  min-width: 28px !important;
+  min-height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+html body .litepicker .button-previous-month svg,
+html body .litepicker .button-next-month svg {
+  width: 14px !important;
+  height: 14px !important;
+  overflow: visible !important;
+  flex-shrink: 0 !important;
+}
+
+/* §99j-mobile — litepicker na mobile: tylko 1 miesiąc widoczny
+   Bug: na mobile pokazuje 2 miesiące pionowo (wrzesień+październik),
+   zajmuje zbyt dużo miejsca, kalendarz wychodzi poza viewport.
+   Fix: max-width + zwijaj do 1 miesiąca + scroll arrows */
+@media (max-width: 767px) {
+  html body .litepicker {
+    max-width: calc(100vw - 24px) !important;
+    width: auto !important;
+  }
+  html body .litepicker .container__months {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  html body .litepicker .month-item:nth-child(2) {
+    display: none !important; /* schowaj drugi miesiąc, ale strzałki nawigują */
+  }
+  html body .litepicker .month-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 8px !important;
+  }
+  html body .litepicker .month-item-header {
+    padding: 0 4px !important;
+  }
+}
+
+
+/* ─── §99k. Stopka layout (PDF P10a) ───
+   "Telefon i e-mail nie w jednej linii" */
+html body footer .footer-contact,
+html body footer [class*="footer-contact"],
+html body footer .footer-info-row,
+html body footer p:has(a[href^="tel:"]),
+html body footer p:has(a[href^="mailto:"]) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 12px 24px !important;
+  vertical-align: baseline !important;
+}
+
+
+/* ─── §99l. Back-to-top button position (PDF P26) ───
+   "Przycisk powrót na górę chowa się po prawej stronie (off-screen)" */
+html body .back-to-top,
+html body #back-to-top,
+html body [class*="back-to-top"],
+html body [class*="scroll-top"],
+html body .iai-scroll-top {
+  position: fixed !important;
+  right: 16px !important;
+  bottom: 16px !important;
+  left: auto !important;
+  z-index: 999 !important;
+}
+
+@media (max-width: 768px) {
+  html body .back-to-top,
+  html body #back-to-top,
+  html body [class*="back-to-top"],
+  html body [class*="scroll-top"],
+  html body .iai-scroll-top {
+    right: 12px !important;
+    bottom: 12px !important;
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+
+
+/* ─── §99m. Body horizontal scroll guard (PDF P29) ───
+   "Możliwość przesunięcia strony w poziomie" — defensive overflow */
+html, body {
+  overflow-x: hidden !important;
+}
+
+
+/* ─── §99n. Mobile menu redesign (PDF P24a-f) ───
+   a) Logo mało czytelny przez cienie — zmniejszamy shadow
+   b) Biała podlewka pod menu — zachowujemy jako chip (decyzja klienta)
+   c) Logo i menu nie wyśrodkowane w pionie — align-items center
+   d) Menu nachodzi na elementy — z-index + spacing
+   e) Rozwinięte menu niedopracowane — better padding, hover, active
+   f) Po scrollu menu nie wyświetla się poprawnie — fix sticky state */
+@media (max-width: 991.98px) {
+
+  /* Logo + burger w jednej linii, wyśrodkowane pionowo */
+  html body header.default13 .navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 8px 16px !important;
+    min-height: 64px !important;
+  }
+
+  html body header.default13 .navbar-brand {
+    align-self: center !important;
+    margin: 0 !important;
+    box-shadow: 0 2px 8px rgba(26, 26, 24, 0.10) !important; /* mniejszy cień */
+  }
+
+  html body header.default13 .navbar-toggler {
+    align-self: center !important;
+    margin: 0 !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    box-shadow: 0 2px 8px rgba(26, 26, 24, 0.10) !important; /* matching cień */
+    border: none !important;
+    border-radius: var(--fr-radius-md, 12px) !important;
+    padding: 12px 16px !important;
+    min-height: 48px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    color: var(--fr-text-dark, #1a1a1a) !important;
+  }
+
+  /* Dropdown menu otwarte — lepsze decorations */
+  html body header.default13 .navbar-collapse,
+  html body header.default13 #navbar.show,
+  html body header.default13 .navbar-collapse.show #navbar {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: var(--fr-radius-md, 12px) !important;
+    box-shadow: 0 12px 32px rgba(26, 26, 24, 0.15) !important;
+    padding: 8px !important;
+    margin-top: 6px !important;
+    max-width: calc(100vw - 32px) !important;
+    z-index: 1020 !important;
+  }
+
+  /* Items dropdown — odstępy, hover */
+  html body header.default13 .navbar-collapse .nav-link,
+  html body header.default13 .navbar-collapse a,
+  html body header.default13 #navbar .nav-link,
+  html body header.default13 #navbar a {
+    display: flex !important;
+    align-items: center !important;
+    padding: 14px 18px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    color: var(--fr-text-dark, #1a1a1a) !important;
+    border-radius: 8px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    transition: background 0.2s ease, border-color 0.2s ease !important;
+    white-space: nowrap !important; /* zapobiega wrap "NAJEM KORPORACYJNY" */
+  }
+
+  html body header.default13 .navbar-collapse .nav-link:hover,
+  html body header.default13 .navbar-collapse a:hover,
+  html body header.default13 #navbar a:hover {
+    background: rgba(226, 215, 0, 0.10) !important;
+    border-color: rgba(226, 215, 0, 0.30) !important;
+    color: var(--fr-text-dark, #1a1a1a) !important;
+  }
+
+  /* Active dropdown item */
+  html body header.default13 .navbar-collapse .nav-link.active,
+  html body header.default13 #navbar .nav-link.active {
+    background: rgba(226, 215, 0, 0.16) !important;
+    border-color: var(--fr-primary, #e2d700) !important;
+    color: var(--fr-text-dark, #1a1a1a) !important;
+    font-weight: 700 !important;
+  }
+
+  /* Po scrollu (PDF P24f) — minimal i clean */
+  html body header.default13.fr-header--scrolled .navbar {
+    min-height: 56px !important;
+    padding: 6px 14px !important;
+  }
+
+  html body header.default13.fr-header--scrolled .navbar-brand {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 4px 8px !important;
+  }
+
+  html body header.default13.fr-header--scrolled .navbar-toggler {
+    background: rgba(255, 255, 255, 0.92) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10) !important;
+  }
+}
+
+
+/* ─── §99o. Small mobile (≤480) — kompaktowy mobile menu ─── */
+@media (max-width: 480px) {
+  html body header.default13 .navbar-brand img {
+    height: 36px !important;
+    max-height: 44px !important;
+  }
+
+  html body header.default13 .navbar-toggler {
+    padding: 10px 12px !important;
+    font-size: 11px !important;
+  }
+
+  html body header.default13 .navbar-toggler span {
+    display: inline !important; /* keep "MENU" text */
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §99p. CRITICAL BUG FIX — Sprint B card <header> łapane przez system CSS
+   (Damian feedback 2026-05-14: "lata jakis element na górze na /Obsluga-najmu")
+
+   Problem: System Idosell CSS ma `header { position: fixed; top: 0 }`
+   bez żadnej klasy — łapie WSZYSTKIE <header> w DOM, w tym nasze
+   .fr-compare-model__header (header karty Sprint B Modele Współpracy).
+   Efekt: header karty Sprint B renderuje się FIXED top:0, height 259px,
+   przykrywa całą górną część strony.
+
+   Fix: override position dla wszystkich <header> z klasami zaczynającymi
+   się od fr- lub mc- (komponenty wewnętrzne, nie page header).
+   ══════════════════════════════════════════════════════════════════════ */
+
+html body article header,
+html body section header,
+html body main header:not(.default13):not([class^="default"]),
+html body header.fr-compare-model__header,
+html body header[class*="fr-compare-model__"],
+html body header[class*="fr-card__"],
+html body header[class*="fr-section__"] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  max-width: 100% !important;
+  z-index: auto !important;
+  height: auto !important;
+}
+
+/* Page footer fixes — system CSS może łapać też <footer> w kartach */
+html body article footer,
+html body section footer,
+html body footer[class*="fr-compare-model__"],
+html body footer[class*="fr-card__"] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  z-index: auto !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §99q. CRITICAL CONTRAST FIX — .fr-btn--primary (PDF P12c Agnieszka)
+
+   "Biały tekst na tle #E2D700 (żółty) — nieczytelny, zmienić na
+   wyrazistsze kolory" — Agnieszka, PDF Uwagi_www, P12c
+
+   Bug w base design system: .fr-btn--primary ma color: var(--fr-white)
+   (biały) na background żółty (#E2D700) = kontrast 1.5:1 (WCAG fail).
+   Powinno być: czarny tekst na żółtym = 11.5:1 (WCAG AAA).
+
+   Dotyczy: WSZYSTKICH primary buttons w całej stronie — hero CTA,
+   Sprint B modele (WYBIERAM CO-HOST/ZARZĄDZANIE), search SZUKAJ,
+   final CTA, footer mailto buttons.
+   ══════════════════════════════════════════════════════════════════════ */
+
+html body .fr-btn--primary,
+html body .fr-btn.fr-btn--primary,
+html body a.fr-btn--primary,
+html body button.fr-btn--primary {
+  color: #1a1a1a !important; /* black text na yellow bg */
+  font-weight: 700 !important;
+}
+
+html body .fr-btn--primary:hover,
+html body .fr-btn--primary:focus {
+  color: #000 !important;
+}
+
+/* Visited state — links z fr-btn--primary mogłyby zmieniać kolor na fioletowy */
+html body a.fr-btn--primary:visited,
+html body a.fr-btn--primary:active {
+  color: #1a1a1a !important;
+}
+
+/* Override też dla searchbox SZUKAJ */
+html body .fr-cmd-bar__submit,
+html body .fr-cmd-bar button[type="submit"],
+html body .fr-search-banner button[type="submit"] {
+  color: #1a1a1a !important;
+  font-weight: 700 !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §99r. FLAGI WERSJI JĘZYKOWEJ — równe wyrównanie (Damian 2026-05-14)
+
+   "TE FLAGI PRZY WYBORZE JĘZYKA NADAL SĄ NIE RÓWNO"
+
+   Bug w systemie Idosell: link 2 i 3 w dropdown (.flags a + a) mają
+   margin-left: 10px (designowany dla horizontal flow), ale w naszym
+   VERTICAL dropdown przesuwa się 10px w prawo względem pierwszego.
+
+   Fix: zerujemy margin na WSZYSTKICH linkach, używamy grid gap.
+   ══════════════════════════════════════════════════════════════════════ */
+
+html body .page-top__language .flags a,
+html body .page-top__language_menu .flags a,
+html body header .page-top__language a[hreflang],
+html body header .language_menu a {
+  margin: 0 !important;
+  padding: 10px 14px !important;
+  display: grid !important;
+  grid-template-columns: 24px 1fr !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: var(--fr-text-dark, #1a1a1a) !important;
+}
+
+html body .page-top__language .flags a:hover,
+html body header .page-top__language a[hreflang]:hover {
+  background: rgba(0, 0, 0, 0.06) !important;
+  color: var(--fr-text-dark, #1a1a1a) !important;
+}
+
+/* Aktywny język (current page) */
+html body .page-top__language .flags a.active,
+html body .page-top__language .flags a[aria-current="page"],
+html body header .page-top__language a.active {
+  background: rgba(226, 215, 0, 0.15) !important;
+  font-weight: 700 !important;
+}
+
+/* Flaga IMG — wyrównana w col 1 grid */
+html body .page-top__language .flags a img.flag,
+html body .page-top__language_menu .flags a img.flag,
+html body header .page-top__language a img,
+html body header .language_menu a img {
+  display: block !important;
+  width: 24px !important;
+  height: 16px !important;
+  object-fit: cover !important;
+  margin: 0 !important;
+  border-radius: 2px !important;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08) !important;
+  grid-column: 1 !important;
+  align-self: center !important;
+  justify-self: start !important;
+}
+
+/* Tekst języka — wyrównany w col 2 grid */
+html body .page-top__language .flags a > *:not(img):not(.flag),
+html body header .page-top__language a > *:not(img) {
+  grid-column: 2 !important;
+  align-self: center !important;
+  justify-self: start !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+}
+
+/* Dropdown container — pionowo, ze stałą szerokością */
+html body .page-top__language .flags,
+html body .page-top__language_menu .flags,
+html body header .language_menu {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  padding: 6px !important;
+  background: #fff !important;
+  border-radius: 10px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  min-width: 160px !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §100. SPRINT F MEDIUM — PDF Agnieszka punkty 14-17, 19-20, 22 (2026-05-15)
+
+   Bundle MEDIUM priority — ~2.5h pracy:
+   - P14-17: Szczegóły apartamentu (page-offer)
+   - P19-20: Obsługa najmu nagłówek + kontakt
+   - P22: Kontakt strony redesign
+
+   Wszystko CSS, bez ruszania HTML (panel klienta).
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── §100a. PAGE-OFFER bloczek po prawej (PDF P14a, P14b, P15a, P15b) ───
+   "Cena i Zarezerwuj teraz niewyśrodkowane"
+   "Bloczek z ceną zrobić w ciemnym kolorze"
+   "Kolor ceny zlewa się z przyciskiem" */
+
+/* Ciemne tło dla całego bloczka po prawej */
+html body.page-offer .col-lg-3,
+html body.page-offer .col-lg-3.offer-right-wrapper,
+html body.page-offer .offer-right-wrapper,
+html body.page-offer .accommodation-right,
+html body.page-offer .right-column,
+html body.page-offer aside[class*="right"] {
+  background: var(--fr-dark, #1a1a1a) !important;
+  color: var(--fr-cream, #faf6ed) !important;
+  border-radius: var(--fr-radius-md, 12px) !important;
+  padding: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Cena — wyróżniona kolorystycznie, własny accent */
+html body.page-offer .col-lg-3 .price,
+html body.page-offer .col-lg-3 [class*="price"],
+html body.page-offer .offer-right-wrapper .price,
+html body.page-offer .accommodation-price-wrapper {
+  color: var(--fr-primary, #e2d700) !important;
+  font-weight: 800 !important;
+  font-size: clamp(24px, 2.4vw, 32px) !important;
+  text-align: center !important;
+  display: block !important;
+  margin: 12px 0 !important;
+  text-shadow: none !important;
+}
+
+/* Wszystkie teksty w bloczku — wyśrodkowane (P14a, P15a) */
+html body.page-offer .col-lg-3,
+html body.page-offer .col-lg-3 *,
+html body.page-offer .offer-right-wrapper,
+html body.page-offer .offer-right-wrapper * {
+  text-align: center !important;
+}
+
+/* USUNIETE v1.40: stara regula §100b "page-offer .col-lg-3 .btn"
+   matchowala INNER SPAN (.btn.button.accommodation-leftbutton) wewnatrz
+   .accommodation-reservation buttona — wymusza display:block + width:100%
+   + gold bg + letter-spacing 0.08em → tekst "ZAREZERWUJ TERAZ" wrapping
+   na 2 linie w waskim sidebar (208px).
+   Styling outer .accommodation-reservation jest przez §107d (ponizej). */
+
+/* Labels (Cena, Doba, etc) — kontrast na dark */
+html body.page-offer .col-lg-3 label,
+html body.page-offer .col-lg-3 .label,
+html body.page-offer .col-lg-3 small,
+html body.page-offer .offer-right-wrapper label {
+  color: rgba(255, 255, 255, 0.78) !important;
+  font-size: 13px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  margin-bottom: 4px !important;
+}
+
+
+/* ─── §100b. PAGE-OFFER ujednolicenie czcionek (PDF P16) ───
+   "Ujednolicić rozmiar czcionki dla przejrzystości treści" */
+
+html body.page-offer .offer-description p,
+html body.page-offer .offer-description li,
+html body.page-offer .accommodation-description p,
+html body.page-offer .accommodation-amenities li,
+html body.page-offer .offer-content p,
+html body.page-offer .offer-content li {
+  font-size: 15px !important;
+  line-height: 1.65 !important;
+  color: var(--fr-text-dark, #1a1a1a) !important;
+}
+
+html body.page-offer h2,
+html body.page-offer .accommodation-description h2,
+html body.page-offer .offer-content h2 {
+  font-size: clamp(22px, 2vw, 26px) !important;
+  line-height: 1.25 !important;
+  margin-top: 32px !important;
+  margin-bottom: 16px !important;
+}
+
+html body.page-offer h3,
+html body.page-offer .accommodation-description h3 {
+  font-size: clamp(18px, 1.8vw, 20px) !important;
+  line-height: 1.3 !important;
+  margin-top: 24px !important;
+  margin-bottom: 12px !important;
+}
+
+
+/* ─── §100c. PAGE-OFFER scrolled menu nachodzi na sekcje (PDF P17) ───
+   "Przy scrollu menu nachodzi na sekcje" */
+
+/* Anchored links — kompensacja sticky header height */
+html body.page-offer section[id],
+html body.page-offer [id*="section"],
+html body.page-offer .anchor-section,
+html body.page-offer h2[id],
+html body.page-offer h3[id] {
+  scroll-margin-top: 120px !important; /* desktop sticky header height */
+}
+
+@media (max-width: 991.98px) {
+  html body.page-offer section[id],
+  html body.page-offer [id*="section"],
+  html body.page-offer h2[id],
+  html body.page-offer h3[id] {
+    scroll-margin-top: 80px !important; /* mobile header height */
+  }
+}
+
+
+/* ─── §100d. OBSŁUGA NAJMU nagłówek "Dla Właścicieli" (PDF P19) ───
+   "Poprawić wygląd (odstępy obramowania, inne obramowanie)" */
+
+html body.page-txt .fr-page-hero,
+html body[class*="obsluga"] .fr-page-hero,
+html body[class*="najem"] .fr-page-hero {
+  padding: 80px 24px 56px !important;
+  border-radius: 0 !important;
+  border-top: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+html body.page-txt .fr-page-hero__kicker,
+html body[class*="obsluga"] .fr-page-hero__kicker {
+  display: inline-block !important;
+  margin-bottom: 16px !important;
+  padding: 6px 14px !important;
+  background: rgba(226, 215, 0, 0.18) !important;
+  border-radius: 100px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: var(--fr-text-dark, #1a1a1a) !important;
+  border: 1px solid rgba(226, 215, 0, 0.35) !important;
+}
+
+html body.page-txt .fr-page-hero__title,
+html body[class*="obsluga"] .fr-page-hero__title {
+  font-size: clamp(32px, 4vw, 48px) !important;
+  line-height: 1.15 !important;
+  margin: 0 0 12px !important;
+  font-weight: 400 !important;
+  font-family: 'DM Serif Display', Georgia, serif !important;
+}
+
+html body.page-txt .fr-page-hero__lead,
+html body[class*="obsluga"] .fr-page-hero__lead {
+  font-size: clamp(15px, 1.5vw, 17px) !important;
+  line-height: 1.65 !important;
+  /* v1.44: bylo color var(--fr-text-muted) (#7A736B sage gray) — na ciemnym
+     overlay hero (linear-gradient 0.55-0.85 black z §66 lini 4102) kontrast
+     byl tylko ~2.5:1 (FAIL WCAG AA 4.5:1). Klient: "ten napis jest slabo
+     widoczny :/ kontrasty".
+     Fix: white z opacity 0.95 + wzmocniony text-shadow — kontrast ~14:1 (AAA). */
+  color: rgba(255, 255, 255, 0.95) !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55) !important;
+  max-width: 720px !important;
+}
+
+
+/* ─── §100e. Tel + email czytelność na każdej stronie (PDF P20, P22b) ───
+   "Numer telefonu i e-mail nieczytelne na tym tle" */
+
+/* Wzmocniony kontrast dla tel/mailto links */
+html body a[href^="tel:"],
+html body a[href^="mailto:"] {
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  color: var(--fr-text-dark, #1a1a1a) !important;
+  border-bottom: 2px solid rgba(226, 215, 0, 0.45) !important;
+  padding-bottom: 1px !important;
+  transition: border-color 0.2s ease, color 0.2s ease !important;
+}
+
+html body a[href^="tel:"]:hover,
+html body a[href^="mailto:"]:hover,
+html body a[href^="tel:"]:focus-visible,
+html body a[href^="mailto:"]:focus-visible {
+  border-bottom-color: var(--fr-primary, #e2d700) !important;
+  color: #000 !important;
+}
+
+/* Tel/mailto NA CIEMNYCH SEKCJACH (footer, page-offer) — odwrócony color */
+html body footer a[href^="tel:"],
+html body footer a[href^="mailto:"],
+html body.page-offer a[href^="tel:"],
+html body.page-offer a[href^="mailto:"],
+html body .fr-final-cta a[href^="tel:"],
+html body .fr-final-cta a[href^="mailto:"] {
+  color: var(--fr-cream, #faf6ed) !important;
+  border-bottom-color: rgba(226, 215, 0, 0.55) !important;
+}
+
+html body footer a[href^="tel:"]:hover,
+html body footer a[href^="mailto:"]:hover,
+html body.page-offer a[href^="tel:"]:hover,
+html body .fr-final-cta a[href^="tel:"]:hover {
+  color: var(--fr-primary, #e2d700) !important;
+}
+
+
+/* ─── §100f. KONTAKT links "zobacz ofertę / sprawdź na mapie" (PDF P22a) ───
+   "Linki mało czytelne — wyróżnić" */
+
+html body.page-contact a:not(.fr-btn):not([class*="nav-link"]):not(.navbar-brand),
+html body.page-txt[class*="contact"] a:not(.fr-btn):not([class*="nav-link"]):not(.navbar-brand) {
+  color: var(--fr-text-dark, #1a1a1a) !important;
+  font-weight: 600 !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--fr-primary, #e2d700) !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 4px !important;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease !important;
+}
+
+html body.page-contact a:not(.fr-btn):hover,
+html body.page-contact a:not(.fr-btn):focus-visible {
+  color: #000 !important;
+  text-decoration-color: var(--fr-primary-hover, #c8bd00) !important;
+}
+
+
+/* ─── §100g. KONTAKT — "Nasze lokalizacje" 100% width (PDF P22c) ───
+   "Widget Nasze lokalizacje przesunąć poniżej Dane do przelewów
+    i dać na 100% szerokości, zmienić prezentację dla czytelności"
+
+   Bo nie ruszamy HTML (klient panel), tylko CSS layout fix.
+   Selector zakłada że "Nasze lokalizacje" sekcja ma id/class lub
+   jest w specific kontenerze (sprawdzić w panelu klienta). */
+
+html body.page-contact .fr-locations,
+html body.page-contact #locations,
+html body.page-contact [class*="map"],
+html body.page-contact [class*="location"],
+html body.page-contact .fr-contact-map,
+html body.page-contact iframe[src*="maps"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 32px 0 !important;
+  border-radius: var(--fr-radius-md, 12px) !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Jeśli "Nasze lokalizacje" jest w grid col, force span full width */
+html body.page-contact .fr-locations,
+html body.page-contact [class*="location-grid"] {
+  grid-column: 1 / -1 !important;
+}
+
+/* Lista lokalizacji wewnątrz — czytelne karty */
+html body.page-contact .fr-location-card,
+html body.page-contact .location-item,
+html body.page-contact [class*="location"] li {
+  padding: 16px !important;
+  border-radius: 8px !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  margin-bottom: 8px !important;
+}
+
+html body.page-contact .fr-location-card h3,
+html body.page-contact [class*="location"] h3 {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  margin-bottom: 4px !important;
+}
+
+
+/* ─── §100h. KONTAKT "Dane do przelewów" prezentacja ─── */
+
+html body.page-contact .fr-bank-details,
+html body.page-contact #bank-details,
+html body.page-contact [class*="bank"] {
+  background: var(--fr-bg-alt, #faf6ed) !important;
+  padding: 24px !important;
+  border-radius: var(--fr-radius-md, 12px) !important;
+  margin: 24px 0 !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+html body.page-contact .fr-bank-details dt,
+html body.page-contact [class*="bank"] dt {
+  font-weight: 700 !important;
+  margin-top: 8px !important;
+  color: var(--fr-text-dark, #1a1a1a) !important;
+}
+
+html body.page-contact .fr-bank-details dd,
+html body.page-contact [class*="bank"] dd {
+  font-family: 'Inter', monospace !important;
+  font-size: 14px !important;
+  letter-spacing: 0.04em !important;
+  margin: 0 0 8px !important;
+  word-break: break-all !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §101. WCAG AA + UX AUDIT FIXES (2026-05-15)
+
+   Po pełnym audycie UX (30 punktów):
+   - P11: Header menu links contrast 1.50:1 → 12+:1 (czarny na białym)
+   - P12: .fr-btn--outline contrast 1.41:1 → 12+:1 (czarny tekst, żółty border)
+   - P21: SZUKAJ button :focus-visible widoczny outline
+   - P8: H1 offers list "Fair Rentals21ofert" → aria-label readable
+   - P7: H1 hidden na /txt/* → widoczne via JS body_top (CSS przygotowanie)
+   - P23: Lazy loading klasa pomocnicza
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── §101a. Menu linki header — czarny tekst zamiast żółtego ───
+   AUDIT P11: kontrast 1.50:1 = WCAG FAIL.
+   Fix: tekst czarny (#0F0F0E) na białym tle (12.5:1 = AA+ pass).
+   Żółty zostaje jako accent na hover/active. */
+html body header.default13 .nav-link,
+html body header.default13 .navbar a:not(.navbar-brand):not([class*="btn"]):not(.language__toggler),
+html body header.default13 .navbar .nav-link,
+html body header .navbar-nav .nav-link,
+html body header .navbar-collapse .nav-link {
+  color: var(--fr-text-dark, #0F0F0E) !important;
+  font-weight: 600 !important;
+}
+
+/* Hover state — żółty accent (działa bo background szary nie biały) */
+html body header.default13 .nav-link:hover,
+html body header.default13 .navbar a:not(.navbar-brand):not([class*="btn"]):not(.language__toggler):hover,
+html body header .navbar-nav .nav-link:hover,
+html body header .navbar-nav .nav-link:focus-visible {
+  color: #806C00 !important; /* dark gold - ratio 5.8:1 vs white */
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 4px !important;
+}
+
+/* Aktywny link — wyrazna podkreślenie */
+html body header.default13 .nav-link.active,
+html body header.default13 .nav-link[aria-current="page"],
+html body header .navbar-nav .nav-link.active {
+  color: var(--fr-text-dark, #0F0F0E) !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  text-decoration-color: var(--fr-primary, #E2D700) !important;
+  text-decoration-thickness: 3px !important;
+  text-underline-offset: 6px !important;
+}
+
+/* Page-index transparent header — TUTAJ menu ZOSTAJE biało/jasne
+   bo header jest nad ciemnym hero image. */
+html body.page-index header.default13:not(.fr-header--scrolled) .nav-link,
+html body.page-index header.default13:not(.fr-header--scrolled) .navbar a:not(.navbar-brand):not([class*="btn"]):not(.language__toggler) {
+  color: var(--fr-cream, #FAF6ED) !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+}
+
+html body.page-index header.default13:not(.fr-header--scrolled) .nav-link:hover,
+html body.page-index header.default13:not(.fr-header--scrolled) .navbar a:not(.navbar-brand):not([class*="btn"]):not(.language__toggler):hover {
+  color: var(--fr-primary, #E2D700) !important;
+  text-decoration: none !important;
+}
+
+
+/* ─── §101b. .fr-btn--outline kontrast (AUDIT P12) ───
+   Bug: żółty tekst na cream tle (1.41:1 = WCAG FAIL).
+   Fix: ciemny tekst, żółty border zostaje (zachowuje brand). */
+html body .fr-btn--outline,
+html body a.fr-btn--outline,
+html body button.fr-btn--outline {
+  color: var(--fr-text-dark, #0F0F0E) !important;
+  background: transparent !important;
+  border: 2px solid var(--fr-primary, #E2D700) !important;
+  font-weight: 700 !important;
+}
+
+html body .fr-btn--outline:hover,
+html body a.fr-btn--outline:hover,
+html body button.fr-btn--outline:hover {
+  background: var(--fr-primary, #E2D700) !important;
+  color: var(--fr-text-dark, #0F0F0E) !important;
+  border-color: var(--fr-primary, #E2D700) !important;
+  transform: none !important;
+}
+
+/* Hero outline button (na ciemnym tle z hero photo) — odwrotnie */
+html body.page-index header + main .fr-btn--outline,
+html body.page-index .fr-hero-asym .fr-btn--outline,
+html body .fr-hero-asym__cta .fr-btn--outline {
+  color: var(--fr-cream, #FAF6ED) !important;
+  border-color: var(--fr-cream, #FAF6ED) !important;
+}
+
+html body.page-index header + main .fr-btn--outline:hover,
+html body .fr-hero-asym__cta .fr-btn--outline:hover {
+  background: var(--fr-cream, #FAF6ED) !important;
+  color: var(--fr-text-dark, #0F0F0E) !important;
+  border-color: var(--fr-cream, #FAF6ED) !important;
+}
+
+
+/* ─── §101c. Focus-visible state na WSZYSTKIE buttons + linki (AUDIT P21) ───
+   Bug: SZUKAJ button :focus outline-style: none.
+   Fix: jednolite focus-visible outline (3px solid gold + 2px offset). */
+html body button:focus-visible,
+html body a:focus-visible,
+html body input:focus-visible,
+html body select:focus-visible,
+html body textarea:focus-visible,
+html body [role="button"]:focus-visible,
+html body [tabindex]:focus-visible,
+html body .fr-btn:focus-visible,
+html body .fr-cmd-bar__submit:focus-visible {
+  outline: 3px solid var(--fr-primary, #E2D700) !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+/* Specific dla SZUKAJ button (mocniejszy contrast bo on jest na ciemnym tle) */
+html body #fr-search button[type="submit"]:focus-visible,
+html body .fr-cmd-bar__submit:focus-visible {
+  outline: 3px solid #FFFFFF !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 6px rgba(226, 215, 0, 0.55) !important;
+}
+
+
+/* ─── §101d. H1 offers list "Fair Rentals21ofert" (AUDIT P8) ───
+   Bug: <small>21</small><small>ofert</small> bez spacji → screen reader
+   wymawia "Fair Rentals dwadzieścia jeden ofert" jako single string.
+   Fix: visual space via padding + aria-label przygotowane przez JS.
+
+   Plus: ujednolicić visual presentation. */
+html body.page-offers h1 small,
+html body.page-offers .offers-list h1 small,
+html body[class*="offers"] h1 small {
+  padding-left: 8px !important;
+  font-weight: 400 !important;
+  color: var(--fr-text-muted, #4a4a4a) !important;
+  font-size: 0.7em !important;
+}
+
+
+/* ─── §101e. Lazy loading helper class + offer cards (AUDIT P23) ───
+   Bug: 76 obrazów ładuje się synchronicznie na /offers.
+   Fix: klasa .fr-img-lazy z background-image placeholder
+   + content-visibility dla off-screen cards. */
+html body .fr-img-lazy,
+html body img.lazy,
+html body img[loading="lazy"] {
+  background: linear-gradient(135deg, #faf6ed 0%, #f0ebe0 50%, #faf6ed 100%);
+  background-size: 200% 100%;
+  animation: fr-img-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes fr-img-shimmer {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0 0; }
+}
+
+html body img[loading="lazy"][src] {
+  animation: none;
+  background: transparent;
+}
+
+/* Content-visibility na off-screen offer cards — poprawia perf */
+html body.page-offers .offers-container > article,
+html body[class*="offers"] .offer-card,
+html body[class*="offers"] [class*="apt-card"] {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+
+
+/* ─── §101f. Visually-hidden helper (sr-only) ───
+   Dla H1 hidden (systemowe) — używać sr-only zamiast display:none
+   żeby screen reader czytał ale visual nie pokazywał. */
+.fr-sr-only,
+.sr-only,
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+
+/* ─── §101g. Powered by IdoBooking — wymóg licencyjny widoczność ───
+   AUDIT P16: badge .powered_by visible:false.
+   Fix: wymuszona widoczność (instinct: feedback_powered_by_idobooking_visible). */
+html body .powered_by,
+html body .powered_by_logo,
+html body footer .powered_by,
+html body footer .powered_by_logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  opacity: 0.85 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  font-size: 12px !important;
+  color: var(--fr-text-muted, #4a4a4a) !important;
+}
+
+html body .powered_by img,
+html body .powered_by_logo img,
+html body footer .powered_by img {
+  display: inline-block !important;
+  opacity: 0.85 !important;
+  max-height: 22px !important;
+  width: auto !important;
+}
+
+html body .powered_by:hover,
+html body .powered_by_logo:hover {
+  opacity: 1 !important;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §102. SPRINT C — Sekcja "O nas" / About us / Über uns (2026-05-15)
+
+   Podstrona /txt/204/O-nas (PL + EN + DE).
+   Komponenty:
+   - .fr-about__team-photo (placeholder team)
+   - .fr-about__values (grid 4 wartości)
+   - .fr-about__team (2 portrety + bio)
+   - .fr-about__stats (4 statystyki na ciemnym tle)
+   - .fr-about__placeholder (gold gradient + initials — TODO: zastąp <img>)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ─── §102a. PLACEHOLDER portretów (gold gradient + initials) ───
+   TODO: docelowo klient dostarczy <img>, wtedy zastąpić div.placeholder. */
+html body .fr-about__placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #E2D700 0%, #C8BD00 35%, #A8A000 100%);
+  border-radius: var(--fr-radius-md, 12px);
+  position: relative;
+  overflow: hidden;
+  color: #1a1a1a;
+}
+
+html body .fr-about__placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(0,0,0,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+html body .fr-about__placeholder-initials {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(72px, 10vw, 120px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #1a1a1a;
+  position: relative;
+  z-index: 1;
+}
+
+html body .fr-about__placeholder-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(26, 26, 26, 0.72);
+  position: relative;
+  z-index: 1;
+}
+
+html body .fr-about__placeholder--portrait {
+  aspect-ratio: 3 / 4;
+  min-height: 360px;
+}
+
+html body .fr-about__placeholder--team {
+  aspect-ratio: 4 / 3;
+  min-height: 320px;
+}
+
+
+/* ─── §102b. HISTORIA FIRMY (uses .fr-narrative__split, JUŻ istnieje) ───
+   Override media height dla team photo placeholder */
+html body .fr-about__team-photo {
+  border-radius: var(--fr-radius-md, 12px);
+  overflow: hidden;
+  min-height: 360px;
+}
+
+
+/* ─── §102c. WARTOŚCI (4 kolumny grid) ─── */
+html body .fr-about__values {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(20px, 3vw, 32px);
+  margin-top: clamp(32px, 5vw, 48px);
+}
+
+@media (min-width: 640px) {
+  html body .fr-about__values {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  html body .fr-about__values {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+html body .fr-about__value {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--fr-radius-md, 12px);
+  padding: clamp(24px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+html body .fr-about__value:hover {
+  border-color: rgba(226, 215, 0, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+html body .fr-about__value-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(226, 215, 0, 0.18);
+  color: #806C00; /* dark gold AA contrast */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html body .fr-about__value-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+html body .fr-about__value-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--fr-text-dark, #0F0F0E);
+  margin: 0;
+}
+
+html body .fr-about__value-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(13.5px, 1.4vw, 15px);
+  line-height: 1.6;
+  color: #4a4a4a;
+  margin: 0;
+}
+
+
+/* ─── §102d. ZESPÓŁ (2 portrety + bio) ─── */
+html body .fr-about__team {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(28px, 4vw, 48px);
+  margin-top: clamp(32px, 5vw, 48px);
+}
+
+@media (min-width: 768px) {
+  html body .fr-about__team {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* SOLO modifier — gdy tylko 1 założycielka (np. Agnieszka Barańska solo) */
+html body .fr-about__team.fr-about__team--solo {
+  grid-template-columns: 1fr !important;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  html body .fr-about__team.fr-about__team--solo .fr-about__member {
+    display: grid;
+    grid-template-columns: minmax(0, 280px) 1fr;
+    gap: clamp(24px, 3vw, 40px);
+    align-items: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  html body .fr-about__team.fr-about__team--solo .fr-about__member-info {
+    text-align: left;
+  }
+
+  html body .fr-about__team.fr-about__team--solo .fr-about__member-bio {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+html body .fr-about__member {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+html body .fr-about__member-photo {
+  border-radius: var(--fr-radius-md, 12px);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  max-width: 320px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+html body .fr-about__member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+html body .fr-about__member-info {
+  text-align: center;
+}
+
+html body .fr-about__member-name {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--fr-text-dark, #0F0F0E);
+  margin: 0 0 4px;
+}
+
+html body .fr-about__member-role {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #806C00; /* dark gold AA contrast */
+  margin: 0 0 16px;
+}
+
+html body .fr-about__member-bio {
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #2a2a2a;
+  margin: 0 0 16px;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+html body .fr-about__member-contact {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+html body .fr-about__member-contact a {
+  color: var(--fr-text-dark, #0F0F0E);
+  border-bottom: 2px solid rgba(226, 215, 0, 0.55);
+  text-decoration: none;
+  padding-bottom: 1px;
+  transition: border-color 0.2s ease;
+}
+
+html body .fr-about__member-contact a:hover,
+html body .fr-about__member-contact a:focus-visible {
+  border-bottom-color: var(--fr-primary, #E2D700);
+}
+
+
+/* ─── §102e. STATY na ciemnym tle (4 kolumny) ─── */
+html body .fr-about__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(20px, 3vw, 40px);
+  padding: clamp(40px, 6vw, 64px) 0;
+}
+
+@media (min-width: 768px) {
+  html body .fr-about__stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+html body .fr-about__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  padding: 0 8px;
+}
+
+html body .fr-about__stat-num {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--fr-primary, #E2D700);
+}
+
+html body .fr-about__stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(12px, 1.2vw, 14px);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+
+/* ─── §102f. Section spacing dla narratives na O nas ─── */
+html body[class*="o-nas"] .fr-narrative,
+html body[class*="about"] .fr-narrative,
+html body[class*="ueber"] .fr-narrative {
+  padding: clamp(56px, 8vw, 88px) 0;
+}
+
+
+/* ─── §102g. Mobile adjustments ─── */
+@media (max-width: 767px) {
+  html body .fr-about__member-photo {
+    max-width: 240px;
+  }
+
+  html body .fr-about__placeholder--portrait {
+    min-height: 280px;
+  }
+
+  html body .fr-about__placeholder-initials {
+    font-size: 64px;
+  }
+}
+
+@media (max-width: 480px) {
+  html body .fr-about__values {
+    gap: 16px;
+  }
+
+  html body .fr-about__value {
+    padding: 20px 18px;
+  }
+
+  html body .fr-about__stats {
+    gap: 16px;
+    padding: 32px 0;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §103. MENU OVERFLOW + KOMPAKTOWE ROZMIARY (2026-05-15)
+
+   Po dodaniu pozycji "O nas" menu nie mieści się na średnich
+   viewportach (1024-1200px) — system Idosell automatycznie tworzy
+   `.menuOverflow.nav-item` z "..." triggerem i dropdown subnav.
+   Bug: dropdown ma DOMYŚLNE białe tło + szary tekst (1.x:1 kontrast).
+
+   Fix:
+   - §103a: stylizacja overflow dropdown (białe tło, czarny tekst, shadow)
+   - §103b: zmniejszony rozmiar menu links (font 14→13, padding-x 24→16)
+     żeby więcej pozycji się mieściło bez przejścia do overflow
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── §103a. OVERFLOW dropdown stylizacja ─── */
+
+/* Trigger "..." */
+html body header .menuOverflow.nav-item > span,
+html body header li.menuOverflow > span {
+  color: var(--fr-text-dark, #0F0F0E) !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  letter-spacing: 2px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+html body.page-index header.default13:not(.fr-header--scrolled) .menuOverflow.nav-item > span {
+  color: var(--fr-cream, #FAF6ED) !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Button (a11y trigger) */
+html body header .menuOverflow .nav-toggler {
+  position: absolute !important;
+  inset: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+}
+
+/* Container hover */
+html body header .menuOverflow.nav-item {
+  position: relative !important;
+  cursor: pointer !important;
+  padding: 0 16px !important;
+}
+
+html body header .menuOverflow.nav-item:hover > span {
+  color: var(--fr-primary-dark, #806C00) !important;
+}
+
+/* DROPDOWN — ul.menuOverflow.sub-navi */
+html body header ul.menuOverflow.sub-navi,
+html body header .menuOverflow .sub-navi {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  margin-top: 8px !important;
+  padding: 8px !important;
+  background: #fff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+  min-width: 200px !important;
+  list-style: none !important;
+  z-index: 1020 !important;
+  display: none !important;
+}
+
+/* Open state — pokazywany przez aria-expanded lub click handler */
+html body header .menuOverflow[aria-expanded="true"] .sub-navi,
+html body header .menuOverflow.is-open .sub-navi,
+html body header .menuOverflow.open .sub-navi,
+html body header .menuOverflow:hover .sub-navi,
+html body header .menuOverflow:focus-within .sub-navi {
+  display: block !important;
+}
+
+/* Items w dropdown */
+html body header ul.menuOverflow.sub-navi .nav-item,
+html body header .menuOverflow.sub-navi .nav-item {
+  display: block !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+}
+
+html body header ul.menuOverflow.sub-navi .nav-link,
+html body header .menuOverflow.sub-navi .nav-link,
+html body header ul.menuOverflow.sub-navi a,
+html body header .menuOverflow.sub-navi a {
+  display: block !important;
+  padding: 10px 14px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  color: var(--fr-text-dark, #0F0F0E) !important;
+  text-decoration: none !important;
+  border-radius: 6px !important;
+  white-space: nowrap !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+html body header ul.menuOverflow.sub-navi .nav-link:hover,
+html body header ul.menuOverflow.sub-navi .nav-link:focus-visible,
+html body header .menuOverflow.sub-navi a:hover,
+html body header .menuOverflow.sub-navi a:focus-visible {
+  background: rgba(226, 215, 0, 0.18) !important;
+  color: var(--fr-text-dark, #0F0F0E) !important;
+}
+
+/* Active state — current page w overflow */
+html body header ul.menuOverflow.sub-navi .nav-link.active,
+html body header ul.menuOverflow.sub-navi a[aria-current="page"] {
+  background: rgba(226, 215, 0, 0.28) !important;
+  color: var(--fr-text-dark, #0F0F0E) !important;
+}
+
+
+/* ─── §103b. KOMPAKTOWE MENU — więcej pozycji się mieści ───
+   UWAGA SPECIFICITY: poprzednia warstwa custom.css używa
+   `.nav-link.nav-link` + drugi selector z `:not()` chain x4
+   (specificity 0,7,4). Aby je nadpisać używamy EXACT same group
+   selector — cascade order decyduje (nasz CSS jest later). */
+
+@media (min-width: 992px) {
+  html body header.default13 .nav-link.nav-link,
+  html body header.default13 .navbar a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler) {
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+    letter-spacing: 0.03em !important;
+    white-space: nowrap !important;
+    font-weight: 600 !important;
+  }
+
+  html body header.default13 .navbar-nav.navbar-nav {
+    gap: 4px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  html body header.default13 .nav-link.nav-link,
+  html body header.default13 .navbar a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler) {
+    padding: 10px 16px !important;
+    font-size: 13.5px !important;
+  }
+
+  html body header.default13 .navbar-nav.navbar-nav {
+    gap: 6px !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  html body header.default13 .nav-link.nav-link,
+  html body header.default13 .navbar a[href]:not(.logo):not(.navbar-brand):not([class*="btn"]):not(.language__toggler) {
+    padding: 12px 18px !important;
+    font-size: 14px !important;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   §104. FIX BUGÓW POST-WGRANIA (2026-05-15 v2)
+
+   Po wgraniu Sprint C + §101 i §103 wykryto 4 bugi:
+   - §104a: O nas stats labels białe na cream (system Idosell nadpisuje
+     style ciemnego tła sekcji, więc tekst musi być ciemny)
+   - §104b: Footer adres — 2 osobne <span> z linebreak (system DOM
+     generuje "Białowieska 69/11" + ", 54-234 Wrocław" w osobnych span)
+   - §104c: .footer-contact-baner (pasek VISA/Mastercard) nie do prawej
+     krawędzi — width 997 vs footer 1085 (margin -44 niewystarczający)
+   - §104d: .powered_by ukryte bo parent .footer__social ma display:none
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ─── §104a. O nas STATS — fr-narrative--dark modifier + auto-contrast ───
+   Root cause: `--fr-dark` nie był defined w :root (dodany teraz wyżej).
+   Plus inline `style="background: var(--fr-dark);"` w HTML jest mniej
+   robust niż dedykowana klasa — używamy `.fr-narrative--dark`. */
+
+/* DARK section modifier — wymusza ciemne tło + jasny tekst */
+html body section.fr-narrative.fr-narrative--dark,
+html body .fr-narrative.fr-narrative--dark {
+  background: var(--fr-dark, #0F0F0E) !important;
+  color: var(--fr-cream, #F0EAE0) !important;
+}
+
+html body .fr-narrative--dark .fr-about__stat-num {
+  color: var(--fr-primary, #E2D700) !important;
+}
+
+html body .fr-narrative--dark .fr-about__stat-label {
+  color: rgba(240, 234, 224, 0.88) !important;
+}
+
+/* Default (LIGHT background) stats — ciemny tekst (gdy klient
+   zapomni dodać --dark klasy, lub bg jest cream) */
+html body section.fr-narrative:not(.fr-narrative--dark) .fr-about__stat-num {
+  color: var(--fr-primary-dark, #806C00) !important;
+}
+
+html body section.fr-narrative:not(.fr-narrative--dark) .fr-about__stat-label {
+  color: rgba(15, 15, 14, 0.78) !important;
+}
+
+
+/* ─── §104b. Footer adres — span linebreak fix ─── */
+/* Chained class names (.footer-contact-adress.footer-contact-adress)
+   dla specificity boost — pobija starsze rule z gap: 24px. */
+
+html body footer .footer-contact-adress.footer-contact-adress,
+html body footer li.footer-contact-adress.footer-contact-adress,
+html body footer .footer__contact .footer-contact-adress.footer-contact-adress {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  column-gap: 0 !important;
+  row-gap: 0 !important;
+}
+
+html body footer .footer-contact-adress.footer-contact-adress span {
+  display: inline !important;
+  white-space: normal !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Cała lista contact — wyśrodkowanie
+   Chained class boost dla specificity (system ma align-items: start). */
+html body footer .footer__contact.footer__contact,
+html body footer ul.footer__contact.footer__contact {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  text-align: center !important;
+  max-width: 600px !important;
+}
+
+html body footer .footer__contact.footer__contact li {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  text-align: center !important;
+  width: auto !important;
+  align-self: center !important;
+}
+
+/* WSZYSTKIE li (phone, mail, terms) — wyśrodkowanie poziome
+   Chained class boost dla specificity bo system ma justify-content: normal */
+html body footer .footer-contact-phone.footer-contact-phone,
+html body footer .footer-contact-mail.footer-contact-mail,
+html body footer .footer-contact-terms.footer-contact-terms,
+html body footer .footer__contact li.footer-contact-phone,
+html body footer .footer__contact li.footer-contact-mail,
+html body footer .footer__contact li.footer-contact-terms {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: auto !important;
+  margin: 0 auto !important;
+  gap: 8px !important;
+}
+
+/* Linki tel/mail w stopce — własny styling */
+html body footer .footer-contact-phone a,
+html body footer .footer-contact-mail a {
+  display: inline-flex !important;
+  align-items: center !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+}
+
+
+/* ─── §104c. footer-contact-baner pasek pełna szerokość ───
+   Chained class boost dla specificity. */
+
+html body footer .footer-contact-baner.footer-contact-baner,
+html body .footer-contact-baner.footer-contact-baner {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  padding: 24px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 32px !important;
+  box-sizing: border-box !important;
+  flex-wrap: wrap !important;
+}
+
+/* Logo VISA/Mastercard wewnątrz */
+html body footer .footer-contact-baner img,
+html body .footer-contact-baner img {
+  max-height: 28px !important;
+  width: auto !important;
+  vertical-align: middle !important;
+  opacity: 0.85 !important;
+}
+
+
+/* ─── §104d. Powered by IdoBooking — wymuś widoczność ─── */
+/* SPECIFICITY HACK: poprzednia warstwa custom.css ma 3 rules
+   z `display: none + width: 0 + height: 0` na .powered_by/.powered_by_logo.
+   Pierwsza ma `html body img.powered_by_logo` (0,1,3).
+   Aby je przebić używamy CHAINED class names (`.foo.foo`) które
+   liczą się jako 2 klasy w specificity. */
+
+/* Parent .footer__social — force visible (chained class boost) */
+html body footer .footer__social.footer__social,
+html body footer .footer__wrapper .footer__social.footer__social,
+html body footer .row .footer__social.footer__social {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px 0 !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  background: transparent !important;
+}
+
+/* Powered_by container — chained class names dla max specificity */
+html body footer .footer__social.footer__social .powered_by.powered_by,
+html body footer .footer__social.footer__social a.powered_by_logo.powered_by_logo,
+html body footer .footer__social .powered_by_logo.powered_by_logo,
+html body footer .footer__wrapper .powered_by.powered_by,
+html body footer .row .powered_by.powered_by {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 0.85 !important;
+  width: auto !important;
+  height: auto !important;
+  align-items: center !important;
+  pointer-events: auto !important;
+}
+
+html body footer .powered_by.powered_by:hover,
+html body footer .powered_by_logo.powered_by_logo:hover {
+  opacity: 1 !important;
+}
+
+/* IMG wewnątrz — chained class dla pobicia custom.css `width: 0 !important` */
+html body footer .footer__social.footer__social img.powered_by_logo.powered_by_logo,
+html body footer .footer__social.footer__social .powered_by.powered_by img,
+html body footer img.powered_by_logo.powered_by_logo,
+html body footer .powered_by.powered_by img {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: auto !important;
+  height: 20px !important;
+  max-height: 28px !important;
+  filter: brightness(0) invert(1) !important; /* ciemne logo → białe (na dark footer) */
+}
+
+
+/* ============================================================
+   §105. BLOG MODULE — v1.34 (Opcja A: IdoBooking subpages + JS)
+   ============================================================
+   Lista wpisow na /pl/txt/300, posty na /pl/txt/301+.
+   Blog NIE pojawia sie na stronie glownej — wlasna podstrona.
+   JS reader w FR_KONIEC_BODY (§n. initBlog).
+   Manifest: /customStyles/default13/custom2/blog-manifest.json
+   ============================================================ */
+
+
+/* ─── §105a. Blog list hero + filters ─── */
+
+.fr-blog-list-hero {
+  padding: clamp(80px, 14vh, 160px) 0 clamp(40px, 8vh, 80px);
+  text-align: center;
+  background: var(--fr-bg);
+}
+
+.fr-blog-list-hero__kicker {
+  display: inline-block;
+  padding: 6px 18px;
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fr-primary-deep);
+  background: rgba(226, 215, 0, 0.18);
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+
+.fr-blog-list-hero__title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(34px, 5.5vw, 64px);
+  line-height: 1.05;
+  font-weight: 400;
+  color: var(--fr-dark);
+  margin: 0 0 18px;
+}
+
+.fr-blog-list-hero__lead {
+  max-width: 680px;
+  margin: 0 auto;
+  font-family: var(--fr-font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--fr-text-muted);
+}
+
+.fr-blog-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 28px auto 0;
+  max-width: 720px;
+}
+
+.fr-blog-filter {
+  appearance: none;
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border: 1px solid var(--fr-border-light);
+  background: var(--fr-white);
+  color: var(--fr-dark);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.fr-blog-filter:hover {
+  border-color: var(--fr-primary-deep);
+  background: rgba(226, 215, 0, 0.08);
+}
+
+.fr-blog-filter.is-active {
+  background: var(--fr-dark);
+  border-color: var(--fr-dark);
+  color: var(--fr-white);
+}
+
+
+/* ─── §105b. Blog cards grid ─── */
+
+.fr-blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: clamp(20px, 3vw, 36px);
+  max-width: 1240px;
+  margin: clamp(40px, 6vh, 72px) auto;
+  padding: 0 clamp(16px, 3vw, 32px);
+}
+
+.fr-blog-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--fr-white);
+  border: 1px solid var(--fr-border-light);
+  border-radius: var(--fr-radius-md);
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.fr-blog-card:hover,
+.fr-blog-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--fr-shadow-md);
+  text-decoration: none;
+  color: inherit;
+}
+
+.fr-blog-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--fr-bg);
+}
+
+.fr-blog-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.fr-blog-card:hover .fr-blog-card__img {
+  transform: scale(1.05);
+}
+
+.fr-blog-card__category {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-family: var(--fr-font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  background: var(--fr-dark);
+  color: var(--fr-white);
+  border-radius: 999px;
+}
+
+.fr-blog-card__body {
+  padding: clamp(18px, 2.5vw, 26px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.fr-blog-card__title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.25;
+  font-weight: 400;
+  color: var(--fr-dark);
+  margin: 0 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fr-blog-card__excerpt {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fr-text-muted);
+  margin: 0 0 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.fr-blog-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  color: var(--fr-text-muted);
+  padding-top: 14px;
+  border-top: 1px solid var(--fr-border-light);
+}
+
+.fr-blog-card__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fr-blog-card__read-time {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fr-blog-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: clamp(40px, 8vh, 80px) 20px;
+  font-family: var(--fr-font-body);
+  color: var(--fr-text-muted);
+  font-size: 16px;
+}
+
+
+/* ─── §105c. Blog post page (hero + body + CTA + related) ─── */
+
+.fr-post-hero {
+  padding: clamp(80px, 14vh, 160px) 0 clamp(30px, 5vh, 60px);
+  text-align: center;
+  background: var(--fr-bg);
+}
+
+.fr-post-hero__category {
+  display: inline-block;
+  padding: 6px 18px;
+  font-family: var(--fr-font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fr-white);
+  background: var(--fr-dark);
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+
+.fr-post-hero__title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(30px, 5vw, 56px);
+  line-height: 1.1;
+  font-weight: 400;
+  color: var(--fr-dark);
+  max-width: 880px;
+  margin: 0 auto 22px;
+  padding: 0 16px;
+}
+
+.fr-post-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  color: var(--fr-text-muted);
+}
+
+.fr-post-hero__author {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--fr-dark);
+}
+
+.fr-post-featured-img {
+  max-width: 1100px;
+  margin: 0 auto clamp(30px, 5vh, 60px);
+  padding: 0 clamp(16px, 3vw, 32px);
+}
+
+.fr-post-featured-img img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--fr-radius-md);
+}
+
+.fr-post-body {
+  max-width: 720px;
+  margin: 0 auto clamp(60px, 10vh, 120px);
+  padding: 0 clamp(16px, 4vw, 32px);
+  font-family: var(--fr-font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--fr-text-body);
+}
+
+.fr-post-body h2 {
+  font-family: var(--fr-font-display);
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.3;
+  margin: 48px 0 18px;
+  color: var(--fr-dark);
+}
+
+.fr-post-body h3 {
+  font-family: var(--fr-font-display);
+  font-size: clamp(20px, 2.5vw, 24px);
+  line-height: 1.35;
+  margin: 36px 0 14px;
+  color: var(--fr-dark);
+}
+
+.fr-post-body p {
+  margin: 0 0 22px;
+}
+
+.fr-post-body a {
+  color: var(--fr-primary-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.fr-post-body a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.fr-post-body ul,
+.fr-post-body ol {
+  margin: 0 0 22px;
+  padding-left: 28px;
+}
+
+.fr-post-body li {
+  margin: 0 0 10px;
+}
+
+.fr-post-body blockquote {
+  margin: 32px 0;
+  padding: 20px 28px;
+  border-left: 4px solid var(--fr-primary-deep);
+  background: var(--fr-bg);
+  font-family: var(--fr-font-display);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--fr-dark);
+}
+
+.fr-post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--fr-radius-sm);
+  margin: 28px 0;
+}
+
+.fr-post-cta {
+  margin: 48px auto;
+  padding: clamp(28px, 4vw, 40px);
+  background: var(--fr-dark);
+  color: var(--fr-white);
+  border-radius: var(--fr-radius-md);
+  text-align: center;
+}
+
+.fr-post-cta h3 {
+  font-family: var(--fr-font-display);
+  font-size: clamp(22px, 3vw, 28px);
+  margin: 0 0 12px;
+  color: var(--fr-white);
+}
+
+.fr-post-cta p {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.fr-post-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--fr-primary);
+  color: var(--fr-dark);
+  font-family: var(--fr-font-body);
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: var(--fr-radius-sm);
+  text-decoration: none;
+  transition: background 0.18s ease;
+}
+
+.fr-post-cta__btn:hover {
+  background: var(--fr-light-accent);
+  text-decoration: none;
+  color: var(--fr-dark);
+}
+
+.fr-post-related {
+  max-width: 1240px;
+  margin: 0 auto clamp(60px, 10vh, 120px);
+  padding: clamp(48px, 8vh, 80px) clamp(16px, 3vw, 32px) 0;
+  border-top: 1px solid var(--fr-border-light);
+}
+
+.fr-post-related__title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(24px, 3vw, 32px);
+  text-align: center;
+  margin: 0 0 36px;
+  color: var(--fr-dark);
+}
+
+.fr-post-related__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: clamp(16px, 2.5vw, 28px);
+}
+
+
+/* ─── §105d. Mobile blog adjustments ─── */
+
+@media (max-width: 680px) {
+  .fr-blog-grid {
+    grid-template-columns: 1fr;
+  }
+  .fr-blog-filters {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 16px;
+  }
+  .fr-blog-filter {
+    flex-shrink: 0;
+  }
+  .fr-post-body {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .fr-post-hero__meta {
+    gap: 10px;
+    font-size: 13px;
+  }
+}
+
+@media print {
+  .fr-post-hero { padding-top: 40px; }
+  .fr-post-cta,
+  .fr-post-related { display: none; }
+}
+
+
+/* ============================================================
+   §105e. BLOG v2 — Native panel rendering (v1.35)
+   ============================================================
+   v2 zmiana: Posty uzywaja natywnych pol IdoBooking
+   (Tytul → h1.big-label, Tresc → main.page > .container).
+   Wstrzykujemy meta bar + featured img + related po renderze.
+   ============================================================ */
+
+/* Intro nad lista (gdy klient ma tylko .fr-blog-list-mount, JS dodaje header) */
+.fr-blog-list-intro {
+  max-width: 880px;
+  margin: clamp(20px, 4vh, 48px) auto clamp(20px, 4vh, 40px);
+  padding: 0 clamp(16px, 3vw, 32px);
+  text-align: center;
+}
+
+.fr-blog-list-intro__lead {
+  font-family: var(--fr-font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--fr-text-muted);
+  margin: 14px 0 0;
+}
+
+/* Filtry centruje sie na stronie listy */
+.fr-blog-list-mount .fr-blog-filters {
+  margin: 12px auto 0;
+}
+
+/* Mount point — przejmuje pozycjonowanie kontenera; wyrownujemy ku gorze
+   bo IdoBooking renderuje H1 ".big-label" jako pierwszy w container */
+body.page-txt main.page .container > .fr-blog-list-mount {
+  margin: 24px 0;
+}
+
+
+/* ─── §105f. POST PAGE meta bar (pod systemowym H1) ─── */
+
+body.page-txt main.page h1.big-label + .fr-blog-post-meta,
+body.fr-is-blog-post .fr-blog-post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 32px;
+  padding: 14px 0;
+  border-top: 1px solid var(--fr-border-light);
+  border-bottom: 1px solid var(--fr-border-light);
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  color: var(--fr-text-muted);
+}
+
+.fr-blog-post-meta__category {
+  display: inline-block;
+  padding: 5px 14px;
+  background: var(--fr-dark);
+  color: var(--fr-white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+
+.fr-blog-post-meta__date,
+.fr-blog-post-meta__author,
+.fr-blog-post-meta__read-time {
+  display: inline-flex;
+  align-items: center;
+}
+
+.fr-blog-post-meta__author {
+  font-weight: 500;
+  color: var(--fr-dark);
+}
+
+.fr-blog-post-meta__read-time {
+  margin-left: auto;
+}
+
+
+/* ─── §105g. POST PAGE featured image (auto-injected if not in content) ─── */
+
+.fr-blog-post-featured {
+  margin: 0 0 clamp(28px, 5vh, 48px);
+}
+
+.fr-blog-post-featured img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--fr-radius-md);
+  display: block;
+}
+
+
+/* ─── §105h. POST PAGE typography upgrade (gdy body ma .fr-is-blog-post) ─── */
+
+body.fr-is-blog-post main.page .container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-top: clamp(30px, 5vh, 60px);
+  padding-bottom: clamp(60px, 10vh, 120px);
+}
+
+body.fr-is-blog-post main.page h1.big-label {
+  font-family: var(--fr-font-display);
+  font-size: clamp(28px, 4.5vw, 48px);
+  line-height: 1.15;
+  font-weight: 400;
+  color: var(--fr-dark);
+  margin: 0 0 18px;
+}
+
+body.fr-is-blog-post main.page .container > h2,
+body.fr-is-blog-post main.page .container > .row h2 {
+  font-family: var(--fr-font-display);
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.3;
+  margin: 40px 0 16px;
+  color: var(--fr-dark);
+}
+
+body.fr-is-blog-post main.page .container > h3 {
+  font-family: var(--fr-font-display);
+  font-size: clamp(18px, 2.4vw, 22px);
+  line-height: 1.35;
+  margin: 30px 0 12px;
+  color: var(--fr-dark);
+}
+
+body.fr-is-blog-post main.page .container > p,
+body.fr-is-blog-post main.page .container > .row p {
+  font-family: var(--fr-font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--fr-text-body);
+  margin: 0 0 22px;
+}
+
+body.fr-is-blog-post main.page .container a {
+  color: var(--fr-primary-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+body.fr-is-blog-post main.page .container ul,
+body.fr-is-blog-post main.page .container ol {
+  margin: 0 0 22px;
+  padding-left: 28px;
+}
+
+body.fr-is-blog-post main.page .container li {
+  font-family: var(--fr-font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  margin: 0 0 8px;
+}
+
+body.fr-is-blog-post main.page .container blockquote {
+  margin: 28px 0;
+  padding: 18px 24px;
+  border-left: 4px solid var(--fr-primary-deep);
+  background: var(--fr-bg);
+  font-family: var(--fr-font-display);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--fr-dark);
+}
+
+body.fr-is-blog-post main.page .container img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--fr-radius-sm);
+  margin: 24px 0;
+  display: block;
+}
+
+
+/* ─── §105i. POST PAGE related (auto-injected po content) ─── */
+
+.fr-blog-related {
+  max-width: 1240px;
+  margin: clamp(60px, 10vh, 100px) auto 0;
+  padding: clamp(40px, 6vh, 64px) clamp(16px, 3vw, 32px) 0;
+  border-top: 1px solid var(--fr-border-light);
+}
+
+.fr-blog-related__title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(22px, 3vw, 30px);
+  text-align: center;
+  margin: 0 0 32px;
+  color: var(--fr-dark);
+}
+
+.fr-blog-related__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: clamp(16px, 2.5vw, 24px);
+}
+
+/* Wewnatrz .container reset max-width na related */
+body.fr-is-blog-post main.page .container .fr-blog-related {
+  max-width: none;
+  margin-left: calc(-1 * clamp(16px, 3vw, 32px));
+  margin-right: calc(-1 * clamp(16px, 3vw, 32px));
+}
+
+
+/* ─── §105j. Mobile dla blog post page ─── */
+
+@media (max-width: 680px) {
+  .fr-blog-post-meta {
+    gap: 8px;
+    font-size: 13px;
+  }
+  .fr-blog-post-meta__read-time {
+    margin-left: 0;
+  }
+  body.fr-is-blog-post main.page .container {
+    padding-top: 24px;
+  }
+}
+
+
+/* ============================================================
+   §105k. BLOG v4 — Systemic /news + /news/X styling (v1.37)
+   ============================================================
+   Wzorzec z Apartamenty Parkowe — IdoBooking ma natywny modul
+   Aktualnosci. Stylizujemy systemowe klasy zeby wygladaly jak
+   blog. Wyglad listy generuje nasz JS na /txt/205/Blog
+   (scraper /news), ale strona /news jako fallback tez stylizowana.
+   ============================================================ */
+
+/* Systemowa lista /news — fallback w przypadku gdy ktos wejdzie na surowy /news */
+body.page-news main.page .container > h1.big-label {
+  font-family: var(--fr-font-display);
+  font-size: clamp(34px, 5.5vw, 56px);
+  text-align: center;
+  margin: clamp(40px, 8vh, 80px) 0 clamp(28px, 4vh, 48px);
+  color: var(--fr-dark);
+}
+
+body.page-news .news-wrapper.row {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: clamp(20px, 3vw, 32px);
+  max-width: 1240px;
+  margin: 0 auto clamp(60px, 10vh, 100px);
+  padding: 0 clamp(16px, 3vw, 32px);
+}
+
+body.page-news .news-item {
+  background: var(--fr-white);
+  border: 1px solid var(--fr-border-light);
+  border-radius: var(--fr-radius-md);
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  /* override Bootstrap col-* */
+  flex: none !important;
+  max-width: none !important;
+  width: auto !important;
+  padding: 0 !important;
+}
+
+body.page-news .news-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--fr-shadow-md);
+}
+
+body.page-news .news-item > a:first-child {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+body.page-news .news-item > a:first-child img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+body.page-news .news-item:hover > a:first-child img {
+  transform: scale(1.05);
+}
+
+body.page-news .news-item .news-date {
+  display: block;
+  padding: 18px 22px 0;
+  font-family: var(--fr-font-body);
+  font-size: 13px;
+  color: var(--fr-text-muted);
+  letter-spacing: 0.04em;
+}
+
+body.page-news .news-item .news-content {
+  padding: 8px 22px 20px;
+}
+
+body.page-news .news-item .news-content h2,
+body.page-news .news-item .news-content h3,
+body.page-news .news-item .news-content .news-title {
+  font-family: var(--fr-font-display);
+  font-size: clamp(20px, 2.2vw, 24px);
+  line-height: 1.25;
+  margin: 0 0 10px;
+  color: var(--fr-dark);
+}
+
+body.page-news .news-item .news-content p {
+  font-family: var(--fr-font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--fr-text-muted);
+  margin: 0 0 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+body.page-news .news-item .more-news {
+  display: inline-block;
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fr-primary-deep);
+  text-decoration: none;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 22px 18px !important;
+}
+
+body.page-news .news-item .more-news:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Single news post page /news/X — stylizacja typografia */
+body.page-news main.page .container article {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(30px, 5vh, 60px) clamp(16px, 4vw, 32px) clamp(60px, 10vh, 120px);
+}
+
+body.page-news main.page .container article h1.big-label {
+  font-family: var(--fr-font-display);
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.1;
+  font-weight: 400;
+  text-align: left;
+  margin: 0 0 14px;
+  color: var(--fr-dark);
+}
+
+body.page-news main.page .container article .date-news {
+  display: block;
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  color: var(--fr-text-muted);
+  margin: 0 0 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--fr-border-light);
+}
+
+body.page-news main.page .container article .news-wrapper {
+  font-family: var(--fr-font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--fr-text-body);
+}
+
+body.page-news .news-wrapper h2,
+body.page-news .news-wrapper h3 {
+  font-family: var(--fr-font-display);
+  margin-top: 36px;
+  color: var(--fr-dark);
+}
+
+body.page-news .news-wrapper p {
+  margin: 0 0 22px;
+}
+
+body.page-news .news-wrapper a {
+  color: var(--fr-primary-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+body.page-news .news-wrapper img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--fr-radius-sm);
+  margin: 24px 0;
+}
+
+body.page-news .news-wrapper blockquote {
+  margin: 28px 0;
+  padding: 18px 24px;
+  border-left: 4px solid var(--fr-primary-deep);
+  background: var(--fr-bg);
+  font-family: var(--fr-font-display);
+  font-style: italic;
+  color: var(--fr-dark);
+}
+
+/* "Wroc do listy" link wstrzykiwany przez JS */
+.fr-blog-back-to-list {
+  display: inline-block;
+  margin-top: clamp(40px, 6vh, 64px);
+  padding: 10px 20px;
+  font-family: var(--fr-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fr-dark);
+  background: var(--fr-bg);
+  border: 1px solid var(--fr-border-light);
+  border-radius: var(--fr-radius-pill);
+  text-decoration: none !important;
+  transition: all 0.18s ease;
+}
+
+.fr-blog-back-to-list:hover {
+  background: var(--fr-dark);
+  color: var(--fr-white);
+  border-color: var(--fr-dark);
+}
+
+@media (max-width: 680px) {
+  body.page-news .news-wrapper.row {
+    grid-template-columns: 1fr;
+  }
+  body.page-news main.page .container article {
+    padding-top: 20px;
+  }
+}
+
+
+/* ============================================================
+   §106. POST-DEPLOY FIXES (v1.38, 2026-05-15 sesja 7)
+   ============================================================
+   Po wgraniu v1.37 i wlaczeniu modulu Aktualnosci klient zglosil:
+   1. Systemowy widget aktualnosci pojawia sie na home (.news-container)
+      — klient nie chce zadnych kart blogu na home
+   2. Powered_by IdoBooking ma src=null (lazy load nie odpalil)
+      — wymaga JS forceLoadPoweredBy w FR_KONIEC_BODY
+   3. Dropdown menu (3 kropki "...") znika przy mouseover do Blog/Kontakt
+      — hover gap bug, kursor traci hover na trigger przed dotarciem do dropdown
+   4. Dropdown na home ma biale tlo wystajace nad hero photo
+      — wizualnie odstaje od transparent header
+   ============================================================ */
+
+
+/* ─── §106a. Ukryj systemowy widget aktualnosci na HOMEPAGE ─── */
+/* Klient zarzadza blogiem przez /txt/205/Blog + /news — NIE chce
+   zeby karty newsow pojawialy sie tez na home automatycznie. */
+
+html body.page-index .news-container,
+html body.page-index .news-wrapper,
+html body.page-index .news-list,
+html body.page-index .cmsnews,
+html body.page-index .section .news-container {
+  display: none !important;
+}
+
+
+/* ─── §106b. Dropdown menu (3 kropki) — fix hover gap ─── */
+/* Klient: "najezdam na 3 kopki i chce kliknac blog, znika od razu".
+   Przyczyna: 8px margin-top na .sub-navi → kursor traci hover na
+   .menuOverflow przed dotarciem do dropdown.
+   Fix:
+   - margin-top: 0 (dropdown przykleja sie do triggera)
+   - padding-top: 8px (visualne odsuniecie zachowane wewnetrznie)
+   - padding-bottom: 12px na trigger (rozszerz hover area w dol) */
+
+html body header .menuOverflow.nav-item,
+html body header li.menuOverflow {
+  padding-bottom: 12px !important;
+}
+
+html body header ul.menuOverflow.sub-navi,
+html body header .menuOverflow .sub-navi {
+  margin-top: 0 !important;
+  padding-top: 12px !important;
+}
+
+/* Pseudo-bridge — invisible row laczy trigger z dropdown gdyby browser
+   mial bug z padding-top na popupie */
+html body header ul.menuOverflow.sub-navi::before,
+html body header .menuOverflow .sub-navi::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: transparent;
+  pointer-events: auto;
+}
+
+
+/* ─── §106c. Dropdown menu na HOMEPAGE — spojnosc z transparent header ─── */
+/* Klient: tlo dropdown bialy na home nie pasuje do hero photo.
+   Rozwiazanie: zachowaj bialy bg (dobry kontrast), DODAJ subtelny gradient
+   na gorze + delikatna ramka zeby smooth transition.
+   Plus: arrow indicator laczacy trigger z dropdown. */
+
+html body.page-index header.default13:not(.fr-header--scrolled) ul.menuOverflow.sub-navi,
+html body.page-index header.default13:not(.fr-header--scrolled) .menuOverflow .sub-navi {
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Arrow indicator pod trigger "...": wskazuje wizualnie kierunek dropdown */
+html body header .menuOverflow.nav-item:hover::after,
+html body header .menuOverflow.nav-item:focus-within::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(255, 255, 255, 0.98);
+  z-index: 1021;
+}
+
+
+/* ─── §106d. Powered_by — wymus widocznosc obrazka mimo lazy load null src ─── */
+/* JS forceLoadPoweredBy w FR_KONIEC_BODY ustawia src=data-src.
+   Tutaj CSS fallback: nawet jesli img bez src, kontener ma min-width
+   zeby nie collapse'owal sie do 0px. */
+
+html body footer .powered_by.powered_by,
+html body footer .powered_by_logo.powered_by_logo {
+  min-width: 120px !important;
+  min-height: 22px !important;
+}
+
+html body footer .powered_by.powered_by img,
+html body footer img.powered_by_logo.powered_by_logo {
+  min-width: 100px !important;
+  width: auto !important;
+  height: 20px !important;
+  /* Jesli src null, pokaz placeholder text */
+}
+
+/* Fallback tekstowy gdy img bez src */
+html body footer .powered_by.powered_by:has(img:not([src]))::after,
+html body footer .powered_by.powered_by:has(img[src=""])::after {
+  content: 'Powered by idoBooking';
+  font-family: var(--fr-font-body);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.04em;
+  margin-left: 4px;
+}
+
+
+/* ============================================================
+   §107. POST-DEPLOY FIXES (v1.39, 2026-05-15 sesja 8)
+   ============================================================
+   Live audit chrome-devtools wykryl 5 issues:
+   1. Featured apartment "od X zl/noc" badge na jasnych zdjeciach
+      ma bg rgba(226,215,0, 0.18) — niewidoczne na bialych wnetrzach
+   2. "Zobacz wszystkie 21 apartamentow" outline btn — cream border
+      na cream tle = niewidoczny
+   3. Offer page right sidebar (.offer-right-wrapper) ma czarne tlo
+      var(--fr-dark) — klient nie chce, wyglada cieżko
+   4. .accommodation-reservation button — padding:0, bg:transparent,
+      border:none — wyglada jak zolty link, nie button
+   5. Sticky tabs bar (.tabs gdy fixed) — top: 95px, luka 30px do header
+   ============================================================ */
+
+
+/* ─── §107a. Featured apartment "od X zl/noc" badge — solid dark bg ─── */
+
+html body .fr-apt-price,
+html body .fr-apt-img .fr-apt-price {
+  background: rgba(15, 15, 14, 0.88) !important;
+  color: var(--fr-primary) !important;
+  padding: 8px 14px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    0 2px 4px rgba(0, 0, 0, 0.15) !important;
+  /* Zachowaj position absolute z poprzedniego stylowania */
+  top: 14px !important;
+  left: 14px !important;
+}
+
+
+/* ─── §107b. "Zobacz wszystkie X apartamentow" outline btn na cream ─── */
+
+/* Outline button na jasnych sekcjach (page-index cream backgrounds) */
+html body.page-index .fr-btn.fr-btn--outline {
+  border: 2px solid var(--fr-dark) !important;
+  color: var(--fr-dark) !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+}
+
+html body.page-index .fr-btn.fr-btn--outline:hover,
+html body.page-index .fr-btn.fr-btn--outline:focus-visible {
+  background: var(--fr-dark) !important;
+  color: var(--fr-white) !important;
+  border-color: var(--fr-dark) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Wyjatek: outline na ciemnym hero/dark sekcji (np. fr-final-cta) — cream zostaje */
+html body .fr-final-cta .fr-btn--outline,
+html body section.fr-final-cta .fr-btn--outline,
+html body [class*="dark"] .fr-btn--outline {
+  border-color: var(--fr-cream, #F0EAE0) !important;
+  color: var(--fr-cream, #F0EAE0) !important;
+}
+
+
+/* ─── §107c. Offer page right sidebar (.offer-right-wrapper) — cream bg ─── */
+/* Klient: "widzimy czarne tlo na sekcji" — zmieniamy na cream/white,
+   tekst dark, cena highlighted gold accent + border-left */
+
+html body.page-offer .offer-right-wrapper,
+html body.page-offer .col-lg-3.offer-right-wrapper,
+html body.page-offer [class*="offer-right"] {
+  background: var(--fr-bg) !important;
+  color: var(--fr-text-body) !important;
+  border-radius: var(--fr-radius-md) !important;
+  border: 1px solid var(--fr-border-light) !important;
+  padding: 24px 20px !important;
+}
+
+/* Cena w sidebarze — wyrazna gold akcent
+   v1.41 fix: pastylka "OD 229,50 zl" (display:block, width:150px) ma
+   margin: 12px 0 16px (left/right 0) — w sidebar 292px wyglada przesunieta
+   o 29px w LEWO od centrum (button 208px ma ten sam left ale jest szerszy).
+   Fix: margin-left/right auto -> pastylka centrowana w bloku, perfectly
+   aligned z button center (live verified 1150.5 == 1150.5). */
+html body.page-offer .offer-right-wrapper .offer-price,
+html body.page-offer .offer-right-wrapper .object-price,
+html body.page-offer [class*="offer-right"] [class*="price"] {
+  color: var(--fr-dark) !important;
+  margin-top: 12px !important;
+  margin-bottom: 16px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+html body.page-offer .offer-right-wrapper .offer-price small,
+html body.page-offer .offer-right-wrapper .object-price small {
+  color: var(--fr-text-muted) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  margin-bottom: 4px !important;
+}
+
+html body.page-offer .offer-right-wrapper .offer-price span,
+html body.page-offer .offer-right-wrapper .object-price strong.price,
+html body.page-offer .offer-right-wrapper .object-price span strong {
+  font-family: var(--fr-font-display) !important;
+  font-size: clamp(26px, 3vw, 32px) !important;
+  color: var(--fr-primary-deep) !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+}
+
+/* Tekst w sidebarze (sprawdz dostepnosc itp.) */
+html body.page-offer .offer-right-wrapper a:not(.accommodation-reservation):not([class*="btn"]),
+html body.page-offer .offer-right-wrapper p,
+html body.page-offer .offer-right-wrapper span:not(.btn):not(.button) {
+  color: var(--fr-text-body) !important;
+}
+
+html body.page-offer .offer-right-wrapper a:not(.accommodation-reservation):not([class*="btn"]):hover {
+  color: var(--fr-primary-deep) !important;
+}
+
+
+/* ─── §107d. .accommodation-reservation button — solid gold + padding ─── */
+/* Klient: "nie rowna cena nie rowno napis zarezerwuj teraz w stosunku do przycisku"
+   v1.40 fix: zmniejszony padding poziomy (24→14px) + mniejsze letter-spacing
+   (0.08em→0.04em) zeby "ZAREZERWUJ TERAZ" miescil sie w 1 linii na sidebar 208px.
+   Inner span styled przez wyzsza specificity (3 chained classes). */
+
+html body .accommodation-reservation,
+html body a.accommodation-reservation,
+html body .room_rez .accommodation-reservation,
+html body .offer-right-wrapper .accommodation-reservation,
+html body.page-offer .offer-right-wrapper a.accommodation-reservation {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-dark) !important;
+  padding: 14px 14px !important;
+  border-radius: var(--fr-radius-pill) !important;
+  border: 2px solid var(--fr-primary) !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  text-align: center !important;
+  line-height: 1.2 !important;
+  height: auto !important;
+  min-height: 48px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.18s ease !important;
+  cursor: pointer !important;
+  margin: 0 auto !important;
+  white-space: nowrap !important;
+}
+
+html body .accommodation-reservation:hover,
+html body .accommodation-reservation:focus-visible,
+html body.page-offer .offer-right-wrapper a.accommodation-reservation:hover {
+  background: var(--fr-light-accent) !important;
+  border-color: var(--fr-light-accent) !important;
+  color: var(--fr-dark) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(226, 215, 0, 0.4) !important;
+}
+
+/* Inner span (.btn.button.accommodation-leftbutton) — reset systemowych styli
+   v1.40: wyzsza specificity (chained 3 klasy + body.page-offer) zeby pobic
+   konkurujace regulalki w custom.css i systemowy template default13. */
+html body .accommodation-reservation .btn.button.accommodation-leftbutton,
+html body.page-offer .accommodation-reservation .btn.button.accommodation-leftbutton,
+html body.page-offer .offer-right-wrapper .accommodation-reservation .btn.button.accommodation-leftbutton,
+html body .accommodation-reservation > span.btn.button {
+  background: transparent !important;
+  color: inherit !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  text-transform: inherit !important;
+  display: inline-block !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+}
+
+
+/* ─── §107e. USUNIETE v1.40 ───
+   v1.39 mialo selector `.tabs[style*="position: fixed"]` ale system Idosell
+   NIE ustawia inline style — dodaje klase `--fixed` do .tabs po scrollu.
+   v1.40: poprawiono w §47 (linia 3395) i §54 (linia 5197+) gdzie sa juz
+   oryginalne reguly `.tabs.--fixed` — zmieniono top: 88/95 → 65px. */
+
+
+/* ─── §107f. USUNIETE v1.40 ───
+   Wzorzec selectora .price-list-row nie matchowal — system Idosell renderuje
+   cennik jako .price-list > table > tr.season-cell_main > td.
+   Patrz §107g ponizej dla wlasciwej regulalki. */
+
+/* ─── §107g. Cennik bottom button (.btn.btn-reverse w tabeli season-cell_main) ─── */
+/* Klient: "zarezerwuj teraz nie jest rowno na przycisku" na dolnym cennik.
+   Live audit: button NIE jest .accommodation-reservation — to inny element:
+   <tr class="season-cell_main"> <td> <div class="room_rez">
+     <a> <span class="btn btn-reverse">ZAREZERWUJ TERAZ</span> </a>
+   System styling: padding:13px 28px, bg:gold, display:inline-block, 214x46.
+   Klient zauwaza nierowny tekst — fix: flex center + line-height 1.2 +
+   vertical-align middle na <a> rodzicu. */
+
+html body.page-offer .price-list .btn.btn-reverse,
+html body.page-offer tr.season-cell_main .btn.btn-reverse,
+html body.page-offer tr.season-cell_main td .room_rez .btn.btn-reverse,
+html body .price-list-row .btn.btn-reverse {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 12px 28px !important;
+  min-height: 46px !important;
+  line-height: 1.2 !important;
+  vertical-align: middle !important;
+  text-align: center !important;
+  letter-spacing: 0.04em !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  border-radius: var(--fr-radius-pill) !important;
+  background: var(--fr-primary) !important;
+  color: var(--fr-dark) !important;
+  border: 2px solid var(--fr-primary) !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+  transition: all 0.18s ease !important;
+}
+
+html body.page-offer .price-list .btn.btn-reverse:hover,
+html body.page-offer tr.season-cell_main .btn.btn-reverse:hover {
+  background: var(--fr-light-accent) !important;
+  border-color: var(--fr-light-accent) !important;
+  color: var(--fr-dark) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(226, 215, 0, 0.4) !important;
+}
+
+/* Rodzic <a> i <td> — vertical alignment + brak fl-content-shift */
+html body.page-offer tr.season-cell_main td,
+html body.page-offer .price-list tr.season-cell_main td {
+  vertical-align: middle !important;
+  padding: 12px 16px !important;
+}
+
+html body.page-offer tr.season-cell_main td .room_rez {
+  display: flex !important;
+  justify-content: center !important;
+  margin: 0 !important;
+}
+
+html body.page-offer tr.season-cell_main td .room_rez > a {
+  display: inline-block !important;
+  text-decoration: none !important;
+}
+
+
+/* ─── §107h. .btn.btn-reverse — "Zobacz na mapie" + cennik bottom kontrast + alignment ─── */
+/* Klient: "zobacz na mapie napis tez nie jest na srodku na podstronach ofert
+   i napis tez powinien byc chyba czarny".
+   Live audit: <a class="btn btn-reverse">Zobacz na mapie</a> ma color: WHITE
+   na bg: gold #E2D700 (kontrast ~1.4:1 FAIL WCAG AA).
+   Plus line-height: 49px > height: 48px → vertical alignment glitch.
+   Fix: color dark + line-height 1.2 + flexbox center. */
+
+html body .btn.btn-reverse,
+html body a.btn.btn-reverse,
+html body.page-offer .btn.btn-reverse,
+html body.page-offer .directions .btn.btn-reverse {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--fr-dark) !important;
+  background: var(--fr-primary) !important;
+  border: 2px solid var(--fr-primary) !important;
+  padding: 12px 28px !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  font-family: var(--fr-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--fr-radius-pill) !important;
+  min-height: 46px !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  transition: all 0.18s ease !important;
+}
+
+html body .btn.btn-reverse:hover,
+html body a.btn.btn-reverse:hover,
+html body.page-offer .btn.btn-reverse:hover {
+  background: var(--fr-light-accent) !important;
+  border-color: var(--fr-light-accent) !important;
+  color: var(--fr-dark) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(226, 215, 0, 0.4) !important;
+}
+
+
+/* ─── §107i. SZUKAJ button (.fr-cmd-bar__submit) — match INPUT height (52px) ─── */
+/* Klient v1.43: "WYSOKOSC przycisku i tego POLA ma byc ROWNA, pole Wybierz
+   date i pol goscie i przycisk szukaj MA MIEC TAKA SAMO WYSOKOSC".
+   Czyli SZUKAJ == INPUT height (52px), NIE field z labelem (76px).
+   Fix: align-self: end (na dole grid row) + height 52px. Label area zostaje
+   pusta nad buttonem, ale visually SZUKAJ wyrowniany dolna krawedzia
+   z inputami. */
+
+html body .fr-cmd-bar__submit,
+html body .fr-cmd-bar button[type="submit"],
+html body .fr-cmd-bar button.fr-cmd-bar__submit,
+html body .fr-search__submit,
+html body .fr-search-banner .fr-cmd-bar__submit,
+html body .fr-search-banner button[type="submit"],
+html body.page-index .fr-cmd-bar__submit,
+html body.page-index .fr-cmd-bar button[type="submit"],
+html body.page-index .fr-cmd-bar__form button.fr-cmd-bar__submit,
+html body.page-index .fr-search-banner .fr-cmd-bar__form button.fr-cmd-bar__submit,
+html body.page-index .fr-cmd-bar__form button[type="submit"].fr-cmd-bar__submit {
+  align-self: end !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  padding: 0 24px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  gap: 10px !important;
+  line-height: 1 !important;
+}
+
+html body .fr-cmd-bar__submit svg,
+html body .fr-cmd-bar button[type="submit"] svg,
+html body .fr-search-banner .fr-cmd-bar__submit svg,
+html body.page-index .fr-cmd-bar__submit svg,
+html body.page-index .fr-cmd-bar button[type="submit"] svg {
+  width: 20px !important;
+  height: 20px !important;
+  stroke-width: 2.5 !important;
+}
+
+
+/* ─── §107k. Litepicker pozycja — desktop default (under input), mobile center ─── */
+/* Klient: "sprawdz ten little picker, nie widzisz, ze jest przesuniecie teraz?
+   Prawa jego czesc jest jakas ucieta na koncu i widac kawalek zdjecia"
+   Live audit: systemowy app.css ma:
+     .litepicker { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%) }
+   To centruje datepicker w viewport (mobile pattern). Na desktop wyglada
+   "przesuniety" bo nie pojawia sie pod inputem.
+   Fix: desktop pozwol JS Litepicker'a ustawic pozycje przy input (inline style),
+   mobile zostaw centered. */
+
+@media (min-width: 992px) {
+  html body .litepicker:not(.mobilefriendly):not(.--static),
+  html body .litepicker[data-plugins*="mobilefriendly|keyboardnav"]:not(.mobilefriendly) {
+    /* Litepicker jako modal w GORNEJ czesci viewportu (nie w centrum)
+       Klient: centered pattern wyglada "przesuniety" — zmieniamy na
+       top: 20% (modal blizej inputow) + horizontal center. */
+    top: 20% !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    /* Bezpieczny fallback dla zwojek viewportow */
+    max-width: calc(100vw - 32px) !important;
+    max-height: calc(100vh - 80px) !important;
+    overflow-y: auto !important;
+  }
+}
+
+/* Ensure litepicker nie wystaje poza viewport prawej strony */
+html body .litepicker {
+  max-width: calc(100vw - 32px) !important;
+  box-sizing: border-box !important;
+}
+
+
+/* ─── §107j. Litepicker arrows — zachowanie aspect ratio 11:16 ─── */
+/* Klient: "przejscie strzaleczka w kolejne miesiace na littlepikerze
+   jest nie jest rowne".
+   Live audit:
+   - SVG native: width="11" height="16" (no viewBox) — strzalka aspect 11:16
+   - CSS forces: width: 12px, height: 12px → zniekształcona do 1:1
+   - Strzalka rozciagnieta horyzontalnie + sciesniona pionowo.
+   Fix: zachowac 11:16 aspect przez height + width:auto. */
+
+html body .litepicker .button-previous-month svg,
+html body .litepicker .button-next-month svg {
+  width: 10px !important;
+  height: 14px !important;
+  fill: currentColor !important;
+  display: block !important;
+}
+
+/* Plus wymus button center alignment dla SVG */
+html body .litepicker .button-previous-month,
+html body .litepicker .button-next-month {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  width: 32px !important;
+  height: 32px !important;
+}
+
+
+/* ============================================================
+   §108. POST-DEPLOY FIXES (v1.45, 2026-05-15 sesja 14)
+   ============================================================
+   1. Compare-model footer dark bg → "czarne otoczki" za pill buttonami
+   2. Page-txt hero kicker low contrast (dark on yellow 18% on dark overlay)
+   3. .fr-btn--primary z asymmetric padding (16px 32px 1px) + cream text
+   4. Systemic Leaflet map needs invalidateSize via IntersectionObserver
+   ============================================================ */
+
+
+/* ─── §108a. Compare model footer — usun ciemne tlo (zostawia "otoczki") ─── */
+/* Klient: "przyciski wybrania modelu, sa zaokraglone, ale itak maja jakies
+   czarne otoczki". Live: .fr-compare-model__footer ma bg: rgb(10, 10, 9)
+   (var --fr-dark-deep), wokol zaokraglonego pill buttona widac ciemny
+   prostokat tla. Fix: zostaw bg footer jak reszta karty (transparent /
+   cream), shadow + border z karty wystarczy. */
+
+html body .fr-compare-model .fr-compare-model__footer,
+html body section.fr-compare-models .fr-compare-model .fr-compare-model__footer,
+html body article.fr-compare-model .fr-compare-model__footer {
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 24px !important;
+  border-top: 1px solid var(--fr-border-light) !important;
+}
+
+/* Cienie pill button — subtelne, nie obijaja sie o ciemny prostokat */
+html body .fr-compare-model__footer .fr-btn--primary,
+html body .fr-compare-model__footer a.fr-btn {
+  box-shadow: 0 4px 14px rgba(226, 215, 0, 0.35) !important;
+}
+
+
+/* ─── §108b. Hero kicker na page-txt subpages — czytelny kontrast ─── */
+/* Klient: "Dla Biznesu znaczek na gorze slabo widoczny".
+   Live: .fr-page-hero__kicker color rgb(15,15,14) (dark) na bg
+   rgba(226,215,0, 0.18) — subtelny zolty pill na dark overlay hero photo.
+   Dark text na yellow-18% na dark = niski kontrast.
+   Fix: solid yellow bg (1.0 opacity) + zachowanie dark text dla AA. */
+
+html body.page-txt .fr-page-hero__kicker,
+html body.page-txt section.fr-page-hero .fr-page-hero__kicker {
+  background: var(--fr-primary) !important;
+  background-color: var(--fr-primary) !important;
+  color: var(--fr-dark) !important;
+  font-weight: 700 !important;
+  padding: 8px 18px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  letter-spacing: 0.12em !important;
+}
+
+
+/* ─── §108c. Zapytaj o oferte / Skontaktuj button — fix asymmetric padding ─── */
+/* Klient: "przycisk zapytaj o oferte jakis inny zolty za mocno, swiecacy
+   i do tego napis nie na srodku przycisku".
+   Live: .fr-btn--primary ma padding: 16px 32px 1px (top 16, right 32,
+   bottom 1, left 32) — tekst opada w dol! Plus color: rgb(240,234,224)
+   (cream) na rgb(226,215,0) (gold) = poor contrast.
+   Plus box-shadow: rgba(226,215,0,0.32) 0px 6px 18px (yellow glow). */
+
+html body .fr-final-cta .fr-btn--primary,
+html body .fr-btn.fr-btn--primary,
+html body a.fr-btn--primary,
+html body .fr-final-cta__cta-row .fr-btn--primary {
+  padding: 14px 32px !important;            /* symmetric vertical */
+  color: var(--fr-dark) !important;          /* z cream na dark */
+  background: var(--fr-primary) !important;
+  border: 2px solid var(--fr-primary) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  border-radius: var(--fr-radius-pill) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  min-height: 52px !important;
+  box-shadow: 0 4px 14px rgba(226, 215, 0, 0.35) !important;  /* subtler glow */
+  transition: all 0.18s ease !important;
+}
+
+html body .fr-final-cta .fr-btn--primary:hover,
+html body .fr-btn.fr-btn--primary:hover,
+html body a.fr-btn--primary:hover {
+  background: var(--fr-light-accent) !important;
+  border-color: var(--fr-light-accent) !important;
+  color: var(--fr-dark) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 18px rgba(226, 215, 0, 0.45) !important;
+}
+
+
+/* §108d. Leaflet map fix — invalidateSize handled by JS in FR_KONIEC_BODY */
+/* CSS-only safety net: ensure map container ma stable dimensions */
+html body #map_container,
+html body .leaflet-container {
+  min-height: 420px !important;
+  height: 420px !important;
+  width: 100% !important;
+  background: var(--fr-bg) !important;
+}
+
+
+/* ============================================================
+   §109. v1.47 — Audyt LIVE 2026-05-16 (6 fixów)
+   ============================================================ */
+
+/* §109a. Mapa /contact — przesunąć NAD treść (klient zgłosił:
+   "Na contakt nie ma dalej mapy/ nie działa" — mapa była na top:4497px
+   pod 4242px kontentu strony, klient nie zjeżdżał tak nisko).
+   Fix: .contact wrapper → flex column, .leaflet-container → order: -1
+   żeby pojawiła się NAD listą apartamentów i danymi firmy. */
+
+html body .contact-page > .contact,
+html body .page.contact-page > .contact {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+html body .contact-page > .contact > .leaflet-container,
+html body .page.contact-page .leaflet-container {
+  order: -1 !important;
+  margin-bottom: 2.5rem !important;
+  margin-top: 1rem !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 16px rgba(15, 15, 14, 0.08) !important;
+}
+
+/* Mobile: mniejsza wysokość mapy żeby kontent kontaktu był widoczny szybciej */
+@media (max-width: 767px) {
+  html body .contact-page .leaflet-container {
+    height: 320px !important;
+    min-height: 320px !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* §109a-fix: Leaflet panes recovery (bug systemowy IdoBooking)
+   MCP audit 2026-05-16: .leaflet-map-pane miał height:2px mimo że
+   mymap.getSize() = {x:1105, y:420}. mapPane CLIP'uje tiles → klient
+   widzi pustą mapę z samymi +/- zoom buttons. CSS defensive force. */
+html body .leaflet-container .leaflet-map-pane,
+html body .leaflet-container .leaflet-pane.leaflet-map-pane {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+html body .leaflet-container .leaflet-tile-pane,
+html body .leaflet-container .leaflet-pane.leaflet-tile-pane {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: visible !important;
+}
+
+/* Zoom controls — defensive (klient mógł je widzieć ale tiles puste) */
+html body .leaflet-container .leaflet-control-zoom {
+  z-index: 800 !important;
+}
+
+
+/* §109b-pre. v1.48b: ukryj filtr "Typ obiektu" (Fair Rentals ma tylko 1 typ
+   = Apartament, filtr bezużyteczny). Klient zgłosił 2026-05-16.
+   Selektor stabilny: każdy .filter_header ma unikalne ID systemowe. */
+html body.page-offers .filter_items:has(#filter_header_objectTypes) {
+  display: none !important;
+}
+/* Fallback bez :has() — JS w boot() (hideObjectTypeFilter) */
+
+
+/* §109b. /offers mobile — auto-expand filtrów
+   Klient zgłosił: "nie da się kliknąc w rozwijanie filtrów są ukryte"
+   Bug systemowy IdoBooking: .filter_header ma cursor:pointer ale
+   BRAK data-toggle/data-target/onclick + jQuery.collapse plugin nie
+   załadowany na page-offers. Fix CSS: na mobile WSZYSTKIE .filter_content
+   wymuszamy display:block (zawsze rozwinięte). */
+
+@media (max-width: 991px) {
+  html body.page-offers .filter_content.collapse,
+  html body.page-offers .filter_content,
+  html body .page-offers .filter_content.collapse {
+    display: block !important;
+    height: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Visual cue że header jest decorative (nie klikalny) */
+  html body.page-offers .filter_header {
+    cursor: default !important;
+    pointer-events: none !important;
+    border-bottom: 1px solid rgba(15, 15, 14, 0.08) !important;
+    margin-bottom: 0.75rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  /* Spacing między grupami filtrów */
+  html body.page-offers .filter_items {
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 1rem !important;
+    border-bottom: 1px dashed rgba(15, 15, 14, 0.12) !important;
+  }
+  html body.page-offers .filter_items:last-child {
+    border-bottom: none !important;
+  }
+}
+
+
+/* §109c. /offers — "Zastosuj filtry" button centering
+   Klient zgłosił: "przycisk zastosuj filtry nie jest wyśrodkowany napis"
+   Systemowy button ma display:inline-block + text-align:center, ale
+   padding-left/right 28px asymetryczne lub wewnętrzny span niespakowany. */
+
+html body.page-offers button.btn[type="submit"],
+html body.page-offers .filter_apply,
+html body.page-offers .btn.filter_submit,
+html body.page-offers .filters_form button.btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 12px 24px !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Również: ujednolicić "FILTROWANIE" DIV toggle */
+html body.page-offers .btn.btn-reverse {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+
+/* §109d. O nas hero — gradient (klient zgłosił: "cała strona na górze
+   jest szara"). Systemowy bg dla page-txt to grey/transparent. Hero
+   .fr-page-hero ma bg: rgba(0,0,0,0). Dodajemy cream gradient brand-aligned. */
+
+html body .page-txt .fr-page-hero,
+html body section.fr-page-hero {
+  background:
+    linear-gradient(135deg,
+      var(--fr-bg) 0%,
+      #fff 45%,
+      var(--fr-bg-alt) 100%) !important;
+  position: relative !important;
+}
+
+/* Decorative accent ribbon (subtelny żółty pas u góry) */
+html body section.fr-page-hero::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 4px !important;
+  background: linear-gradient(90deg,
+    var(--fr-primary) 0%,
+    var(--fr-light-accent) 50%,
+    var(--fr-primary) 100%) !important;
+  z-index: 1 !important;
+}
+
+/* Hero kicker — zachowaj brand bg (już ma rgb(226,215,0)) */
+html body section.fr-page-hero .fr-page-hero__kicker {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+
+/* §109e. DE/PL menuOverflow popup bg — match brand
+   Klient zgłosił: "na zagranicznej wersji np. niemieckiej, jak się
+   klika 3 kropki bo się nie mieści menu, tło wyskakujace pod listą
+   jest białe tak jak na zrzucie ma być spójnie jak na wersji PL".
+
+   v1.48 FIX REGRESJI: poprzednie selektory `html body .menuOverflow`
+   łapały RÓWNIEŻ LI.menuOverflow.nav-item (inline LI w nav listy),
+   nie tylko UL.menuOverflow.sub-navi (popup). Klient widział czarny
+   prostokąt 200×32 w środku navbara zamiast 3 kropek. Fix: ograniczone
+   selektory tylko do UL popup. */
+
+/* RESET — LI item wrapper transparent (był tu mój regression v1.47) */
+html body li.menuOverflow,
+html body li.menuOverflow.nav-item {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ONLY popup UL (.sub-navi) — dark brand bg */
+html body ul.menuOverflow.sub-navi,
+html body .menuOverflow > ul.sub-navi {
+  background: rgba(15, 15, 14, 0.96) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(226, 215, 0, 0.15) !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 12px 32px rgba(15, 15, 14, 0.18),
+    0 4px 12px rgba(15, 15, 14, 0.12) !important;
+  padding: 8px 0 !important;
+  min-width: 200px !important;
+}
+
+html body ul.menuOverflow.sub-navi li {
+  background: transparent !important;
+}
+
+html body ul.menuOverflow.sub-navi li a,
+html body ul.menuOverflow.sub-navi .nav-link {
+  color: #fff !important;
+  font-weight: 600 !important;
+  padding: 10px 18px !important;
+  display: block !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+html body ul.menuOverflow.sub-navi li a:hover,
+html body ul.menuOverflow.sub-navi .nav-link:hover {
+  background: rgba(226, 215, 0, 0.12) !important;
+  color: var(--fr-primary) !important;
+}
+
+
+/* §109f. Mobile grid /apt-grid — fix dla iPhone SE 320px
+   Audyt v1.46: grid-template-columns hardcoded 320px → karta nie
+   zmieści się na 320px viewport (iPhone SE). Fix: minmax(280px, 1fr)
+   z fallback dla bardzo małych ekranów. */
+
+@media (max-width: 767px) {
+  html body .fr-apt-grid {
+    grid-template-columns: minmax(280px, 1fr) !important;
+    gap: 1.25rem !important;
+    padding: 0 1rem !important;
+  }
+}
+
+@media (max-width: 359px) {
+  /* iPhone SE 320 — ścieśniony grid bez padding side */
+  html body .fr-apt-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 0.5rem !important;
+    gap: 1rem !important;
+  }
+
+  html body .fr-apt-card .fr-apt-body {
+    padding: 1rem !important;
+  }
+}
+
+/* §109g. Notatka: tel: link cleanup — implementacja w JS
+   (FR_KONIEC_BODY.html sekcja sanitizeTelLinks). Klient wpisał
+   "+48 575092755" w panelu Dane firmy ze spacją po +48, system
+   generuje tel:+48 575092755 (RFC 3966 niezgodne — wymaga URI bez
+   whitespace). JS automatycznie czyści wszystkie a[href^="tel:"]. */
+
+
+/* §109h. v1.48 — Google Maps iframe zamiast Leaflet (bug nieuleczalny)
+   Klient zgłosił 2026-05-16: "jak przesuniesz mape to nie widac".
+   Leaflet w template default13 IdoBooking ma bug systemowy:
+   .leaflet-map-pane.offsetHeight = 2px mimo getSize() = {x:1105,y:420}.
+   3 metody recovery (v1.47) nie pomogły — pan/zoom rozsypuje tiles.
+
+   Decyzja: zamiana na Google Maps iframe embed (bez API key, free,
+   responsive, niezawodny). 21 markerów apartamentów → niemożliwe
+   bez API key, ale klient ma main location pinned z możliwością
+   szukania okolic. */
+
+/* Hide systemowy Leaflet container na /contact */
+html body.contact-page .leaflet-container,
+html body .contact-page > .contact > .leaflet-container,
+html body .contact-page #map_container {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Google Maps iframe wrapper (inject'owany przez JS) */
+html body .fr-google-map-wrap {
+  order: -1 !important;
+  width: 100% !important;
+  margin: 1rem 0 2.5rem !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 16px rgba(15, 15, 14, 0.08) !important;
+  position: relative !important;
+  background: var(--fr-bg) !important;
+}
+
+html body .fr-google-map-wrap iframe {
+  display: block !important;
+  width: 100% !important;
+  height: 420px !important;
+  border: 0 !important;
+}
+
+@media (max-width: 767px) {
+  html body .fr-google-map-wrap iframe {
+    height: 320px !important;
+  }
+}
+
+/* Caption pod mapą (opcjonalna) */
+html body .fr-google-map-wrap__caption {
+  position: absolute !important;
+  bottom: 12px !important;
+  left: 12px !important;
+  background: rgba(15, 15, 14, 0.85) !important;
+  color: #fff !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  pointer-events: none !important;
+  z-index: 5 !important;
+}

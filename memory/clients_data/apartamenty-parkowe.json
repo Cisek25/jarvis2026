@@ -1,0 +1,820 @@
+{
+  "clientId": "apartamenty-parkowe",
+  "name": "Apartamenty Parkowe Gniezno",
+  "version": "v1.9.3",
+  "panel": "https://client58154.idosell.com/panel/",
+  "engine": "https://engine58154.idobooking.com/",
+  "site": "https://client58154.idobooking.com/",
+  "existingSite": "https://apartamenty-parkowe.pl/",
+  "prefix": "ap-",
+  "design_source": "v1.0 JARVIS oryginalny (żywa zieleń #147D3B + Playfair) — PO 2026-04-20 user rollback z powodu nieudanej adaptacji designu Claude frontend-design",
+  "rollback_decision": {
+    "date": "2026-04-20",
+    "reason": "3 nieudane iteracje v2.0/v2.1/v2.2 adaptacji mockupu Claude do IdoBooking. Zepsuły działający v1.0. User: 'zrób strone od nowa jako jarvis, bo widze, ze ten desing nie działa dobrze'",
+    "action": "DO_WKLEJENIA przywrócone 1:1 z _OLD_v1_2026-04-20/",
+    "design_lessons_kept": ["memory/lessons/css-custom-panel-limit.md", "memory/lessons/idobooking-css-vars-default13.md", "memory/lessons/design-adaptation-system-first.md", "memory/lessons/live-verification-before-delivery.md", "memory/lessons/never-replace-working-pipeline.md"],
+    "traps_added_to_claude_md": "#14 (custom.css limit), #15 (IdoBooking vars override), #16 (mockup to wizja), #17 (live verify)"
+  },
+  "colors": {
+    "forest_primary": "#2F4A3A",
+    "moss_secondary": "#5D7A55",
+    "sage": "#B8C5A6",
+    "accent_terrakota": "#C07B5E",
+    "accent_deep": "#9E5F44",
+    "blush": "#E8D4C4",
+    "bg_cream": "#FAF7F2",
+    "bg_alt": "#F2ECE0",
+    "cream_pure": "#FFFDF8",
+    "ink": "#1F2A22",
+    "ink_soft": "#3D4A41",
+    "muted": "#6B7267"
+  },
+  "fonts": {
+    "display": "Cormorant Garamond",
+    "display_weights": [300, 400, 500, 600],
+    "display_italic": true,
+    "body": "Inter",
+    "body_weights": [300, 400, 500, 600, 700]
+  },
+  "apartments": 3,
+  "apartmentNames": ["Studio", "Antresola", "Piątka"],
+  "apartmentNamesEn": ["Studio", "Mezzanine", "Fifth"],
+  "apartmentData": [
+    {"id": 1, "slug": "Studio", "name": "Studio", "area": 32, "guests": 4, "price": 228},
+    {"id": 2, "slug": "Antresola", "name": "Antresola", "area": 28, "guests": 4, "price": 209},
+    {"id": 10, "slug": "Piatka", "name": "Piątka", "area": 41, "guests": 4, "price": 228}
+  ],
+  "locations": ["Gniezno"],
+  "contact": {
+    "phone": "+48 604 341 453",
+    "email": "gniezno@apartamenty-parkowe.pl",
+    "address": "ul. Kościuszki 1, 62-200 Gniezno"
+  },
+  "locationIds": {
+    "gniezno": "1"
+  },
+  "gallery": {
+    "heroImg": "/images/frontpageGallery/pictures/large/0/0/2_full.jpg",
+    "antresola": [
+      "/images/objects/pictures/large/2/0/105.jpg",
+      "/images/objects/pictures/large/2/0/99.jpg",
+      "/images/objects/pictures/large/2/0/93.jpg",
+      "/images/objects/pictures/large/2/0/102.jpg",
+      "/images/objects/pictures/large/2/0/95.jpg"
+    ],
+    "studio": [
+      "/images/objects/pictures/large/1/0/109.jpg",
+      "/images/objects/pictures/large/1/0/83.jpg",
+      "/images/objects/pictures/large/1/0/45.jpg",
+      "/images/objects/pictures/large/1/0/110.jpg",
+      "/images/objects/pictures/large/1/0/53.jpg"
+    ],
+    "piatka": [
+      "/images/objects/pictures/large/0/1/35.jpg",
+      "/images/objects/pictures/large/0/1/73.jpg",
+      "/images/objects/pictures/large/0/1/59.jpg",
+      "/images/objects/pictures/large/0/1/74.jpg",
+      "/images/objects/pictures/large/0/1/65.jpg"
+    ]
+  },
+  "offerIds": {
+    "studio": 1,
+    "antresola": 2,
+    "piatka": 10
+  },
+  "bookingCom": {
+    "rating": "9.6/10",
+    "award": "Traveller Review Awards 2025",
+    "url_pl": "https://www.booking.com/hotel/pl/apartament-parkowy-gniezno.pl.html",
+    "url_en": "https://www.booking.com/hotel/pl/apartament-parkowy-gniezno.en-gb.html"
+  },
+  "brief": {
+    "checkin": "16:00",
+    "checkout": "11:00",
+    "languages": ["PL"],
+    "languages_deferred": "EN — user decyzja 2026-04-23: 'na razie nie robimy wersji angielskich'. Pliki EN (GLOWNA_EN, ONAS_EN, GALERIA_EN, LOKALIZACJA_EN, BLOG_EN) zostają w JARVIS jako draft ale NIE aktualizujemy ich synchronicznie z PL. Przy powrocie do EN — pełny sync z PL do zrobienia.",
+    "payment": ["przelew", "BLIK", "karta", "Apple Pay", "Google Pay"],
+    "parking": "płatny prywatny parking",
+    "wifi": "bezpłatne WiFi (światłowód)",
+    "amenities": [
+      "pełna kuchnia (zmywarka, płyta indukcyjna, ekspres, lodówka, mikrofalówka)",
+      "pralka, suszarka, żelazko",
+      "bezpłatne Wi-Fi, smart TV",
+      "płatny prywatny parking",
+      "samodzielny check-in 24/7"
+    ],
+    "longStay": "Pobyty długoterminowe - warunki indywidualne",
+    "package": "1000 zł + 3 wpisy blogowe (v2.0 nakład ~15-20h, przekracza pakiet)",
+    "stylePreference": "jasne kolory — ale mockup ciemniejszy (forest #2F4A3A). Pokazać podgląd klientowi PRZED wklejeniem."
+  },
+  "subpages": {
+    "GLOWNA_PL": {"slot": "body_top + body_bottom", "url": "/", "status": "ready-to-paste-v2"},
+    "GLOWNA_EN": {"slot": "body_top + body_bottom", "url": "/en/", "status": "ready-to-paste-v2"}
+  },
+  "architecture": {
+    "single_page": true,
+    "anchor_sections": ["ap-apartments", "ap-features", "ap-gallery", "ap-reviews", "ap-location", "ap-contact"],
+    "dedicated_subpages": false,
+    "fancy_features": ["reveal-on-scroll (IntersectionObserver)", "14 falling leaves (CSS)"],
+    "removed_from_mockup": ["theme picker 5 variants", "cursor glow", "dedicated about/gallery/reviews/location/blog subpages"]
+  },
+  "knownTraps": [
+    "fullpage.js — hero teleport do .section.parallax .fp-tableCell (body_bottom §2)",
+    "container-hotspot hidden via CSS, JS builds ap-offer-card (MADERA/NAJMAR pattern)",
+    "footer-contact-baner ::before/::after override (trap #6)",
+    "header .menu-wrapper child bg override (trap #3)",
+    "lightbox skanuje WSZYSTKIE img poza iconkami <40px + header/footer/logo",
+    "SVG icons: outline only (stroke, not fill) — trap #8",
+    "KAŻDY element ma image (nie ma sekcji bez wizualu) — trap #9",
+    "CUSTOM.CSS LIMIT ~60KB/320 rules — panel OBCINA większe (trap #14) — v2.0 failed catastrophically, v2.1 rebuilt as 32KB/223 rules",
+    "IdoBooking default13 vars MUST be override (trap #15) — --maincolor1, --supportcolor1, --btn_large, --bgcolor1 z !important w :root",
+    "Mockup frontend-design ≠ standalone strona (trap #16) — stylizuj system elements (header, booking, footer), nie dodawaj własnych",
+    "LIVE VERIFY zawsze przed oddaniem (trap #17) — chrome-devtools MCP + screenshot + CSS vars check"
+  ],
+  "css_v2_1_stats": {
+    "size_kb": 32,
+    "rules_count": 223,
+    "limit_kb": 60,
+    "limit_rules": 320,
+    "headroom_rules": 97
+  },
+  "history": [
+    {
+      "date": "2026-05-13",
+      "action": "v1.9.3 — Follow-up: Antresola łazienka (real 107.jpg) + Leaflet popup JS (text node not <strong>)",
+      "trigger": "User po wdrożeniu v1.9.2 (14:29): (1) Galeria Antresola nadal jedno zdjęcie zły podpis (95.jpg to NIE łazienka tylko sypialnia, weryfikacja chrome-devtools screenshot); (2) Mapa Leaflet wciąż pokazuje 'Studio' — CSS §10b nie zadziałał bo popup ma text node, nie <strong>",
+      "fixes": {
+        "1_antresola_real_bathroom": "Verification chrome-devtools MCP: screenshot każdego ID Antresoli (91, 95, 96, 100, 102, 107). Znaleziono: 107.jpg = prawdziwa łazienka (prysznic+umywalka+WC+pralka, kafelki szare). Update pos 4: 95.jpg → 107.jpg w GALERIA_PL__body_top.html + GALERIA_EN__body_top.html.",
+        "2_leaflet_popup_text_node": "Leaflet popup .leaflet-popup-content ma 'Studio' jako PIERWSZY TEXT NODE (NIE w <strong>!). CSS display:none nie działa na text node. JS fix w AP_KONIEC_BODY.html: removeLocationNameFromLeafletPopup() — sprawdza pierwszy child (Node.TEXT_NODE), match krótki tekst (≤20 chars, starts uppercase, no digits), usuwa text node + następny <br>. Hooks: MutationObserver na map container + click handler na .leaflet-marker-icon + setTimeout 100ms+400ms po kliknięciu."
+      },
+      "files_modified": [
+        "GALERIA_PL__body_top.html — Antresola pos 4: 95.jpg → 107.jpg",
+        "GALERIA_EN__body_top.html — Mezzanine pos 4: 95.jpg → 107.jpg",
+        "AP_KONIEC_BODY.html — removeLocationNameFromLeafletPopup() przed final })();",
+        "INSTRUKCJA.md — changelog v1.9.3"
+      ],
+      "live_verified": "Po inject JS na live /contact, click marker → popup HTML: 'Kościuszki 1<br>62-200 Gniezno, Polska<br><a>Zobacz ofertę</a>' (zamiast 'Studio<br>Kościuszki 1<br>...'). patchedCount=1 ✓",
+      "client_action_required": "Wkleić: GALERIA_PL/EN__body_top.html + AP_KONIEC_BODY.html. Hard reload.",
+      "not_yet_deployed": true,
+      "lesson_universal": "lesson 012: NIGDY nie ufaj alt-textom z poprzednich wersji bez weryfikacji wizualnej. Live screenshot każdego zdjęcia w gallery przed delivery. TRAP #32: Leaflet popup content może mieć tekst jako TEXT NODE — CSS selector dla text nie istnieje, użyj JS Node.removeChild."
+    },
+    {
+      "date": "2026-05-13",
+      "action": "v1.9.2 — User feedback (Galeria, Kontakt) + Drone video deploy + Full EN sync (5 blog posts)",
+      "trigger": "User po wdrożeniu v1.9.1: (1) Galeria zdj. 4 Antresola błędny podpis (sugeruje podmienić zdjęcie na łazienkę bo zdj. 3 i 4 są podobne); (2) Kontakt: nad adresem 'STUDIO' (i na mapce) — efekt funkcji osobne lokalizacje per apartament; (3) drone video URL: https://youtu.be/2Fz-B_782Es; (4) 'stwórz wersje angielską podstron i całej strony'",
+      "fixes": {
+        "1_drone_video_deploy": "YOUR_VIDEO_ID → 2Fz-B_782Es w GLOWNA_PL__cms.html (data-ap-video-id + iframe src) + GLOWNA_EN__cms.html analogicznie. Sekcja teraz auto-pokazuje YouTube embed.",
+        "2_galeria_antresola_swap": "GALERIA_PL/EN: Antresola pozycje 4↔5 swap. Było: 4=102.jpg 'sypialnia na antresoli' (small), 5=95.jpg 'łazienka' (medium). Teraz: 4=95.jpg 'łazienka' (small), 5=102.jpg 'sypialnia na antresoli' (medium). Zachowane sizes (small/medium per slot mosaic). EN: 'bathroom' / 'upper bedroom'.",
+        "3_kontakt_hide_studio": "CSS §(10a+10b) — body.page-contact .contact__item > div > strong.d-block:first-child + body.page-contact .leaflet-popup-content strong { display: none !important }. Ukrywa 'STUDIO' nad adresem ORAZ w popupie mapki Leaflet (system pokazuje nazwę lokalizacji bo każdy apartament w panelu = osobna lokalizacja z osobną instrukcją dojazdu).",
+        "4_full_en_sync_blog_posts": "BLOG_WPISY/ otrzymał 5 EN wersji (01-05*_EN.html): Gniezno on a weekend, Apartment instead of hotel (7 reasons), History of Gniezno, What to eat in Gniezno, Gniezno with children. Każdy ~50 linii HTML, tytuł + meta + image + body. Aktualizowane: '/offers' → '/en/offers', 'trzy apartamenty' → 'four apartments', słownictwo turystyczne EN.",
+        "5_subpages_already_synced": "ONAS_EN, GALERIA_EN, LOKALIZACJA_EN, BLOG_EN, GLOWNA_EN — audyt potwierdził: wszystkie v1.9.0+v1.9.1 changes już zsynchronizowane (drone, Google reviews, 4 apartments, Modern section, panel images, mobile fixes). Brakowało tylko blog posts EN."
+      },
+      "files_modified": [
+        "GLOWNA_PL__cms.html — drone video ID podmieniony",
+        "GLOWNA_EN__cms.html — drone video ID podmieniony",
+        "GALERIA_PL__body_top.html — Antresola pos 4↔5 swap",
+        "GALERIA_EN__body_top.html — Mezzanine pos 4↔5 swap",
+        "AP_CSS_EDYTOR.css — patch §(10a)+(10b) hide STUDIO label",
+        "INSTRUKCJA.md — changelog v1.9.2"
+      ],
+      "files_added": [
+        "BLOG_WPISY/01-gniezno-weekend-plan_EN.html",
+        "BLOG_WPISY/02-dlaczego-apartament-nie-hotel_EN.html",
+        "BLOG_WPISY/03-historia-gniezna-w-pigulce_EN.html",
+        "BLOG_WPISY/04-co-jesc-w-gnieznie_EN.html",
+        "BLOG_WPISY/05-gniezno-z-dziecmi_EN.html"
+      ],
+      "languages_en_re_enabled": "User wraca do EN po decyzji 2026-04-23 'na razie nie robimy wersji angielskich'. Full sync osiągnięty, pliki EN aktywnie utrzymywane.",
+      "client_action_required": "Wkleić: AP_CSS_EDYTOR.css (Arkusz stylów), GLOWNA_PL/EN, GALERIA_PL/EN. Dodać 5 EN wpisów blogowych w panelu (Wygląd i treści → Aktualności → Dodaj) — każdy oddzielnie z plików BLOG_WPISY/*_EN.html.",
+      "not_yet_deployed": true
+    },
+    {
+      "date": "2026-05-13",
+      "action": "v1.9.1 — Advanced Mobile UX/A11y (TDD methodology, 25 tests)",
+      "trigger": "User: 'aktualnie na różnych telefonach cała wyszukiwarka nie jest widoczna, zasłania ją np. następna sekcja, nalezy to poprawić, dodatkowo zrób testy ułożenia elementów i wyglądu na UX zwłaszcza górnej części w tym menu, rozwijania listy menu oraz co najwazniejsze wyszukiwarki, testy mają być zaawansowane, kompletne i mocno pod UX i dostępność cyfrową'",
+      "methodology": "TDD: 25 testów napisanych w JS przed naprawą, uruchomionych w chrome-devtools MCP przy emulacji mobile (390x844 iPhone 12 + 375 iPhone SE + 412 Pixel 7 + 360 Galaxy S20), baseline FAIL → fix → GREEN",
+      "tests": ["T1 search-exists", "T2 search-not-covered (elementFromPoint)", "T2b no-overlap-next (sr.bottom vs ar.top)", "T2c search-above-fold", "T2d submit-reachable", "T3 header-solid-bg", "T4 hamburger-44px (WCAG)", "T5 hamburger-3-lines (nie fontello)", "T6 menu-opens (UL.navbar-nav height change)", "T7 menu-solid-bg", "T8 menu-links-44px", "T9 search-fields-44px", "T10 inputs-labeled (aria-label OR for/id)", "T11 focus-visible (outline/box-shadow)", "T12 no-h-scroll", "T13 REZERWUJ text on mobile", "T14 logo-no-overlap-burger", "T16 search-aria role/label", "T17 main-landmark", "T18 html-lang", "T19 submit-name", "T20 header-not-covering-hero", "T21 submit-type=submit", "T23 search-inside-hero-section"],
+      "baseline_fails_iphone12_390x844": {
+        "T2b": "search wystaje 119px poniżej i nakłada się na .ap-about — PRIMARY USER COMPLAINT",
+        "T2c": "search bottom=1081 vs VH=844 (237px excess) — submit poniżej fold",
+        "T10": "2/6 flatpickr alt-inputs bez aria-label",
+        "T20": "header pozycja vs hero text (false-positive z prior scroll state)"
+      },
+      "root_cause": ".ap-hero-wrap to position:absolute + height:100vh (844px). Wewnątrz .ap-hero__grid (text + 615px search card) ma 1013px → overflowuje poza absolutną hero-wrap i wjeżdża wizualnie na .ap-about (która jest w normal flow zaraz po .section.parallax 932px). Plus w custom.css: '.ap-hero__search-card .ap-search--vertical .ap-search__field { min-height: 82px !important; padding: 16px 18px !important }' (specificity 0,3,3=33) — pole 98px tall × 5 fields + paddings = 580-615px search card. SPECIFICITY WAR: moje rules 'html body .ap-search__field' (0,2,3=23) PRZEGRYWAŁY.",
+      "fixes": {
+        "css_section_9": "180+ linii w AP_CSS_EDYTOR.css na końcu — Mobile Hero Layout Rework",
+        "1_hero_relative": ".ap-hero-wrap--split na mobile → position:relative + height:auto + min-height:calc(100vh - 88px) → expanduje .section.parallax → .ap-about przesuwa się poniżej",
+        "2_order_swap": ".ap-hero__grid flex-direction:column + search-card order:1 + hero-text order:2 (pattern Booking.com/Airbnb) → search above fold",
+        "3_specificity_55": "Selector 'html body .ap-hero-wrap--split .ap-hero__search-card .ap-search--vertical .ap-search__field' specificity 0,5,5=55 pokonuje custom.css 33 → fields 56px z 98px (43% redukcji)",
+        "4_iphone_se_400px": "Media @max-width 400: chowa .ap-hero__search-header (decoracyjny), kompakt padding/font",
+        "5_galaxy_s20_360px": "Media @max-width 360: jeszcze ciaśniejszy padding",
+        "6_a11y_focus": "focus-visible outline 3px + box-shadow 0 0 0 6px primary na submit (WCAG 2.4.7)",
+        "7_aria_patcher": "JS patchFlatpickrAriaLabels() w body_bottom — kopiuje text z .ap-search__label na aria-label flatpickr alt-input + aria-haspopup=dialog. Re-run w setTimeout(400, 1500) + MutationObserver 10s",
+        "8_rezerwuj_higher_specificity": "Bonus: header REZERWUJ button text swap z 'html body header.default13 .navbar-reservation' (spec 33) pokonuje istniejącą rule, font-size:0 + color:transparent + text-indent:-9999px + ::before content"
+      },
+      "verified_4_viewports": {
+        "iphone_se_375x667": { "search_h": 321, "tests": "25/25 PASS" },
+        "iphone_12_390x844": { "search_h": 321, "gap_to_about": 453, "tests": "25/25 PASS" },
+        "pixel_7_412x915": { "search_h": 366, "tests": "25/25 PASS" },
+        "galaxy_s20_360x740": { "search_h": 309, "tests": "25/25 PASS" }
+      },
+      "files_modified": [
+        "AP_CSS_EDYTOR.css — §(9) Mobile Hero Layout Rework + §(9b) iPhone SE + §(9b-2) Galaxy S20 + §(9c) landscape + §(9c-2) REZERWUJ specificity fix + §(9d) focus-visible WCAG",
+        "AP_KONIEC_BODY.html — patchFlatpickrAriaLabels() po initFlatpickr() z MutationObserver fallback",
+        "INSTRUKCJA.md — changelog v1.9.1 z 4-viewport verification table",
+        "docs/CLIENT-LESSONS-apartamenty-parkowe.md — TRAP #31 (specificity war w custom.css) + Lekcja uniwersalna (instinct 018: search-first order swap mobile)"
+      ],
+      "not_yet_deployed": true,
+      "client_action_required": "Wkleić ponownie: AP_CSS_EDYTOR.css (panel → Arkusz stylów) + AP_KONIEC_BODY.html (panel → Koniec BODY). Hard reload (Ctrl+Shift+R) na mobile.",
+      "lesson_universal": "instinct 018: na mobile booking widget = search-first order swap, marketing text schodzi poniżej. Pattern Booking.com, Airbnb. TRAP #31: zawsze sprawdź computed specificity w istniejącym CSS (custom.css może mieć 0,3,3 + !important) — twoja rule musi mieć ≥ specificity albo być declared later z tą samą specificity."
+    },
+    {
+      "date": "2026-05-04",
+      "action": "v1.9.0 — Feedback Ewa 2026-04-26 (12 punktów: drone video, opinie Google, 4. apartament Modern, mobile fixes, podpisy galerii, zdjęcia lokalizacji z panelu)",
+      "trigger": "Mail Ewa Pokładecka 2026-04-26 21:47 (3 wiadomości w tickecie #1239891780): (1) film z drona zamiast hero — drive link, (2) o nas opis za mała czcionka, (3) opinie z Google Maps zamiast placeholderów, (4) Modern apartament POLECAMY→DOSTĘPNY NIEBAWEM, (5) cztery (nie trzy) apartamenty, (6) galeria 2 zielone+mała czcionka+podpisy zdjęć, (7) lokalizacja 2 zielone+Dojazd font+W okolicy zdjęcia z panelu+czasy, (8) mobile kalendarz częściowo widoczny+REZERWACJA→REZERWUJ+MENU button niewidoczny",
+      "user_decisions": "Drone video: limit 10MB nie zadziała → embed YouTube. Opinie: jednorazowy port z Google Maps (Claude pobiera). Zdjęcia 4. apartamentu: dodać mechanizm auto-pull z panelu. Lokalizacja: zdjęcia URL podane: 7=Park, 6=Jezioro, 8=Katedra, 9=Muzeum, 10=Rynek, 11=Wzgórze.",
+      "fixes": {
+        "1_drone_video": "GLOWNA_PL/EN — nowa sekcja .ap-video[data-ap-video-id] z YouTube iframe (placeholder YOUR_VIDEO_ID). JS initDroneVideo() auto-ukrywa sekcję jeśli ID nie podano. Klient musi: wgrać na YouTube → skopiować ID → podmienić w 2 miejscach. Sekcja umieszczona MIĘDZY hero a about (nie zastępuje hero — lepiej dla SEO/perf).",
+        "2_about_typography": "CSS v1.9.0 §(7) — html body .ap-narrative__text p, .ap-about__text p { font-size:18px; line-height:1.75 !important }. Mirror :not() blacklist dla page-txt subpages (trap #30 px>rem).",
+        "3_google_reviews": "GLOWNA_PL/EN — usunięte 3 placeholder testimoniale + Booking.com badge. Wstawione 6 PRAWDZIWYCH Google reviews z wizytówki (Agnieszka B., Damian N., Kamila K., Agnieszka, Julia H., Milena B.) + Google Reviews badge SVG (oficjalne kolory) + link 'Zobacz wszystkie opinie na Google →' do maps.app.goo.gl/NZ7ALmHWzRE1ubGF6. EN: tłumaczenie tekstów. Pobrane przez playwright MCP — google-reviews.json (83 records, deduplikowane do 6 unikalnych).",
+        "4_modern_badge": "AP_KONIEC_BODY.html buildOfferCards() — wykrywa /\\bmodern\\b/i w tytule oferty. Jeśli match → badge .ap-offer-card__badge--soon (dark variant #1F2A22) z tekstem 'Dostępny niebawem' (PL) / 'Coming soon' (EN). Cena ukryta (nie isModern check). CSS v1.9.0 §(3) styling badge dark.",
+        "5_four_apartments": "Wszystkie 'Trzy/three apartments' → 'Cztery/Four': ONAS_PL hero subtitle+filozofia, ONAS_EN analogicznie, GALERIA_PL/EN hero kicker '3 APARTAMENTY' → '4 APARTAMENTY'. Hero stat już był 4 z v1.8.9.",
+        "6_gallery_unify_green_captions_modern": "GALERIA_PL/EN — usunięte inline #A8E6B8 mints w final-cta (kicker, em, heading-rule, btn). Podpisy zdjęć per Pani lista: Studio 4,5=aneks kuchenny / Antresola 2=salon z aneksem, 3=aneks, 4=sypialnia / Piątka 1=przestronny pokój, 2=strefa wypoczynku, 3,4=kuchnia, 5=łazienka. Dodana 4. sekcja 'Apartament Modern' z placeholderem .ap-gallery-placeholder + badge 'ZDJĘCIA WKRÓTCE' + ikonka. data-ap-pull-from='modern' data-ap-object-id='3' attrs.",
+        "7_location": "LOKALIZACJA_PL/EN — Pexels URLs zamienione na /images/frontpageGallery/pictures/large/2/0/{6-11}.jpg z panelu klienta. Czasy: Park 5, Rynek 16, Katedra 18, Wzgórze 18, Jezioro 20, Muzeum 30 (PL: PIESZO / EN: WALK). Dojazd font: 1.05rem→1.2rem + max-width 620→680. h2 clamp 2rem→2.2rem. Mints w final-cta usunięte.",
+        "8_mobile": "CSS v1.9.0 §(4) mobile <600px button text 'REZERWACJA ONLINE' → 'REZERWUJ' (font-size:0 + ::before content). EN 'BOOK'. §(5) mobile <992px hamburger force visible: 48×48px, border zielony, CSS-drawn 3 lines (gradient bg, trap #28 fontello unavailable), z-index 100. §(6) mobile <768px fullpage.js destroy: html body.page-index .fullpage-wrapper {height:auto;overflow:visible;transform:none}, .section.parallax + .fp-tableCell + .fp-section all overflow:visible+height:auto. Hide #fp-nav."
+      },
+      "javascript_new": [
+        "initDroneVideo() — auto-hide section jeśli data-ap-video-id='YOUR_VIDEO_ID' lub <5 chars. Iframe src auto-replace YOUR_VIDEO_ID po podmianie",
+        "initModernGalleryPull() — skanuje 1-150 zdjęć w /images/objects/pictures/large/{ID}/0/{N}.jpg dla object ID 3 (Modern). Jeśli ≥1 znalezione (naturalWidth>=200 filtr false-positives), buduje grid mosaic (large/medium/small/tall pattern). Jeśli 0 → zachowuje placeholder. Niezależny od panelu — działa po reload."
+      ],
+      "files_modified": [
+        "GLOWNA_PL__cms.html — drone video sekcja + 6 Google reviews",
+        "GLOWNA_EN__cms.html — analogicznie EN",
+        "ONAS_PL__body_top.html — cztery + final-cta unified",
+        "ONAS_EN__body_top.html — four + final-cta unified",
+        "GALERIA_PL__body_top.html — 4 APARTAMENTY + podpisy + Modern placeholder",
+        "GALERIA_EN__body_top.html — analogicznie",
+        "LOKALIZACJA_PL__body_top.html — zdjęcia z panelu + czasy + Dojazd font + mints fix",
+        "LOKALIZACJA_EN__body_top.html — analogicznie",
+        "AP_KONIEC_BODY.html — initDroneVideo + initModernGalleryPull + Modern badge w buildOfferCards",
+        "AP_CSS_EDYTOR.css — patch v1.9.0 ~280 linii (8 sekcji)",
+        "INSTRUKCJA.md — changelog v1.9.0",
+        "../ODPOWIEDZ_DLA_KLIENTA_2026-04-26.md — punkt-po-punkcie response"
+      ],
+      "client_action_required": "1) Wkleić wszystkie 11 plików ponownie. 2) Wgrać film z drona na YouTube i podmienić YOUR_VIDEO_ID w GLOWNA_PL__cms.html (atrybut data-ap-video-id + iframe src). Bez tego sekcja jest ukryta automatycznie.",
+      "auto_features_no_action": [
+        "Modern gallery auto-pull: dodaje zdjęcia w panelu Modern (object ID 3) → automatycznie pojawiają się w /galeria",
+        "Modern badge: jeśli apartament nazywa się 'Modern' → badge 'DOSTĘPNY NIEBAWEM' + ukryta cena automatycznie"
+      ],
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja 11 plików. Hard reload (Ctrl+Shift+R). Testy: (a) /o-nas → narrative p ~18px, podstrony bez różnicy 17/18px; (b) /galeria → 'GALERIA · 4 APARTAMENTY', sekcja Modern z placeholderem 'ZDJĘCIA WKRÓTCE', podpisy zdjęć Studio/Antresola/Piątka per lista; (c) /lokalizacja → 6 atrakcji z PRAWDZIWYMI zdjęciami (.../2/0/6-11.jpg), czasy 5/16/18/18/20/30, Dojazd p ~19px; (d) / homepage → sekcja drone video UKRYTA (placeholder ID); (e) / homepage → 6 Google reviews z badge Google Reviews zamiast Booking.com 9.6; (f) /offers → jeśli apartament 'Modern' wyróżniony, badge ciemny 'DOSTĘPNY NIEBAWEM' bez ceny; (g) mobile 375px / → REZERWUJ button (nie REZERWACJA ONLINE), hamburger widoczny zielony 48×48px, hero search card cały scrollowalny (4 pola + submit) bez fullpage blokady; (h) wszystkie subpages /txt/* → final-cta jednolity zielony+biały (zero #A8E6B8 mintów)."
+    },
+    {
+      "date": "2026-04-16",
+      "action": "v1.0 — Recon + budowa (żywa zieleń #147D3B + Playfair)",
+      "files": ["AP_CSS_EDYTOR.css", "AP_HEAD.html", "AP_KONIEC_BODY.html", "GLOWNA_PL__cms.html", "GLOWNA_EN__cms.html", "SEO_TYTULY_AP.md", "INSTRUKCJA.md"],
+      "notes": "CSS L1+L2+L3 (70KB), v1.0 gotowa do wklejenia ale nie wdrożona"
+    },
+    {
+      "date": "2026-04-20",
+      "action": "v2.0 — Adaptacja Claude frontend-design (FAILED na live)",
+      "source": "Brief-booking_v2.docx + Downloads/sites/apartamenty-parkowe/ (React mockup)",
+      "decision": "Nadpisanie v1.0 designem z mockupu",
+      "files": ["AP_CSS_EDYTOR.css (124KB, L1+L3)", "..."],
+      "failure": "CSS 125KB/3356 rules obcięte przez panel do 360 rules. Strona BIAŁA bez kolorów/fontów. Ani IdoBooking vars nie były nadpisane ani system elements ostylowane.",
+      "lessons_captured": ["css-custom-panel-limit.md", "idobooking-css-vars-default13.md", "design-adaptation-system-first.md", "live-verification-before-delivery.md"]
+    },
+    {
+      "date": "2026-04-20",
+      "action": "v2.1 — Rebuild MINIMAL po odkryciu traps 14-17",
+      "trigger": "User feedback: wkleił v2.0 → brak silnika/kolorów/fontów. Diagnostyka przez chrome-devtools MCP: custom.css limit + brak override IdoBooking vars.",
+      "files": ["AP_CSS_EDYTOR.css (32KB, 223 rules)", "AP_HEAD.html", "GLOWNA_PL/EN__body_top.html", "AP_KONIEC_BODY_PL/EN.html", "SEO_TYTULY_AP.md", "INSTRUKCJA.md"],
+      "changes_from_v2_0": [
+        "CSS drastycznie zredukowany (125KB → 32KB)",
+        "NADPISANE IdoBooking vars: --maincolor1, --maincolor2, --supportcolor1, --btn_large, --bgcolor1-3, --widget_header, --bgaside z !important",
+        "Dodana stylizacja SYSTEM elements: header.default13, .menu-wrapper.bgd-color-light.clean, .form-booking, #iai_booking_*, footer-contact-baner",
+        "Usunięte nieużywane style theme-dark/gold/mono/nordic (mockup miał 5 motywów, my używamy 1)",
+        "Usunięte duplicate reveal-stagger rules"
+      ],
+      "notes": "4 nowe traps (14-17) dodane do CLAUDE.md globalnie. Wymaga LIVE verification po wklejeniu klienta."
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.1 PATCH — user feedback (filters_submit + header)",
+      "trigger": "User: przycisk 'Zastosuj filtry' na /offers wygląda brzydko (boxy, padding 0, radius 0) + 'cos robisz z nagłówkiem, ze go zmniejszasz, a on ma byc przeźroczysty tylko' — referencja client9933",
+      "live_diagnostic": {
+        "filters_submit_before": "bg #147D3B OK, ale padding 0px 20px, border-radius 0px, font 14px — system default bland",
+        "header_before": "shrink 88→66px na scroll, logo 80→56 + vertical-center (y=22)",
+        "reference_client9933": "header fixed 95/64, transparent header bg, white menu-wrapper, logo y=5 (top-aligned)"
+      },
+      "fixes_applied": [
+        "#filters_submit: radius 6px, padding 14px 28px, font 13px + letter-spacing 1.5px, shadow + hover translate",
+        "Header: height 88px stałe (scrolled i unscrolled), padding 0, logo align-self: flex-start, logo h=80 stałe, nav items vertical-center",
+        "--ap-current-header-h: 88px constant (dla .tabs.--fixed top)",
+        "Klasa ap-header--scrolled zostaje (zmiana tła transparent→white na homepage scroll), ale nie zmienia rozmiarów"
+      ],
+      "memory_artifacts": [
+        "memory/instincts/005-filters-submit-brand-styling.md (wszystkie klienty)",
+        "memory/instincts/006-header-no-shrink-logo-top.md (wszystkie klienty)"
+      ],
+      "files_modified": ["AP_CSS_EDYTOR.css (dodany PATCH 2026-04-21 na końcu, ~130 reguł: filters_submit + header no-shrink + subpage full-width override)", "library/css/layer1-traps.css (dodany TRAP #20: subpage Bootstrap .container override — uniwersalnie dla wszystkich klientów)", "CLAUDE.md (dodane trapy #18, #19, #20 do CRITICAL TRAPS)"],
+      "ux_audit_findings": {
+        "h1_duplicate": "2 H1 (jeden ukryty '  Apartamenty Parkowe Gniezno' + visible 'Twój park, twój spokój') — naprawić w następnym release",
+        "img_no_alt": "2 images bez alt (system /images/flags/pl.png, en.png — lazy-load, hidden)",
+        "broken_img": "7 broken (system lazy-load placeholders — false positive, nie issue)",
+        "touch_targets_mobile": "phone/email footer links 29px h (mniej niż 44px WCAG) — naprawić",
+        "mobile_overflow": "5 elementów overflow na 390px (ap-about__text + parallax img) — minor, naprawić"
+      },
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja AP_CSS_EDYTOR.css do panelu → live verify: filters_submit radius 6px, header h=88 po scrollu, logo y<=10"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.2 HOTFIX — scope full-width ONLY dla /txt (/contact był rozjechany)",
+      "trigger": "User: '/contact jest jakos dziwnie rozjechana, jest podwojna, po lewej i po prawej' (po wklejeniu patcha v1.1 do panelu)",
+      "root_cause": "Patch v1.1 nałożył full-width override na body.page-contact też — ale /contact ma systemowy Bootstrap grid (col-md-6 'Dane kontaktowe' + col-md-5 'Płatności'). Usunięcie padding/margin na .container → kolumny skleiły się do krawędzi (x=0 i x=769)",
+      "fixes_applied": [
+        "AP_CSS_EDYTOR.css §3 — usunięty page-offer i page-contact z full-width override, dodana §4 rewert Bootstrap grid dla page-contact (1200px centered, padding 15px, gutters -15px/15px)",
+        "library/css/layer1-traps.css TRAP #20 — scope ograniczony do body.page-txt only (komentarz explicit 'NIE stosować do /contact ani /offer')",
+        "memory/instincts/007-subpage-full-width.md — zaktualizowany scope + sekcja 'Co NIE robić'",
+        "CLAUDE.md trap #18 — dodana explicit negacja dla /contact i /offer"
+      ],
+      "verified_live": "chrome-devtools inject CSS: container 1200px centered, col-md-6 585px x=75, col-md-5 488px x=757 — OK",
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja zaktualizowany AP_CSS_EDYTOR.css → live verify /contact: container 1200px, dwie kolumny z 30px gutter między nimi, layout taki jak przed patchem v1.1"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.3 — Lokalizacja bez duplikacji kontaktu + zdjęcia atrakcji (scrapped z Pexels)",
+      "trigger": "User: 'w lokalizacji mozemy nie powtarzac kontaktu o tam jest to samo i po prostu opisz co jest w gnieźnie co obok i dodaj zdjęcia bo nie ma, scrapuj z neta'",
+      "changes": [
+        "LOKALIZACJA_PL__body_top.html — usunięta sekcja ap-narrative z telefonem/email/check-in (duplikat /kontakt). Zastąpiona krótkim tekstem 'getting here' + link do /contact",
+        "LOKALIZACJA_EN__body_top.html — symetrycznie",
+        "6 kart atrakcji z image (wariant --media): Park Miejski, Rynek, Katedra, Wzgórze Lecha, Jezioro Jelonek, Muzeum Początków Państwa Polskiego. Usunięto dworzec PKP i A2 (to dojazd nie zwiedzanie)",
+        "AP_CSS_EDYTOR.css §5 — nowy wariant .ap-attraction-card--media (aspect 16/10, distance badge abs top-left z backdrop-filter, hover scale 1.05, grid 3col/2col/1col responsive)",
+        "AP_CSS_EDYTOR.css §6 — nowy wrapper .ap-map-section z rounded iframe + shadow"
+      ],
+      "images_source": {
+        "provider": "Pexels CDN (hotlink allowed, free license, no attribution)",
+        "photos": [
+          "35005646 — Park (autumn avenue Lower Saxony)",
+          "17042818 — Polish town hall square (Poznań)",
+          "15959785 — Gothic archcathedral (European)",
+          "37144935 — Statue by lake with cathedral (Gniezno)",
+          "14780317 — Aerial view Gniezno with lake",
+          "13455405 — Drone cathedral snow (Gniezno)"
+        ],
+        "verified": "curl -I all URLs → HTTP 200, sizes 688KB-4MB",
+        "format_used": "?auto=compress&cs=tinysrgb&w=800 (Pexels auto-optimization, ~150-200KB per image)"
+      },
+      "memory_artifacts": [
+        "memory/instincts/008-subpage-no-contact-duplication.md — uniwersalny instinct dla wszystkich klientów"
+      ],
+      "files_modified": [
+        "LOKALIZACJA_PL__body_top.html (v1 → v2, ~7.3KB → ~8.5KB)",
+        "LOKALIZACJA_EN__body_top.html (v1 → v2, ~7KB → ~8.5KB)",
+        "AP_CSS_EDYTOR.css (dodane §5 i §6, ~100 linii nowe CSS)"
+      ],
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja zaktualizowane pliki → live verify /txt/202: (a) 6 kart z obrazkami 16/10, (b) badge 'X MIN PIESZO' top-left z blur bg, (c) hover → image scale 1.05 + card lift, (d) brak telefonu/emaila/check-in na stronie, (e) link 'szczegółowe dane kontaktowe' prowadzi do /contact"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.4 — SEO_TYTULY_AP.md refactor (clean copy-paste format)",
+      "trigger": "User: 'Te pliki SEO są dziwnie opisane, tam nie ma byc zadnych twoich uwag jarvis (...) bez żadnych kresek po prostu do skopiowania, bez komentarzy'",
+      "changes": [
+        "SEO_TYTULY_AP.md — usunięte wszystkie komentarze JARVIS: sekcje 'Uwagi krytyczne', 'Uzasadnienie', 'Keyword focus', 'Dodatkowe uwagi', 'Brakujące informacje', 'Wersja dokumentu', tabela podsumowania znaków, daty/status, liczniki znaków w tekście, markdown bullets, emoji",
+        "Dodane 3 nowe podstrony (O nas, Galeria, Lokalizacja) w PL i EN — zgodne z nową architekturą site'a v1.3",
+        "Format finalny: nagłówek '{STRONA} ({LANG})' + 4 pola (Nazwa:, Podpis pod nazwą:, META Tytuł:, META Opis:) z treścią w nowej linii — clean copy-paste",
+        "Łącznie 16 sekcji SEO (8 podstron × 2 języki): Strona główna, Oferta, O nas, Galeria, Lokalizacja, Kontakt, Regulamin (+ Terms EN)"
+      ],
+      "memory_artifacts": [
+        "memory/instincts/009-seo-file-format-clean.md — uniwersalny format SEO file dla wszystkich klientów",
+        "CLAUDE.md §1 OBOWIĄZKOWE ANALIZY PER KLIENT — dodany akapit FORMAT PLIKU z odwołaniem do instinct 009"
+      ],
+      "verification_needed": "User otwiera SEO_TYTULY_AP.md → może bezpośrednio kopiować każdą wartość do panelu bez ręcznego czyszczenia komentarzy"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.5 — Blog auto-listing + 5 gotowych wpisów (wzorzec WCA)",
+      "trigger": "User: 'stworz jeszcze podstrone z blogiem, automatycznym romawialismy o tym przy okazji projektu WCA, to ma dzialac tak samo ten blog!!! minimum 5 wpisów zrób pod Ai takich'",
+      "pattern_source": "clients/WCA/DO_WKLEJENIA/ — wzorzec auto-listing z systemowych .news-item",
+      "architecture": "Blog NIE jako static podstrona z wpisami HTML. Klient dodaje wpisy w panelu → Wygląd i treści → Aktualności. JS initBlogListing czyta .news-item i renderuje karty .ap-blog-card na /txt/204/Blog (PL) i /en/txt/204 (EN).",
+      "files_created": [
+        "BLOG_PL__body_top.html (~1.5KB, body_top z pustym gridem)",
+        "BLOG_EN__body_top.html (~1.5KB, EN version)",
+        "BLOG_WPISY/README.md (instrukcja jak dodawać wpisy)",
+        "BLOG_WPISY/01-gniezno-weekend-plan.html (plan 2 dni, ~1000 słów)",
+        "BLOG_WPISY/02-dlaczego-apartament-nie-hotel.html (7 powodów, ~700 słów)",
+        "BLOG_WPISY/03-historia-gniezna-w-pigulce.html (1000 lat historii, ~900 słów)",
+        "BLOG_WPISY/04-co-jesc-w-gnieznie.html (5 restauracji, ~800 słów)",
+        "BLOG_WPISY/05-gniezno-z-dziecmi.html (8 atrakcji rodzinnych, ~900 słów)"
+      ],
+      "files_modified": [
+        "AP_CSS_EDYTOR.css — dodana §7 BLOG LISTING (~150 linii CSS dla .ap-blog, .ap-blog-card, placeholder gradient, empty state, responsive)",
+        "AP_KONIEC_BODY.html — dodana §15 initBlogListing (funkcja + call w init())",
+        "INSTRUKCJA.md — dodane Kroki 2b (podstrona blog) i 2c (dodawanie wpisów przez Aktualności)",
+        "SEO_TYTULY_AP.md — dodane sekcje BLOG (PL) i BLOG (EN)"
+      ],
+      "memory_artifacts": [
+        "memory/instincts/010-auto-blog-listing.md — uniwersalny wzorzec dla wszystkich klientów",
+        "docs/CLIENT-LESSONS-apartamenty-parkowe.md — konsolidacja WSZYSTKICH lekcji v1.0→v1.5"
+      ],
+      "blog_posts_topics": {
+        "audience": "goście apartamentów krótkoterminowych (weekend, rodziny, kultura, foodies)",
+        "tone": "bezpośredni, praktyczny, osobisty ('nasi goście', 'polecamy'), bez marketingowego żargonu",
+        "seo_keywords": ["Gniezno weekend", "Gniezno atrakcje", "apartament vs hotel", "historia Gniezna", "restauracje Gniezno", "Gniezno z dziećmi"],
+        "internal_links": "każdy wpis kończy się CTA do /offers"
+      },
+      "not_yet_deployed": true,
+      "verification_needed": "User: (a) wkleja AP_CSS_EDYTOR.css i AP_KONIEC_BODY.html, (b) tworzy podstronę /txt/204/Blog (PL+EN) z body_top, (c) dodaje 5 wpisów przez panel Aktualności → live verify /blog: karty ap-blog-card renderowane auto z .news-item, hover → lift+image scale, placeholder gradient dla wpisów bez obrazka"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.6 — Key icon fix + universal lightbox (blacklist)",
+      "trigger": "User: 'zmien jeszcze ikone tego klucza, to ma byc normalny klucz + w podstornie lokalizacja, zdjecia powinny byc klikalne + i ogolnie KAZDA zdjecie powinno byc klikalne!!! i zapamietaj to na zawsze do jarvisa'",
+      "changes": [
+        "GLOWNA_PL__cms.html + GLOWNA_EN__cms.html — fix SVG klucza 'Zameldowanie bez kontaktu' (Lucide key icon: circle + diagonal shaft + 2 teeth)",
+        "AP_KONIEC_BODY.html §14 — refactor initGalleryLightbox z whitelist na BLACKLIST: skanuje document.querySelectorAll('img'), filtruje EXCLUDE_ANCESTORS (header, footer, menu-wrapper, logo, navbar-brand, footer-contact-baner, powered_by, lightbox, news-container) + <a href>!=# + size<40px + data-no-lightbox + empty src",
+        "Teraz KAŻDY nowy komponent z <img> jest automatycznie clickable (np. karty atrakcji na /lokalizacja, zdjęcia w narrative, hero images)"
+      ],
+      "memory_artifacts": [
+        "memory/instincts/011-every-image-lightbox.md — uniwersalny instinct dla wszystkich klientów (upgrade trap #7 z whitelist na blacklist)",
+        "CLAUDE.md trap #7 — zaktualizowany z implementation details (blacklist approach)"
+      ],
+      "key_svg": "Lucide key: circle(7.5,15.5,r=5.5) + path M11.4,11.6 L21,2 (shaft) + M15.5,7.5 l3,3 (teeth 1) + M18.5,4.5 l3,3 (teeth 2). Stroke-width 1.5, currentColor, line style matching other icons.",
+      "verification_needed": "Live verify: (a) homepage key icon wygląda jak normalny klucz (pierścień + trzonek + ząbki), (b) /lokalizacja → kliknij każde zdjęcie atrakcji → lightbox otwiera, (c) karta apartamentu (link do /offer/X) → klik → nawiguje do strony oferty, NIE lightbox, (d) logo w header → NIE otwiera lightbox, (e) weryfikacja console: document.querySelectorAll('img[style*=zoom-in]').length > 10"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.7 — UX round 2: counter fix + logo chip + typography + CTA unification + galeria",
+      "trigger": "User feedback (6 punktów): (1) '96 Ocena' zamiast 9.6, (2) logo ledwo widoczne, (3) kolory przycisków się różnią /offers, (4) czcionki za małe globalnie, (5) Sprawdź dostępne terminy ma dwie strzałki, (6) galeria otwiera zdjęcia w nowej karcie",
+      "fixes": {
+        "1_counter_96_to_96": {
+          "file": "AP_KONIEC_BODY.html §04 animateCounter",
+          "change": "Dodane support dla data-ap-divide i data-ap-suffix — counter 96/10 = 9.6 z proper decimals przez Intl.NumberFormat"
+        },
+        "2_logo_chip": {
+          "file": "AP_CSS_EDYTOR.css §9",
+          "change": ".navbar-brand dostaje white bg + padding 8px 18px + border-radius 14px + shadow. Mobile: mniejszy chip 6px 12px, radius 10px. Logo img h=62px (desktop), h=52px (mobile)"
+        },
+        "3_cta_colors_unified": {
+          "file": "AP_CSS_EDYTOR.css §10",
+          "change": "Wszystkie CTA primary green (--ido-primary): .ap-offer-card__cta było --ap-accent (olive) → primary, system body.page-offers .btn:not(#filters_submit) wszystkie na primary, radius 6px, padding 12px 24px, font-size 13px, letter-spacing 1.5px, min-height 44px (WCAG)"
+        },
+        "4_typography_global_scale": {
+          "file": "AP_CSS_EDYTOR.css §8",
+          "change": "body 16→17px, paragraphs w content 1.05rem, attraction-card desc 1.0rem + name 1.55rem, kicker min 0.85rem + letter-spacing 2.5px, final-cta kicker 1rem z text-shadow i jaśniejszym kolorem #CDE6D6 (było #A8E6B8 - user: 'REZERWACJA ledwo widać'), blog-card title 1.5rem, pagehero subtitle 1.15rem, nav items 0.92rem"
+        },
+        "5_double_arrow_removed": {
+          "files": ["LOKALIZACJA_PL+EN", "ONAS_PL+EN"],
+          "change": "Usunięte hardcoded '→' z tekstu CTA. CSS .ap-hero__cta::after nadal animuje arrow. Klient widzi jedną poruszającą się strzałkę zamiast dwie."
+        },
+        "6_gallery_no_new_tab": {
+          "files": ["GALERIA_PL+EN__body_top.html"],
+          "change": "<a href='/images/...'> → <figure> dla wszystkich 15 gallery items × 2 języki. Klik → lightbox v2 (blacklist) łapie, zamiast opening image w nowej karcie"
+        }
+      },
+      "memory_artifacts": [
+        "memory/instincts/012-global-typography-scale.md — uniwersalny scale-up typografii dla wszystkich klientów",
+        "memory/instincts/013-logo-chip-background.md — biały chip za logiem dla widoczności",
+        "memory/instincts/014-cta-color-consistency.md — jeden kolor primary dla wszystkich CTA",
+        "CLAUDE.md traps #21-25 dodane (logo chip, typography, CTA color, galeria figure, counter divide)"
+      ],
+      "files_modified": [
+        "AP_CSS_EDYTOR.css (dodane §8, §9, §10, §11 PATCH 2026-04-21 v2, ~180 linii)",
+        "AP_KONIEC_BODY.html (animateCounter refactor z divide/suffix support)",
+        "LOKALIZACJA_PL/EN__body_top.html (usunięto '→' z CTA)",
+        "ONAS_PL/EN__body_top.html (usunięto '→' z CTA)",
+        "GALERIA_PL/EN__body_top.html (full rewrite: <a href> → <figure>, 15 items × 2 = 30 zmian)",
+        "GLOWNA_PL/EN__cms.html (fix SVG klucza — już w v1.6)"
+      ],
+      "verification_needed": "Live verify: (a) homepage stats → 9.6 nie 96, (b) logo w białym chipie widoczny na hero i subpage, (c) /offers → Zastosuj filtry + Szczegóły identyczny kolor/radius, (d) /lokalizacja → czcionki kart wyraźnie większe, (e) Sprawdź dostępne terminy → jedna strzałka (animowana), (f) /galeria → klik zdjęcia = lightbox nie new-tab"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8 — UX round 3: 9 fixów od usera (logo chip + scroll class bug + featured auto + mobile menu + stopka)",
+      "trigger": "User 9 punktów feedback: (1) logo chip overflow + widać systemowe logo, (2) menu nie bieli się po scroll, (3) hardcoded 3 karty na hp zamiast auto-wyróżnione, (4) REZERWACJA ledwo widać, (5) duplikat 'Sprawdź dostępność' label w hero, (6) ikonka kalendarza przy PL, (7) mobile menu 'ikona lokalizacji' zamiast hamburgera, (8) mobile rezerwuj niewyrównany + różne kolory, (9) galeria CTA nierówny",
+      "root_causes_discovered": [
+        "CLASS MISMATCH BUG: initScrollHandler ustawiał ap-header-scrolled (single-dash), CSS targetował ap-header--scrolled (double-dash) — stąd header nigdy nie bielił się na subpagach via regular scroll",
+        "FONTELLO NOT LOADED: IdoBooking nie ładuje fontello dla default13 — .icon.icon-menu renderuje jako emoji/pin, .icon.icon-arrow_smaller_down jako znak zapytania",
+        "HARDCODED OFFERS: HTML miało 3 <article class='ap-offer-card'> jako 'fallback' — user widział je gdy 0 wyróżnionych",
+        "THRESHOLD TOO HIGH: scroll threshold=10 (widział tłumaczenie 'miniaturowe' przy ~10px), user chciał instant=1px",
+        "LOGO CHIP OVERFLOW: margin:10px 12px + padding:8px 18px + h:62 = 98px w 88px header = overflow — widać kawałek systemowego elementu za chipem"
+      ],
+      "fixes": {
+        "1_logo_chip_tight": "AP_CSS_EDYTOR.css §12 — margin:0 14px + padding:6px 14px + logo h:56px + max-height:72px (pasuje w 88 header z zapasem)",
+        "2_header_instant_white": "AP_KONIEC_BODY.html §09+§12 threshold 10→1, class unify → ap-header--scrolled (double-dash), CSS §13 transition 0s + bg-swap rules for scrolled state",
+        "3_featured_auto_no_fallback": "AP_KONIEC_BODY.html §13 buildOfferCards rewrite: hide section gdy 0 offers, data-ap-featured-loaded guard, final timeout 4s. GLOWNA_PL/EN usunięte 3 hardcoded <article> — grid zostaje pusty i JS wypełnia",
+        "4_rezerwacja_kicker_pill": "AP_CSS_EDYTOR.css §19 — .ap-final-cta .ap-kicker jako pill z backdrop-filter blur + border + text-shadow + color #E8F5EB + font-weight 800",
+        "5_search_sub_hidden": "AP_CSS_EDYTOR.css §14 — .ap-hero__search-sub { display:none } (był duplikat tekstu przycisku)",
+        "6_language_icon_hidden": "AP_CSS_EDYTOR.css §15 — .language__toggler .icon { display:none } + pill styling dla 'PL'",
+        "7_mobile_hamburger_css_drawn": "AP_CSS_EDYTOR.css §16 — hide fontello .icon-menu + CSS-drawn 3-line hamburger via linear-gradient background",
+        "8_navbar_reservation_stable": "AP_CSS_EDYTOR.css §17 — bg primary green ZAWSZE (nie dynamiczne), padding 10px 20px, min-height 44px, margin-left:auto dla mobile center-right",
+        "9_galeria_cta_equal": "AP_CSS_EDYTOR.css §18 — .ap-final-cta .ap-hero__cta min-width:280px + min-height:56px + white-space:nowrap + justify-content:center"
+      },
+      "files_modified": [
+        "AP_KONIEC_BODY.html — §04 counter (już v1.6), §09 initScrollHandler threshold 1 + class unify, §12 initHeaderShrink threshold 1, §13 buildOfferCards rewrite z data-loaded guard",
+        "AP_CSS_EDYTOR.css — dodane §12-§19 PATCH 2026-04-21 v3 (~200 linii)",
+        "GLOWNA_PL__cms.html — usunięte 3 hardcoded <article class='ap-offer-card'>, grid zostaje pusty .ap-apartments__grid.ap-featured-fallback",
+        "GLOWNA_EN__cms.html — symmetrically"
+      ],
+      "memory_artifacts": [
+        "memory/instincts/015-featured-offers-no-fallback.md — uniwersalny pattern zero-hardcoded + auto z wyróżnionych",
+        "memory/instincts/016-header-scroll-class-unify.md — BEM class name + threshold 1",
+        "memory/instincts/017-fontello-icons-unavailable.md — fontello nie ładuje się, hide + replace CSS-drawn/SVG",
+        "CLAUDE.md traps #26-29 dodane"
+      ],
+      "verification_needed": "Full live QA: (a) homepage scroll → bez fullpage na subpages, header biały od 1px; (b) 0 wyróżnionych w panelu → 'Nasze apartamenty' hidden; (c) dodaj wyróżnione → pojawia się auto; (d) mobile 390px → hamburger 3 linie, nie pin, rezerwuj button stały zielony; (e) language toggler → sam 'PL' bez ikonki; (f) REZERWACJA w stopce → pill z border + backdrop-filter widoczny na ciemnym tle; (g) galeria CTA → min-width 280 + nowrap"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8.1 HOTFIX — navbar-toggler desktop visibility bug",
+      "trigger": "User: 'Znaczek menu mia być tylko na mobile jest też na glownej stronie...' + 'obiekty wyroznione, nadal jak usunalem wszystkie to sie pojawiły 3 które sa zakodowane w html glownej strony pewnie.'",
+      "root_cause_toggler": "W v1.8 dałem .navbar-toggler { display: inline-flex !important } bez media query. !important nadpisało domyślny Bootstrap/system display:none na desktop → hamburger widoczny ZAWSZE (1600px też).",
+      "fix_toggler": "AP_CSS_EDYTOR.css §16 — default `.navbar-toggler { display: none !important }` + @media (max-width: 991.98px) { display: inline-flex + hamburger styles }. Teraz desktop HIDDEN, mobile VISIBLE.",
+      "featured_clarification": "Hardcoded 3 karty w live DOM — to oznacza user NIE wkleił jeszcze nowego GLOWNA_PL__cms.html (w źródle JARVIS już usunięte). Live DOM używa starej wersji z hardcoded article tags. User MUSI: Panel → Strona główna → Edytor treści → TRYB HTML → wyczyść → wklej AKTUALNY GLOWNA_PL__cms.html.",
+      "memory_artifacts": [
+        "memory/instincts/018-navbar-toggler-mobile-only.md — uniwersalny instinct: default display:none + mobile media query"
+      ],
+      "verification_needed": "Desktop 1440px: getComputedStyle('.navbar-toggler').display === 'none'. Mobile 375px: 'inline-flex'. Po wklejeniu NOWEGO GLOWNA_PL__cms.html → usunięcie wyróżnionych w panelu → sekcja 'Nasze apartamenty' znika."
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8.2 — Chip conditional + typography bump v3 + nav font larger",
+      "trigger": "User feedback v3: 'dalej cos z menu nawigacyjnym i logo, to logo musi byc jakos wpasowane w ten Twój kwadrat, ablo kwadratu po zjechaniu moze juz nie być, ale logo musi byc wyrzej, aby nie wystawalo ponad pasek + w menu wszystko za małe + w ogole na calej stronie, gdzie sa małe czcionki, to są one ZA MAŁE'",
+      "fixes": {
+        "logo_chip_conditional": "AP_CSS_EDYTOR.css §12 — chip TYLKO na transparentnym hero (body.page-index :not(.ap-header--scrolled)). Subpage + scrolled = brak chipu (menu już białe, chip redundantny i overflow-uje). Logo img h=52px absolute max.",
+        "nav_menu_larger": "AP_CSS_EDYTOR.css §12b — .nav-link, .navbar a[href] z 0.92rem → 1rem + letter-spacing 1.4px + padding 10px 14px. Mobile: 1.1rem + padding 14px 16px.",
+        "typography_bump_v3": "AP_CSS_EDYTOR.css §12c — body 17→18px, content paragraph 1.05→1.1rem, kicker 0.85→0.95rem, blog title 1.5→1.6rem, card name 1.55→1.65rem, distance badge 0.78→0.88rem, pagehero subtitle 1.15→1.2rem. Dodane minimum dla meta/footer 0.98rem, small 14px."
+      },
+      "memory_artifacts": [
+        "memory/instincts/019-logo-chip-conditional-and-typography-minimum.md — supersedes 013, chip conditional + typography v2 minima"
+      ],
+      "verification_needed": "Live QA v3: (a) homepage hero → chip biały widoczny nad ciemnym zdjęciem; (b) scroll na homepage → chip znika, logo naturalnie na białym menu; (c) subpage /o-nas → brak chipu od razu; (d) nav items OFERTA/O NAS/KONTAKT widoczne większe (1rem zamiast 0.92); (e) wszędzie tekst >=14px (DevTools console check)."
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8.3 HOTFIX — CSS specificity, logo 52px wygrywa w scrolled state",
+      "trigger": "User: 'logo nadal wyjezdza, nie jest dostosowane do paska' (po v1.8.2). Diagnostyka chrome-devtools: computed height = 80px w scrolled state, nie 52px. Stara reguła trap #DD z selektorem `header.ap-header--scrolled .menu-wrapper .navbar-brand img` ma wyższą specyficzność niż nowa §12 `header.default13 .navbar-brand img`.",
+      "root_cause": "CSS specificity bug — starsza reguła z `.menu-wrapper` descendant była bardziej specyficzna. Przy równej !important wygrywa wyższa specyficzność, nie kolejność.",
+      "fix": "AP_CSS_EDYTOR.css §12 — podbita specyficzność wszystkich reguł logo img przez `html body` prefix + wszystkie kombinacje selektorów (.menu-wrapper, .logo, scrolled state combinations). Teraz 52px wygrywa bez wyjątku.",
+      "memory_artifacts": [
+        "memory/instincts/020-css-specificity-beats-order.md — uniwersalny instinct: specificity > kolejność, defensive prefix html body + duplicate descendants"
+      ],
+      "verification_needed": "Force reload (Ctrl+Shift+R) → hero chip visible; scroll na homepage → chip znika bg transparent, logo naturalnie 52px; subpage → brak chipu + logo 52px; mobile 390px → logo 44px."
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8.4 HOTFIX — final-cta dark bg + typography scope + Jelonek photo",
+      "trigger": "User 3 punkty: (1) 'REZERWACJA nadal slabo widoczne na podstronach' — jasne tło CTA + jasny kicker = niewidoczny; (2) 'pozwiększałeś czcionki np. na /offers podstronie, niepotrzebnie' — 18px body rozpycha systemowe layouty; (3) 'Jezioro Jelonek to nie jest to miejsce na zdjęciu' — Pexels 14780317 pokazuje inne miejsce niż Jelonek",
+      "fixes": {
+        "final_cta_dark": "AP_CSS_EDYTOR.css §19 refactor — sekcja .ap-final-cta ZAWSZE ciemne brand-tło (gradient primary→secondary) z białym tekstem, białym heading, emerald em, kicker kontrastowy pill (rgba 0.15 bg + 0.35 border + blur backdrop), button CTA biały z green text. Podbita specyficzność `html body` żeby override base rule 4697.",
+        "typography_scope": "AP_CSS_EDYTOR.css §12c — body 18px TYLKO na NASZYCH stronach (exclude page-offers/page-offer/page-contact). Systemowe strony: 16px. Paragraphs też scope'owane do page-txt i homepage naszych sekcji.",
+        "jelonek_photo": "Pexels 14780317 → 29305259 (generic autumn lake Hollenstedt Germany, nie Gniezno-specific). Alt PL: 'Spokojne jezioro w parku — refleksy drzew w wodzie'. Alt EN: 'Peaceful lake in a park with tree reflections'. Nie udaje konkretnego miejsca."
+      },
+      "memory_artifacts": [
+        "memory/instincts/021-typography-scope-system-pages.md — typography bump NIE na systemowych stronach /offers /offer /contact",
+        "memory/instincts/022-pexels-photo-visual-verify.md — NIGDY nie ufaj Pexels opisowi/alt, wizualnie weryfikuj albo używaj generic"
+      ],
+      "verification_needed": "Live verify: (a) / /txt/* → body 18px; (b) /offers /offer /contact → body 16px (nie rozpycha systemowych layoutów); (c) /ONAS subpage final-cta → ciemne green gradient tło, REZERWACJA biały pill kontrastowy, button biały z green text; (d) /lokalizacja karta Jezioro Jelonek → nowe zdjęcie spokojne jezioro w parku"
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8.5 CRITICAL — html font-size 10px trap + 4 micro-fixes",
+      "trigger": "User: 'czcionki globalnie za małe, ogromny audyt UX' + odpalenie 3 parallel agents (które nie miały chrome-devtools MCP). Sam zrobiłem live audit via chrome-devtools.",
+      "root_cause_discovery": "System IdoBooking default13 ustawia `html { font-size: 10px }` (stara konwencja 62.5%). Wszystkie rem-values były 10× mniejsze: nav-link 1rem=10px (nie 16!), kicker 0.95rem=9.5px, attraction desc 1.05rem=10.5px. To wyjaśnia wszystkie poprzednie iteracje typography które 'nie działały'.",
+      "fixes": {
+        "1_html_16px_root_fix": "AP_CSS_EDYTOR.css §12c pierwsza reguła: `html, html.default13, html.no-js, html:root { font-size: 16px !important }`. Od teraz 1rem=16px zgodnie ze standardem CSS. Wszystkie rem-values (nav 1rem, kicker 0.95rem, card 1.05rem, H3 1.65rem) skalują się poprawnie.",
+        "2_language_toggler_fix": "AP_CSS_EDYTOR.css §20 — explicit rule dla .language__toggler z 15px + pill style (padding, border, letter-spacing). Było 10px bo systemowy app.css ma specyficzny selektor.",
+        "3_footer_uniform": "AP_CSS_EDYTOR.css §21 — wszystkie footer items 15px baseline, tel/email links 15px brand mint (#A8E6B8), regulamin/polityka 14px legal. Było: 14/15.68/17 chaos.",
+        "4_heading_rule_hide": "AP_CSS_EDYTOR.css §22 — `.ap-heading-rule` w `.ap-final-cta` display:none. Była 60px decorative line, redundantna z kickerem pill.",
+        "5_small_text_min_14px": "AP_CSS_EDYTOR.css §23 — wszystkie small/descriptive texts min 14px."
+      },
+      "memory_artifacts": [
+        "memory/instincts/023-idobooking-html-font-size-10px-trap.md — 🔥 CRITICAL first-day trap dla WSZYSTKICH klientów IdoBooking default13",
+        "CLAUDE.md traps #30-33 dodane (html 10px, language toggler, footer uniform, heading rule hide)"
+      ],
+      "audit_findings_live": {
+        "before_fix": "nav-link 10px, kicker 9.5px, attraction desc 10.5px (all rem-based rendering 10x smaller)",
+        "after_fix": "nav-link 16px, kicker 15.2px, attraction desc 17.6px, attraction name 26.4px, H2 final-cta 51.2px (poprawne)",
+        "still_to_verify": "User wkleja CSS → twarde reload → /offers nav-link 16px zamiast 10px; language-toggler 15px pill zamiast 10px placeholder; footer 3 typy linków ma uniform 14-15px"
+      },
+      "agents_launched_but_failed": "3 parallel ui-ux-designer agents (typography, colors, mobile) — wszyscy nie mieli dostępu do chrome-devtools MCP więc nie mogli zrobić live audit. Sam zrobiłem via my chrome-devtools."
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8.6 REVERT + v1.8.7 mobile fixes",
+      "trigger": "User po v1.8.5 (html=16px reset): 'teraz czcionki są za duze prawie wszedzie i wszystko sie rozjechalo'. Potem: 'menu mobile brak tła, hamburger nie cały klikalny, rezerwuj brzydki'",
+      "lesson_learned_critical": "🔥 NIE RESETUJ html font-size w IdoBooking. System custom rules są pisane pod html=10px konwencję. Reset na 16px → 1.6x powiększenie wszystkich rem values → psuje flatpickr, slick, offer widgets. BEZPIECZNIEJ: pisać własne rules w absolutnym px + double-class trick dla specyficzności.",
+      "v186_fixes": {
+        "revert_html_16": "html pozostaje 10px (system default)",
+        "typography_in_px": "AP_CSS_EDYTOR.css v1.8.6 block (lines 8039+) — wszystkie nasze font-size w absolutnym px, nie rem. Body 16, nav 14, card-name 22, card-desc 15, kicker 13, etc. Mobile bigger @media.",
+        "nav_link_double_class": ".nav-link.nav-link trick — liczy jako 2 klasy, pokonuje system :not() chain specyficzność"
+      },
+      "v187_mobile_fixes": {
+        "mobile_menu_white_bg": "Gdy menu rozwinięte (.navbar-collapse.show albo aria-expanded=true) → white bg + shadow + pozycja absolute pod headerem + z-index 1100. Items w pionie z separatorem. Hover brand-light bg.",
+        "hamburger_fully_clickable": "min-width 64px + min-height 48px + ::after pseudo -4px inset dla extra hit area. Inner elements pointer-events:none żeby klik zawsze łapał button.",
+        "navbar_reservation_pretty": "Mobile: min-width 140px, min-height 44px, padding 11px 20px, background primary solid (stały), shadow, hover translate, border-radius 6px. Centered w flexboxie header."
+      },
+      "memory_artifacts": [
+        "memory/instincts/024-px-over-rem-when-system-root-10px.md — supersedes 023, final convention",
+        "CLAUDE.md trap #30 zaktualizowany: zamiast reset html — pisać w px"
+      ],
+      "verification_needed": "Hard reload (Ctrl+Shift+R). Desktop: czcionki normalne (nie ani za duże ani za małe). Mobile 375px: klik hamburger → white bg, nav items w stacku, no overlap, hamburger cały klikalny (tap na wszystkie 64x48px), rezerwuj button primary green solid wycentrowany."
+    },
+    {
+      "date": "2026-04-23",
+      "action": "v1.8.9 — Feedback klienta: teksty hero + ujednolicenie zielonego + sticky CTA + większe opisy",
+      "trigger": "User 11 punktów feedbacku (mail 2026-04-23): (1) dwa odcienie zielonego — chce ciemniejszy wszędzie, (2) większe czcionki w opisach, (3) zmiana tekstów hero strony głównej, (4) O NAS '2019 (??)', (5) tytuły na zielonym tle — odwrócić kolory, (6) galeria błędne podpisy zdjęć, (7) lokalizacja — zdjęcia nie z Gniezna, (8) opinie czy auto + Google Maps, (9) BLIK logo, (10) sticky REZERWUJ button, (11) zdjęcia Gniezna w drodze",
+      "implemented": {
+        "hero_homepage_text": "GLOWNA_PL + GLOWNA_EN — 'park,spokój' → 'apartament,rytm'; lead short; quick-facts 3→4, 24/7→self, stats label 'Metrów do centrum' → 'Metrów do dworca' (PL+EN), section map intro 'przystanku głównego' → 'dworca'",
+        "unified_green": "AP_CSS_EDYTOR.css v1.8.9 §(1) — wszystkie inline #A8E6B8 i #CDE6D6 (jasne minty) nadpisane na biały (#fff) w ap-pagehero__title em, ap-final-cta h2 em, ap-heading-rule, ap-kicker, ap-hero__cta w final-cta. Efekt: jeden ciemny forest #147D3B na jasnych tłach + biel na ciemnych. Zamienia 2 odcienie → 1 zielony.",
+        "sticky_cta": "CSS v1.8.9 §(2) .ap-sticky-reserve — fixed button. Desktop: prawa strona vertical center slide-in. Mobile (<600px): dolny pasek. Pokazuje się po scrollu >400px. Ukrywa się gdy focus w hero search form. JS initStickyReserveCTA() w AP_KONIEC_BODY.html dodaje element + toggle class .is-visible. EN detection: document.documentElement.lang || path /en/. Label: 'Rezerwuj' / 'Book now'.",
+        "typography_descriptions_bump": "CSS v1.8.9 §(3) — ap-hero__lead 18px, pagehero subtitle 17→19px, narrative p 16→17px, about p 17px, feature desc 15.5px, attraction desc 15→16px, blog excerpt 16px, gallery intro 17px, map intro 17px, final-cta p 17px, testimonial quote 16.5px. Scope `html body` dla override nad inline."
+      },
+      "deferred_to_client_answer": {
+        "pt_4_2019_date": "User pyta '(??)' — O NAS pagehero kicker 'O OBIEKCIE · 2019'. Nie zmieniam — czekam na potwierdzenie faktycznej daty otwarcia obiektu.",
+        "pt_5_reversed_colors_on_green_bg": "Niejasne co 'odwrócić kolory po lewej jasna, po prawej ciemna' konkretnie oznacza. Obecnie pagehero = gradient ciemny→jasny + biały tekst. Pytam czy chodzi o: (a) dwukolorowy tytuł (jedno słowo jasne, drugie ciemne), (b) odwrócenie gradientu tła, (c) split 50/50 jasne/ciemne tło.",
+        "pt_6_gallery_captions": "Alt texty placeholderowe ('Studio — łazienka', 'Piątka — sypialnia') — nie da się zweryfikować które zdjęcie co pokazuje bez oglądania obrazków. Proszę klienta o wskazanie per zdjęcie lub zgodę na generic alty.",
+        "pt_8_reviews_auto_google": "Placeholder 3 testimoniali hardcoded. Pytam czy: (a) dodać auto-fetch Booking.com reviews (wymaga API/scrape), (b) embed Google Maps reviews widget, (c) zostawić manualne wpisy.",
+        "pt_9_blik_logo": "Pytam gdzie dodać logo BLIK — dedykowana podstrona /platnosci, footer, w sekcji Rezerwuj?",
+        "pt_11_gniezno_photos": "Klient wyśle zdjęcia Gniezna — podmienimy Pexels generics."
+      },
+      "files_modified": [
+        "GLOWNA_PL__cms.html — hero title+lead+quick-facts+stats+mapIntro",
+        "GLOWNA_EN__cms.html — analogicznie EN",
+        "AP_CSS_EDYTOR.css — dodany PATCH 2026-04-23 v1.8.9 przed END OF AP L3 (~220 linii)",
+        "AP_KONIEC_BODY.html — dodana funkcja initStickyReserveCTA() + call w init()"
+      ],
+      "not_yet_deployed": true,
+      "verification_needed": "Hard reload. (a) / → hero: 'Twój apartament, twój rytm' + lead 1 zdanie + 4 apartamenty/self check-in/9.6 — duża czcionka; (b) stats: '4 Apartamenty' + 'Metrów do dworca'; (c) scroll >400px → sticky button zielony po prawej vertical center slide-in; (d) mobile 375: sticky pełna szerokość u dołu; (e) focus w search form → sticky znika; (f) /o-nas, /galeria, /lokalizacja → REZERWACJA kicker + heading em + przycisk CTA wszystko biel (nie mint); (g) opisy w ap-narrative czytelnie większe 17px."
+    },
+    {
+      "date": "2026-04-23",
+      "action": "v1.8.10 — User odpowiedzi: pagehero title flip + BLIK + usunięcie daty 2019",
+      "trigger": "User feedback v2 (2026-04-23 follow-up): (4) usuń datę 2019 z O NAS, (5) pagehero title (O NAS 'Apartament zamiast pokoju hotelowego') — po lewej jasna, po prawej ciemna, jest odwrotnie → FLIP, (9) BLIK logo URL podany: /images/frontpageGallery/pictures/large/4/0/4.png (galeria klienta)",
+      "fixes": {
+        "4_remove_2019": "ONAS_PL kicker 'O OBIEKCIE · 2019' → 'O OBIEKCIE'. ONAS_EN kicker 'ABOUT · SINCE 2019' → 'ABOUT'.",
+        "5_flip_pagehero_title": "AP_CSS_EDYTOR.css §(1) override v1.8.10: cała ap-pagehero__title = #A8E6B8 (mint, ciemniejsza od bieli), em = #ffffff (biały, najjaśniejszy). Przed v1.8.9: title biały + em mint (user: jest odwrotnie). Nie używamy forest #147D3B bo tło pagehero jest ciemnozielone = byłby niewidoczny.",
+        "9_blik_section": "Nowa sekcja .ap-payments PRZED .ap-final-cta na GLOWNA_PL + GLOWNA_EN. Struktura: kicker 'Płatności' / 'Payments' + heading + lead + flex list z BLIK logo img + 4× text pills (Przelew, Karta, Apple Pay, Google Pay). CSS: cream bg, white pill cards, hover lift. Responsive mobile <600px: gap 10px + img 28px. data-no-lightbox na BLIK img żeby lightbox go nie łapał."
+      },
+      "files_modified": [
+        "ONAS_PL__body_top.html — kicker bez daty",
+        "ONAS_EN__body_top.html — kicker bez daty",
+        "GLOWNA_PL__cms.html — nowa sekcja ap-payments przed ap-final-cta",
+        "GLOWNA_EN__cms.html — analogicznie EN",
+        "AP_CSS_EDYTOR.css — v1.8.9 pagehero em fix override + v1.8.10 .ap-payments styling (~80 linii)"
+      ],
+      "still_deferred": {
+        "pt_6_gallery_captions": "Klient: 'na razie ignorujemy'",
+        "pt_8_reviews": "Klient: 'zostawiamy'",
+        "pt_11_gniezno_photos": "Czekamy na zdjęcia od klienta"
+      },
+      "not_yet_deployed": true,
+      "verification_needed": "Hard reload. (a) /o-nas kicker = 'O OBIEKCIE' bez daty; (b) /txt/200 pagehero title: 'Apartament zamiast' MINT (#A8E6B8, ciemniejszy niż biały na tle ciemnozielonym) + 'pokoju hotelowego' BIAŁY (najjaśniejszy akcent) — sprawdź że kontrast teraz na odwrót niż przed v1.8.9; (c) / przed sekcją 'Zarezerwuj pobyt' nowa sekcja 'Płatności' z logo BLIK (obraz /images/frontpageGallery/pictures/large/4/0/4.png) + 4 text pills w rzędzie; (d) hover pill → lift; (e) /en/ analogicznie 'Payments'."
+    },
+    {
+      "date": "2026-04-23",
+      "action": "v1.8.11 — BLIK przeniesiony na pasek pod stopką (nie sekcja na stronie głównej)",
+      "trigger": "User polecenie: 'Płatności dodałes, ale chcemy żebyś je dodał na samym dole po prostu blika, inne nie, mają być ten blik na pasku pod stopką'",
+      "fixes": {
+        "remove_ap_payments_section": "GLOWNA_PL + GLOWNA_EN — usunięta cała sekcja .ap-payments (5 kart metody) która była przed final-cta",
+        "inject_blik_in_footer_strip": "AP_KONIEC_BODY.html §17 initFooterBlik() — znajduje .payment-methods / .footer-strip / .footer-contact-baner+* i wstawia <img.ap-blik-badge> z BLIK URL. Fallback do footer jeśli nic nie znaleziono. Guard data-ap-blik przeciwko duplikacji.",
+        "css_blik_badge": "AP_CSS_EDYTOR.css v1.8.11 — usunięty stary §ap-payments (80 linii) + dodany drobny .ap-blik-badge (height 20px, match systemowych VISA/MC, margin-left 14px). Mobile <600: 18px + margin 10px."
+      },
+      "email_to_client_sent": "Tak — punkt po punkcie: (1) wyróżnione offers panel link, (2) logo lepszej jakości + opcja zdjęcia w nagłówku do połowy maja, (3-7) co zrobione, (8) prośba o konkretne wskazanie błędnych podpisów w galerii, (9) prośba o własne zdjęcia z Gniezna, (10) opinie: Google widget darmowy (link do wizytówki) lub Booking zewnętrzny płatny widget, (11-13) co zrobione + czekanie na zdjęcia",
+      "files_modified": [
+        "GLOWNA_PL__cms.html — usunięta sekcja ap-payments",
+        "GLOWNA_EN__cms.html — analogicznie",
+        "AP_KONIEC_BODY.html — dodana initFooterBlik() + call w init()",
+        "AP_CSS_EDYTOR.css — usunięty §ap-payments, dodany §ap-blik-badge"
+      ],
+      "not_yet_deployed": true,
+      "verification_needed": "Hard reload. (a) / → brak sekcji Płatności pod mapą (było „Akceptujemy wygodne metody"); (b) scroll do stopki → na pasku pod footer-contact-baner (obok VISA/Mastercard) widoczne logo BLIK w rozmiarze matching 20px; (c) mobile → BLIK 18px, nie łamie paska; (d) każda podstrona (/o-nas, /lokalizacja, /offers) → BLIK w tym samym miejscu (bo systemowy element footer)."
+    },
+    {
+      "date": "2026-04-23",
+      "action": "v1.8.12 HOTFIX — BLIK niewidoczny (display:none na sibling .footer-contact-baner)",
+      "trigger": "User: 'nie ma tego blika, moze czymś cos przykrywa? sprawdz'. Live diagnoza przez playwright MCP.",
+      "root_cause": "W v1.8.11 fallback JS dodawał .ap-blik-strip jako SIBLING .footer-contact-baner (dziecko .footer). Custom.css ma regułę ukrywającą wszystkie siblingi po banerze: `.footer-contact-baner ~ *, .footer__strip ~ * { display:none !important }`. Dlatego BLIK renderował się (width:0, height:0, offsetParent:null) — był niewidoczny.",
+      "fix_v1812": {
+        "js_change": "initFooterBlik() — USUNIĘTY fallback + wielokrotne targety. Jedyny cel: .footer-contact-baner. BLIK wstawiany jako CHILD baneru (nie sibling) jako <span.ap-blik-span><img.ap-blik-badge/>, pattern match systemowych <span><svg> VISA/Mastercard już tam obecnych.",
+        "css_change": "Usunięty §.ap-blik-strip (niepotrzebny fallback). Dodane: html body .footer-contact-baner .ap-blik-span (inline-flex vertical-align middle) + .ap-blik-badge (height 20px match VISA/MC, filter:none ważne bo systemowe img mają brightness(0) invert(1) dla białych monochromów, background:#fff + padding 2px 4px dla kontrastu kolorowego logo BLIK na ciemnym pasku).",
+        "live_verified": "Playwright inject + measure: BLIK 46×24px, x=660, y=1186 (top=1186.75, width=45.9). offsetWidth/offsetHeight > 0 = widoczny. Parent .ap-blik-span display inline-flex jak systemowe spany."
+      },
+      "files_modified": [
+        "AP_KONIEC_BODY.html — initFooterBlik() rewritten: single target .footer-contact-baner, child append",
+        "AP_CSS_EDYTOR.css — .ap-blik-strip removed, .ap-blik-span + .ap-blik-badge scoped do .footer-contact-baner"
+      ],
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja: (a) AP_KONIEC_BODY.html do Koniec BODY; (b) AP_CSS_EDYTOR.css do Arkusza stylów. Hard reload. Scroll do stopki → w pasku .footer-contact-baner (Kościuszki 1 | +48 604... | email | Regulamin | Polityka) BLIK ma być na końcu obok Regulamin/Polityka. Na mobile <600px: BLIK 18px, margin-left 8px. Lightbox NIE łapie BLIK bo .footer-contact-baner jest na ancestor blackliście trap #7."
+    },
+    {
+      "date": "2026-04-23",
+      "action": "v1.8.13 — Sticky CTA color fix na /offers i /contact + BLIK matte-white karta z poświatą",
+      "trigger": "User: 'Przycisk rezerwuj na podstronie offers jest czarną czcionką, na kontakcie w ogóle go nie widać' + screenshoty. Plus: 'możesz na tego blika dać jakąs szara poświate albo jakos go wyciac — on ma białą otoczkę a tego chyba nie chcemy'.",
+      "root_cause_sticky": {
+        "offers": "body.page-offers a:not(.btn):not([class*=btn-]):not([class*=leaflet]):not([class*=nav-]):not([href^=tel:]):not([href^=mailto:]) { color: var(--ido-dark, #1A1A1A) } — reguła typography scope (v1.8.4) łapie .ap-sticky-reserve bo ma href + brak .btn. Specyficzność (0,0,8,1) przez 6× :not(). Moja .ap-sticky-reserve { color: #fff } (0,0,1,0) przegrywa.",
+        "contact": "body.page-contact a { color: var(--ido-primary) } — wszystkie linki zielone. Sticky miał color + svg stroke zielone → na zielonym tle niewidoczne.",
+        "live_diagnostics": "Playwright on /offers: computedColor rgb(26,46,26) dark. On /contact: rgb(20,125,59) green on green bg. SVG stroke inherit."
+      },
+      "fix_sticky": "AP_CSS_EDYTOR.css §v1.8.13 — mirror :not() blacklisty żeby osiągnąć równą specyficzność + dodatkowa .ap-sticky-reserve klasa. Selector: body.page-offers a.ap-sticky-reserve:not(.btn):not([class*=btn-]):not([class*=leaflet]):not([class*=nav-]):not([href^=tel:]):not([href^=mailto:]). body.page-contact ma prostszą regułę więc wystarcza html body.page-contact a.ap-sticky-reserve. Plus: force color/stroke/fill na WSZYSTKICH descendant (svg, span) dla pewności.",
+      "fix_blik": "AP_CSS_EDYTOR.css §v1.8.12 update — usunięty background:#fff ostry. Nowy: background:#F2F2F2 (matte-white), padding:3px 7px, border-radius:4px, box-shadow:0 0 10px 2px rgba(255,255,255,0.10) + inset 0 0 0 1px rgba(0,0,0,0.06). Delikatna szara poświata wokół + subtle ramka. Wizualnie: logo BLIK w karcie, nie ostra biała plama. Live preview potwierdzone playwright screenshot.",
+      "deferred": "User zaproponowała też 'znaleźć oficjalne logo BLIK w necie' lub 'sama obetnie PNG' — nie robię bo brand.blik.com nie jest w allowlist network. Jeśli w przyszłości user wgra transparent PNG pod tym samym ID 4/0/4.png — nasz CSS nadal zadziała (background:#F2F2F2 stanie się neutralną kartą bez konfliktu z PNG alpha).",
+      "verified_live": {
+        "offers_url": "https://client58154.idobooking.com/offers",
+        "offers_result": "wrapper #fff, span #fff, svg stroke #fff",
+        "contact_url": "https://client58154.idobooking.com/contact",
+        "contact_result": "wrapper #fff, span #fff, svg stroke #fff",
+        "blik_appearance": "matte-white karta z subtle shadow na ciemnym (#1A1A1A) footer-contact-baner, obok VISA/Mastercard"
+      },
+      "files_modified": [
+        "AP_CSS_EDYTOR.css — §v1.8.12 update background BLIK do matte + shadow, + nowy §v1.8.13 sticky CTA mirror :not() blacklisty"
+      ],
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja AP_CSS_EDYTOR.css. Hard reload. (a) /offers scroll >400px → sticky REZERWUJ biały tekst + biała strzałka kalendarza widoczne na zielonym tle; (b) /contact scroll → sticky biały widoczny; (c) / homepage stopka → BLIK w matte-white karcie z delikatną szarą poświatą, obok VISA/Mastercard."
+    },
+    {
+      "date": "2026-04-23",
+      "action": "v1.8.14 — BLIK SVG + mobile menu bg fix + mobile booking form compact",
+      "trigger": "User 3 feedback: (1) 'NOWY LINK DO BLIKA: /images/frontpageGallery/pictures/large/4/0/5.svg' — klient wgrał oficjalny SVG z transparent bg, (2) 'menu na początku strony jest z tłem - później jest dobrze' (screenshot #3: nav items OFERTA/O NAS z cieniowanym tłem na hero), (3) 'Rezerwacja online na mobile jest ucięta' + 'Nie działa rezerwacja online na mobile - zasłonięte pola, nie można nic wybrać'",
+      "root_causes": {
+        "blik_svg": "User wgrał nowy plik /4/0/5.svg (SVG transparent bg) — zamiast ID 4/0/4.png z białym tłem",
+        "mobile_menu": "text-shadow na nav-link + semi-transparent bg + backdrop-filter w menu-collapse. Gdy hero ma hero-image z ciemnymi drzewami → przenikanie + shadow daje efekt 'cieniowanych napisów z tłem' który user widzi na screenshot #3",
+        "mobile_booking": "Live diagnostyka (playwright 390x844): hero__grid row1=476px (title+lead+facts) + row2=565px (search card) = 1073px łącznie. Viewport 844px, fullpage.js slide 932px, overflow:hidden → widoczne tylko ~236px cardu = 1 pole PRZYJAZD. Reszta (Wyjazd/Goście/Apartament/submit) za viewportem, form niemożliwy do wypełnienia."
+      },
+      "fixes": {
+        "1_blik_svg_source": "AP_KONIEC_BODY.html initFooterBlik(): BLIK_URL zmienione z '/images/frontpageGallery/pictures/large/4/0/4.png' na '/images/frontpageGallery/pictures/large/4/0/5.svg'",
+        "2_blik_no_matte_card": "AP_CSS_EDYTOR.css §BLIK — usunięto background:#F2F2F2, padding:3px 7px, border-radius:4px, box-shadow. Teraz transparent + plain — SVG ma już transparent alpha, pokazuje się naturalnie",
+        "3_mobile_menu_solid_white": "AP_CSS_EDYTOR.css v1.8.14 §(1) @media (max-width: 991.98px) — .navbar-collapse.show (+ aria-expanded=true + is-open + .collapse.show) force: background:#fff, backdrop-filter:none, box-shadow. Nav-link force text-shadow:none, filter:none, color:ido-dark, background:transparent. Hover: light bg + primary color",
+        "4_mobile_booking_compact": "AP_CSS_EDYTOR.css v1.8.14 §(2) @media (max-width: 767.98px) — hero wrap height:auto min-height:auto padding 96px 14px 24px. Grid flex column gap 16px. Title 32px line-height 1.1. Lead 13.5px. Quick-facts 11px compact. Search card padding 14px. Fields min-height 42px, padding 8px 12px, font 14px. Submit 48px high. Plus section.parallax + fp-tableCell: overflow:visible, height:auto, min-height:100vh — żeby fullpage nie obcinał contentu."
+      },
+      "files_modified": [
+        "AP_KONIEC_BODY.html — initFooterBlik() BLIK_URL PNG→SVG",
+        "AP_CSS_EDYTOR.css — §v1.8.12 BLIK: matte karta → transparent; nowy §v1.8.14: mobile menu solid + mobile hero compact"
+      ],
+      "live_verified_partial": "Mobile diagnostyka po inject CSS: wrap.height nadal 844 (min-height 100vh utrzymane przez parent fullpage), ale grid teraz 1012px z card bottom=1112. Z overflow:visible na section.parallax card będzie widoczny + scrollowalny poza wrap. Pełną weryfikację zrobi user po wklejeniu.",
+      "residual_risk_fullpage_mobile": "Jeśli fullpage.js mimo overflow:visible blokuje gest scrolla wewnątrz hero — w następnej iteracji dodać JS: na window.matchMedia('(max-width: 767px)') destroy fullpage (fullpage_api.destroy('all')) lub setAutoScrolling(false). Alternatywnie: flaga fp-auto-height na fullpage-wrapper. Sprawdzić po deploy.",
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja AP_KONIEC_BODY.html + AP_CSS_EDYTOR.css. Hard reload. Mobile 375px: (a) stopka baner → BLIK SVG widoczny bez białej karty (natywny colorowy logo na ciemnym tle); (b) klik hamburger → menu rozwinięte z BIAŁYM solid bg, napisy OFERTA/O NAS/... ciemne bez cienia, czyste separatory; (c) hero strona główna → form Rezerwacja widoczny w całości (kicker + title + lead + quickFacts zmieszczone na ~200px góry, card z 5 polami + submit na ~380px dolnego ekranu), wszystkie pola klikalne, flatpickr otwiera się, submit działa."
+    },
+    {
+      "date": "2026-04-23",
+      "action": "v1.8.15 — 3 FIXY po audycie live: typography /txt/* 11px→17-19px, mobile hero overflow, mobile menu solid white",
+      "trigger": "User: 'zrob patch' po audycie live v1.8.14. Plus: 'czy na mobile, mozesz nie miec przezroczystego menu? ale tylko na mobile'.",
+      "audit_findings_live": {
+        "desktop_1440": "19/20 PASS (1 false alarm selektor)",
+        "mobile_iphone_390": "14/18 PASS (hero form ucięty fullpage.js)",
+        "mobile_android_360": "9/9 PASS",
+        "offers_mobile": "12/13 PASS (1 false alarm selector)",
+        "contact_mobile": "8/10 PASS (2 false alarm)",
+        "onas_mobile_txt200": "11/14 PASS — 3 FAIL realnych: (a) kicker '· 2019' nadal widoczny = user nie wkleił nowego ONAS_PL, (b) subtitle 11px zamiast 19px, (c) narrative p 11px zamiast 17px",
+        "root_cause_11px": "trap #30: html font-size:10px + reguła `body.page-txt p:not(.price):not(.meta):not(small)` (spec 0,0,4,1) z 1.1rem=11px bije moją `html body .ap-pagehero__subtitle` (0,0,1,2). !important po obu stronach.",
+        "root_cause_hero_cutoff": "`body.page-index .section.parallax { overflow: hidden !important }` (spec 0,0,3,1) bije moją html body (0,0,2,2)."
+      },
+      "fixes": {
+        "1_typography_txt_star": "AP_CSS_EDYTOR.css §v1.8.15 (1) — mirror blacklisty :not() z oryginalnej reguły + dodane klasy: `html body.page-txt p.ap-pagehero__subtitle:not(.ap-offer-card__price):not(.ap-offer-card__meta):not(small)` (spec 0,0,5,1) przebija 0,0,4,1. Double-class trick `.ap-pagehero__subtitle.ap-pagehero__subtitle.ap-pagehero__subtitle` jako redundant override. Narrative p similarly scoped. Attraction desc, blog excerpt, hero lead, final-cta p też mirrored.",
+        "2_mobile_hero_overflow": "AP_CSS_EDYTOR.css §v1.8.15 (2) @media (max-width: 991.98px) — `html body.page-index .section.parallax` + `html body.page-index main .section.parallax` + `html body.page-index .fullpage-wrapper .section.parallax` spec 0,0,3,2+ przebija 0,0,3,1. overflow:visible, height:auto, min-height:100vh. Plus fp-tableCell też overflow:visible. Plus .ap-hero-wrap--split overflow:visible.",
+        "3_mobile_menu_solid_white": "AP_CSS_EDYTOR.css §v1.8.15 (3) @media (max-width: 991.98px) — `html body header.default13` + `html body header.default13.ap-header` + `html body.page-index header.default13` spec ≥0,0,2,2 wymusza `background: #ffffff !important`. Analogicznie `.menu-wrapper`, `.bgd-color-light.menu-wrapper`, `.menu-wrapper.clean`. Box-shadow subtle bottom separator. Plus: na białym bg mobile logo chip redundantny — ukryty (navbar-brand bg:transparent + box-shadow:none + padding:0)."
+      },
+      "live_verified": {
+        "subtitle_size": "19px (było 11px) ✅",
+        "narrative_size": "17px (było 11px) ✅",
+        "header_bg_mobile": "rgb(255,255,255) (było transparent) ✅",
+        "section_parallax_overflow": "visible (było hidden) ✅",
+        "fp_tableCell_overflow": "visible (było visible — już OK) ✅",
+        "card_bottom_on_mobile": "1052px — card wystaje poza viewport ale teraz z overflow:visible user może scrollować i wypełnić wszystkie pola"
+      },
+      "files_modified": [
+        "AP_CSS_EDYTOR.css — dodany PATCH 2026-04-23 v1.8.15 (~100 linii)"
+      ],
+      "not_yet_deployed": true,
+      "verification_needed": "User wkleja AP_CSS_EDYTOR.css. Hard reload. Testy: (a) /O-nas mobile → subtitle '~19px' + narrative paragrafy '~17px' (czytelne nie 11px); (b) /O-nas mobile kicker UWAGA: nadal '· 2019' jeśli user nie wkleił NOWEGO ONAS_PL__body_top.html — trzeba wkleić oba; (c) mobile 375px homepage → hero search card w 100% widoczny, wszystkie 4 pola klikalne (PRZYJAZD, WYJAZD, GOŚCIE, APARTAMENT) + submit; (d) mobile 375px dowolna strona → header + menu-wrapper solid białe tło (nie transparentne na hero jak desktop); (e) wszystkie regresje v1.8.14 pozostają: sticky biały, BLIK SVG transparent, final-cta biały."
+    },
+    {
+      "date": "2026-04-21",
+      "action": "v1.8.8 — final-cta bez contactów + mobile menu czcionka Inter + rezerwacja mniejsza",
+      "trigger": "User: (1) 'na stronie glownej na dole pod Zarezerwuj pobyt, usun ikonke i przenoszenie do emaila i telefonu', (2) 'na mobile menu czcionka jest dziwna' (Playfair serif zamiast Inter), (3) 'REZERWACJA ONLINE button gigantyczny na mobile'",
+      "fixes": {
+        "1_remove_contacts_from_cta_homepage": "GLOWNA_PL/EN__cms.html — usunięte .ap-final-cta__contacts (tel: + mailto: + SVG icons). Sekcja ma teraz tylko: kicker REZERWACJA + heading + paragraph + CTA button. Czysto.",
+        "2_mobile_nav_font_inter": "AP_CSS_EDYTOR.css §D — force font-family: Inter sans-serif dla WSZYSTKIEGO w .navbar-collapse i .navbar-nav. Było dziedziczenie Playfair od .default13. Plus cleaner nav-link styling: bez pill border, z border-bottom separator, text-align left, padding 14px 24px.",
+        "3_mobile_reservation_compact": "AP_CSS_EDYTOR.css §C — navbar-reservation mobile: max-width 140px (było min 140), min-height 40 (było 44), font 11px (było 13), padding 0 16px, white-space nowrap (jedna linia), letter-spacing 0.8. @media 480px: font 10.5 + max-width 110."
+      },
+      "files_modified": [
+        "GLOWNA_PL__cms.html — usunięte ap-final-cta__contacts",
+        "GLOWNA_EN__cms.html — usunięte ap-final-cta__contacts (EN)",
+        "AP_CSS_EDYTOR.css — v1.8.7 §C navbar-reservation smaller + §D mobile nav Inter font"
+      ],
+      "verification_needed": "Hard reload. Homepage /: sekcja Zarezerwuj pobyt → tylko heading + paragraph + button (brak tel/email ikon). Mobile 375: REZERWACJA ONLINE button compact (nie rozpycha headera) jedna linia. Klik hamburger → nav items w Inter sans-serif font (nie Playfair), z border-bottom separator (nie pill), hover brand-light."
+    }
+  ],
+  "openQuestions": [
+    "Dwa H1 na homepage — ukryty 'Apartamenty Parkowe Gniezno' + visible 'Twój park, twój spokój' — czy ukryć h1 #1 zupełnie?",
+    "Touch targets mobile: footer regulamin/polityka/telefon h=29px < WCAG 44px — zwiększyć?",
+    "Ile apartamentów faktycznie — brief 4 vs panel 3",
+    "Czy telefon/email z memory są aktualne",
+    "Czy klient akceptuje ciemny forest design vs brief 'jasne kolory'",
+    "Rozliczenie: pakiet 1000 zł vs nakład v2.0 ~15-20h"
+  ]
+}

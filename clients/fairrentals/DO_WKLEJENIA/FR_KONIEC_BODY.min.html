@@ -1,0 +1,1482 @@
+<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+(function() {
+  'use strict';
+
+  var PREFIX = 'fr-';
+
+  function initHeaderScroll() {
+    var header = document.querySelector('header.default13');
+    if (!header) return;
+
+    var isFp = document.documentElement.classList.contains('fp-enabled');
+    var threshold = 1;
+
+    var update = function() {
+      var scrolled = false;
+
+      if (isFp) {
+        var m = document.body.className.match(/fp-viewing-(\d+)/);
+        if (m && parseInt(m[1], 10) > 1) scrolled = true;
+      }
+
+      var y = window.pageYOffset || document.documentElement.scrollTop || (document.scrollingElement && document.scrollingElement.scrollTop) || 0;
+      if (y > threshold) scrolled = true;
+
+      var notHomepage = !document.body.classList.contains('page-index');
+      if (notHomepage) scrolled = true;
+
+      header.classList.toggle('fr-header--scrolled', scrolled);
+    };
+
+    if (isFp) {
+      new MutationObserver(update).observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    document.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('wheel', update, { passive: true });
+    window.addEventListener('touchmove', update, { passive: true });
+
+    update();
+  }
+
+  function teleportHero() {
+    if (!document.documentElement.classList.contains('fp-enabled')) return;
+    var hero = document.querySelector('.fr-hero-wrap');
+    if (!hero) return;
+    var parallax = document.querySelector('.section.parallax .fp-tableCell, .section.parallax');
+    if (!parallax) return;
+    if (parallax.contains(hero)) return;
+    var firstSection = parallax.querySelector('.fp-tableCell') || parallax;
+    if (firstSection !== hero.parentNode) {
+      firstSection.appendChild(hero);
+    }
+  }
+
+  function buildFeatureIcon(svgPath, label) {
+    return '<span class="fr-apt-feature">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true">' + svgPath + '</svg>' +
+      '<span>' + label + '</span></span>';
+  }
+
+  var ICON_AREA = '<rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="3" x2="9" y2="21"></line>';
+  var ICON_GUESTS = '<path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="10" cy="7" r="4"></circle><path d="M21 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>';
+
+  function parseSystemOffer(offerEl) {
+    var link = offerEl.querySelector('a.object-icon') || offerEl.querySelector('a[href*="/offer/"]');
+    if (!link) return null;
+    var href = link.getAttribute('href');
+
+    var img = offerEl.querySelector('img[data-src], img[src], img');
+    if (!img) return null;
+    var imgSrc = img.getAttribute('data-src') || img.getAttribute('src') || img.src || '';
+    if (!imgSrc) return null;
+
+    var titleEl = offerEl.querySelector('h3 a, h3, .offer__title');
+    var title = titleEl ? titleEl.textContent.trim() : (img.getAttribute('alt') || 'Apartament');
+
+    var descEl = offerEl.querySelector('.offer__description');
+    var desc = descEl ? descEl.textContent.trim() : '';
+    if (desc && desc === title) desc = '';
+    if (desc.length > 180) desc = desc.slice(0, 178).replace(/[.,;\s]+$/, '') + '…';
+
+    var areaEl = offerEl.querySelector('.accommodation-meters');
+    var area = '';
+    if (areaEl) {
+      var m = areaEl.textContent.match(/([\d,.]+)\s*m/i);
+      if (m) area = m[1].replace(',', '.') + ' m²';
+    }
+
+    var guestsEl = offerEl.querySelector('.accommodation-roomspace');
+    var guests = '';
+    if (guestsEl) {
+      var g = guestsEl.textContent.match(/(\d+)/);
+      if (g) guests = g[1];
+    }
+
+    var priceEl = offerEl.querySelector('.offer__price .price') || offerEl.querySelector('.price');
+    var price = '';
+    var currency = 'zł';
+    if (priceEl) {
+      var priceTxt = priceEl.textContent.trim();
+      var pm = priceTxt.match(/([\d,.]+)/);
+      if (pm) price = pm[1].replace(/\s/g, '').replace(',', '.');
+      if (/€/.test(priceTxt)) currency = '€';
+      else if (/\$/.test(priceTxt)) currency = '$';
+    }
+
+    return {
+      href: href,
+      imgSrc: imgSrc,
+      title: title,
+      desc: desc,
+      area: area,
+      guests: guests,
+      price: price,
+      currency: currency
+    };
+  }
+
+  function escapeAttr(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  }
+
+  function escapeText(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function renderFeaturedCards(offers) {
+    var grid = document.getElementById('fr-apt-grid');
+    var section = document.getElementById('fr-apartments');
+    if (!grid) return;
+
+    if (!offers.length) {
+      if (section) section.style.display = 'none';
+      grid.setAttribute('data-offers-loaded', 'empty');
+      return;
+    }
+
+    grid.setAttribute('data-offers-loaded', String(offers.length));
+
+    var html = '';
+    offers.forEach(function(o) {
+      var priceNum = Math.round(parseFloat(o.price) || 0);
+      html += '<a href="' + escapeAttr(o.href) + '" class="fr-apt-card">';
+      html += '<div class="fr-apt-img">';
+      var altText = escapeAttr(o.title || 'Apartament Fair Rentals Wroclan');
+      var imgTag = '<img loading="lazy" src="' + escapeAttr(o.imgSrc) + '"';
+      imgTag += ' alt="' + altText + '">';
+      html += imgTag;
+      if (priceNum > 0) {
+        html += '<div class="fr-apt-price">od <strong>' + priceNum + ' ' + escapeText(o.currency) + '</strong> <span>/ noc</span></div>';
+      }
+      html += '</div>';
+      html += '<div class="fr-apt-body">';
+      html += '<h3 class="fr-h3">' + escapeText(o.title) + '</h3>';
+      if (o.desc) {
+        html += '<p class="fr-apt-desc">' + escapeText(o.desc) + '</p>';
+      }
+      html += '<div class="fr-apt-features">';
+      if (o.area) html += buildFeatureIcon(ICON_AREA, escapeText(o.area));
+      if (o.guests) html += buildFeatureIcon(ICON_GUESTS, escapeText(o.guests) + (parseInt(o.guests, 10) === 1 ? ' osoba' : ' osób'));
+      html += '</div>';
+      html += '</div>';
+      html += '</a>';
+    });
+    grid.innerHTML = html;
+  }
+
+  function buildFromHotspot() {
+    var grid = document.getElementById('fr-apt-grid');
+    if (!grid) return false;
+    var loaded = grid.getAttribute('data-offers-loaded');
+    if (loaded && loaded !== 'pending') return true;
+
+    var hotspot = document.querySelector('.container-hotspot');
+    if (!hotspot) return false;
+
+    var nodes = hotspot.querySelectorAll('.slick-slide:not(.slick-cloned) .offer');
+    if (!nodes.length) nodes = hotspot.querySelectorAll('.offer');
+
+    if (!nodes.length) {
+      var section = document.getElementById('fr-apartments');
+      if (section) section.style.display = 'none';
+      grid.setAttribute('data-offers-loaded', 'empty');
+      return true;
+    }
+
+    var seen = {};
+    var offers = [];
+    Array.prototype.forEach.call(nodes, function(node) {
+      var parsed = parseSystemOffer(node);
+      if (!parsed || seen[parsed.href]) return;
+      seen[parsed.href] = true;
+      offers.push(parsed);
+    });
+
+    renderFeaturedCards(offers);
+    return true;
+  }
+
+  function initFeaturedOffers() {
+    if (!document.getElementById('fr-apt-grid')) return;
+
+    [0, 400, 1200, 2500].forEach(function(delay) {
+      setTimeout(function() {
+        var grid = document.getElementById('fr-apt-grid');
+        if (!grid) return;
+        var loaded = grid.getAttribute('data-offers-loaded');
+        if (loaded && loaded !== 'pending') return;
+        buildFromHotspot();
+      }, delay);
+    });
+
+    setTimeout(function() {
+      var grid = document.getElementById('fr-apt-grid');
+      var section = document.getElementById('fr-apartments');
+      if (!grid) return;
+      var loaded = grid.getAttribute('data-offers-loaded');
+      if (!loaded || loaded === 'pending') {
+        if (section) section.style.display = 'none';
+        grid.setAttribute('data-offers-loaded', 'empty');
+      }
+    }, 4000);
+  }
+
+  function initLightbox() {
+    var EXCLUDE = [
+      'header', 'footer', '.menu-wrapper', '.navbar-brand', '.logo',
+      '.footer-contact-baner', '.powered_by', '.news-container',
+      '.fr-attr-card', '.fr-apt-card', '.fr-loc-card__pin',
+      '.fr-feature__icon', '.fr-loc-map'
+    ];
+
+    var modal = document.createElement('div');
+    modal.className = 'fr-lightbox';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Powiększone zdjęcie');
+    modal.innerHTML = '<button class="fr-lightbox__close" aria-label="Zamknij"><svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg></button><img class="fr-lightbox__img" alt="Powiekszone zdjecie apartamentu">';
+    document.body.appendChild(modal);
+
+    var modalImg = modal.querySelector('.fr-lightbox__img');
+    var closeBtn = modal.querySelector('.fr-lightbox__close');
+
+    function openLightbox(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modal.classList.add('fr-lightbox--open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      modal.classList.remove('fr-lightbox--open');
+      modalImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal || e.target === closeBtn || closeBtn.contains(e.target)) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('fr-lightbox--open')) {
+        closeLightbox();
+      }
+    });
+
+    function attachToImages() {
+      var imgs = Array.prototype.filter.call(document.querySelectorAll('img'), function(img) {
+        if (img.hasAttribute('data-no-lightbox')) return false;
+        if (img.hasAttribute('data-fr-lightbox-attached')) return false;
+        var link = img.closest('a[href]');
+        if (link && link.getAttribute('href') !== '#') return false;
+        for (var i = 0; i < EXCLUDE.length; i++) {
+          if (img.closest(EXCLUDE[i])) return false;
+        }
+        var rect = img.getBoundingClientRect();
+        var maxW = Math.max(rect.width, img.naturalWidth || 0);
+        if (maxW > 0 && maxW < 60) return false;
+        var src = img.getAttribute('src') || img.src || '';
+        if (!src || src.indexOf('data:image/svg') === 0) return false;
+        return true;
+      });
+
+      imgs.forEach(function(img) {
+        img.setAttribute('data-fr-lightbox', '1');
+        img.setAttribute('data-fr-lightbox-attached', '1');
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', function(e) {
+          e.preventDefault();
+          openLightbox(img.currentSrc || img.src, img.alt);
+        });
+      });
+    }
+
+    attachToImages();
+    setTimeout(attachToImages, 1500);
+    setTimeout(attachToImages, 3500);
+  }
+
+  function initReveal() {
+    if (!('IntersectionObserver' in window)) {
+      var fallback = document.querySelectorAll('.fr-reveal');
+      Array.prototype.forEach.call(fallback, function(el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    var els = document.querySelectorAll('.fr-reveal');
+    Array.prototype.forEach.call(els, function(el) { io.observe(el); });
+  }
+
+  function initSmoothScroll() {
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var hash = link.getAttribute('href');
+      if (!hash || hash === '#') return;
+      var target = document.querySelector(hash);
+      if (!target) return;
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  }
+
+  function initFilterCollapse() {
+    if (!document.body.classList.contains('page-offers')) return;
+    var headers = document.querySelectorAll('.filter_header');
+    if (!headers.length) return;
+
+    Array.prototype.forEach.call(headers, function(header, idx) {
+      var content = header.nextElementSibling;
+      if (!content || !content.classList.contains('filter_content')) return;
+
+      content.classList.add('collapse');
+
+      // PATCH v1.6.5: collapse ALL filters by default (including TYP OBIEKTU)
+      content.classList.remove('show');
+      header.setAttribute('aria-expanded', 'false');
+
+      header.style.cursor = 'pointer';
+      header.addEventListener('click', function(e) {
+        e.preventDefault();
+        var isOpen = content.classList.toggle('show');
+        header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    });
+  }
+
+  function initImageFallback() {
+    var imgs = document.querySelectorAll('img');
+    Array.prototype.forEach.call(imgs, function(img) {
+      if (img.complete && img.naturalWidth === 0 && img.src) {
+        handleBrokenImage(img);
+      } else {
+        img.addEventListener('error', function() { handleBrokenImage(img); });
+      }
+    });
+  }
+
+  function handleBrokenImage(img) {
+    var card = img.closest('.fr-attr-card, .fr-apt-card, .fr-loc-card, .fr-corp-benefit, .fr-narrative__media, .fr-attr-row__media');
+    if (card) {
+      card.style.background = 'linear-gradient(135deg, var(--fr-cream), var(--fr-light-accent))';
+      img.style.opacity = '0';
+    } else {
+      img.style.display = 'none';
+    }
+  }
+
+  var litepickerInstance = null;
+
+  function setupLitepicker() {
+    if (litepickerInstance) return;
+    if (typeof window.Litepicker === 'undefined') return;
+
+    var form = document.querySelector('.fr-cmd-bar__form');
+    if (!form) return;
+
+    var fromInput = form.querySelector('input[name="dateFrom"], input[name="date_from"]');
+    var toInput = form.querySelector('input[name="dateTo"], input[name="date_to"]');
+    if (!fromInput || !toInput) return;
+
+    fromInput.setAttribute('readonly', 'readonly');
+    toInput.setAttribute('readonly', 'readonly');
+    fromInput.setAttribute('type', 'text');
+    toInput.setAttribute('type', 'text');
+    if (!fromInput.placeholder) fromInput.setAttribute('placeholder', 'Wybierz date');
+    if (!toInput.placeholder) toInput.setAttribute('placeholder', 'Wybierz date');
+
+    var isDesktop = window.matchMedia('(min-width: 720px)').matches;
+    var thisYear = new Date().getFullYear();
+    try {
+      litepickerInstance = new window.Litepicker({
+        element: fromInput,
+        elementEnd: toInput,
+        singleMode: false,
+        numberOfMonths: isDesktop ? 2 : 1,
+        numberOfColumns: isDesktop ? 2 : 1,
+        minDate: new Date(),
+        format: 'YYYY-MM-DD',
+        lang: 'pl-PL',
+        autoApply: true,
+        mobileFriendly: false,
+        dropdowns: {
+          minYear: thisYear,
+          maxYear: thisYear + 3,
+          months: true,
+          years: true
+        },
+        moveByOneMonth: true,
+        resetButton: true,
+        zIndex: 99999,
+        inlineMode: false,
+        // PATCH v1.6.9: explicit 'bottom-start' instead of 'auto'.
+        // 'auto' on fullpage.js page-index sometimes flipped picker to
+        // wrong location (middle of viewport). 'bottom-start' = always
+        // below the triggering input, aligned to its left edge.
+        position: 'bottom-start'
+      });
+
+      // PATCH v1.6.9: manual anchor reposition on show.
+      // Reason: body.page-index uses fullpage.js (transform-based scroll).
+      // window.scrollY is always 0; Litepicker's internal calc may misplace
+      // picker. We force exact viewport-relative coords below the active
+      // trigger input on every show event. Picker is position:fixed (CSS),
+      // so top/left are viewport coords — reliable regardless of fullpage state.
+      var anchorPickerToTrigger = function(triggerEl) {
+        if (!litepickerInstance || !triggerEl) return;
+        var ui = (litepickerInstance.ui || litepickerInstance.picker);
+        if (!ui) return;
+        var rect = triggerEl.getBoundingClientRect();
+        var pickerW = ui.offsetWidth || 360;
+        var viewportW = window.innerWidth;
+        var gutter = 12;
+        var top = rect.bottom + 8;
+        var left = rect.left;
+        // Keep picker on-screen — flip to right edge if overflows
+        if (left + pickerW + gutter > viewportW) {
+          left = Math.max(gutter, viewportW - pickerW - gutter);
+        }
+        // Flip up if not enough space below
+        var spaceBelow = window.innerHeight - rect.bottom;
+        if (spaceBelow < (ui.offsetHeight || 360) + 20 && rect.top > spaceBelow) {
+          top = Math.max(gutter, rect.top - (ui.offsetHeight || 360) - 8);
+        }
+        ui.style.position = 'fixed';
+        ui.style.top = top + 'px';
+        ui.style.left = left + 'px';
+      };
+
+      // Hook into Litepicker's show event
+      if (typeof litepickerInstance.on === 'function') {
+        litepickerInstance.on('show', function() {
+          // Determine which input is currently focused (or default to fromInput)
+          var active = document.activeElement;
+          var trigger = (active === toInput) ? toInput : fromInput;
+          // Defer to next tick so picker is in DOM
+          setTimeout(function() { anchorPickerToTrigger(trigger); }, 0);
+        });
+      }
+
+      // Also anchor when each input is clicked (Litepicker may not refire show)
+      [fromInput, toInput].forEach(function(input) {
+        input.addEventListener('click', function() {
+          setTimeout(function() { anchorPickerToTrigger(input); }, 50);
+        });
+        input.addEventListener('focus', function() {
+          setTimeout(function() { anchorPickerToTrigger(input); }, 50);
+        });
+      });
+
+      // Reposition on viewport resize while picker is open
+      window.addEventListener('resize', function() {
+        var ui = (litepickerInstance.ui || litepickerInstance.picker);
+        if (ui && ui.style.display !== 'none' && ui.offsetWidth > 0) {
+          anchorPickerToTrigger(document.activeElement === toInput ? toInput : fromInput);
+        }
+      });
+
+      // PATCH v1.7.6: Bulletproof alignment via inline !important + MutationObserver.
+      // After 5 attempts (4x CSS, 1x JS without !important) still misaligned.
+      // Final approach: setProperty(prop, val, 'important') = inline !important =
+      // CSS specificity LEVEL 6 (highest possible). Wins over EVERYTHING.
+      // Plus MutationObserver re-runs on ANY DOM change = catches all render moments.
+      var setImportant = function(el, prop, val) {
+        if (el && el.style && typeof el.style.setProperty === 'function') {
+          el.style.setProperty(prop, val, 'important');
+        }
+      };
+
+      var alignMonthItems = function() {
+        var ui = litepickerInstance.ui || litepickerInstance.picker;
+        if (!ui) return;
+        var months = ui.querySelectorAll('.month-item');
+        if (months.length < 2) return;
+
+        // Step 1: normalize .month-item itself (reset padding/margin that may differ
+        // between .no-previous-month and regular month classes)
+        for (var i = 0; i < months.length; i++) {
+          setImportant(months[i], 'padding', '0');
+          setImportant(months[i], 'margin', '0');
+          setImportant(months[i], 'box-sizing', 'border-box');
+        }
+
+        // Step 2: collect headers and weekday-rows, reset their inline heights
+        var headers = [], weekdays = [];
+        for (var j = 0; j < months.length; j++) {
+          var h = months[j].querySelector('.month-item-header');
+          var w = months[j].querySelector('.month-item-weekdays-row');
+          if (h) {
+            h.style.removeProperty('height');
+            h.style.removeProperty('min-height');
+            h.style.removeProperty('max-height');
+            headers.push(h);
+          }
+          if (w) {
+            w.style.removeProperty('height');
+            w.style.removeProperty('min-height');
+            w.style.removeProperty('max-height');
+            weekdays.push(w);
+          }
+        }
+
+        // Step 3: force reflow, measure, apply max — TWICE (immediate + RAF)
+        var apply = function() {
+          if (headers.length < 2 && weekdays.length < 2) return;
+          var maxHeader = 0, maxWeekday = 0;
+          headers.forEach(function(h) { if (h.offsetHeight > maxHeader) maxHeader = h.offsetHeight; });
+          weekdays.forEach(function(w) { if (w.offsetHeight > maxWeekday) maxWeekday = w.offsetHeight; });
+
+          headers.forEach(function(h) {
+            setImportant(h, 'height', maxHeader + 'px');
+            setImportant(h, 'min-height', maxHeader + 'px');
+            setImportant(h, 'max-height', maxHeader + 'px');
+            setImportant(h, 'box-sizing', 'border-box');
+            setImportant(h, 'padding', '0');
+            setImportant(h, 'margin', '0');
+          });
+          weekdays.forEach(function(w) {
+            setImportant(w, 'height', maxWeekday + 'px');
+            setImportant(w, 'min-height', maxWeekday + 'px');
+            setImportant(w, 'max-height', maxWeekday + 'px');
+            setImportant(w, 'box-sizing', 'border-box');
+            setImportant(w, 'padding', '0');
+            setImportant(w, 'margin', '0');
+          });
+
+          // Step 4: force every .day-item to 36px height for row consistency
+          var days = ui.querySelectorAll('.container__days .day-item, .container__days > div');
+          days.forEach(function(d) {
+            setImportant(d, 'height', '36px');
+            setImportant(d, 'min-height', '36px');
+            setImportant(d, 'max-height', '36px');
+            setImportant(d, 'line-height', '36px');
+            setImportant(d, 'box-sizing', 'border-box');
+            setImportant(d, 'padding', '0');
+            setImportant(d, 'margin', '0');
+            setImportant(d, 'display', 'flex');
+            setImportant(d, 'align-items', 'center');
+            setImportant(d, 'justify-content', 'center');
+          });
+        };
+
+        // Apply immediately + on next frame (catches both sync and async layout)
+        apply();
+        requestAnimationFrame(apply);
+      };
+
+      // Hook 1: Litepicker events (render = month/year change, show = open)
+      if (typeof litepickerInstance.on === 'function') {
+        litepickerInstance.on('render', function() { alignMonthItems(); });
+        litepickerInstance.on('show', function() {
+          setTimeout(alignMonthItems, 0);
+          setTimeout(alignMonthItems, 30);
+          setTimeout(alignMonthItems, 100);
+          setTimeout(alignMonthItems, 300);
+        });
+      }
+
+      // Hook 2: MutationObserver — runs on ANY DOM change inside picker
+      // Most reliable catch-all for late renders, dropdown changes, etc.
+      var pickerObserver = null;
+      var setupObserver = function() {
+        var ui = litepickerInstance.ui || litepickerInstance.picker;
+        if (!ui || pickerObserver) return;
+        var debounceTimer = null;
+        pickerObserver = new MutationObserver(function() {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(alignMonthItems, 16);  // ~1 frame debounce
+        });
+        pickerObserver.observe(ui, { childList: true, subtree: true });
+      };
+      // Defer observer setup until picker DOM is ready
+      setTimeout(setupObserver, 100);
+      if (typeof litepickerInstance.on === 'function') {
+        litepickerInstance.on('show', setupObserver);
+      }
+
+      // Hook 3: also align after our anchor reposition (override)
+      var origAnchor = anchorPickerToTrigger;
+      anchorPickerToTrigger = function(triggerEl) {
+        origAnchor(triggerEl);
+        setTimeout(alignMonthItems, 0);
+        setTimeout(alignMonthItems, 50);
+      };
+
+      form.addEventListener('submit', function(e) {
+        if (!fromInput.value || !toInput.value) {
+          e.preventDefault();
+          if (litepickerInstance && typeof litepickerInstance.show === 'function') {
+            litepickerInstance.show();
+          }
+        }
+      });
+    } catch (err) { litepickerInstance = null; }
+  }
+
+  function initLitepickerWhenReady() {
+    var attempts = 0;
+    var tryInit = function() {
+      attempts++;
+      if (typeof window.Litepicker !== 'undefined') {
+        setupLitepicker();
+        return;
+      }
+      if (attempts < 30) setTimeout(tryInit, 200);
+    };
+    tryInit();
+  }
+
+  function initCustomSearch() {
+    initLitepickerWhenReady();
+  }
+
+  function initLeafletMap() {
+    var attempts = 0;
+    var tryInit = function() {
+      attempts++;
+      if (typeof window.L === 'undefined') {
+        if (attempts < 30) setTimeout(tryInit, 200);
+        return;
+      }
+      var mapEl = document.getElementById('fr-map');
+      if (!mapEl) return;
+      if (mapEl.dataset.initialized) return;
+      mapEl.dataset.initialized = '1';
+
+      var locations = [
+        { lat: 52.4037628, lng: 16.9277562, name: 'Białowieska 69/11', district: 'Stare Miasto / Centrum', num: 1 },
+        { lat: 52.413013,  lng: 16.9371,    name: 'Grochowe Laki 7', district: 'Stare Miasto', num: 2 },
+        { lat: 52.3946573, lng: 17.0214297, name: 'Dzieci Wrzesinskich 3', district: 'Wilda', num: 3 }
+      ];
+
+      var avgLat = (locations[0].lat + locations[1].lat + locations[2].lat) / 3;
+      var avgLng = (locations[0].lng + locations[1].lng + locations[2].lng) / 3;
+
+      var map = window.L.map('fr-map', { scrollWheelZoom: false, zoomControl: true })
+        .setView([avgLat, avgLng], 13);
+
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      locations.forEach(function(loc) {
+        var icon = window.L.divIcon({
+          className: 'fr-map-pin',
+          html: '<div class="fr-map-pin__inner">' + loc.num + '</div>',
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
+        });
+        var marker = window.L.marker([loc.lat, loc.lng], { icon: icon }).addTo(map);
+        marker.bindPopup('<strong>' + loc.name + '</strong><br>' + loc.district);
+      });
+    };
+    tryInit();
+  }
+
+  function initMobileMenuToggle() {
+    var toggler = document.querySelector('.navbar-toggler');
+    var header = document.querySelector('header.default13');
+    if (!toggler || !header) return;
+
+    toggler.addEventListener('click', function() {
+      setTimeout(function() {
+        var menu = document.querySelector('.navbar-collapse');
+        var open = menu && (menu.classList.contains('show') || menu.classList.contains('collapsing') || menu.getAttribute('aria-expanded') === 'true' || toggler.getAttribute('aria-expanded') === 'true');
+        header.classList.toggle('fr-menu-open', !!open);
+      }, 50);
+    });
+
+    document.addEventListener('click', function(e) {
+      var menu = document.querySelector('.navbar-collapse');
+      if (!menu) return;
+      var clickInside = e.target.closest('.navbar-collapse, .navbar-toggler, header.default13');
+      if (!clickInside) {
+        header.classList.remove('fr-menu-open');
+      }
+    });
+  }
+
+  function initPolicyModal() {
+    if (document.getElementById('saPolicyModal')) return;
+    var m = document.createElement('div');
+    m.id = 'saPolicyModal';
+    m.className = 'fr-policy-modal';
+    m.innerHTML =
+      '<div class="fr-policy-modal__box">' +
+        '<button type="button" class="fr-policy-modal__close" aria-label="Zamknij">×</button>' +
+        '<iframe class="fr-policy-modal__iframe" src="about:blank" title="Polityka"></iframe>' +
+      '</div>';
+    document.body.appendChild(m);
+
+    m.addEventListener('click', function(e) {
+      if (e.target === m || e.target.classList.contains('fr-policy-modal__close')) {
+        m.classList.remove('fr-policy-modal--active');
+        document.body.style.overflow = '';
+        var ifr = m.querySelector('iframe');
+        if (ifr) ifr.src = 'about:blank';
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && m.classList.contains('fr-policy-modal--active')) {
+        m.classList.remove('fr-policy-modal--active');
+        document.body.style.overflow = '';
+        var ifr = m.querySelector('iframe');
+        if (ifr) ifr.src = 'about:blank';
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest(
+        'a[href*="module=cookies"], a[href*="module=terms"], ' +
+        'a[href*="module=privacy"], a[href*="regulamin" i], ' +
+        'a[href*="polityka" i], a[href*="cookies" i]'
+      );
+      if (!link) return;
+      if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+      e.preventDefault();
+      var modal = document.getElementById('saPolicyModal');
+      if (!modal) return;
+      modal.querySelector('iframe').setAttribute('src', link.href);
+      modal.classList.add('fr-policy-modal--active');
+      document.body.style.overflow = 'hidden';
+    }, true);
+  }
+
+  function forceShowSystemSearch() {
+    return;
+  }
+
+  function forceShowLanguageToggler() {
+    var apply = function() {
+      var wrap = document.querySelector('.page-top__language');
+      var btn = document.querySelector('.language__toggler');
+      if (wrap) {
+        wrap.style.setProperty('display', 'inline-flex', 'important');
+        wrap.style.setProperty('visibility', 'visible', 'important');
+        wrap.style.setProperty('opacity', '1', 'important');
+      }
+      if (btn) {
+        btn.style.setProperty('display', 'inline-flex', 'important');
+        btn.style.setProperty('visibility', 'visible', 'important');
+        btn.style.setProperty('opacity', '1', 'important');
+        btn.style.setProperty('width', 'auto', 'important');
+        btn.style.setProperty('height', 'auto', 'important');
+
+        // Show labels (PL/EN/DE) — system hides span:not(.visuallyhidden)
+        Array.prototype.forEach.call(
+          btn.querySelectorAll('span:not(.visuallyhidden)'),
+          function(s) {
+            s.style.setProperty('display', 'inline-flex', 'important');
+            s.style.setProperty('visibility', 'visible', 'important');
+            s.style.setProperty('opacity', '1', 'important');
+          }
+        );
+
+        // Bind click toggle if not already
+        if (!btn.dataset.frBound) {
+          btn.dataset.frBound = '1';
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var menu = document.querySelector('#language_menu, .page-top__language .language');
+            if (!menu) return;
+            var open = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+            menu.style.setProperty('display', open ? 'none' : 'block', 'important');
+          });
+          // Close on outside click
+          document.addEventListener('click', function(e) {
+            if (!btn.contains(e.target)) {
+              var menu = document.querySelector('#language_menu, .page-top__language .language');
+              if (menu) menu.style.setProperty('display', 'none', 'important');
+              btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+      }
+    };
+    apply();
+    [50, 200, 600, 1500, 3000].forEach(function(d) { setTimeout(apply, d); });
+  }
+
+  function _forceShowSystemSearch_disabled_v1_7() {
+    var setProps = function(el, props) {
+      if (!el) return;
+      Object.keys(props).forEach(function(p) {
+        var cssProp = p.replace(/([A-Z])/g, '-$1').toLowerCase();
+        el.style.setProperty(cssProp, props[p], 'important');
+      });
+    };
+
+    var reorder = function() {
+      var fpCell = document.querySelector('.section.parallax > .fp-tableCell');
+      var indexInfo = document.querySelector('.index-info');
+      var heroWrap = document.querySelector('.fr-hero-wrap');
+      if (!fpCell || !indexInfo || !heroWrap) return;
+      if (indexInfo.parentNode !== fpCell || heroWrap.parentNode !== fpCell) return;
+      // Check if index-info comes BEFORE hero in DOM order
+      var pos = heroWrap.compareDocumentPosition(indexInfo);
+      if (pos & Node.DOCUMENT_POSITION_PRECEDING) {
+        // index-info is BEFORE hero — move it AFTER
+        if (heroWrap.nextSibling) {
+          fpCell.insertBefore(indexInfo, heroWrap.nextSibling);
+        } else {
+          fpCell.appendChild(indexInfo);
+        }
+      }
+    };
+
+    var apply = function() {
+      reorder();
+
+      var search = document.querySelector('.iai-search');
+      var indexInfo = document.querySelector('.index-info');
+      var frontpage = document.querySelector('.iai_frontpage') || document.querySelector('#iai_book_se');
+      var form = document.querySelector('#iai_book_form');
+
+      setProps(indexInfo, {
+        display: 'block',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', right: 'auto', top: 'auto', bottom: 'auto',
+        transform: 'none',
+        overflow: 'visible',
+        height: 'auto',
+        minHeight: '120px',
+        marginLeft: 'auto', marginRight: 'auto',
+        width: '100%',
+        maxWidth: '1148px'
+      });
+
+      setProps(search, {
+        display: 'block',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', right: 'auto', top: 'auto', bottom: 'auto',
+        transform: 'none',
+        overflow: 'visible',
+        height: 'auto',
+        width: '100%',
+        maxWidth: 'none'
+      });
+
+      setProps(frontpage, {
+        display: 'block',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', transform: 'none',
+        overflow: 'visible',
+        height: 'auto'
+      });
+
+      setProps(form, {
+        display: 'grid',
+        visibility: 'visible',
+        opacity: '1',
+        position: 'relative',
+        left: 'auto', transform: 'none',
+        overflow: 'visible',
+        height: 'auto'
+      });
+    };
+
+    apply();
+
+    [50, 200, 600, 1500, 3000, 5000].forEach(function(d) {
+      setTimeout(apply, d);
+    });
+
+    var search = document.querySelector('.iai-search');
+    var form = document.querySelector('#iai_book_form');
+    var observerOpts = { attributes: true, attributeFilter: ['style', 'class', 'hidden'] };
+    var observer = new MutationObserver(function() {
+      var s = document.querySelector('.iai-search');
+      var f = document.querySelector('#iai_book_form');
+      if (s && getComputedStyle(s).display === 'none') apply();
+      if (f && (f.style.display === 'none' || getComputedStyle(f).display === 'none')) apply();
+    });
+    if (search) observer.observe(search, observerOpts);
+    if (form) observer.observe(form, observerOpts);
+    var indexInfo = document.querySelector('.index-info');
+    if (indexInfo) observer.observe(indexInfo, observerOpts);
+  }
+
+  function cleanupSeoDuplicates() {
+    // Find all meta descriptions
+    var descs = document.querySelectorAll('meta[name="description"]');
+    if (descs.length > 1) {
+      // Keep the one with "21 apartament" or longest (= our updated one)
+      var keep = null;
+      var maxScore = -1;
+      descs.forEach(function(m) {
+        var c = m.getAttribute('content') || '';
+        var score = (c.indexOf('21 apartament') !== -1 ? 1000 : 0) + c.length;
+        if (score > maxScore) {
+          maxScore = score;
+          keep = m;
+        }
+      });
+      descs.forEach(function(m) {
+        if (m !== keep) m.parentNode.removeChild(m);
+      });
+    }
+
+    // Find all canonicals
+    var cans = document.querySelectorAll('link[rel="canonical"]');
+    if (cans.length > 1) {
+      // Keep the one with /pl/ or /en/ or /de/ path (= our localized canonical)
+      var keepCan = null;
+      cans.forEach(function(l) {
+        var h = l.getAttribute('href') || '';
+        if (h.match(/\/(pl|en|de)\/?$/)) keepCan = l;
+      });
+      // Fallback: keep last one (our HEAD is after system)
+      if (!keepCan) keepCan = cans[cans.length - 1];
+      cans.forEach(function(l) {
+        if (l !== keepCan) l.parentNode.removeChild(l);
+      });
+    }
+
+    // Find all og:url meta to deduplicate
+    var ogUrls = document.querySelectorAll('meta[property="og:url"]');
+    if (ogUrls.length > 1) {
+      var keepOg = ogUrls[ogUrls.length - 1]; // keep last (our HEAD)
+      ogUrls.forEach(function(m) {
+        if (m !== keepOg) m.parentNode.removeChild(m);
+      });
+    }
+  }
+
+  function fixCanonicalToPage() {
+    var currentUrl = location.origin + location.pathname;
+    // strip trailing slash for consistency (except root /pl /en /de)
+    var normalized = currentUrl.replace(/\/$/, '');
+    // re-add trailing slash for language root paths
+    if (normalized.match(/\/(pl|en|de)$/)) normalized += '/';
+
+    var existing = document.querySelector('link[rel="canonical"]');
+    if (existing) {
+      existing.setAttribute('href', normalized);
+    } else {
+      var link = document.createElement('link');
+      link.rel = 'canonical';
+      link.href = normalized;
+      document.head.appendChild(link);
+    }
+
+    // Also fix og:url to match (consistency for social sharing)
+    var ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', normalized);
+  }
+
+  function fixTargetBlankTypo() {
+    var links = document.querySelectorAll('a[target="blank"]');
+    links.forEach(function(a) {
+      a.setAttribute('target', '_blank');
+      var rel = a.getAttribute('rel') || '';
+      if (rel.indexOf('noopener') === -1) {
+        rel = (rel + ' noopener').trim();
+      }
+      if (rel.indexOf('noreferrer') === -1) {
+        rel = (rel + ' noreferrer').trim();
+      }
+      a.setAttribute('rel', rel);
+    });
+  }
+
+  function injectGoogleMap() {
+    // Only on contact pages
+    var isContact =
+      document.body.classList.contains('contact-page') ||
+      /\/contact\/?$/i.test(location.pathname);
+    if (!isContact) return;
+
+    // Skip if already injected
+    if (document.querySelector('.fr-google-map-wrap')) return;
+
+    // Lang detection (pl default, en/de from URL or htmlLang)
+    var lang = (document.documentElement.lang || '').substring(0, 2).toLowerCase();
+    if (!lang || (lang !== 'pl' && lang !== 'en' && lang !== 'de')) {
+      var path = location.pathname;
+      if (path.indexOf('/en/') === 0 || path === '/en' || path.indexOf('/en') === 0) lang = 'en';
+      else if (path.indexOf('/de/') === 0 || path === '/de' || path.indexOf('/de') === 0) lang = 'de';
+      else lang = 'pl';
+    }
+
+    // Address (encoded for URL)
+    var address = encodeURIComponent('Białowieska 69/11, 54-234 Wrocław');
+    var mapsUrl =
+      'https://maps.google.com/maps?q=' + address +
+      '&hl=' + lang + '&z=15&output=embed';
+
+    // Caption text per language
+    var captionText = {
+      pl: 'Fair Rentals · Białowieska 69/11, Wrocław',
+      en: 'Fair Rentals · Białowieska 69/11, Wrocław',
+      de: 'Fair Rentals · Białowieska 69/11, Breslau'
+    }[lang] || 'Fair Rentals · Białowieska 69/11, Wrocław';
+
+    // Build iframe
+    var iframe = document.createElement('iframe');
+    iframe.src = mapsUrl;
+    iframe.setAttribute('width', '100%');
+    iframe.setAttribute('height', '420');
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('loading', 'lazy');
+    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('title', captionText);
+    iframe.style.cssText = 'border: 0; width: 100%; height: 420px;';
+
+    // Caption overlay
+    var caption = document.createElement('div');
+    caption.className = 'fr-google-map-wrap__caption';
+    caption.textContent = captionText;
+
+    // Wrapper
+    var wrap = document.createElement('div');
+    wrap.className = 'fr-google-map-wrap';
+    wrap.appendChild(iframe);
+    wrap.appendChild(caption);
+
+    // Insert na początku .contact (przed danymi firmy)
+    var contact =
+      document.querySelector('.contact-page > .contact') ||
+      document.querySelector('.contact-page .contact') ||
+      document.querySelector('.contact');
+    if (contact) {
+      contact.insertBefore(wrap, contact.firstChild);
+    } else {
+      // Fallback: insert before main
+      var main = document.querySelector('main, .page');
+      if (main) main.insertBefore(wrap, main.firstChild);
+    }
+  }
+
+  function sanitizeTelLinks() {
+    var links = document.querySelectorAll('a[href^="tel:"]');
+    Array.prototype.forEach.call(links, function(a) {
+      var href = a.getAttribute('href');
+      if (!href) return;
+      // Strip all whitespace from tel: URI (RFC 3966)
+      var cleaned = href.replace(/\s+/g, '');
+      if (cleaned !== href) {
+        a.setAttribute('href', cleaned);
+      }
+    });
+  }
+
+
+
+  function fixSystemicLeafletMap() {
+    if (typeof window.L === 'undefined') return;
+
+    var mapContainers = document.querySelectorAll('.leaflet-container');
+    if (mapContainers.length === 0) return;
+
+    var triggerInvalidate = function() {
+      var mapRef = window.mymap || window.map;
+      if (!mapRef || typeof mapRef.invalidateSize !== 'function') return;
+
+      // 1. Standard invalidateSize
+      try {
+        mapRef.invalidateSize({ animate: false, pan: false });
+      } catch (e) {}
+
+      // 2. Force _onResize (internal Leaflet method)
+      if (typeof mapRef._onResize === 'function') {
+        try { mapRef._onResize(); } catch (e) {}
+      }
+
+      // 3. Re-set view z aktualnego center/zoom — wymusza re-render tiles
+      try {
+        var center = mapRef.getCenter();
+        var zoom = mapRef.getZoom();
+        if (center && typeof zoom === 'number') {
+          mapRef.setView(center, zoom, { animate: false, reset: true });
+        }
+      } catch (e) {}
+
+      // 4. Global resize event (wymusza listeners)
+      window.dispatchEvent(new Event('resize'));
+
+      // 5. After 200ms — fitBounds wszystkich markerów (best recovery dla tiles)
+      setTimeout(function() {
+        try {
+          var bounds = null;
+          if (mapRef._layers) {
+            Object.keys(mapRef._layers).forEach(function(id) {
+              var layer = mapRef._layers[id];
+              if (layer.getLatLng) {
+                var ll = layer.getLatLng();
+                if (!bounds) bounds = window.L.latLngBounds(ll, ll);
+                else bounds.extend(ll);
+              } else if (layer.getBounds) {
+                var lb = layer.getBounds();
+                if (lb && lb.isValid()) {
+                  if (!bounds) bounds = lb;
+                  else bounds.extend(lb);
+                }
+              }
+            });
+          }
+          if (bounds && bounds.isValid()) {
+            mapRef.fitBounds(bounds, { padding: [40, 40], animate: false, maxZoom: 14 });
+          }
+        } catch (e) {}
+      }, 250);
+
+      // 6. After 500ms — final invalidate (defensive, dla post-fitBounds)
+      setTimeout(function() {
+        try { mapRef.invalidateSize({ animate: false }); } catch (e) {}
+      }, 600);
+    };
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            triggerInvalidate();
+            // Multiple retries — system bug ma dziwne timing
+            setTimeout(triggerInvalidate, 300);
+            setTimeout(triggerInvalidate, 1000);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '100px' });
+
+      mapContainers.forEach(function(el) { observer.observe(el); });
+    } else {
+      // Fallback dla starych przegladarek
+      setTimeout(triggerInvalidate, 1000);
+      setTimeout(triggerInvalidate, 2500);
+    }
+  }
+
+  function forceLoadPoweredBy() {
+    var imgs = document.querySelectorAll('.powered_by img, .powered_by_logo img, img.powered_by_logo');
+    imgs.forEach(function(img) {
+      var dataSrc = img.getAttribute('data-src');
+      var currentSrc = img.getAttribute('src');
+      if (dataSrc && (!currentSrc || currentSrc === '')) {
+        img.setAttribute('src', dataSrc);
+      }
+      // Force minimum dimensions if collapsed
+      if (img.offsetWidth === 0 && (currentSrc || dataSrc)) {
+        img.style.minWidth = '100px';
+      }
+    });
+  }
+
+  function fixHtmlLangFromUrl() {
+    var path = location.pathname;
+    var lang = null;
+
+    if (path.indexOf('/pl') === 0 || path.indexOf('/pl/') === 0) lang = 'pl';
+    else if (path.indexOf('/de') === 0 || path.indexOf('/de/') === 0) lang = 'de';
+    else if (path.indexOf('/en') === 0 || path.indexOf('/en/') === 0) lang = 'en';
+    else if (path === '/') {
+      // Root — derive from <title> or default to pl (homepage lang)
+      var title = document.title || '';
+      if (title.match(/apartamenty|wynajem|rezerw/i)) lang = 'pl';
+      else if (title.match(/Breslau|Mietverwaltung/i)) lang = 'de';
+      else lang = 'en';
+    }
+
+    if (lang) {
+      document.documentElement.setAttribute('lang', lang);
+    }
+  }
+
+  // Konfiguracja blog v4 — labelki per jezyk (mozesz edytowac)
+  var FR_BLOG_CONFIG = {
+    listLabels: {
+      pl: {
+        kicker: 'BAZA WIEDZY',
+        lead: 'Praktyczna wiedza z prowadzenia 21 apartamentow we Wroclawiu — porady dla Gosci, Wlascicieli i Firm.',
+        readMore: 'Czytaj wiecej',
+        empty: 'Brak wpisow. Dodaj pierwsza aktualnosc w panelu IdoBooking (Wyglad → Aktualnosci).',
+        backToList: '← Wroc do listy'
+      },
+      en: {
+        kicker: 'KNOWLEDGE BASE',
+        lead: 'Practical insights from managing 21 short-term apartments in Wroclaw — guides for Guests, Owners and Corporate clients.',
+        readMore: 'Read more',
+        empty: 'No posts yet. Add your first news in the IdoBooking panel.',
+        backToList: '← Back to list'
+      },
+      de: {
+        kicker: 'WISSENSBASIS',
+        lead: 'Praktisches Wissen aus der Verwaltung von 21 Kurzzeit-Apartments in Breslau — Ratgeber fuer Gaeste, Eigentuemer und Firmen.',
+        readMore: 'Weiterlesen',
+        empty: 'Keine Beitraege. Fuegen Sie die erste Nachricht im IdoBooking-Panel hinzu.',
+        backToList: '← Zurueck zur Liste'
+      }
+    },
+    brand: 'Fair Rentals',
+    brandLogo: 'https://client58360.idobooking.com/images/owner/wideLogo.svg',
+    defaultAuthor: 'Agnieszka Baranska'
+  };
+
+  function initBlog() {
+    var lang = 'pl';
+    var pathMatch = location.pathname.match(/^\/(pl|en|de)\b/);
+    if (pathMatch) lang = pathMatch[1];
+
+    // LIST mode — dziala na podstronie z mount pointem (np. /txt/205/Blog)
+    // Backward compat: .fr-blog-list-mount (v1.35+) lub [data-blog-list] (v1.34)
+    var listMount = document.querySelector('.fr-blog-list-mount, [data-blog-list]');
+    if (listMount) {
+      renderBlogList(listMount, lang);
+    }
+
+    // POST mode — automatycznie na /news/X/slug (systemowa strona Aktualnosci)
+    if (document.body.classList.contains('page-news') &&
+        location.pathname.match(/\/news\/\d+\//)) {
+      enhanceNewsPost(lang);
+    }
+  }
+
+  function renderBlogList(mount, lang) {
+    var labels = FR_BLOG_CONFIG.listLabels[lang] || FR_BLOG_CONFIG.listLabels.pl;
+    var newsUrl = (lang === 'pl' ? '/news' : '/' + lang + '/news');
+
+    // Loading state
+    mount.innerHTML = '<div class="fr-blog-list-intro">'
+        + '<span class="fr-blog-list-hero__kicker">' + escHtml(labels.kicker) + '</span>'
+        + '<p class="fr-blog-list-intro__lead">' + escHtml(labels.lead) + '</p>'
+      + '</div>'
+      + '<div class="fr-blog-grid"><div class="fr-blog-empty">…</div></div>';
+
+    fetch(newsUrl, { cache: 'no-cache', credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+
+        // Find news items in systemic /news listing
+        var items = Array.from(doc.querySelectorAll('.news-item, .news-wrapper .col-md-6, .news-wrapper .col-12'));
+        // Dedupe — pick unique by link href
+        var seen = {};
+        items = items.filter(function(it) {
+          var a = it.querySelector('a[href*="/news/"]');
+          var href = a && a.getAttribute('href');
+          if (!href || seen[href]) return false;
+          seen[href] = true;
+          return true;
+        });
+
+        var grid = mount.querySelector('.fr-blog-grid');
+
+        if (items.length === 0) {
+          grid.innerHTML = '<div class="fr-blog-empty">' + escHtml(labels.empty) + '</div>';
+          return;
+        }
+
+        grid.innerHTML = items.map(function(item) {
+          var link = item.querySelector('a[href*="/news/"]');
+          var href = link ? link.getAttribute('href') : '#';
+
+          var img = item.querySelector('img');
+          var imgSrc = img ? (img.getAttribute('src') || img.getAttribute('data-src')) : null;
+          var imgAlt = img ? (img.getAttribute('alt') || '') : '';
+
+          var dateEl = item.querySelector('.news-date, .date-news, time');
+          var dateText = dateEl ? dateEl.textContent.trim() : '';
+
+          var titleEl = item.querySelector('h2, h3, .news-title, .title');
+          var titleText = titleEl ? titleEl.textContent.trim() : (link ? link.textContent.trim() : 'Untitled');
+
+          var excerptEl = item.querySelector('.news-content p, .news-excerpt, .excerpt');
+          var excerptText = excerptEl ? excerptEl.textContent.trim() : '';
+          // fallback: get first 180 chars of news-content
+          if (!excerptText) {
+            var contentEl = item.querySelector('.news-content');
+            if (contentEl) {
+              var raw = contentEl.textContent.trim().replace(/\s+/g, ' ');
+              // Remove title from start if present
+              if (titleText && raw.indexOf(titleText) === 0) raw = raw.substring(titleText.length).trim();
+              excerptText = raw.substring(0, 180);
+              if (raw.length > 180) excerptText += '…';
+            }
+          }
+          // Jesli excerpt za krotki (np. tylko znaki przestankowe), nie pokazuj
+          if (excerptText.replace(/[\s\p{P}]/gu, '').length < 10) excerptText = '';
+
+          return '<a class="fr-blog-card" href="' + escAttr(href) + '">'
+            + '<div class="fr-blog-card__media">'
+              + (imgSrc ? '<img class="fr-blog-card__img" src="' + escAttr(imgSrc) + '" alt="' + escAttr(imgAlt || titleText) + '" loading="lazy" decoding="async">' : '')
+            + '</div>'
+            + '<div class="fr-blog-card__body">'
+              + (dateText ? '<span class="fr-blog-card__date">' + escHtml(dateText) + '</span>' : '')
+              + '<h3 class="fr-blog-card__title">' + escHtml(titleText) + '</h3>'
+              + (excerptText ? '<p class="fr-blog-card__excerpt">' + escHtml(excerptText) + '</p>' : '')
+              + '<span class="fr-blog-card__cta">' + escHtml(labels.readMore) + ' →</span>'
+            + '</div>'
+          + '</a>';
+        }).join('');
+      })
+      .catch(function(err) {
+        var grid = mount.querySelector('.fr-blog-grid');
+        if (grid) {
+          grid.innerHTML = '<div class="fr-blog-empty">' + escHtml(labels.empty) + '</div>';
+        }
+        if (window.console && console.warn) console.warn('Blog: fetch /news failed', err);
+      });
+  }
+
+  function enhanceNewsPost(lang) {
+    document.body.classList.add('fr-is-blog-post');
+
+    var h1 = document.querySelector('main.page h1, main#pageContent h1');
+    var dateEl = document.querySelector('.date-news, .news-date, .news-wrapper time');
+    var contentEl = document.querySelector('.news-wrapper, main.page .container article, main.page .container');
+    var imgEl = contentEl ? contentEl.querySelector('img') : null;
+    var labels = FR_BLOG_CONFIG.listLabels[lang] || FR_BLOG_CONFIG.listLabels.pl;
+
+    // 1. Schema.org BlogPosting JSON-LD
+    if (h1) {
+      var title = h1.textContent.trim();
+      var description = (document.querySelector('meta[name="description"]') || {}).content || title;
+      var schema = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        'headline': title,
+        'description': description,
+        'datePublished': dateEl ? dateEl.textContent.trim() : undefined,
+        'author': {
+          '@type': 'Person',
+          'name': FR_BLOG_CONFIG.defaultAuthor || ''
+        },
+        'publisher': {
+          '@type': 'Organization',
+          'name': FR_BLOG_CONFIG.brand || '',
+          'logo': FR_BLOG_CONFIG.brandLogo ? {
+            '@type': 'ImageObject',
+            'url': FR_BLOG_CONFIG.brandLogo
+          } : undefined
+        },
+        'mainEntityOfPage': {
+          '@type': 'WebPage',
+          '@id': location.origin + location.pathname
+        }
+      };
+      if (imgEl) {
+        schema.image = imgEl.getAttribute('src') || imgEl.getAttribute('data-src');
+      }
+      var script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    }
+
+    // 2. "Wroc do listy" link na koncu (jesli mamy link do /txt/205 lub /news)
+    if (contentEl) {
+      var backHref = (lang === 'pl' ? '/news' : '/' + lang + '/news');
+      var backLink = document.createElement('a');
+      backLink.className = 'fr-blog-back-to-list';
+      backLink.href = backHref;
+      backLink.textContent = labels.backToList;
+      contentEl.appendChild(backLink);
+    }
+  }
+
+  function escHtml(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function escAttr(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function fmtDate(iso, lang) {
+    if (!iso) return '';
+    try {
+      var d = new Date(iso);
+      var locales = { pl: 'pl-PL', en: 'en-GB', de: 'de-DE' };
+      return d.toLocaleDateString(locales[lang] || 'pl-PL', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+    } catch (e) {
+      return iso;
+    }
+  }
+
+  function boot() {
+    cleanupSeoDuplicates();
+    fixCanonicalToPage();
+    fixTargetBlankTypo();
+    fixHtmlLangFromUrl();
+    sanitizeTelLinks();
+    injectGoogleMap();
+    forceLoadPoweredBy();
+    // Retry — powered_by moze byc lazy-loaded po scrollu na sam dol
+    setTimeout(forceLoadPoweredBy, 1000);
+    setTimeout(forceLoadPoweredBy, 3000);
+    // v1.47 — defensive retry tel: cleanup (system may inject dynamic links)
+    setTimeout(sanitizeTelLinks, 800);
+    setTimeout(sanitizeTelLinks, 2500);
+    // v1.45: Leaflet maps invalidateSize po wejsciu w viewport
+    setTimeout(fixSystemicLeafletMap, 800);
+    setTimeout(fixSystemicLeafletMap, 2500);
+    initBlog();
+    initHeaderScroll();
+    teleportHero();
+    initFeaturedOffers();
+    initLightbox();
+    initReveal();
+    initSmoothScroll();
+    initFilterCollapse();
+    initImageFallback();
+    initCustomSearch();
+    initLeafletMap();
+    initMobileMenuToggle();
+    initPolicyModal();
+    forceShowLanguageToggler();
+    forceShowSystemSearch();
+    setTimeout(initFilterCollapse, 800);
+    setTimeout(initImageFallback, 1500);
+    setTimeout(setupLitepicker, 1500);
+    setTimeout(setupLitepicker, 3000);
+    setTimeout(initMobileMenuToggle, 800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  setTimeout(function() {
+    teleportHero();
+  }, 800);
+
+})();
+</script>

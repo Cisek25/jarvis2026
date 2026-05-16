@@ -1,0 +1,245 @@
+================================================================
+FAIR RENTALS — INSTRUKCJA BLOGA v4 (v1.37)
+================================================================
+
+CO SIE ZMIENILO vs poprzednie wersje:
+- Wykorzystujemy NATYWNY modul Aktualnosci IdoBooking
+  (wzorzec z Apartamenty Parkowe — client58154.idobooking.com).
+- Klient pisze posty NORMALNIE w panelu (Wyglad → Aktualnosci).
+- Lista artykulow generuje sie AUTOMATYCZNIE z systemu.
+- ZERO edycji kodu po dodaniu posta.
+
+
+================================================================
+JAK TO DZIALA W SKROCIE
+================================================================
+
+1. KLIENT pisze aktualnosc w panelu IdoBooking:
+   Panel → Wyglad → Aktualnosci → "Dodaj nowa"
+
+2. System SAM tworzy strone pod /news/X/slug-tytulu
+   (URL przyklady: /news/1/Gniezno-na-weekend, /news/2/Praga...)
+
+3. Strona /news (LISTA) pokazuje wszystkie aktualnosci automatycznie
+
+4. NASZ KOD przejmuje strone /txt/205/Blog:
+   - Pobiera systemowa liste /news przez JS
+   - Renderuje karty w naszym brandzie Fair Rentals (zlote akcenty,
+     ciemne tlo, DM Serif Display fonts)
+
+5. NASZ KOD stylizuje strony pojedynczych aktualnosci /news/X
+   - Lepsza typografia, breadcrumb, "Wroc do listy" link
+   - Schema.org BlogPosting JSON-LD (SEO)
+
+
+================================================================
+KROK 1 — WLACZ MODUL AKTUALNOSCI W PANELU
+================================================================
+
+Panel IdoBooking → Wyglad → Wybierz odpowiednia sekcje
+(prawdopodobnie "Aktualnosci" lub "Strony aktywne")
+
+Sprawdz czy "Aktualnosci" / "Blog" / "News" sa WLACZONE.
+
+Test: otworz https://client58360.idobooking.com/news w przegladarce.
+- Jesli pokazuje sie strona "Aktualnosci" → modul WLACZONY ✓
+- Jesli redirect na home → wlacz w panelu
+
+NIESTETY nie znam dokladnej sciezki w panelu (zalezy od konfiguracji
+konta). Jesli nie znajdujesz — napisz na support@idosell.com.
+
+
+================================================================
+KROK 2 — DODAJ PIERWSZA AKTUALNOSC W PANELU
+================================================================
+
+Panel → Wyglad → Aktualnosci → "Dodaj nowa"
+
+Wypelnij pola (analogicznie do tego co widzisz na screencie panelu):
+
+== JEZYK POLSKI ==
+Tytul:    10 atrakcji Wroclawia ktore musisz zobaczyc
+
+Skrot:    (krotki opis 1-2 zdania — pojawi sie na karcie listy)
+
+Tresc:    Pelna tresc artykulu — uzyj edytora TinyMCE (WYSIWYG)
+          - akapity, naglowki H2/H3, listy, pogrubienia
+          - obrazki przez ikone obrazka
+          - linki przez ikone lancucha
+          NIE musisz wklejac zadnego custom HTML.
+
+Zdjecie:  (opcjonalnie) — obrazek wyrozniajacy karty na liscie
+          Polecane: 1600x900 px, JPG, optymalizowane na tinypng.com
+
+Meta:     (jesli panel ma osobne pola Meta Tytul / Meta Opis)
+          Jesli nie ma — system pobiera z Tytul + Skrot
+
+Zapisz.
+
+== JEZYK ANGIELSKI / NIEMIECKI ==
+Powtorz dla EN i DE (osobne zakladki w panelu).
+Mozna zostawic na pozniej — pierwsza wersja PL wystarczy na start.
+
+
+================================================================
+KROK 3 — STRONA LISTY /txt/205/Blog (juz utworzona)
+================================================================
+
+Klient ma juz strone tekstowa /pl/txt/205/Blog (zweryfikowane
+na zywo).
+
+W polu "Tresc" w panelu strony 205 powinno byc:
+
+    <div class="fr-blog-list-mount"></div>
+
+LUB (backward compat z v1.34):
+
+    <section data-blog-list>
+      <div data-blog-grid></div>
+    </section>
+
+JS automatycznie:
+1. Wykryje mount point
+2. Pobierze systemowa liste /news
+3. Sparsuje wszystkie .news-item
+4. Wyrenderuje karty w fr-blog-card stylu (zdjecie, data, tytul,
+   skrot, "Czytaj wiecej →")
+
+ZERO edycji kodu przy dodawaniu kolejnych aktualnosci.
+
+
+================================================================
+KROK 4 — MENU
+================================================================
+
+Panel → Wyglad → Menu
+
+Dla kazdego jezyka — pozycja "Blog":
+
+OPCJA A (zalecana): link do `/news`
+  - Wyswietli SYSTEMOWA liste aktualnosci ze stylizacja Fair Rentals
+  - Najprostsze, najszybsze
+  - Schema.org markup automatyczny
+
+OPCJA B: link do `/txt/205/Blog`
+  - Wyswietli NASZA wlasna liste (hero + karty parsowane z /news)
+  - Wieksza kontrola UI (hero, kicker, lead text)
+  - Mozesz dodac wlasna tresc nad lista
+
+Najprosciej: Opcja A. Damian moze tez dolaczac obie strony
+(np. /news jako "Aktualnosci", /txt/205 jako "Blog/Baza wiedzy").
+
+
+================================================================
+KROK 5 — WERYFIKACJA
+================================================================
+
+A) Strona LISTY (jedna z poprawnych URL):
+
+   https://client58360.idobooking.com/news
+   https://client58360.idobooking.com/pl/txt/205/Blog
+
+   Powinno byc:
+   ☐ Lista wszystkich aktualnosci z panelu
+   ☐ Karty z zdjeciami, datami, tytulami, skrotami
+   ☐ Klik karta → otwiera /news/X/slug-aktualnosci
+
+B) Strona POJEDYNCZEJ AKTUALNOSCI:
+
+   https://client58360.idobooking.com/news/1/{slug}
+
+   Powinno byc:
+   ☐ H1 z tytulem
+   ☐ Data publikacji pod H1
+   ☐ Tresc po stylizacji (typografia Fair Rentals)
+   ☐ Obrazki w tresci (jesli klient dodal)
+   ☐ "Wroc do listy" link na koncu
+   ☐ View Source → szukaj "application/ld+json" → BlogPosting
+
+C) DevTools Console (F12) → brak bledow JS.
+
+
+================================================================
+ROUTINE DODAWANIA NOWYCH AKTUALNOSCI
+================================================================
+
+Klient (Agnieszka):
+
+1. Wchodzi w panel → Wyglad → Aktualnosci → "Dodaj nowa"
+2. Wypelnia: Tytul, Skrot, Tresc (TinyMCE), Zdjecie
+3. Zapisz
+
+POTEM AUTOMATYCZNIE:
+- Nowa aktualnosc pojawia sie na /news (systemowa lista)
+- Pojawia sie na /txt/205/Blog (parsowana przez nasz JS)
+- Strona /news/X/{slug} jest dostepna
+
+ZERO pracy dla Damiana. ZERO edycji kodu.
+
+
+================================================================
+KORZYSCI vs poprzednie wersje
+================================================================
+
+| Aspekt | v1.34-v1.36 | v1.37 |
+|---|---|---|
+| Sposob pisania postu | Klient tworzy /txt/X osobno | Klient klika "Aktualnosci" w panelu |
+| Edycja kodu po poscie | TAK (manifest update) | NIE (auto-scrape) |
+| URL postu | /pl/txt/30X/slug | /news/X/slug (krocej, SEO friendly) |
+| Mechanizm listy | Manualny manifest JS | Systemowe + auto-scrape |
+| Onboarding klienta | Trudne (custom HTML) | Naturalne (panel field) |
+| Skalowanie | Trudne (>10 postow = chaos) | Latwe (panel ma listing) |
+
+
+================================================================
+TROUBLESHOOTING
+================================================================
+
+PROBLEM: /news redirectuje na home
+PRZYCZYNA: modul Aktualnosci wylaczony w panelu IdoBooking
+ROZWIAZANIE: Wlacz w panelu (Krok 1). Jesli nie wiesz gdzie —
+   napisz support@idosell.com / sprawdz dokumentacje IdoBooking.
+
+PROBLEM: /txt/205/Blog pokazuje "Brak wpisow"
+PRZYCZYNY:
+1. Modul Aktualnosci wylaczony → wlacz w panelu (Krok 1)
+2. Nie ma jeszcze aktualnosci → dodaj pierwsza (Krok 2)
+3. JS scraper nie zaladowal → DevTools (F12) → Network → szukaj
+   request do /news → status 200?
+
+PROBLEM: Karty wygladaja brzydko / bez stylu
+PRZYCZYNA: §105 CSS niewgrany w FR_ARKUSZ_STYLOW.css
+ROZWIAZANIE: Damian wgrywa zaktualizowany CSS w panelu
+
+PROBLEM: Strona /news/X/{slug} bez naszej typografii
+PRZYCZYNA: §105k CSS dla body.page-news niewgrany
+ROZWIAZANIE: Damian wgrywa FR_ARKUSZ_STYLOW.css
+
+PROBLEM: TinyMCE w panelu zepsul HTML w tresci aktualnosci
+ROZWIAZANIE: kliknij ikone "HTML" / "Code" w edytorze i edytuj raw HTML
+
+
+================================================================
+SEO TIPS
+================================================================
+
+1. Tytul aktualnosci = h1 strony /news/X — uzyj keyword SEO
+2. Skrot = meta description i excerpt karty — 140-160 znakow
+3. Tresc — uzyj H2/H3 dla sekcji
+4. Pierwszy paragraf — uzyj keyword SEO i daj zwiezly answer
+5. Wewnetrzne linki — linkuj do /offers (apartamenty) lub innych
+   aktualnosci ("Czytaj rowniez: ...")
+6. Zdjecie z descriptive alt text
+7. URL slug — system generuje z Tytul, usun stop-words jesli mozna
+
+
+================================================================
+KONTAKT
+================================================================
+
+Damian Cisowski (IAI) — wsparcie techniczne
+biuro@fairrentals.pl — Agnieszka, autor postow
+
+Data wystawienia: 2026-05-15
+Wersja JARVIS: v1.37
+Blog module: v4.0 (systemic /news scraper, zero-config)

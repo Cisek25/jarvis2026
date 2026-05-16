@@ -1,10 +1,12 @@
 {
   "clientId": "fairrentals",
   "name": "Fair Rentals Sp. z o.o.",
-  "ownerName": "Karolina Banaś",
-  "version": "v1.19",
-  "status": "do_wklejenia",
+  "ownerName": "Agnieszka Barańska (założycielka — 1 osoba, NIE 2 jak wcześniej zakładano)",
+  "version": "v1.46",
+  "status": "live_iteracje_post_deploy",
   "createdAt": "2026-05-07",
+  "lastSessionDate": "2026-05-15",
+  "lastUpdate": "2026-05-15 sesja 15 — Sprint C O nas solo (Agnieszka Barańska) + memory consolidation",
   "panel": "https://client58360.idosell.com/panel/",
   "site": "https://client58360.idobooking.com/",
   "currentSite": "https://fairrentals.pl",
@@ -12,8 +14,9 @@
   "prefix": "fr-",
   "fpEnabled": true,
   "rootFontSize": "10px",
-  "languages": ["pl", "en"],
+  "languages": ["pl", "en", "de"],
   "languagesPhase1": ["pl", "en"],
+  "languagesPhase2_added_2026_05_08": ["de"],
   "city": "Wrocław",
   "company": {
     "legalName": "FAIR RENTALS SPÓŁKA Z OGRANICZONĄ ODPOWIEDZIALNOŚCIĄ",
@@ -212,8 +215,184 @@
   "openIssuesNextSession_v2": [
     "CSS limit przekroczony 302 KB / 300 KB hard IdoBooking. WYMAGANY port-by-sed cleanup ~30-50 KB zbędnych rules v1.3-v1.8 (sekcje §72-§77 mają overlap z §78 hide-system v1.9 — wszystkie obsolete .iai-search override path-based selectors do wycięcia). Plus stare reguły z portu SA v1.6.x które już nie mają zastosowania (jak v1.6.4 hide language toggler skasowany w v1.25 ale podobne mogą być).",
     "KLIENT/DAMIAN poprawia 3 podstrony w panelu IdoBooking — Strony / CMS: (1) /txt/200 'Atrakcje Wrocławia' bez cudzysłowów, (2) /txt/201 nazwa w menu skrót 'Obsługa najmu' (nie pełne 'OBSŁUGA NAJMU KRÓTKOTERMINOWEGO'), (3) /txt/202 'Dla Biznesu' bez cudzysłowów. Plus K4 footer tel: link ze spacją (w panelu Dane firmy).",
-    "KLIENT zaznacza więcej apartamentów jako 'Wyróżnione' w panelu (aktualnie 2/19: Golden Hour + Śrutowa 8). Pattern A auto-update zadziała.",
+    "KLIENT zaznacza więcej apartamentów jako 'Wyróżnione' w panelu (aktualnie 2/21: Golden Hour + Śrutowa 8). Pattern A auto-update zadziała.",
     "KLIENT wgrywa zdjęcia hero/atrakcji do panelu Wygląd → Galeria strony głównej. Aktualnie kilka URL Unsplash placeholder pozostały (np. fr-corp split, hero asym media która ukryta CSS-em ale URL w HTML). Zastąpić panel URL.",
     "Live audit v1.26 po wklejeniu — chrome-devtools: (a) verify horizontal_overflow=0 na mobile 390/360/320, (b) verify .iai-search/lang toggler visible w viewport, (c) Lighthouse ≥80 SEO/A11y/Perf, (d) test fullpage.js przejścia, (e) test lang dropdown click+outside-close, (f) verify Litepicker pozycjonowanie pod input"
-  ]
+  ],
+  "apartmentsCount": 21,
+  "ratings": {
+    "bookingAverage": "9.6",
+    "googleAverage": "4.7",
+    "note": "v1.27 ujednolicił do 9.6 — wcześniej w hero/stats było 9.8 (brand-claim), w trust bar 9.6 (top 6 z Booking). Eliminacja sprzeczności zgodnie z feedbackiem klienta 2026-05-12."
+  },
+  "session3_history_v1_27": [
+    { "date": "2026-05-12", "action": "Feedback klienta (Agnieszka + Małgorzata, współwłaścicielki Fair Rentals): 16+ uwag w 3 kategoriach. Pilne: 19→21 wszędzie, 9.6/9.8 niespójność, EN/DE grafiki z PL napisami, cytat nakładający się na widget, karty bez cen 'od/noc', '...' w menu. Merytoryczne: usunąć '100% zaangażowania', dopisać panel właściciela 24/7, poprawić Google Hotels, usunąć Pakiet biznesowy + drugi monitor, dodać sprzątanie w pobycie. Nowe: 'O nas' (Agnieszka+Małgorzata), 2 modele współpracy (8%/10%), Blog/Baza wiedzy 3 kategorie, filtry zaawansowane." },
+    { "date": "2026-05-12", "action": "Decyzje od Damiana: A) 'O nas' osobna podstrona /pl/txt/{id}/O-nas + teaser na home (rekomendacja JARVIS, potwierdzona). B) Blog/Baza wiedzy = system /news + 3 kategorie w panelu. C) Filtry zaawansowane = link 'Filtry zaawansowane →' z hero do /pl/offers (instinct 005 native filter styling). Fazowanie sekwencyjne v1.27→v1.31, bez łączenia." },
+    { "date": "2026-05-12", "action": "v1.27 BUILD — czyste bug fixes: (a) 19→21 sweep w 13 plikach (HEAD PL/EN/DE meta+schema, GLOWNA PL/EN/DE hero/stats/trust/button, OBSLUGA PL/EN/DE narrative+stat, DLA_BIZNESU PL/EN/DE skala portfela, SEO_TYTULY 9 wystąpień). (b) 9.8→9.6 unifikacja: hero badge+lead, hero-asym meta strip, stats-asym, principles, OBSLUGA reputation+stats, schema.org ratingValue × 3 plików HEAD, SEO descriptions × 3 lang. Trust bar 9.6 zachowany (już był), label uproszczony z 'top 6 obiektów' → 'Średnia ocen na Booking' (PL) / 'Booking average score' (EN) / 'Booking Durchschnitt' (DE)." },
+    { "date": "2026-05-12", "action": "v1.27 OBSLUGA_NAJMU PL/EN/DE: (a) usunięto stat block '100% Zaangażowania w obiekt' (4-cell → 3-cell grid), (b) Marketing & visibility: Google Hotels usunięty, copy zgodnie z propozycją klienta 'Booking.com, Airbnb oraz innych platformach — stale rozszerzamy listę kanałów. Z PriceLabs codziennie dopasowujemy stawki do popytu.' (c) Raporty i rozliczenia: dopisany panel właściciela 24/7 z podglądem rezerwacji/przychodów/statystyk w czasie rzeczywistym." },
+    { "date": "2026-05-12", "action": "v1.27 DLA_BIZNESU PL/EN/DE: (a) intro 'Komfort domu, elastyczność hotelu' — usunięto 'miejsce do pracy z drugim ekranem' z listy, zostaje: aneks kuchenny, pralka, szybkie Wi-Fi. (b) Karta 'Pakiet biznesowy' (drugi monitor / ergonomiczny fotel / biurko regulowane) zastąpiona kartą 'Sprzątanie w trakcie pobytu' (regularne sprzątanie + wymiana pościeli/ręczników w hotelowym standardzie, bez dopłat). (c) Use-case 'IT & technologia': usunięto 'Drugi monitor w pakiecie, ergonomiczne biurko' → zostaje '500/100 Mbit Wi-Fi, klimatyzacja w sypialni, ciche miejsce do pracy zdalnej'. Ikona §SVG karty Sprzątanie = chmurka (jak Sprzątanie i utrzymanie w OBSLUGA)." },
+    { "date": "2026-05-12", "action": "v1.27 SEO_TYTULY_FAIRRENTALS.md: 9 wystąpień 19→21 (META Opis × 3 lang × 2 strony + Podpis × 3), 3 wystąpienia 9.8→9.6, plus fix typo DE 'amilienunternehmen' → 'Familienunternehmen' i 'BestätigunFg' → 'Bestätigung'." },
+    { "date": "2026-05-12", "action": "v1.27 OUT-OF-SCOPE bugi z feedbacku — wymagają akcji klienta/Damiana POZA JARVIS: (1) '...' w menu — system IdoBooking CMS (panel: Strony / Tytuł podstrony), bug analogiczny do v1.24 cudzysłowów; (2) Karty apartamentów bez cen 'od/noc' — integracja PMS w panelu (Ceny/sezony) dla wszystkich 21 apartamentów; (3) Grafiki EN/DE z napisami PL — wymagana lista konkretnych grafik (z ZDJECIA_LINKI.md?) i dostarczenie czystych wersji bez tekstu przez klienta; (4) Nakładający się cytat na widget rezerwacji — wymaga live audit chrome-devtools (po wklejeniu v1.27)." },
+    { "date": "2026-05-12", "action": "v1.27 DISTRICT COUNTS UWAGA: sekcja 'Wrocław w czterech odsłonach' (GLOWNA PL/EN/DE) ma podział A=5 + B=8 + C=4 + D=2 = 19. Z 21 apartamentów + 2 nowych — klient musi wskazać dzielnice nowych dla update. Pozostawione 5+8+4+2 do potwierdzenia. JSON district allocation TODO dla v1.28." },
+    { "date": "2026-05-12", "action": "v1.27 dostawa: 13 zmienionych plików (FR_HEAD PL/EN/DE, GLOWNA PL/EN/DE, OBSLUGA_NAJMU PL/EN/DE, DLA_BIZNESU PL/EN/DE, SEO_TYTULY). 0 zmian w CSS (CSS 302 KB nie ruszony — czeka cleanup w v1.28+). 0 zmian w JS (FR_KONIEC_BODY bez modyfikacji)." }
+  ],
+  "session4_history_v1_28": [
+    { "date": "2026-05-12", "action": "Audyt live po v1.27 (chrome-devtools 1440×900 + 500×844 mobile): v1.27 potwierdzona na live (21 wszędzie, 9.6 wszędzie, 9.8 zero), bug #4 cytat na widget POTWIERDZONY desktop+mobile, bug #6 '...' menu = system menuOverflow przez za długie 'Najem korporacyjny we Wrocławiu', bug #3 grafiki PL: 13.jpg/14.jpg/15.jpg z baked-in tekstem ('Kompleksowe zarządzanie najmem' / 'Z nami to proste' / 'Inteligentne zarządzanie ceną'), nowe: #7 panel SEO nie wkleony (H1 /en/offers nadal '19'), #8 double H1 na /txt/* (system Podpis + nasze HTML), #9 slug EN /txt/201 = 'Wroclaw-apartments'. AUDIT_v1.27_LIVE.md zapisany w clients/fairrentals/, 12 screenshotów w audit-v1.27/" },
+    { "date": "2026-05-12", "action": "Feedback Damiana po audycie: 'usuń tą czarną poświatę fr asylum chyba jakies taki, kwadrat, daj o wiele wyżej wyszukiwarkę na głównej stronie i rób dalej v 1.28'. Diagnoza chrome-devtools: hero-asym renderuje 760×1283 (NOT full-width), display:flex bez explicit width = natural width based on __text max-width 760. ::after gradient 115deg pokrywa hero-asym → wygląda jak ciemny prostokąt nad systemową panoramą Wrocławia." },
+    { "date": "2026-05-12", "action": "v1.28a HOTFIX §93 CSS (~3KB): (a) hero-asym width:100% + max-width:none + align-self:stretch → full-width zamiast 760 centered, (b) ::after radial-gradient ellipse 75% 90% at 28% 50% (zamiast linear 115deg) — overlay fadeo do transparent na prawej stronie, eliminuje 'kwadrat', (c) __text max-width 760 + margin-left:0 (left-aligned wewnątrz full-width hero), (d) hero-asym min-height 100vh → 78vh, padding-bottom clamp(140-220) zamiast (220-360), (e) hero-wrap min-height 100vh → 78vh, (f) search-banner bottom clamp(40-90) zamiast (72-144) = bar wyżej w viewport. Mobile @991 + @480 analogicznie z proporcją 68-62vh." },
+    { "date": "2026-05-12", "action": "v1.28b BUG #8 FIX (audyt) — double H1 na /txt/* eliminowany. <h1 class='fr-page-hero__title'> → <p class='fr-page-hero__title'> w 9 plikach: OBSLUGA_NAJMU PL/EN/DE, DLA_BIZNESU PL/EN/DE, ATRAKCJE_WROCLAWIA PL/EN/DE. System Podpis pozostaje jedynym H1 strony (SEO best practice)." },
+    { "date": "2026-05-12", "action": "v1.28c CSS CLEANUP: skasowano §76 (v1.7 system .iai-search higher-specificity override) + §77 (v1.8 search bar floating bottom hero) — 173 linie / 5.7 KB obsolete. Od v1.9 §78 używa hide+replace (display:none na system widget), więc style aplikujące się na ukryty element to dead code. CSS 304 KB → 298.8 KB (mieści się w 300 KB hard limit z 1.2 KB buforu)." },
+    { "date": "2026-05-12", "action": "v1.28 OUT-OF-SCOPE — czeka na asety klienta: (1) sekcja 'O nas' (Agnieszka + Małgorzata) deferred do v1.28.1 — wymaga portretów + bio + ID podstrony z panelu; (2) bug #3 image overlay HTML — wymaga 3 czystych zdjęć od klienta do zastąpienia 13/14/15.jpg; (3) bug #4 search-banner extraction z hero-wrap — DEFERRED, hotfix §93 może wystarczyć (search przesunięty wyżej, hero krótszy = mniej overlap z magazine); weryfikacja po wklejeniu. (4) Bug #6 '...' menu i #7 panel SEO + #9 slug EN — akcje Damiana w panelu IdoBooking, nie kod." },
+    { "date": "2026-05-12", "action": "v1.28 dostawa: 11 zmienionych plików (FR_ARKUSZ_STYLOW.css + 9 HTML body_top H1→P + JSON memory). Plus AUDIT_v1.27_LIVE.md i RELEASE_NOTES_v1.28.md w głównym folderze klienta. Smoke test JS w release notes." },
+    { "date": "2026-05-12", "action": "Feedback Damiana po §93 paste (screenshot live): 'cały nagłówek H1 itp tez mieścił się na stornie głównej a pod nim była wyszukiwarka, teraz przesunąłeś go do lewej'. §93 zrobił hero full-width ALE left-aligned (margin-left:0) + search ABSOLUTE bottom — efekt: hero text na lewej, search bar na ciemnym tle na dolnej krawędzi viewport." },
+    { "date": "2026-05-12", "action": "v1.28 §94 OVERRIDE §93 — hero CENTERED + search INLINE pod hero. (a) hero-wrap = flex column justify-center align-center min-height 100vh, padding clamp(96-160 / 48-96), gap clamp(28-56) — content wycentrowany pionowo w viewport, (b) hero-wrap ::before zamiast hero-asym ::after — linear-gradient 180deg subtle (0.45→0.20→0.50) na FULL viewport bg = brak kwadratu i overlay covers whole hero, (c) hero-asym max-width 1080 centered + display:flex column align-center + ::after display:none (relikt §75/§93 wycięty), (d) hero-asym__text max-width 920 + text-align center + items-center + kicker/title/lead/CTA/meta wszystko centered, (e) search-banner position RELATIVE (z absolute) + max-width 1100 margin auto = inline pod hero. Mobile @991 + @480 z naturalną wysokością (min-height: auto) — gap mniejszy." },
+    { "date": "2026-05-12", "action": "v1.28 §94 cleanup §93: usunięte 86 linii starego §93 (left-align width-100 + ::after radial gradient na lewej). Net change: §93 (-86 linii) + §94 (+128 linii) = +42 linii / +1KB. CSS 298.8 → 299.8 KB / 300 KB hard limit (200B buffer)." },
+    { "date": "2026-05-12", "action": "Feedback Damiana po §94 paste (screenshot 'ZAUFANIE GOŚCI' pill): kickery na podstronach słabo widoczne (żółty tekst #E2D700 na cream/pink rgba pill, WCAG kontrast fail) + powtarzają się = wizualny szum. Editorial premium oczekiwanie." },
+    { "date": "2026-05-12", "action": "v1.28 §95 KICKER REDESIGN (75 linii, ~2.8KB): (a) base .fr-kicker — usuń pill bg (transparent), padding:0, color text-dark, font-size 13→11, letter-spacing 2.5→2.8px, opacity 0.92, gap 12, inline-flex (b) ::before horizontal line 28×1.5px primary-deep #8A7300 (AA contrast na cream), (c) override dla DARK sections (magazine/stats-asym-hero/trust-bar/final-cta/search-banner-kicker) — kolor primary #E2D700 zachowany (na ciemnym widoczny), (d) stats-asym__hero-kicker same line accent treatment, (e) page-hero kicker (subpages /txt/*) bg:transparent + radius 0 (utrzymane minimal)." },
+    { "date": "2026-05-12", "action": "v1.28 cleanup #2 (CSS przekroczył 302.4 KB > 300): wycięte §79 (v1.10 search bar overlap margin-top:-110px, 40 linii) + §83 (v1.14 search bar bottom clamp 72-144 + hero padding-bottom 280-440, 48 linii). Razem -2.7 KB (88 linii). §94 z position:relative całkowicie nadpisuje search positioning, te reguły = dead code. CSS 302.4 → 299.8 KB / 300 limit (240B buffer)." }
+  ],
+  "plannedRoadmap_v1_28_v1_31": {
+    "v1.28": "[ZREALIZOWANE 2026-05-12] §93 hero hotfix + bug #8 fix + CSS cleanup -5.7KB",
+    "v1.28.1": "Sekcja 'O nas' — osobna podstrona /pl/txt/{id}/O-nas + EN + DE (Agnieszka + Małgorzata) + teaser sekcja na homepage. Wymaga od klienta: portrety + bio + ID podstrony.",
+    "v1.28.2": "Bug #3 image overlay HTML — gdy klient dostarczy 3 czyste zdjęcia (13/14/15.jpg bez tekstu PL). CSS §94 + HTML overlay PL/EN/DE.",
+    "v1.29": "Dwa modele współpracy na OBSLUGA_NAJMU (PL/EN/DE) — tabela porównawcza co-host 8% vs zarządzanie 10%, z provided copy (zakres obowiązków, wynagrodzenie, wsparcie wspólne). CSS §94 comparison table component (responsive: 2-col desktop, 1-col mobile). 2 CTA (Zapytaj o co-host / Zapytaj o zarządzanie).",
+    "v1.30": "Filtry w wyszukiwarce — link 'Filtry zaawansowane →' w hero search prowadzący do /pl/offers z auto-otwartym filtrem. CSS §95 native filter sidebar styling (instinct 005 filters_submit override): liczba sypialni, liczba gości, klimatyzacja, parking, balkon, zwierzęta, dzielnica, slider cenowy. Wymaga akcji klienta w panelu: filtry/atrybuty zaznaczone w ofertach.",
+    "v1.31": "Blog / Baza wiedzy — relabel w menu (Blog → Baza wiedzy PL / Knowledge Base EN / Wissensdatenbank DE). CSS §96 category chip filter (Dla Gości / Dla Właścicieli / Dla Firm). Treści: klient/Damian dostarcza sukcesywnie. Akcja klienta w panelu: utworzyć 3 kategorie newsów."
+  },
+  "session_history_2026_05_15_v1_29_to_v1_46": {
+    "summary": "14 godz pracy w 1 dniu (14 sesji), 14 wersji od v1.32 do v1.46. Sprint E (UX MEDIUM/LOW) + Blog v1→v4 evolution + 12 post-deploy iteracji. ~98% z 30+ zgłoszonych UX bugów naprawione. CSS: 302→395 KB (sekcje §1→§108).",
+    "highlights": [
+      "v1.33 Sprint E: hreflang DE w HEAD_PL/EN, og:locale:alternate de_DE, perf attrs (loading/decoding/width/height) na 12 imgach, INSTRUKCJA_ZDJECIA_LOKALNIE blueprint",
+      "v1.34 Blog Opcja A: §105 CSS + initBlog JS + JARVIS library 'templates/blog/' (reusable) + JS workarounds canonical/target/lang dla 4 template bugów",
+      "v1.35-v1.37 Blog evolution: v1.35 native panel fields, v1.36 inline manifest, v1.37 FINALNE — scraper systemowego /news (wzorzec Apartamenty Parkowe client58154). Klient pisze w Panel→Wygląd→Aktualności, zero edycji kodu po dodaniu posta",
+      "v1.38 Post-deploy 4 fixy: news widget hide na home, powered_by lazy load fix, dropdown hover gap, dropdown bg na home backdrop blur",
+      "v1.39 5 UX + OG: featured price badge dark glass, outline btn dark border, offer sidebar cream bg, accommodation-reservation solid gold, sticky tabs top:65px. OG image swap z Unsplash na /images/frontpageGallery/0/0/8.jpg (Bulwary Odry)",
+      "v1.40 3 root cause fixy: USUNIETE stara §100b .col-lg-3 .btn (konflikt z .accommodation-reservation .btn.button TA SAMA specificity!), sticky tabs --fixed klasa BEM (NIE inline style), btn-reverse w cennik bottom to INNY element niż accommodation-reservation",
+      "v1.41 Pastylka OD margin auto + Zobacz na mapie kontrast + SZUKAJ powiększenie + Litepicker arrows preserve 11:16 aspect",
+      "v1.42→v1.43 SZUKAJ height korekta: stretch (76) → end (52, = input). Klient chciał wszystkie 4 elementy w cmd-bar tej samej wysokości",
+      "v1.44 Lead text contrast page-txt subpages: sage muted (#7A736B na dark overlay = 2.5:1 FAIL) → white 0.95 (kontrast 14:1 AAA)",
+      "v1.45 5 issues: /3/0/17.jpg w obsłudze najmu (Unsplash nie ładował), compare-model__footer transparent (z dark deep), hero kicker solid gold, Zapytaj button padding 16/1 asymmetric fix, Leaflet invalidateSize via IntersectionObserver",
+      "v1.46 Dekoracyjne cudzysłowy w cytacie Karoliny usunięte (span.fr-magazine__mark + CSS ::after)"
+    ],
+    "openIssuesForNextSession": [
+      "🔴 DECYZJA KLIENTA: Małgorzata Banaś w spółce? 3 opcje (A: zostaw obie; B: usuń Małgorzatę; C: zmień rolę na Hospitality Lead). Próby weryfikacji KRS/aleo/Google/Booking — wszystkie crawl blocked, klient musi odpowiedzieć z wewnętrznej wiedzy",
+      "🔴 P0 KLIENT — wgrać NIE zrobione od v1.31: noindex→index w panelu SEO (Google nie indeksuje strony)",
+      "🟡 P1 KLIENT 7 akcji panelu: Title DE strona wizytówki (puste, polski placeholder), Description PL/DE (stara '19/9.8' → 21/9.6), Title /contact PL/EN/DE, menu EN/DE kolejność (Kontakt → pozycja 6), OG image http→https, Tel: bez spacji",
+      "🟡 BLOCKER blog: włączyć moduł Aktualności w panelu (/news redirectuje na home)",
+      "🟡 4 PD/SA tickets default13 template: canonical SEO, target=blank typo, brak <label for> na 123+ checkboxach /offers, hreflang inconsistency. Drafty IDOBOOKING_TICKETS_2026-05-15.md, routing IBI do confirm z TL",
+      "📋 Klient dostarczyć 7 zdjęć z INSTRUKCJA_ZDJECIA_LOKALNIE do panelu Galeria (zastąpić pozostałe Unsplash)",
+      "📋 Po wgraniu modułu Aktualności + dodaniu pierwszej aktualności: re-audit live + Lighthouse"
+    ],
+    "newTrapsLearned": [
+      "Stare CSS reguły o TEJ SAMEJ specificity konkurują z nowymi przez source order — przy każdym dodaniu nowego stylu USUWAJ stary konkurujący, nie tylko nakładaj (§100b .col-lg-3 .btn vs §107d .accommodation-reservation .btn.button miały tę samą (0,3,2) specificity)",
+      "IdoBooking app.css ma .litepicker { left: 50%; top: 50%; transform: translate(-50%, -50%) } — wymusza center pattern. Inline style JS Litepicker NIE wygrywa nad tą regułą. Override przez left:auto + transform:none lub explicit top:20% + transform:translateX(-50%)",
+      "System Idosell dla sticky tabs używa klasy --fixed (BEM modifier z dwoma dashes), NIE inline style position:fixed. Selector .tabs[style*='position:fixed'] NIE matchuje — używać .tabs.\\\\--fixed lub [class*='--fixed']",
+      ".btn.btn-reverse (cennik bottom button w tr.season-cell_main) to INNY element niż .accommodation-reservation (sidebar button). System default13 ma minimum 3 różne button patterny dla cennik/sidebar/footer — sprawdzaj DOM przed pisaniem CSS",
+      "TinyMCE WYSIWYG w panelu IdoBooking zachowuje klasy CSS i data-* atrybuty (potwierdzone live na 200+ elementach). NIE czyści ich przy zapisie. Można bezpiecznie używać custom HTML w polu 'Treść'",
+      "Hero <p class='fr-page-hero__lead'> z color: var(--fr-text-muted) #7A736B na hero ::after dark overlay (gradient 0.55-0.85) = kontrast 2.5:1 FAIL WCAG AA. Zawsze white z text-shadow na dark overlay (kontrast 14:1 AAA)",
+      "Klient liczy field jako CAŁOŚĆ (label 24px + input 52px = 76px), nie sam input (52px). Przy zrównaniu wysokości buttonów dopytuj: 'wysoki jak input' czy 'wysoki jak field'",
+      "Litepicker SVG arrow native width=11 height=16, CSS forced width:12 height:12 ZNIEKSZTAŁCAŁA do 1:1 (rozciągnięta horyzontalnie). Fix: width:10 height:14 zachowuje 11:16 aspect"
+    ],
+    "newDeliverables": [
+      "library/templates/blog/ — JARVIS reusable blog module (6 plików: styles.css, reader.js, list+post body_top templates, manifest.example.json, INSTRUKCJA_BLOG.md). Dla kolejnych klientów IdoBooking z prefix replacement",
+      "clients/fairrentals/IDOBOOKING_TICKETS_2026-05-15.md — 4 tickety PD/SA w szablonie 10-punktowym (ticket-escalation skill)",
+      "clients/fairrentals/SPRINT_D_BLOG_DECISION.md — analiza Opcja A vs B vs C blog, finally chosen v4 (systemic /news scraper)",
+      "clients/fairrentals/AUDIT_UX_2026-05-15.md — 30 punktów UX audit",
+      "clients/fairrentals/CRITICAL_ALERT_2026-05-15_PL_EN_MIXUP.md — z sesji 3 (klient wgrał EN HEAD do PL panelu)",
+      "clients/fairrentals/INSTRUKCJA_BLOG_FAIRRENTALS.txt — v4 wdrożenia bloga (zero edycji kodu)",
+      "clients/fairrentals/INSTRUKCJA_ZDJECIA_LOKALNIE.txt — migracja Unsplash → panel Galeria",
+      "clients/fairrentals/HANDOFF_2026-05-16.md — podsumowanie 14 sesji"
+    ],
+    "newCssSections": [
+      "§105 — Blog module CSS (~400 linii: list hero, filters, cards, post hero, featured img, post body, related, mobile)",
+      "§106 — Post-deploy v1.38 (news widget hide, dropdown hover gap, dropdown bg blur, powered_by min-width)",
+      "§107 — v1.39-v1.43 (15 sub-sekcji: price badge, outline btn, offer sidebar, reservation button, sticky tabs, btn-reverse cennik, accommodation height match)",
+      "§108 — v1.45 (compare model footer transparent, hero kicker solid, fr-btn--primary symmetric padding, Leaflet stable height)"
+    ],
+    "newJsFunctions": [
+      "fixCanonicalToPage — override canonical na bieżący URL (workaround Ticket #1)",
+      "fixTargetBlankTypo — target='blank' → target='_blank' + rel noopener noreferrer (workaround Ticket #2)",
+      "fixHtmlLangFromUrl — html lang z URL prefix (workaround Ticket #4)",
+      "forceLoadPoweredBy — wymusza src=data-src dla lazy-load null src + retry 1s/3s",
+      "fixSystemicLeafletMap — IntersectionObserver na .leaflet-container, trigger window.dispatchEvent('resize') + map.invalidateSize() z retry",
+      "initBlog v4 (renderBlogList + enhanceNewsPost) — scraper systemowego /news, parsuje .news-item, wstrzykuje Schema.org BlogPosting + back-to-list"
+    ]
+  },
+  "session_history_2026_05_16_v1_47_to_v1_48b": {
+    "currentVersion": "v1.48b",
+    "summary": "Audyt LIVE v1.46 → v1.47 (6 fixów §109 a-g) → v1.48 (Google Maps iframe zamiast Leaflet + menu czarny pasek REGRESJA fix) → v1.48b (filtry /offers desktop+mobile fix + Typ obiektu ukryty). Sesja zakończona testem mobile menu na 7 viewportach — wszystkie OK.",
+    "highlights": [
+      "AUDIT LIVE v1.46 — PL/EN/DE homepage + /contact + /news + /txt/205/Blog + /offers + /txt/204/O-nas. Full report w AUDIT_LIVE_v1.46_2026-05-16.md",
+      "v1.47 §109 (a-g): mapa /contact NAD treścią (flex column + order:-1), /offers mobile auto-expand, 'Zastosuj filtry' centering, O nas hero cream gradient + gold ribbon, DE menuOverflow popup dark bg, mobile grid minmax(280px,1fr), JS sanitizeTelLinks RFC 3966",
+      "v1.47 post-deploy: Leaflet bug nieuleczalny (mapPane:2px), recovery 4 metod nie pomógł → REZYGNACJA z Leaflet",
+      "v1.48 BUILD: §109e fix REGRESJI (selektory za szerokie łapały LI inline w nav = czarny prostokąt klient widział) + §109h Google Maps iframe embed (free, bez API key) + JS injectGoogleMap z lang detection (pl/en/de) + caption per język (Wrocław/Breslau)",
+      "v1.48 KRYTYCZNE: panel IdoBooking obciął JS przy ~65KB → 'Unexpected token <' → wysadziła się strona główna. Fix: MINIFY (FR_KONIEC_BODY.html 65KB → FR_KONIEC_BODY.min2.html 48KB, -27%, Python script: usuń block comments + line-start // + redukcja indent 4→2)",
+      "v1.48b BUILD: 2 bugi /offers — CSS specificity conflict (§3235 :not(.show) bez @media wygrywało z §109b @media max-width) → fix @media (min-width: 992px). JS duplicate handlers (initFilterCollapse boot + setTimeout = 2× addEventListener = click toggle+toggle) → fix dataset.frCollapseBound='1' guard",
+      "v1.48b ukryj filtr 'Typ obiektu' (Fair Rentals ma tylko 1 typ = Apartament) — CSS :has(#filter_header_objectTypes) + JS fallback hideObjectTypeFilter()",
+      "Test mobile menu 7 viewportów (320 Galaxy Fold / 360 / 375 / 390 / 412 / 428 / 768 iPad Mini): burger 66×57 (74×61 iPad) visible + clickable, 7 menu items, tap targets ≥52px (Apple HIG 44 ✅), 0 overflow, aria-expanded toggle OK"
+    ],
+    "openIssuesForNextSession": [
+      "🔴 P0 KLIENT: Włącz indeksację (Panel→Konfiguracja→SEO→odznacz 'Strona w wersji deweloperskiej'). Live 2026-05-16: nadal noindex,nofollow",
+      "🔴 P1 KLIENT: DE Title homepage — dodać 'A' na początku ('Apartments in Breslau mieten | Fair Rentals'). Klient wpisał bez A, live = 'partments...'",
+      "🔴 P1 KLIENT: PL+EN og:description — wstawić nowe '21 apartamentów / Booking 9.6'. DE już zaktualizowane ✅, PL/EN nadal '19/9.8'",
+      "🔴 P1 KLIENT: OG image https:// (wszystkie 3 jęz nadal http:// = mixed content na FB share)",
+      "🟡 P2 KLIENT: Menu DE — Kontakt z poz.5 na poz.6-7. Menu EN już OK (poz.6) ✅",
+      "🟢 P3 KLIENT: Blog post #1 — dodać polskie znaki (Wrocławia/które/zobaczyć)",
+      "🟢 decision pending: Małgorzata Banaś A/B/C — brak odpowiedzi (9 wystąpień w O nas)",
+      "🟢 Damian: rozważyć wysłanie 4 ticketów PD/SA z IDOBOOKING_TICKETS_2026-05-15.md (bugi default13 dotyczą wszystkich klientów IdoBooking)"
+    ],
+    "newTrapsLearned": [
+      "🚨 PANEL IDOBOOKING POLE 'KONIEC BODY' MA HARD LIMIT ~60-65 KB. Pliki >65k są ucinane → JS bez `})();` (IIFE close) → cookie disclaimer HTML zostaje doleciany w środku script → 'Unexpected token <' → boot() przerwany → strona biała. ZAWSZE MINIFY JS gdy >50KB. Recipe: usuń /* */ block comments + line-start // (zachowuj // w środku regex jak news\\d+) + redukcja indent 4→2 + collapse empty lines = oszczędność 22-27%",
+      "🚨 LEAFLET W IDOBOOKING DEFAULT13 = BUG NIEULECZALNY. .leaflet-map-pane.offsetHeight=2px mimo mymap.getSize() zwraca poprawne wymiary. Tiles loaded ale clippowane. Recovery 4 metod (invalidateSize, _onResize, setView reset, fitBounds, dispatchEvent resize) NIE pomaga. ROZWIĄZANIE: zamień na Google Maps iframe embed (maps.google.com/maps?q=ADDRESS&hl=LANG&z=15&output=embed). Free, bez API key. Trade-off: 1 pin zamiast multiple markerów",
+      "CSS specificity przez :not() bije specificity przez @media: '.X.collapse:not(.show)' (specificity 0,3,1) BEZ @media wygrywa z '.X.collapse' (0,2,1) W @media (max-width:991px). Cascade liczy specificity PIERWSZE, media query NIE jest selektorem dla specificity. Fix: opakować pierwszą regułę w @media (min-width: 992px) lub dopasować specificity drugiej",
+      "JS funkcja wywoływana z setTimeout retry (defensive pattern) MUSI mieć guard przed re-bindowaniem listeners. Bez tego addEventListener dodaje DRUGI handler przy każdym wywołaniu = toggle+toggle=nic. Pattern: header.dataset.frInitialized='1' check before re-bind",
+      "Selektor `.menuOverflow` w default13 łapie 2 RÓŻNE elementy: LI.menuOverflow.nav-item (inline LI w nav listy) i UL.menuOverflow.sub-navi (popup pod 3 kropki). Reguła z dark bg na samym .menuOverflow daje czarny prostokąt w nav. Zawsze scope tylko 'ul.menuOverflow.sub-navi' dla popup styling",
+      "CSS :has() można używać dla 'parent contains child by ID' selektorów (filtr po stable ID). Wspierane Chrome 105+ / Safari 15.4+ / Firefox 121+. Plus JS fallback dla starszych: getElementById + parentElement.style.display='none'",
+      "Tel: link RFC 3966 nie pozwala whitespace. Klient wpisuje '+48 575092755' ze spacją w panelu IdoBooking Dane firmy → system generuje tel:+48 575092755 = niezgodne. Fix JS: a[href^='tel:'] → href.replace(/\\s+/g, '')",
+      "IdoBooking template default13 — strona /contact NIE pozwala edytować meta tagów per-page. Title, description zawsze puste lub polski help text. AKCEPTUJEMY ten stan w projektach IdoBooking",
+      "Google Maps embed PATTERN dla iframe (bez API key): src='maps.google.com/maps?q=ENCODED_ADDRESS&hl=LANG&z=ZOOM&output=embed'. Lang param zmienia UI (pl/en/de). Output=embed wymusza embedded mode. Brak API key, free, niezawodny. Trade-off: 1 pin, brak custom markers"
+    ],
+    "newDeliverables": [
+      "clients/fairrentals/RELEASE_NOTES_v1.47.md — 6 fixów + JS sanitizeTelLinks + propozycje OG description PL/EN/DE",
+      "clients/fairrentals/RELEASE_NOTES_v1.48.md — Google Maps iframe + menu czarny pasek fix (regresja §109e)",
+      "clients/fairrentals/AUDIT_LIVE_v1.46_2026-05-16.md — pełny audit live 6 stron + status 8 akcji panelu klienta",
+      "clients/fairrentals/DO_WKLEJENIA/FR_KONIEC_BODY.min2.html — zminimalizowana wersja 48KB (z 65KB, -27%) dla panelu IdoBooking z limitem"
+    ],
+    "newCssSections": [
+      "§109a — mapa /contact CSS flex column + order:-1 + border-radius 16 + mobile 320px height",
+      "§109a-fix — Leaflet panes recovery (width/height 100% wymuszone — później ZASTĄPIONE przez §109h Google Maps)",
+      "§109b — /offers mobile auto-expand filtrów (cursor:default + pointer-events:none na header)",
+      "§109b-pre (v1.48b) — :has(#filter_header_objectTypes) hide Typ obiektu filter",
+      "§109c — 'Zastosuj filtry' button flex centering + full width mobile",
+      "§109d — O nas hero cream gradient + ::before gold ribbon top 4px",
+      "§109e — DE menuOverflow popup dark brand bg (v1.48 fix REGRESJI: scope tylko ul.sub-navi, reset LI.nav-item bg)",
+      "§109f — mobile grid minmax(280px,1fr) + iPhone SE 320 special case",
+      "§109g — notatka tel: link cleanup (JS sanitizeTelLinks w FR_KONIEC_BODY)",
+      "§109h — Google Maps iframe wrapper (display:none na Leaflet + iframe styling + caption)",
+      "§3235 update (v1.48b) — owinięcie w @media (min-width: 992px) by mobile auto-expand działało (CSS specificity fix)"
+    ],
+    "newJsFunctions": [
+      "sanitizeTelLinks — strip whitespace z a[href^='tel:'] dla RFC 3966 compliance. Defensive retry setTimeout 800ms + 2500ms",
+      "injectGoogleMap — buduje iframe Google Maps embed na /contact, lang detection (pl/en/de z documentElement.lang lub URL prefix), caption per język, insert NAD .contact (przed dane firmy)",
+      "hideObjectTypeFilter (v1.48b) — JS fallback dla CSS :has() — getElementById('filter_header_objectTypes').parentElement.style.display='none'",
+      "initFilterCollapse fix (v1.48b) — mobile <992px force-expand + skip click handler. Desktop: guard dataset.frCollapseBound='1' przeciwko duplicate listeners",
+      "fixSystemicLeafletMap wzmocnione (v1.47, później częściowo deprecated po Google Maps): 6-stopniowa recovery (invalidateSize, _onResize, setView reset, dispatchEvent resize, fitBounds wszystkich markerów, retry 3× IntersectionObserver)"
+    ],
+    "deliverablesFiles_final": {
+      "FR_ARKUSZ_STYLOW.css": "~398 KB / ~14,000 linii / sekcje §1-§109h",
+      "FR_KONIEC_BODY.html": "~65 KB (oryginał z komentarzami, NIE wgrywać do panelu — przekracza limit)",
+      "FR_KONIEC_BODY.min2.html": "~48 KB minified (TO wgrywać do panelu IdoBooking), syntax test ✅",
+      "html_files": "FR_HEAD_PL/EN/DE + GLOWNA_PL/EN/DE__cms + 6 podstron × 3 jęz body_top + BLOG_LIST × 3 jęz"
+    },
+    "mobileMenuAuditResults_2026_05_16": {
+      "viewports_tested": "320, 360, 375, 390, 412, 428, 768",
+      "burger_size": "66x57 (320-428) / 74x61 (768)",
+      "menu_items_after_click": 7,
+      "tap_target_min": "52px (Apple HIG 44 minimum ✅)",
+      "overflow": "0px na wszystkich",
+      "aria_expanded_toggle": "false ↔ true poprawnie",
+      "cookie_blocking": false,
+      "verdict": "Production ready — działa na wszystkich popularnych urządzeniach (iPhone SE → iPhone 14 Plus → Samsung Galaxy → Pixel → iPad Mini)"
+    }
+  }
 }

@@ -371,10 +371,26 @@
      7. /offers filter_header collapse (FontAwesome not loaded)
      ------------------------------------------------------------ */
 
+  /* v1.48b: hide "Typ obiektu" filter (Fair Rentals ma tylko 1 typ).
+     CSS :has() używamy w §109b-pre — to JS fallback dla starszych przeglądarek. */
+  function hideObjectTypeFilter() {
+    if (!document.body.classList.contains('page-offers')) return;
+    var header = document.getElementById('filter_header_objectTypes');
+    if (header && header.parentElement) {
+      header.parentElement.style.display = 'none';
+    }
+  }
+
   function initFilterCollapse() {
     if (!document.body.classList.contains('page-offers')) return;
+    hideObjectTypeFilter();  /* v1.48b: ukryj zbędny filtr */
     var headers = document.querySelectorAll('.filter_header');
     if (!headers.length) return;
+
+    /* v1.48 fix: mobile <992px → auto-expand wszystkie filtry inline,
+       skip click handler (klient nie musi klikać). Desktop ≥992px →
+       click toggle normalnie. */
+    var isMobile = window.innerWidth < 992;
 
     Array.prototype.forEach.call(headers, function(header, idx) {
       var content = header.nextElementSibling;
@@ -382,9 +398,23 @@
 
       content.classList.add('collapse');
 
-      // PATCH v1.6.5: collapse ALL filters by default (including TYP OBIEKTU)
+      if (isMobile) {
+        /* Mobile: force expand */
+        content.classList.add('show');
+        content.style.display = 'block';
+        content.style.height = 'auto';
+        header.setAttribute('aria-expanded', 'true');
+        return;
+      }
+
+      /* Desktop: collapse ALL by default + click toggle */
       content.classList.remove('show');
       header.setAttribute('aria-expanded', 'false');
+
+      /* v1.48 fix: guard against duplicate handlers (boot + setTimeout 800ms
+         wywołują tę funkcję 2 razy — bez guardu click toggle + toggle = nic) */
+      if (header.dataset.frCollapseBound === '1') return;
+      header.dataset.frCollapseBound = '1';
 
       header.style.cursor = 'pointer';
       header.addEventListener('click', function(e) {
@@ -994,7 +1024,618 @@
     if (indexInfo) observer.observe(indexInfo, observerOpts);
   }
 
+  /* v1.29 — SEO HEAD CLEANUP
+     Problem: system IdoBooking dodaje WLASNE meta description i canonical
+     PRZED naszym <head>. Lighthouse SEO score = 61 wlasnie z powodu:
+     - Multiple conflicting canonicals (system root vs nasz /pl/)
+     - Stary meta description z "19 apartamentow Booking 9.8" (zanim klient
+       zaktualizowal w panelu)
+     Fix: usuwamy duplikaty na rzecz NASZYCH (z FR_HEAD_PL/EN/DE.html).
+     Note: <meta name="robots" content="noindex,nofollow"> wymaga zmiany
+     w panelu IdoBooking (Wyglad → SEO → Indeksowanie). NIE da sie tego
+     fix-ować z poziomu HEAD/JS bo system Idosell go forcuje. */
+  function cleanupSeoDuplicates() {
+    // Find all meta descriptions
+    var descs = document.querySelectorAll('meta[name="description"]');
+    if (descs.length > 1) {
+      // Keep the one with "21 apartament" or longest (= our updated one)
+      var keep = null;
+      var maxScore = -1;
+      descs.forEach(function(m) {
+        var c = m.getAttribute('content') || '';
+        var score = (c.indexOf('21 apartament') !== -1 ? 1000 : 0) + c.length;
+        if (score > maxScore) {
+          maxScore = score;
+          keep = m;
+        }
+      });
+      descs.forEach(function(m) {
+        if (m !== keep) m.parentNode.removeChild(m);
+      });
+    }
+
+    // Find all canonicals
+    var cans = document.querySelectorAll('link[rel="canonical"]');
+    if (cans.length > 1) {
+      // Keep the one with /pl/ or /en/ or /de/ path (= our localized canonical)
+      var keepCan = null;
+      cans.forEach(function(l) {
+        var h = l.getAttribute('href') || '';
+        if (h.match(/\/(pl|en|de)\/?$/)) keepCan = l;
+      });
+      // Fallback: keep last one (our HEAD is after system)
+      if (!keepCan) keepCan = cans[cans.length - 1];
+      cans.forEach(function(l) {
+        if (l !== keepCan) l.parentNode.removeChild(l);
+      });
+    }
+
+    // Find all og:url meta to deduplicate
+    var ogUrls = document.querySelectorAll('meta[property="og:url"]');
+    if (ogUrls.length > 1) {
+      var keepOg = ogUrls[ogUrls.length - 1]; // keep last (our HEAD)
+      ogUrls.forEach(function(m) {
+        if (m !== keepOg) m.parentNode.removeChild(m);
+      });
+    }
+  }
+
+  /* ------------------------------------------------------------
+     N. fixCanonicalToPage — workaround for default13 template bug
+        (PD/SA Ticket 1): on subpages, canonical points to homepage
+        instead of current URL. We force canonical to current path.
+     ------------------------------------------------------------ */
+
+  function fixCanonicalToPage() {
+    var currentUrl = location.origin + location.pathname;
+    // strip trailing slash for consistency (except root /pl /en /de)
+    var normalized = currentUrl.replace(/\/$/, '');
+    // re-add trailing slash for language root paths
+    if (normalized.match(/\/(pl|en|de)$/)) normalized += '/';
+
+    var existing = document.querySelector('link[rel="canonical"]');
+    if (existing) {
+      existing.setAttribute('href', normalized);
+    } else {
+      var link = document.createElement('link');
+      link.rel = 'canonical';
+      link.href = normalized;
+      document.head.appendChild(link);
+    }
+
+    // Also fix og:url to match (consistency for social sharing)
+    var ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', normalized);
+  }
+
+  /* ------------------------------------------------------------
+     N. fixTargetBlankTypo — workaround for default13 template bug
+        (PD/SA Ticket 2): footer links have target="blank" (no
+        underscore) which browsers treat as named window, not new tab.
+        Fix to target="_blank" + add rel="noopener noreferrer".
+     ------------------------------------------------------------ */
+
+  function fixTargetBlankTypo() {
+    var links = document.querySelectorAll('a[target="blank"]');
+    links.forEach(function(a) {
+      a.setAttribute('target', '_blank');
+      var rel = a.getAttribute('rel') || '';
+      if (rel.indexOf('noopener') === -1) {
+        rel = (rel + ' noopener').trim();
+      }
+      if (rel.indexOf('noreferrer') === -1) {
+        rel = (rel + ' noreferrer').trim();
+      }
+      a.setAttribute('rel', rel);
+    });
+  }
+
+  /* ------------------------------------------------------------
+     v1.48 — injectGoogleMap — zamiana Leaflet na Google Maps iframe
+       Klient zgłosił 2026-05-16: Leaflet po przesunięciu nie pokazuje
+       tiles (bug systemowy default13: mapPane.height: 2px). Recovery
+       z v1.47 (4 metody + fitBounds) nie pomógł. Decyzja: zamiana na
+       Google Maps embed iframe (free, bez API key, niezawodny).
+       Adres firmy: Białowieska 69/11, 54-234 Wrocław.
+       Lang param wybierany dynamicznie z htmlLang (pl/en/de).
+     ------------------------------------------------------------ */
+
+  function injectGoogleMap() {
+    // Only on contact pages
+    var isContact =
+      document.body.classList.contains('contact-page') ||
+      /\/contact\/?$/i.test(location.pathname);
+    if (!isContact) return;
+
+    // Skip if already injected
+    if (document.querySelector('.fr-google-map-wrap')) return;
+
+    // Lang detection (pl default, en/de from URL or htmlLang)
+    var lang = (document.documentElement.lang || '').substring(0, 2).toLowerCase();
+    if (!lang || (lang !== 'pl' && lang !== 'en' && lang !== 'de')) {
+      var path = location.pathname;
+      if (path.indexOf('/en/') === 0 || path === '/en' || path.indexOf('/en') === 0) lang = 'en';
+      else if (path.indexOf('/de/') === 0 || path === '/de' || path.indexOf('/de') === 0) lang = 'de';
+      else lang = 'pl';
+    }
+
+    // Address (encoded for URL)
+    var address = encodeURIComponent('Białowieska 69/11, 54-234 Wrocław');
+    var mapsUrl =
+      'https://maps.google.com/maps?q=' + address +
+      '&hl=' + lang + '&z=15&output=embed';
+
+    // Caption text per language
+    var captionText = {
+      pl: 'Fair Rentals · Białowieska 69/11, Wrocław',
+      en: 'Fair Rentals · Białowieska 69/11, Wrocław',
+      de: 'Fair Rentals · Białowieska 69/11, Breslau'
+    }[lang] || 'Fair Rentals · Białowieska 69/11, Wrocław';
+
+    // Build iframe
+    var iframe = document.createElement('iframe');
+    iframe.src = mapsUrl;
+    iframe.setAttribute('width', '100%');
+    iframe.setAttribute('height', '420');
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('loading', 'lazy');
+    iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('title', captionText);
+    iframe.style.cssText = 'border: 0; width: 100%; height: 420px;';
+
+    // Caption overlay
+    var caption = document.createElement('div');
+    caption.className = 'fr-google-map-wrap__caption';
+    caption.textContent = captionText;
+
+    // Wrapper
+    var wrap = document.createElement('div');
+    wrap.className = 'fr-google-map-wrap';
+    wrap.appendChild(iframe);
+    wrap.appendChild(caption);
+
+    // Insert na początku .contact (przed danymi firmy)
+    var contact =
+      document.querySelector('.contact-page > .contact') ||
+      document.querySelector('.contact-page .contact') ||
+      document.querySelector('.contact');
+    if (contact) {
+      contact.insertBefore(wrap, contact.firstChild);
+    } else {
+      // Fallback: insert before main
+      var main = document.querySelector('main, .page');
+      if (main) main.insertBefore(wrap, main.firstChild);
+    }
+  }
+
+  /* ------------------------------------------------------------
+     v1.47 — sanitizeTelLinks — RFC 3966 compliance
+       Klient wpisał w panelu Dane firmy "+48 575092755" (ze spacją po
+       +48). System IdoBooking generuje wszędzie tel:+48 575092755 ale
+       RFC 3966 wymaga że tel: URI nie zawiera whitespace. Niektóre
+       urządzenia mobile (starsze Androidy, niektóre apki VoIP) mogą
+       nie zadzwonić jeśli tel:URI ma spację.
+       Fix: po DOMContentLoaded usuwamy whitespace z każdego href^="tel:"
+       Visible text (textContent) zachowujemy bez zmian — klient widzi
+       numer w formacie z spacjami, ale link jest RFC compliant.
+     ------------------------------------------------------------ */
+
+  function sanitizeTelLinks() {
+    var links = document.querySelectorAll('a[href^="tel:"]');
+    Array.prototype.forEach.call(links, function(a) {
+      var href = a.getAttribute('href');
+      if (!href) return;
+      // Strip all whitespace from tel: URI (RFC 3966)
+      var cleaned = href.replace(/\s+/g, '');
+      if (cleaned !== href) {
+        a.setAttribute('href', cleaned);
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------
+     N. fixHtmlLangFromUrl — workaround for default13 template bug
+        (PD/SA Ticket 4 + safety net): template sometimes outputs
+        wrong <html lang> (e.g., lang="en" on /pl/). Derive correct
+        language from URL path and set it.
+     ------------------------------------------------------------ */
+
+  /* ------------------------------------------------------------
+     N. fixSystemicLeafletMap — invalidateSize na systemowych mapach
+        Leaflet (np. /contact #map_container). Klient widzi pusta mape
+        bo Leaflet nie wykryl initial dimensions albo container byl
+        ukryty przy init. Uzywamy IntersectionObserver — gdy mapa
+        wchodzi w viewport, trigger map._onResize() lub invalidateSize().
+     ------------------------------------------------------------ */
+
+  function fixSystemicLeafletMap() {
+    if (typeof window.L === 'undefined') return;
+
+    var mapContainers = document.querySelectorAll('.leaflet-container');
+    if (mapContainers.length === 0) return;
+
+    /* v1.47 — wzmocniony recovery dla bug systemu IdoBooking:
+       MCP audit pokazał że .leaflet-map-pane ma height: 2px mimo że
+       mymap.getSize() zwraca {x:1105, y:420}. Standardowy invalidateSize()
+       nie pomaga. Stosujemy 4-stopniową recovery + fitBounds fallback. */
+    var triggerInvalidate = function() {
+      var mapRef = window.mymap || window.map;
+      if (!mapRef || typeof mapRef.invalidateSize !== 'function') return;
+
+      // 1. Standard invalidateSize
+      try {
+        mapRef.invalidateSize({ animate: false, pan: false });
+      } catch (e) {}
+
+      // 2. Force _onResize (internal Leaflet method)
+      if (typeof mapRef._onResize === 'function') {
+        try { mapRef._onResize(); } catch (e) {}
+      }
+
+      // 3. Re-set view z aktualnego center/zoom — wymusza re-render tiles
+      try {
+        var center = mapRef.getCenter();
+        var zoom = mapRef.getZoom();
+        if (center && typeof zoom === 'number') {
+          mapRef.setView(center, zoom, { animate: false, reset: true });
+        }
+      } catch (e) {}
+
+      // 4. Global resize event (wymusza listeners)
+      window.dispatchEvent(new Event('resize'));
+
+      // 5. After 200ms — fitBounds wszystkich markerów (best recovery dla tiles)
+      setTimeout(function() {
+        try {
+          var bounds = null;
+          if (mapRef._layers) {
+            Object.keys(mapRef._layers).forEach(function(id) {
+              var layer = mapRef._layers[id];
+              if (layer.getLatLng) {
+                var ll = layer.getLatLng();
+                if (!bounds) bounds = window.L.latLngBounds(ll, ll);
+                else bounds.extend(ll);
+              } else if (layer.getBounds) {
+                var lb = layer.getBounds();
+                if (lb && lb.isValid()) {
+                  if (!bounds) bounds = lb;
+                  else bounds.extend(lb);
+                }
+              }
+            });
+          }
+          if (bounds && bounds.isValid()) {
+            mapRef.fitBounds(bounds, { padding: [40, 40], animate: false, maxZoom: 14 });
+          }
+        } catch (e) {}
+      }, 250);
+
+      // 6. After 500ms — final invalidate (defensive, dla post-fitBounds)
+      setTimeout(function() {
+        try { mapRef.invalidateSize({ animate: false }); } catch (e) {}
+      }, 600);
+    };
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            triggerInvalidate();
+            // Multiple retries — system bug ma dziwne timing
+            setTimeout(triggerInvalidate, 300);
+            setTimeout(triggerInvalidate, 1000);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '100px' });
+
+      mapContainers.forEach(function(el) { observer.observe(el); });
+    } else {
+      // Fallback dla starych przegladarek
+      setTimeout(triggerInvalidate, 1000);
+      setTimeout(triggerInvalidate, 2500);
+    }
+  }
+
+  /* ------------------------------------------------------------
+     N. forceLoadPoweredBy — fix lazy-load bug
+        Powered_by IdoBooking img w stopce ma data-src ale src=null
+        bo lazy load library go nie zaintersował. Wymuszamy załadowanie
+        przy starcie strony.
+     ------------------------------------------------------------ */
+
+  function forceLoadPoweredBy() {
+    var imgs = document.querySelectorAll('.powered_by img, .powered_by_logo img, img.powered_by_logo');
+    imgs.forEach(function(img) {
+      var dataSrc = img.getAttribute('data-src');
+      var currentSrc = img.getAttribute('src');
+      if (dataSrc && (!currentSrc || currentSrc === '')) {
+        img.setAttribute('src', dataSrc);
+      }
+      // Force minimum dimensions if collapsed
+      if (img.offsetWidth === 0 && (currentSrc || dataSrc)) {
+        img.style.minWidth = '100px';
+      }
+    });
+  }
+
+  function fixHtmlLangFromUrl() {
+    var path = location.pathname;
+    var lang = null;
+
+    if (path.indexOf('/pl') === 0 || path.indexOf('/pl/') === 0) lang = 'pl';
+    else if (path.indexOf('/de') === 0 || path.indexOf('/de/') === 0) lang = 'de';
+    else if (path.indexOf('/en') === 0 || path.indexOf('/en/') === 0) lang = 'en';
+    else if (path === '/') {
+      // Root — derive from <title> or default to pl (homepage lang)
+      var title = document.title || '';
+      if (title.match(/apartamenty|wynajem|rezerw/i)) lang = 'pl';
+      else if (title.match(/Breslau|Mietverwaltung/i)) lang = 'de';
+      else lang = 'en';
+    }
+
+    if (lang) {
+      document.documentElement.setAttribute('lang', lang);
+    }
+  }
+
+  /* ------------------------------------------------------------
+     N. BLOG v4 — Systemic /news scraper (zero-config dla klienta)
+        v4 podejscie (wzorzec z client58154 Apartamenty Parkowe):
+        - Wykorzystujemy NATYWNY modul Aktualnosci IdoBooking.
+        - Klient pisze posty w panelu (Wyglad -> Aktualnosci).
+        - Strony postow auto-generowane pod /news/X/slug.
+        - Lista pod /news (systemowo).
+        - Nasz JS fetch'uje /news, parsuje .news-item, renderuje karty
+          w fr-blog-card stylu na stronie /txt/205/Blog.
+        - ZERO edycji kodu po dodaniu posta — wszystko z panelu.
+     ------------------------------------------------------------ */
+
+  // Konfiguracja blog v4 — labelki per jezyk (mozesz edytowac)
+  var FR_BLOG_CONFIG = {
+    listLabels: {
+      pl: {
+        kicker: 'BAZA WIEDZY',
+        lead: 'Praktyczna wiedza z prowadzenia 21 apartamentow we Wroclawiu — porady dla Gosci, Wlascicieli i Firm.',
+        readMore: 'Czytaj wiecej',
+        empty: 'Brak wpisow. Dodaj pierwsza aktualnosc w panelu IdoBooking (Wyglad → Aktualnosci).',
+        backToList: '← Wroc do listy'
+      },
+      en: {
+        kicker: 'KNOWLEDGE BASE',
+        lead: 'Practical insights from managing 21 short-term apartments in Wroclaw — guides for Guests, Owners and Corporate clients.',
+        readMore: 'Read more',
+        empty: 'No posts yet. Add your first news in the IdoBooking panel.',
+        backToList: '← Back to list'
+      },
+      de: {
+        kicker: 'WISSENSBASIS',
+        lead: 'Praktisches Wissen aus der Verwaltung von 21 Kurzzeit-Apartments in Breslau — Ratgeber fuer Gaeste, Eigentuemer und Firmen.',
+        readMore: 'Weiterlesen',
+        empty: 'Keine Beitraege. Fuegen Sie die erste Nachricht im IdoBooking-Panel hinzu.',
+        backToList: '← Zurueck zur Liste'
+      }
+    },
+    brand: 'Fair Rentals',
+    brandLogo: 'https://client58360.idobooking.com/images/owner/wideLogo.svg',
+    defaultAuthor: 'Agnieszka Baranska'
+  };
+
+  function initBlog() {
+    var lang = 'pl';
+    var pathMatch = location.pathname.match(/^\/(pl|en|de)\b/);
+    if (pathMatch) lang = pathMatch[1];
+
+    // LIST mode — dziala na podstronie z mount pointem (np. /txt/205/Blog)
+    // Backward compat: .fr-blog-list-mount (v1.35+) lub [data-blog-list] (v1.34)
+    var listMount = document.querySelector('.fr-blog-list-mount, [data-blog-list]');
+    if (listMount) {
+      renderBlogList(listMount, lang);
+    }
+
+    // POST mode — automatycznie na /news/X/slug (systemowa strona Aktualnosci)
+    if (document.body.classList.contains('page-news') &&
+        location.pathname.match(/\/news\/\d+\//)) {
+      enhanceNewsPost(lang);
+    }
+  }
+
+  /* renderBlogList — pobiera systemowa liste /news, parsuje .news-item
+     i renderuje karty w fr-blog-card stylu z hero + filtrami. */
+
+  function renderBlogList(mount, lang) {
+    var labels = FR_BLOG_CONFIG.listLabels[lang] || FR_BLOG_CONFIG.listLabels.pl;
+    var newsUrl = (lang === 'pl' ? '/news' : '/' + lang + '/news');
+
+    // Loading state
+    mount.innerHTML = '<div class="fr-blog-list-intro">'
+        + '<span class="fr-blog-list-hero__kicker">' + escHtml(labels.kicker) + '</span>'
+        + '<p class="fr-blog-list-intro__lead">' + escHtml(labels.lead) + '</p>'
+      + '</div>'
+      + '<div class="fr-blog-grid"><div class="fr-blog-empty">…</div></div>';
+
+    fetch(newsUrl, { cache: 'no-cache', credentials: 'same-origin' })
+      .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(html) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+
+        // Find news items in systemic /news listing
+        var items = Array.from(doc.querySelectorAll('.news-item, .news-wrapper .col-md-6, .news-wrapper .col-12'));
+        // Dedupe — pick unique by link href
+        var seen = {};
+        items = items.filter(function(it) {
+          var a = it.querySelector('a[href*="/news/"]');
+          var href = a && a.getAttribute('href');
+          if (!href || seen[href]) return false;
+          seen[href] = true;
+          return true;
+        });
+
+        var grid = mount.querySelector('.fr-blog-grid');
+
+        if (items.length === 0) {
+          grid.innerHTML = '<div class="fr-blog-empty">' + escHtml(labels.empty) + '</div>';
+          return;
+        }
+
+        grid.innerHTML = items.map(function(item) {
+          var link = item.querySelector('a[href*="/news/"]');
+          var href = link ? link.getAttribute('href') : '#';
+
+          var img = item.querySelector('img');
+          var imgSrc = img ? (img.getAttribute('src') || img.getAttribute('data-src')) : null;
+          var imgAlt = img ? (img.getAttribute('alt') || '') : '';
+
+          var dateEl = item.querySelector('.news-date, .date-news, time');
+          var dateText = dateEl ? dateEl.textContent.trim() : '';
+
+          var titleEl = item.querySelector('h2, h3, .news-title, .title');
+          var titleText = titleEl ? titleEl.textContent.trim() : (link ? link.textContent.trim() : 'Untitled');
+
+          var excerptEl = item.querySelector('.news-content p, .news-excerpt, .excerpt');
+          var excerptText = excerptEl ? excerptEl.textContent.trim() : '';
+          // fallback: get first 180 chars of news-content
+          if (!excerptText) {
+            var contentEl = item.querySelector('.news-content');
+            if (contentEl) {
+              var raw = contentEl.textContent.trim().replace(/\s+/g, ' ');
+              // Remove title from start if present
+              if (titleText && raw.indexOf(titleText) === 0) raw = raw.substring(titleText.length).trim();
+              excerptText = raw.substring(0, 180);
+              if (raw.length > 180) excerptText += '…';
+            }
+          }
+          // Jesli excerpt za krotki (np. tylko znaki przestankowe), nie pokazuj
+          if (excerptText.replace(/[\s\p{P}]/gu, '').length < 10) excerptText = '';
+
+          return '<a class="fr-blog-card" href="' + escAttr(href) + '">'
+            + '<div class="fr-blog-card__media">'
+              + (imgSrc ? '<img class="fr-blog-card__img" src="' + escAttr(imgSrc) + '" alt="' + escAttr(imgAlt || titleText) + '" loading="lazy" decoding="async">' : '')
+            + '</div>'
+            + '<div class="fr-blog-card__body">'
+              + (dateText ? '<span class="fr-blog-card__date">' + escHtml(dateText) + '</span>' : '')
+              + '<h3 class="fr-blog-card__title">' + escHtml(titleText) + '</h3>'
+              + (excerptText ? '<p class="fr-blog-card__excerpt">' + escHtml(excerptText) + '</p>' : '')
+              + '<span class="fr-blog-card__cta">' + escHtml(labels.readMore) + ' →</span>'
+            + '</div>'
+          + '</a>';
+        }).join('');
+      })
+      .catch(function(err) {
+        var grid = mount.querySelector('.fr-blog-grid');
+        if (grid) {
+          grid.innerHTML = '<div class="fr-blog-empty">' + escHtml(labels.empty) + '</div>';
+        }
+        if (window.console && console.warn) console.warn('Blog: fetch /news failed', err);
+      });
+  }
+
+  /* enhanceNewsPost — na stronie /news/X/slug dodaje:
+     - Schema.org BlogPosting JSON-LD
+     - klasa fr-is-blog-post na body (lepsza typografia z CSS §105h)
+     - link "Wroc do listy" pod h1 */
+
+  function enhanceNewsPost(lang) {
+    document.body.classList.add('fr-is-blog-post');
+
+    var h1 = document.querySelector('main.page h1, main#pageContent h1');
+    var dateEl = document.querySelector('.date-news, .news-date, .news-wrapper time');
+    var contentEl = document.querySelector('.news-wrapper, main.page .container article, main.page .container');
+    var imgEl = contentEl ? contentEl.querySelector('img') : null;
+    var labels = FR_BLOG_CONFIG.listLabels[lang] || FR_BLOG_CONFIG.listLabels.pl;
+
+    // 1. Schema.org BlogPosting JSON-LD
+    if (h1) {
+      var title = h1.textContent.trim();
+      var description = (document.querySelector('meta[name="description"]') || {}).content || title;
+      var schema = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        'headline': title,
+        'description': description,
+        'datePublished': dateEl ? dateEl.textContent.trim() : undefined,
+        'author': {
+          '@type': 'Person',
+          'name': FR_BLOG_CONFIG.defaultAuthor || ''
+        },
+        'publisher': {
+          '@type': 'Organization',
+          'name': FR_BLOG_CONFIG.brand || '',
+          'logo': FR_BLOG_CONFIG.brandLogo ? {
+            '@type': 'ImageObject',
+            'url': FR_BLOG_CONFIG.brandLogo
+          } : undefined
+        },
+        'mainEntityOfPage': {
+          '@type': 'WebPage',
+          '@id': location.origin + location.pathname
+        }
+      };
+      if (imgEl) {
+        schema.image = imgEl.getAttribute('src') || imgEl.getAttribute('data-src');
+      }
+      var script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    }
+
+    // 2. "Wroc do listy" link na koncu (jesli mamy link do /txt/205 lub /news)
+    if (contentEl) {
+      var backHref = (lang === 'pl' ? '/news' : '/' + lang + '/news');
+      var backLink = document.createElement('a');
+      backLink.className = 'fr-blog-back-to-list';
+      backLink.href = backHref;
+      backLink.textContent = labels.backToList;
+      contentEl.appendChild(backLink);
+    }
+  }
+
+  function escHtml(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function escAttr(s) {
+    return String(s || '')
+      .replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function fmtDate(iso, lang) {
+    if (!iso) return '';
+    try {
+      var d = new Date(iso);
+      var locales = { pl: 'pl-PL', en: 'en-GB', de: 'de-DE' };
+      return d.toLocaleDateString(locales[lang] || 'pl-PL', {
+        day: 'numeric', month: 'long', year: 'numeric'
+      });
+    } catch (e) {
+      return iso;
+    }
+  }
+
+
   function boot() {
+    cleanupSeoDuplicates();
+    fixCanonicalToPage();
+    fixTargetBlankTypo();
+    fixHtmlLangFromUrl();
+    sanitizeTelLinks();       /* v1.47 — RFC 3966 cleanup tel: URI */
+    injectGoogleMap();        /* v1.48 — zamiana Leaflet na Google Maps */
+    forceLoadPoweredBy();
+    // Retry — powered_by moze byc lazy-loaded po scrollu na sam dol
+    setTimeout(forceLoadPoweredBy, 1000);
+    setTimeout(forceLoadPoweredBy, 3000);
+    // v1.47 — defensive retry tel: cleanup (system may inject dynamic links)
+    setTimeout(sanitizeTelLinks, 800);
+    setTimeout(sanitizeTelLinks, 2500);
+    // v1.45: Leaflet maps invalidateSize po wejsciu w viewport
+    setTimeout(fixSystemicLeafletMap, 800);
+    setTimeout(fixSystemicLeafletMap, 2500);
+    initBlog();
     initHeaderScroll();
     teleportHero();
     initFeaturedOffers();

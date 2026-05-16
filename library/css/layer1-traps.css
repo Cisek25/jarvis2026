@@ -416,9 +416,22 @@ footer .footer__strip,
   color: rgba(255, 255, 255, 0.3) !important;
   font-size: 12px !important;
 }
-.powered_by_logo img {
-  filter: brightness(0) invert(1) !important;
-  opacity: 0.3 !important;
+/* Powered by IdoBooking — MUST BE VISIBLE z natywnymi brand colors.
+   Wymóg licencyjny IAI. Nie ukrywać, nie dimować, nie odbarwiać. */
+.powered_by,
+.powered_by_logo {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.powered_by_logo img,
+.powered_by img {
+  filter: none !important;          /* zachowaj brand colors IdoBooking */
+  opacity: 1 !important;
+  width: auto !important;
+  height: 40px !important;          /* ~2× natywnego rozmiaru ~20px */
+  max-width: none !important;
+  max-height: none !important;
 }
 
 
@@ -797,3 +810,1313 @@ footer a:hover,
   background: [HARDCODED_PRIMARY] !important;
   color: #fff !important;
 }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #16 — Widget labels not centered (Początek, Koniec, Osoby)
+   ROOT CAUSE: System renders labels with text-align:left and
+   auto width inside flex-column containers. Labels appear
+   off-center even though the container uses align-items:center.
+   FIX: Force text-align:center + width:100% on all widget labels
+   and input values so text is visually centered in each field.
+   CLIENTS: all
+   ═══════════════════════════════════════════════════════════════ */
+.iai-search .widget__option label,
+#iai_book_form .widget__option label {
+  text-align: center !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.iai-search .widget__option input.iai_widget_input,
+#iai_book_form .widget__option input.iai_widget_input {
+  text-align: center !important;
+  width: 100% !important;
+}
+/* OSOBY tile — symmetric padding (system gives 44px right for chevron) */
+#person_section,
+.iai-search .widget__option.iai_input-small {
+  padding: 14px 20px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #17 — Litepicker legend "W tym dniu nie można..."
+   ROOT CAUSE: System shows .litepicker__legend with two entries:
+   "W tym dniu nie można zakończyć rezerwacji" (halfBegin) and
+   "W tym dniu nie można rozpocząć rezerwacji" (halfEnd).
+   Technical info, confusing for guests. Hide completely.
+   CLIENTS: all
+   ═══════════════════════════════════════════════════════════════ */
+.litepicker .litepicker__legend,
+.litepicker .container__footer .footer__legend,
+.litepicker .legend,
+.litepicker [class*="disabled-tooltip"] {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #18 — Full-width section breakout (Golden pattern)
+   ROOT CAUSE: CMS body_top content is wrapped in .container
+   (max-width:1170px). Custom sections need full-width backgrounds.
+   Without overflow:visible on container, breakout children are clipped.
+   CLIENTS: all — MANDATORY for every new client
+   ═══════════════════════════════════════════════════════════════ */
+.section_sub.container,
+.section_sub,
+.cms-html,
+.container:not(.footer):not(.navbar-container) {
+  overflow: visible !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #19 — Hero parallax-slider isolation + containment
+   ROOT CAUSE: .parallax-slider has z-index:-2 from system.
+   Without isolation:isolate on parent, slider falls behind body bg
+   and becomes invisible, OR leaks across entire page when system
+   gives it position:fixed. Both fixed by isolation context.
+   CLIENTS: all — MANDATORY for every new client
+   ═══════════════════════════════════════════════════════════════ */
+.section.parallax {
+  isolation: isolate;
+  background: transparent !important;
+}
+
+.parallax-slider {
+  position: relative !important;
+  width: 100vw !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  overflow: hidden !important;
+  margin-left: calc(-50vw + 50%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.parallax-slider .slick-list,
+.parallax-slider .slick-track,
+.parallax-slider .slick-slide,
+.parallax-slider .slick-slide > div {
+  height: 100% !important;
+}
+
+.parallax-slider .parallax-image {
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+}
+
+.parallax-slider .parallax-image img,
+.parallax-slider .parallax-image picture,
+.parallax-slider img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Freeze on first slide */
+.parallax-slider .slick-track {
+  transform: translate3d(0, 0, 0) !important;
+  transition: none !important;
+  width: 100% !important;
+}
+.parallax-slider .slick-slide {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.parallax-slider .slick-slide:first-child {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+.parallax-slider .slick-dots,
+.parallax-slider .slick-prev,
+.parallax-slider .slick-next {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #20 — html background matches footer (overscroll fix)
+   ROOT CAUSE: body bg is light (--ido-bg) but footer is dark
+   (--ido-dark). When user overscrolls below footer on mobile
+   (rubber-band effect) or on desktop, they see light color
+   peeking below the dark footer — looks broken.
+   FIX: html bg = dark (matches footer), body bg = light (content).
+   CLIENTS: all — MANDATORY for every new client
+   ═══════════════════════════════════════════════════════════════ */
+html {
+  background: var(--ido-dark, #1A1A1A) !important;
+  background-color: var(--ido-dark, #1A1A1A) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #21 — line-height: 0 inheritance kills price badge children
+   ROOT CAUSE: image wrappers używają `line-height: 0` żeby usunąć
+   baseline gap pod <img>. Problem — line-height DZIEDZICZY się do
+   WSZYSTKICH dzieci (tekstowych). Jeśli wrzucisz .price-badge w środek
+   .card__img z absolute position — badge DZIEDZICZY line-height:0 i
+   jego <small> child też. Efekt: "529 zł" i "od / doba" stackują się
+   w tym samym 0px-height boksie → wizualny duplikat cen ("jedna na
+   drugiej"). Zdarza się też w .hero-wrap, .banner-image, itp.
+   SYMPTOM: height: 0 na tekście, text "AzłBod/doba" w jednej linii.
+   DETECTION: devtools → getComputedStyle(el).lineHeight === "0px"
+   FIX: jawnie ustaw line-height:1.2 + flex column na price badge.
+   CLIENTS: all z absolute price badges wewnątrz image containers
+   ═══════════════════════════════════════════════════════════════ */
+[class*="offer-card__price"],
+[class*="card__price"],
+[class*="card__badge"],
+[class*="banner-image__overlay"],
+[class*="hero-wrap"] [class*="price"] {
+  line-height: 1.2 !important;
+}
+[class*="offer-card__price"] small,
+[class*="card__price"] small,
+[class*="banner-image"] small {
+  line-height: 1.1 !important;
+}
+/* Opcjonalny defensive pattern dla dwóch linii ceny + "od/doba": */
+[class*="offer-card__price"][data-layout="stack"],
+[class*="card__price"][data-layout="stack"] {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 2px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #22 — Wikimedia thumbnail URL hashing (NEVER GUESS!)
+   ROOT CAUSE: Wikimedia URLs zawierają 2-poziomowy hash:
+     upload.wikimedia.org/wikipedia/commons/thumb/ X/YZ /filename.jpg/NNNpx-...
+   gdzie X/YZ to MD5 hash pierwszych znaków nazwy pliku.
+   AI (including ja) HALUCYNUJE hashe — pisze np. `/8/89/` zamiast
+   prawdziwego `/9/90/` → 404 Not Found, obrazy nie ładują się.
+   DODATKOWO: Wikimedia nie udostępnia wszystkich rozmiarów dla każdego
+   pliku — 1280px często FAIL, 500-600px zwykle OK.
+   FIX (workflow):
+     1. curl -s "https://pl.wikipedia.org/wiki/<TOPIC>" \
+        | grep -oE "upload\.wikimedia\.org/wikipedia/commons/thumb/[^\"]+"
+     2. Weź real URL (600px lub 500px) z wyniku
+     3. Zweryfikuj HTTP 200:
+        curl -sI -H "Referer: https://clientNNN.idobooking.com/" <URL>
+     4. Dopiero wtedy wklej w HTML
+   Ten plik CSS nie zawiera reguły — to workflow rule dla agenta.
+   Brak fallback CSS-a (żadne `background-image` nie pomoże gdy 404).
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #23 — /txt URL format: /txt/<ID>/<slug>, NOT /txt/<slug>
+   ROOT CAUSE: IdoBooking routuje podstrony CMS-owe jako:
+     /txt/202/Miasta   ← poprawne, działa
+     /txt/miasta       ← 404 Not Found (chyba że istnieje wpis o tym id)
+   W panelu każda podstrona ma numeryczne ID (widoczne w URL edytora).
+   Menu items mogą mieć dowolną etykietę, ale link MUSI zawierać ID.
+   SYMPTOM: kliknięcie z menu → 404 na podstronie "Miasta", "O nas" itp.
+   FIX (workflow): sprawdź w panelu → CMS → strona → URL zawiera /NNN/.
+   W customowych JS-ach/redirektach użyj:
+     const TXT_ROUTES = { miasta: '/txt/202/Miasta', onas: '/txt/203/O-nas' };
+   NIE zakładaj że `/txt/miasta` zadziała — ZAWSZE verify w panelu.
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #24 — FAQ answer readability floor
+   ROOT CAUSE: designer daje odpowiedziom `font-size: 0.9rem` (14.4px)
+   lub `0.95rem` (15.2px) + `opacity: 0.85` żeby wizualnie odróżnić od
+   question. Efekt: tekst poniżej WCAG body text floor (16px) + słaby
+   kontrast na jasnym tle.
+   RECOMMENDATION: min `clamp(1rem, 1.05vw, 1.0625rem)` (16-17px) +
+   opacity ≥ 0.95 (lub po prostu color: var(--ido-dark) bez opacity).
+   Plus line-height ≥ 1.65 dla łatwego czytania długich tekstów.
+   CLIENTS: wszyscy z sekcją FAQ
+   ═══════════════════════════════════════════════════════════════ */
+[class$="faq__answer"],
+[class*="faq__answer "],
+[class$="accordion-body"],
+details[class*="faq"] > :not(summary) {
+  font-size: clamp(1rem, 1.05vw, 1.0625rem) !important;
+  line-height: 1.7 !important;
+  opacity: 0.95 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #25 — Scroll-on-load bug przez margin-top:-N na hero
+   ROOT CAUSE: Wzorzec transparent header "wciąga" hero pod fixed
+   header poprzez `margin-top: calc(-1 * var(--ido-header-h))` na
+   `.section.parallax`. Hero zaczyna się w page coord `-88` (header-h).
+   Problem: IdoBooking uruchamia fullpage.js (homepage) — który na
+   init "koryguje" scroll do `offsetTop` pierwszej section. Z ujemnym
+   margin-top, fullpage.js skruluje stronę o +88px żeby section 1
+   zaczynała się od viewport top. Wynik: strona ładuje się przewinięta
+   o wysokość header-a → user nie widzi TOP strony + nie może scrollować
+   do góry (strzałka w górę nic nie robi bo fullpage forsuje pozycję).
+   Dodatkowo: browser `history.scrollRestoration: auto` przywraca
+   poprzednią pozycję scroll po reload.
+
+   FIX: (1) CSS — zamień `margin-top:-88` na `padding-top:88` +
+   `box-sizing:border-box`. Hero bg cover idzie od 0 (pełne viewport),
+   content wewnątrz jest pod headerem dzięki padding.
+   (2) JS (body_bottom) — `history.scrollRestoration='manual'` +
+   `window.scrollTo(0,0)` on init + retry po fullpage async init.
+
+   SYMPTOM: scrollY > 0 na load, user nie może scrollować do góry
+   (albo scrolluje do scrollY=88 i tam się zatrzymuje).
+   DETECTION (DevTools):
+     window.scrollY                    // != 0 on load
+     getComputedStyle('.section.parallax').marginTop  // "-88px"
+     history.scrollRestoration         // "auto" (default)
+   CLIENTS: wszyscy z transparent header + fullpage.js homepage
+   ═══════════════════════════════════════════════════════════════ */
+body.page-index .section.parallax,
+body[class*="-homepage"] .section.parallax,
+.page-index .section.parallax {
+  margin-top: 0 !important;
+  padding-top: var(--ido-header-h, 88px) !important;
+  box-sizing: border-box !important;
+}
+/* JS part: add to body_bottom JS:
+   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+   window.scrollTo(0, 0);
+   [0, 100, 300, 600, 1200].forEach(d => setTimeout(() => {
+     if (window.scrollY <= 100 && !window.__userScrolled) window.scrollTo(0, 0);
+   }, d));
+   document.addEventListener('wheel',    () => window.__userScrolled = true, { once: true, passive: true });
+   document.addEventListener('touchstart', () => window.__userScrolled = true, { once: true, passive: true });
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #26 — .index-info widget leak po fix TRAP #25
+   ROOT CAUSE: Systemowy widget `.index-info` (Lokalizacja/Początek/
+   Koniec/Osoby) ma `position: absolute; top: 0` względem `.section.parallax`.
+   Gdy `.section.parallax` miał `margin-top: -88px` (stary wzorzec
+   transparent header), widget był w page coord -88 = ukryty pod headerem.
+   Po aplikacji TRAP #25 (`margin-top: 0 + padding-top: 88`) widget
+   wycieka na top strony (pojawia się nad headerem, w widocznym obszarze 0-88).
+
+   SYMPTOM: brzydkie szare/ciemne pudełka form (Lokalizacja/Początek/
+   Koniec/Osoby) pojawiają się na samej górze strony przed headerem.
+   User widzi brzydki systemowy search przed swoim customowym `.mi-search`.
+
+   FIX: ukryj systemowy widget na homepage (każdy klient ma własny
+   `.mi-search` / `.nj-search` / `.md-search` — systemowy nadmiarowy).
+   CLIENTS: wszyscy z transparent header + custom search widget w hero
+   ═══════════════════════════════════════════════════════════════ */
+body.page-index .index-info,
+body[class*="-homepage"] .index-info,
+body.page-index #iai_book_se,
+body[class*="-homepage"] #iai_book_se,
+body.page-index #iai_book_form,
+body[class*="-homepage"] #iai_book_form {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #27 — Font fragmentation (6+ unique font-family stacks)
+   ROOT CAUSE: Typowy klient IdoBooking kończy z 6 unikalnymi stack-ami
+   font-family mimo że projektant chciał TYLKO 2 rodziny (heading + body):
+     1. `'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif` (proper)
+     2. `'Inter', sans-serif` (10+ hardcoded miejsc bez fallback stack)
+     3. `-apple-system, 'system-ui', Roboto, ...` (Litepicker/kalendarz)
+     4. `'Playfair Display', Georgia, serif` (proper heading)
+     5. `'Playfair Display', serif` (Litepicker miesiąc, bez Georgia)
+     6. `sans-serif` (browser default dla niewidocznych tagów script/style)
+     + @font-face Montserrat (IdoBooking app.css — nieużywany, ale loaded)
+
+   SYMPTOM: user mówi "używasz 10 różnych fontów" bo Chrome DevTools
+   pokazuje 6-7 computed font-family values. Rzeczywistość: 2 design
+   + 4-5 artifactów.
+
+   FIX (3-częściowy):
+   1. Unifikuj DEKLARACJE — zawsze używaj CSS variables:
+        font-family: var(--ido-font-body);    /* zamiast 'Inter', sans-serif */
+        font-family: var(--ido-font-heading); /* zamiast 'Playfair Display', Georgia */
+   2. FORCE Inter na system widgets (Litepicker, flatpickr, iai-search,
+      form inputs) bo inaczej browser daje -apple-system default.
+   3. Preserve icons (fontello, iaifonts, fa-*) — nie liczą się jako
+      font design, to SVG-in-font.
+
+   GOAL: max 2 computed font-family stacks widoczne dla usera
+   (Inter + Playfair Display, lub jakkolwiek są nazwane w teme).
+   CLIENTS: all — universal fix.
+   ═══════════════════════════════════════════════════════════════ */
+.litepicker,
+.litepicker *,
+.container__months,
+.container__months *,
+.month-item,
+.month-item *,
+.day-item,
+.container__days,
+.container__days *,
+.flatpickr-calendar,
+.flatpickr-calendar *,
+.iai-search,
+.iai-search *,
+#iai_book_form,
+#iai_book_form *,
+input, textarea, select, button,
+.widget__option,
+.widget__option * {
+  font-family: var(--ido-font-body) !important;
+}
+/* Preserve icon fonts */
+[class*="icon-"]::before,
+[class*="icon-"]::after,
+.iaifonts,
+.fa, .fa-solid, .fa-regular, .fa-brands,
+.fontello {
+  font-family: inherit;
+}
+/* Heading font on Litepicker month label — match brand */
+.litepicker .cur-month,
+.litepicker .month-item-name,
+.container__months .cur-month,
+.flatpickr-current-month {
+  font-family: var(--ido-font-heading) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #28 — Header scrolled state: "shadow first, then bg" bug
+   ROOT CAUSE: typowy wzorzec transparent header → solid-on-scroll:
+     .menu-wrapper { background: transparent; transition: background 0.3s ease; }
+     .mi-header--scrolled .menu-wrapper { background: rgba(255,255,255,0.98);
+                                          box-shadow: 0 4px 24px ...; }
+   Dwa problemy:
+   (1) transition animuje TYLKO `background` (0.3s), ale `box-shadow` NIE MA
+       transition → applies INSTANTLY gdy dodaje się `.mi-header--scrolled` class.
+   (2) background docelowy `rgba(255,255,255,0.98)` — semi-transparent.
+
+   Sequence widoczna user-owi:
+     t=0ms:    add .mi-header--scrolled class
+     t=0ms:    box-shadow applied INSTANTLY (no transition) — user widzi cień
+     t=0ms+:   background rozpoczyna fade z transparent → 0.98 white (0.3s)
+     t=150ms:  user widzi shadow + 50% white tło (semi-transparent)
+     t=300ms:  finally full 0.98 white
+
+   User raportuje: "najpierw shadow, a jak zjedzie niżej dopiero tło białe".
+
+   FIX: (a) pure #ffffff (1.0, nie 0.98) — zawsze opaque; (b) unified transition
+   na `background` + `box-shadow` + `background-color` z SAMĄ duration (0.15s);
+   (c) ensure base state ma `box-shadow: none` explicit (żeby transition miał
+   z czego animować).
+   CLIENTS: wszyscy z transparent-to-solid header pattern
+   ═══════════════════════════════════════════════════════════════ */
+body.page-index header .menu-wrapper,
+body.page-index header .bgd-color-light,
+body[class*="-homepage"] header .menu-wrapper,
+body[class*="-homepage"] header .bgd-color-light,
+html[class*="-homepage"] body header .menu-wrapper {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;  /* explicit zero żeby transition miał start value */
+  transition: background 0.15s ease,
+              background-color 0.15s ease,
+              box-shadow 0.15s ease !important;
+}
+body.page-index header.mi-header--scrolled .menu-wrapper,
+body[class*="-homepage"] header.mi-header--scrolled .menu-wrapper,
+body header.mi-header--scrolled .menu-wrapper,
+body header.mi-header--scrolled .bgd-color-light {
+  background: #ffffff !important;               /* PURE white 1.0, nie rgba 0.98 */
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+  transition: none !important;                  /* INSTANT — user wymaga natychmiastowej zmiany */
+}
+/* JS threshold note (apply w body_bottom):
+   `var threshold = 10;` (było 80) — "nawet troche w dol" wyzwala biały header */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #29 — Hero widget hidden on short viewports (MacBook 13")
+   ROOT CAUSE: Typowy wzorzec hero: `.section.parallax { height: 85vh }`
+   plus `.mi-hero-wrap { height: 100%; flex column; padding: 88px 0 40px }`
+   + `.mi-hero__search-bar { margin-top: auto }`. Na desktop 1440×900
+   widget jest widoczny (765-845 w 900 viewport = OK). Na MacBook 13"
+   (1280×800 viewport) widget ląduje na 756-848 → 48px poniżej viewport.
+
+   Dodatkowy problem: fullpage.js inline-forsuje `.section.parallax` height
+   na 100vh lub ~888px (większy niż viewport), więc `.mi-hero-wrap { height: 100% }`
+   rozciąga się poniżej viewport. Widget na dole hero-wrap = poza ekranem.
+
+   SYMPTOM user: "wyszukiwarka powinna być widoczna od razu jak otwiera
+   na małym macu, a jest za nisko".
+
+   FIX (2-częściowy):
+   1. `.section.parallax { height: 100vh }` — nie 85vh (ale fullpage może
+      nadpisać inline, więc → krok 2)
+   2. `.mi-hero-wrap { height: 100vh; max-height: 100vh }` — VIEWPORT
+      height zamiast `100%` parent. Niezależne od fullpage inline height.
+      Widget pozycjonowany `margin-top: auto` dotyka bottom = 800 - padding-bottom (32)
+      = 768. Widget height ~65 → top 703. **W pełni w viewport**.
+   3. Media query `@media (max-height: 820px)` — dodatkowa kompresja hero
+      title font + widget padding na małych ekranach.
+   CLIENTS: all — każdy klient z hero + search widget at bottom
+   ═══════════════════════════════════════════════════════════════ */
+.mi-hero-wrap,
+[class*="-hero-wrap"],
+[class*="__hero-wrap"] {
+  height: 100vh !important;
+  max-height: 100vh !important;
+}
+@media (max-height: 820px) {
+  /* Short viewport — MacBook 13", landscape phones */
+  [class*="-hero-wrap"] {
+    padding-top: 88px !important;
+    padding-bottom: 20px !important;
+  }
+  [class*="-hero__title"],
+  [class*="__hero__title"] {
+    font-size: clamp(28px, 4.5vw, 48px) !important;
+  }
+  [class*="-search__field"] {
+    padding: 8px 14px !important;
+    min-height: 48px !important;
+  }
+  [class*="-search__submit"] {
+    min-height: 48px !important;
+    min-width: 160px !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #30 — Search widget UX: equal columns + text overflow + centering
+   ROOT CAUSE: Typowy search widget ma 4-5 pól + button w grid. Bez
+   explicit rules:
+     (a) Pola różnej szerokości (grid auto) → wygląda niechlujnie
+     (b) Text "Wszystkie lokalizacje" wycieka poza pole → zachodzi na
+         sąsiednie pole ("najezdza na siebie")
+     (c) Label position inconsistent (absolute/relative mixed)
+     (d) Submit button height ≠ field height → asymetria wizualna
+     (e) Mobile breakpoint zbyt późno (< 540) → tablet/small laptop
+         mają widget z nakładającymi się polami
+
+   FIX — UX checklist dla każdego search widget:
+   1. `grid-template-columns: 1fr 1fr 1fr 1fr auto` — 4 equal fields + button
+   2. `min-width: 0` na field + input + select — pozwala text-overflow
+   3. `white-space: nowrap; overflow: hidden; text-overflow: ellipsis`
+      na input/select/label — długie wartości się skracają
+   4. Field `display: flex; flex-direction: column; justify-content: center`
+      — label + input wertykalnie wycentrowane
+   5. Submit `min-height: 52px; align-self: stretch` — match field height
+   6. Submit `min-width: 180px` — wystarczająco szeroki na "SPRAWDŹ" + icon
+   7. Label `line-height: 1.2; margin: 0` — predictable height
+   8. Breakpoints: 1024px (3 fields), 900px (2 fields), 540px (1 field)
+   9. `@media (max-height: 820px)` — short viewport compensation
+   CLIENTS: all z hero search widget
+   ═══════════════════════════════════════════════════════════════ */
+[class*="-search"] {
+  box-sizing: border-box;
+}
+[class*="-search__field"] {
+  min-width: 0 !important;
+}
+[class*="-search__label"],
+[class*="-search__input"],
+[class*="-search__select"] {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  min-width: 0 !important;
+}
+[class*="-search__submit"] {
+  white-space: nowrap !important;
+  align-self: stretch !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #31 — Dropdown direction UP dla widgetu w hero bottom
+   ROOT CAUSE: Search widget jest na DOLE hero (margin-top: auto).
+   Native `<select>` rozwija opcje W DÓŁ → opcje znikają za viewport
+   na MacBook 13" (800px). Nie da się kontrolować direction przez CSS.
+   Podobnie flatpickr default otwiera kalendarz W DÓŁ.
+
+   FIX — dwa-częściowy:
+   1. Flatpickr: `position: 'above auto'` w config
+   2. Native `<select>` → custom JS dropdown (trigger + list UL)
+      - List `position: absolute; bottom: calc(100% + 8px)` → ABOVE
+      - Native select hidden (w DOM dla form submit + a11y)
+      - Click option → update select.value + dispatch change event
+      - Keyboard navigation: Escape/Arrows/Enter support
+
+   CLIENTS: all z hero search widget + bottom-aligned widget
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Flatpickr w hero bottom widget ZAWSZE nad input */
+.mi-hero__search-bar .flatpickr-calendar,
+[class*="-hero__search-bar"] .flatpickr-calendar,
+[class*="-hero"] .flatpickr-calendar {
+  /* flatpickr setup via JS: `position: 'above auto'` */
+  margin-bottom: 8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #32 — /offer/N detail page: dark-on-dark invisible text
+   ROOT CAUSE: System IdoBooking injectuje `background: #292929` (ciemny)
+   na WSZYSTKICH głównych sekcjach offer detail page (.col-lg-9,
+   .offer-wrapper, .offer-right-wrapper, .offer-gallery, .offer-desc-wrapper,
+   .room_desc, .price-list, .offer-prices). Teksty dziedziczą
+   `color: var(--ido-dark, #1A1A1A)` z body → **ciemny text na ciemnym bg**.
+   151 elementów invisible (verified MIA 2026-04-15).
+   SYMPTOM user: "fatalne kolorystycznie nie widać pół rzeczy bo są czarne"
+
+   FIX: Force light bg + dark text na wszystkich offer detail containers.
+   Plus brand accent gold dla CTA buttons + price badge.
+   CLIENTS: all — universal IdoBooking offer detail issue
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer,
+body.page-offer main,
+body.page-offer .col-lg-9,
+body.page-offer .col-lg-3,
+body.page-offer .col-lg-12,
+body.page-offer .offer-wrapper,
+body.page-offer .offer-right-wrapper,
+body.page-offer .offer-gallery,
+body.page-offer .offer-desc-wrapper,
+body.page-offer .room_desc,
+body.page-offer .price-list,
+body.page-offer .offer-prices,
+body.page-offer .offer-details,
+body.page-offer .offer-info,
+body.page-offer .offer-content,
+body.page-offer [class*="col-md-"] {
+  background: var(--ido-bg, #FAFAF8) !important;
+  color: var(--ido-dark, #1A1A1A) !important;
+}
+/* Force dark text inside offer containers (except buttons) */
+body.page-offer .col-lg-9 *:not(.btn):not([class*="btn-"]):not(input):not(select):not(.offer-price):not(.offer-price *):not(svg):not(path):not(.accommodation-reservation):not(.accommodation-reservation *):not(.offerCalendar):not(.offerCalendar *):not(.to-offer-prices):not(.to-offer-prices *),
+body.page-offer .offer-desc-wrapper *:not(.btn):not([class*="btn-"]):not(input):not(select):not(svg):not(path):not(.btn-success):not(.btn-success *),
+body.page-offer .offer-right-wrapper *:not(.btn):not([class*="btn-"]):not(a.accommodation-reservation):not(a.offerCalendar):not(a.to-offer-prices):not(.offer-price):not(.offer-price *):not(svg):not(path) {
+  color: var(--ido-dark, #1A1A1A) !important;
+}
+/* CTA buttons — gold bg, white text */
+body.page-offer .accommodation-reservation,
+body.page-offer .accommodation-leftbutton,
+body.page-offer a.btn-success,
+body.page-offer .offerCalendar,
+body.page-offer .to-offer-prices,
+body.page-offer .btn-reverse,
+body.page-offer #generateDirections {
+  background: var(--accent, #C4A97D) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+/* Offer price circle badge — gold + white */
+body.page-offer .offer-price,
+body.page-offer .offer-price *,
+body.page-offer .offer-price .price {
+  background: var(--accent, #C4A97D) !important;
+  color: #ffffff !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #33 — /offers listing: invisible card titles (white on white)
+   ROOT CAUSE: System renderuje nazwy ofert jako H2 lub H3 (template-
+   dependent). Jeśli klient override'uje tylko jeden tag → drugi
+   dziedziczy default bright color z systemu. Plus system card bg może
+   być rendered jako białe → biały tekst default → invisible.
+   SYMPTOM user: "nie widać nazw ofert, sa biale na bialym"
+
+   FIX: Force dark text na ALL h1/h2/h3/h4 + defensive dark color
+   na wszystkich children .offer (wildcard selector).
+   CLIENTS: all
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers .offer h1,
+body.page-offers .offer h2,
+body.page-offers .offer h3,
+body.page-offers .offer h4,
+body.page-offers .offer h1 a,
+body.page-offers .offer h2 a,
+body.page-offers .offer h3 a,
+body.page-offers .offer h4 a,
+body.page-offers .offer [class*="__name"],
+body.page-offers .offer [class*="__title"] {
+  color: var(--ido-dark, #1A1A1A) !important;
+}
+body.page-offers .offer *:not(.btn):not([class*="btn-"]):not(.price):not([class*="price"]):not(img):not(svg):not([class*="leaflet"]) {
+  color: var(--ido-dark, #1A1A1A) !important;
+}
+body.page-offers .offer,
+body.page-offers .offers-container,
+body.page-offers .offer-wrapper {
+  background: #ffffff !important;
+}
+/* CRITICAL: system renderuje tytuł oferty jako H2 > A z white color
+   (nawet gdy H2 sam ma dark color) wewnątrz `.accommodation-rest` —
+   system NIE używa `.offer` class dla listingu! Cover wszystkie
+   struktury: .accommodation-rest, .offers_wrapper, .offers-container */
+body.page-offers h1 a,
+body.page-offers h2 a,
+body.page-offers h3 a,
+body.page-offers h4 a,
+body.page-offers h1 a:link, body.page-offers h2 a:link,
+body.page-offers h3 a:link, body.page-offers h4 a:link,
+body.page-offers h1 a:visited, body.page-offers h2 a:visited,
+body.page-offers h3 a:visited, body.page-offers h4 a:visited {
+  color: var(--ido-dark, #1A1A1A) !important;
+  text-decoration: none !important;
+}
+body.page-offers .accommodation-rest *:not(.btn):not([class*="btn-"]):not(.price):not([class*="price"]):not(img):not(svg):not([class*="leaflet"]),
+body.page-offers .offers_wrapper *:not(.btn):not([class*="btn-"]):not(.price):not([class*="price"]):not(img):not(svg):not([class*="leaflet"]),
+body.page-offers .offers-container *:not(.btn):not([class*="btn-"]):not(.price):not([class*="price"]):not(img):not(svg):not([class*="leaflet"]) {
+  color: var(--ido-dark, #1A1A1A) !important;
+}
+/* Universal: all non-button links dark */
+body.page-offers a:not(.btn):not([class*="btn-"]):not([class*="leaflet"]):not([class*="nav-"]):not([href^="tel:"]):not([href^="mailto:"]) {
+  color: var(--ido-dark, #1A1A1A) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #34 — Logo pseudo-elements (kreska pod logo) + hover underline
+   ROOT CAUSE: IdoBooking templates (default13, defaultsb) dodają
+   `::after` pseudo-element na `.navbar-brand` i `.logo` dla accessibility
+   "skip link" pattern. Pseudo jest `content: ""; background: white; height: 1px`
+   → wygląda jak **biała kreska pod logo**. Dodatkowo hover underline
+   (`.navbar a::after`) aplikuje się na logo gdy selector jest za szeroki.
+
+   FIX: explicit remove `::after`/`::before` na logo + hover underline
+   tylko na `.nav-link` (nie `.navbar a` wildcard).
+   CLIENTS: all
+   ═══════════════════════════════════════════════════════════════ */
+header .navbar-brand::after,
+header .navbar-brand::before,
+header .logo::after,
+header .logo::before,
+.menu-wrapper .navbar-brand::after,
+.menu-wrapper .navbar-brand::before,
+.menu-wrapper .logo::after,
+.menu-wrapper .logo::before,
+header .navbar-brand:hover::after,
+header .navbar-brand:focus::after,
+header .logo:hover::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+/* Logo pionowe centrowanie + drobny lift dla optical balance */
+header .navbar-brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  position: relative !important;
+  top: -2px;
+}
+header .navbar-brand img {
+  display: block !important;
+  vertical-align: middle !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #35 — System icon fonts (fontello/iaifonts) broken przez
+              font unification (TRAP #27)
+   ROOT CAUSE: TRAP #27 (font fragmentation fix) force'uje `Inter` na
+   wszystkie system widgets. Ale system IdoBooking używa **icon fonts**
+   (`fontello`, `iaifonts`) na `<i class="icon-piggybank">`, `<i class="icon-shield">`
+   — glyphy są renderowane przez `::before { content: "\e001" }` z
+   font-family: fontello. Jeśli font-family zostanie podmieniony na Inter,
+   Unicode code points (\e001-\e0FF) nie mapują → **pustki zamiast ikon**.
+   Albo hamburger fallback icon.
+   SYMPTOM: `<i class="icon-shield">` renderuje się jako puste miejsce
+   LUB hamburger "≡" zamiast właściwej ikony tarczy.
+   FIX: explicit force icon font na `<i>` z icon classes.
+   CLIENTS: all — każdy klient który używa system IdoBooking icons
+   ═══════════════════════════════════════════════════════════════ */
+i[class*="icon-"],
+i[class*="icon-"]::before,
+i[class*="icon-"]::after,
+.offer-right i, .offer-right i::before,
+.offer-right-wrapper i, .offer-right-wrapper i::before,
+.payment-info i, .payment-info i::before,
+.accommodation-rest i, .accommodation-rest i::before,
+[class*="offer"] i[class*="icon-"],
+[class*="offer"] i[class*="icon-"]::before {
+  font-family: 'iaifonts', 'fontello', sans-serif !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  display: inline-block !important;
+  line-height: 1em !important;
+  text-align: center !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #36 — /offer/N right sidebar UX polish
+   ROOT CAUSE: System renders `.offer-right-wrapper` sidebar z:
+     - .offer-price (150×150 circle — brak proper centering)
+     - .accommodation-reservation (duży button, no hierarchy)
+     - .offerCalendar + .to-offer-prices (secondary buttons mixed w primary)
+     - .payment-info-desc (benefits z broken hamburger "≡" ikonami)
+   Bez polish: przycisków jest za dużo primary, benefits nieczytelne,
+   cena nie wycentrowana optycznie.
+   FIX: (1) price circle 160×160 z flex center + gap + proper typography,
+   (2) primary CTA (Rezerwuj) gold bg z shadow, (3) secondary CTAs outline,
+   (4) benefits checkmark zamiast broken icon (::before content: '✓'),
+   (5) sidebar card wrap bg white + subtle border + shadow.
+   CLIENTS: all z /offer/N detail page
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer .offer-right-wrapper {
+  padding: 32px 20px !important;
+  background: #ffffff !important;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+body.page-offer .offer-right-top {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+}
+/* Price circle — proper centering */
+body.page-offer .offer-price {
+  width: 160px !important;
+  height: 160px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 auto 28px !important;
+  text-align: center !important;
+  gap: 2px !important;
+}
+body.page-offer .offer-price small,
+body.page-offer .offer-price span {
+  width: 100% !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+body.page-offer .offer-price small {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  opacity: 0.85;
+  line-height: 1.1 !important;
+}
+body.page-offer .offer-price span {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+}
+/* Benefits checkmark — zastąp broken hamburger icon */
+body.page-offer .payment-info-desc {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+  padding: 0 !important;
+}
+body.page-offer .payment-info-desc::before {
+  content: '✓';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--accent, #C4A97D);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 1px;
+}
+body.page-offer .payment-info-desc i.icon-menu,
+body.page-offer .payment-info-desc > i:first-child {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #37 — Amenity SVG icons invisible (NIE icon fonts!)
+   ROOT CAUSE: IdoBooking template `default13` na `/offer/N` Udogodnienia
+   section renderuje ikony jako **inline SVG** wewnątrz `<span aria-hidden>`:
+   `<li><span aria-hidden><svg><path/></svg></span>Kuchnia</li>`
+   NIE jako `<i class="icon-*">` (icon fonts).
+   TRAP #35 (icon font restore) łapie tylko `<i>` → SVG nie dostaje fill.
+   SVG dziedziczy `color: currentColor` lub ma inline `fill="#ffffff"` →
+   białe na białym = invisible.
+   SYMPTOM: puste kółka obok "Kuchnia z pełnym wyposażeniem", "Lodówka"...
+   FIX: explicit force fill + stroke + width/height na WSZYSTKICH SVG
+   elements (path, circle, rect, line, polyline, polygon).
+   CLIENTS: all z /offer/N detail page
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer .offer-desc-wrapper svg,
+body.page-offer .offer-desc-wrapper svg *,
+body.page-offer .offer-desc-wrapper svg path,
+body.page-offer .offer-desc-wrapper svg circle,
+body.page-offer .offer-desc-wrapper svg rect,
+body.page-offer .offer-desc-wrapper svg line,
+body.page-offer .offer-desc-wrapper svg polyline,
+body.page-offer .offer-desc-wrapper svg polygon,
+body.page-offer .offer-desc-wrapper li svg,
+body.page-offer .offer-desc-wrapper li svg *,
+body.page-offer .offer-desc-wrapper span svg,
+body.page-offer .offer-desc-wrapper span svg * {
+  fill: var(--accent, #C4A97D) !important;
+  stroke: var(--accent, #C4A97D) !important;
+  color: var(--accent, #C4A97D) !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-block !important;
+}
+body.page-offer .offer-desc-wrapper ul li {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 0 !important;
+  font-size: 14px !important;
+  list-style: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #38 — Cennik table dark-on-dark + layout broken
+   ROOT CAUSE: `.price-list`, `.offer-prices`, `.period-price` — system
+   injectuje dark bg `#292929`. Plus layout jest raw table/row bez cards.
+   SYMPTOM: "02 października 30 września od 529,00 zł ZAREZERWUJ TERAZ"
+   wszystko wizualnie zlane w ciemny box, niewidoczne.
+   FIX: force light bg z wildcard na children + card styling per row
+   + gold CTA button. Wzorzec: każdy row = karta z border + padding + flex
+   space-between (data | price | button).
+   CLIENTS: all z /offer/N cennik section
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer .price-list,
+body.page-offer .price-list *:not(.btn):not([class*="btn-"]):not(.btn-success):not(.accommodation-reservation):not(.accommodation-reservation *):not(.price),
+body.page-offer .offer-prices,
+body.page-offer .offer-prices *:not(.btn):not([class*="btn-"]):not(.btn-success):not(.accommodation-reservation):not(.accommodation-reservation *):not(.price),
+body.page-offer .period-price,
+body.page-offer .period-price *:not(.btn):not([class*="btn-"]):not(.btn-success):not(.price) {
+  background: var(--bg, #FAFAF8) !important;
+  background-color: var(--bg, #FAFAF8) !important;
+  color: var(--dark, #1A1A1A) !important;
+}
+body.page-offer .period-price,
+body.page-offer .price-list > .row,
+body.page-offer .offer-prices > .row {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 6px !important;
+  padding: 20px !important;
+  margin-bottom: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 20px !important;
+  flex-wrap: wrap !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #39 — Tabs nav wyrownane do lewej (system: justify-content: normal)
+   ROOT CAUSE: System `.tabs` default ma `display: flex; justify-content: normal;
+   text-align: left` — na szerokim viewporcie wszystkie tabs zbijają się w lewo,
+   content-like. User oczekuje centered nav jak w typowym UX pattern.
+   FIX: force center + proper gap między items.
+   Plus `.tabs.--fixed` (scroll-sticky state) też musi być centered.
+   CLIENTS: all z /offer/N detail page
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer .tabs,
+body.page-offer .tabs.--hideCalendar,
+body.page-offer .tabs.--fixed,
+body[class*="page-offer"] .tabs {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 32px !important;
+  padding: 0 24px !important;
+}
+body.page-offer .tabs__item {
+  margin: 0 !important;
+  padding: 16px 4px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #40 — Footer links szare (color: #2A2829 on bg: #1A1A1A)
+   ROOT CAUSE: Footer bg = `--ido-dark` (#1A1A1A). System/default theme
+   daje anchor links `color: var(--ido-primary)` = `#2A2829` = **dark on dark**.
+   Telefon, email, "Regulamin", "Polityka prywatności" — wszystko ledwo
+   czytelne szare.
+   SYMPTOM: user "nie wiem czemu są szare".
+   FIX: force `color: accent` (gold) na phone/email + `color: white` na
+   ogólne linki + hover swap (gold ↔ white).
+   CLIENTS: all — każdy footer ma to
+   ═══════════════════════════════════════════════════════════════ */
+html body footer a,
+html body footer a:link,
+html body footer a:visited,
+html body .footer a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+html body footer a[href^="tel:"],
+html body footer a[href^="mailto:"],
+html body .footer a[href^="tel:"],
+html body .footer a[href^="mailto:"] {
+  color: var(--accent, #C4A97D) !important;
+  font-weight: 600 !important;
+}
+html body footer a:hover,
+html body .footer a:hover {
+  color: var(--accent, #C4A97D) !important;
+  text-decoration: underline !important;
+}
+html body footer a[href^="tel:"]:hover,
+html body footer a[href^="mailto:"]:hover {
+  color: #ffffff !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #41 — Lightbox init używa querySelector (tylko pierwszy!)
+   zamiast querySelectorAll. Na podstronach z 3+ obrazami
+   `.mi-about__img` tylko pierwszy jest klikalny do lightbox.
+   FIX (w body_bottom JS):
+     // BAD:
+     var aboutImg = document.querySelector('.mi-about__img');
+     if (aboutImg) allItems.push({ el: aboutImg });
+     // GOOD:
+     var aboutImgs = document.querySelectorAll('.mi-about__img, .mi-location__img');
+     aboutImgs.forEach(function (a) { allItems.push({ el: a, type: 'about' }); });
+   Plus dodaj `cursor: zoom-in` w CSS żeby user widział że klikalne.
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   UX CHECKLIST — po każdym HTML copy-paste (MUST)
+   ───────────────────────────────────────────────────────────────
+   1. Subpage contains ENOUGH content:
+      - Homepage features grid — 6 kafelków (2 wiersze x 3)
+      - Miasta features — 6 (Self check-in + Wsparcie 24/7 beyond core 4)
+      - O-nas — hero + historia + filozofia + home staging + 4 steps
+   2. Wikimedia URLs verified 200 OK z IdoSell referrer
+   3. Image sizes: 500-600px (NIE 1280px — często 404)
+   4. Alt text descriptive
+   5. JS lightbox init łapie WSZYSTKIE zdjęcia (querySelectorAll)
+   6. Footer links widoczne (gold phone/email, white rest)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Custom dropdown styling — universal selectors (any prefix) */
+[class*="-dropdown__trigger"],
+[class$="__dropdown-trigger"] {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  outline: none;
+}
+
+[class*="-dropdown__list"],
+[class$="__dropdown-list"] {
+  position: absolute !important;
+  bottom: calc(100% + 8px) !important;        /* ABOVE trigger */
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 100 !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 6px !important;
+  max-height: 280px !important;
+  overflow-y: auto !important;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  pointer-events: none;
+}
+[class*="-dropdown__list"].is-open,
+[class$="__dropdown-list"].is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+[class*="-dropdown__option"] {
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+
+/* JS template (paste do body_bottom, dostosuj prefix):
+
+function initCustomDropdowns() {
+  document.querySelectorAll('.PREFIX-search__select').forEach(function (select) {
+    if (select.dataset.dropdownInit) return;
+    select.dataset.dropdownInit = 'true';
+    var field = select.closest('.PREFIX-search__field--select');
+    if (!field) return;
+
+    field.classList.add('PREFIX-dropdown-enhanced');
+    select.style.cssText = 'position:absolute; opacity:0; pointer-events:none; width:1px; height:1px;';
+    select.setAttribute('aria-hidden', 'true');
+
+    var trigger = document.createElement('div');
+    trigger.className = 'PREFIX-dropdown__trigger';
+    trigger.setAttribute('role', 'combobox');
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('tabindex', '0');
+    trigger.textContent = select.options[select.selectedIndex].textContent;
+
+    var list = document.createElement('ul');
+    list.className = 'PREFIX-dropdown__list';
+    list.setAttribute('role', 'listbox');
+
+    Array.from(select.options).forEach(function (opt, idx) {
+      var li = document.createElement('li');
+      li.className = 'PREFIX-dropdown__option';
+      li.setAttribute('role', 'option');
+      li.setAttribute('data-value', opt.value);
+      li.textContent = opt.textContent;
+      if (idx === select.selectedIndex) li.classList.add('is-selected');
+      li.addEventListener('click', function (e) {
+        e.stopPropagation();
+        select.value = opt.value;
+        select.selectedIndex = idx;
+        trigger.textContent = opt.textContent;
+        list.querySelectorAll('.is-selected').forEach(function (el) { el.classList.remove('is-selected'); });
+        li.classList.add('is-selected');
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        list.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+      list.appendChild(li);
+    });
+
+    field.appendChild(trigger);
+    field.appendChild(list);
+
+    var isOpen = false;
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.querySelectorAll('.PREFIX-dropdown__list.is-open').forEach(function (l) {
+        if (l !== list) l.classList.remove('is-open');
+      });
+      isOpen = !isOpen;
+      list.classList.toggle('is-open', isOpen);
+      trigger.setAttribute('aria-expanded', isOpen);
+    });
+    document.addEventListener('click', function (e) {
+      if (!field.contains(e.target)) { list.classList.remove('is-open'); isOpen = false; }
+    });
+    trigger.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault(); trigger.click();
+      } else if (e.key === 'Escape') { list.classList.remove('is-open'); }
+    });
+  });
+}
+
+// Flatpickr config (all date inputs):
+flatpickr('.PREFIX-search__input[type="date"]', {
+  position: 'above auto',  // UP by default
+  ...
+});
+*/
+
+
+/* ═══════════════════════════════════════════════════════════════
+   REFERENCE CARD — FOOTER PATTERNS (compiled from 18+ clients)
+   ───────────────────────────────────────────────────────────────
+   System IdoBooking renderuje footer jako:
+     <footer class="footer container">
+       <div class="footer-contact-baner">VISA/MC strip</div>
+       <div> ← tu wpada adres, telefon, email, regulamin </div>
+       ... potem ZAWSZE pusty "powered_by" tag + martwa spacja ...
+     </footer>
+
+   BUG-SET:
+   1. `.footer-contact-baner` default bg `#3E475E` (ciemny niebieski).
+      NIGDY nie pasuje do brand. ZAWSZE override:
+        .footer-contact-baner { background: var(--ido-dark) !important; }
+
+   2. "Martwa spacja" po VISA strip: 30-70px ciemnej przestrzeni.
+      UWAGA: NIE używaj `.footer-contact-baner ~ * { display:none }` —
+      to ukryłoby także `.powered_by` (wymóg licencyjny!). Zamiast tego
+      celowo wyciszaj konkretne puste elementy:
+        .footer.container { padding-bottom: 0 !important; }
+        /* + ukryj konkretne puste systemowe divy po nazwie, NIE wildcard */
+
+   3. "Powered by IdoBooking" badge — wymóg licencyjny IAI: MUSI BYĆ
+      DOBRZE WIDOCZNY z natywnymi brand colors. NIE ukrywać, NIE filterować
+      na biało, NIE skalować w dół poniżej czytelności.
+      FIX: zachowaj brand colors, skaluj ~2× (height:40px):
+        .powered_by, .powered_by_logo {
+          display: inline-block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+        .powered_by_logo img, .powered_by img {
+          filter: none !important;     /* NIE brightness/invert */
+          opacity: 1 !important;
+          width: auto !important;
+          height: 40px !important;     /* 2× natywnego ~20px */
+          max-width: none !important;
+          max-height: none !important;
+        }
+      Lessons (2026-05-14): klienci zauważają zarówno ukrycie (= naruszenie
+      TOS) jak i białe-na-burgundy (= zniekształcenie brand colors).
+
+   4. `.footer.container` ma Bootstrap padding-bottom:30px. Kombinuje się
+      z padding sekcji przed → double padding. FIX: unify do 60/24/0.
+
+   5. Overscroll (rubber-band) na mobile pokazuje light body-bg pod
+      dark footerem. FIX: TRAP #20 `html { background: var(--ido-dark) }`.
+
+   6. Telefon/email z footera — pociągaj do CTA dynamicznie:
+        const tel = document.querySelector('footer a[href^="tel:"]')?.href;
+      Dzięki temu zmiana w panelu auto-propaguje do Twojej sekcji CTA.
+
+   7. `.footer-contact-baner` ma `text-align: right` w niektórych
+      templatach. Override do center dla symetrii.
+
+   8. Footer `.container` ma max-width:1170px ale VISA strip `.footer-contact-baner`
+      często wyłamuje się do 100vw przez `margin: -X calc(-50vw + 50%)`.
+      Jeśli widać white gap po bokach strip-a — FIX: strip `width: 100%; margin: 0`.
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   REFERENCE CARD — FULL-WIDTH SECTION PATTERNS
+   ───────────────────────────────────────────────────────────────
+   CSS 100vw breakout from a .container-bound parent:
+
+   WZORZEC 1 (breakout z marginem — prosty):
+     .my-section {
+       position: relative;
+       isolation: isolate;              /* TRAP #19 */
+       width: 100vw;
+       max-width: 100vw;
+       left: 50%;
+       margin-left: -50vw;
+       padding: 100px 24px;
+       box-sizing: border-box;
+     }
+     .my-section__inner { max-width: 1200px; margin: 0 auto; }
+
+   WZORZEC 2 (breakout z calc — gdy parent ma padding):
+     .my-section {
+       margin-left: calc(-50vw + 50%);
+       margin-right: calc(-50vw + 50%);
+       width: 100vw;
+     }
+     UWAGA: jeśli parent `.container` ma `padding:15px` — matematyka
+     breakout shifts element o 15px. Wtedy użyj WZORCA 3.
+
+   WZORZEC 3 (absolute z body jako positioned parent):
+     body.page-index { position: relative; }  /* key */
+     .my-section {
+       position: absolute;
+       top: 0; left: 0; right: 0;
+       width: 100%; max-width: 100vw;
+     }
+     Out-of-flow → nie pushuje innego content, parent .container gets
+     height z placeholder-a. Użyj tylko dla hero / top sections.
+
+   OBOWIĄZKOWE przy każdej sekcji full-width:
+     ✓ isolation: isolate        (TRAP #19 — prevents z-index bleed)
+     ✓ position: relative        (anchor for absolute children)
+     ✓ box-sizing: border-box    (padding w width)
+     ✓ overflow: hidden          (block bg image leak via TRAP #15/17)
+     ✓ parent `.container { overflow: visible }` (TRAP #18 — nie klipuj)
+
+   NAJCZĘSTSZE BŁĘDY:
+     ✗ zapominanie isolation → z-index z innych sekcji wycieka
+     ✗ brak overflow:visible na parent .container → breakout clipped
+     ✗ width:100% zamiast 100vw → sekcja zostaje w .container bounds
+     ✗ margin-left:-50vw ale w calc() parent ma padding → offset shift
+     ✗ wiele sekcji bez isolation → "kaskadujący" z-index chaos
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #20 — SUBPAGE BOOTSTRAP .container KILLS FULL-WIDTH
+   ROOT CAUSE: System IdoBooking (default13) renderuje zawartość
+   body_top dla podstron /txt/* wewnątrz Bootstrap
+   <div class="container"> (max-width: 1170px) inside
+   <main id="pageContent">. Nasze sekcje .{prefix}-narrative,
+   .{prefix}-page-hero, .{prefix}-split są ograniczone do 1170px —
+   białe marginesy 74.5px po bokach zamiast edge-to-edge.
+   Homepage tego nie dotyczy (fullpage.js ma własny layout).
+
+   ⚠️ SCOPE: TYLKO body.page-txt
+   ❌ NIE /contact — ma systemowy Bootstrap grid (col-md-6 + col-md-5)
+      dla dwóch kolumn "Dane kontaktowe | Płatności". Override padding
+      niszczy gutters, kolumny przyklejają się do krawędzi viewportu.
+   ❌ NIE /offer — ma sidebar layout z filtrami, potrzebuje gutterów.
+
+   FIX: wymusić 100% width na systemowym .container i 0 padding na
+   .row / col-* — TYLKO dla page-txt. Nasze sekcje wewnątrz ustawiają
+   własny inner wrapper z max-width
+   (np. .ap-narrative__inner { max-width: 1200px; margin: 0 auto }).
+
+   CLIENTS: all using /txt/* subpages (min. apartamenty-parkowe)
+   User feedback:
+   - 2026-04-21 (client58154): "czemu /txt/200/O-nas nie jest rozciągnięta"
+   - 2026-04-21 (client58154) v2: "/contact dziwnie rozjechana" — fix
+     scope'u, wyłączenie dla page-contact i page-offer
+   See memory/instincts/007-subpage-full-width.md
+   ═══════════════════════════════════════════════════════════════ */
+body.page-txt main .container,
+body.page-txt #pageContent .container,
+body.page-txt #pageContent > .container,
+body.page-txt main .container-fluid {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+body.page-txt main .container > .row,
+body.page-txt #pageContent .container > .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+body.page-txt main .container > .row > [class^="col"],
+body.page-txt main .container > .row > [class*=" col"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+body.page-txt .txt-text {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* NIE stosuj do /contact ani /offer — zostaw systemowy Bootstrap grid */

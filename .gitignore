@@ -20,3 +20,17 @@ Thumbs.db
 # Temp/cache
 *.tmp
 .cache/
+.playwright-mcp/
+
+# Temp brief extracted (docx)
+.tmp_brief/
+audit_screenshots/
+
+# Lockfiles z LibreOffice/Excel
+.~lock.*
+
+# Audyt screenshots root-level (różni klienci, archiwum)
+/mc-*.png
+/mb-*.png
+/ap-*.png
+/screenshot-*.png

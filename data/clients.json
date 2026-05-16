@@ -293,6 +293,58 @@
       "languages": ["pl"],
       "status": "deployed",
       "source": "manual"
+    },
+    {
+      "name": "MIA Apart",
+      "folder": "mia",
+      "id": "client33019",
+      "template": "default13",
+      "engine": "client33019.idobooking.com",
+      "uses_fullpage_js": true,
+      "palette": "Custom Charcoal Taupe",
+      "prefix": "mi",
+      "colors": {
+        "primary": "#2A2829",
+        "secondary": "#8C7B6B",
+        "accent": "#C4A97D",
+        "bg": "#FAFAF8",
+        "dark": "#1A1A1A",
+        "light": "#F5F2EE"
+      },
+      "fonts": {
+        "heading": "Playfair Display",
+        "body": "Inter",
+        "pair": 1
+      },
+      "type": "apartamenty",
+      "languages": ["pl", "en"],
+      "status": "in-progress",
+      "version": "v1.0",
+      "source": "jarvis-2026-04-14",
+      "owner": "Marcin Skrzypczak",
+      "contact": {
+        "phone": "+48501055542",
+        "email": "skrzypek0@gmail.com",
+        "address": "Obywatelska 11/55, 02-409 Warszawa"
+      },
+      "files_to_paste": [
+        "MI_HEAD.html → Ustawienia → HEAD",
+        "MI_CSS_EDYTOR.css → Wygląd → Edytor CSS",
+        "MI_KONIEC_BODY.html → Ustawienia → Koniec BODY",
+        "GLOWNA_PL__cms.html → Strona główna → Edytor treści (TRYB HTML)",
+        "MIASTA_PL__body_top.html → Strony → /txt/miasta → Początek BODY",
+        "ONAS_PL__body_top.html → Strony → /txt/o-nas → Początek BODY"
+      ],
+      "critical_traps_applied": [
+        "CRITICAL-O: hero-wrap absolute positioning",
+        "CRITICAL-AA: fullpage.js teleport hero into section.parallax",
+        "CRITICAL-BB: target .menu-wrapper + .bgd-color-light child",
+        "CRITICAL-CC: /offers filters collapsed by default",
+        "CRITICAL-QQ: fullpage.js MutationObserver scroll detection",
+        "CRITICAL-RR: hero 100vh embrace fullpage",
+        "CRITICAL-SS: powered_by badge size reduction",
+        "All L1 traps (18 root + page-specific)"
+      ]
     }
   ],
   "palettes": {

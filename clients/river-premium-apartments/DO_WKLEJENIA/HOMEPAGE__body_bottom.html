@@ -81,6 +81,27 @@ body.page-index .navbar-language { z-index: 4 !important; }
   body.page-index .riv-hero__subtitle { font-size: 16px !important; }
   body.page-index .section.parallax .fp-tableCell .riv-hero { padding: 100px 16px 40px !important; }
 }
+body.page-index .riv-apartments-section,
+section.riv-apartments-section {
+  display: block !important;
+  grid-template-columns: none !important;
+}
+body.page-index .riv-apartments-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  width: 100% !important;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  gap: 32px !important;
+}
+@media (max-width: 991px) {
+  body.page-index .riv-apartments-grid { grid-template-columns: 1fr !important; }
+}
+body.page-index .riv-apartments-grid .riv-offer-card {
+  width: 100%;
+  min-width: 0;
+}
 </style>
 <script>
 (function() {
@@ -185,41 +206,98 @@ body.page-index .navbar-language { z-index: 4 !important; }
     grid.classList.remove('riv-featured-fallback');
   }
 
-  /* === 4. Search form: submit through system #iai_book_form or engine fallback (TRAP E) === */
+  /* === 4. Litepicker init (dual-month, range mode, pl-PL) — replaces native date pickers === */
+  function initLitepicker() {
+    var form = document.getElementById('riv-search-form');
+    if (!form) return;
+    var triggerFrom = document.getElementById('riv-trigger-from');
+    var triggerTo = document.getElementById('riv-trigger-to');
+    var inputFrom = document.getElementById('riv-date-from');
+    var inputTo = document.getElementById('riv-date-to');
+    if (!triggerFrom || !triggerTo) return;
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function fmt(d) { return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear(); }
+    function updateDisplay(boxKey, date) {
+      var box = boxKey === 'from' ? triggerFrom : triggerTo;
+      if (!box || !date) return;
+      box.querySelector('[data-day-' + boxKey + ']').textContent = pad(date.getDate());
+      box.querySelector('[data-month-' + boxKey + ']').textContent = pad(date.getMonth() + 1);
+      box.querySelector('[data-year-' + boxKey + ']').textContent = String(date.getFullYear()).slice(2);
+      var input = boxKey === 'from' ? inputFrom : inputTo;
+      if (input) input.value = fmt(date);
+    }
+
+    /* Default dates: tomorrow + day after */
+    var today = new Date();
+    var d1 = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    var d2 = new Date(today.getTime() + 48 * 60 * 60 * 1000);
+    updateDisplay('from', d1);
+    updateDisplay('to', d2);
+
+    /* Wait for Litepicker library (CDN defer) */
+    function tryInit() {
+      if (typeof Litepicker === 'undefined') {
+        setTimeout(tryInit, 100);
+        return;
+      }
+      var picker = new Litepicker({
+        element: triggerFrom,
+        elementEnd: triggerTo,
+        singleMode: false,
+        numberOfMonths: 2,
+        numberOfColumns: 2,
+        minDate: today,
+        startDate: d1,
+        endDate: d2,
+        format: 'DD.MM.YYYY',
+        lang: 'pl-PL',
+        autoApply: true,
+        tooltipText: { one: 'noc', other: 'nocy' },
+        tooltipNumber: function(totalDays) { return totalDays - 1; },
+        setup: function(picker) {
+          picker.on('selected', function(startDate, endDate) {
+            if (startDate && startDate.dateInstance) updateDisplay('from', startDate.dateInstance);
+            if (endDate && endDate.dateInstance) updateDisplay('to', endDate.dateInstance);
+          });
+        }
+      });
+
+      /* Mobile fallback: open Litepicker on box click */
+      triggerFrom.addEventListener('click', function(e) {
+        e.preventDefault();
+        picker.show(triggerFrom);
+      });
+      triggerTo.addEventListener('click', function(e) {
+        e.preventDefault();
+        picker.show(triggerTo);
+      });
+    }
+    tryInit();
+  }
+
+  /* === 5. Search form submit (system #iai_book_form preferred, fallback engine) === */
   function setupSearchForm() {
     var form = document.getElementById('riv-search-form');
     if (!form) return;
-
-    var dateFrom = form.querySelector('#riv-date-from');
-    var dateTo = form.querySelector('#riv-date-to');
-    var guests = form.querySelector('#riv-guests');
-
-    var today = new Date();
-    var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-    var dayAfter = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
-    if (dateFrom && !dateFrom.value) {
-      dateFrom.value = tomorrow.toISOString().slice(0, 10);
-      dateFrom.min = today.toISOString().slice(0, 10);
-    }
-    if (dateTo && !dateTo.value) {
-      dateTo.value = dayAfter.toISOString().slice(0, 10);
-      dateTo.min = today.toISOString().slice(0, 10);
-    }
+    var inputFrom = document.getElementById('riv-date-from');
+    var inputTo = document.getElementById('riv-date-to');
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
       var values = {
-        dateFrom: dateFrom ? dateFrom.value : '',
-        dateTo: dateTo ? dateTo.value : '',
-        persons: guests ? guests.value : '2'
+        dateFrom: inputFrom ? inputFrom.value : '',
+        dateTo: inputTo ? inputTo.value : '',
+        persons: '2'
       };
 
       if (CONFIG.preferSystemForm) {
         var sysForm = document.querySelector('#iai_book_form, form.book-form, form[action*="engine"]');
         if (sysForm) {
+          /* Convert dd.mm.yyyy to system format (try multiple) */
           var nameMap = {
-            dateFrom: ['checkin_date', 'date_from', 'dateFrom', 'arrival', 'from'],
-            dateTo: ['checkout_date', 'date_to', 'dateTo', 'departure', 'to'],
+            dateFrom: ['checkin', 'checkin_date', 'date_from', 'dateFrom', 'arrival', 'from'],
+            dateTo: ['checkout', 'checkout_date', 'date_to', 'dateTo', 'departure', 'to'],
             persons: ['persons', 'guests', 'adults']
           };
           for (var key in nameMap) {
@@ -234,34 +312,10 @@ body.page-index .navbar-language { z-index: 4 !important; }
       }
 
       var params = new URLSearchParams();
-      if (values.dateFrom) params.set('date_from', values.dateFrom);
-      if (values.dateTo) params.set('date_to', values.dateTo);
-      if (values.persons) params.set('persons', values.persons);
-      window.location.href = CONFIG.engineFallback + '?' + params.toString();
-    });
-  }
-
-  /* === 5. Date input native picker triggers (TRAP C) === */
-  function initDatePickers() {
-    var fields = document.querySelectorAll('.riv-search__field');
-    fields.forEach(function(field) {
-      var input = field.querySelector('input[type="date"], select');
-      if (!input) return;
-      field.addEventListener('click', function(e) {
-        if (e.target === input) return;
-        if (typeof input.showPicker === 'function') {
-          try { input.showPicker(); return; } catch (err) {}
-        }
-        input.focus();
-      });
-    });
-    var dateInputs = document.querySelectorAll('input[type="date"]');
-    dateInputs.forEach(function(inp) {
-      inp.addEventListener('click', function() {
-        if (typeof inp.showPicker === 'function') {
-          try { inp.showPicker(); } catch (err) {}
-        }
-      });
+      if (values.dateFrom) params.set('checkin', values.dateFrom);
+      if (values.dateTo) params.set('checkout', values.dateTo);
+      params.set('persons', values.persons);
+      window.location.href = CONFIG.engineFallback + 'widget/index.php?' + params.toString();
     });
   }
 
@@ -305,8 +359,8 @@ body.page-index .navbar-language { z-index: 4 !important; }
     setupFullpageHeader();
     teleportHero();
     buildRivCards('.riv-apartments-grid');
+    initLitepicker();
     setupSearchForm();
-    initDatePickers();
     initOffersFilters();
   }
 

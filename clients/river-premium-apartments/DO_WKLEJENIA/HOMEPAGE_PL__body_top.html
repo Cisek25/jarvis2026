@@ -4,24 +4,47 @@
     <p class="riv-hero__subtitle">ul. Księcia Witolda 52, Wrocław — z widokiem na Odrę</p>
   </div>
   <form class="riv-search" id="riv-search-form" aria-label="Wyszukiwarka rezerwacji apartamentu" novalidate>
-    <div class="riv-search__field">
-      <label for="riv-date-from" class="riv-search__label">Przyjazd</label>
-      <input type="date" id="riv-date-from" name="dateFrom" class="riv-search__input" required>
+    <div class="riv-search__inner">
+      <button type="button" class="riv-search__box riv-search__box--arrival" id="riv-trigger-from" aria-label="Wybierz datę przyjazdu">
+        <span class="riv-search__label">Przyjazd</span>
+        <div class="riv-search__date">
+          <span class="riv-search__day" data-day-from>—</span>
+          <span class="riv-search__month" data-month-from>—</span>
+          <span class="riv-search__year" data-year-from>—</span>
+        </div>
+        <span class="riv-search__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </span>
+        <input type="hidden" name="dateFrom" id="riv-date-from" value="">
+      </button>
+      <button type="button" class="riv-search__box riv-search__box--departure" id="riv-trigger-to" aria-label="Wybierz datę wyjazdu">
+        <span class="riv-search__label">Wyjazd</span>
+        <div class="riv-search__date">
+          <span class="riv-search__day" data-day-to>—</span>
+          <span class="riv-search__month" data-month-to>—</span>
+          <span class="riv-search__year" data-year-to>—</span>
+        </div>
+        <span class="riv-search__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        </span>
+        <input type="hidden" name="dateTo" id="riv-date-to" value="">
+      </button>
+      <button type="submit" class="riv-search__submit">Rezerwuj online</button>
     </div>
-    <div class="riv-search__field">
-      <label for="riv-date-to" class="riv-search__label">Wyjazd</label>
-      <input type="date" id="riv-date-to" name="dateTo" class="riv-search__input" required>
+    <div class="riv-search__footer">
+      <div class="riv-search__trust">
+        <svg class="riv-search__trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>
+        <span>Gwarancja<br>najniższej ceny</span>
+      </div>
+      <div class="riv-search__trust">
+        <svg class="riv-search__trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>Natychmiastowe<br>potwierdzenie</span>
+      </div>
+      <div class="riv-search__trust">
+        <svg class="riv-search__trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V7l8-4 8 4v14"></path><path d="M9 21V12h6v9"></path></svg>
+        <span>Centrum<br>miasta</span>
+      </div>
     </div>
-    <div class="riv-search__field">
-      <label for="riv-guests" class="riv-search__label">Goście</label>
-      <select id="riv-guests" name="guests" class="riv-search__select">
-        <option value="1">1 osoba</option>
-        <option value="2" selected>2 osoby</option>
-        <option value="3">3 osoby</option>
-        <option value="4">4 osoby</option>
-      </select>
-    </div>
-    <button type="submit" class="riv-search__submit">Szukaj</button>
   </form>
 </section>
 

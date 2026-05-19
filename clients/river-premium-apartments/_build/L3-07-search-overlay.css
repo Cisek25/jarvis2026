@@ -1,113 +1,246 @@
 /* ============================================================
-   §18 — RIV-SEARCH (booking search overlay on hero)
-   Wzorowane na riverpremiumapartments.pl source layout.
-   Form submituje do natywnej wyszukiwarki IdoBooking — operator
-   weryfikuje action URL po wgraniu (np. /wyszukiwarka.html).
+   §18 — RIV-SEARCH (premium booking widget, source-matched layout)
+   3 boxes: Arrival button | Departure button | REZERWUJ ONLINE
+   Footer: 3 trust badges (Gwarancja / Natychmiastowe / Centrum)
+   Datepicker: Litepicker (CDN, dual-month, lang pl-PL)
    ============================================================ */
 
 .riv-search {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 8px;
+  box-shadow: 0 16px 48px rgba(5, 27, 61, 0.28);
+  width: 100%;
+  max-width: 920px;
+  margin: 40px auto 0;
   position: relative;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid var(--riv-line);
-  border-radius: var(--riv-radius-md);
-  box-shadow: 0 16px 48px rgba(5, 27, 61, 0.25);
-  padding: 24px 32px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
-  gap: 24px;
-  align-items: end;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgba(151, 140, 113, 0.2);
 }
 
-.riv-search__field {
+.riv-search__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0;
+  align-items: stretch;
+}
+
+.riv-search__box {
+  background: transparent;
+  border: none;
+  padding: 22px 28px 22px 28px;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--riv-font-body);
+  color: var(--riv-navy-dark);
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  min-width: 0;
+  gap: 8px;
+  min-height: 110px;
+  border-right: 1px solid rgba(151, 140, 113, 0.25);
+  transition: background 0.2s;
+}
+.riv-search__box:hover {
+  background: rgba(151, 140, 113, 0.06);
+}
+.riv-search__box:focus-visible {
+  outline: 2px solid var(--riv-beige);
+  outline-offset: -2px;
 }
 
 .riv-search__label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--riv-muted);
   font-family: var(--riv-font-body);
 }
 
-.riv-search__input,
-.riv-search__select {
+.riv-search__date {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
   font-family: var(--riv-font-body);
-  font-size: 16px;
+  line-height: 1;
+}
+
+.riv-search__day {
+  font-size: 34px;
+  font-weight: 500;
   color: var(--riv-navy-dark);
-  border: none;
-  border-bottom: 1px solid var(--riv-line);
-  background: transparent;
-  padding: 10px 0;
-  outline: none;
-  min-height: 44px;
+  line-height: 1;
+  min-width: 32px;
+  display: inline-block;
+}
+
+.riv-search__month,
+.riv-search__year {
+  font-size: 13px;
+  color: var(--riv-muted);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.riv-search__month::before,
+.riv-search__year::before {
+  content: "/";
+  margin-right: 4px;
+  color: var(--riv-line);
+}
+
+.riv-search__icon {
+  position: absolute;
+  top: 22px;
+  right: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--riv-beige);
+  pointer-events: none;
+  display: flex;
+}
+.riv-search__icon svg {
   width: 100%;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.riv-search__select {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23978C71' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0 center;
-  background-size: 16px;
-  padding-right: 24px;
-  cursor: pointer;
-}
-
-.riv-search__input:focus,
-.riv-search__select:focus {
-  border-bottom-color: var(--riv-beige);
+  height: 100%;
 }
 
 .riv-search__submit {
   background: var(--riv-navy-dark);
   color: #FFFFFF;
-  border: 1px solid var(--riv-navy-dark);
-  padding: 14px 36px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  border: none;
+  padding: 0 44px;
+  min-height: 110px;
   font-family: var(--riv-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   cursor: pointer;
-  min-height: 44px;
-  transition: background var(--riv-transition), border-color var(--riv-transition);
+  transition: background 0.2s;
   white-space: nowrap;
+  border-radius: 0;
 }
-
 .riv-search__submit:hover {
   background: var(--riv-navy);
-  border-color: var(--riv-navy);
 }
-
 .riv-search__submit:focus-visible {
   outline: 2px solid var(--riv-beige);
-  outline-offset: 2px;
+  outline-offset: -4px;
 }
 
-@media (max-width: 991px) {
-  .riv-search {
-    grid-template-columns: 1fr 1fr;
-    padding: 20px 24px;
-    gap: 16px;
-  }
-  .riv-search__submit {
-    grid-column: 1 / -1;
-  }
+.riv-search__footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 28px;
+  background: rgba(5, 27, 61, 0.035);
+  border-top: 1px solid rgba(151, 140, 113, 0.2);
 }
 
-@media (max-width: 600px) {
+.riv-search__trust {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--riv-navy-dark);
+  font-family: var(--riv-font-body);
+}
+
+.riv-search__trust-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--riv-beige);
+}
+
+/* Litepicker theme override (premium navy/beige) */
+.litepicker {
+  font-family: var(--riv-font-body) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 20px 60px rgba(5, 27, 61, 0.25) !important;
+  border: 1px solid rgba(151, 140, 113, 0.25) !important;
+}
+.litepicker .container__months .month-item-header div > .month-item-name,
+.litepicker .container__months .month-item-header div > .month-item-year {
+  font-family: var(--riv-font-heading) !important;
+  font-weight: 500 !important;
+  color: var(--riv-navy-dark) !important;
+  font-size: 16px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+.litepicker .container__months .month-item-weekdays-row > div {
+  font-family: var(--riv-font-body) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--riv-muted) !important;
+}
+.litepicker .container__days .day-item {
+  font-family: var(--riv-font-body) !important;
+  font-size: 14px !important;
+  color: var(--riv-navy-dark) !important;
+  border-radius: 4px !important;
+  min-height: 36px !important;
+  transition: background 0.15s !important;
+}
+.litepicker .container__days .day-item.is-today {
+  color: var(--riv-beige) !important;
+  font-weight: 600 !important;
+}
+.litepicker .container__days .day-item:hover {
+  background: rgba(151, 140, 113, 0.15) !important;
+  color: var(--riv-navy-dark) !important;
+}
+.litepicker .container__days .day-item.is-start-date,
+.litepicker .container__days .day-item.is-end-date {
+  background: var(--riv-navy-dark) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+.litepicker .container__days .day-item.is-in-range {
+  background: rgba(151, 140, 113, 0.18) !important;
+  color: var(--riv-navy-dark) !important;
+  border-radius: 0 !important;
+}
+.litepicker .button-previous-month,
+.litepicker .button-next-month {
+  color: var(--riv-navy-dark) !important;
+}
+.litepicker .button-previous-month:hover,
+.litepicker .button-next-month:hover {
+  color: var(--riv-beige) !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 767px) {
   .riv-search {
+    max-width: calc(100% - 24px);
+    margin: 30px auto 0;
+  }
+  .riv-search__inner {
     grid-template-columns: 1fr;
-    padding: 20px;
+  }
+  .riv-search__box {
+    border-right: none;
+    border-bottom: 1px solid rgba(151, 140, 113, 0.25);
+    min-height: 88px;
+    padding: 16px 24px;
+  }
+  .riv-search__day { font-size: 28px; }
+  .riv-search__submit {
+    min-height: 60px;
+    padding: 0 24px;
+  }
+  .riv-search__footer {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 14px 24px;
+  }
+  .riv-search__trust {
+    font-size: 12px;
   }
 }

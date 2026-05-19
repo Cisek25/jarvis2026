@@ -27,11 +27,11 @@ body.page-index .section.parallax .fp-tableCell .riv-hero {
   min-height: 100vh !important;
   padding: 120px 24px 80px !important;
   background: transparent !important;
-  z-index: 5 !important;
+  z-index: 1 !important;
 }
 body.page-index .riv-hero__content {
   position: relative;
-  z-index: 6;
+  z-index: 3;
   max-width: 900px;
   text-align: center;
   color: #FFFFFF;
@@ -73,9 +73,20 @@ body.page-index .section.parallax .fp-tableCell .riv-search {
 }
 body.page-index header.default13,
 body.page-index header,
-body.page-index .menu-wrapper,
+body.page-index .menu-wrapper {
+  z-index: 100 !important;
+  pointer-events: auto !important;
+}
+body.page-index header a,
+body.page-index header nav a,
+body.page-index .menu-wrapper a,
+body.page-index .menu-wrapper nav a {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 101;
+}
 body.page-index .lang-switch,
-body.page-index .navbar-language { z-index: 4 !important; }
+body.page-index .navbar-language { z-index: auto !important; }
 @media (max-width: 767px) {
   body.page-index .riv-hero__title { font-size: 36px !important; }
   body.page-index .riv-hero__subtitle { font-size: 16px !important; }

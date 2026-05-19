@@ -2177,27 +2177,21 @@ footer .powered_by {
    weryfikuje action URL po wgraniu (np. /wyszukiwarka.html).
    ============================================================ */
 
-.riv-hero {
-  padding-bottom: 80px;
-}
-
 .riv-search {
-  position: absolute;
-  bottom: -60px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--riv-line);
   border-radius: var(--riv-radius-md);
-  box-shadow: 0 16px 48px rgba(5, 27, 61, 0.18);
+  box-shadow: 0 16px 48px rgba(5, 27, 61, 0.25);
   padding: 24px 32px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
   gap: 24px;
   align-items: end;
-  width: calc(100% - 80px);
-  max-width: 1024px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .riv-search__field {
@@ -2275,7 +2269,6 @@ footer .powered_by {
 @media (max-width: 991px) {
   .riv-search {
     grid-template-columns: 1fr 1fr;
-    bottom: -120px;
     padding: 20px 24px;
     gap: 16px;
   }
@@ -2287,31 +2280,7 @@ footer .powered_by {
 @media (max-width: 600px) {
   .riv-search {
     grid-template-columns: 1fr;
-    bottom: -240px;
-    width: calc(100% - 32px);
     padding: 20px;
-  }
-}
-
-.riv-hero + section,
-.riv-hero + .ido-split-reverse,
-.riv-hero + .ido-split {
-  margin-top: 100px;
-}
-
-@media (max-width: 991px) {
-  .riv-hero + section,
-  .riv-hero + .ido-split-reverse,
-  .riv-hero + .ido-split {
-    margin-top: 160px;
-  }
-}
-
-@media (max-width: 600px) {
-  .riv-hero + section,
-  .riv-hero + .ido-split-reverse,
-  .riv-hero + .ido-split {
-    margin-top: 280px;
   }
 }
 /* ============================================================
@@ -2574,6 +2543,174 @@ body.page-offers .filter_header i {
 .ido-split .ido-split__cta:hover {
   color: var(--riv-beige);
   background: transparent !important;
+}
+
+/* §27 — HIDE system .index-info content na homepage
+   System renderuje H1/H2/button/widget w .index-info — przykrywa nasz hero.
+   Nasz riv-hero (teleported) zastępuje całość. */
+
+body.page-index .index-info > h1,
+body.page-index .index-info > h2,
+body.page-index .index-info > .big-label,
+body.page-index .index-info > button,
+body.page-index .index-info > .navbar-reservation,
+body.page-index .index-info > form,
+body.page-index .index-info > .iai-search,
+body.page-index .index-info > div:not(.riv-hero):not(.riv-hero__content):not(.riv-search) {
+  display: none \!important;
+}
+
+body.page-index .index-info {
+  position: relative \!important;
+  background: transparent \!important;
+  pointer-events: none \!important;
+}
+body.page-index .index-info .riv-hero,
+body.page-index .index-info .riv-hero * {
+  pointer-events: auto \!important;
+}
+
+/* §28 — riv-hero teleported fullscreen w .section.parallax .fp-tableCell
+   Override §6 ido-hero generic min-height. Zostaje 100vh w parallax. */
+
+body.page-index .section.parallax .fp-tableCell .riv-hero,
+body.page-index .fp-section .fp-tableCell .riv-hero,
+body.page-index .section.parallax .riv-hero {
+  position: relative \!important;
+  width: 100% \!important;
+  max-width: 100% \!important;
+  min-height: 100vh \!important;
+  margin: 0 \!important;
+  padding: 120px 24px 80px \!important;
+  left: auto \!important;
+  display: flex \!important;
+  flex-direction: column \!important;
+  align-items: center \!important;
+  justify-content: center \!important;
+  gap: 40px;
+  z-index: 5 \!important;
+  background: transparent \!important;
+}
+
+body.page-index .riv-hero__content {
+  position: relative;
+  z-index: 6;
+  max-width: 900px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+body.page-index .riv-hero__title {
+  color: #FFFFFF \!important;
+  font-size: 56px \!important;
+  line-height: 1.1 \!important;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  margin: 0 0 16px;
+}
+
+body.page-index .riv-hero__subtitle {
+  color: rgba(255, 255, 255, 0.95) \!important;
+  font-size: 18px \!important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  body.page-index .riv-hero__title { font-size: 36px \!important; }
+  body.page-index .riv-hero__subtitle { font-size: 16px \!important; }
+  body.page-index .section.parallax .fp-tableCell .riv-hero {
+    padding: 100px 16px 40px \!important;
+  }
+}
+
+/* §29 — Dark gradient overlay na parallax bg dla czytelności białego tekstu */
+
+body.page-index .section.parallax,
+body.page-index .section.parallax .fp-tableCell {
+  position: relative;
+}
+
+body.page-index .section.parallax > .fp-tableCell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(5, 27, 61, 0.35), rgba(5, 27, 61, 0.55));
+  z-index: 2;
+  pointer-events: none;
+}
+
+body.page-index .parallax-slider {
+  z-index: 1 \!important;
+}
+
+/* §30 — Search form pozycja inline center w teleported hero (override §18 absolute removed) */
+
+body.page-index .riv-hero .riv-search,
+body.page-index .section.parallax .fp-tableCell .riv-search {
+  position: relative \!important;
+  bottom: auto \!important;
+  left: auto \!important;
+  transform: none \!important;
+  margin: 0 auto \!important;
+  width: 100% \!important;
+  max-width: 900px \!important;
+  z-index: 7;
+}
+
+/* §31 — Hide system "Wyróżnione Oferty" duplicate H2 above featured offers
+   System renders <h2 class="big-label line-label">Wyróżnione Oferty</h2>
+   above .container-hotspot — duplicate vs our "Nasze apartamenty" header. */
+
+body.page-index h2.big-label.line-label,
+body.page-index .container-hotspot ~ h2.big-label,
+body.page-index .section_top h2.big-label.line-label {
+  display: none \!important;
+}
+
+/* §32 — Override system `header { position: fixed }` na body_top section headers
+   System ma globalnie `header { position: fixed; top: 0; z-index: 1010 }` (menu).
+   Każdy <header> tag w body_top inherits — wskakuje na top viewport. Force static.
+   Plus grid-span dla ido-cards__header żeby zajmował pełną szerokość row. */
+
+.ido-cards > header,
+.ido-cards > .ido-cards__header,
+.ido-features > header,
+.ido-features > .ido-features__header,
+.ido-testimonials > header,
+.ido-testimonials > .ido-testimonials__header,
+section > header.ido-cards__header,
+section > header.ido-features__header,
+section > .ido-cards__header,
+section > .ido-features__header {
+  position: static \!important;
+  top: auto \!important;
+  left: auto \!important;
+  right: auto \!important;
+  bottom: auto \!important;
+  z-index: auto \!important;
+  width: auto \!important;
+  background: transparent \!important;
+  transform: none \!important;
+}
+
+/* Grid span — header pełna szerokość row */
+.ido-cards--2-col > .ido-cards__header,
+.ido-cards--3-col > .ido-cards__header,
+.ido-cards--4-col > .ido-cards__header,
+.ido-cards > .ido-cards__header {
+  grid-column: 1 / -1 \!important;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.ido-cards > .ido-cards__header h2 {
+  margin: 0 0 8px;
+}
+.ido-cards > .ido-cards__header p {
+  margin: 0;
+  color: var(--riv-muted);
+  font-size: 16px;
 }
 /* ============================================================
    §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)

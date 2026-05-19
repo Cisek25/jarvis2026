@@ -1,0 +1,90 @@
+/* §8 — Cards (ido-cards 2/3/4-col grid) */
+.ido-cards { display: grid; gap: 24px; padding: 64px 40px; max-width: 1280px; margin: 0 auto; }
+.ido-cards--2-col { grid-template-columns: repeat(2, 1fr); }
+.ido-cards--3-col { grid-template-columns: repeat(3, 1fr); }
+.ido-cards--4-col { grid-template-columns: repeat(4, 1fr); }
+
+.ido-cards__item {
+  background: var(--riv-bg);
+  border: 1px solid var(--riv-line);
+  border-radius: var(--riv-radius-md);
+  overflow: hidden;
+  transition: transform var(--riv-transition), box-shadow var(--riv-transition);
+}
+.ido-cards__item:hover { transform: translateY(-4px); box-shadow: var(--riv-shadow-card); }
+
+.ido-cards__media { aspect-ratio: 16/10; overflow: hidden; }
+.ido-cards__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.ido-cards__item:hover .ido-cards__media img { transform: scale(1.05); }
+
+.ido-cards__body { padding: 24px; }
+.ido-cards__title { font-size: 22px; margin: 0 0 12px; color: var(--riv-navy-dark); }
+.ido-cards__desc { font-size: 14px; color: var(--riv-muted); line-height: 1.6; margin: 0 0 16px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.ido-cards__cta { display: inline-block; padding: 10px 0; color: var(--riv-navy-dark); font-size: 14px; font-weight: 500; border-bottom: 1px solid var(--riv-beige); text-transform: uppercase; letter-spacing: 0.08em; }
+
+@media (max-width: 767px) {
+  .ido-cards--2-col, .ido-cards--3-col, .ido-cards--4-col { grid-template-columns: 1fr; }
+  .ido-cards { padding: 48px 16px; }
+}
+
+/* §9 — Features (ido-features 3-6 ikon SVG inline) */
+.ido-features { display: grid; gap: 32px; padding: 64px 40px; max-width: 1280px; margin: 0 auto; }
+.ido-features--3-col { grid-template-columns: repeat(3, 1fr); }
+.ido-features--6-col { grid-template-columns: repeat(6, 1fr); }
+
+.ido-features__item { text-align: center; padding: 16px; }
+.ido-features__icon { width: 48px; height: 48px; margin: 0 auto 16px; color: var(--riv-beige); }
+.ido-features__icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.ido-features__title { font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--riv-navy-dark); margin: 0; }
+
+@media (max-width: 767px) {
+  .ido-features--6-col { grid-template-columns: repeat(3, 1fr); }
+  .ido-features--3-col { grid-template-columns: 1fr; }
+}
+
+/* §10 — Testimonials (ido-testimonials karuzela lub static grid) */
+.ido-testimonials { padding: 80px 40px; max-width: 1280px; margin: 0 auto; background: rgba(151, 140, 113, 0.05); }
+.ido-testimonials__title { text-align: center; margin: 0 0 48px; }
+.ido-testimonials__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.ido-testimonials__item { background: var(--riv-bg); padding: 32px; border-radius: var(--riv-radius-md); border: 1px solid var(--riv-line); }
+.ido-testimonials__rating { color: var(--riv-beige); margin-bottom: 12px; font-size: 18px; }
+.ido-testimonials__quote { font-family: var(--riv-font-heading); font-size: 18px; line-height: 1.6; color: var(--riv-navy-dark); margin: 0 0 16px; font-style: italic; }
+.ido-testimonials__author { font-size: 14px; color: var(--riv-muted); }
+.ido-testimonials__source { font-size: 12px; color: var(--riv-beige); text-transform: uppercase; letter-spacing: 0.08em; }
+@media (max-width: 767px) { .ido-testimonials__grid { grid-template-columns: 1fr; } }
+
+/* §11 — CTA (ido-cta, ido-cta-dark) */
+.ido-cta { padding: 80px 40px; text-align: center; max-width: 800px; margin: 0 auto; }
+.ido-cta__title { font-size: 36px; margin: 0 0 16px; }
+.ido-cta__subtitle { font-size: 16px; color: var(--riv-muted); margin: 0 0 32px; }
+.ido-cta-dark { background: var(--riv-navy-dark); color: #FFFFFF; padding: 80px 40px; text-align: center; }
+.ido-cta-dark .ido-cta__title { color: #FFFFFF; }
+.ido-cta-dark .ido-cta__subtitle { color: rgba(255, 255, 255, 0.85); }
+.ido-cta__btn, .btn-primary { display: inline-block; background: var(--riv-navy-dark); color: #FFFFFF !important; padding: 14px 36px; font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--riv-navy-dark); transition: all var(--riv-transition); min-height: 44px; }
+.ido-cta__btn:hover, .btn-primary:hover { background: var(--riv-navy); border-color: var(--riv-navy); }
+.ido-cta-dark .ido-cta__btn { background: var(--riv-beige); color: var(--riv-navy-dark) !important; border-color: var(--riv-beige); }
+.ido-cta-dark .ido-cta__btn:hover { background: var(--riv-gold); border-color: var(--riv-gold); color: #FFFFFF !important; }
+
+/* §12 — FAQ (ido-faq accordion) */
+.ido-faq { padding: 64px 40px; max-width: 800px; margin: 0 auto; }
+.ido-faq__item { border-bottom: 1px solid var(--riv-line); }
+.ido-faq__question { padding: 20px 0; font-family: var(--riv-font-heading); font-size: 18px; font-weight: 600; color: var(--riv-navy-dark); cursor: pointer; display: flex; justify-content: space-between; align-items: center; min-height: 44px; }
+.ido-faq__answer { padding: 0 0 20px; font-size: 16px; line-height: 1.7; color: var(--riv-ink); display: none; }
+.ido-faq__item.is-open .ido-faq__answer { display: block; }
+.ido-faq__icon { transition: transform var(--riv-transition); }
+.ido-faq__item.is-open .ido-faq__icon { transform: rotate(45deg); }
+
+/* §13 — Gallery (ido-gallery masonry) */
+.ido-gallery { padding: 64px 40px; max-width: 1280px; margin: 0 auto; }
+.ido-gallery__filters { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+.ido-gallery__filter { padding: 8px 16px; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--riv-line); background: transparent; cursor: pointer; min-height: 44px; }
+.ido-gallery__filter.is-active { background: var(--riv-navy-dark); color: #FFFFFF; border-color: var(--riv-navy-dark); }
+.ido-gallery__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.ido-gallery__item { aspect-ratio: 4/3; overflow: hidden; cursor: pointer; }
+.ido-gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.ido-gallery__item:hover img { transform: scale(1.05); }
+@media (max-width: 767px) { .ido-gallery__grid { grid-template-columns: 1fr; } }
+
+/* §14 — Map */
+.ido-map { padding: 64px 0; max-width: 1280px; margin: 0 auto; }
+.ido-map iframe { width: 100%; height: 480px; border: 0; }

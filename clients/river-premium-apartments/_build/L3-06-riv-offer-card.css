@@ -1,0 +1,140 @@
+/* ============================================================
+   §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)
+   ============================================================ */
+
+/* Hide system slick carousel completely */
+.container-hotspot,
+.cmshotspot { display: none !important; }
+
+/* Grid for offers and apartments */
+.riv-offers-grid,
+.riv-apartments-grid {
+  display: grid;
+  gap: 24px;
+  padding: 0 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.riv-offers-grid { grid-template-columns: repeat(3, 1fr); }
+.riv-apartments-grid { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 991px) {
+  .riv-offers-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 680px) {
+  .riv-offers-grid,
+  .riv-apartments-grid { grid-template-columns: 1fr; padding: 0 16px; }
+}
+
+/* Card */
+.riv-offer-card {
+  background: var(--riv-bg);
+  border: 1px solid var(--riv-line);
+  border-radius: var(--riv-radius-md);
+  overflow: hidden;
+  transition: transform var(--riv-transition), box-shadow var(--riv-transition);
+  display: flex;
+  flex-direction: column;
+}
+.riv-offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--riv-shadow-card);
+}
+
+.riv-offer-card__media {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  display: block;
+}
+.riv-offer-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.riv-offer-card:hover .riv-offer-card__img { transform: scale(1.05); }
+
+.riv-offer-card__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--riv-navy-dark);
+  color: #FFFFFF;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.riv-offer-card__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.riv-offer-card__name {
+  font-family: var(--riv-font-heading);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--riv-navy-dark);
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.riv-offer-card__desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--riv-muted);
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.riv-offer-card__meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--riv-navy);
+}
+.riv-offer-card__meta li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.riv-offer-card__meta svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--riv-beige);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.riv-offer-card__cta {
+  margin-top: auto;
+  display: inline-block;
+  padding: 10px 0;
+  color: var(--riv-navy-dark);
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--riv-beige);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  align-self: flex-start;
+  min-height: 44px;
+}
+.riv-offer-card__cta:hover { color: var(--riv-beige); }
+
+/* §17 — Client-added rules placeholder (DO NOT MODIFY ABOVE THIS LINE) */
+/* === §RIV-CLIENT === */
+/* Klient może tu dopisać własne reguły. JARVIS update zostawia tę sekcję as-is. */
+/* === END §RIV-CLIENT === */

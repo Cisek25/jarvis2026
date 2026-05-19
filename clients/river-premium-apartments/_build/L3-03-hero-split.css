@@ -1,0 +1,117 @@
+/* ============================================================
+   §6 — Hero (ido-hero extended, fullscreen 80vh)
+   ============================================================ */
+.ido-hero, .riv-hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.ido-hero::before, .riv-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(5, 27, 61, 0.35), rgba(5, 27, 61, 0.55));
+  z-index: 1;
+}
+
+.ido-hero__media, .riv-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.ido-hero__media img, .riv-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.ido-hero__content, .riv-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 24px;
+}
+
+.ido-hero__title, .riv-hero__title {
+  color: #FFFFFF !important;
+  font-size: 64px;
+  line-height: 1.0;
+  font-weight: 400;
+  margin: 0 0 24px;
+}
+
+.ido-hero__subtitle, .riv-hero__subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 18px;
+  line-height: 1.6;
+  font-family: var(--riv-font-body);
+  margin: 0 0 32px;
+}
+
+@media (max-width: 767px) {
+  .ido-hero, .riv-hero { min-height: 70vh; }
+  .ido-hero__title, .riv-hero__title { font-size: 36px; }
+  .ido-hero__subtitle, .riv-hero__subtitle { font-size: 16px; }
+}
+
+/* Hero small (subpages) */
+.riv-hero--small { min-height: 40vh; }
+.riv-hero--small .riv-hero__title { font-size: 48px; }
+
+/* ============================================================
+   §7 — Split (ido-split, ido-split-reverse)
+   ============================================================ */
+.ido-split, .ido-split-reverse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 80px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.ido-split-reverse .ido-split__media,
+.ido-split-reverse .ido-split__content { order: 0; }
+.ido-split-reverse .ido-split__media { order: 1; }
+
+.ido-split__media img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--riv-radius-sm);
+  box-shadow: var(--riv-shadow-card);
+}
+
+.ido-split__content h2 {
+  margin: 0 0 24px;
+  font-size: 36px;
+}
+
+.ido-split__content p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--riv-ink);
+  margin: 0 0 16px;
+}
+
+.ido-split__cta {
+  display: inline-block;
+  margin-top: 16px;
+}
+
+@media (max-width: 767px) {
+  .ido-split, .ido-split-reverse {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 48px 16px;
+  }
+  .ido-split-reverse .ido-split__media { order: 0; }
+}

@@ -1,0 +1,69 @@
+/* ============================================================
+   RIVER PREMIUM APARTMENTS — Layer 3 Theme (default13 override)
+   Brand: navy #051B3D + beige #978C71
+   Fonts: Bodoni Moda (heading) + DM Sans (body)
+   ============================================================ */
+
+/* §1 — Brand tokens */
+:root {
+  --riv-navy:      #12334C;
+  --riv-navy-dark: #051B3D;
+  --riv-gold:      #7E674B;
+  --riv-beige:     #978C71;
+  --riv-bg:        #FFFFFF;
+  --riv-ink:       #1A1A1A;
+  --riv-muted:     #6B6B6B;
+  --riv-line:      rgba(151, 140, 113, 0.3);
+
+  --riv-font-heading: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  --riv-font-body:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --riv-radius-sm: 4px;
+  --riv-radius-md: 8px;
+  --riv-shadow-card: 0 8px 24px rgba(5, 27, 61, 0.08);
+  --riv-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* §2 — default13 global overrides */
+body {
+  font-family: var(--riv-font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  color: var(--riv-ink) !important;
+  background: var(--riv-bg) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--riv-font-heading) !important;
+  color: var(--riv-navy-dark) !important;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.2;
+}
+
+h1 { font-size: 48px; line-height: 52px; }
+h2 { font-size: 32px; line-height: 38px; font-weight: 600; }
+h3 { font-size: 22px; line-height: 28px; font-weight: 600; }
+
+@media (max-width: 767px) {
+  h1 { font-size: 32px; line-height: 38px; }
+  h2 { font-size: 24px; line-height: 30px; }
+  h3 { font-size: 20px; line-height: 26px; }
+}
+
+a {
+  color: var(--riv-navy-dark);
+  text-decoration: none;
+  transition: color var(--riv-transition);
+}
+a:hover { color: var(--riv-beige); }
+
+button, .btn { font-family: var(--riv-font-body); }
+
+/* §3 — focus states (WCAG AA) */
+:focus-visible {
+  outline: 2px solid var(--riv-beige);
+  outline-offset: 2px;
+}

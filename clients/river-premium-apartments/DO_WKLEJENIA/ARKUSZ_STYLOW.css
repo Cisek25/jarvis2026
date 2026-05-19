@@ -1,0 +1,2312 @@
+/* ═══════════════════════════════════════════════════════════════
+   ido-system-traps.css
+   Layer 1 of 3 — IdoBooking System Bug Fixes (Traps)
+   ═══════════════════════════════════════════════════════════════
+
+   PURPOSE:
+   All known IdoBooking / IdoSell system bugs that affect EVERY
+   client identically. This file is shared — never client-specific.
+   Client theme variables (colors, fonts, sizes) are defined in
+   Layer 3 (client-theme.css) as --ido-* custom properties.
+
+   LAYER ARCHITECTURE:
+     Layer 1 → ido-system-traps.css   (this file — universal fixes)
+     Layer 2 → ido-layout.css         (structural, client-customized)
+     Layer 3 → client-theme.css       (CSS vars + brand overrides)
+
+   VARIABLE CONTRACT (must be defined in Layer 3 :root):
+     --ido-primary      Primary brand color
+     --ido-secondary    Secondary / lighter brand color
+     --ido-accent       Accent / highlight color
+     --ido-bg           Page background color
+     --ido-dark         Dark text / dark surfaces color
+     --ido-light        Light surface color (near-white)
+     --ido-font-heading Heading font stack
+     --ido-font-body    Body font stack
+     --ido-radius       Base border-radius
+     --ido-header-h     Fixed header height (e.g. 80px)
+
+   HARDCODED ELEMENTS NOTE:
+   The following selectors are rendered inside sandboxed iframes
+   or injected shadow-like contexts where CSS custom properties
+   do NOT inherit. Use literal hex values only:
+     #bounce, #backTop, .ck_dsclr__btn_v2,
+     .ck_dsclr__btn_v2:hover, .skip_link, .formbutton
+   The generator replaces [HARDCODED_PRIMARY] and
+   [HARDCODED_SECONDARY] tokens before deployment.
+
+   TRAP COUNT: 18 root traps + page-specific universal fixes
+   SOURCE: TEMPLATE_ARKUSZ_STYLOW.css + trap_tracker.json
+   Updated: 2026-04-11
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #1 — Body font-size reset
+   ROOT CAUSE: IdoSell sets html { font-size: 140% } on the
+   default13 template, which makes 1rem = 22.4px. Every unit
+   derived from rem is 40% too large. Reset to 16px.
+   CLIENTS: all (7/7 surveyed)
+   ═══════════════════════════════════════════════════════════════ */
+body,
+body.default13 {
+  font-size: 16px !important;
+  font-family: var(--ido-font-body) !important;
+  background: var(--ido-bg) !important;
+  color: var(--ido-dark) !important;
+  line-height: 1.7 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #2 — System orange #AD5009 → brand color
+   ROOT CAUSE: default13.css hardcodes #AD5009 on .btn,
+   .btn-primary, .btn-success, filter headers, links. Override
+   with brand primary. Exclude .slick-arrow (navigation arrows).
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.btn:not(.slick-arrow),
+.btn-primary:not(.slick-arrow),
+.btn-success:not(.slick-arrow),
+a.btn:not(.slick-arrow),
+button.btn:not(.slick-arrow) {
+  background-color: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+}
+.btn:not(.slick-arrow):hover,
+.btn-primary:not(.slick-arrow):hover,
+.btn-success:not(.slick-arrow):hover,
+a.btn:not(.slick-arrow):hover,
+button.btn:not(.slick-arrow):hover {
+  background-color: var(--ido-secondary) !important;
+  border-color: var(--ido-secondary) !important;
+  color: #fff !important;
+}
+
+/* System scheme CSS vars — override green/orange defaults
+   (333333.css.gz defines --maincolor1 as green #4ADE80) */
+html:root {
+  --maincolor1: var(--ido-primary) !important;
+  --supportcolor1: var(--ido-secondary) !important;
+  --maincolor2: var(--ido-dark) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #3 — H1 "big-label" hidden by system on /offer pages
+   ROOT CAUSE: System applies display:none via JS on .big-label
+   on accommodation detail pages. Force visible.
+   CLIENTS: mazurski, mountainprestige (and others via JS)
+   ═══════════════════════════════════════════════════════════════ */
+h1.big-label {
+  display: block !important;
+  visibility: visible !important;
+  font-family: var(--ido-font-heading) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #4 — H2 "IdoBooking" injected inside .index-info
+   ROOT CAUSE: System renders the literal text "IdoBooking" as
+   an H2 inside .index-info and inside .section.parallax.
+   Must be hidden — it overlaps hero content.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info h2,
+.index-info h1,
+.section.parallax > h2 {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #5 — Dark overlay on slider via pseudo-elements
+   ROOT CAUSE: .parallax-slider::before gets a semi-opaque
+   black background from system CSS, darkening the hero image.
+   .parallax-image::after does the same on image-only heroes.
+   Both must be suppressed so custom overlays render cleanly.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.parallax-slider::before,
+.parallax-slider::after,
+.parallax-image::before,
+.parallax-image::after {
+  background: transparent !important;
+  display: none !important;
+  opacity: 0 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #6 — Header must be position:fixed, NOT sticky
+   ROOT CAUSE: position:sticky on .defaultsb / header.default13
+   creates a layout gap between header and hero on iOS Safari
+   and when sticky triggers at wrong scroll offset. Fixed + explicit
+   top:0 is the only reliable cross-browser approach.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.defaultsb,
+#defaultsb,
+.default13,
+.navbar-wrapper,
+header.header,
+header.default13 {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1100 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #7 — Subpage padding-top compensates fixed header
+   ROOT CAUSE: Fixed header overlaps page content on subpages.
+   Homepage is excluded — fullscreen hero handles offset itself.
+   Value comes from --ido-header-h measured on live site.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers,
+body.page-offer,
+body.page-contact,
+body.page-txt,
+body:not(.page-index) .content-wrapper,
+body:not(.page-index) main {
+  padding-top: var(--ido-header-h) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #8 — Stacking context: .index-info z-index too high
+   ROOT CAUSE: .index-info receives position:absolute and
+   z-index:1000 from system, which traps it above the slider
+   and blocks pointer events on hero CTAs. Reset position to
+   allow hero overlay to sit above it.
+   NOTE: pointer-events:none prevents invisible area blocking clicks.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info {
+  z-index: 1 !important;
+  pointer-events: none !important;
+  overflow: visible !important;
+}
+.index-info * {
+  pointer-events: none !important;
+}
+.index-info button,
+.index-info .navbar-reservation {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #9 — System z-index: -1 on form inputs
+   ROOT CAUSE: System stylesheet sets z-index:-1 on inputs and
+   selects inside the booking widget, making them unclickable
+   when the widget sits inside a positioned container.
+   CLIENTS: najmar, ecocamping, madera, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+#iai_book_form input,
+#iai_book_form select,
+#iai_book_form textarea,
+#iai_book_form .widget__option,
+input,
+select,
+textarea {
+  z-index: 2 !important;
+  position: relative;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #10 — System inline positioning on .index-info
+   ROOT CAUSE: System JS injects inline style="top:Xpx; left:Xpx"
+   on .index-info, misaligning it relative to the hero. These
+   overrides must use !important to beat inline styles.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.index-info {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #11 — Litepicker calendar rendered at 944px width
+   ROOT CAUSE: Litepicker date range picker gets a hardcoded
+   width from the system JS config, causing horizontal scroll
+   on mobile and overflow on desktop sidebars. fit-content
+   corrects to actual rendered width.
+   CLIENTS: najmar, ecocamping, madera, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.litepicker {
+  width: fit-content !important;
+  max-width: 100vw !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #12 — Ghost booking form on /offer pages
+   ROOT CAUSE: System renders a duplicate #iai_book_form with
+   class d-none on offer detail pages. Without explicit height:0
+   it still occupies vertical space even when display:none,
+   pushing content down.
+   CLIENTS: all /offer pages
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offer #iai_book_form.d-none,
+body.page-offer .iai-search.d-none {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #13 — .iai-search shown on /offers page (has its own)
+   ROOT CAUSE: The /offers page has a built-in filter sidebar.
+   The global .iai-search bar also renders, duplicating search UI.
+   Also hide on /txt subpages where a search widget makes no sense.
+   CLIENTS: najmar, ecocamping, madera, mazurski, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers .iai-search,
+body.page-offers #iai_book_se,
+body.page-txt .iai-search,
+body.page-txt #iai_book_se {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #14 — FontAwesome NOT loaded — hide broken FA icons
+   ROOT CAUSE: IdoSell does not load FontAwesome by default in
+   template 11 / default13. FA icon elements render as invisible
+   0x0 boxes OR as raw unicode squares. Hide them system-wide;
+   replace with CSS-only chevrons where needed (see §7 /offers).
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers .filter_header .fa,
+body.page-offers .filter_header .fa-angle-down,
+body.page-offers .filter_header [class^="fa-"],
+body.page-offers .filter_header [class*=" fa-"] {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #15 — Gradient overlay on .section.parallax
+   ROOT CAUSE: The system ::after pseudo-element on .section.parallax
+   renders a dark solid overlay that obscures hero images.
+   IMPORTANT: append custom overlays to .section.parallax itself,
+   NOT to .parallax-slider — the slider has z-index:-2 which traps
+   any positioned child below it (cannot be fixed without JS).
+   .index-info::after must also be suppressed.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.section.parallax::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.4)  12%,
+    rgba(255, 255, 255, 0)    22%,
+    rgba(0, 0, 0, 0)          60%,
+    rgba(0, 0, 0, 0.35)      100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.index-info::after,
+.index-info::before {
+  display: none !important;
+  content: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #16 — span.btn on /offers gets line-height: 49px
+   ROOT CAUSE: System stylesheet targets span.btn and forces
+   line-height:49px + height:49px, which makes the "SZCZEGOLY"
+   button on offer listing cards enormously tall. Normalize to
+   auto height with flex centering.
+   CLIENTS: najmar, ecocamping, madera, mazurski, golden, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+body.page-offers span.btn,
+.page-offers .accommodation-buttons span.btn,
+.offer span.btn {
+  line-height: 1.4 !important;
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 10px 24px !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #17 — Tabs sticky: system JS adds --fixed class, not .sticky
+   ROOT CAUSE: The offer detail tabs bar gets a class of "--fixed"
+   (double-dash prefix, Bootstrap modifier style) added by system JS
+   when it sticks. This is NOT the standard .sticky class. Without
+   an explicit rule targeting .tabs.--fixed the tab bar jumps out
+   of layout — full-width fix and z-index are required.
+   CLIENTS: mazurski, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.tabs.--fixed {
+  position: fixed !important;
+  top: var(--ido-header-h) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  margin: 0 !important;
+  z-index: 1000 !important;
+  background: var(--ido-light) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Tabs span child font size — system forces 1.3rem */
+.tabs__item > span {
+  font-size: 13px !important;
+  font-family: var(--ido-font-body) !important;
+  font-weight: 500 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   TRAP #18 — Footer VISA/MC strip dark default background
+   ROOT CAUSE: .footer-contact-baner has a hardcoded dark navy
+   background (#3E475E) from system CSS. Logos and icons inside
+   render with wrong contrast against custom dark footers.
+   Override background to match client dark color and invert logos.
+   CLIENTS: all (7/7)
+   ═══════════════════════════════════════════════════════════════ */
+.footer-contact-baner,
+.footer__strip,
+footer .footer__strip,
+.footer-bottom,
+.payment-methods {
+  background: var(--ido-dark) !important;
+  background-color: var(--ido-dark) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+.footer-contact-baner svg,
+.footer-contact-baner img,
+.footer__strip img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.4 !important;
+}
+.footer-contact-baner span,
+.footer-contact-baner a,
+.footer__strip a {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 12px !important;
+}
+.powered_by_logo img {
+  filter: brightness(0) invert(1) !important;
+  opacity: 0.3 !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADDITIONAL UNIVERSAL FIX — Leaflet map overflow
+   ROOT CAUSE: A wildcard selector [class*="map"] from system CSS
+   clips map tile images. Protect Leaflet containers explicitly.
+   CLIENTS: najmar, madera, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.leaflet-container {
+  overflow: hidden !important;
+}
+.leaflet-container * {
+  box-sizing: content-box;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ADDITIONAL UNIVERSAL FIX — container-hotspot (JS rebuilds cards)
+   ROOT CAUSE: System renders a .container-hotspot with system-styled
+   offer cards that JS replaces. Hide the system version to prevent
+   flash of unstyled content.
+   CLIENTS: madera, mountainprestige
+   ═══════════════════════════════════════════════════════════════ */
+.container-hotspot {
+  display: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §A — TYPOGRAPHY BASE (universal, uses CSS vars)
+   ═══════════════════════════════════════════════════════════════ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ido-font-heading) !important;
+  color: var(--ido-dark) !important;
+  line-height: 1.2 !important;
+}
+
+a {
+  color: var(--ido-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--ido-secondary);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §B — SEARCH WIDGET (universal fixes)
+   Font and persons-dropdown chevron are broken on all clients.
+   ═══════════════════════════════════════════════════════════════ */
+.iai-search,
+#iai_book_form {
+  font-family: var(--ido-font-body) !important;
+}
+
+/* Search / booking submit button
+   NOTE: .formbutton does NOT inherit CSS vars in all contexts.
+   Generator must replace [HARDCODED_PRIMARY] and [HARDCODED_SECONDARY]. */
+.formbutton,
+#iai_book_form .formbutton {
+  background: [HARDCODED_PRIMARY] !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: var(--ido-radius) !important;
+  font-family: var(--ido-font-body) !important;
+  cursor: pointer !important;
+}
+.formbutton:hover,
+#iai_book_form .formbutton:hover {
+  background: [HARDCODED_SECONDARY] !important;
+}
+
+/* Persons dropdown chevron — system button is 8x8 and invisible */
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn {
+  position: absolute !important;
+  top: 50% !important;
+  right: 16px !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  opacity: 1 !important;
+  font-size: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+#iai_book_form .widget__option.iai_input-small .iai_widget_btn::after {
+  content: '' !important;
+  display: block !important;
+  width: 8px !important;
+  height: 8px !important;
+  border-right: 2px solid var(--ido-dark) !important;
+  border-bottom: 2px solid var(--ido-dark) !important;
+  transform: rotate(45deg) !important;
+  margin: 2px auto 0 !important;
+}
+#iai_book_form .widget__option.iai_input-small {
+  padding-right: 44px !important;
+}
+
+/* Persons dropdown list overflow */
+.persons_list {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §C — /offers PAGE (universal styling for all clients)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Offers container background — system default is #292929 dark */
+body.page-offers,
+body.page-offers main,
+.offers-container {
+  background: var(--ido-bg) !important;
+  color: var(--ido-dark) !important;
+}
+
+/* Filter section headers — brand color, heading font */
+body.page-offers h4,
+body.page-offers .sidebar h4,
+body.page-offers .filter_header {
+  color: var(--ido-primary) !important;
+  font-family: var(--ido-font-heading) !important;
+}
+
+/* Filter header layout with CSS chevron (FontAwesome not loaded) */
+body.page-offers .filter_header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  padding: 10px 16px !important;
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  margin-bottom: 8px !important;
+  transition: background 0.2s ease !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+body.page-offers .filter_header:hover {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* CSS-only chevron replaces missing FontAwesome icon */
+body.page-offers .filter_header::after {
+  content: "" !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-right: 2px solid var(--ido-primary) !important;
+  border-bottom: 2px solid var(--ido-primary) !important;
+  transform: rotate(45deg) !important;
+  transition: transform 0.3s ease !important;
+  margin-left: 12px !important;
+  margin-top: -3px !important;
+}
+body.page-offers .filter_header[aria-expanded="true"]::after {
+  transform: rotate(-135deg) !important;
+  margin-top: 3px !important;
+}
+
+/* Filter collapse — Bootstrap collapse guard */
+body.page-offers .filter_content.collapse:not(.show) {
+  display: none !important;
+}
+body.page-offers .filter_content.collapse.show {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* /offers buttons */
+body.page-offers .btn,
+body.page-offers button.btn,
+body.page-offers a.btn {
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  border: none !important;
+}
+body.page-offers .btn:hover {
+  background: var(--ido-secondary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §D — /offer DETAIL PAGE (universal fixes)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Price circle — system renders oval 244x161, force 150x150 circle */
+.offer-price {
+  width: 150px !important;
+  height: 150px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: var(--ido-primary) !important;
+  color: #fff !important;
+  padding: 0 !important;
+  text-align: center !important;
+}
+.offer-price small {
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+}
+.offer-price span {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+/* ZAREZERWUJ / Reserve button */
+.accommodation-leftbutton,
+.page-offer .btn-success,
+.page-offer a.btn-success,
+.page-offer .period-price .btn {
+  background: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+  font-family: var(--ido-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 12px 24px !important;
+  border-radius: var(--ido-radius) !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+.accommodation-leftbutton:hover,
+.page-offer .btn-success:hover,
+.page-offer a.btn-success:hover {
+  background: var(--ido-secondary) !important;
+  border-color: var(--ido-secondary) !important;
+}
+
+/* contact__btn centering — system default justify-content:normal */
+.contact__btn {
+  justify-content: center !important;
+  font-family: var(--ido-font-body) !important;
+}
+
+/* System price h2/p too large on detail page */
+.price,
+.offer .price,
+.page-offer .price {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--ido-primary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §E — /contact PAGE (universal)
+   ═══════════════════════════════════════════════════════════════ */
+body.page-contact a {
+  color: var(--ido-primary) !important;
+}
+body.page-contact a:hover {
+  color: var(--ido-secondary) !important;
+}
+body.page-contact .btn,
+body.page-contact form button,
+body.page-contact form input[type="submit"] {
+  background: var(--ido-primary) !important;
+  border-color: var(--ido-primary) !important;
+  color: #fff !important;
+}
+body.page-contact .btn:hover {
+  background: var(--ido-secondary) !important;
+}
+body.page-contact .leaflet-container {
+  border-radius: var(--ido-radius) !important;
+  overflow: hidden !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §F — /txt SUBPAGES (universal)
+   ═══════════════════════════════════════════════════════════════ */
+.txt-text {
+  font-family: var(--ido-font-body) !important;
+  line-height: 1.7 !important;
+  color: var(--ido-dark) !important;
+}
+.txt-text h2,
+.txt-text h3 {
+  font-family: var(--ido-font-heading) !important;
+  color: var(--ido-primary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §G — FOOTER (universal dark override)
+   ═══════════════════════════════════════════════════════════════ */
+footer,
+.footer,
+.footer-wrapper,
+.page-footer {
+  background: var(--ido-dark) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-family: var(--ido-font-body) !important;
+}
+footer h3,
+footer h4,
+.footer h3,
+.footer h4 {
+  color: #fff !important;
+  font-family: var(--ido-font-heading) !important;
+  font-size: 16px !important;
+}
+footer a,
+.footer a {
+  color: var(--ido-accent) !important;
+}
+footer a:hover,
+.footer a:hover {
+  color: var(--ido-secondary) !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   §H — SYSTEM ELEMENTS WITH HARDCODED HEX (no CSS var inheritance)
+   WARNING: Do NOT replace these tokens manually.
+   The pipeline generator substitutes them at build time:
+     [HARDCODED_PRIMARY]   → client primary color hex (e.g. #4A6741)
+     [HARDCODED_SECONDARY] → client secondary color hex (e.g. #6B8F5E)
+   Affected elements: #bounce, #backTop, .ck_dsclr__btn_v2, .skip_link
+   These live in system-injected shadow contexts or iframes where
+   CSS custom properties from :root do NOT cascade.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Scroll-down arrow (system positions it centered; move to right edge) */
+#bounce {
+  background-color: [HARDCODED_PRIMARY] !important;
+  background: [HARDCODED_PRIMARY] !important;
+  left: auto !important;
+  right: 32px !important;
+  transform: none !important;
+  margin-left: 0 !important;
+}
+
+/* Back-to-top button */
+#backTop {
+  background: [HARDCODED_PRIMARY] !important;
+}
+#backTop:hover {
+  background: [HARDCODED_SECONDARY] !important;
+}
+
+/* Cookie consent banner */
+.ck_dsclr__btn_v2 {
+  background: [HARDCODED_PRIMARY] !important;
+}
+.ck_dsclr__btn_v2:hover {
+  background: [HARDCODED_SECONDARY] !important;
+}
+.ck_dsclr_v2 a {
+  color: [HARDCODED_PRIMARY] !important;
+}
+.ck_dsclr_x_v2 {
+  color: [HARDCODED_PRIMARY] !important;
+}
+
+/* Skip-to-content accessibility link */
+.skip_link {
+  background: [HARDCODED_PRIMARY] !important;
+  color: #fff !important;
+}
+/*
+ * ido-components.css
+ * IdoBooking Universal Component Library — Layer 2
+ * Shared by all clients. Parameterized via CSS custom properties.
+ * Layer 1 (ido-base.css) sets the variables. Layer 3 (client.css) overrides.
+ *
+ * Prefix: ido-
+ * Variables consumed: --ido-primary, --ido-secondary, --ido-accent,
+ *   --ido-bg, --ido-dark, --ido-light, --ido-font-heading, --ido-font-body,
+ *   --ido-radius
+ *
+ * Table of contents:
+ *  1. Layout System
+ *  2. Hero Section
+ *  3. Split Layout
+ *  4. Feature Grid
+ *  5. Offer Cards
+ *  6. CTA Section
+ *  7. Stats Bar
+ *  8. FAQ Accordion
+ *  9. Gallery Grid
+ * 10. Buttons
+ * 11. Typography Helpers
+ * 12. Animations
+ * 13. Accessibility
+ * 14. Responsive
+ */
+
+/* =========================================================
+   1. LAYOUT SYSTEM
+   ========================================================= */
+
+.ido-section {
+  padding: 80px 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.ido-section--white {
+  background-color: #ffffff;
+}
+
+.ido-section--cream {
+  background-color: var(--ido-bg, #f8f5f0);
+}
+
+.ido-section--dark {
+  background-color: var(--ido-dark, #1a1a1a);
+  color: #ffffff;
+}
+
+.ido-section--accent {
+  background-color: var(--ido-accent, #e8d5b0);
+}
+
+.ido-container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.ido-container--narrow {
+  max-width: 900px;
+  margin-inline: auto;
+  padding-inline: 24px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* =========================================================
+   2. HERO SECTION
+   ========================================================= */
+
+.ido-hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Overlay on top of system slider (.section.parallax) */
+.ido-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.25) 60%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  z-index: 5;
+  pointer-events: none;
+}
+
+.ido-hero__content {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 20px;
+}
+
+.ido-hero__title {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: clamp(2rem, 5vw + 1rem, 4.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.4);
+  max-width: 900px;
+}
+
+.ido-hero__subtitle {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: clamp(1rem, 1.5vw + 0.5rem, 1.375rem);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 680px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.ido-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--ido-primary, #8b6f47);
+  color: #ffffff;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 16px 40px;
+  border-radius: var(--ido-radius, 4px);
+  border: 2px solid transparent;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-top: 8px;
+}
+
+.ido-hero__cta:hover {
+  background-color: var(--ido-secondary, #6b5035);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.ido-hero__scroll {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.75rem;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: ido-bounce 2s ease-in-out infinite;
+  text-decoration: none;
+}
+
+.ido-hero__scroll::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-right: 2px solid rgba(255, 255, 255, 0.75);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.75);
+  transform: rotate(45deg);
+  margin-top: -6px;
+}
+
+@keyframes ido-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+
+/* =========================================================
+   3. SPLIT LAYOUT
+   ========================================================= */
+
+.ido-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.ido-split--reverse .ido-split__text {
+  order: 2;
+}
+
+.ido-split--reverse .ido-split__img {
+  order: 1;
+}
+
+.ido-split__text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ido-split__img {
+  overflow: hidden;
+  border-radius: var(--ido-radius, 4px);
+  line-height: 0;
+}
+
+.ido-split__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.ido-split__img:hover img {
+  transform: scale(1.03);
+}
+
+/* =========================================================
+   4. FEATURE GRID
+   ========================================================= */
+
+.ido-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+}
+
+.ido-feature {
+  text-align: center;
+  padding: 36px 24px;
+  border-radius: var(--ido-radius, 4px);
+  background-color: var(--ido-light, #ffffff);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ido-feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.ido-feature__icon {
+  font-size: 48px;
+  line-height: 1;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ido-feature__title {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ido-dark, #1a1a1a);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.ido-feature__desc {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.9rem;
+  color: var(--ido-dark, #1a1a1a);
+  opacity: 0.7;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* =========================================================
+   5. OFFER CARDS
+   ========================================================= */
+
+.ido-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+.ido-card {
+  background-color: #ffffff;
+  border-radius: var(--ido-radius, 4px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.ido-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+}
+
+.ido-card:hover .ido-card__img img {
+  transform: scale(1.05);
+}
+
+.ido-card__img {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.ido-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.ido-card__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.ido-card__title {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ido-dark, #1a1a1a);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.ido-card__price {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ido-primary, #8b6f47);
+  margin: 0;
+}
+
+/* Stretched link — makes entire card clickable */
+.ido-card__link {
+  position: static;
+  text-decoration: none;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ido-primary, #8b6f47);
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ido-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* =========================================================
+   6. CTA SECTION
+   ========================================================= */
+
+.ido-cta {
+  text-align: center;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.ido-cta--dark {
+  background-color: var(--ido-dark, #1a1a1a);
+  color: #ffffff;
+}
+
+.ido-cta--dark .ido-cta__heading {
+  color: #ffffff;
+}
+
+.ido-cta__heading {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: clamp(1.6rem, 2.5vw + 0.75rem, 2.5rem);
+  font-weight: 700;
+  color: var(--ido-dark, #1a1a1a);
+  line-height: 1.2;
+  margin: 0;
+  max-width: 700px;
+}
+
+.ido-cta__contacts {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 36px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ido-cta__contacts a {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ido-primary, #8b6f47);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease;
+}
+
+.ido-cta--dark .ido-cta__contacts a {
+  color: var(--ido-accent, #e8d5b0);
+}
+
+.ido-cta__contacts a:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.ido-cta__btn {
+  font-size: 1.1rem;
+  padding: 18px 48px;
+}
+
+/* =========================================================
+   7. STATS BAR
+   ========================================================= */
+
+.ido-stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  padding: 60px 24px;
+}
+
+.ido-stat {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ido-stat__number {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--ido-primary, #8b6f47);
+  line-height: 1;
+  margin: 0;
+}
+
+.ido-stat__label {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.875rem;
+  color: var(--ido-dark, #1a1a1a);
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* =========================================================
+   8. FAQ ACCORDION
+   ========================================================= */
+
+.ido-faq {
+  display: flex;
+  flex-direction: column;
+}
+
+.ido-faq__item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.ido-faq__item:first-child {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.ido-faq__question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ido-font-heading, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ido-dark, #1a1a1a);
+  text-align: left;
+  gap: 16px;
+  line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+.ido-faq__question:hover {
+  color: var(--ido-primary, #8b6f47);
+}
+
+/* CSS chevron icon */
+.ido-faq__question::after {
+  content: "";
+  display: block;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-top: -4px;
+}
+
+.ido-faq__question[aria-expanded="true"]::after {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+
+.ido-faq__answer {
+  display: none;
+  padding: 0 4px 20px;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ido-dark, #1a1a1a);
+  opacity: 0.8;
+}
+
+.ido-faq__question[aria-expanded="true"] + .ido-faq__answer {
+  display: block;
+}
+
+/* =========================================================
+   9. GALLERY GRID
+   ========================================================= */
+
+.ido-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.ido-gallery__item {
+  overflow: hidden;
+  border-radius: calc(var(--ido-radius, 4px) / 2);
+  line-height: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.ido-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 1 / 1;
+  transition: transform 0.35s ease;
+}
+
+.ido-gallery__item:hover img {
+  transform: scale(1.08);
+}
+
+/* =========================================================
+   10. BUTTONS
+   ========================================================= */
+
+.ido-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--ido-primary, #8b6f47);
+  color: #ffffff;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  border: 2px solid var(--ido-primary, #8b6f47);
+  border-radius: var(--ido-radius, 4px);
+  padding: 14px 32px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease,
+              transform 0.18s ease, box-shadow 0.22s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ido-btn:hover {
+  background-color: var(--ido-secondary, #6b5035);
+  border-color: var(--ido-secondary, #6b5035);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+.ido-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.ido-btn--outline {
+  background-color: transparent;
+  color: var(--ido-primary, #8b6f47);
+  border-color: var(--ido-primary, #8b6f47);
+  box-shadow: none;
+}
+
+.ido-btn--outline:hover {
+  background-color: var(--ido-primary, #8b6f47);
+  color: #ffffff;
+}
+
+.ido-btn--white {
+  background-color: #ffffff;
+  color: var(--ido-dark, #1a1a1a);
+  border-color: #ffffff;
+}
+
+.ido-btn--white:hover {
+  background-color: var(--ido-bg, #f8f5f0);
+  border-color: var(--ido-bg, #f8f5f0);
+  color: var(--ido-dark, #1a1a1a);
+}
+
+.ido-btn--lg {
+  font-size: 1.0625rem;
+  padding: 18px 48px;
+}
+
+.ido-btn:focus-visible {
+  outline: 3px solid var(--ido-primary, #8b6f47);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   11. TYPOGRAPHY HELPERS
+   ========================================================= */
+
+.ido-heading {
+  font-family: var(--ido-font-heading, Georgia, serif);
+  color: var(--ido-dark, #1a1a1a);
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ido-kicker {
+  display: block;
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ido-primary, #8b6f47);
+  margin: 0;
+}
+
+.ido-text {
+  font-family: var(--ido-font-body, system-ui, sans-serif);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* =========================================================
+   12. ANIMATIONS
+   ========================================================= */
+
+.ido-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.ido-reveal--left {
+  transform: translateX(-30px);
+}
+
+.ido-reveal--right {
+  transform: translateX(30px);
+}
+
+.ido-revealed {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.ido-stagger-1 { transition-delay: 0.1s; }
+.ido-stagger-2 { transition-delay: 0.2s; }
+.ido-stagger-3 { transition-delay: 0.3s; }
+.ido-stagger-4 { transition-delay: 0.4s; }
+
+/* noscript fallback — when JS is not available, show all revealed elements */
+html:not(.ido-js) .ido-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* =========================================================
+   13. ACCESSIBILITY
+   ========================================================= */
+
+/* Screen-reader only utility */
+.ido-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus visible states for interactive elements */
+.ido-feature:focus-visible,
+.ido-card:focus-visible,
+.ido-gallery__item:focus-visible,
+.ido-faq__question:focus-visible,
+.ido-cta__contacts a:focus-visible,
+.ido-hero__cta:focus-visible,
+.ido-hero__scroll:focus-visible {
+  outline: 3px solid var(--ido-primary, #8b6f47);
+  outline-offset: 2px;
+}
+
+/* Disable ALL animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .ido-reveal,
+  .ido-reveal--left,
+  .ido-reveal--right {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .ido-stagger-1,
+  .ido-stagger-2,
+  .ido-stagger-3,
+  .ido-stagger-4 {
+    transition-delay: 0s;
+  }
+
+  .ido-hero__scroll {
+    animation: none;
+  }
+
+  .ido-btn,
+  .ido-card,
+  .ido-feature,
+  .ido-split__img img,
+  .ido-card__img img,
+  .ido-gallery__item img,
+  .ido-faq__question::after,
+  .ido-faq__question,
+  .ido-hero__cta,
+  .ido-cta__contacts a {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   14. RESPONSIVE
+   ========================================================= */
+
+/* --- Tablet landscape (max 991px) --- */
+@media (max-width: 991px) {
+  .ido-section {
+    padding: 60px 20px;
+  }
+
+  .ido-hero {
+    min-height: 60vh;
+  }
+
+  .ido-split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .ido-split--reverse .ido-split__text,
+  .ido-split--reverse .ido-split__img {
+    order: unset;
+  }
+
+  .ido-stats {
+    gap: 32px;
+    padding: 48px 20px;
+  }
+
+  .ido-cta {
+    padding: 60px 20px;
+  }
+
+  .ido-cards {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .ido-features {
+    gap: 24px;
+  }
+}
+
+/* --- Tablet portrait (max 768px) --- */
+@media (max-width: 768px) {
+  .ido-section {
+    padding: 48px 16px;
+  }
+
+  .ido-container,
+  .ido-container--narrow {
+    padding-inline: 16px;
+  }
+
+  .ido-hero {
+    min-height: 60vh;
+  }
+
+  .ido-hero__content {
+    padding: 32px 16px;
+    gap: 16px;
+  }
+
+  .ido-hero__cta {
+    padding: 14px 28px;
+    font-size: 0.9375rem;
+  }
+
+  .ido-features {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  .ido-feature {
+    padding: 28px 16px;
+  }
+
+  .ido-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .ido-stats {
+    gap: 24px;
+    padding: 40px 16px;
+  }
+
+  .ido-stat__number {
+    font-size: 2.25rem;
+  }
+
+  .ido-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .ido-cta {
+    padding: 48px 16px;
+    gap: 20px;
+  }
+
+  .ido-cta__contacts {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ido-faq__question {
+    font-size: 0.975rem;
+    padding: 16px 4px;
+  }
+}
+
+/* --- Mobile (max 480px) --- */
+@media (max-width: 480px) {
+  .ido-section {
+    padding: 40px 16px;
+  }
+
+  .ido-hero {
+    min-height: 50vh;
+  }
+
+  .ido-hero__scroll {
+    display: none;
+  }
+
+  .ido-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .ido-features {
+    grid-template-columns: 1fr;
+  }
+
+  .ido-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .ido-stat__number {
+    font-size: 2rem;
+  }
+
+  .ido-stats {
+    gap: 20px;
+    padding: 32px 16px;
+  }
+
+  .ido-btn--lg {
+    font-size: 1rem;
+    padding: 16px 32px;
+  }
+
+  .ido-split {
+    gap: 24px;
+  }
+
+  .ido-cta__heading {
+    font-size: 1.5rem;
+  }
+
+  .ido-faq__question {
+    font-size: 0.9375rem;
+  }
+}
+/* ============================================================
+   RIVER PREMIUM APARTMENTS — Layer 3 Theme (default13 override)
+   Brand: navy #051B3D + beige #978C71
+   Fonts: Bodoni Moda (heading) + DM Sans (body)
+   ============================================================ */
+
+/* §1 — Brand tokens */
+:root {
+  --riv-navy:      #12334C;
+  --riv-navy-dark: #051B3D;
+  --riv-gold:      #7E674B;
+  --riv-beige:     #978C71;
+  --riv-bg:        #FFFFFF;
+  --riv-ink:       #1A1A1A;
+  --riv-muted:     #6B6B6B;
+  --riv-line:      rgba(151, 140, 113, 0.3);
+
+  --riv-font-heading: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  --riv-font-body:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --riv-radius-sm: 4px;
+  --riv-radius-md: 8px;
+  --riv-shadow-card: 0 8px 24px rgba(5, 27, 61, 0.08);
+  --riv-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* §2 — default13 global overrides */
+body {
+  font-family: var(--riv-font-body) !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  color: var(--riv-ink) !important;
+  background: var(--riv-bg) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--riv-font-heading) !important;
+  color: var(--riv-navy-dark) !important;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.2;
+}
+
+h1 { font-size: 48px; line-height: 52px; }
+h2 { font-size: 32px; line-height: 38px; font-weight: 600; }
+h3 { font-size: 22px; line-height: 28px; font-weight: 600; }
+
+@media (max-width: 767px) {
+  h1 { font-size: 32px; line-height: 38px; }
+  h2 { font-size: 24px; line-height: 30px; }
+  h3 { font-size: 20px; line-height: 26px; }
+}
+
+a {
+  color: var(--riv-navy-dark);
+  text-decoration: none;
+  transition: color var(--riv-transition);
+}
+a:hover { color: var(--riv-beige); }
+
+button, .btn { font-family: var(--riv-font-body); }
+
+/* §3 — focus states (WCAG AA) */
+:focus-visible {
+  outline: 2px solid var(--riv-beige);
+  outline-offset: 2px;
+}
+/* ============================================================
+   §4 — Header (default13 + fullpage.js transparent state)
+   ============================================================ */
+header { background: transparent !important; }
+
+header .menu-wrapper {
+  background: var(--riv-bg);
+  padding: 16px 40px;
+  transition: background var(--riv-transition), padding var(--riv-transition);
+  border-bottom: 1px solid var(--riv-line);
+}
+
+@media (max-width: 991px) {
+  header .menu-wrapper { padding: 12px 16px; }
+}
+
+header .menu-wrapper .nav-link,
+header .menu-wrapper a:not(.btn) {
+  color: var(--riv-navy-dark) !important;
+  font-family: var(--riv-font-body);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 12px 20px;
+}
+
+header .menu-wrapper .nav-link:hover {
+  color: var(--riv-beige) !important;
+}
+
+/* Logo placeholder (text version, swap when SVG arrives) */
+.riv-logo {
+  font-family: var(--riv-font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--riv-navy-dark);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+/* Transparent state on fullpage section 1 */
+.riv-header--transparent .menu-wrapper {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.riv-header--transparent .menu-wrapper .nav-link,
+.riv-header--transparent .menu-wrapper a:not(.btn) {
+  color: #FFFFFF !important;
+}
+.riv-header--transparent .riv-logo { color: #FFFFFF; }
+
+/* ============================================================
+   §5 — Footer (granat ciemny, 3 kolumny, Powered by IdoBooking)
+   ============================================================ */
+footer {
+  background: var(--riv-navy-dark) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  padding: 64px 40px 32px;
+}
+
+footer h2, footer h3, footer .footer__title {
+  color: #FFFFFF !important;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+footer a {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 14px;
+  line-height: 2;
+}
+footer a:hover { color: var(--riv-beige) !important; }
+
+footer .powered_by {
+  opacity: 0.9 !important;          /* memory: licensing requirement ≥0.85 */
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  footer { padding: 48px 16px 24px; }
+}
+/* ============================================================
+   §6 — Hero (ido-hero extended, fullscreen 80vh)
+   ============================================================ */
+.ido-hero, .riv-hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.ido-hero::before, .riv-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(5, 27, 61, 0.35), rgba(5, 27, 61, 0.55));
+  z-index: 1;
+}
+
+.ido-hero__media, .riv-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.ido-hero__media img, .riv-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.ido-hero__content, .riv-hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 24px;
+}
+
+.ido-hero__title, .riv-hero__title {
+  color: #FFFFFF !important;
+  font-size: 64px;
+  line-height: 1.0;
+  font-weight: 400;
+  margin: 0 0 24px;
+}
+
+.ido-hero__subtitle, .riv-hero__subtitle {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 18px;
+  line-height: 1.6;
+  font-family: var(--riv-font-body);
+  margin: 0 0 32px;
+}
+
+@media (max-width: 767px) {
+  .ido-hero, .riv-hero { min-height: 70vh; }
+  .ido-hero__title, .riv-hero__title { font-size: 36px; }
+  .ido-hero__subtitle, .riv-hero__subtitle { font-size: 16px; }
+}
+
+/* Hero small (subpages) */
+.riv-hero--small { min-height: 40vh; }
+.riv-hero--small .riv-hero__title { font-size: 48px; }
+
+/* ============================================================
+   §7 — Split (ido-split, ido-split-reverse)
+   ============================================================ */
+.ido-split, .ido-split-reverse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 80px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.ido-split-reverse .ido-split__media,
+.ido-split-reverse .ido-split__content { order: 0; }
+.ido-split-reverse .ido-split__media { order: 1; }
+
+.ido-split__media img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--riv-radius-sm);
+  box-shadow: var(--riv-shadow-card);
+}
+
+.ido-split__content h2 {
+  margin: 0 0 24px;
+  font-size: 36px;
+}
+
+.ido-split__content p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--riv-ink);
+  margin: 0 0 16px;
+}
+
+.ido-split__cta {
+  display: inline-block;
+  margin-top: 16px;
+}
+
+@media (max-width: 767px) {
+  .ido-split, .ido-split-reverse {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 48px 16px;
+  }
+  .ido-split-reverse .ido-split__media { order: 0; }
+}
+/* §8 — Cards (ido-cards 2/3/4-col grid) */
+.ido-cards { display: grid; gap: 24px; padding: 64px 40px; max-width: 1280px; margin: 0 auto; }
+.ido-cards--2-col { grid-template-columns: repeat(2, 1fr); }
+.ido-cards--3-col { grid-template-columns: repeat(3, 1fr); }
+.ido-cards--4-col { grid-template-columns: repeat(4, 1fr); }
+
+.ido-cards__item {
+  background: var(--riv-bg);
+  border: 1px solid var(--riv-line);
+  border-radius: var(--riv-radius-md);
+  overflow: hidden;
+  transition: transform var(--riv-transition), box-shadow var(--riv-transition);
+}
+.ido-cards__item:hover { transform: translateY(-4px); box-shadow: var(--riv-shadow-card); }
+
+.ido-cards__media { aspect-ratio: 16/10; overflow: hidden; }
+.ido-cards__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.ido-cards__item:hover .ido-cards__media img { transform: scale(1.05); }
+
+.ido-cards__body { padding: 24px; }
+.ido-cards__title { font-size: 22px; margin: 0 0 12px; color: var(--riv-navy-dark); }
+.ido-cards__desc { font-size: 14px; color: var(--riv-muted); line-height: 1.6; margin: 0 0 16px; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.ido-cards__cta { display: inline-block; padding: 10px 0; color: var(--riv-navy-dark); font-size: 14px; font-weight: 500; border-bottom: 1px solid var(--riv-beige); text-transform: uppercase; letter-spacing: 0.08em; }
+
+@media (max-width: 767px) {
+  .ido-cards--2-col, .ido-cards--3-col, .ido-cards--4-col { grid-template-columns: 1fr; }
+  .ido-cards { padding: 48px 16px; }
+}
+
+/* §9 — Features (ido-features 3-6 ikon SVG inline) */
+.ido-features { display: grid; gap: 32px; padding: 64px 40px; max-width: 1280px; margin: 0 auto; }
+.ido-features--3-col { grid-template-columns: repeat(3, 1fr); }
+.ido-features--6-col { grid-template-columns: repeat(6, 1fr); }
+
+.ido-features__item { text-align: center; padding: 16px; }
+.ido-features__icon { width: 48px; height: 48px; margin: 0 auto 16px; color: var(--riv-beige); }
+.ido-features__icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 1.5; }
+.ido-features__title { font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--riv-navy-dark); margin: 0; }
+
+@media (max-width: 767px) {
+  .ido-features--6-col { grid-template-columns: repeat(3, 1fr); }
+  .ido-features--3-col { grid-template-columns: 1fr; }
+}
+
+/* §10 — Testimonials (ido-testimonials karuzela lub static grid) */
+.ido-testimonials { padding: 80px 40px; max-width: 1280px; margin: 0 auto; background: rgba(151, 140, 113, 0.05); }
+.ido-testimonials__title { text-align: center; margin: 0 0 48px; }
+.ido-testimonials__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.ido-testimonials__item { background: var(--riv-bg); padding: 32px; border-radius: var(--riv-radius-md); border: 1px solid var(--riv-line); }
+.ido-testimonials__rating { color: var(--riv-beige); margin-bottom: 12px; font-size: 18px; }
+.ido-testimonials__quote { font-family: var(--riv-font-heading); font-size: 18px; line-height: 1.6; color: var(--riv-navy-dark); margin: 0 0 16px; font-style: italic; }
+.ido-testimonials__author { font-size: 14px; color: var(--riv-muted); }
+.ido-testimonials__source { font-size: 12px; color: var(--riv-beige); text-transform: uppercase; letter-spacing: 0.08em; }
+@media (max-width: 767px) { .ido-testimonials__grid { grid-template-columns: 1fr; } }
+
+/* §11 — CTA (ido-cta, ido-cta-dark) */
+.ido-cta { padding: 80px 40px; text-align: center; max-width: 800px; margin: 0 auto; }
+.ido-cta__title { font-size: 36px; margin: 0 0 16px; }
+.ido-cta__subtitle { font-size: 16px; color: var(--riv-muted); margin: 0 0 32px; }
+.ido-cta-dark { background: var(--riv-navy-dark); color: #FFFFFF; padding: 80px 40px; text-align: center; }
+.ido-cta-dark .ido-cta__title { color: #FFFFFF; }
+.ido-cta-dark .ido-cta__subtitle { color: rgba(255, 255, 255, 0.85); }
+.ido-cta__btn, .btn-primary { display: inline-block; background: var(--riv-navy-dark); color: #FFFFFF !important; padding: 14px 36px; font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--riv-navy-dark); transition: all var(--riv-transition); min-height: 44px; }
+.ido-cta__btn:hover, .btn-primary:hover { background: var(--riv-navy); border-color: var(--riv-navy); }
+.ido-cta-dark .ido-cta__btn { background: var(--riv-beige); color: var(--riv-navy-dark) !important; border-color: var(--riv-beige); }
+.ido-cta-dark .ido-cta__btn:hover { background: var(--riv-gold); border-color: var(--riv-gold); color: #FFFFFF !important; }
+
+/* §12 — FAQ (ido-faq accordion) */
+.ido-faq { padding: 64px 40px; max-width: 800px; margin: 0 auto; }
+.ido-faq__item { border-bottom: 1px solid var(--riv-line); }
+.ido-faq__question { padding: 20px 0; font-family: var(--riv-font-heading); font-size: 18px; font-weight: 600; color: var(--riv-navy-dark); cursor: pointer; display: flex; justify-content: space-between; align-items: center; min-height: 44px; }
+.ido-faq__answer { padding: 0 0 20px; font-size: 16px; line-height: 1.7; color: var(--riv-ink); display: none; }
+.ido-faq__item.is-open .ido-faq__answer { display: block; }
+.ido-faq__icon { transition: transform var(--riv-transition); }
+.ido-faq__item.is-open .ido-faq__icon { transform: rotate(45deg); }
+
+/* §13 — Gallery (ido-gallery masonry) */
+.ido-gallery { padding: 64px 40px; max-width: 1280px; margin: 0 auto; }
+.ido-gallery__filters { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+.ido-gallery__filter { padding: 8px 16px; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--riv-line); background: transparent; cursor: pointer; min-height: 44px; }
+.ido-gallery__filter.is-active { background: var(--riv-navy-dark); color: #FFFFFF; border-color: var(--riv-navy-dark); }
+.ido-gallery__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.ido-gallery__item { aspect-ratio: 4/3; overflow: hidden; cursor: pointer; }
+.ido-gallery__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.ido-gallery__item:hover img { transform: scale(1.05); }
+@media (max-width: 767px) { .ido-gallery__grid { grid-template-columns: 1fr; } }
+
+/* §14 — Map */
+.ido-map { padding: 64px 0; max-width: 1280px; margin: 0 auto; }
+.ido-map iframe { width: 100%; height: 480px; border: 0; }
+/* ============================================================
+   §15 — RIV-AMENITIES (6 ikon SVG: Widok / Garaż / WiFi / Zwierzęta / Smart TV / Winda)
+   ============================================================ */
+.riv-amenities {
+  padding: 48px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-top: 1px solid var(--riv-line);
+  border-bottom: 1px solid var(--riv-line);
+}
+.riv-amenities__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+}
+.riv-amenities__item {
+  text-align: center;
+  padding: 8px;
+}
+.riv-amenities__icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 12px;
+  color: var(--riv-beige);
+}
+.riv-amenities__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.riv-amenities__label {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--riv-navy-dark);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@media (max-width: 991px) {
+  .riv-amenities__grid { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+}
+@media (max-width: 480px) {
+  .riv-amenities__grid { grid-template-columns: repeat(2, 1fr); }
+}
+/* ============================================================
+   §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)
+   ============================================================ */
+
+/* Hide system slick carousel completely */
+.container-hotspot,
+.cmshotspot { display: none !important; }
+
+/* Grid for offers and apartments */
+.riv-offers-grid,
+.riv-apartments-grid {
+  display: grid;
+  gap: 24px;
+  padding: 0 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.riv-offers-grid { grid-template-columns: repeat(3, 1fr); }
+.riv-apartments-grid { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 991px) {
+  .riv-offers-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 680px) {
+  .riv-offers-grid,
+  .riv-apartments-grid { grid-template-columns: 1fr; padding: 0 16px; }
+}
+
+/* Card */
+.riv-offer-card {
+  background: var(--riv-bg);
+  border: 1px solid var(--riv-line);
+  border-radius: var(--riv-radius-md);
+  overflow: hidden;
+  transition: transform var(--riv-transition), box-shadow var(--riv-transition);
+  display: flex;
+  flex-direction: column;
+}
+.riv-offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--riv-shadow-card);
+}
+
+.riv-offer-card__media {
+  position: relative;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  display: block;
+}
+.riv-offer-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.riv-offer-card:hover .riv-offer-card__img { transform: scale(1.05); }
+
+.riv-offer-card__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--riv-navy-dark);
+  color: #FFFFFF;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.riv-offer-card__body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.riv-offer-card__name {
+  font-family: var(--riv-font-heading);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--riv-navy-dark);
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.riv-offer-card__desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--riv-muted);
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.riv-offer-card__meta {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--riv-navy);
+}
+.riv-offer-card__meta li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.riv-offer-card__meta svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--riv-beige);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.riv-offer-card__cta {
+  margin-top: auto;
+  display: inline-block;
+  padding: 10px 0;
+  color: var(--riv-navy-dark);
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--riv-beige);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  align-self: flex-start;
+  min-height: 44px;
+}
+.riv-offer-card__cta:hover { color: var(--riv-beige); }
+
+/* §17 — Client-added rules placeholder (DO NOT MODIFY ABOVE THIS LINE) */
+/* === §RIV-CLIENT === */
+/* Klient może tu dopisać własne reguły. JARVIS update zostawia tę sekcję as-is. */
+/* === END §RIV-CLIENT === */

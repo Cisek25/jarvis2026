@@ -1,0 +1,49 @@
+/* ============================================================
+   §15 — RIV-AMENITIES (6 ikon SVG: Widok / Garaż / WiFi / Zwierzęta / Smart TV / Winda)
+   ============================================================ */
+.riv-amenities {
+  padding: 48px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-top: 1px solid var(--riv-line);
+  border-bottom: 1px solid var(--riv-line);
+}
+.riv-amenities__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+}
+.riv-amenities__item {
+  text-align: center;
+  padding: 8px;
+}
+.riv-amenities__icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 12px;
+  color: var(--riv-beige);
+}
+.riv-amenities__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.riv-amenities__label {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--riv-navy-dark);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@media (max-width: 991px) {
+  .riv-amenities__grid { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+}
+@media (max-width: 480px) {
+  .riv-amenities__grid { grid-template-columns: repeat(2, 1fr); }
+}

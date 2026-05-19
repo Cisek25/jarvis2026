@@ -1,0 +1,108 @@
+<script>
+(function() {
+  'use strict';
+
+  /* === 1. fullpage.js detection — header transparent on section 1 === */
+  function setupFullpageHeader() {
+    var body = document.body;
+    var headerWrapper = document.querySelector('.menu-wrapper') || document.querySelector('header');
+    if (!headerWrapper) return;
+
+    function updateHeader() {
+      var match = body.className.match(/fp-viewing-(\d+)/);
+      var section = match ? parseInt(match[1], 10) : -1;
+      if (section === 0 || section === 1) {
+        document.documentElement.classList.add('riv-header--transparent');
+      } else {
+        document.documentElement.classList.remove('riv-header--transparent');
+      }
+    }
+
+    var observer = new MutationObserver(updateHeader);
+    observer.observe(body, { attributes: true, attributeFilter: ['class'] });
+    updateHeader();
+  }
+
+  /* === 2. Hero teleport — body_top hero into .section.parallax .fp-tableCell === */
+  function teleportHero() {
+    var hero = document.querySelector('.riv-hero');
+    var target = document.querySelector('.section.parallax .fp-tableCell')
+              || document.querySelector('.fp-section .fp-tableCell');
+    if (hero && target && !target.contains(hero)) {
+      target.appendChild(hero);
+    }
+  }
+
+  /* === 3. Featured offers reader (MADERA pattern) === */
+  function buildRivCards(gridSelector, fallbackHide) {
+    var hotspot = document.querySelector('.container-hotspot, .cmshotspot');
+    var grid = document.querySelector(gridSelector);
+    if (!hotspot || !grid) return;
+
+    var slides = hotspot.querySelectorAll('.slick-slide:not(.slick-cloned) .offer, .offer');
+    var cards = [];
+    var seen = {};
+
+    Array.prototype.forEach.call(slides, function(offer) {
+      var hrefEl = offer.querySelector('a.object-icon, a[href*="oferta"]');
+      if (!hrefEl) return;
+      var href = hrefEl.href;
+      if (seen[href]) return;
+      seen[href] = true;
+
+      var imgEl = offer.querySelector('img[data-src], img[src]:not([src*="img-blank"])');
+      var img = imgEl ? (imgEl.dataset.src || imgEl.src) : '';
+      var title = (offer.querySelector('h3 a, h3') || {}).textContent;
+      var desc = (offer.querySelector('.offer__description') || {}).textContent;
+      var areaMatch = ((offer.querySelector('.accommodation-meters') || {}).textContent || '').match(/([\d,.]+)\s*m/i);
+      var guestsMatch = ((offer.querySelector('.accommodation-roomspace') || {}).textContent || '').match(/(\d+)/);
+      var priceMatch = ((offer.querySelector('.offer__price .price') || {}).textContent || '').match(/([\d,.]+)/);
+
+      cards.push({
+        href: href,
+        img: img,
+        title: (title || '').trim(),
+        desc: (desc || '').trim(),
+        area: areaMatch ? areaMatch[1] : '',
+        guests: guestsMatch ? guestsMatch[1] : '',
+        price: priceMatch ? priceMatch[1] : ''
+      });
+    });
+
+    if (!cards.length) return;
+
+    grid.innerHTML = cards.map(function(c) {
+      return '<article class="riv-offer-card">' +
+        '<a href="' + c.href + '" class="riv-offer-card__media">' +
+          '<img src="' + c.img + '" alt="' + c.title + '" loading="lazy" class="riv-offer-card__img"/>' +
+          (c.price ? '<span class="riv-offer-card__badge">od ' + c.price + ' zł/noc</span>' : '') +
+        '</a>' +
+        '<div class="riv-offer-card__body">' +
+          '<h3 class="riv-offer-card__name">' + c.title + '</h3>' +
+          (c.desc ? '<p class="riv-offer-card__desc">' + c.desc + '</p>' : '') +
+          '<ul class="riv-offer-card__meta">' +
+            (c.area ? '<li><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/></svg> ' + c.area + ' m²</li>' : '') +
+            (c.guests ? '<li><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg> ' + c.guests + ' os.</li>' : '') +
+          '</ul>' +
+          '<a href="' + c.href + '" class="riv-offer-card__cta">Sprawdź</a>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+    grid.classList.remove('riv-featured-fallback');
+  }
+
+  /* === 4. Init === */
+  function init() {
+    setupFullpageHeader();
+    teleportHero();
+    buildRivCards('.riv-apartments-grid');
+    buildRivCards('.riv-offers-grid');
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

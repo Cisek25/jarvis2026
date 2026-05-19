@@ -1,3 +1,87 @@
+<style id="riv-v15-safety-net">
+body.page-index .iai-search,
+body.page-index #iai_book_form,
+body.page-index #iai_book_se,
+body.page-index .index-info .iai-search,
+body.page-index .index-info #iai_book_form {
+  display: none !important;
+  visibility: hidden !important;
+}
+body.page-index .index-info > h1,
+body.page-index .index-info > h2,
+body.page-index .index-info > button,
+body.page-index .index-info > .navbar-reservation,
+body.page-index .index-info > div:not(.riv-hero):not(.riv-hero__content) {
+  display: none !important;
+}
+body.page-index .riv-hero,
+body.page-index .section.parallax .riv-hero,
+body.page-index .section.parallax .fp-tableCell .riv-hero {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh !important;
+  padding: 120px 24px 80px !important;
+  background: transparent !important;
+  z-index: 5 !important;
+}
+body.page-index .riv-hero__content {
+  position: relative;
+  z-index: 6;
+  max-width: 900px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0;
+}
+body.page-index .riv-hero__title {
+  color: #FFFFFF !important;
+  font-size: 56px !important;
+  line-height: 1.1 !important;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  margin: 0 0 16px;
+}
+body.page-index .riv-hero__subtitle {
+  color: rgba(255,255,255,0.95) !important;
+  font-size: 18px !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  margin: 0;
+}
+body.page-index .section.parallax > .fp-tableCell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(5,27,61,0.35), rgba(5,27,61,0.55));
+  z-index: 2;
+  pointer-events: none;
+}
+body.page-index .parallax-slider { z-index: 1 !important; }
+body.page-index .riv-hero .riv-search,
+body.page-index .section.parallax .riv-search,
+body.page-index .section.parallax .fp-tableCell .riv-search {
+  position: relative !important;
+  margin: 40px auto 0 !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  z-index: 10 !important;
+}
+body.page-index header.default13,
+body.page-index header,
+body.page-index .menu-wrapper,
+body.page-index .lang-switch,
+body.page-index .navbar-language { z-index: 4 !important; }
+@media (max-width: 767px) {
+  body.page-index .riv-hero__title { font-size: 36px !important; }
+  body.page-index .riv-hero__subtitle { font-size: 16px !important; }
+  body.page-index .section.parallax .fp-tableCell .riv-hero { padding: 100px 16px 40px !important; }
+}
+</style>
 <script>
 (function() {
   'use strict';

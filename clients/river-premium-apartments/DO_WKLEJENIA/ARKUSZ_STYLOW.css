@@ -2934,6 +2934,53 @@ body.page-index .riv-hero__content {
 body.page-index .riv-search {
   z-index: 4 !important;
 }
+
+/* §37 — TRAP CRITICAL-X (Hero CSS bg leak)
+   System .parallax-slider domyślnie position: fixed → wycieka na cały viewport
+   (hero image visible PRZEZ wszystkie sekcje below hero). 
+   Fix: parallax-slider absolute w .section.parallax + opaque bg na każdej sekcji. */
+
+body.page-index .parallax-slider {
+  position: absolute \!important;
+  top: 0 \!important;
+  left: 0 \!important;
+  width: 100% \!important;
+  height: 100% \!important;
+  z-index: 1 \!important;
+}
+body.page-index .section.parallax {
+  overflow: hidden \!important;
+  position: relative \!important;
+}
+
+body.page-index .ido-split,
+body.page-index .ido-split-reverse,
+body.page-index .ido-cards,
+body.page-index .riv-apartments-section,
+body.page-index .section.fp-auto-height,
+body.page-index .section.fp-auto-height > .fp-tableCell {
+  background: #FFFFFF \!important;
+  position: relative \!important;
+  z-index: 5 \!important;
+}
+
+body.page-index .riv-amenities {
+  background: #FAF8F4 \!important;
+  position: relative \!important;
+  z-index: 5 \!important;
+}
+
+body.page-index .ido-testimonials {
+  background: rgba(151, 140, 113, 0.05) \!important;
+  position: relative \!important;
+  z-index: 5 \!important;
+}
+
+body.page-index .ido-cta-dark {
+  background: #051B3D \!important;
+  position: relative \!important;
+  z-index: 5 \!important;
+}
 /* ============================================================
    §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)
    ============================================================ */

@@ -1,0 +1,144 @@
+/* ============================================================
+   §18 — RIV-SEARCH (booking search overlay on hero)
+   Wzorowane na riverpremiumapartments.pl source layout.
+   Form submituje do natywnej wyszukiwarki IdoBooking — operator
+   weryfikuje action URL po wgraniu (np. /wyszukiwarka.html).
+   ============================================================ */
+
+.riv-hero {
+  padding-bottom: 80px;
+}
+
+.riv-search {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid var(--riv-line);
+  border-radius: var(--riv-radius-md);
+  box-shadow: 0 16px 48px rgba(5, 27, 61, 0.18);
+  padding: 24px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 24px;
+  align-items: end;
+  width: calc(100% - 80px);
+  max-width: 1024px;
+}
+
+.riv-search__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.riv-search__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--riv-muted);
+  font-family: var(--riv-font-body);
+}
+
+.riv-search__input,
+.riv-search__select {
+  font-family: var(--riv-font-body);
+  font-size: 16px;
+  color: var(--riv-navy-dark);
+  border: none;
+  border-bottom: 1px solid var(--riv-line);
+  background: transparent;
+  padding: 10px 0;
+  outline: none;
+  min-height: 44px;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.riv-search__select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23978C71' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  background-size: 16px;
+  padding-right: 24px;
+  cursor: pointer;
+}
+
+.riv-search__input:focus,
+.riv-search__select:focus {
+  border-bottom-color: var(--riv-beige);
+}
+
+.riv-search__submit {
+  background: var(--riv-navy-dark);
+  color: #FFFFFF;
+  border: 1px solid var(--riv-navy-dark);
+  padding: 14px 36px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--riv-font-body);
+  cursor: pointer;
+  min-height: 44px;
+  transition: background var(--riv-transition), border-color var(--riv-transition);
+  white-space: nowrap;
+}
+
+.riv-search__submit:hover {
+  background: var(--riv-navy);
+  border-color: var(--riv-navy);
+}
+
+.riv-search__submit:focus-visible {
+  outline: 2px solid var(--riv-beige);
+  outline-offset: 2px;
+}
+
+@media (max-width: 991px) {
+  .riv-search {
+    grid-template-columns: 1fr 1fr;
+    bottom: -120px;
+    padding: 20px 24px;
+    gap: 16px;
+  }
+  .riv-search__submit {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .riv-search {
+    grid-template-columns: 1fr;
+    bottom: -240px;
+    width: calc(100% - 32px);
+    padding: 20px;
+  }
+}
+
+.riv-hero + section,
+.riv-hero + .ido-split-reverse,
+.riv-hero + .ido-split {
+  margin-top: 100px;
+}
+
+@media (max-width: 991px) {
+  .riv-hero + section,
+  .riv-hero + .ido-split-reverse,
+  .riv-hero + .ido-split {
+    margin-top: 160px;
+  }
+}
+
+@media (max-width: 600px) {
+  .riv-hero + section,
+  .riv-hero + .ido-split-reverse,
+  .riv-hero + .ido-split {
+    margin-top: 280px;
+  }
+}

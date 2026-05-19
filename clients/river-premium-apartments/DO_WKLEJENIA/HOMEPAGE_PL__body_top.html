@@ -5,8 +5,27 @@
   <div class="riv-hero__content">
     <h1 class="riv-hero__title">Wyjątkowe apartamenty</h1>
     <p class="riv-hero__subtitle">ul. Księcia Witolda 52, Wrocław — z widokiem na Odrę</p>
-    <a href="#" class="btn-primary">Rezerwuj online</a>
   </div>
+  <form class="riv-search" action="/wyszukiwarka" method="get" aria-label="Wyszukiwarka rezerwacji apartamentu">
+    <div class="riv-search__field">
+      <label for="riv-date-from" class="riv-search__label">Przyjazd</label>
+      <input type="date" id="riv-date-from" name="dateFrom" class="riv-search__input" required>
+    </div>
+    <div class="riv-search__field">
+      <label for="riv-date-to" class="riv-search__label">Wyjazd</label>
+      <input type="date" id="riv-date-to" name="dateTo" class="riv-search__input" required>
+    </div>
+    <div class="riv-search__field">
+      <label for="riv-guests" class="riv-search__label">Goście</label>
+      <select id="riv-guests" name="guests" class="riv-search__select">
+        <option value="1">1 osoba</option>
+        <option value="2" selected>2 osoby</option>
+        <option value="3">3 osoby</option>
+        <option value="4">4 osoby</option>
+      </select>
+    </div>
+    <button type="submit" class="riv-search__submit">Szukaj</button>
+  </form>
 </section>
 
 <section class="ido-split-reverse">

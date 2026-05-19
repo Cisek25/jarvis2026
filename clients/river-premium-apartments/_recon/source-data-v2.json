@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "date": "2026-05-19",
+    "scrape_source": "https://www.riverpremiumapartments.pl/",
+    "by": "Playwright MCP v2.0"
+  },
+  "pokoje": {
+    "url": "/pokoje",
+    "title": "Apartamenty | River Premium Apartments",
+    "h1": "Apartamenty",
+    "apartments": [
+      { "name": "Apartament A", "price_from_pln": 283, "size_sqm": 40, "max_guests": 2, "bedrooms": 1 },
+      { "name": "Apartament B", "price_from_pln": 283, "size_sqm": 55, "max_guests": 4, "bedrooms": 1 },
+      { "name": "Apartament C", "price_from_pln": 243, "size_sqm": 47, "max_guests": 4, "bedrooms": 1 },
+      { "name": "Apartament D", "price_from_pln": 202, "size_sqm": 35, "max_guests": 2, "bedrooms": 1 }
+    ]
+  },
+  "oferty": {
+    "url": "/oferty-i-promocje",
+    "title": "Oferty i promocje | River Premium Apartments",
+    "h1": "Oferty pobytu",
+    "offers": [
+      { "name": "Oferta bezzwrotna", "price_from_pln": 202, "unit": "noc" },
+      { "name": "Dłużej = taniej", "price_from_pln": 225, "unit": "noc" },
+      { "name": "Oferta elastyczna", "price_from_pln": 250, "unit": "noc" }
+    ],
+    "vouchers": [
+      { "name": "Voucher 1000 zł", "price_pln": 1000 },
+      { "name": "Voucher 1500 zł", "price_pln": 1500 },
+      { "name": "Voucher 2000 zł", "price_pln": 2000 }
+    ]
+  },
+  "atrakcje": {
+    "url": "/atrakcje",
+    "title": "Atrakcje | River Premium Apartments",
+    "h1": "Atrakcje w okolicy",
+    "filters": ["Wszystkie", "Aktywnie", "Pozostałe atrakcje", "Lato"],
+    "attractions": [
+      { "name": "Wrocławskie ZOO", "category": "Aktywnie", "desc": "Jedno z najstarszych i najbardziej znanych ogrodów zoologicznych w Polsce." },
+      { "name": "Panorama Racławicka", "category": "Pozostałe atrakcje", "desc": "Unikalne dzieło sztuki przedstawiające bitwę pod Racławicami." },
+      { "name": "Muzeum Narodowe", "category": "Pozostałe atrakcje", "desc": "Zbiory od średniowiecza do współczesności w krótkim spacerze od apartamentów." },
+      { "name": "Opera Wrocławska", "category": "Pozostałe atrakcje", "desc": "Jeden z najważniejszych teatrów operowych w Polsce." },
+      { "name": "Wrocławskie Krasnale", "category": "Pozostałe atrakcje", "desc": "Symbol Wrocławia — setki małych figurek rozsianych po całym mieście." },
+      { "name": "Wyspa Słodowa", "category": "Lato", "desc": "Ulubione miejsce spotkań mieszkańców Wrocławia, kilka minut spacerem." },
+      { "name": "Bulwary nad Odrą", "category": "Lato", "desc": "Bezpośrednie sąsiedztwo rzeki — malownicze spacery o każdej porze." },
+      { "name": "Pomnik Anonimowego Przechodnia", "category": "Pozostałe atrakcje", "desc": "Symbolizuje trudne lata stanu wojennego w Polsce." },
+      { "name": "Sky Tower", "category": "Pozostałe atrakcje", "desc": "Taras widokowy na panoramę miasta z jednego z najwyższych budynków." }
+    ]
+  },
+  "restauracja": {
+    "url": "/restauracja",
+    "title": "Restauracja | River Premium Apartments",
+    "h1": "Restauracja",
+    "name": "Champagne for Breakfast",
+    "tagline": "ZAPRASZAMY DO RESTAURACJI",
+    "description": "Podczas pobytu w River Premium Apartments serdecznie zapraszamy do naszej wyjątkowej restauracji Champagne for Breakfast. Każdego ranka mogą Państwo delektować się przepysznymi śniadaniami — ale nie tylko. W ofercie znajdują się także zestawy lunchowe, obiady, desery i przekąski.",
+    "promo": "Specjalnie dla naszych gości przygotowaliśmy wyjątkową ofertę — rabat 10% na śniadania w Champagne for Breakfast. Wystarczy okazać kartę gościa River Premium Apartments przy rezerwacji lub podczas zamówienia.",
+    "ctas": ["SPRAWDŹ MENU", "ZAREZERWUJ STOLIK"]
+  },
+  "galeria": {
+    "url": "/galeria",
+    "title": "Galeria | River Premium Apartments",
+    "h1": "Galeria",
+    "filters": ["Wszystkie", "Apartament A", "Apartament B", "Apartament C", "Apartament D"],
+    "image_count_estimate": 25,
+    "images_source": "wa-uploads.profitroom.com (oryginalne) — w docelowej witrynie używamy client58463.idobooking.com/images/frontpageGallery/pictures/large/0/0/{N}.webp"
+  },
+  "kontakt": {
+    "url": "/kontakt",
+    "title": "Kontakt | River Premium Apartments",
+    "h1": "River Premium Apartments",
+    "address": "ul. Księcia Witolda 52, 50-203 Wrocław",
+    "phones": ["+48 785 818 330", "+48 698 076 020"],
+    "email": "rezerwacje@riverpremiumapartments.pl",
+    "form_fields": ["Imię i nazwisko", "Adres e-mail", "Numer telefonu", "Wiadomość"],
+    "form_required": "*pola wymagane",
+    "form_submit": "WYŚLIJ ZAPYTANIE"
+  }
+}

@@ -2981,6 +2981,445 @@ body.page-index .ido-cta-dark {
   position: relative \!important;
   z-index: 5 \!important;
 }
+
+/* ============================================================
+   §38-44 — SUBPAGES CSS (v2.0)
+   Hero-small, breadcrumbs, attractions grid, gallery grid, contact
+   ============================================================ */
+
+/* §38 — Subpage hero (smaller niż homepage parallax) */
+.riv-subhero {
+  position: relative;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, var(--riv-navy-dark) 0%, var(--riv-navy) 100%);
+  padding: 80px 24px;
+  overflow: hidden;
+}
+.riv-subhero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(5, 27, 61, 0.4) 100%);
+  pointer-events: none;
+}
+.riv-subhero__content { position: relative; z-index: 2; max-width: 800px; }
+.riv-subhero__title {
+  font-family: var(--riv-font-heading);
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 400;
+  color: #FFFFFF \!important;
+  margin: 0 0 16px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+.riv-subhero__breadcrumb {
+  font-family: var(--riv-font-body);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+.riv-subhero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.75) \!important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 1px;
+}
+.riv-subhero__breadcrumb a:hover { color: var(--riv-beige) \!important; border-color: var(--riv-beige); }
+
+@media (max-width: 767px) {
+  .riv-subhero { min-height: 30vh; padding: 60px 16px; }
+  .riv-subhero__title { font-size: 32px; }
+}
+
+/* §39 — Subpage content section (white bg standard) */
+.riv-subpage-section {
+  background: #FFFFFF;
+  padding: 64px max(24px, calc((100vw - 1280px) / 2));
+  position: relative;
+}
+.riv-subpage-section--muted {
+  background: #FAF8F4;
+}
+.riv-subpage-section__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.riv-subpage-section__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.riv-subpage-section__title {
+  font-family: var(--riv-font-heading);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--riv-navy-dark);
+  margin: 0 0 12px;
+}
+.riv-subpage-section__subtitle {
+  font-family: var(--riv-font-body);
+  font-size: 16px;
+  color: var(--riv-muted);
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  .riv-subpage-section { padding: 48px 16px; }
+  .riv-subpage-section__title { font-size: 28px; }
+}
+
+/* §40 — Attractions grid (3-col desktop, 2-col tablet, 1-col mobile) */
+.riv-attractions-filter {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.riv-attractions-filter__btn {
+  padding: 10px 20px;
+  font-family: var(--riv-font-body);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--riv-line);
+  background: transparent;
+  color: var(--riv-navy-dark);
+  cursor: pointer;
+  min-height: 44px;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+.riv-attractions-filter__btn:hover { border-color: var(--riv-beige); color: var(--riv-beige); }
+.riv-attractions-filter__btn.is-active {
+  background: var(--riv-navy-dark);
+  color: #FFFFFF;
+  border-color: var(--riv-navy-dark);
+}
+.riv-attractions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.riv-attractions-card {
+  background: #FFFFFF;
+  border: 1px solid var(--riv-line);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.riv-attractions-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(5, 27, 61, 0.12); }
+.riv-attractions-card__media {
+  aspect-ratio: 16/10;
+  background: linear-gradient(135deg, var(--riv-navy) 0%, var(--riv-beige) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.riv-attractions-card__media::before {
+  content: 'RIVER';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.2);
+  font-family: var(--riv-font-heading);
+  font-size: 28px;
+  letter-spacing: 0.2em;
+}
+.riv-attractions-card__body { padding: 24px; }
+.riv-attractions-card__name {
+  font-family: var(--riv-font-heading);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--riv-navy-dark);
+  margin: 0 0 12px;
+}
+.riv-attractions-card__desc {
+  font-family: var(--riv-font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--riv-muted);
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.riv-attractions-card__cta {
+  font-family: var(--riv-font-body);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--riv-navy-dark);
+  border-bottom: 1px solid var(--riv-beige);
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+@media (max-width: 991px) {
+  .riv-attractions-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .riv-attractions-grid { grid-template-columns: 1fr; }
+}
+
+/* §41 — Gallery grid masonry-like */
+.riv-gallery-filter { /* reuse riv-attractions-filter */ }
+.riv-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.riv-gallery-item {
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  cursor: zoom-in;
+  position: relative;
+  background: linear-gradient(135deg, var(--riv-navy) 0%, var(--riv-beige) 100%);
+}
+.riv-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+.riv-gallery-item:hover img { transform: scale(1.08); }
+.riv-gallery-item:nth-child(5n+1) { aspect-ratio: 1/1.4; grid-row: span 2; }
+
+@media (max-width: 991px) {
+  .riv-gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .riv-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .riv-gallery-item:nth-child(5n+1) { aspect-ratio: 1/1; grid-row: auto; }
+}
+
+/* §42 — Contact split (info + form) */
+.riv-contact-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.riv-contact-info { font-family: var(--riv-font-body); }
+.riv-contact-info__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--riv-line);
+}
+.riv-contact-info__row:last-child { border-bottom: none; }
+.riv-contact-info__icon {
+  width: 24px;
+  height: 24px;
+  color: var(--riv-beige);
+  flex-shrink: 0;
+}
+.riv-contact-info__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--riv-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+.riv-contact-info__value {
+  font-size: 16px;
+  color: var(--riv-navy-dark);
+  font-weight: 400;
+}
+.riv-contact-info__value a { color: var(--riv-navy-dark) \!important; }
+.riv-contact-info__value a:hover { color: var(--riv-beige) \!important; }
+
+.riv-contact-form {
+  background: #FAF8F4;
+  padding: 40px;
+  border-radius: 4px;
+}
+.riv-contact-form__title {
+  font-family: var(--riv-font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--riv-navy-dark);
+  margin: 0 0 24px;
+}
+.riv-contact-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.riv-contact-form__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--riv-muted);
+}
+.riv-contact-form__input,
+.riv-contact-form__textarea {
+  font-family: var(--riv-font-body);
+  font-size: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--riv-line);
+  background: #FFFFFF;
+  color: var(--riv-navy-dark);
+  min-height: 44px;
+  border-radius: 2px;
+}
+.riv-contact-form__textarea { min-height: 120px; resize: vertical; }
+.riv-contact-form__input:focus,
+.riv-contact-form__textarea:focus {
+  outline: 2px solid var(--riv-beige);
+  outline-offset: 0;
+  border-color: var(--riv-beige);
+}
+.riv-contact-form__required {
+  font-size: 12px;
+  color: var(--riv-muted);
+  margin-bottom: 16px;
+  display: block;
+}
+.riv-contact-form__submit {
+  background: var(--riv-navy-dark);
+  color: #FFFFFF;
+  border: none;
+  padding: 14px 36px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background 0.2s;
+  border-radius: 2px;
+}
+.riv-contact-form__submit:hover { background: var(--riv-navy); }
+
+@media (max-width: 767px) {
+  .riv-contact-split { grid-template-columns: 1fr; gap: 32px; }
+  .riv-contact-form { padding: 24px; }
+}
+
+/* §43 — Restaurant feature (large card with brand mark) */
+.riv-restaurant-feature {
+  background: linear-gradient(135deg, var(--riv-navy-dark) 0%, var(--riv-navy) 100%);
+  color: #FFFFFF;
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.riv-restaurant-feature__eyebrow {
+  font-family: var(--riv-font-body);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--riv-beige);
+  margin: 0 0 16px;
+}
+.riv-restaurant-feature__name {
+  font-family: var(--riv-font-heading);
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 400;
+  color: #FFFFFF \!important;
+  margin: 0 0 24px;
+}
+.riv-restaurant-feature__desc {
+  font-family: var(--riv-font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 700px;
+  margin: 0 auto 32px;
+}
+.riv-restaurant-feature__promo {
+  background: rgba(151, 140, 113, 0.15);
+  border-left: 3px solid var(--riv-beige);
+  padding: 24px 32px;
+  max-width: 720px;
+  margin: 32px auto;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.92);
+}
+.riv-restaurant-feature__ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+.riv-restaurant-feature__btn {
+  background: var(--riv-beige);
+  color: var(--riv-navy-dark) \!important;
+  padding: 14px 36px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--riv-beige);
+  display: inline-block;
+  min-height: 48px;
+  transition: all 0.2s;
+}
+.riv-restaurant-feature__btn:hover { background: var(--riv-gold); border-color: var(--riv-gold); color: #FFFFFF \!important; }
+.riv-restaurant-feature__btn--outline {
+  background: transparent;
+  color: #FFFFFF \!important;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.riv-restaurant-feature__btn--outline:hover { background: rgba(255, 255, 255, 0.1); color: #FFFFFF \!important; }
+
+@media (max-width: 767px) {
+  .riv-restaurant-feature { padding: 56px 24px; }
+  .riv-restaurant-feature__name { font-size: 36px; }
+  .riv-restaurant-feature__desc { font-size: 15px; }
+}
+
+/* §44 — Voucher cards (smaller variant for /oferty page) */
+.riv-voucher-card {
+  background: #FAF8F4;
+  padding: 32px 24px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid var(--riv-line);
+  transition: all 0.2s;
+}
+.riv-voucher-card:hover { background: rgba(151, 140, 113, 0.1); }
+.riv-voucher-card__amount {
+  font-family: var(--riv-font-heading);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--riv-navy-dark);
+  margin: 0 0 8px;
+}
+.riv-voucher-card__label {
+  font-family: var(--riv-font-body);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--riv-muted);
+  margin: 0 0 16px;
+}
+.riv-voucher-card__cta {
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--riv-navy-dark);
+  border-bottom: 1px solid var(--riv-beige);
+  padding-bottom: 2px;
+}
 /* ============================================================
    §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)
    ============================================================ */

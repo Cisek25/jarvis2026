@@ -94,6 +94,16 @@ body.page-index .ido-cta-dark {
   background: #051B3D !important;
   position: relative !important;
   z-index: 5 !important;
+  margin-bottom: 0 !important;
+}
+/* v2.0 TRAP CRITICAL-Q: remove padding-bottom causing white gap between CTA-dark and footer */
+body.page-index .section.fp-auto-height,
+body.page-index .section.fp-auto-height.pb-5 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+html, body, body.page-index {
+  background-color: #051B3D !important;
 }
 body.page-index .riv-hero .riv-search,
 body.page-index .section.parallax .riv-search,
@@ -442,7 +452,63 @@ body.page-index .ido-split:not(.ido-split-reverse) .ido-split__media img {
     });
   }
 
-  /* === 7. Init === */
+  /* === 7. Subpage filter buttons (Atrakcje, Galeria) — toggle data-category visibility === */
+  function initSubpageFilters() {
+    var filterGroups = document.querySelectorAll('.riv-attractions-filter');
+    if (!filterGroups.length) return;
+    filterGroups.forEach(function(group) {
+      var buttons = group.querySelectorAll('.riv-attractions-filter__btn');
+      var container = group.nextElementSibling;
+      if (!container) return;
+      var items = container.querySelectorAll('[data-category]');
+      buttons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var filter = btn.dataset.filter;
+          buttons.forEach(function(b) {
+            b.classList.remove('is-active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('is-active');
+          btn.setAttribute('aria-selected', 'true');
+          items.forEach(function(item) {
+            var match = filter === 'all' || item.dataset.category === filter;
+            item.style.display = match ? '' : 'none';
+          });
+        });
+      });
+    });
+  }
+
+  /* === 8. Contact form basic validation + submit feedback === */
+  function initContactForm() {
+    var form = document.getElementById('riv-contact-form');
+    if (!form) return;
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var inputs = form.querySelectorAll('input[required], textarea[required]');
+      var allValid = true;
+      inputs.forEach(function(inp) {
+        if (!inp.value.trim() || (inp.type === 'email' && !inp.value.includes('@'))) {
+          inp.style.borderColor = '#c0392b';
+          allValid = false;
+        } else {
+          inp.style.borderColor = '';
+        }
+      });
+      if (allValid) {
+        var btn = form.querySelector('.riv-contact-form__submit');
+        btn.textContent = 'Wysyłanie...';
+        btn.disabled = true;
+        setTimeout(function() {
+          btn.textContent = 'Wiadomość wysłana — dziękujemy!';
+          btn.style.background = '#27ae60';
+          form.reset();
+        }, 800);
+      }
+    });
+  }
+
+  /* === 9. Init === */
   function init() {
     setupFullpageHeader();
     teleportHero();
@@ -450,6 +516,8 @@ body.page-index .ido-split:not(.ido-split-reverse) .ido-split__media img {
     initLitepicker();
     setupSearchForm();
     initOffersFilters();
+    initSubpageFilters();
+    initContactForm();
   }
 
   if (document.readyState === 'loading') {

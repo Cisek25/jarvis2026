@@ -1,0 +1,113 @@
+{
+  "_meta": {
+    "source_url": "https://www.riverpremiumapartments.pl/",
+    "recon_date": "2026-05-19",
+    "operator": "JARVIS / Claude Opus 4.7",
+    "client": "Andrzej Kowalski Fundacja Rodzinna",
+    "brand": "River Premium Apartments",
+    "platform_source": "Profitroom (template buenos_aires)",
+    "platform_target": "IdoBooking (template default13)"
+  },
+  "brand_tokens": {
+    "colors": {
+      "primary_navy": "#12334c",
+      "primary_navy_dark": "#051B3D",
+      "secondary_brown_dark": "#7E674B",
+      "secondary_brown_light": "#978C71",
+      "white": "#FFFFFF",
+      "black": "#000000",
+      "note": "Source ma --primary-color #12334c i --secondary-color #7E674B w :root, ale faktyczne CTA używają #051B3D (ciemniejszy) i #978C71 (jaśniejszy). Obie wersje są w użyciu."
+    },
+    "fonts": {
+      "headings": "Bodoni Moda",
+      "headings_weights": [400, 600, 700],
+      "body": "DM Sans",
+      "body_weights": [400, 500, 700],
+      "source_cdn": "fonts.profitroom.com",
+      "google_fonts_available": true
+    },
+    "typography": {
+      "h1": { "size_px": 45, "line_height": 1.0, "weight": 400, "family": "Bodoni Moda" },
+      "h2": { "size_px": 27, "line_height": 1.2, "weight": 600, "family": "Bodoni Moda" },
+      "body": { "size_px": 14, "family": "DM Sans" }
+    },
+    "buttons": {
+      "primary_cta": { "bg": "#051B3D", "text": "white", "padding": "13px 35px", "font_size_px": 13, "weight": 400 },
+      "secondary_cta": { "bg": "#978C71", "text": "#051B3D", "padding": "13px 35px" },
+      "tertiary_arrow_link": { "bg": "transparent", "text": "#051B3D", "border_bottom": "1px solid #978C71", "font_weight": 300 }
+    },
+    "style_summary": "Minimalist premium. Granat + złoto-brąz + biały. Serif elegancki na nagłówkach (Bodoni Moda), clean sans na treści (DM Sans). Dużo whitespace, fotografia hero pełnoekranowa, sekcje 40-80px padding."
+  },
+  "menu_structure": {
+    "primary": [
+      { "label_pl": "APARTAMENTY", "label_en": "APARTMENTS", "href_pl": "/pokoje", "ido_page_name": "Apartamenty" },
+      { "label_pl": "OFERTY", "label_en": "OFFERS", "href_pl": "/oferty-i-promocje", "ido_page_name": "Oferty i promocje" },
+      { "label_pl": "ATRAKCJE", "label_en": "ATTRACTIONS", "href_pl": "/atrakcje", "ido_page_name": "Atrakcje" },
+      { "label_pl": "RESTAURACJA", "label_en": "RESTAURANT", "href_pl": "/restauracja", "ido_page_name": "Restauracja" },
+      { "label_pl": "GALERIA", "label_en": "GALLERY", "href_pl": "/galeria", "ido_page_name": "Galeria" },
+      { "label_pl": "KONTAKT", "label_en": "CONTACT", "href_pl": "/kontakt", "ido_page_name": "Kontakt" }
+    ],
+    "languages": ["pl", "en"]
+  },
+  "homepage_sections": [
+    { "order": 1, "type": "banner_slider_hero", "title": "Wyjątkowe apartamenty", "ido_component": "hero (CUSTOM extended z fullscreen slider)" },
+    { "order": 2, "type": "photo_text_left", "title": "River Premium Apartments", "ido_component": "split-reverse (text-left, image-right)" },
+    { "order": 3, "type": "amenities_icons", "items": ["Widok na rzekę", "Garaż", "WiFi", "Zwierzęta", "Smart TV", "Winda"], "ido_component": "features (6 ikon SVG)" },
+    { "order": 4, "type": "reserve_slider", "title": "Oferty pobytu", "items": ["Oferta bezzwrotna", "Dłużej = taniej", "Oferta elastyczna"], "ido_component": "cards (3 oferty)" },
+    { "order": 5, "type": "photo_text_sticky", "title": "River Premium Apartments", "ido_component": "split (text-right, image-left, sticky)" },
+    { "order": 6, "type": "opinion_slider", "title": "Opinie zadowolonych Gości", "ido_component": "testimonials (karuzela Booking.com)" },
+    { "order": 7, "type": "reserve_slider_apartments", "title": "Apartamenty", "items": ["Apartament A", "Apartament B", "Apartament C", "Apartament D"], "ido_component": "FEATURED OFFERS (wzorzec MADERA/NAJMAR)" }
+  ],
+  "apartments": [
+    { "code": "A", "name": "Apartament A", "size_sqm": 40, "max_guests": 2, "price_from_pln": 202, "image_url": "https://r.profitroom.com/riverpremiumapartments/images/rooms/thumbs/550x330/7ec9306a-13c6-44c1-a45e-6544675fe0ff.jpg" },
+    { "code": "B", "name": "Apartament B", "size_sqm": 55, "max_guests": 4, "image_url": "https://r.profitroom.com/riverpremiumapartments/images/rooms/thumbs/550x330/8bddf524-fe3a-44a0-bda8-973b73785c8c.jpg" },
+    { "code": "C", "name": "Apartament C", "size_sqm": 47, "max_guests": 4, "image_url": "https://r.profitroom.com/riverpremiumapartments/images/rooms/thumbs/550x330/9ff6c31d-bbcb-450c-bb40-bd409d2f01cf.jpg" },
+    { "code": "D", "name": "Apartament D", "size_sqm": 35, "max_guests": 2 }
+  ],
+  "offers": [
+    { "name": "Oferta bezzwrotna", "price_from_pln": 202, "image_url": "https://r.profitroom.com/riverpremiumapartments/images/offers/thumbs/550x330/UdLtJEFcON5QMyVO.jpg" },
+    { "name": "Dłużej = taniej (długoterminowa)", "price_from_pln": 225, "image_url": "https://r.profitroom.com/riverpremiumapartments/images/offers/thumbs/550x330/9920d360-9583-4d86-a024-61472b0ae33c.jpg" },
+    { "name": "Oferta elastyczna", "price_from_pln": 250, "image_url": "https://r.profitroom.com/riverpremiumapartments/images/offers/thumbs/550x330/Rgmo03mWqmgqtI2n.jpg" }
+  ],
+  "contact": {
+    "address_line1": "ul. Księcia Witolda 52",
+    "postal_code": "50-203",
+    "city": "Wrocław",
+    "country": "PL",
+    "phones": ["+48 785 818 330", "+48 698 076 020"],
+    "email": "rezerwacje@riverpremiumapartments.pl",
+    "location_note": "Centrum Wrocławia, widok na Odrę"
+  },
+  "footer_structure": {
+    "col1": "Kontakt (nazwa, adres, telefony, email, CTA SKONTAKTUJ SIĘ)",
+    "col2": "Ważne informacje (Apartamenty, Oferty, Atrakcje, Restauracja, Galeria)",
+    "col3": "Obserwuj nas (social media icons)",
+    "bottom": "Powered by Profitroom -> będzie zastąpione Powered by IdoBooking (wymóg licencyjny)"
+  },
+  "image_quality_warning": {
+    "logo": "Logo jest WhatsApp JPG 971x683 — niska jakość dla premium brandu. Wymagany SVG/PNG hi-res od klienta lub do recreate.",
+    "hero": "Hero image 1500x1000 — akceptowalne ale lepiej hi-res 1920x1280+",
+    "apartments_thumbs": "Tylko 550x330 (miniaturki). Pełnowymiarowe trzeba pobrać przez profitroom path size override (np. /1920x1080/)"
+  },
+  "screenshots_captured": [
+    "_recon/screenshots/01-home-desktop-full.png (1440x900 viewport, full page)",
+    "_recon/screenshots/02-home-mobile-full.png (390x844 viewport, full page)"
+  ],
+  "subpages_to_recon_in_phase_5": [
+    "/pokoje (Apartamenty - listing 4 typów)",
+    "/oferty-i-promocje (Oferty)",
+    "/atrakcje (Atrakcje Wrocławia)",
+    "/restauracja (Restauracja - WYJAŚNIĆ: ich biznes czy partner?)",
+    "/galeria (Galeria zdjęć)",
+    "/kontakt (Kontakt z mapą)"
+  ],
+  "ido_booking_traps_to_apply": {
+    "css_html_font_size_10px": "Pamiętać: na default13 html ma 10px, więc 14px source = 1.4rem ale piszemy w PX",
+    "fullpage_js_homepage": "Header transparent na fp-viewing-1, normalny od fp-viewing-2 (MutationObserver wymagane)",
+    "menu_wrapper_bg": ".menu-wrapper child header ma własne tło, target ten element",
+    "featured_offers_pattern": "Apartamenty A-D na home = wzorzec MADERA: hide .container-hotspot + custom JS reader + custom CSS cards (riv-offer-card)",
+    "lang_switcher": "PL+EN — IdoBooking ma builtin, ale style trzeba dopracować",
+    "powered_by_idobooking": "Footer wymóg licencyjny: badge .powered_by widoczny (opacity ≥0.85)",
+    "wikimedia_forbidden": "Zdjęcia: brać ze źródła profitroom CDN lub Unsplash (curl -sI verify 200), NIGDY Wikimedia"
+  }
+}

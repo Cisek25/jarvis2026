@@ -1,12 +1,9 @@
-<section class="riv-hero" data-component-id="riv-hero">
-  <div class="riv-hero__media">
-    <img src="https://wa-uploads.profitroom.com/riverpremiumapartments/1920x1080/17235494363263_7162b41e-eb6c-4152-bbb1-438e5cb64c59.jpg" alt="River Premium Apartments — widok na Odrę z apartamentu we Wrocławiu" loading="eager">
-  </div>
+<section class="riv-hero riv-hero--system-bg" data-component-id="riv-hero">
   <div class="riv-hero__content">
     <h1 class="riv-hero__title">Wyjątkowe apartamenty</h1>
     <p class="riv-hero__subtitle">ul. Księcia Witolda 52, Wrocław — z widokiem na Odrę</p>
   </div>
-  <form class="riv-search" action="/wyszukiwarka" method="get" aria-label="Wyszukiwarka rezerwacji apartamentu">
+  <form class="riv-search" id="riv-search-form" aria-label="Wyszukiwarka rezerwacji apartamentu" novalidate>
     <div class="riv-search__field">
       <label for="riv-date-from" class="riv-search__label">Przyjazd</label>
       <input type="date" id="riv-date-from" name="dateFrom" class="riv-search__input" required>
@@ -113,36 +110,33 @@
     <p>Wybierz najlepszą formułę</p>
   </header>
   <article class="riv-offer-card">
-    <a href="#" class="riv-offer-card__media">
-      <img src="https://r.profitroom.com/riverpremiumapartments/images/offers/thumbs/550x330/UdLtJEFcON5QMyVO.jpg" alt="Oferta bezzwrotna — apartament River Premium" loading="lazy" class="riv-offer-card__img">
+    <div class="riv-offer-card__media">
+      <img src="https://client58463.idobooking.com/images/frontpageGallery/pictures/large/0/0/1.webp" alt="Oferta bezzwrotna — apartament River Premium" loading="lazy" class="riv-offer-card__img" onerror="this.style.display='none'">
       <span class="riv-offer-card__badge">od 202 zł/noc</span>
-    </a>
+    </div>
     <div class="riv-offer-card__body">
       <h3 class="riv-offer-card__name">Oferta bezzwrotna</h3>
       <p class="riv-offer-card__desc">Najtańsza opcja z gwarancją niskiej ceny. Bez możliwości anulowania.</p>
-      <a href="#" class="riv-offer-card__cta">Sprawdź</a>
     </div>
   </article>
   <article class="riv-offer-card">
-    <a href="#" class="riv-offer-card__media">
-      <img src="https://r.profitroom.com/riverpremiumapartments/images/offers/thumbs/550x330/9920d360-9583-4d86-a024-61472b0ae33c.jpg" alt="Dłużej taniej — apartament River Premium" loading="lazy" class="riv-offer-card__img">
+    <div class="riv-offer-card__media">
+      <img src="https://client58463.idobooking.com/images/frontpageGallery/pictures/large/0/0/2.webp" alt="Dłużej taniej — apartament River Premium" loading="lazy" class="riv-offer-card__img" onerror="this.style.display='none'">
       <span class="riv-offer-card__badge">od 225 zł/noc</span>
-    </a>
+    </div>
     <div class="riv-offer-card__body">
       <h3 class="riv-offer-card__name">Dłużej = taniej</h3>
       <p class="riv-offer-card__desc">Im dłuższy pobyt, tym lepsza cena. Idealne dla podróży służbowych.</p>
-      <a href="#" class="riv-offer-card__cta">Sprawdź</a>
     </div>
   </article>
   <article class="riv-offer-card">
-    <a href="#" class="riv-offer-card__media">
-      <img src="https://r.profitroom.com/riverpremiumapartments/images/offers/thumbs/550x330/Rgmo03mWqmgqtI2n.jpg" alt="Oferta elastyczna — apartament River Premium" loading="lazy" class="riv-offer-card__img">
+    <div class="riv-offer-card__media">
+      <img src="https://client58463.idobooking.com/images/frontpageGallery/pictures/large/0/0/3.webp" alt="Oferta elastyczna — apartament River Premium" loading="lazy" class="riv-offer-card__img" onerror="this.style.display='none'">
       <span class="riv-offer-card__badge">od 250 zł/noc</span>
-    </a>
+    </div>
     <div class="riv-offer-card__body">
       <h3 class="riv-offer-card__name">Oferta elastyczna</h3>
       <p class="riv-offer-card__desc">Pełna swoboda — bezpłatna anulacja do dnia przyjazdu.</p>
-      <a href="#" class="riv-offer-card__cta">Sprawdź</a>
     </div>
   </article>
 </section>
@@ -183,111 +177,13 @@
   </div>
 </section>
 
-<section class="ido-cards riv-apartments-grid riv-featured-fallback">
+<section class="ido-cards riv-apartments-section">
   <header class="ido-cards__header">
     <h2>Nasze apartamenty</h2>
     <p>Wybierz swój styl pobytu</p>
   </header>
-  <article class="riv-offer-card">
-    <a href="#" class="riv-offer-card__media">
-      <img src="https://r.profitroom.com/riverpremiumapartments/images/rooms/thumbs/550x330/7ec9306a-13c6-44c1-a45e-6544675fe0ff.jpg" alt="Apartament A — sypialnia z dużym łóżkiem i salon" loading="lazy" class="riv-offer-card__img">
-    </a>
-    <div class="riv-offer-card__body">
-      <h3 class="riv-offer-card__name">Apartament A</h3>
-      <p class="riv-offer-card__desc">Komfortowy apartament dla par. Sypialnia z dużym łóżkiem, salon z aneksem kuchennym, łazienka z prysznicem.</p>
-      <ul class="riv-offer-card__meta">
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18"/>
-          </svg>
-          40 m²
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
-          </svg>
-          2 os.
-        </li>
-      </ul>
-      <a href="#" class="riv-offer-card__cta">Sprawdź</a>
-    </div>
-  </article>
-  <article class="riv-offer-card">
-    <a href="#" class="riv-offer-card__media">
-      <img src="https://r.profitroom.com/riverpremiumapartments/images/rooms/thumbs/550x330/8bddf524-fe3a-44a0-bda8-973b73785c8c.jpg" alt="Apartament B — dwie sypialnie i salon dla rodziny" loading="lazy" class="riv-offer-card__img">
-    </a>
-    <div class="riv-offer-card__body">
-      <h3 class="riv-offer-card__name">Apartament B</h3>
-      <p class="riv-offer-card__desc">Przestronny apartament rodzinny. Dwie sypialnie, salon, pełnowymiarowa kuchnia, łazienka.</p>
-      <ul class="riv-offer-card__meta">
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18"/>
-          </svg>
-          55 m²
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
-          </svg>
-          4 os.
-        </li>
-      </ul>
-      <a href="#" class="riv-offer-card__cta">Sprawdź</a>
-    </div>
-  </article>
-  <article class="riv-offer-card">
-    <a href="#" class="riv-offer-card__media">
-      <img src="https://r.profitroom.com/riverpremiumapartments/images/rooms/thumbs/550x330/9ff6c31d-bbcb-450c-bb40-bd409d2f01cf.jpg" alt="Apartament C — widok na Odrę, dwie sypialnie i salon z kuchnią" loading="lazy" class="riv-offer-card__img">
-    </a>
-    <div class="riv-offer-card__body">
-      <h3 class="riv-offer-card__name">Apartament C</h3>
-      <p class="riv-offer-card__desc">Apartament dla 4 osób z widokiem na Odrę. Dwie sypialnie, otwarta przestrzeń dzienna z kuchnią.</p>
-      <ul class="riv-offer-card__meta">
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18"/>
-          </svg>
-          47 m²
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
-          </svg>
-          4 os.
-        </li>
-      </ul>
-      <a href="#" class="riv-offer-card__cta">Sprawdź</a>
-    </div>
-  </article>
-  <article class="riv-offer-card">
-    <a href="#" class="riv-offer-card__media">
-      <img src="https://r.profitroom.com/riverpremiumapartments/images/rooms/thumbs/550x330/placeholder-d.jpg" alt="Apartament D — kameralny apartament dla par" loading="lazy" class="riv-offer-card__img">
-    </a>
-    <div class="riv-offer-card__body">
-      <h3 class="riv-offer-card__name">Apartament D</h3>
-      <p class="riv-offer-card__desc">Kameralny apartament dla par. Przytulna sypialnia, aneks kuchenny, łazienka z prysznicem.</p>
-      <ul class="riv-offer-card__meta">
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18"/>
-          </svg>
-          35 m²
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 21v-2a8 8 0 0 1 16 0v2"/>
-          </svg>
-          2 os.
-        </li>
-      </ul>
-      <a href="#" class="riv-offer-card__cta">Sprawdź</a>
-    </div>
-  </article>
+  <div class="riv-apartments-grid" data-riv-featured-target="apartments">
+  </div>
 </section>
 
 <section class="ido-cta-dark">

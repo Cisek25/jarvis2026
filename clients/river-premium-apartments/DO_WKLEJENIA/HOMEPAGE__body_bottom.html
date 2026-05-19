@@ -2,6 +2,12 @@
 (function() {
   'use strict';
 
+  var CONFIG = {
+    clientId: '58463',
+    engineFallback: 'https://engine58463.idobooking.com/',
+    preferSystemForm: true
+  };
+
   /* === 1. fullpage.js detection — header transparent on section 1 === */
   function setupFullpageHeader() {
     var body = document.body;
@@ -34,7 +40,7 @@
   }
 
   /* === 3. Featured offers reader (MADERA pattern) === */
-  function buildRivCards(gridSelector, fallbackHide) {
+  function buildRivCards(gridSelector) {
     var hotspot = document.querySelector('.container-hotspot, .cmshotspot');
     var grid = document.querySelector(gridSelector);
     if (!hotspot || !grid) return;
@@ -44,7 +50,7 @@
     var seen = {};
 
     Array.prototype.forEach.call(slides, function(offer) {
-      var hrefEl = offer.querySelector('a.object-icon, a[href*="oferta"]');
+      var hrefEl = offer.querySelector('a.object-icon, a[href*="offer"], a[href*="oferta"]');
       if (!hrefEl) return;
       var href = hrefEl.href;
       if (seen[href]) return;
@@ -52,11 +58,11 @@
 
       var imgEl = offer.querySelector('img[data-src], img[src]:not([src*="img-blank"])');
       var img = imgEl ? (imgEl.dataset.src || imgEl.src) : '';
-      var title = (offer.querySelector('h3 a, h3') || {}).textContent;
-      var desc = (offer.querySelector('.offer__description') || {}).textContent;
-      var areaMatch = ((offer.querySelector('.accommodation-meters') || {}).textContent || '').match(/([\d,.]+)\s*m/i);
-      var guestsMatch = ((offer.querySelector('.accommodation-roomspace') || {}).textContent || '').match(/(\d+)/);
-      var priceMatch = ((offer.querySelector('.offer__price .price') || {}).textContent || '').match(/([\d,.]+)/);
+      var title = (offer.querySelector('h3 a, h3, .offer__name') || {}).textContent;
+      var desc = (offer.querySelector('.offer__description, .offer-description') || {}).textContent;
+      var areaMatch = ((offer.querySelector('.accommodation-meters, [class*="meters"]') || {}).textContent || '').match(/([\d,.]+)\s*m/i);
+      var guestsMatch = ((offer.querySelector('.accommodation-roomspace, [class*="roomspace"], [class*="persons"]') || {}).textContent || '').match(/(\d+)/);
+      var priceMatch = ((offer.querySelector('.offer__price .price, .offer-price, [class*="price"]') || {}).textContent || '').match(/([\d,.]+)/);
 
       cards.push({
         href: href,
@@ -72,18 +78,22 @@
     if (!cards.length) return;
 
     grid.innerHTML = cards.map(function(c) {
+      var meta = '';
+      if (c.area || c.guests) {
+        meta = '<ul class="riv-offer-card__meta">';
+        if (c.area) meta += '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18"/></svg>' + c.area + ' m²</li>';
+        if (c.guests) meta += '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg>' + c.guests + ' os.</li>';
+        meta += '</ul>';
+      }
       return '<article class="riv-offer-card">' +
         '<a href="' + c.href + '" class="riv-offer-card__media">' +
-          '<img src="' + c.img + '" alt="' + c.title + '" loading="lazy" class="riv-offer-card__img"/>' +
+          (c.img ? '<img src="' + c.img + '" alt="' + c.title + '" loading="lazy" class="riv-offer-card__img"/>' : '') +
           (c.price ? '<span class="riv-offer-card__badge">od ' + c.price + ' zł/noc</span>' : '') +
         '</a>' +
         '<div class="riv-offer-card__body">' +
           '<h3 class="riv-offer-card__name">' + c.title + '</h3>' +
           (c.desc ? '<p class="riv-offer-card__desc">' + c.desc + '</p>' : '') +
-          '<ul class="riv-offer-card__meta">' +
-            (c.area ? '<li><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/></svg> ' + c.area + ' m²</li>' : '') +
-            (c.guests ? '<li><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg> ' + c.guests + ' os.</li>' : '') +
-          '</ul>' +
+          meta +
           '<a href="' + c.href + '" class="riv-offer-card__cta">Sprawdź</a>' +
         '</div>' +
       '</article>';
@@ -91,12 +101,129 @@
     grid.classList.remove('riv-featured-fallback');
   }
 
-  /* === 4. Init === */
+  /* === 4. Search form: submit through system #iai_book_form or engine fallback (TRAP E) === */
+  function setupSearchForm() {
+    var form = document.getElementById('riv-search-form');
+    if (!form) return;
+
+    var dateFrom = form.querySelector('#riv-date-from');
+    var dateTo = form.querySelector('#riv-date-to');
+    var guests = form.querySelector('#riv-guests');
+
+    var today = new Date();
+    var tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    var dayAfter = new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000);
+    if (dateFrom && !dateFrom.value) {
+      dateFrom.value = tomorrow.toISOString().slice(0, 10);
+      dateFrom.min = today.toISOString().slice(0, 10);
+    }
+    if (dateTo && !dateTo.value) {
+      dateTo.value = dayAfter.toISOString().slice(0, 10);
+      dateTo.min = today.toISOString().slice(0, 10);
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var values = {
+        dateFrom: dateFrom ? dateFrom.value : '',
+        dateTo: dateTo ? dateTo.value : '',
+        persons: guests ? guests.value : '2'
+      };
+
+      if (CONFIG.preferSystemForm) {
+        var sysForm = document.querySelector('#iai_book_form, form.book-form, form[action*="engine"]');
+        if (sysForm) {
+          var nameMap = {
+            dateFrom: ['checkin_date', 'date_from', 'dateFrom', 'arrival', 'from'],
+            dateTo: ['checkout_date', 'date_to', 'dateTo', 'departure', 'to'],
+            persons: ['persons', 'guests', 'adults']
+          };
+          for (var key in nameMap) {
+            for (var i = 0; i < nameMap[key].length; i++) {
+              var el = sysForm.querySelector('[name="' + nameMap[key][i] + '"]');
+              if (el) { el.value = values[key]; break; }
+            }
+          }
+          sysForm.submit();
+          return;
+        }
+      }
+
+      var params = new URLSearchParams();
+      if (values.dateFrom) params.set('date_from', values.dateFrom);
+      if (values.dateTo) params.set('date_to', values.dateTo);
+      if (values.persons) params.set('persons', values.persons);
+      window.location.href = CONFIG.engineFallback + '?' + params.toString();
+    });
+  }
+
+  /* === 5. Date input native picker triggers (TRAP C) === */
+  function initDatePickers() {
+    var fields = document.querySelectorAll('.riv-search__field');
+    fields.forEach(function(field) {
+      var input = field.querySelector('input[type="date"], select');
+      if (!input) return;
+      field.addEventListener('click', function(e) {
+        if (e.target === input) return;
+        if (typeof input.showPicker === 'function') {
+          try { input.showPicker(); return; } catch (err) {}
+        }
+        input.focus();
+      });
+    });
+    var dateInputs = document.querySelectorAll('input[type="date"]');
+    dateInputs.forEach(function(inp) {
+      inp.addEventListener('click', function() {
+        if (typeof inp.showPicker === 'function') {
+          try { inp.showPicker(); } catch (err) {}
+        }
+      });
+    });
+  }
+
+  /* === 6. /offers filters collapsed by default (TRAP CRITICAL-CC) === */
+  function initOffersFilters() {
+    if (!document.body.classList.contains('page-offers')) return;
+    var filters = document.querySelectorAll('.filter_content.collapse');
+    var headers = document.querySelectorAll('.filter_header');
+    if (!filters.length || !headers.length) return;
+
+    filters.forEach(function(f) { f.classList.remove('show'); });
+
+    headers.forEach(function(h) {
+      h.setAttribute('aria-expanded', 'false');
+      h.setAttribute('role', 'button');
+      h.setAttribute('tabindex', '0');
+      if (h.dataset.rivFilterInit) return;
+      h.dataset.rivFilterInit = 'true';
+
+      h.addEventListener('click', function() {
+        var match = h.id.match(/filter_header_(.+)/);
+        if (!match) return;
+        var content = document.getElementById('filter_' + match[1] + '_content');
+        if (!content) return;
+        var expanded = h.getAttribute('aria-expanded') === 'true';
+        h.setAttribute('aria-expanded', !expanded);
+        content.classList.toggle('show');
+      });
+
+      h.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          h.click();
+        }
+      });
+    });
+  }
+
+  /* === 7. Init === */
   function init() {
     setupFullpageHeader();
     teleportHero();
     buildRivCards('.riv-apartments-grid');
-    buildRivCards('.riv-offers-grid');
+    setupSearchForm();
+    initDatePickers();
+    initOffersFilters();
   }
 
   if (document.readyState === 'loading') {

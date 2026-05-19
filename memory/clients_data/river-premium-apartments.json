@@ -1,0 +1,51 @@
+{
+  "slug": "river-premium-apartments",
+  "brand": "River Premium Apartments",
+  "owner_entity": "Andrzej Kowalski Fundacja Rodzinna",
+  "domain": "riverpremiumapartments.pl",
+  "city": "Wrocław",
+  "address": "ul. Księcia Witolda 52, 50-203 Wrocław",
+  "phones": ["+48 785 818 330", "+48 698 076 020"],
+  "email": "rezerwacje@riverpremiumapartments.pl",
+  "languages": ["pl", "en"],
+  "apartments_count": 4,
+  "apartments": [
+    { "code": "A", "size_sqm": 40, "max_guests": 2 },
+    { "code": "B", "size_sqm": 55, "max_guests": 4 },
+    { "code": "C", "size_sqm": 47, "max_guests": 4 },
+    { "code": "D", "size_sqm": 35, "max_guests": 2 }
+  ],
+  "brand_tokens": {
+    "primary": "#051B3D",
+    "primary_alt": "#12334C",
+    "secondary": "#978C71",
+    "secondary_alt": "#7E674B",
+    "font_heading": "Bodoni Moda",
+    "font_body": "DM Sans"
+  },
+  "platform_migration": {
+    "from": "Profitroom (template buenos_aires)",
+    "to": "IdoBooking (template default13)"
+  },
+  "css_prefix": "riv-",
+  "status": "in_progress_v1.0",
+  "design_doc": "docs/plans/2026-05-19-river-premium-apartments-migration-design.md",
+  "implementation_plan": "docs/plans/2026-05-19-river-premium-apartments-implementation.md",
+  "blockers": [
+    "Logo SVG/PNG hi-res — klient dostarczy",
+    "Restauracja content (nazwa, menu, godziny, zdjęcia) — klient dostarczy",
+    "Treści EN unikalne — scrape ze źródła + tłumaczenie",
+    "IdoBooking panel ofert A-D nie istnieje — fallback static cards"
+  ],
+  "traps_to_apply": [
+    "html font-size 10px → wszystko w PX",
+    "fullpage.js detection via MutationObserver",
+    "body_top hero teleport do .section.parallax .fp-tableCell",
+    ".menu-wrapper child bg (nie header)",
+    "Featured offers MADERA pattern",
+    "Zero emoji + zero generator comments (WAF-safe)",
+    "Powered by IdoBooking footer (opacity ≥0.85)"
+  ],
+  "created": "2026-05-19",
+  "last_updated": "2026-05-19"
+}

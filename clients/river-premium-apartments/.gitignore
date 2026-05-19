@@ -1,0 +1,4 @@
+# Recon screenshots są commitowane, ale never commit build temp/log
+*.tmp
+*.log
+.DS_Store

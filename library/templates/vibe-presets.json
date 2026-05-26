@@ -1,0 +1,890 @@
+{
+  "version": "1.0",
+  "updated": "2026-05-25",
+  "schema": {
+    "vibe_key": "kebab-case-slug used as data-vibe attribute",
+    "fields_per_vibe": [
+      "displayName",
+      "description",
+      "target_examples",
+      "palette",
+      "fonts",
+      "layout_signature",
+      "recommended_variants",
+      "interactions",
+      "dividers",
+      "darkmode_palette"
+    ]
+  },
+  "vibes": {
+    "luxury-heritage": {
+      "displayName": "Luxury Heritage",
+      "description": "Apartament w zabytku, lux hotel, kamienice",
+      "target_examples": ["piekary13", "mountainprestige"],
+      "palette": {
+        "primary": "#722F37",
+        "primary-light": "#8B3A44",
+        "primary-dark": "#5A252C",
+        "secondary": "#C4A882",
+        "secondary-light": "#D4BC9A",
+        "cream": "#F2EDE4",
+        "bg": "#FAFAF5",
+        "text": "#1A1A1A",
+        "text-soft": "#3A3A3A",
+        "text-muted": "#6B6B6B"
+      },
+      "fonts": {
+        "heading": "Playfair Display",
+        "body": "DM Sans",
+        "google_import": "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap"
+      },
+      "layout_signature": "Asymmetric grid, big H1 serif, dark CTA, gold accents",
+      "recommended_variants": {
+        "hero": "asymmetric-grid",
+        "about": "asym-text-img",
+        "gallery": "asym-mosaic",
+        "cta": "dark-bold",
+        "features": "icon-grid-4col",
+        "testimonials": "single-quote-big",
+        "footer": "dark-rich",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "subtle-hover-scale",
+      "dividers": "classic-gold-leaf",
+      "darkmode_palette": {
+        "primary": "#8B3A44",
+        "secondary": "#D4BC9A",
+        "cream": "#2A2024",
+        "bg": "#1A1418",
+        "text": "#F2EDE4",
+        "text-muted": "#9A9590"
+      }
+    },
+    "modern-minimal": {
+      "displayName": "Modern Minimal",
+      "description": "Nowoczesny apartament, design hotel",
+      "target_examples": ["fairrentals", "river-premium-apartments"],
+      "palette": {
+        "primary": "#E2D700",
+        "primary-light": "#F4EE5C",
+        "primary-dark": "#B8AE00",
+        "secondary": "#0F0F0E",
+        "secondary-light": "#2A2A28",
+        "cream": "#F0EAE0",
+        "bg": "#FAF7F2",
+        "text": "#0F0F0E",
+        "text-soft": "#3A3A38",
+        "text-muted": "#7A736B"
+      },
+      "fonts": {
+        "heading": "Manrope",
+        "body": "Inter",
+        "google_import": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Full-bleed photos, sticky CTA, big numbers, no decorative",
+      "recommended_variants": {
+        "hero": "centered-typography",
+        "about": "split-half",
+        "gallery": "grid-equal",
+        "cta": "minimal-text",
+        "features": "alternating-rows",
+        "testimonials": "grid-3col",
+        "footer": "minimal",
+        "nav": "solid"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "thin-lines",
+      "darkmode_palette": {
+        "primary": "#F4EE8A",
+        "secondary": "#FFFFFF",
+        "cream": "#1A1A18",
+        "bg": "#0F0F0E",
+        "text": "#FFFFFF",
+        "text-muted": "#A8A29A"
+      }
+    },
+    "rustic-warm": {
+      "displayName": "Rustic Warm",
+      "description": "Agroturystyka, klimat wiejski",
+      "target_examples": ["mazurski_chill"],
+      "palette": {
+        "primary": "#7A8A6E",
+        "primary-light": "#94A488",
+        "primary-dark": "#5F6E55",
+        "secondary": "#C8612C",
+        "secondary-light": "#DC7A48",
+        "cream": "#F5F0E8",
+        "bg": "#FBF7F0",
+        "text": "#2A2A24",
+        "text-soft": "#4A4A40",
+        "text-muted": "#6B5F4F"
+      },
+      "fonts": {
+        "heading": "Cormorant Garamond",
+        "body": "Lato",
+        "google_import": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Lato:wght@400;600;700&display=swap"
+      },
+      "layout_signature": "Sepia photos, hand-written accents, smaller grids, ornamental borders",
+      "recommended_variants": {
+        "hero": "split-half",
+        "about": "story-narrative",
+        "gallery": "polaroid-stack",
+        "cta": "side-image",
+        "features": "text-list-numbered",
+        "testimonials": "carousel-photos",
+        "footer": "compact",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "warm-glow-hover",
+      "dividers": "wave-soft",
+      "darkmode_palette": {
+        "primary": "#94A488",
+        "secondary": "#DC7A48",
+        "cream": "#2A2A24",
+        "bg": "#1A1A14",
+        "text": "#F5F0E8",
+        "text-muted": "#A89D8A"
+      }
+    },
+    "modern-coastal": {
+      "displayName": "Modern Coastal",
+      "description": "Morze, plażowe apartamenty",
+      "target_examples": ["sors", "visitbaltic"],
+      "palette": {
+        "primary": "#1B3D5C",
+        "primary-light": "#2D5478",
+        "primary-dark": "#0F2A42",
+        "secondary": "#E07A5F",
+        "secondary-light": "#EE9882",
+        "cream": "#F4EFE9",
+        "bg": "#FBF8F3",
+        "text": "#1A2334",
+        "text-soft": "#3A4458",
+        "text-muted": "#5A6378"
+      },
+      "fonts": {
+        "heading": "Quicksand",
+        "body": "Open Sans",
+        "google_import": "https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Curved dividers, light typography, wave/circle SVG patterns",
+      "recommended_variants": {
+        "hero": "full-bleed-image",
+        "about": "image-mosaic-text",
+        "gallery": "slider-fullscreen",
+        "cta": "gradient",
+        "features": "cards-pop-hover",
+        "testimonials": "slider-fullwidth",
+        "footer": "image-bg",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "wave-svg",
+      "darkmode_palette": {
+        "primary": "#3D6588",
+        "secondary": "#EE9882",
+        "cream": "#1A2434",
+        "bg": "#0F1824",
+        "text": "#F4EFE9",
+        "text-muted": "#9AA5B8"
+      }
+    },
+    "urban-bold": {
+      "displayName": "Urban Bold",
+      "description": "Hostel, młodzieżowy obiekt",
+      "target_examples": [],
+      "palette": {
+        "primary": "#1A1A1A",
+        "primary-light": "#3A3A3A",
+        "primary-dark": "#000000",
+        "secondary": "#00FF87",
+        "secondary-light": "#5AFFA8",
+        "cream": "#2A2A2A",
+        "bg": "#0F0F0F",
+        "text": "#FFFFFF",
+        "text-soft": "#D8D8D8",
+        "text-muted": "#A8A8A8"
+      },
+      "fonts": {
+        "heading": "Bebas Neue",
+        "body": "Inter",
+        "google_import": "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap"
+      },
+      "layout_signature": "High-contrast, sharp angles, oversized typography, gritty textures",
+      "recommended_variants": {
+        "hero": "centered-typography",
+        "about": "full-width-quote",
+        "gallery": "masonry",
+        "cta": "multi-button-row",
+        "features": "comparison-table",
+        "testimonials": "video-grid",
+        "footer": "minimal",
+        "nav": "solid"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "thin-lines",
+      "darkmode_palette": {
+        "primary": "#FFFFFF",
+        "secondary": "#00FF87",
+        "cream": "#1A1A1A",
+        "bg": "#000000",
+        "text": "#FFFFFF",
+        "text-muted": "#C8C8C8"
+      }
+    },
+    "wellness-calm": {
+      "displayName": "Wellness Calm",
+      "description": "Spa, hotel wellness",
+      "target_examples": [],
+      "palette": {
+        "primary": "#8FA68E",
+        "primary-light": "#A8BEA7",
+        "primary-dark": "#728772",
+        "secondary": "#E8B4A0",
+        "secondary-light": "#F2CCBC",
+        "cream": "#F8F4EE",
+        "bg": "#FDFBF7",
+        "text": "#2A3A2A",
+        "text-soft": "#4A584A",
+        "text-muted": "#6B7A6B"
+      },
+      "fonts": {
+        "heading": "Source Serif Pro",
+        "body": "Source Sans Pro",
+        "google_import": "https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;500;600&family=Source+Sans+Pro:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Soft cards, generous whitespace, organic shapes, blur effects",
+      "recommended_variants": {
+        "hero": "centered-typography",
+        "about": "split-half",
+        "gallery": "grid-equal",
+        "cta": "gradient",
+        "features": "cards-pop-hover",
+        "testimonials": "single-quote-big",
+        "footer": "minimal",
+        "nav": "solid"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "wave-soft",
+      "darkmode_palette": {
+        "primary": "#A8BEA7",
+        "secondary": "#F2CCBC",
+        "cream": "#1A2418",
+        "bg": "#0F1A0E",
+        "text": "#F8F4EE",
+        "text-muted": "#9AAA9A"
+      }
+    },
+    "heritage-warm": {
+      "displayName": "Heritage Warm",
+      "description": "Klasyczny hotel, kamienice",
+      "target_examples": [],
+      "palette": {
+        "primary": "#1E5F4F",
+        "primary-light": "#2D7A66",
+        "primary-dark": "#13442F",
+        "secondary": "#B8924A",
+        "secondary-light": "#CCA968",
+        "cream": "#F2EBD5",
+        "bg": "#FBF6E8",
+        "text": "#1A2A24",
+        "text-soft": "#384640",
+        "text-muted": "#5A6258"
+      },
+      "fonts": {
+        "heading": "Lora",
+        "body": "Source Sans Pro",
+        "google_import": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Source+Sans+Pro:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Texture overlays, classic dividers, ornamental capitals",
+      "recommended_variants": {
+        "hero": "overlap-image",
+        "about": "founder-portrait-quote",
+        "gallery": "lightbox-thumbs",
+        "cta": "dark-bold",
+        "features": "alternating-rows",
+        "testimonials": "carousel-photos",
+        "footer": "dark-rich",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "subtle-hover-scale",
+      "dividers": "classic-gold-leaf",
+      "darkmode_palette": {
+        "primary": "#2D7A66",
+        "secondary": "#CCA968",
+        "cream": "#1A2420",
+        "bg": "#0E1814",
+        "text": "#F2EBD5",
+        "text-muted": "#9A9888"
+      }
+    },
+    "family-friendly": {
+      "displayName": "Family Friendly",
+      "description": "Rodzinny apartament, dom z dziećmi",
+      "target_examples": [],
+      "palette": {
+        "primary": "#FFB534",
+        "primary-light": "#FFC868",
+        "primary-dark": "#D8941F",
+        "secondary": "#5DA9E9",
+        "secondary-light": "#82BEF0",
+        "cream": "#FFF8E6",
+        "bg": "#FFFCF4",
+        "text": "#2A2A4A",
+        "text-soft": "#4A4A68",
+        "text-muted": "#6B6B8A"
+      },
+      "fonts": {
+        "heading": "Nunito",
+        "body": "Quicksand",
+        "google_import": "https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Rounded corners everywhere, illustration accents, playful spacing",
+      "recommended_variants": {
+        "hero": "split-half",
+        "about": "stat-row-cards",
+        "gallery": "grid-equal",
+        "cta": "gradient",
+        "features": "icon-grid-4col",
+        "testimonials": "grid-3col",
+        "footer": "compact",
+        "nav": "solid"
+      },
+      "interactions": "warm-glow-hover",
+      "dividers": "wave-soft",
+      "darkmode_palette": {
+        "primary": "#FFC868",
+        "secondary": "#82BEF0",
+        "cream": "#2A2418",
+        "bg": "#1A1A24",
+        "text": "#FFF8E6",
+        "text-muted": "#A8A8C8"
+      }
+    },
+    "boutique-romantic": {
+      "displayName": "Boutique Romantic",
+      "description": "Butikowy obiekt dla par",
+      "target_examples": [],
+      "palette": {
+        "primary": "#D4A5A5",
+        "primary-light": "#E2BBBB",
+        "primary-dark": "#B88888",
+        "secondary": "#E8C8A8",
+        "secondary-light": "#F2D6BC",
+        "cream": "#FAF3EF",
+        "bg": "#FDF8F4",
+        "text": "#3A2A2A",
+        "text-soft": "#584848",
+        "text-muted": "#7A5F5F"
+      },
+      "fonts": {
+        "heading": "Cormorant Garamond",
+        "body": "Karla",
+        "google_import": "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Karla:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Script fonts for accents, light shadows, hand-drawn elements",
+      "recommended_variants": {
+        "hero": "overlap-image",
+        "about": "asym-text-img",
+        "gallery": "polaroid-stack",
+        "cta": "side-image",
+        "features": "accordion-vertical",
+        "testimonials": "single-quote-big",
+        "footer": "compact",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "subtle-hover-scale",
+      "dividers": "wave-soft",
+      "darkmode_palette": {
+        "primary": "#E2BBBB",
+        "secondary": "#F2D6BC",
+        "cream": "#2A2020",
+        "bg": "#1A1414",
+        "text": "#FAF3EF",
+        "text-muted": "#B89999"
+      }
+    },
+    "scandi-clean": {
+      "displayName": "Scandi Clean",
+      "description": "Skandynawski minimalizm",
+      "target_examples": [],
+      "palette": {
+        "primary": "#7A8A75",
+        "primary-light": "#94A488",
+        "primary-dark": "#5F6F5A",
+        "secondary": "#C8A878",
+        "secondary-light": "#D8BC92",
+        "cream": "#F5F2EC",
+        "bg": "#FDFCF8",
+        "text": "#1A1A1A",
+        "text-soft": "#3A3A3A",
+        "text-muted": "#6B6B6B"
+      },
+      "fonts": {
+        "heading": "Inter",
+        "body": "Source Serif Pro",
+        "google_import": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+Pro:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Grid-based, ultra clean, wood textures subtly, lowercase headers",
+      "recommended_variants": {
+        "hero": "centered-typography",
+        "about": "split-half",
+        "gallery": "grid-equal",
+        "cta": "minimal-text",
+        "features": "alternating-rows",
+        "testimonials": "grid-3col",
+        "footer": "minimal",
+        "nav": "solid"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "thin-lines",
+      "darkmode_palette": {
+        "primary": "#94A488",
+        "secondary": "#D8BC92",
+        "cream": "#1A1A18",
+        "bg": "#0F0F0E",
+        "text": "#F5F2EC",
+        "text-muted": "#A8A8A0"
+      }
+    },
+    "mountain-rugged": {
+      "displayName": "Mountain Rugged",
+      "description": "Schroniska, chaty górskie",
+      "target_examples": [],
+      "palette": {
+        "primary": "#2D4A2D",
+        "primary-light": "#3F6240",
+        "primary-dark": "#1E351E",
+        "secondary": "#C8924A",
+        "secondary-light": "#D8A868",
+        "cream": "#E8DFC5",
+        "bg": "#F5EFD8",
+        "text": "#1A2A1A",
+        "text-soft": "#384838",
+        "text-muted": "#5A6A5A"
+      },
+      "fonts": {
+        "heading": "Roboto Slab",
+        "body": "Inter",
+        "google_import": "https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Topo lines patterns, stamp-style typography, embossed dividers",
+      "recommended_variants": {
+        "hero": "parallax-scroll",
+        "about": "timeline-vertical",
+        "gallery": "masonry",
+        "cta": "dark-bold",
+        "features": "icon-grid-4col",
+        "testimonials": "carousel-photos",
+        "footer": "dark-rich",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "subtle-hover-scale",
+      "dividers": "wave-sharp",
+      "darkmode_palette": {
+        "primary": "#3F6240",
+        "secondary": "#D8A868",
+        "cream": "#1A2418",
+        "bg": "#0E1A0E",
+        "text": "#E8DFC5",
+        "text-muted": "#9AA890"
+      }
+    },
+    "mediterranean-villa": {
+      "displayName": "Mediterranean Villa",
+      "description": "Wille basenowe (Hiszpania, Włochy)",
+      "target_examples": ["micasaespanola"],
+      "palette": {
+        "primary": "#C8552C",
+        "primary-light": "#DC6E48",
+        "primary-dark": "#A04220",
+        "secondary": "#7A8A4E",
+        "secondary-light": "#94A468",
+        "cream": "#F5EDDA",
+        "bg": "#FBF6E8",
+        "text": "#3A2A1A",
+        "text-soft": "#584838",
+        "text-muted": "#7A6B5A"
+      },
+      "fonts": {
+        "heading": "Cormorant",
+        "body": "Karla",
+        "google_import": "https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=Karla:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Arched windows shape, sun rays motifs, ceramic-tile patterns",
+      "recommended_variants": {
+        "hero": "full-bleed-image",
+        "about": "image-mosaic-text",
+        "gallery": "isotope-filter",
+        "cta": "side-image",
+        "features": "alternating-rows",
+        "testimonials": "carousel-photos",
+        "footer": "image-bg",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "warm-glow-hover",
+      "dividers": "wave-organic",
+      "darkmode_palette": {
+        "primary": "#DC6E48",
+        "secondary": "#94A468",
+        "cream": "#2A1F14",
+        "bg": "#1A140E",
+        "text": "#F5EDDA",
+        "text-muted": "#B89A78"
+      }
+    },
+    "art-deco-vintage": {
+      "displayName": "Art Deco Vintage",
+      "description": "Vintage hotel art-deco",
+      "target_examples": [],
+      "palette": {
+        "primary": "#1E5F4F",
+        "primary-light": "#2D7A66",
+        "primary-dark": "#13442F",
+        "secondary": "#D4A547",
+        "secondary-light": "#E2BB68",
+        "cream": "#1A1A1A",
+        "bg": "#0F0F0E",
+        "text": "#F2EDE4",
+        "text-soft": "#D5CFC4",
+        "text-muted": "#B8A88A"
+      },
+      "fonts": {
+        "heading": "Bodoni Moda",
+        "body": "Playfair Display",
+        "google_import": "https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Geometric patterns, gold leaf accents, sunburst dividers, serif drama",
+      "recommended_variants": {
+        "hero": "overlap-image",
+        "about": "founder-portrait-quote",
+        "gallery": "isotope-filter",
+        "cta": "dark-bold",
+        "features": "comparison-table",
+        "testimonials": "single-quote-big",
+        "footer": "dark-rich",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "subtle-hover-scale",
+      "dividers": "classic-gold-leaf",
+      "darkmode_palette": {
+        "primary": "#2D7A66",
+        "secondary": "#E2BB68",
+        "cream": "#0F0F0E",
+        "bg": "#000000",
+        "text": "#F2EDE4",
+        "text-muted": "#D5C088"
+      }
+    },
+    "eco-glamping": {
+      "displayName": "Eco Glamping",
+      "description": "Eco glamping, off-grid",
+      "target_examples": ["ecocamping"],
+      "palette": {
+        "primary": "#5C4A35",
+        "primary-light": "#7A6448",
+        "primary-dark": "#3F3324",
+        "secondary": "#7A8C4E",
+        "secondary-light": "#94A468",
+        "cream": "#EFE8D8",
+        "bg": "#FBF5E5",
+        "text": "#2A2418",
+        "text-soft": "#483F2A",
+        "text-muted": "#6B5F4F"
+      },
+      "fonts": {
+        "heading": "Lora",
+        "body": "Source Sans Pro",
+        "google_import": "https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Source+Sans+Pro:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Organic shapes, paper textures, plant motifs, earthy gradients",
+      "recommended_variants": {
+        "hero": "full-bleed-image",
+        "about": "story-narrative",
+        "gallery": "masonry",
+        "cta": "gradient",
+        "features": "icon-grid-4col",
+        "testimonials": "carousel-photos",
+        "footer": "image-bg",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "warm-glow-hover",
+      "dividers": "wave-organic",
+      "darkmode_palette": {
+        "primary": "#7A6448",
+        "secondary": "#94A468",
+        "cream": "#1A1814",
+        "bg": "#0E0C08",
+        "text": "#EFE8D8",
+        "text-muted": "#A8A088"
+      }
+    },
+    "business-corporate": {
+      "displayName": "Business Corporate",
+      "description": "Apartament biznes, exec suite",
+      "target_examples": [],
+      "palette": {
+        "primary": "#1A2A3A",
+        "primary-light": "#2D4258",
+        "primary-dark": "#0F1A28",
+        "secondary": "#5A6A7A",
+        "secondary-light": "#788494",
+        "cream": "#F5F5F8",
+        "bg": "#FFFFFF",
+        "text": "#0A0A0A",
+        "text-soft": "#2A2A2A",
+        "text-muted": "#6B6B6B"
+      },
+      "fonts": {
+        "heading": "IBM Plex Sans",
+        "body": "IBM Plex Sans",
+        "google_import": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      },
+      "layout_signature": "Sharp grid, data-driven displays, sans-serif throughout, conservative spacing",
+      "recommended_variants": {
+        "hero": "split-half",
+        "about": "stat-row-cards",
+        "gallery": "grid-equal",
+        "cta": "minimal-text",
+        "features": "comparison-table",
+        "testimonials": "grid-3col",
+        "footer": "minimal",
+        "nav": "solid"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "thin-lines",
+      "darkmode_palette": {
+        "primary": "#2D4258",
+        "secondary": "#788494",
+        "cream": "#1A1A1F",
+        "bg": "#0A0A0F",
+        "text": "#F5F5F8",
+        "text-muted": "#A8A8B8"
+      }
+    },
+    "winter-alpine": {
+      "displayName": "Winter Alpine",
+      "description": "Schronisko narty (Karpacz/Zakopane)",
+      "target_examples": [],
+      "palette": {
+        "primary": "#1A3A5C",
+        "primary-light": "#2D5478",
+        "primary-dark": "#0F2842",
+        "secondary": "#E8A547",
+        "secondary-light": "#F2BB68",
+        "cream": "#F0F4F8",
+        "bg": "#FBFCFE",
+        "text": "#1A2434",
+        "text-soft": "#384458",
+        "text-muted": "#5A6A7A"
+      },
+      "fonts": {
+        "heading": "Roboto Slab",
+        "body": "Lato",
+        "google_import": "https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=Lato:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Wood grain backgrounds, snow textures, big fireplaces SVG",
+      "recommended_variants": {
+        "hero": "parallax-scroll",
+        "about": "timeline-vertical",
+        "gallery": "lightbox-thumbs",
+        "cta": "side-image",
+        "features": "icon-grid-4col",
+        "testimonials": "carousel-photos",
+        "footer": "dark-rich",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "subtle-hover-scale",
+      "dividers": "wave-sharp",
+      "darkmode_palette": {
+        "primary": "#2D5478",
+        "secondary": "#F2BB68",
+        "cream": "#1A2434",
+        "bg": "#0E1824",
+        "text": "#F0F4F8",
+        "text-muted": "#A8B0BC"
+      }
+    },
+    "asian-zen": {
+      "displayName": "Asian Zen",
+      "description": "Minimalistyczny styl japoński",
+      "target_examples": [],
+      "palette": {
+        "primary": "#2A4A35",
+        "primary-light": "#3F6248",
+        "primary-dark": "#1A3325",
+        "secondary": "#1A1A1A",
+        "secondary-light": "#3A3A3A",
+        "cream": "#F8F5EE",
+        "bg": "#FDFBF5",
+        "text": "#1A1A1A",
+        "text-soft": "#3A3A3A",
+        "text-muted": "#7A7A7A"
+      },
+      "fonts": {
+        "heading": "Noto Serif JP",
+        "body": "Noto Sans JP",
+        "google_import": "https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@400;500&display=swap"
+      },
+      "layout_signature": "Ultra minimalist, vertical text accents, ink-brush dividers",
+      "recommended_variants": {
+        "hero": "minimal-text",
+        "about": "full-width-quote",
+        "gallery": "grid-equal",
+        "cta": "minimal-text",
+        "features": "text-list-numbered",
+        "testimonials": "single-quote-big",
+        "footer": "minimal",
+        "nav": "solid"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "thin-lines",
+      "darkmode_palette": {
+        "primary": "#3F6248",
+        "secondary": "#F2F2F2",
+        "cream": "#1A1A18",
+        "bg": "#0F0F0E",
+        "text": "#F8F5EE",
+        "text-muted": "#A8A8A0"
+      }
+    },
+    "industrial-loft": {
+      "displayName": "Industrial Loft",
+      "description": "Loft w mieście (Łódź, Praga, Kraków)",
+      "target_examples": [],
+      "palette": {
+        "primary": "#A0432C",
+        "primary-light": "#B85C44",
+        "primary-dark": "#7A3220",
+        "secondary": "#3A3A3A",
+        "secondary-light": "#5A5A5A",
+        "cream": "#D8D5D0",
+        "bg": "#F0EDE8",
+        "text": "#1A1A1A",
+        "text-soft": "#3A3A3A",
+        "text-muted": "#5A5A5A"
+      },
+      "fonts": {
+        "heading": "Oswald",
+        "body": "Roboto",
+        "google_import": "https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+      },
+      "layout_signature": "Exposed brick textures, metal frame effects, oversized numbers",
+      "recommended_variants": {
+        "hero": "asymmetric-grid",
+        "about": "full-width-quote",
+        "gallery": "masonry",
+        "cta": "dark-bold",
+        "features": "comparison-table",
+        "testimonials": "grid-3col",
+        "footer": "dark-rich",
+        "nav": "solid"
+      },
+      "interactions": "subtle-hover-scale",
+      "dividers": "wave-sharp",
+      "darkmode_palette": {
+        "primary": "#B85C44",
+        "secondary": "#7A7A7A",
+        "cream": "#1A1A18",
+        "bg": "#0F0F0E",
+        "text": "#F0EDE8",
+        "text-muted": "#A8A8A0"
+      }
+    },
+    "garden-cottage": {
+      "displayName": "Garden Cottage",
+      "description": "Dom letniskowy, cottagecore",
+      "target_examples": [],
+      "palette": {
+        "primary": "#7A8A6E",
+        "primary-light": "#94A488",
+        "primary-dark": "#5F6E55",
+        "secondary": "#D4A5A5",
+        "secondary-light": "#E2BBBB",
+        "cream": "#F8F4EC",
+        "bg": "#FDFBF5",
+        "text": "#2A2A24",
+        "text-soft": "#484840",
+        "text-muted": "#6B6B5F"
+      },
+      "fonts": {
+        "heading": "Cormorant",
+        "body": "Quicksand",
+        "google_import": "https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=Quicksand:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Floral border SVG, hand-drawn frames, soft watercolor washes",
+      "recommended_variants": {
+        "hero": "split-half",
+        "about": "story-narrative",
+        "gallery": "polaroid-stack",
+        "cta": "side-image",
+        "features": "accordion-vertical",
+        "testimonials": "carousel-photos",
+        "footer": "compact",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "warm-glow-hover",
+      "dividers": "wave-soft",
+      "darkmode_palette": {
+        "primary": "#94A488",
+        "secondary": "#E2BBBB",
+        "cream": "#1A1A18",
+        "bg": "#0F0F0E",
+        "text": "#F8F4EC",
+        "text-muted": "#A8A89A"
+      }
+    },
+    "tropical-resort": {
+      "displayName": "Tropical Resort",
+      "description": "Nadmorski tropikalny (Egipt, Cypr)",
+      "target_examples": [],
+      "palette": {
+        "primary": "#2D5C3D",
+        "primary-light": "#3F7852",
+        "primary-dark": "#1E422A",
+        "secondary": "#E07A2C",
+        "secondary-light": "#EE9248",
+        "cream": "#F5EDD8",
+        "bg": "#FBF5E5",
+        "text": "#1A2A1A",
+        "text-soft": "#384838",
+        "text-muted": "#5A6A5A"
+      },
+      "fonts": {
+        "heading": "Poppins",
+        "body": "Open Sans",
+        "google_import": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+      },
+      "layout_signature": "Palm silhouettes, golden hour gradients, large beach-photo full-bleeds",
+      "recommended_variants": {
+        "hero": "full-bleed-image",
+        "about": "image-mosaic-text",
+        "gallery": "slider-fullscreen",
+        "cta": "gradient",
+        "features": "cards-pop-hover",
+        "testimonials": "slider-fullwidth",
+        "footer": "image-bg",
+        "nav": "transparent-overlay"
+      },
+      "interactions": "smooth-fade-reveal",
+      "dividers": "wave-organic",
+      "darkmode_palette": {
+        "primary": "#3F7852",
+        "secondary": "#EE9248",
+        "cream": "#1A2418",
+        "bg": "#0E180E",
+        "text": "#F5EDD8",
+        "text-muted": "#A8B098"
+      }
+    }
+  },
+  "history": {
+    "_doc": "Lista poprzednio wybranych variant per klient — JARVIS notuje co już zostało użyte żeby unikać duplikatów wizualnych.",
+    "luxury-heritage": ["piekary13: hero=asymmetric-grid", "mountainprestige: hero=overlap-image"],
+    "modern-minimal": ["fairrentals: hero=centered-typography", "river-premium-apartments: hero=full-bleed-image"],
+    "rustic-warm": ["mazurski_chill: hero=split-half"],
+    "modern-coastal": ["sors: hero=full-bleed-image"],
+    "mediterranean-villa": ["micasaespanola: hero=full-bleed-image"],
+    "eco-glamping": ["ecocamping: hero=split-half"]
+  }
+}

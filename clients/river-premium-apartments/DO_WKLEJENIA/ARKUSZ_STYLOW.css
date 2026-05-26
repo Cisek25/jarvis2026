@@ -3810,18 +3810,25 @@ body.page-index .index-info > .navbar-reservation {
    plus fullpage.js intercepted scroll (section snap zamiast smooth).
    ============================================================ */
 
-/* Hide system section.parallax (user widział tu pustkę bo parallax-slider z-index issue) */
-body.page-index .section.parallax {
+/* Hide system section.parallax — wyższa specificity niż fp-section.fp-table override */
+body.page-index .section.parallax,
+body.page-index .section.parallax.fp-section,
+body.page-index .section.parallax.fp-section.fp-table,
+body.page-index div.section.parallax {
   display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
 
-/* Disable fullpage scroll snap — normal continuous scroll */
+/* Disable fullpage scroll snap — normal continuous scroll
+   :not(.parallax) żeby NIE override hide rule na section.parallax */
 body.page-index .fullpage-wrapper {
   transform: none !important;
   height: auto !important;
 }
-body.page-index .fp-section,
-body.page-index .fp-section.fp-table {
+body.page-index .fp-section:not(.parallax),
+body.page-index .fp-section.fp-table:not(.parallax) {
   height: auto !important;
   min-height: 0 !important;
   display: block !important;

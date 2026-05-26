@@ -1,0 +1,992 @@
+/* ═══════════════════════════════════════════════════════════════
+   LAYER 8 — DIVIDERS + PATTERNS + TEXTURES
+   Visual accents do separowania sekcji i bogacenia teł.
+
+   - Curved dividers (5): SVG shape masks między sekcjami
+   - Wave dividers (5): soft/double/sharp/organic/thin
+   - Geometric patterns (5): dots/lines/triangles/hexagon/diamond
+   - Organic shapes (5): blob masks
+   - Texture overlays (5): paper/fabric/grunge/noise/watercolor
+   - Vibe-specific accents (8): luxury gold-leaf, art-deco sunburst, mountain topo, etc.
+
+   Wszystkie SVG inline jako data: URI — bez assets zewnętrznych.
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ───────────────────────────────────────────────────────────────
+   1) CURVED DIVIDERS
+   Sekcyjne przejścia z miękkimi krzywymi Béziera.
+   Wszystkie wymagają parenta z kolorem dolnej sekcji.
+   Element sam ma kolor górnej sekcji, ::after rysuje wycinek dolnej.
+   ─────────────────────────────────────────────────────────────── */
+
+.xx-divider--curve-down {
+  position: relative;
+  height: 100px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+  color: var(--xx-cream, #FAFAF5);
+}
+.xx-divider--curve-down::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,60 C480,0 960,120 1440,60 L1440,100 L0,100 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--curve-up {
+  position: relative;
+  height: 100px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--curve-up::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,40 C480,100 960,-20 1440,40 L1440,0 L0,0 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--curve-asym {
+  position: relative;
+  height: 120px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--curve-asym::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,20 C300,100 800,40 1100,90 C1280,118 1380,110 1440,90 L1440,120 L0,120 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--curve-tilt {
+  position: relative;
+  height: 110px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--curve-tilt::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 110' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,90 C400,70 800,40 1440,10 L1440,110 L0,110 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--curve-double {
+  position: relative;
+  height: 130px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--curve-double::before {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23EEEEE4' opacity='0.6' d='M0,50 C320,10 720,90 1440,50 L1440,100 L0,100 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.xx-divider--curve-double::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,70 C480,20 960,110 1440,60 L1440,100 L0,100 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   2) WAVE DIVIDERS
+   Wave/zigzag variants — flowing transitions inspired by water/wind.
+   ─────────────────────────────────────────────────────────────── */
+
+.xx-divider--wave-soft {
+  position: relative;
+  height: 80px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--wave-soft::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,40 C180,10 360,70 540,40 C720,10 900,70 1080,40 C1260,10 1440,40 1440,40 L1440,80 L0,80 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--wave-double {
+  position: relative;
+  height: 100px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--wave-double::before {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23EEEEE4' opacity='0.55' d='M0,50 C200,20 400,80 600,50 C800,20 1000,80 1200,50 C1320,30 1440,50 1440,50 L1440,100 L0,100 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.xx-divider--wave-double::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,60 C200,30 400,90 600,60 C800,30 1000,90 1200,60 C1320,40 1440,60 1440,60 L1440,100 L0,100 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--wave-sharp {
+  position: relative;
+  height: 70px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--wave-sharp::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,40 L120,10 L240,40 L360,10 L480,40 L600,10 L720,40 L840,10 L960,40 L1080,10 L1200,40 L1320,10 L1440,40 L1440,70 L0,70 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--wave-organic {
+  position: relative;
+  height: 120px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--wave-organic::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,60 C120,30 240,100 380,70 C540,40 680,90 820,55 C980,25 1120,95 1260,65 C1340,50 1440,80 1440,80 L1440,120 L0,120 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.xx-divider--wave-thin {
+  position: relative;
+  height: 40px;
+  width: 100%;
+  background: var(--xx-bg, #FAFAF5);
+  margin: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.xx-divider--wave-thin::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 40' preserveAspectRatio='none'><path fill='%23FAFAF5' d='M0,20 C240,5 480,35 720,20 C960,5 1200,35 1440,20 L1440,40 L0,40 Z'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   3) GEOMETRIC PATTERNS
+   Tileable backgrounds — dots, lines, polygons.
+   Aplikuj na sekcje jako bg-image (na .section.xx-pattern--dots).
+   ─────────────────────────────────────────────────────────────── */
+
+.xx-pattern--dots {
+  background-color: var(--xx-bg, #FAFAF5);
+  background-image: radial-gradient(var(--xx-cream3, #DCDCD0) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0;
+}
+.xx-pattern--dots.xx-pattern--lg {
+  background-size: 40px 40px;
+}
+.xx-pattern--dots.xx-pattern--subtle {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+}
+
+.xx-pattern--lines {
+  background-color: var(--xx-bg, #FAFAF5);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--xx-cream3, #DCDCD0),
+    var(--xx-cream3, #DCDCD0) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+.xx-pattern--lines.xx-pattern--lg {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--xx-cream3, #DCDCD0),
+    var(--xx-cream3, #DCDCD0) 2px,
+    transparent 2px,
+    transparent 24px
+  );
+}
+.xx-pattern--lines.xx-pattern--subtle {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.04),
+    rgba(0, 0, 0, 0.04) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+
+.xx-pattern--triangles {
+  background-color: var(--xx-bg, #FAFAF5);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path fill='none' stroke='%23DCDCD0' stroke-width='1' d='M20,5 L35,35 L5,35 Z'/></svg>");
+  background-size: 40px 40px;
+  background-repeat: repeat;
+}
+.xx-pattern--triangles.xx-pattern--lg {
+  background-size: 80px 80px;
+}
+.xx-pattern--triangles.xx-pattern--subtle {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path fill='none' stroke='rgba(0,0,0,0.05)' stroke-width='1' d='M20,5 L35,35 L5,35 Z'/></svg>");
+}
+
+.xx-pattern--hexagon {
+  background-color: var(--xx-bg, #FAFAF5);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'><path fill='none' stroke='%23DCDCD0' stroke-width='1' d='M28,1 L55,17 L55,49 L28,65 L1,49 L1,17 Z M28,65 L55,81 L55,113 M28,65 L1,81 L1,113'/></svg>");
+  background-size: 56px 100px;
+  background-repeat: repeat;
+}
+.xx-pattern--hexagon.xx-pattern--lg {
+  background-size: 112px 200px;
+}
+.xx-pattern--hexagon.xx-pattern--subtle {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'><path fill='none' stroke='rgba(0,0,0,0.05)' stroke-width='1' d='M28,1 L55,17 L55,49 L28,65 L1,49 L1,17 Z M28,65 L55,81 L55,113 M28,65 L1,81 L1,113'/></svg>");
+}
+
+.xx-pattern--diamond {
+  background-color: var(--xx-bg, #FAFAF5);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path fill='none' stroke='%23DCDCD0' stroke-width='1' d='M20,2 L38,20 L20,38 L2,20 Z'/></svg>");
+  background-size: 40px 40px;
+  background-repeat: repeat;
+}
+.xx-pattern--diamond.xx-pattern--lg {
+  background-size: 80px 80px;
+}
+.xx-pattern--diamond.xx-pattern--subtle {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path fill='none' stroke='rgba(0,0,0,0.05)' stroke-width='1' d='M20,2 L38,20 L20,38 L2,20 Z'/></svg>");
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   4) ORGANIC SHAPES — BLOBS
+   Absolutely positioned, decorative.
+   Parent musi mieć position: relative + overflow: hidden.
+   Kolor wypełnienia via currentColor → ustaw color: var(--xx-primary).
+   ─────────────────────────────────────────────────────────────── */
+
+.xx-blob {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  width: 400px;
+  height: 400px;
+  opacity: 0.15;
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: var(--xx-primary, #722F37);
+}
+.xx-blob--top-right { top: -100px; right: -100px; }
+.xx-blob--top-left { top: -100px; left: -100px; }
+.xx-blob--bottom-right { bottom: -100px; right: -100px; }
+.xx-blob--bottom-left { bottom: -100px; left: -100px; }
+.xx-blob--sm { width: 220px; height: 220px; }
+.xx-blob--lg { width: 600px; height: 600px; }
+
+.xx-blob--soft {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path fill='%23722F37' d='M44.6,-67.5C57.8,-58.6,68.3,-44.6,73.6,-29.2C78.9,-13.8,79,3,73.4,17.6C67.8,32.1,56.5,44.4,43.4,54.6C30.3,64.8,15.1,73,-0.8,74.1C-16.7,75.2,-33.3,69.3,-46.7,59.2C-60.1,49.1,-70.2,34.8,-74.5,18.7C-78.7,2.6,-77,-15.3,-69.7,-30C-62.5,-44.7,-49.6,-56.1,-35.6,-65C-21.5,-73.8,-6.4,-80,8.7,-79.5C23.7,-79,31.5,-76.3,44.6,-67.5Z' transform='translate(100 100)'/></svg>");
+}
+
+.xx-blob--spike {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path fill='%23722F37' d='M48.5,-58.2L62.7,-49.3L72.1,-32.9L74.8,-12.5L70.8,7.6L60.1,28.5L43.3,49.4L21.8,68.1L-3.6,73L-29.5,64.5L-50.4,46.6L-66.2,22.9L-72.8,-4.5L-68.3,-32.5L-53.1,-52.8L-31.8,-65.7L-7.9,-71.6L17.6,-69.5L34.3,-67.1Z' transform='translate(100 100)'/></svg>");
+}
+
+.xx-blob--circle-organic {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path fill='%23722F37' d='M51,-67.5C66.1,-58.4,77.9,-43.1,82.5,-26.1C87.1,-9.1,84.5,9.6,77.2,25.5C69.9,41.4,57.9,54.6,43.2,63C28.5,71.4,11.1,75,-5.5,82.2C-22.1,89.4,-37.9,100.1,-50.3,95.2C-62.7,90.3,-71.8,69.7,-77.7,50.5C-83.6,31.3,-86.3,13.6,-83.9,-3.2C-81.5,-19.9,-74.1,-35.6,-63.1,-46.1C-52.1,-56.6,-37.5,-61.9,-23.4,-69.5C-9.3,-77.1,4.3,-87.1,18.7,-86C33.1,-84.9,48.3,-72.7,51,-67.5Z' transform='translate(100 100)'/></svg>");
+}
+
+.xx-blob--asym {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path fill='%23722F37' d='M37.5,-55.8C47.4,-49.7,53.5,-37.4,61.6,-23.7C69.7,-10,79.7,5.1,79.1,19.6C78.4,34.1,67.1,48,53.2,57.3C39.4,66.7,23.1,71.5,7.1,68.7C-9,65.9,-24.6,55.5,-39.1,46.2C-53.5,36.9,-66.7,28.7,-72.8,16.2C-78.8,3.6,-77.7,-13.4,-70.4,-26.7C-63.1,-40,-49.7,-49.6,-36.1,-55.1C-22.4,-60.5,-8.5,-61.7,3.6,-66.8C15.7,-71.8,27.5,-61.9,37.5,-55.8Z' transform='translate(100 100)'/></svg>");
+}
+
+.xx-blob--small {
+  width: 220px;
+  height: 220px;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><path fill='%23722F37' d='M53.7,-65.5C66.4,-55.6,71.4,-35.9,73.3,-17.4C75.2,1.2,74,18.6,66.6,33.3C59.2,48,45.6,60,30,67.1C14.4,74.2,-3.2,76.4,-19.6,72.1C-36,67.7,-51.2,56.7,-61.8,42.4C-72.4,28.1,-78.3,10.6,-76.3,-5.7C-74.3,-22,-64.4,-37.1,-51.5,-46.8C-38.6,-56.5,-22.7,-60.8,-4.5,-55.7C13.7,-50.6,41,-75.4,53.7,-65.5Z' transform='translate(100 100)'/></svg>");
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   5) TEXTURE OVERLAYS
+   Subtelne nakładki na sekcje — paper, fabric, grain.
+   Element musi mieć position: relative; texture-y nakładane via ::after.
+   ─────────────────────────────────────────────────────────────── */
+
+.xx-texture--paper {
+  position: relative;
+}
+.xx-texture--paper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.2 0 0 0 0 0.2 0 0 0 0.15 0'/></filter><rect width='200' height='200' filter='url(%23p)'/></svg>");
+  background-size: 200px 200px;
+  opacity: 0.04;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.xx-texture--fabric {
+  position: relative;
+}
+.xx-texture--fabric::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'><path fill='none' stroke='%23000000' stroke-width='0.5' opacity='0.4' d='M0,0 L8,8 M0,8 L8,0'/></svg>");
+  background-size: 8px 8px;
+  background-repeat: repeat;
+  opacity: 0.06;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.xx-texture--grunge {
+  position: relative;
+}
+.xx-texture--grunge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='g'><feTurbulence type='turbulence' baseFrequency='0.02 0.15' numOctaves='5' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 0 0.1 0 0 0 1 0'/></filter><rect width='300' height='300' filter='url(%23g)'/></svg>");
+  background-size: 300px 300px;
+  opacity: 0.08;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.xx-texture--noise {
+  position: relative;
+}
+.xx-texture--noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100' height='100' filter='url(%23n)' opacity='0.6'/></svg>");
+  background-size: 100px 100px;
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+.xx-texture--watercolor {
+  position: relative;
+}
+.xx-texture--watercolor::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(114, 47, 55, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 75% 60%, rgba(212, 165, 116, 0.07) 0%, transparent 55%),
+    radial-gradient(circle at 50% 90%, rgba(143, 175, 162, 0.06) 0%, transparent 60%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   6) VIBE-SPECIFIC ACCENTS
+   Selektory dziedziczone z parenta z [data-vibe="..."].
+   Każdy accent to opcjonalny element dekoracyjny obok komponentu.
+   ─────────────────────────────────────────────────────────────── */
+
+/* 6.1) LUXURY HERITAGE — gold leaf w rogach */
+[data-vibe="luxury-heritage"] .xx-accent--gold-leaf {
+  position: relative;
+}
+[data-vibe="luxury-heritage"] .xx-accent--gold-leaf::before,
+[data-vibe="luxury-heritage"] .xx-accent--gold-leaf::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><path fill='%23C9A961' opacity='0.85' d='M10,10 Q40,5 70,10 Q65,40 70,70 Q40,65 10,70 Q15,40 10,10 Z M20,20 L60,20 M20,60 L60,60 M20,20 L20,60 M60,20 L60,60'/><path fill='none' stroke='%23C9A961' stroke-width='1.2' d='M15,15 L65,15 L65,65 L15,65 Z M25,25 L55,25 L55,55 L25,55 Z'/></svg>");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+[data-vibe="luxury-heritage"] .xx-accent--gold-leaf::before {
+  top: 10px;
+  left: 10px;
+}
+[data-vibe="luxury-heritage"] .xx-accent--gold-leaf::after {
+  bottom: 10px;
+  right: 10px;
+  transform: rotate(180deg);
+}
+
+/* 6.2) ART DECO VINTAGE — sunburst za nagłówkiem */
+[data-vibe="art-deco-vintage"] .xx-accent--sunburst {
+  position: relative;
+}
+[data-vibe="art-deco-vintage"] .xx-accent--sunburst::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><g fill='none' stroke='%23D4A574' stroke-width='1.2' opacity='0.4'><circle cx='100' cy='100' r='30'/><circle cx='100' cy='100' r='50'/><circle cx='100' cy='100' r='75'/><path d='M100,100 L100,10 M100,100 L100,190 M100,100 L10,100 M100,100 L190,100 M100,100 L36,36 M100,100 L164,36 M100,100 L36,164 M100,100 L164,164 M100,100 L65,15 M100,100 L135,15 M100,100 L185,65 M100,100 L185,135 M100,100 L135,185 M100,100 L65,185 M100,100 L15,135 M100,100 L15,65'/></g></svg>");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+[data-vibe="art-deco-vintage"] .xx-accent--sunburst > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 6.3) MOUNTAIN RUGGED — topografia */
+[data-vibe="mountain-rugged"] .xx-accent--topo {
+  background-color: var(--xx-bg, #FAFAF5);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><g fill='none' stroke='%23556B5D' stroke-width='0.7' opacity='0.35'><path d='M0,200 Q100,150 200,200 T400,200'/><path d='M0,180 Q100,130 200,180 T400,180'/><path d='M0,160 Q100,110 200,160 T400,160'/><path d='M0,220 Q100,170 200,220 T400,220'/><path d='M0,240 Q100,190 200,240 T400,240'/><path d='M0,260 Q100,210 200,260 T400,260'/><path d='M0,140 Q120,90 240,140 T400,140'/><path d='M0,120 Q140,70 280,120 T400,120'/><path d='M0,280 Q120,230 240,280 T400,280'/><path d='M0,300 Q140,250 280,300 T400,300'/></g></svg>");
+  background-size: 400px 400px;
+  background-repeat: repeat;
+}
+
+/* 6.4) MODERN COASTAL — shells scattered */
+[data-vibe="modern-coastal"] .xx-accent--shells {
+  position: relative;
+}
+[data-vibe="modern-coastal"] .xx-accent--shells::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><g fill='none' stroke='%237BA7BC' stroke-width='1' opacity='0.4'><path d='M30,30 Q40,20 50,30 Q45,40 30,30 M35,30 L35,42 M40,30 L40,42 M45,30 L45,42'/><path d='M170,60 Q185,50 200,60 Q195,75 170,60 M178,60 L178,77 M186,60 L186,77 M194,60 L194,77'/><path d='M80,140 Q95,130 110,140 Q105,155 80,140 M88,140 L88,157 M96,140 L96,157 M104,140 L104,157'/><path d='M190,180 Q200,170 210,180 Q205,190 190,180 M195,180 L195,192 M200,180 L200,192 M205,180 L205,192'/><path d='M40,200 Q55,190 70,200 Q65,215 40,200 M48,200 L48,217 M56,200 L56,217 M64,200 L64,217'/></g></svg>");
+  background-size: 240px 240px;
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+/* 6.5) BOUTIQUE ROMANTIC — script flourish */
+[data-vibe="boutique-romantic"] .xx-accent--script {
+  position: relative;
+  padding-bottom: 60px;
+}
+[data-vibe="boutique-romantic"] .xx-accent--script::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 40px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 40'><path fill='none' stroke='%23B47B84' stroke-width='1.3' stroke-linecap='round' d='M10,20 Q40,5 70,20 Q100,35 130,20 Q160,5 190,20 Q220,35 250,20 Q260,15 270,20 M140,28 L140,32 M135,30 L145,30'/></svg>");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+/* 6.6) ECO GLAMPING — leaves w rogach */
+[data-vibe="eco-glamping"] .xx-accent--leaves {
+  position: relative;
+}
+[data-vibe="eco-glamping"] .xx-accent--leaves::before,
+[data-vibe="eco-glamping"] .xx-accent--leaves::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><g fill='%236B8E5A' opacity='0.55'><path d='M60,15 Q35,40 35,75 Q35,95 60,105 Q60,80 60,15 Z'/><path d='M60,15 Q85,40 85,75 Q85,95 60,105 Q60,80 60,15 Z' opacity='0.7'/><path d='M60,30 L60,100' stroke='%23556B5D' stroke-width='0.8' fill='none'/></g></svg>");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+[data-vibe="eco-glamping"] .xx-accent--leaves::before {
+  top: 0;
+  left: 0;
+  transform: rotate(-25deg);
+}
+[data-vibe="eco-glamping"] .xx-accent--leaves::after {
+  bottom: 0;
+  right: 0;
+  transform: rotate(155deg);
+}
+
+/* 6.7) INDUSTRIAL LOFT — exposed brick wash */
+[data-vibe="industrial-loft"] .xx-accent--brick {
+  background-color: var(--xx-bg, #FAFAF5);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 60'><g fill='none' stroke='%238A5A40' stroke-width='0.8' opacity='0.25'><rect x='0' y='0' width='60' height='30'/><rect x='60' y='0' width='60' height='30'/><rect x='-30' y='30' width='60' height='30'/><rect x='30' y='30' width='60' height='30'/><rect x='90' y='30' width='60' height='30'/></g></svg>");
+  background-size: 120px 60px;
+  background-repeat: repeat;
+}
+[data-vibe="industrial-loft"] .xx-accent--brick::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='ib'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23ib)'/></svg>");
+  background-size: 300px 300px;
+  opacity: 0.07;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+/* 6.8) ASIAN ZEN — ink brush stroke */
+[data-vibe="asian-zen"] .xx-accent--ink-brush {
+  position: relative;
+  padding: 30px 0;
+  text-align: center;
+}
+[data-vibe="asian-zen"] .xx-accent--ink-brush::before {
+  content: '';
+  display: block;
+  width: 240px;
+  height: 30px;
+  margin: 0 auto 20px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 30'><path fill='%232C2C2C' opacity='0.78' d='M10,15 Q20,8 35,12 Q60,18 90,14 Q120,10 150,16 Q180,22 210,15 Q220,12 228,15 Q228,18 220,19 Q200,22 175,18 Q140,14 110,18 Q70,22 40,17 Q20,14 10,15 Z'/></svg>");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   7) UTILITY MODIFIERS — height/size/inversion
+   Dodatkowe klasy modyfikujące dividery i wzory.
+   ─────────────────────────────────────────────────────────────── */
+
+/* Height modifiers — dla wszystkich dividerów */
+.xx-divider--h-sm { height: 50px; }
+.xx-divider--h-md { height: 80px; }
+.xx-divider--h-lg { height: 140px; }
+.xx-divider--h-xl { height: 200px; }
+
+/* Horizontal flip — odbij divider lewo-prawo */
+.xx-divider--flip-x::after,
+.xx-divider--flip-x::before {
+  transform: scaleX(-1);
+}
+
+/* Vertical flip — odbij divider gora-dol */
+.xx-divider--flip-y::after,
+.xx-divider--flip-y::before {
+  transform: scaleY(-1);
+}
+
+/* Inverted color variants — gdy gorna sekcja jest ciemna */
+.xx-divider--inverted {
+  background: var(--xx-dark, #1A1A1A);
+}
+.xx-divider--inverted::after {
+  filter: invert(1) brightness(0.95);
+}
+
+/* Pattern positioning helpers */
+.xx-pattern--center { background-position: center center; }
+.xx-pattern--tl { background-position: top left; }
+.xx-pattern--br { background-position: bottom right; }
+
+/* Pattern opacity variants */
+.xx-pattern--op-10 { opacity: 0.1; }
+.xx-pattern--op-25 { opacity: 0.25; }
+.xx-pattern--op-50 { opacity: 0.5; }
+.xx-pattern--op-75 { opacity: 0.75; }
+
+
+/* ───────────────────────────────────────────────────────────────
+   8) BLOB COLOR VARIANTS
+   Dodatkowe warianty kolorystyczne dla blob — primary/secondary/accent.
+   ─────────────────────────────────────────────────────────────── */
+
+.xx-blob--primary { color: var(--xx-primary, #722F37); }
+.xx-blob--secondary { color: var(--xx-secondary, #1A2B4A); }
+.xx-blob--accent { color: var(--xx-accent, #C9A961); }
+.xx-blob--neutral { color: var(--xx-cream3, #DCDCD0); }
+
+.xx-blob--op-05 { opacity: 0.05; }
+.xx-blob--op-10 { opacity: 0.10; }
+.xx-blob--op-20 { opacity: 0.20; }
+.xx-blob--op-30 { opacity: 0.30; }
+
+
+/* ───────────────────────────────────────────────────────────────
+   9) DIVIDER COLOR THEME OVERRIDES
+   Każdy divider rysuje wycinek o kolorze dolnej sekcji.
+   Te klasy nadpisują fill SVG aby pasował do palety klienta.
+   ─────────────────────────────────────────────────────────────── */
+
+/* Cream — domyślne tło stron */
+.xx-divider--fill-cream.xx-divider--curve-down::after,
+.xx-divider--fill-cream.xx-divider--curve-up::after,
+.xx-divider--fill-cream.xx-divider--curve-asym::after,
+.xx-divider--fill-cream.xx-divider--curve-tilt::after,
+.xx-divider--fill-cream.xx-divider--curve-double::after,
+.xx-divider--fill-cream.xx-divider--wave-soft::after,
+.xx-divider--fill-cream.xx-divider--wave-sharp::after,
+.xx-divider--fill-cream.xx-divider--wave-organic::after,
+.xx-divider--fill-cream.xx-divider--wave-thin::after {
+  filter: none;
+}
+
+/* Dark — gdy dolna sekcja na dark mode */
+.xx-divider--fill-dark.xx-divider--curve-down::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%231A1A1A' d='M0,60 C480,0 960,120 1440,60 L1440,100 L0,100 Z'/></svg>");
+}
+.xx-divider--fill-dark.xx-divider--curve-up::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%231A1A1A' d='M0,40 C480,100 960,-20 1440,40 L1440,0 L0,0 Z'/></svg>");
+}
+.xx-divider--fill-dark.xx-divider--wave-soft::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path fill='%231A1A1A' d='M0,40 C180,10 360,70 540,40 C720,10 900,70 1080,40 C1260,10 1440,40 1440,40 L1440,80 L0,80 Z'/></svg>");
+}
+.xx-divider--fill-dark.xx-divider--wave-sharp::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 70' preserveAspectRatio='none'><path fill='%231A1A1A' d='M0,40 L120,10 L240,40 L360,10 L480,40 L600,10 L720,40 L840,10 L960,40 L1080,10 L1200,40 L1320,10 L1440,40 L1440,70 L0,70 Z'/></svg>");
+}
+
+/* Primary — gdy dolna sekcja w kolorze marki */
+.xx-divider--fill-primary.xx-divider--curve-down::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23722F37' d='M0,60 C480,0 960,120 1440,60 L1440,100 L0,100 Z'/></svg>");
+}
+.xx-divider--fill-primary.xx-divider--curve-up::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23722F37' d='M0,40 C480,100 960,-20 1440,40 L1440,0 L0,0 Z'/></svg>");
+}
+.xx-divider--fill-primary.xx-divider--wave-soft::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path fill='%23722F37' d='M0,40 C180,10 360,70 540,40 C720,10 900,70 1080,40 C1260,10 1440,40 1440,40 L1440,80 L0,80 Z'/></svg>");
+}
+
+/* Accent — gdy dolna sekcja zaznaczona kolorem akcentu */
+.xx-divider--fill-accent.xx-divider--curve-down::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100' preserveAspectRatio='none'><path fill='%23C9A961' d='M0,60 C480,0 960,120 1440,60 L1440,100 L0,100 Z'/></svg>");
+}
+.xx-divider--fill-accent.xx-divider--wave-soft::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'><path fill='%23C9A961' d='M0,40 C180,10 360,70 540,40 C720,10 900,70 1080,40 C1260,10 1440,40 1440,40 L1440,80 L0,80 Z'/></svg>");
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   10) PATTERN COLOR THEME OVERRIDES
+   Wzorce w kolorach palety klienta — nie tylko cream3.
+   ─────────────────────────────────────────────────────────────── */
+
+.xx-pattern--dots.xx-pattern--primary {
+  background-image: radial-gradient(rgba(114, 47, 55, 0.18) 1px, transparent 1px);
+}
+.xx-pattern--dots.xx-pattern--accent {
+  background-image: radial-gradient(rgba(201, 169, 97, 0.22) 1px, transparent 1px);
+}
+.xx-pattern--dots.xx-pattern--secondary {
+  background-image: radial-gradient(rgba(26, 43, 74, 0.20) 1px, transparent 1px);
+}
+
+.xx-pattern--lines.xx-pattern--primary {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(114, 47, 55, 0.14),
+    rgba(114, 47, 55, 0.14) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+.xx-pattern--lines.xx-pattern--accent {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(201, 169, 97, 0.18),
+    rgba(201, 169, 97, 0.18) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+.xx-pattern--lines.xx-pattern--secondary {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(26, 43, 74, 0.16),
+    rgba(26, 43, 74, 0.16) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+
+/* Pattern angle modifiers — zmieniaj kierunek linii */
+.xx-pattern--lines.xx-pattern--angle-0 {
+  background-image: repeating-linear-gradient(
+    0deg,
+    var(--xx-cream3, #DCDCD0),
+    var(--xx-cream3, #DCDCD0) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+.xx-pattern--lines.xx-pattern--angle-90 {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--xx-cream3, #DCDCD0),
+    var(--xx-cream3, #DCDCD0) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+.xx-pattern--lines.xx-pattern--angle-135 {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--xx-cream3, #DCDCD0),
+    var(--xx-cream3, #DCDCD0) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   11) RESPONSIVE ADJUSTMENTS
+   Mobile-first — zmniejszamy wysokości i widoczność dekoracji.
+   ─────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .xx-divider--curve-down,
+  .xx-divider--curve-up,
+  .xx-divider--curve-tilt {
+    height: 60px;
+  }
+  .xx-divider--curve-asym,
+  .xx-divider--curve-double {
+    height: 70px;
+  }
+  .xx-divider--wave-soft,
+  .xx-divider--wave-sharp {
+    height: 50px;
+  }
+  .xx-divider--wave-double,
+  .xx-divider--wave-organic {
+    height: 60px;
+  }
+  .xx-divider--wave-thin {
+    height: 30px;
+  }
+
+  .xx-blob {
+    width: 250px;
+    height: 250px;
+    opacity: 0.10;
+  }
+  .xx-blob--sm {
+    width: 150px;
+    height: 150px;
+  }
+  .xx-blob--lg {
+    width: 350px;
+    height: 350px;
+  }
+  .xx-blob--top-right { top: -60px; right: -60px; }
+  .xx-blob--top-left { top: -60px; left: -60px; }
+  .xx-blob--bottom-right { bottom: -60px; right: -60px; }
+  .xx-blob--bottom-left { bottom: -60px; left: -60px; }
+
+  [data-vibe="luxury-heritage"] .xx-accent--gold-leaf::before,
+  [data-vibe="luxury-heritage"] .xx-accent--gold-leaf::after {
+    width: 50px;
+    height: 50px;
+  }
+  [data-vibe="art-deco-vintage"] .xx-accent--sunburst::before {
+    width: 240px;
+    height: 240px;
+  }
+  [data-vibe="eco-glamping"] .xx-accent--leaves::before,
+  [data-vibe="eco-glamping"] .xx-accent--leaves::after {
+    width: 70px;
+    height: 70px;
+  }
+  [data-vibe="boutique-romantic"] .xx-accent--script::after {
+    width: 200px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .xx-divider--h-xl { height: 100px; }
+  .xx-divider--h-lg { height: 80px; }
+
+  .xx-pattern--dots { background-size: 16px 16px; }
+  .xx-pattern--dots.xx-pattern--lg { background-size: 28px 28px; }
+  .xx-pattern--triangles,
+  .xx-pattern--diamond { background-size: 30px 30px; }
+  .xx-pattern--hexagon { background-size: 44px 80px; }
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   12) ACCESSIBILITY — REDUCED MOTION + HIGH CONTRAST
+   Wyłącz subtelne tekstury gdy user ma reduce-motion albo high-contrast.
+   ─────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .xx-blob,
+  .xx-texture--paper::after,
+  .xx-texture--fabric::after,
+  .xx-texture--grunge::after,
+  .xx-texture--noise::after,
+  .xx-texture--watercolor::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .xx-texture--paper::after,
+  .xx-texture--fabric::after,
+  .xx-texture--grunge::after,
+  .xx-texture--noise::after,
+  .xx-texture--watercolor::after {
+    display: none;
+  }
+  .xx-blob {
+    opacity: 0.08;
+  }
+  .xx-pattern--dots,
+  .xx-pattern--lines,
+  .xx-pattern--triangles,
+  .xx-pattern--hexagon,
+  .xx-pattern--diamond {
+    background-image: none;
+  }
+}
+
+@media print {
+  .xx-divider--curve-down,
+  .xx-divider--curve-up,
+  .xx-divider--curve-asym,
+  .xx-divider--curve-tilt,
+  .xx-divider--curve-double,
+  .xx-divider--wave-soft,
+  .xx-divider--wave-double,
+  .xx-divider--wave-sharp,
+  .xx-divider--wave-organic,
+  .xx-divider--wave-thin {
+    display: none;
+  }
+  .xx-blob,
+  .xx-texture--paper::after,
+  .xx-texture--fabric::after,
+  .xx-texture--grunge::after,
+  .xx-texture--noise::after,
+  .xx-texture--watercolor::after {
+    display: none;
+  }
+}
+
+
+/* ───────────────────────────────────────────────────────────────
+   END LAYER 8
+   Notes:
+   - Wszystkie data:image/svg+xml URI używają URL-encoded hex (%23 = #)
+   - SVG paths used preserveAspectRatio='none' tam gdzie potrzebne stretch
+   - Blob shapes opacity 0.15-0.18 → nie kradną fokusa od treści
+   - Vibe accents nakładają się tylko gdy parent ma odpowiedni data-vibe
+   - Wszystkie elementy decoratywne pointer-events: none
+   - Reduced motion + prefers-contrast respected
+   - Print media: wszystkie dekoracje wyłączone
+   ─────────────────────────────────────────────────────────────── */

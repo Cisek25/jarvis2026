@@ -1,0 +1,1599 @@
+/* ═══════════════════════════════════════════════════════════════
+   LAYER 5 — COLOR SYSTEMS (20 vibes x tokens)
+   Per-vibe [data-vibe="X"] z paletą + gradients + shadows.
+   Aktywacja: <body data-vibe="luxury-heritage">.
+   Po aktywacji wszystkie --xx-* variables są dostępne dla layer1-8.
+
+   Vibes (kolejność):
+   1. luxury-heritage    11. mountain-rugged
+   2. modern-minimal     12. mediterranean-villa
+   3. rustic-warm        13. art-deco-vintage
+   4. modern-coastal     14. eco-glamping
+   5. urban-bold         15. business-corporate
+   6. wellness-calm      16. winter-alpine
+   7. heritage-warm      17. asian-zen
+   8. family-friendly    18. industrial-loft
+   9. boutique-romantic  19. garden-cottage
+   10. scandi-clean      20. tropical-resort
+
+   Konwencja tokenów:
+   --xx-primary / -light / -dark / -soft
+   --xx-secondary / -light / -dark
+   --xx-cream / -cream2 / -cream3
+   --xx-bg / -text / -text-soft / -text-muted
+   --xx-shadow-sm / -md / -lg
+   --xx-gradient-primary / -accent
+   --xx-radius / -radius-lg
+   --xx-ease
+
+   Dark mode:
+   - Auto via @media (prefers-color-scheme: dark)
+     Wymaga BRAKU [data-mode="light"] (opt-out)
+   - Manual via [data-mode="dark"] lub .force-dark
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ──────────────────────────────────────────────────────────
+   1. LUXURY HERITAGE
+   Apartament w zabytku, lux hotel, kamienice
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="luxury-heritage"],
+[data-vibe="luxury-heritage"] {
+  --xx-primary:         #722F37;
+  --xx-primary-light:   #8B3A44;
+  --xx-primary-dark:    #5A252C;
+  --xx-primary-soft:    rgba(114, 47, 55, 0.08);
+  --xx-secondary:       #C4A882;
+  --xx-secondary-light: #D4BC9A;
+  --xx-secondary-dark:  #A89070;
+  --xx-cream:           #F2EDE4;
+  --xx-cream2:          #EDE6DA;
+  --xx-cream3:          #E5DDD0;
+  --xx-bg:              #FAFAF5;
+  --xx-text:            #1A1A1A;
+  --xx-text-soft:       #3A3A3A;
+  --xx-text-muted:      #6B6B6B;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 26, 26, 0.06);
+  --xx-shadow-md:       0 4px 30px rgba(26, 26, 26, 0.08);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 26, 26, 0.12);
+  --xx-gradient-primary: linear-gradient(135deg, #722F37 0%, #5A252C 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #C4A882 0%, #A89070 100%);
+  --xx-radius:          8px;
+  --xx-radius-lg:       16px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="luxury-heritage"]:not([data-mode="light"]) {
+    --xx-primary:         #8B3A44;
+    --xx-primary-light:   #A04A55;
+    --xx-primary-dark:    #6D2C36;
+    --xx-primary-soft:    rgba(139, 58, 68, 0.12);
+    --xx-secondary:       #D4BC9A;
+    --xx-secondary-light: #E2CCAE;
+    --xx-secondary-dark:  #B89E7A;
+    --xx-cream:           #2A2024;
+    --xx-cream2:          #251D20;
+    --xx-cream3:          #1F181C;
+    --xx-bg:              #1A1418;
+    --xx-text:            #F2EDE4;
+    --xx-text-soft:       #D8D2C8;
+    --xx-text-muted:      #9A9590;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #8B3A44 0%, #6D2C36 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #D4BC9A 0%, #B89E7A 100%);
+  }
+}
+
+[data-vibe="luxury-heritage"][data-mode="dark"],
+[data-vibe="luxury-heritage"].force-dark {
+  --xx-primary:         #8B3A44;
+  --xx-primary-light:   #A04A55;
+  --xx-primary-dark:    #6D2C36;
+  --xx-primary-soft:    rgba(139, 58, 68, 0.12);
+  --xx-secondary:       #D4BC9A;
+  --xx-secondary-light: #E2CCAE;
+  --xx-secondary-dark:  #B89E7A;
+  --xx-cream:           #2A2024;
+  --xx-cream2:          #251D20;
+  --xx-cream3:          #1F181C;
+  --xx-bg:              #1A1418;
+  --xx-text:            #F2EDE4;
+  --xx-text-soft:       #D8D2C8;
+  --xx-text-muted:      #9A9590;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #8B3A44 0%, #6D2C36 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #D4BC9A 0%, #B89E7A 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   2. MODERN MINIMAL
+   Nowoczesny apartament, design hotel
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="modern-minimal"],
+[data-vibe="modern-minimal"] {
+  --xx-primary:         #E2D700;
+  --xx-primary-light:   #F4EE5C;
+  --xx-primary-dark:    #B8AE00;
+  --xx-primary-soft:    rgba(226, 215, 0, 0.08);
+  --xx-secondary:       #0F0F0E;
+  --xx-secondary-light: #2A2A28;
+  --xx-secondary-dark:  #050504;
+  --xx-cream:           #F0EAE0;
+  --xx-cream2:          #E8E1D4;
+  --xx-cream3:          #DED5C5;
+  --xx-bg:              #FAF7F2;
+  --xx-text:            #0F0F0E;
+  --xx-text-soft:       #3A3A38;
+  --xx-text-muted:      #7A736B;
+  --xx-shadow-sm:       0 2px 8px rgba(15, 15, 14, 0.05);
+  --xx-shadow-md:       0 4px 30px rgba(15, 15, 14, 0.07);
+  --xx-shadow-lg:       0 12px 40px rgba(15, 15, 14, 0.10);
+  --xx-gradient-primary: linear-gradient(135deg, #E2D700 0%, #B8AE00 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #0F0F0E 0%, #050504 100%);
+  --xx-radius:          4px;
+  --xx-radius-lg:       8px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="modern-minimal"]:not([data-mode="light"]) {
+    --xx-primary:         #F4EE8A;
+    --xx-primary-light:   #F8F2A8;
+    --xx-primary-dark:    #C8C25A;
+    --xx-primary-soft:    rgba(244, 238, 138, 0.14);
+    --xx-secondary:       #FFFFFF;
+    --xx-secondary-light: #FFFFFF;
+    --xx-secondary-dark:  #D8D8D8;
+    --xx-cream:           #1A1A18;
+    --xx-cream2:          #161614;
+    --xx-cream3:          #121210;
+    --xx-bg:              #0F0F0E;
+    --xx-text:            #FFFFFF;
+    --xx-text-soft:       #E5E5E0;
+    --xx-text-muted:      #A8A29A;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.35);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.45);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.60);
+    --xx-gradient-primary: linear-gradient(135deg, #F4EE8A 0%, #C8C25A 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #FFFFFF 0%, #D8D8D8 100%);
+  }
+}
+
+[data-vibe="modern-minimal"][data-mode="dark"],
+[data-vibe="modern-minimal"].force-dark {
+  --xx-primary:         #F4EE8A;
+  --xx-primary-light:   #F8F2A8;
+  --xx-primary-dark:    #C8C25A;
+  --xx-primary-soft:    rgba(244, 238, 138, 0.14);
+  --xx-secondary:       #FFFFFF;
+  --xx-secondary-light: #FFFFFF;
+  --xx-secondary-dark:  #D8D8D8;
+  --xx-cream:           #1A1A18;
+  --xx-cream2:          #161614;
+  --xx-cream3:          #121210;
+  --xx-bg:              #0F0F0E;
+  --xx-text:            #FFFFFF;
+  --xx-text-soft:       #E5E5E0;
+  --xx-text-muted:      #A8A29A;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.35);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.45);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.60);
+  --xx-gradient-primary: linear-gradient(135deg, #F4EE8A 0%, #C8C25A 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #FFFFFF 0%, #D8D8D8 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   3. RUSTIC WARM
+   Agroturystyka, klimat wiejski
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="rustic-warm"],
+[data-vibe="rustic-warm"] {
+  --xx-primary:         #7A8A6E;
+  --xx-primary-light:   #94A488;
+  --xx-primary-dark:    #5F6E55;
+  --xx-primary-soft:    rgba(122, 138, 110, 0.08);
+  --xx-secondary:       #C8612C;
+  --xx-secondary-light: #DC7A48;
+  --xx-secondary-dark:  #A44C1F;
+  --xx-cream:           #F5F0E8;
+  --xx-cream2:          #EDE7DC;
+  --xx-cream3:          #E3DACD;
+  --xx-bg:              #FBF7F0;
+  --xx-text:            #2A2A24;
+  --xx-text-soft:       #4A4A40;
+  --xx-text-muted:      #6B5F4F;
+  --xx-shadow-sm:       0 2px 8px rgba(42, 42, 36, 0.06);
+  --xx-shadow-md:       0 4px 30px rgba(42, 42, 36, 0.08);
+  --xx-shadow-lg:       0 12px 40px rgba(42, 42, 36, 0.12);
+  --xx-gradient-primary: linear-gradient(135deg, #7A8A6E 0%, #5F6E55 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #C8612C 0%, #A44C1F 100%);
+  --xx-radius:          10px;
+  --xx-radius-lg:       18px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="rustic-warm"]:not([data-mode="light"]) {
+    --xx-primary:         #94A488;
+    --xx-primary-light:   #ACBA9F;
+    --xx-primary-dark:    #758070;
+    --xx-primary-soft:    rgba(148, 164, 136, 0.14);
+    --xx-secondary:       #DC7A48;
+    --xx-secondary-light: #E89060;
+    --xx-secondary-dark:  #BA6238;
+    --xx-cream:           #2A2A24;
+    --xx-cream2:          #24241F;
+    --xx-cream3:          #1E1E1A;
+    --xx-bg:              #1A1A14;
+    --xx-text:            #F5F0E8;
+    --xx-text-soft:       #DCD6CB;
+    --xx-text-muted:      #A89D8A;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #94A488 0%, #758070 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #DC7A48 0%, #BA6238 100%);
+  }
+}
+
+[data-vibe="rustic-warm"][data-mode="dark"],
+[data-vibe="rustic-warm"].force-dark {
+  --xx-primary:         #94A488;
+  --xx-primary-light:   #ACBA9F;
+  --xx-primary-dark:    #758070;
+  --xx-primary-soft:    rgba(148, 164, 136, 0.14);
+  --xx-secondary:       #DC7A48;
+  --xx-secondary-light: #E89060;
+  --xx-secondary-dark:  #BA6238;
+  --xx-cream:           #2A2A24;
+  --xx-cream2:          #24241F;
+  --xx-cream3:          #1E1E1A;
+  --xx-bg:              #1A1A14;
+  --xx-text:            #F5F0E8;
+  --xx-text-soft:       #DCD6CB;
+  --xx-text-muted:      #A89D8A;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #94A488 0%, #758070 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #DC7A48 0%, #BA6238 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   4. MODERN COASTAL
+   Morze, plażowe apartamenty
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="modern-coastal"],
+[data-vibe="modern-coastal"] {
+  --xx-primary:         #1B3D5C;
+  --xx-primary-light:   #2D5478;
+  --xx-primary-dark:    #0F2A42;
+  --xx-primary-soft:    rgba(27, 61, 92, 0.08);
+  --xx-secondary:       #E07A5F;
+  --xx-secondary-light: #EE9882;
+  --xx-secondary-dark:  #B85F45;
+  --xx-cream:           #F4EFE9;
+  --xx-cream2:          #ECE5DC;
+  --xx-cream3:          #E2D9CC;
+  --xx-bg:              #FBF8F3;
+  --xx-text:            #1A2334;
+  --xx-text-soft:       #3A4458;
+  --xx-text-muted:      #5A6378;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 35, 52, 0.06);
+  --xx-shadow-md:       0 4px 30px rgba(26, 35, 52, 0.08);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 35, 52, 0.12);
+  --xx-gradient-primary: linear-gradient(135deg, #1B3D5C 0%, #0F2A42 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #E07A5F 0%, #B85F45 100%);
+  --xx-radius:          10px;
+  --xx-radius-lg:       20px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="modern-coastal"]:not([data-mode="light"]) {
+    --xx-primary:         #3D6588;
+    --xx-primary-light:   #547DA0;
+    --xx-primary-dark:    #2D5478;
+    --xx-primary-soft:    rgba(61, 101, 136, 0.14);
+    --xx-secondary:       #EE9882;
+    --xx-secondary-light: #F4AE9C;
+    --xx-secondary-dark:  #C87A66;
+    --xx-cream:           #1A2434;
+    --xx-cream2:          #161E2C;
+    --xx-cream3:          #121824;
+    --xx-bg:              #0F1824;
+    --xx-text:            #F4EFE9;
+    --xx-text-soft:       #D5D0CA;
+    --xx-text-muted:      #9AA5B8;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #3D6588 0%, #2D5478 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #EE9882 0%, #C87A66 100%);
+  }
+}
+
+[data-vibe="modern-coastal"][data-mode="dark"],
+[data-vibe="modern-coastal"].force-dark {
+  --xx-primary:         #3D6588;
+  --xx-primary-light:   #547DA0;
+  --xx-primary-dark:    #2D5478;
+  --xx-primary-soft:    rgba(61, 101, 136, 0.14);
+  --xx-secondary:       #EE9882;
+  --xx-secondary-light: #F4AE9C;
+  --xx-secondary-dark:  #C87A66;
+  --xx-cream:           #1A2434;
+  --xx-cream2:          #161E2C;
+  --xx-cream3:          #121824;
+  --xx-bg:              #0F1824;
+  --xx-text:            #F4EFE9;
+  --xx-text-soft:       #D5D0CA;
+  --xx-text-muted:      #9AA5B8;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #3D6588 0%, #2D5478 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #EE9882 0%, #C87A66 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   5. URBAN BOLD
+   Hostel, młodzieżowy obiekt
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="urban-bold"],
+[data-vibe="urban-bold"] {
+  --xx-primary:         #1A1A1A;
+  --xx-primary-light:   #3A3A3A;
+  --xx-primary-dark:    #000000;
+  --xx-primary-soft:    rgba(26, 26, 26, 0.08);
+  --xx-secondary:       #00FF87;
+  --xx-secondary-light: #5AFFA8;
+  --xx-secondary-dark:  #00CC6B;
+  --xx-cream:           #2A2A2A;
+  --xx-cream2:          #242424;
+  --xx-cream3:          #1E1E1E;
+  --xx-bg:              #0F0F0F;
+  --xx-text:            #FFFFFF;
+  --xx-text-soft:       #D8D8D8;
+  --xx-text-muted:      #A8A8A8;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.40);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.50);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.65);
+  --xx-gradient-primary: linear-gradient(135deg, #1A1A1A 0%, #000000 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #00FF87 0%, #00CC6B 100%);
+  --xx-radius:          0px;
+  --xx-radius-lg:       2px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="urban-bold"]:not([data-mode="light"]) {
+    --xx-primary:         #FFFFFF;
+    --xx-primary-light:   #FFFFFF;
+    --xx-primary-dark:    #D8D8D8;
+    --xx-primary-soft:    rgba(255, 255, 255, 0.10);
+    --xx-secondary:       #00FF87;
+    --xx-secondary-light: #5AFFA8;
+    --xx-secondary-dark:  #00CC6B;
+    --xx-cream:           #1A1A1A;
+    --xx-cream2:          #141414;
+    --xx-cream3:          #0E0E0E;
+    --xx-bg:              #000000;
+    --xx-text:            #FFFFFF;
+    --xx-text-soft:       #E5E5E5;
+    --xx-text-muted:      #C8C8C8;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.50);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.65);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.80);
+    --xx-gradient-primary: linear-gradient(135deg, #FFFFFF 0%, #D8D8D8 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #00FF87 0%, #00CC6B 100%);
+  }
+}
+
+[data-vibe="urban-bold"][data-mode="dark"],
+[data-vibe="urban-bold"].force-dark {
+  --xx-primary:         #FFFFFF;
+  --xx-primary-light:   #FFFFFF;
+  --xx-primary-dark:    #D8D8D8;
+  --xx-primary-soft:    rgba(255, 255, 255, 0.10);
+  --xx-secondary:       #00FF87;
+  --xx-secondary-light: #5AFFA8;
+  --xx-secondary-dark:  #00CC6B;
+  --xx-cream:           #1A1A1A;
+  --xx-cream2:          #141414;
+  --xx-cream3:          #0E0E0E;
+  --xx-bg:              #000000;
+  --xx-text:            #FFFFFF;
+  --xx-text-soft:       #E5E5E5;
+  --xx-text-muted:      #C8C8C8;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.50);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.65);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.80);
+  --xx-gradient-primary: linear-gradient(135deg, #FFFFFF 0%, #D8D8D8 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #00FF87 0%, #00CC6B 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   6. WELLNESS CALM
+   Spa, hotel wellness
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="wellness-calm"],
+[data-vibe="wellness-calm"] {
+  --xx-primary:         #8FA68E;
+  --xx-primary-light:   #A8BEA7;
+  --xx-primary-dark:    #728772;
+  --xx-primary-soft:    rgba(143, 166, 142, 0.08);
+  --xx-secondary:       #E8B4A0;
+  --xx-secondary-light: #F2CCBC;
+  --xx-secondary-dark:  #C8927E;
+  --xx-cream:           #F8F4EE;
+  --xx-cream2:          #EFEBE3;
+  --xx-cream3:          #E4DFD3;
+  --xx-bg:              #FDFBF7;
+  --xx-text:            #2A3A2A;
+  --xx-text-soft:       #4A584A;
+  --xx-text-muted:      #6B7A6B;
+  --xx-shadow-sm:       0 2px 8px rgba(42, 58, 42, 0.05);
+  --xx-shadow-md:       0 4px 30px rgba(42, 58, 42, 0.07);
+  --xx-shadow-lg:       0 12px 40px rgba(42, 58, 42, 0.10);
+  --xx-gradient-primary: linear-gradient(135deg, #8FA68E 0%, #728772 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #E8B4A0 0%, #C8927E 100%);
+  --xx-radius:          14px;
+  --xx-radius-lg:       24px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="wellness-calm"]:not([data-mode="light"]) {
+    --xx-primary:         #A8BEA7;
+    --xx-primary-light:   #BCD0BB;
+    --xx-primary-dark:    #8FA68E;
+    --xx-primary-soft:    rgba(168, 190, 167, 0.14);
+    --xx-secondary:       #F2CCBC;
+    --xx-secondary-light: #F8DCD0;
+    --xx-secondary-dark:  #D8AC9C;
+    --xx-cream:           #1A2418;
+    --xx-cream2:          #151E14;
+    --xx-cream3:          #111810;
+    --xx-bg:              #0F1A0E;
+    --xx-text:            #F8F4EE;
+    --xx-text-soft:       #DCD8D0;
+    --xx-text-muted:      #9AAA9A;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #A8BEA7 0%, #8FA68E 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #F2CCBC 0%, #D8AC9C 100%);
+  }
+}
+
+[data-vibe="wellness-calm"][data-mode="dark"],
+[data-vibe="wellness-calm"].force-dark {
+  --xx-primary:         #A8BEA7;
+  --xx-primary-light:   #BCD0BB;
+  --xx-primary-dark:    #8FA68E;
+  --xx-primary-soft:    rgba(168, 190, 167, 0.14);
+  --xx-secondary:       #F2CCBC;
+  --xx-secondary-light: #F8DCD0;
+  --xx-secondary-dark:  #D8AC9C;
+  --xx-cream:           #1A2418;
+  --xx-cream2:          #151E14;
+  --xx-cream3:          #111810;
+  --xx-bg:              #0F1A0E;
+  --xx-text:            #F8F4EE;
+  --xx-text-soft:       #DCD8D0;
+  --xx-text-muted:      #9AAA9A;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #A8BEA7 0%, #8FA68E 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #F2CCBC 0%, #D8AC9C 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   7. HERITAGE WARM
+   Klasyczny hotel, kamienice
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="heritage-warm"],
+[data-vibe="heritage-warm"] {
+  --xx-primary:         #1E5F4F;
+  --xx-primary-light:   #2D7A66;
+  --xx-primary-dark:    #13442F;
+  --xx-primary-soft:    rgba(30, 95, 79, 0.08);
+  --xx-secondary:       #B8924A;
+  --xx-secondary-light: #CCA968;
+  --xx-secondary-dark:  #98763A;
+  --xx-cream:           #F2EBD5;
+  --xx-cream2:          #EAE2C8;
+  --xx-cream3:          #DED5B7;
+  --xx-bg:              #FBF6E8;
+  --xx-text:            #1A2A24;
+  --xx-text-soft:       #384640;
+  --xx-text-muted:      #5A6258;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 42, 36, 0.07);
+  --xx-shadow-md:       0 4px 30px rgba(26, 42, 36, 0.09);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 42, 36, 0.13);
+  --xx-gradient-primary: linear-gradient(135deg, #1E5F4F 0%, #13442F 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #B8924A 0%, #98763A 100%);
+  --xx-radius:          6px;
+  --xx-radius-lg:       12px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="heritage-warm"]:not([data-mode="light"]) {
+    --xx-primary:         #2D7A66;
+    --xx-primary-light:   #429078;
+    --xx-primary-dark:    #1F5C4D;
+    --xx-primary-soft:    rgba(45, 122, 102, 0.14);
+    --xx-secondary:       #CCA968;
+    --xx-secondary-light: #DCBC80;
+    --xx-secondary-dark:  #A88848;
+    --xx-cream:           #1A2420;
+    --xx-cream2:          #151E1B;
+    --xx-cream3:          #111815;
+    --xx-bg:              #0E1814;
+    --xx-text:            #F2EBD5;
+    --xx-text-soft:       #D5D0BC;
+    --xx-text-muted:      #9A9888;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+    --xx-gradient-primary: linear-gradient(135deg, #2D7A66 0%, #1F5C4D 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #CCA968 0%, #A88848 100%);
+  }
+}
+
+[data-vibe="heritage-warm"][data-mode="dark"],
+[data-vibe="heritage-warm"].force-dark {
+  --xx-primary:         #2D7A66;
+  --xx-primary-light:   #429078;
+  --xx-primary-dark:    #1F5C4D;
+  --xx-primary-soft:    rgba(45, 122, 102, 0.14);
+  --xx-secondary:       #CCA968;
+  --xx-secondary-light: #DCBC80;
+  --xx-secondary-dark:  #A88848;
+  --xx-cream:           #1A2420;
+  --xx-cream2:          #151E1B;
+  --xx-cream3:          #111815;
+  --xx-bg:              #0E1814;
+  --xx-text:            #F2EBD5;
+  --xx-text-soft:       #D5D0BC;
+  --xx-text-muted:      #9A9888;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+  --xx-gradient-primary: linear-gradient(135deg, #2D7A66 0%, #1F5C4D 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #CCA968 0%, #A88848 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   8. FAMILY FRIENDLY
+   Rodzinny apartament, dom z dziećmi
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="family-friendly"],
+[data-vibe="family-friendly"] {
+  --xx-primary:         #FFB534;
+  --xx-primary-light:   #FFC868;
+  --xx-primary-dark:    #D8941F;
+  --xx-primary-soft:    rgba(255, 181, 52, 0.08);
+  --xx-secondary:       #5DA9E9;
+  --xx-secondary-light: #82BEF0;
+  --xx-secondary-dark:  #428DCC;
+  --xx-cream:           #FFF8E6;
+  --xx-cream2:          #F8EFD7;
+  --xx-cream3:          #EEE3C5;
+  --xx-bg:              #FFFCF4;
+  --xx-text:            #2A2A4A;
+  --xx-text-soft:       #4A4A68;
+  --xx-text-muted:      #6B6B8A;
+  --xx-shadow-sm:       0 2px 8px rgba(42, 42, 74, 0.06);
+  --xx-shadow-md:       0 4px 30px rgba(42, 42, 74, 0.08);
+  --xx-shadow-lg:       0 12px 40px rgba(42, 42, 74, 0.12);
+  --xx-gradient-primary: linear-gradient(135deg, #FFB534 0%, #D8941F 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #5DA9E9 0%, #428DCC 100%);
+  --xx-radius:          16px;
+  --xx-radius-lg:       28px;
+  --xx-ease:            cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="family-friendly"]:not([data-mode="light"]) {
+    --xx-primary:         #FFC868;
+    --xx-primary-light:   #FFD888;
+    --xx-primary-dark:    #E0A848;
+    --xx-primary-soft:    rgba(255, 200, 104, 0.14);
+    --xx-secondary:       #82BEF0;
+    --xx-secondary-light: #A0D0F5;
+    --xx-secondary-dark:  #629FD0;
+    --xx-cream:           #2A2418;
+    --xx-cream2:          #241F14;
+    --xx-cream3:          #1E1A10;
+    --xx-bg:              #1A1A24;
+    --xx-text:            #FFF8E6;
+    --xx-text-soft:       #E0D8C0;
+    --xx-text-muted:      #A8A8C8;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.56);
+    --xx-gradient-primary: linear-gradient(135deg, #FFC868 0%, #E0A848 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #82BEF0 0%, #629FD0 100%);
+  }
+}
+
+[data-vibe="family-friendly"][data-mode="dark"],
+[data-vibe="family-friendly"].force-dark {
+  --xx-primary:         #FFC868;
+  --xx-primary-light:   #FFD888;
+  --xx-primary-dark:    #E0A848;
+  --xx-primary-soft:    rgba(255, 200, 104, 0.14);
+  --xx-secondary:       #82BEF0;
+  --xx-secondary-light: #A0D0F5;
+  --xx-secondary-dark:  #629FD0;
+  --xx-cream:           #2A2418;
+  --xx-cream2:          #241F14;
+  --xx-cream3:          #1E1A10;
+  --xx-bg:              #1A1A24;
+  --xx-text:            #FFF8E6;
+  --xx-text-soft:       #E0D8C0;
+  --xx-text-muted:      #A8A8C8;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.56);
+  --xx-gradient-primary: linear-gradient(135deg, #FFC868 0%, #E0A848 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #82BEF0 0%, #629FD0 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   9. BOUTIQUE ROMANTIC
+   Butikowy obiekt dla par
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="boutique-romantic"],
+[data-vibe="boutique-romantic"] {
+  --xx-primary:         #D4A5A5;
+  --xx-primary-light:   #E2BBBB;
+  --xx-primary-dark:    #B88888;
+  --xx-primary-soft:    rgba(212, 165, 165, 0.10);
+  --xx-secondary:       #E8C8A8;
+  --xx-secondary-light: #F2D6BC;
+  --xx-secondary-dark:  #C8A888;
+  --xx-cream:           #FAF3EF;
+  --xx-cream2:          #F2EAE4;
+  --xx-cream3:          #E8DDD5;
+  --xx-bg:              #FDF8F4;
+  --xx-text:            #3A2A2A;
+  --xx-text-soft:       #584848;
+  --xx-text-muted:      #7A5F5F;
+  --xx-shadow-sm:       0 2px 8px rgba(58, 42, 42, 0.05);
+  --xx-shadow-md:       0 4px 30px rgba(58, 42, 42, 0.07);
+  --xx-shadow-lg:       0 12px 40px rgba(58, 42, 42, 0.10);
+  --xx-gradient-primary: linear-gradient(135deg, #D4A5A5 0%, #B88888 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #E8C8A8 0%, #C8A888 100%);
+  --xx-radius:          12px;
+  --xx-radius-lg:       22px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="boutique-romantic"]:not([data-mode="light"]) {
+    --xx-primary:         #E2BBBB;
+    --xx-primary-light:   #ECCFCF;
+    --xx-primary-dark:    #C49B9B;
+    --xx-primary-soft:    rgba(226, 187, 187, 0.14);
+    --xx-secondary:       #F2D6BC;
+    --xx-secondary-light: #F8E2CC;
+    --xx-secondary-dark:  #D8B89C;
+    --xx-cream:           #2A2020;
+    --xx-cream2:          #241B1B;
+    --xx-cream3:          #1E1717;
+    --xx-bg:              #1A1414;
+    --xx-text:            #FAF3EF;
+    --xx-text-soft:       #DCD5D1;
+    --xx-text-muted:      #B89999;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #E2BBBB 0%, #C49B9B 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #F2D6BC 0%, #D8B89C 100%);
+  }
+}
+
+[data-vibe="boutique-romantic"][data-mode="dark"],
+[data-vibe="boutique-romantic"].force-dark {
+  --xx-primary:         #E2BBBB;
+  --xx-primary-light:   #ECCFCF;
+  --xx-primary-dark:    #C49B9B;
+  --xx-primary-soft:    rgba(226, 187, 187, 0.14);
+  --xx-secondary:       #F2D6BC;
+  --xx-secondary-light: #F8E2CC;
+  --xx-secondary-dark:  #D8B89C;
+  --xx-cream:           #2A2020;
+  --xx-cream2:          #241B1B;
+  --xx-cream3:          #1E1717;
+  --xx-bg:              #1A1414;
+  --xx-text:            #FAF3EF;
+  --xx-text-soft:       #DCD5D1;
+  --xx-text-muted:      #B89999;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #E2BBBB 0%, #C49B9B 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #F2D6BC 0%, #D8B89C 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   10. SCANDI CLEAN
+   Skandynawski minimalizm
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="scandi-clean"],
+[data-vibe="scandi-clean"] {
+  --xx-primary:         #7A8A75;
+  --xx-primary-light:   #94A488;
+  --xx-primary-dark:    #5F6F5A;
+  --xx-primary-soft:    rgba(122, 138, 117, 0.08);
+  --xx-secondary:       #C8A878;
+  --xx-secondary-light: #D8BC92;
+  --xx-secondary-dark:  #A88858;
+  --xx-cream:           #F5F2EC;
+  --xx-cream2:          #EDE9E0;
+  --xx-cream3:          #E3DED2;
+  --xx-bg:              #FDFCF8;
+  --xx-text:            #1A1A1A;
+  --xx-text-soft:       #3A3A3A;
+  --xx-text-muted:      #6B6B6B;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 26, 26, 0.04);
+  --xx-shadow-md:       0 4px 30px rgba(26, 26, 26, 0.06);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 26, 26, 0.09);
+  --xx-gradient-primary: linear-gradient(135deg, #7A8A75 0%, #5F6F5A 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #C8A878 0%, #A88858 100%);
+  --xx-radius:          4px;
+  --xx-radius-lg:       8px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="scandi-clean"]:not([data-mode="light"]) {
+    --xx-primary:         #94A488;
+    --xx-primary-light:   #ACBA9F;
+    --xx-primary-dark:    #758070;
+    --xx-primary-soft:    rgba(148, 164, 136, 0.12);
+    --xx-secondary:       #D8BC92;
+    --xx-secondary-light: #E5CDA8;
+    --xx-secondary-dark:  #B89C72;
+    --xx-cream:           #1A1A18;
+    --xx-cream2:          #161614;
+    --xx-cream3:          #121210;
+    --xx-bg:              #0F0F0E;
+    --xx-text:            #F5F2EC;
+    --xx-text-soft:       #DCD8D1;
+    --xx-text-muted:      #A8A8A0;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.28);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.38);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.52);
+    --xx-gradient-primary: linear-gradient(135deg, #94A488 0%, #758070 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #D8BC92 0%, #B89C72 100%);
+  }
+}
+
+[data-vibe="scandi-clean"][data-mode="dark"],
+[data-vibe="scandi-clean"].force-dark {
+  --xx-primary:         #94A488;
+  --xx-primary-light:   #ACBA9F;
+  --xx-primary-dark:    #758070;
+  --xx-primary-soft:    rgba(148, 164, 136, 0.12);
+  --xx-secondary:       #D8BC92;
+  --xx-secondary-light: #E5CDA8;
+  --xx-secondary-dark:  #B89C72;
+  --xx-cream:           #1A1A18;
+  --xx-cream2:          #161614;
+  --xx-cream3:          #121210;
+  --xx-bg:              #0F0F0E;
+  --xx-text:            #F5F2EC;
+  --xx-text-soft:       #DCD8D1;
+  --xx-text-muted:      #A8A8A0;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.28);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.38);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.52);
+  --xx-gradient-primary: linear-gradient(135deg, #94A488 0%, #758070 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #D8BC92 0%, #B89C72 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   11. MOUNTAIN RUGGED
+   Schroniska, chaty górskie
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="mountain-rugged"],
+[data-vibe="mountain-rugged"] {
+  --xx-primary:         #2D4A2D;
+  --xx-primary-light:   #3F6240;
+  --xx-primary-dark:    #1E351E;
+  --xx-primary-soft:    rgba(45, 74, 45, 0.08);
+  --xx-secondary:       #C8924A;
+  --xx-secondary-light: #D8A868;
+  --xx-secondary-dark:  #A8783A;
+  --xx-cream:           #E8DFC5;
+  --xx-cream2:          #DDD3B6;
+  --xx-cream3:          #CFC4A4;
+  --xx-bg:              #F5EFD8;
+  --xx-text:            #1A2A1A;
+  --xx-text-soft:       #384838;
+  --xx-text-muted:      #5A6A5A;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 42, 26, 0.08);
+  --xx-shadow-md:       0 4px 30px rgba(26, 42, 26, 0.10);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 42, 26, 0.14);
+  --xx-gradient-primary: linear-gradient(135deg, #2D4A2D 0%, #1E351E 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #C8924A 0%, #A8783A 100%);
+  --xx-radius:          6px;
+  --xx-radius-lg:       10px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="mountain-rugged"]:not([data-mode="light"]) {
+    --xx-primary:         #3F6240;
+    --xx-primary-light:   #547858;
+    --xx-primary-dark:    #2F4A30;
+    --xx-primary-soft:    rgba(63, 98, 64, 0.14);
+    --xx-secondary:       #D8A868;
+    --xx-secondary-light: #E5BC82;
+    --xx-secondary-dark:  #B88848;
+    --xx-cream:           #1A2418;
+    --xx-cream2:          #151E14;
+    --xx-cream3:          #111810;
+    --xx-bg:              #0E1A0E;
+    --xx-text:            #E8DFC5;
+    --xx-text-soft:       #CFC5AC;
+    --xx-text-muted:      #9AA890;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+    --xx-gradient-primary: linear-gradient(135deg, #3F6240 0%, #2F4A30 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #D8A868 0%, #B88848 100%);
+  }
+}
+
+[data-vibe="mountain-rugged"][data-mode="dark"],
+[data-vibe="mountain-rugged"].force-dark {
+  --xx-primary:         #3F6240;
+  --xx-primary-light:   #547858;
+  --xx-primary-dark:    #2F4A30;
+  --xx-primary-soft:    rgba(63, 98, 64, 0.14);
+  --xx-secondary:       #D8A868;
+  --xx-secondary-light: #E5BC82;
+  --xx-secondary-dark:  #B88848;
+  --xx-cream:           #1A2418;
+  --xx-cream2:          #151E14;
+  --xx-cream3:          #111810;
+  --xx-bg:              #0E1A0E;
+  --xx-text:            #E8DFC5;
+  --xx-text-soft:       #CFC5AC;
+  --xx-text-muted:      #9AA890;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+  --xx-gradient-primary: linear-gradient(135deg, #3F6240 0%, #2F4A30 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #D8A868 0%, #B88848 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   12. MEDITERRANEAN VILLA
+   Wille basenowe (Hiszpania, Włochy)
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="mediterranean-villa"],
+[data-vibe="mediterranean-villa"] {
+  --xx-primary:         #C8552C;
+  --xx-primary-light:   #DC6E48;
+  --xx-primary-dark:    #A04220;
+  --xx-primary-soft:    rgba(200, 85, 44, 0.08);
+  --xx-secondary:       #7A8A4E;
+  --xx-secondary-light: #94A468;
+  --xx-secondary-dark:  #5F6E3A;
+  --xx-cream:           #F5EDDA;
+  --xx-cream2:          #EBE2CC;
+  --xx-cream3:          #DFD5BB;
+  --xx-bg:              #FBF6E8;
+  --xx-text:            #3A2A1A;
+  --xx-text-soft:       #584838;
+  --xx-text-muted:      #7A6B5A;
+  --xx-shadow-sm:       0 2px 8px rgba(58, 42, 26, 0.07);
+  --xx-shadow-md:       0 4px 30px rgba(58, 42, 26, 0.09);
+  --xx-shadow-lg:       0 12px 40px rgba(58, 42, 26, 0.13);
+  --xx-gradient-primary: linear-gradient(135deg, #C8552C 0%, #A04220 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #7A8A4E 0%, #5F6E3A 100%);
+  --xx-radius:          10px;
+  --xx-radius-lg:       18px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="mediterranean-villa"]:not([data-mode="light"]) {
+    --xx-primary:         #DC6E48;
+    --xx-primary-light:   #E88862;
+    --xx-primary-dark:    #B85838;
+    --xx-primary-soft:    rgba(220, 110, 72, 0.14);
+    --xx-secondary:       #94A468;
+    --xx-secondary-light: #A8B880;
+    --xx-secondary-dark:  #758550;
+    --xx-cream:           #2A1F14;
+    --xx-cream2:          #241A11;
+    --xx-cream3:          #1E160E;
+    --xx-bg:              #1A140E;
+    --xx-text:            #F5EDDA;
+    --xx-text-soft:       #DCD2BE;
+    --xx-text-muted:      #B89A78;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #DC6E48 0%, #B85838 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #94A468 0%, #758550 100%);
+  }
+}
+
+[data-vibe="mediterranean-villa"][data-mode="dark"],
+[data-vibe="mediterranean-villa"].force-dark {
+  --xx-primary:         #DC6E48;
+  --xx-primary-light:   #E88862;
+  --xx-primary-dark:    #B85838;
+  --xx-primary-soft:    rgba(220, 110, 72, 0.14);
+  --xx-secondary:       #94A468;
+  --xx-secondary-light: #A8B880;
+  --xx-secondary-dark:  #758550;
+  --xx-cream:           #2A1F14;
+  --xx-cream2:          #241A11;
+  --xx-cream3:          #1E160E;
+  --xx-bg:              #1A140E;
+  --xx-text:            #F5EDDA;
+  --xx-text-soft:       #DCD2BE;
+  --xx-text-muted:      #B89A78;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #DC6E48 0%, #B85838 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #94A468 0%, #758550 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   13. ART DECO VINTAGE
+   Vintage hotel art-deco
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="art-deco-vintage"],
+[data-vibe="art-deco-vintage"] {
+  --xx-primary:         #1E5F4F;
+  --xx-primary-light:   #2D7A66;
+  --xx-primary-dark:    #13442F;
+  --xx-primary-soft:    rgba(30, 95, 79, 0.10);
+  --xx-secondary:       #D4A547;
+  --xx-secondary-light: #E2BB68;
+  --xx-secondary-dark:  #B08828;
+  --xx-cream:           #1A1A1A;
+  --xx-cream2:          #161616;
+  --xx-cream3:          #121212;
+  --xx-bg:              #0F0F0E;
+  --xx-text:            #F2EDE4;
+  --xx-text-soft:       #D5CFC4;
+  --xx-text-muted:      #B8A88A;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.40);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.50);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.65);
+  --xx-gradient-primary: linear-gradient(135deg, #1E5F4F 0%, #13442F 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #D4A547 0%, #B08828 100%);
+  --xx-radius:          2px;
+  --xx-radius-lg:       4px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="art-deco-vintage"]:not([data-mode="light"]) {
+    --xx-primary:         #2D7A66;
+    --xx-primary-light:   #429078;
+    --xx-primary-dark:    #1F5C4D;
+    --xx-primary-soft:    rgba(45, 122, 102, 0.14);
+    --xx-secondary:       #E2BB68;
+    --xx-secondary-light: #EECC82;
+    --xx-secondary-dark:  #BC9848;
+    --xx-cream:           #0F0F0E;
+    --xx-cream2:          #0A0A0A;
+    --xx-cream3:          #050505;
+    --xx-bg:              #000000;
+    --xx-text:            #F2EDE4;
+    --xx-text-soft:       #D5CFC4;
+    --xx-text-muted:      #D5C088;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.55);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.70);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.85);
+    --xx-gradient-primary: linear-gradient(135deg, #2D7A66 0%, #1F5C4D 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #E2BB68 0%, #BC9848 100%);
+  }
+}
+
+[data-vibe="art-deco-vintage"][data-mode="dark"],
+[data-vibe="art-deco-vintage"].force-dark {
+  --xx-primary:         #2D7A66;
+  --xx-primary-light:   #429078;
+  --xx-primary-dark:    #1F5C4D;
+  --xx-primary-soft:    rgba(45, 122, 102, 0.14);
+  --xx-secondary:       #E2BB68;
+  --xx-secondary-light: #EECC82;
+  --xx-secondary-dark:  #BC9848;
+  --xx-cream:           #0F0F0E;
+  --xx-cream2:          #0A0A0A;
+  --xx-cream3:          #050505;
+  --xx-bg:              #000000;
+  --xx-text:            #F2EDE4;
+  --xx-text-soft:       #D5CFC4;
+  --xx-text-muted:      #D5C088;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.55);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.70);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.85);
+  --xx-gradient-primary: linear-gradient(135deg, #2D7A66 0%, #1F5C4D 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #E2BB68 0%, #BC9848 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   14. ECO GLAMPING
+   Eco glamping, off-grid
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="eco-glamping"],
+[data-vibe="eco-glamping"] {
+  --xx-primary:         #5C4A35;
+  --xx-primary-light:   #7A6448;
+  --xx-primary-dark:    #3F3324;
+  --xx-primary-soft:    rgba(92, 74, 53, 0.08);
+  --xx-secondary:       #7A8C4E;
+  --xx-secondary-light: #94A468;
+  --xx-secondary-dark:  #5F6E3A;
+  --xx-cream:           #EFE8D8;
+  --xx-cream2:          #E6DDC9;
+  --xx-cream3:          #DAD0B8;
+  --xx-bg:              #FBF5E5;
+  --xx-text:            #2A2418;
+  --xx-text-soft:       #483F2A;
+  --xx-text-muted:      #6B5F4F;
+  --xx-shadow-sm:       0 2px 8px rgba(42, 36, 24, 0.07);
+  --xx-shadow-md:       0 4px 30px rgba(42, 36, 24, 0.09);
+  --xx-shadow-lg:       0 12px 40px rgba(42, 36, 24, 0.13);
+  --xx-gradient-primary: linear-gradient(135deg, #5C4A35 0%, #3F3324 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #7A8C4E 0%, #5F6E3A 100%);
+  --xx-radius:          12px;
+  --xx-radius-lg:       20px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="eco-glamping"]:not([data-mode="light"]) {
+    --xx-primary:         #7A6448;
+    --xx-primary-light:   #927C5E;
+    --xx-primary-dark:    #5F4C36;
+    --xx-primary-soft:    rgba(122, 100, 72, 0.14);
+    --xx-secondary:       #94A468;
+    --xx-secondary-light: #A8B880;
+    --xx-secondary-dark:  #758550;
+    --xx-cream:           #1A1814;
+    --xx-cream2:          #151310;
+    --xx-cream3:          #100F0C;
+    --xx-bg:              #0E0C08;
+    --xx-text:            #EFE8D8;
+    --xx-text-soft:       #D5CFBE;
+    --xx-text-muted:      #A8A088;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.34);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.46);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.60);
+    --xx-gradient-primary: linear-gradient(135deg, #7A6448 0%, #5F4C36 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #94A468 0%, #758550 100%);
+  }
+}
+
+[data-vibe="eco-glamping"][data-mode="dark"],
+[data-vibe="eco-glamping"].force-dark {
+  --xx-primary:         #7A6448;
+  --xx-primary-light:   #927C5E;
+  --xx-primary-dark:    #5F4C36;
+  --xx-primary-soft:    rgba(122, 100, 72, 0.14);
+  --xx-secondary:       #94A468;
+  --xx-secondary-light: #A8B880;
+  --xx-secondary-dark:  #758550;
+  --xx-cream:           #1A1814;
+  --xx-cream2:          #151310;
+  --xx-cream3:          #100F0C;
+  --xx-bg:              #0E0C08;
+  --xx-text:            #EFE8D8;
+  --xx-text-soft:       #D5CFBE;
+  --xx-text-muted:      #A8A088;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.34);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.46);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.60);
+  --xx-gradient-primary: linear-gradient(135deg, #7A6448 0%, #5F4C36 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #94A468 0%, #758550 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   15. BUSINESS CORPORATE
+   Apartament biznes, exec suite
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="business-corporate"],
+[data-vibe="business-corporate"] {
+  --xx-primary:         #1A2A3A;
+  --xx-primary-light:   #2D4258;
+  --xx-primary-dark:    #0F1A28;
+  --xx-primary-soft:    rgba(26, 42, 58, 0.08);
+  --xx-secondary:       #5A6A7A;
+  --xx-secondary-light: #788494;
+  --xx-secondary-dark:  #44525E;
+  --xx-cream:           #F5F5F8;
+  --xx-cream2:          #ECECF0;
+  --xx-cream3:          #E0E0E5;
+  --xx-bg:              #FFFFFF;
+  --xx-text:            #0A0A0A;
+  --xx-text-soft:       #2A2A2A;
+  --xx-text-muted:      #6B6B6B;
+  --xx-shadow-sm:       0 2px 8px rgba(10, 10, 10, 0.05);
+  --xx-shadow-md:       0 4px 30px rgba(10, 10, 10, 0.07);
+  --xx-shadow-lg:       0 12px 40px rgba(10, 10, 10, 0.10);
+  --xx-gradient-primary: linear-gradient(135deg, #1A2A3A 0%, #0F1A28 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #5A6A7A 0%, #44525E 100%);
+  --xx-radius:          4px;
+  --xx-radius-lg:       6px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="business-corporate"]:not([data-mode="light"]) {
+    --xx-primary:         #2D4258;
+    --xx-primary-light:   #425870;
+    --xx-primary-dark:    #1F3142;
+    --xx-primary-soft:    rgba(45, 66, 88, 0.14);
+    --xx-secondary:       #788494;
+    --xx-secondary-light: #909CAC;
+    --xx-secondary-dark:  #5C6878;
+    --xx-cream:           #1A1A1F;
+    --xx-cream2:          #15151A;
+    --xx-cream3:          #101015;
+    --xx-bg:              #0A0A0F;
+    --xx-text:            #F5F5F8;
+    --xx-text-soft:       #DCDCE0;
+    --xx-text-muted:      #A8A8B8;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+    --xx-gradient-primary: linear-gradient(135deg, #2D4258 0%, #1F3142 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #788494 0%, #5C6878 100%);
+  }
+}
+
+[data-vibe="business-corporate"][data-mode="dark"],
+[data-vibe="business-corporate"].force-dark {
+  --xx-primary:         #2D4258;
+  --xx-primary-light:   #425870;
+  --xx-primary-dark:    #1F3142;
+  --xx-primary-soft:    rgba(45, 66, 88, 0.14);
+  --xx-secondary:       #788494;
+  --xx-secondary-light: #909CAC;
+  --xx-secondary-dark:  #5C6878;
+  --xx-cream:           #1A1A1F;
+  --xx-cream2:          #15151A;
+  --xx-cream3:          #101015;
+  --xx-bg:              #0A0A0F;
+  --xx-text:            #F5F5F8;
+  --xx-text-soft:       #DCDCE0;
+  --xx-text-muted:      #A8A8B8;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+  --xx-gradient-primary: linear-gradient(135deg, #2D4258 0%, #1F3142 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #788494 0%, #5C6878 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   16. WINTER ALPINE
+   Schronisko narty (Karpacz/Zakopane)
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="winter-alpine"],
+[data-vibe="winter-alpine"] {
+  --xx-primary:         #1A3A5C;
+  --xx-primary-light:   #2D5478;
+  --xx-primary-dark:    #0F2842;
+  --xx-primary-soft:    rgba(26, 58, 92, 0.08);
+  --xx-secondary:       #E8A547;
+  --xx-secondary-light: #F2BB68;
+  --xx-secondary-dark:  #C88828;
+  --xx-cream:           #F0F4F8;
+  --xx-cream2:          #E5EBF0;
+  --xx-cream3:          #D8E0E8;
+  --xx-bg:              #FBFCFE;
+  --xx-text:            #1A2434;
+  --xx-text-soft:       #384458;
+  --xx-text-muted:      #5A6A7A;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 36, 52, 0.06);
+  --xx-shadow-md:       0 4px 30px rgba(26, 36, 52, 0.08);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 36, 52, 0.12);
+  --xx-gradient-primary: linear-gradient(135deg, #1A3A5C 0%, #0F2842 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #E8A547 0%, #C88828 100%);
+  --xx-radius:          6px;
+  --xx-radius-lg:       12px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="winter-alpine"]:not([data-mode="light"]) {
+    --xx-primary:         #2D5478;
+    --xx-primary-light:   #426E94;
+    --xx-primary-dark:    #1F4264;
+    --xx-primary-soft:    rgba(45, 84, 120, 0.14);
+    --xx-secondary:       #F2BB68;
+    --xx-secondary-light: #F8CC82;
+    --xx-secondary-dark:  #C89848;
+    --xx-cream:           #1A2434;
+    --xx-cream2:          #161E2C;
+    --xx-cream3:          #121824;
+    --xx-bg:              #0E1824;
+    --xx-text:            #F0F4F8;
+    --xx-text-soft:       #D5DCE0;
+    --xx-text-muted:      #A8B0BC;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+    --xx-gradient-primary: linear-gradient(135deg, #2D5478 0%, #1F4264 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #F2BB68 0%, #C89848 100%);
+  }
+}
+
+[data-vibe="winter-alpine"][data-mode="dark"],
+[data-vibe="winter-alpine"].force-dark {
+  --xx-primary:         #2D5478;
+  --xx-primary-light:   #426E94;
+  --xx-primary-dark:    #1F4264;
+  --xx-primary-soft:    rgba(45, 84, 120, 0.14);
+  --xx-secondary:       #F2BB68;
+  --xx-secondary-light: #F8CC82;
+  --xx-secondary-dark:  #C89848;
+  --xx-cream:           #1A2434;
+  --xx-cream2:          #161E2C;
+  --xx-cream3:          #121824;
+  --xx-bg:              #0E1824;
+  --xx-text:            #F0F4F8;
+  --xx-text-soft:       #D5DCE0;
+  --xx-text-muted:      #A8B0BC;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.42);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+  --xx-gradient-primary: linear-gradient(135deg, #2D5478 0%, #1F4264 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #F2BB68 0%, #C89848 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   17. ASIAN ZEN
+   Minimalistyczny styl japoński
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="asian-zen"],
+[data-vibe="asian-zen"] {
+  --xx-primary:         #2A4A35;
+  --xx-primary-light:   #3F6248;
+  --xx-primary-dark:    #1A3325;
+  --xx-primary-soft:    rgba(42, 74, 53, 0.08);
+  --xx-secondary:       #1A1A1A;
+  --xx-secondary-light: #3A3A3A;
+  --xx-secondary-dark:  #0A0A0A;
+  --xx-cream:           #F8F5EE;
+  --xx-cream2:          #EFECE3;
+  --xx-cream3:          #E4E0D5;
+  --xx-bg:              #FDFBF5;
+  --xx-text:            #1A1A1A;
+  --xx-text-soft:       #3A3A3A;
+  --xx-text-muted:      #7A7A7A;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 26, 26, 0.04);
+  --xx-shadow-md:       0 4px 30px rgba(26, 26, 26, 0.06);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 26, 26, 0.09);
+  --xx-gradient-primary: linear-gradient(135deg, #2A4A35 0%, #1A3325 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+  --xx-radius:          2px;
+  --xx-radius-lg:       4px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="asian-zen"]:not([data-mode="light"]) {
+    --xx-primary:         #3F6248;
+    --xx-primary-light:   #547858;
+    --xx-primary-dark:    #2F4A30;
+    --xx-primary-soft:    rgba(63, 98, 72, 0.14);
+    --xx-secondary:       #F2F2F2;
+    --xx-secondary-light: #FFFFFF;
+    --xx-secondary-dark:  #D8D8D8;
+    --xx-cream:           #1A1A18;
+    --xx-cream2:          #161614;
+    --xx-cream3:          #121210;
+    --xx-bg:              #0F0F0E;
+    --xx-text:            #F8F5EE;
+    --xx-text-soft:       #DCD8D0;
+    --xx-text-muted:      #A8A8A0;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.28);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #3F6248 0%, #2F4A30 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #F2F2F2 0%, #D8D8D8 100%);
+  }
+}
+
+[data-vibe="asian-zen"][data-mode="dark"],
+[data-vibe="asian-zen"].force-dark {
+  --xx-primary:         #3F6248;
+  --xx-primary-light:   #547858;
+  --xx-primary-dark:    #2F4A30;
+  --xx-primary-soft:    rgba(63, 98, 72, 0.14);
+  --xx-secondary:       #F2F2F2;
+  --xx-secondary-light: #FFFFFF;
+  --xx-secondary-dark:  #D8D8D8;
+  --xx-cream:           #1A1A18;
+  --xx-cream2:          #161614;
+  --xx-cream3:          #121210;
+  --xx-bg:              #0F0F0E;
+  --xx-text:            #F8F5EE;
+  --xx-text-soft:       #DCD8D0;
+  --xx-text-muted:      #A8A8A0;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.28);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #3F6248 0%, #2F4A30 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #F2F2F2 0%, #D8D8D8 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   18. INDUSTRIAL LOFT
+   Loft w mieście (Łódź, Praga, Kraków)
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="industrial-loft"],
+[data-vibe="industrial-loft"] {
+  --xx-primary:         #A0432C;
+  --xx-primary-light:   #B85C44;
+  --xx-primary-dark:    #7A3220;
+  --xx-primary-soft:    rgba(160, 67, 44, 0.08);
+  --xx-secondary:       #3A3A3A;
+  --xx-secondary-light: #5A5A5A;
+  --xx-secondary-dark:  #1F1F1F;
+  --xx-cream:           #D8D5D0;
+  --xx-cream2:          #CCC8C2;
+  --xx-cream3:          #BEBAB3;
+  --xx-bg:              #F0EDE8;
+  --xx-text:            #1A1A1A;
+  --xx-text-soft:       #3A3A3A;
+  --xx-text-muted:      #5A5A5A;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 26, 26, 0.10);
+  --xx-shadow-md:       0 4px 30px rgba(26, 26, 26, 0.13);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 26, 26, 0.18);
+  --xx-gradient-primary: linear-gradient(135deg, #A0432C 0%, #7A3220 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #3A3A3A 0%, #1F1F1F 100%);
+  --xx-radius:          0px;
+  --xx-radius-lg:       4px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="industrial-loft"]:not([data-mode="light"]) {
+    --xx-primary:         #B85C44;
+    --xx-primary-light:   #CC745C;
+    --xx-primary-dark:    #984832;
+    --xx-primary-soft:    rgba(184, 92, 68, 0.14);
+    --xx-secondary:       #7A7A7A;
+    --xx-secondary-light: #929292;
+    --xx-secondary-dark:  #5C5C5C;
+    --xx-cream:           #1A1A18;
+    --xx-cream2:          #161614;
+    --xx-cream3:          #121210;
+    --xx-bg:              #0F0F0E;
+    --xx-text:            #F0EDE8;
+    --xx-text-soft:       #D5D2CD;
+    --xx-text-muted:      #A8A8A0;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.38);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.50);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.65);
+    --xx-gradient-primary: linear-gradient(135deg, #B85C44 0%, #984832 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #7A7A7A 0%, #5C5C5C 100%);
+  }
+}
+
+[data-vibe="industrial-loft"][data-mode="dark"],
+[data-vibe="industrial-loft"].force-dark {
+  --xx-primary:         #B85C44;
+  --xx-primary-light:   #CC745C;
+  --xx-primary-dark:    #984832;
+  --xx-primary-soft:    rgba(184, 92, 68, 0.14);
+  --xx-secondary:       #7A7A7A;
+  --xx-secondary-light: #929292;
+  --xx-secondary-dark:  #5C5C5C;
+  --xx-cream:           #1A1A18;
+  --xx-cream2:          #161614;
+  --xx-cream3:          #121210;
+  --xx-bg:              #0F0F0E;
+  --xx-text:            #F0EDE8;
+  --xx-text-soft:       #D5D2CD;
+  --xx-text-muted:      #A8A8A0;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.38);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.50);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.65);
+  --xx-gradient-primary: linear-gradient(135deg, #B85C44 0%, #984832 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #7A7A7A 0%, #5C5C5C 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   19. GARDEN COTTAGE
+   Dom letniskowy, cottagecore
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="garden-cottage"],
+[data-vibe="garden-cottage"] {
+  --xx-primary:         #7A8A6E;
+  --xx-primary-light:   #94A488;
+  --xx-primary-dark:    #5F6E55;
+  --xx-primary-soft:    rgba(122, 138, 110, 0.08);
+  --xx-secondary:       #D4A5A5;
+  --xx-secondary-light: #E2BBBB;
+  --xx-secondary-dark:  #B88888;
+  --xx-cream:           #F8F4EC;
+  --xx-cream2:          #EFEBE0;
+  --xx-cream3:          #E4DFD0;
+  --xx-bg:              #FDFBF5;
+  --xx-text:            #2A2A24;
+  --xx-text-soft:       #484840;
+  --xx-text-muted:      #6B6B5F;
+  --xx-shadow-sm:       0 2px 8px rgba(42, 42, 36, 0.05);
+  --xx-shadow-md:       0 4px 30px rgba(42, 42, 36, 0.07);
+  --xx-shadow-lg:       0 12px 40px rgba(42, 42, 36, 0.10);
+  --xx-gradient-primary: linear-gradient(135deg, #7A8A6E 0%, #5F6E55 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #D4A5A5 0%, #B88888 100%);
+  --xx-radius:          14px;
+  --xx-radius-lg:       24px;
+  --xx-ease:            cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="garden-cottage"]:not([data-mode="light"]) {
+    --xx-primary:         #94A488;
+    --xx-primary-light:   #ACBA9F;
+    --xx-primary-dark:    #758070;
+    --xx-primary-soft:    rgba(148, 164, 136, 0.14);
+    --xx-secondary:       #E2BBBB;
+    --xx-secondary-light: #ECCFCF;
+    --xx-secondary-dark:  #C49B9B;
+    --xx-cream:           #1A1A18;
+    --xx-cream2:          #161614;
+    --xx-cream3:          #121210;
+    --xx-bg:              #0F0F0E;
+    --xx-text:            #F8F4EC;
+    --xx-text-soft:       #DCD8D0;
+    --xx-text-muted:      #A8A89A;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+    --xx-gradient-primary: linear-gradient(135deg, #94A488 0%, #758070 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #E2BBBB 0%, #C49B9B 100%);
+  }
+}
+
+[data-vibe="garden-cottage"][data-mode="dark"],
+[data-vibe="garden-cottage"].force-dark {
+  --xx-primary:         #94A488;
+  --xx-primary-light:   #ACBA9F;
+  --xx-primary-dark:    #758070;
+  --xx-primary-soft:    rgba(148, 164, 136, 0.14);
+  --xx-secondary:       #E2BBBB;
+  --xx-secondary-light: #ECCFCF;
+  --xx-secondary-dark:  #C49B9B;
+  --xx-cream:           #1A1A18;
+  --xx-cream2:          #161614;
+  --xx-cream3:          #121210;
+  --xx-bg:              #0F0F0E;
+  --xx-text:            #F8F4EC;
+  --xx-text-soft:       #DCD8D0;
+  --xx-text-muted:      #A8A89A;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.40);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.55);
+  --xx-gradient-primary: linear-gradient(135deg, #94A488 0%, #758070 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #E2BBBB 0%, #C49B9B 100%);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   20. TROPICAL RESORT
+   Nadmorski tropikalny (Egipt, Cypr)
+   ────────────────────────────────────────────────────────── */
+:root[data-vibe="tropical-resort"],
+[data-vibe="tropical-resort"] {
+  --xx-primary:         #2D5C3D;
+  --xx-primary-light:   #3F7852;
+  --xx-primary-dark:    #1E422A;
+  --xx-primary-soft:    rgba(45, 92, 61, 0.08);
+  --xx-secondary:       #E07A2C;
+  --xx-secondary-light: #EE9248;
+  --xx-secondary-dark:  #B85F1F;
+  --xx-cream:           #F5EDD8;
+  --xx-cream2:          #ECE2C9;
+  --xx-cream3:          #DFD4B6;
+  --xx-bg:              #FBF5E5;
+  --xx-text:            #1A2A1A;
+  --xx-text-soft:       #384838;
+  --xx-text-muted:      #5A6A5A;
+  --xx-shadow-sm:       0 2px 8px rgba(26, 42, 26, 0.07);
+  --xx-shadow-md:       0 4px 30px rgba(26, 42, 26, 0.09);
+  --xx-shadow-lg:       0 12px 40px rgba(26, 42, 26, 0.13);
+  --xx-gradient-primary: linear-gradient(135deg, #2D5C3D 0%, #1E422A 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #E07A2C 0%, #B85F1F 100%);
+  --xx-radius:          14px;
+  --xx-radius-lg:       22px;
+  --xx-ease:            cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-vibe="tropical-resort"]:not([data-mode="light"]) {
+    --xx-primary:         #3F7852;
+    --xx-primary-light:   #549068;
+    --xx-primary-dark:    #2F5C3F;
+    --xx-primary-soft:    rgba(63, 120, 82, 0.14);
+    --xx-secondary:       #EE9248;
+    --xx-secondary-light: #F4AA62;
+    --xx-secondary-dark:  #C87530;
+    --xx-cream:           #1A2418;
+    --xx-cream2:          #151E14;
+    --xx-cream3:          #111810;
+    --xx-bg:              #0E180E;
+    --xx-text:            #F5EDD8;
+    --xx-text-soft:       #DCD4BE;
+    --xx-text-muted:      #A8B098;
+    --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+    --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.44);
+    --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+    --xx-gradient-primary: linear-gradient(135deg, #3F7852 0%, #2F5C3F 100%);
+    --xx-gradient-accent:  linear-gradient(135deg, #EE9248 0%, #C87530 100%);
+  }
+}
+
+[data-vibe="tropical-resort"][data-mode="dark"],
+[data-vibe="tropical-resort"].force-dark {
+  --xx-primary:         #3F7852;
+  --xx-primary-light:   #549068;
+  --xx-primary-dark:    #2F5C3F;
+  --xx-primary-soft:    rgba(63, 120, 82, 0.14);
+  --xx-secondary:       #EE9248;
+  --xx-secondary-light: #F4AA62;
+  --xx-secondary-dark:  #C87530;
+  --xx-cream:           #1A2418;
+  --xx-cream2:          #151E14;
+  --xx-cream3:          #111810;
+  --xx-bg:              #0E180E;
+  --xx-text:            #F5EDD8;
+  --xx-text-soft:       #DCD4BE;
+  --xx-text-muted:      #A8B098;
+  --xx-shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.32);
+  --xx-shadow-md:       0 4px 30px rgba(0, 0, 0, 0.44);
+  --xx-shadow-lg:       0 12px 40px rgba(0, 0, 0, 0.58);
+  --xx-gradient-primary: linear-gradient(135deg, #3F7852 0%, #2F5C3F 100%);
+  --xx-gradient-accent:  linear-gradient(135deg, #EE9248 0%, #C87530 100%);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   END LAYER 5 — COLOR SYSTEMS
+   20 vibes x 3 selectors (main + auto-dark + manual-dark) = 60
+   ═══════════════════════════════════════════════════════════════ */

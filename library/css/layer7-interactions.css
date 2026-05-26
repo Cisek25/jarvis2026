@@ -1,0 +1,715 @@
+/* ═══════════════════════════════════════════════════════════════
+   LAYER 7 — INTERACTIONS
+   Hover effects (8), scroll reveals (5), modal animations (4),
+   loading states (3), form validation visuals (3).
+
+   Wszystkie używają --xx-ease (defined w layer5).
+   Respektują @media (prefers-reduced-motion: reduce).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── REDUCED MOTION GUARD (apply first) ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .xx-hover--scale,
+  .xx-hover--glow,
+  .xx-hover--lift,
+  .xx-hover--rotate-3d,
+  .xx-hover--slide-underline,
+  .xx-hover--color-shift,
+  .xx-hover--brightness-pop,
+  .xx-hover--border-grow,
+  .xx-reveal,
+  .xx-reveal--slide-left,
+  .xx-reveal--zoom,
+  .xx-reveal--stagger > *,
+  .xx-reveal--parallax,
+  .xx-skeleton,
+  .xx-spinner,
+  .xx-dot-loader > span,
+  .xx-modal--fade-in,
+  .xx-modal--slide-up,
+  .xx-modal--slide-right,
+  .xx-modal--scale-bounce {
+    transition: none !important;
+    animation: none !important;
+  }
+  .xx-reveal,
+  .xx-reveal--slide-left,
+  .xx-reveal--zoom,
+  .xx-reveal--parallax {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .xx-reveal--stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HOVER EFFECTS (8 variants)
+   Wszystkie wykorzystują GPU-accelerated transforms i opacity.
+   Dodawaj klasy do dowolnego elementu, np. .xx-card.xx-hover--lift.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. SCALE ───────────────────────────────────────────────── */
+.xx-hover--scale {
+  transition: transform 0.3s var(--xx-ease);
+  will-change: transform;
+  transform-origin: center center;
+  cursor: pointer;
+}
+.xx-hover--scale:hover,
+.xx-hover--scale:focus-visible {
+  transform: scale(1.03);
+}
+.xx-hover--scale:active {
+  transform: scale(0.98);
+}
+
+/* ── 2. GLOW ────────────────────────────────────────────────── */
+.xx-hover--glow {
+  transition: box-shadow 0.3s var(--xx-ease),
+              transform 0.3s var(--xx-ease);
+  will-change: box-shadow;
+  cursor: pointer;
+}
+.xx-hover--glow:hover,
+.xx-hover--glow:focus-visible {
+  box-shadow: 0 12px 40px var(--xx-primary-soft),
+              0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.xx-hover--glow:active {
+  box-shadow: 0 4px 16px var(--xx-primary-soft);
+}
+
+/* ── 3. SLIDE UNDERLINE ─────────────────────────────────────── */
+.xx-hover--slide-underline {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+}
+.xx-hover--slide-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--xx-primary);
+  transition: width 0.3s var(--xx-ease);
+  pointer-events: none;
+}
+.xx-hover--slide-underline:hover::after,
+.xx-hover--slide-underline:focus-visible::after {
+  width: 100%;
+}
+
+/* ── 4. LIFT ────────────────────────────────────────────────── */
+.xx-hover--lift {
+  transition: transform 0.3s var(--xx-ease),
+              box-shadow 0.3s var(--xx-ease);
+  will-change: transform, box-shadow;
+  cursor: pointer;
+}
+.xx-hover--lift:hover,
+.xx-hover--lift:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12),
+              0 6px 16px rgba(0, 0, 0, 0.06);
+}
+.xx-hover--lift:active {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ── 5. COLOR SHIFT ─────────────────────────────────────────── */
+.xx-hover--color-shift {
+  transition: color 0.3s var(--xx-ease),
+              background-color 0.3s var(--xx-ease),
+              border-color 0.3s var(--xx-ease);
+  cursor: pointer;
+  background-color: var(--xx-cream);
+  color: var(--xx-text);
+}
+.xx-hover--color-shift:hover,
+.xx-hover--color-shift:focus-visible {
+  background-color: var(--xx-primary);
+  color: var(--xx-cream);
+  border-color: var(--xx-primary);
+}
+.xx-hover--color-shift:active {
+  background-color: var(--xx-primary-dark, var(--xx-primary));
+}
+
+/* ── 6. ROTATE 3D ───────────────────────────────────────────── */
+.xx-hover--rotate-3d {
+  transition: transform 0.5s var(--xx-ease),
+              box-shadow 0.5s var(--xx-ease);
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: pointer;
+}
+.xx-hover--rotate-3d:hover,
+.xx-hover--rotate-3d:focus-visible {
+  transform: perspective(800px) rotateY(5deg) rotateX(2deg);
+  box-shadow: -12px 16px 32px rgba(0, 0, 0, 0.12);
+}
+.xx-hover--rotate-3d:active {
+  transform: perspective(800px) rotateY(2deg) rotateX(1deg);
+}
+
+/* ── 7. BRIGHTNESS POP ──────────────────────────────────────── */
+.xx-hover--brightness-pop {
+  transition: filter 0.3s var(--xx-ease),
+              transform 0.3s var(--xx-ease);
+  will-change: filter;
+  cursor: pointer;
+}
+.xx-hover--brightness-pop:hover,
+.xx-hover--brightness-pop:focus-visible {
+  filter: brightness(1.1) saturate(1.2);
+}
+.xx-hover--brightness-pop:active {
+  filter: brightness(0.98) saturate(1.1);
+}
+
+/* ── 8. BORDER GROW (center-out) ────────────────────────────── */
+.xx-hover--border-grow {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding-bottom: 4px;
+}
+.xx-hover--border-grow::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--xx-primary);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s var(--xx-ease);
+  pointer-events: none;
+}
+.xx-hover--border-grow:hover::after,
+.xx-hover--border-grow:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL REVEAL (5 variants)
+   Base state: hidden; add .xx-in via IntersectionObserver in JS.
+   Wszystkie używają opacity + transform (GPU-friendly).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. BASE REVEAL (fade + slide up) ───────────────────────── */
+.xx-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--xx-ease),
+              transform 0.6s var(--xx-ease);
+  will-change: opacity, transform;
+}
+.xx-reveal.xx-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 2. SLIDE LEFT ──────────────────────────────────────────── */
+.xx-reveal--slide-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.6s var(--xx-ease),
+              transform 0.6s var(--xx-ease);
+  will-change: opacity, transform;
+}
+.xx-reveal--slide-left.xx-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── 3. ZOOM ────────────────────────────────────────────────── */
+.xx-reveal--zoom {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.6s var(--xx-ease),
+              transform 0.6s var(--xx-ease);
+  will-change: opacity, transform;
+}
+.xx-reveal--zoom.xx-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── 4. STAGGER (parent class — children animate one by one) ── */
+.xx-reveal--stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s var(--xx-ease),
+              transform 0.5s var(--xx-ease);
+  will-change: opacity, transform;
+}
+.xx-reveal--stagger.xx-in > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* JS sets transition-delay per child (data-stagger-index attr) */
+.xx-reveal--stagger.xx-in > *:nth-child(1) { transition-delay: 0s; }
+.xx-reveal--stagger.xx-in > *:nth-child(2) { transition-delay: 0.08s; }
+.xx-reveal--stagger.xx-in > *:nth-child(3) { transition-delay: 0.16s; }
+.xx-reveal--stagger.xx-in > *:nth-child(4) { transition-delay: 0.24s; }
+.xx-reveal--stagger.xx-in > *:nth-child(5) { transition-delay: 0.32s; }
+.xx-reveal--stagger.xx-in > *:nth-child(6) { transition-delay: 0.40s; }
+.xx-reveal--stagger.xx-in > *:nth-child(7) { transition-delay: 0.48s; }
+.xx-reveal--stagger.xx-in > *:nth-child(8) { transition-delay: 0.56s; }
+
+/* ── 5. PARALLAX (longer distance, slower) ──────────────────── */
+.xx-reveal--parallax {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.9s var(--xx-ease),
+              transform 0.9s var(--xx-ease);
+  will-change: opacity, transform;
+}
+.xx-reveal--parallax.xx-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MODAL ANIMATIONS (4 keyframes + 4 classes + overlay)
+   Stosuj klasę .xx-active na modalu by uruchomić animację wejścia.
+   Overlay (.xx-modal__overlay) zawsze fade-in.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── OVERLAY (background dimmer) ────────────────────────────── */
+.xx-modal__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  animation: xx-overlay-fade 0.3s var(--xx-ease) forwards;
+  z-index: 1000;
+}
+.xx-modal__overlay.xx-closing {
+  animation: xx-overlay-fade-out 0.25s var(--xx-ease) forwards;
+}
+@keyframes xx-overlay-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes xx-overlay-fade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ── MODAL BASE (positioning) ───────────────────────────────── */
+.xx-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--xx-cream);
+  color: var(--xx-text);
+  border-radius: 12px;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.24);
+  z-index: 1001;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  opacity: 0;
+}
+
+/* ── 1. FADE IN ─────────────────────────────────────────────── */
+@keyframes xx-modal-fade-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.xx-modal--fade-in.xx-active {
+  animation: xx-modal-fade-in 0.3s var(--xx-ease) forwards;
+}
+
+/* ── 2. SLIDE UP ────────────────────────────────────────────── */
+@keyframes xx-modal-slide-up {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 40px)); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+.xx-modal--slide-up.xx-active {
+  animation: xx-modal-slide-up 0.35s var(--xx-ease) forwards;
+}
+
+/* ── 3. SLIDE RIGHT (drawer style) ──────────────────────────── */
+@keyframes xx-modal-slide-right {
+  from { opacity: 0; transform: translate(100%, -50%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+.xx-modal--slide-right.xx-active {
+  animation: xx-modal-slide-right 0.4s var(--xx-ease) forwards;
+}
+/* Drawer variant: anchored to right edge */
+.xx-modal--drawer.xx-modal--slide-right {
+  top: 0;
+  left: auto;
+  right: 0;
+  transform: translateX(100%);
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 0;
+  width: min(420px, 90vw);
+}
+.xx-modal--drawer.xx-modal--slide-right.xx-active {
+  animation: xx-drawer-slide-right 0.4s var(--xx-ease) forwards;
+}
+@keyframes xx-drawer-slide-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── 4. SCALE BOUNCE ────────────────────────────────────────── */
+@keyframes xx-modal-scale-bounce {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.xx-modal--scale-bounce.xx-active {
+  animation: xx-modal-scale-bounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ── MODAL CLOSE (exit animation) ───────────────────────────── */
+.xx-modal.xx-closing {
+  animation: xx-modal-close 0.25s var(--xx-ease) forwards !important;
+}
+@keyframes xx-modal-close {
+  from { opacity: 1; }
+  to   { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LOADING STATES (3 patterns)
+   Skeleton (placeholder), Spinner (circular), Dot loader (bouncing).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. SKELETON ────────────────────────────────────────────── */
+.xx-skeleton {
+  display: block;
+  background-color: var(--xx-cream);
+  border-radius: 6px;
+  animation: xx-skeleton-pulse 1.5s var(--xx-ease) infinite;
+  pointer-events: none;
+  user-select: none;
+  color: transparent;
+}
+@keyframes xx-skeleton-pulse {
+  0%, 100% { background-color: var(--xx-cream); }
+  50%      { background-color: var(--xx-cream3, #e8e2d8); }
+}
+.xx-skeleton--text {
+  height: 1em;
+  width: 100%;
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+}
+.xx-skeleton--text:last-child {
+  width: 70%;
+  margin-bottom: 0;
+}
+.xx-skeleton--title {
+  height: 1.4em;
+  width: 60%;
+  margin-bottom: 0.75em;
+  border-radius: 4px;
+}
+.xx-skeleton--circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+.xx-skeleton--image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+}
+.xx-skeleton--button {
+  width: 120px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+/* ── 2. SPINNER ─────────────────────────────────────────────── */
+.xx-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--xx-cream3, #e8e2d8);
+  border-top-color: var(--xx-primary);
+  border-radius: 50%;
+  animation: xx-spinner 0.8s linear infinite;
+  vertical-align: middle;
+}
+@keyframes xx-spinner {
+  to { transform: rotate(360deg); }
+}
+.xx-spinner--sm {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+.xx-spinner--lg {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+}
+.xx-spinner--cream {
+  border-color: rgba(255, 255, 255, 0.3);
+  border-top-color: var(--xx-cream);
+}
+
+/* ── 3. DOT LOADER ──────────────────────────────────────────── */
+.xx-dot-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1;
+}
+.xx-dot-loader > span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--xx-primary);
+  animation: xx-dot-bounce 1.4s var(--xx-ease) infinite both;
+  opacity: 0.5;
+}
+.xx-dot-loader > span:nth-child(1) { animation-delay: 0s; }
+.xx-dot-loader > span:nth-child(2) { animation-delay: 0.15s; }
+.xx-dot-loader > span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes xx-dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.xx-dot-loader--lg > span {
+  width: 12px;
+  height: 12px;
+}
+.xx-dot-loader--cream > span {
+  background: var(--xx-cream);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FORM VALIDATION VISUALS (3)
+   Klasy aplikowane przez JS na podstawie state walidacji.
+   Zielone/czerwone explicit (nie zmieniają się per klient).
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. INPUT VALID (green checkmark) ───────────────────────── */
+.xx-input--valid {
+  border-color: #2ECC71 !important;
+  padding-right: 36px !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%232ECC71' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='3 8 7 12 13 4'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 16px 16px !important;
+  transition: border-color 0.2s var(--xx-ease);
+}
+
+/* ── 2. INPUT ERROR (red x mark) ────────────────────────────── */
+.xx-input--error {
+  border-color: #E74C3C !important;
+  padding-right: 36px !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23E74C3C' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><line x1='4' y1='4' x2='12' y2='12'/><line x1='12' y1='4' x2='4' y2='12'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 10px center !important;
+  background-size: 16px 16px !important;
+  transition: border-color 0.2s var(--xx-ease);
+}
+
+/* ── 3. ERROR MESSAGE (below input) ─────────────────────────── */
+.xx-input-error-msg {
+  color: #E74C3C;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.xx-input-error-msg::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none' stroke='%23E74C3C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='7' cy='7' r='6'/><line x1='7' y1='4' x2='7' y2='8'/><line x1='7' y1='10' x2='7' y2='10'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* ── SHAKE ANIMATION (invalid submit) ───────────────────────── */
+@keyframes xx-input-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+.xx-input--shake {
+  animation: xx-input-shake 0.3s var(--xx-ease);
+}
+
+/* ── FOCUS RING (valid/error states) ────────────────────────── */
+.xx-input--valid:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+}
+.xx-input--error:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COMBINATION UTILITIES
+   Klasy łączące kilka efektów (np. card z lift + glow).
+   Dodawaj do karty/buttonu by jednym slug-em włączyć kompozyt.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── CARD INTERACTION (lift + glow) ─────────────────────────── */
+.xx-hover--card {
+  transition: transform 0.3s var(--xx-ease),
+              box-shadow 0.3s var(--xx-ease);
+  will-change: transform, box-shadow;
+  cursor: pointer;
+}
+.xx-hover--card:hover,
+.xx-hover--card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12),
+              0 0 24px var(--xx-primary-soft);
+}
+.xx-hover--card:active {
+  transform: translateY(-1px);
+}
+
+/* ── IMAGE ZOOM (within fixed-size container) ───────────────── */
+.xx-hover--image-zoom {
+  overflow: hidden;
+  position: relative;
+}
+.xx-hover--image-zoom img,
+.xx-hover--image-zoom > picture > img {
+  transition: transform 0.5s var(--xx-ease);
+  will-change: transform;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.xx-hover--image-zoom:hover img,
+.xx-hover--image-zoom:focus-visible img,
+.xx-hover--image-zoom:hover > picture > img,
+.xx-hover--image-zoom:focus-visible > picture > img {
+  transform: scale(1.06);
+}
+
+/* ── OVERLAY REVEAL (caption on hover) ──────────────────────── */
+.xx-hover--overlay {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.xx-hover--overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+              rgba(0, 0, 0, 0.6) 0%,
+              rgba(0, 0, 0, 0) 60%);
+  opacity: 0;
+  transition: opacity 0.3s var(--xx-ease);
+  pointer-events: none;
+  z-index: 1;
+}
+.xx-hover--overlay:hover::before,
+.xx-hover--overlay:focus-visible::before {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DURATION + DELAY UTILITIES
+   Dodaj klasę by precyzyjnie sterować czasem animacji/transition.
+   Działa z .xx-reveal*, .xx-hover--*, .xx-modal--*.
+   ═══════════════════════════════════════════════════════════════ */
+
+.xx-dur-150 { transition-duration: 0.15s !important; animation-duration: 0.15s !important; }
+.xx-dur-200 { transition-duration: 0.2s  !important; animation-duration: 0.2s  !important; }
+.xx-dur-300 { transition-duration: 0.3s  !important; animation-duration: 0.3s  !important; }
+.xx-dur-500 { transition-duration: 0.5s  !important; animation-duration: 0.5s  !important; }
+.xx-dur-700 { transition-duration: 0.7s  !important; animation-duration: 0.7s  !important; }
+.xx-dur-1000 { transition-duration: 1s   !important; animation-duration: 1s   !important; }
+
+.xx-delay-0   { transition-delay: 0s     !important; animation-delay: 0s     !important; }
+.xx-delay-100 { transition-delay: 0.1s   !important; animation-delay: 0.1s   !important; }
+.xx-delay-200 { transition-delay: 0.2s   !important; animation-delay: 0.2s   !important; }
+.xx-delay-300 { transition-delay: 0.3s   !important; animation-delay: 0.3s   !important; }
+.xx-delay-500 { transition-delay: 0.5s   !important; animation-delay: 0.5s   !important; }
+.xx-delay-700 { transition-delay: 0.7s   !important; animation-delay: 0.7s   !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   CURSOR + STATE HELPERS
+   ═══════════════════════════════════════════════════════════════ */
+
+.xx-cursor-pointer { cursor: pointer; }
+.xx-cursor-help    { cursor: help; }
+.xx-cursor-grab    { cursor: grab; }
+.xx-cursor-grab:active { cursor: grabbing; }
+.xx-cursor-not-allowed { cursor: not-allowed; }
+
+.xx-state-loading {
+  pointer-events: none;
+  opacity: 0.6;
+  position: relative;
+}
+.xx-state-loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+
+.xx-state-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  filter: grayscale(0.4);
+  cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PRINT MEDIA — disable all interactions/animations
+   ═══════════════════════════════════════════════════════════════ */
+@media print {
+  .xx-skeleton,
+  .xx-spinner,
+  .xx-dot-loader,
+  .xx-modal__overlay,
+  .xx-modal {
+    display: none !important;
+  }
+  .xx-reveal,
+  .xx-reveal--slide-left,
+  .xx-reveal--zoom,
+  .xx-reveal--stagger > *,
+  .xx-reveal--parallax {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   END LAYER 7 — INTERACTIONS
+   ═══════════════════════════════════════════════════════════════ */

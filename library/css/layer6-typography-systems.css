@@ -1,0 +1,1908 @@
+/* ═══════════════════════════════════════════════════════════════
+   LAYER 6 — TYPOGRAPHY SYSTEMS (20 vibes x font pairs)
+   Per-vibe font definitions + type scale + Google Fonts @imports.
+   Aktywacja: [data-vibe="X"].
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Google Fonts @imports — wszystkie pary fontów (one per unique URL).
+   NOTE: w gotowym build per klient @import jest ZAWSZE wyciągnięty do HEAD,
+   nie do <style>. To jest tylko library skeleton. */
+
+/* luxury-heritage — Playfair Display + DM Sans */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
+/* modern-minimal — Manrope + Inter */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+/* rustic-warm — Cormorant Garamond + Lato */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Lato:wght@400;600;700&display=swap');
+/* modern-coastal — Quicksand + Open Sans */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+/* urban-bold — Bebas Neue + Inter */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+/* wellness-calm — Source Serif Pro + Source Sans Pro */
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;500;600&family=Source+Sans+Pro:wght@400;500;600&display=swap');
+/* heritage-warm + eco-glamping — Lora + Source Sans Pro */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Source+Sans+Pro:wght@400;500;600&display=swap');
+/* family-friendly — Nunito + Quicksand */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap');
+/* boutique-romantic — Cormorant Garamond + Karla */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Karla:wght@400;500;600&display=swap');
+/* scandi-clean — Inter + Source Serif Pro */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+Pro:wght@400;500;600&display=swap');
+/* mountain-rugged — Roboto Slab + Inter */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+/* mediterranean-villa — Cormorant + Karla */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=Karla:wght@400;500;600&display=swap');
+/* art-deco-vintage — Bodoni Moda + Playfair Display */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap');
+/* business-corporate — IBM Plex Sans */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+/* winter-alpine — Roboto Slab + Lato */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700&family=Lato:wght@400;500;600&display=swap');
+/* asian-zen — Noto Serif JP + Noto Sans JP */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600&family=Noto+Sans+JP:wght@400;500&display=swap');
+/* industrial-loft — Oswald + Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+/* garden-cottage — Cormorant + Quicksand */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;500;600&family=Quicksand:wght@400;500;600&display=swap');
+/* tropical-resort — Poppins + Open Sans */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap');
+
+
+/* ──────────────────────────────────────────────────────────
+   1. LUXURY HERITAGE — Playfair Display + DM Sans
+   ────────────────────────────────────────────────────────── */
+[data-vibe="luxury-heritage"] {
+  --xx-font-heading: 'Playfair Display', Georgia, serif;
+  --xx-font-body:    'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Playfair Display', Georgia, serif;
+  --xx-letter-spacing-heading: -0.01em;
+  --xx-letter-spacing-caption: 1.5px;
+  --xx-line-height-tight: 1.1;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.8;
+}
+
+[data-vibe="luxury-heritage"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="luxury-heritage"] h1,
+[data-vibe="luxury-heritage"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="luxury-heritage"] h2,
+[data-vibe="luxury-heritage"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  margin: 0 0 0.6em;
+}
+[data-vibe="luxury-heritage"] h3,
+[data-vibe="luxury-heritage"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="luxury-heritage"] h4,
+[data-vibe="luxury-heritage"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="luxury-heritage"] p,
+[data-vibe="luxury-heritage"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="luxury-heritage"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+[data-vibe="luxury-heritage"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--xx-primary);
+}
+[data-vibe="luxury-heritage"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+}
+[data-vibe="luxury-heritage"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   2. MODERN MINIMAL — Manrope + Inter
+   ────────────────────────────────────────────────────────── */
+[data-vibe="modern-minimal"] {
+  --xx-font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-letter-spacing-heading: -0.02em;
+  --xx-letter-spacing-caption: 1.2px;
+  --xx-line-height-tight: 1.05;
+  --xx-line-height-base: 1.55;
+  --xx-line-height-loose: 1.7;
+}
+
+[data-vibe="modern-minimal"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="modern-minimal"] h1,
+[data-vibe="modern-minimal"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(44px, 6vw, 80px);
+  font-weight: 700;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="modern-minimal"] h2,
+[data-vibe="modern-minimal"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.6em;
+}
+[data-vibe="modern-minimal"] h3,
+[data-vibe="modern-minimal"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 0.6em;
+}
+[data-vibe="modern-minimal"] h4,
+[data-vibe="modern-minimal"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 0.7em;
+}
+[data-vibe="modern-minimal"] p,
+[data-vibe="modern-minimal"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="modern-minimal"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="modern-minimal"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="modern-minimal"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 700;
+}
+[data-vibe="modern-minimal"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.55;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   3. RUSTIC WARM — Cormorant Garamond + Lato
+   ────────────────────────────────────────────────────────── */
+[data-vibe="rustic-warm"] {
+  --xx-font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Cormorant Garamond', Georgia, serif;
+  --xx-letter-spacing-heading: -0.01em;
+  --xx-letter-spacing-caption: 1.8px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.65;
+  --xx-line-height-loose: 1.85;
+}
+
+[data-vibe="rustic-warm"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="rustic-warm"] h1,
+[data-vibe="rustic-warm"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(38px, 5.2vw, 68px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="rustic-warm"] h2,
+[data-vibe="rustic-warm"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="rustic-warm"] h3,
+[data-vibe="rustic-warm"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="rustic-warm"] h4,
+[data-vibe="rustic-warm"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="rustic-warm"] p,
+[data-vibe="rustic-warm"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="rustic-warm"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="rustic-warm"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="rustic-warm"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+}
+[data-vibe="rustic-warm"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.65;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   4. MODERN COASTAL — Quicksand + Open Sans
+   ────────────────────────────────────────────────────────── */
+[data-vibe="modern-coastal"] {
+  --xx-font-heading: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-letter-spacing-heading: -0.01em;
+  --xx-letter-spacing-caption: 1.5px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.75;
+}
+
+[data-vibe="modern-coastal"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="modern-coastal"] h1,
+[data-vibe="modern-coastal"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="modern-coastal"] h2,
+[data-vibe="modern-coastal"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="modern-coastal"] h3,
+[data-vibe="modern-coastal"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="modern-coastal"] h4,
+[data-vibe="modern-coastal"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="modern-coastal"] p,
+[data-vibe="modern-coastal"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="modern-coastal"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="modern-coastal"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="modern-coastal"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 600;
+}
+[data-vibe="modern-coastal"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   5. URBAN BOLD — Bebas Neue + Inter
+   ────────────────────────────────────────────────────────── */
+[data-vibe="urban-bold"] {
+  --xx-font-heading: 'Bebas Neue', Impact, -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Bebas Neue', Impact, sans-serif;
+  --xx-letter-spacing-heading: -0.02em;
+  --xx-letter-spacing-caption: 2px;
+  --xx-line-height-tight: 0.95;
+  --xx-line-height-base: 1.5;
+  --xx-line-height-loose: 1.65;
+}
+
+[data-vibe="urban-bold"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="urban-bold"] h1,
+[data-vibe="urban-bold"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 400;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  text-transform: uppercase;
+  margin: 0 0 0.4em;
+}
+[data-vibe="urban-bold"] h2,
+[data-vibe="urban-bold"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: var(--xx-letter-spacing-heading);
+  text-transform: uppercase;
+  margin: 0 0 0.5em;
+}
+[data-vibe="urban-bold"] h3,
+[data-vibe="urban-bold"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(24px, 2.5vw, 36px);
+  font-weight: 400;
+  line-height: 1.15;
+  text-transform: uppercase;
+  margin: 0 0 0.5em;
+}
+[data-vibe="urban-bold"] h4,
+[data-vibe="urban-bold"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.6em;
+}
+[data-vibe="urban-bold"] p,
+[data-vibe="urban-bold"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="urban-bold"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+[data-vibe="urban-bold"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--xx-primary);
+}
+[data-vibe="urban-bold"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.85;
+  margin: 4px 12px 0 0;
+  color: var(--xx-primary);
+}
+[data-vibe="urban-bold"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.5;
+  color: var(--xx-text-soft);
+  font-weight: 500;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   6. WELLNESS CALM — Source Serif Pro + Source Sans Pro
+   ────────────────────────────────────────────────────────── */
+[data-vibe="wellness-calm"] {
+  --xx-font-heading: 'Source Serif Pro', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Source Serif Pro', Georgia, serif;
+  --xx-letter-spacing-heading: -0.005em;
+  --xx-letter-spacing-caption: 1.6px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.65;
+  --xx-line-height-loose: 1.8;
+}
+
+[data-vibe="wellness-calm"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="wellness-calm"] h1,
+[data-vibe="wellness-calm"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 4.8vw, 60px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="wellness-calm"] h2,
+[data-vibe="wellness-calm"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="wellness-calm"] h3,
+[data-vibe="wellness-calm"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="wellness-calm"] h4,
+[data-vibe="wellness-calm"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="wellness-calm"] p,
+[data-vibe="wellness-calm"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="wellness-calm"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+[data-vibe="wellness-calm"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--xx-primary);
+}
+[data-vibe="wellness-calm"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+}
+[data-vibe="wellness-calm"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.65;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   7. HERITAGE WARM — Lora + Source Sans Pro
+   ────────────────────────────────────────────────────────── */
+[data-vibe="heritage-warm"] {
+  --xx-font-heading: 'Lora', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Lora', Georgia, serif;
+  --xx-letter-spacing-heading: -0.01em;
+  --xx-letter-spacing-caption: 1.7px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.8;
+}
+
+[data-vibe="heritage-warm"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="heritage-warm"] h1,
+[data-vibe="heritage-warm"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="heritage-warm"] h2,
+[data-vibe="heritage-warm"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="heritage-warm"] h3,
+[data-vibe="heritage-warm"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="heritage-warm"] h4,
+[data-vibe="heritage-warm"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="heritage-warm"] p,
+[data-vibe="heritage-warm"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="heritage-warm"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="heritage-warm"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="heritage-warm"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+}
+[data-vibe="heritage-warm"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   8. FAMILY FRIENDLY — Nunito + Quicksand
+   ────────────────────────────────────────────────────────── */
+[data-vibe="family-friendly"] {
+  --xx-font-heading: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-letter-spacing-heading: -0.01em;
+  --xx-letter-spacing-caption: 1.4px;
+  --xx-line-height-tight: 1.2;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.75;
+}
+
+[data-vibe="family-friendly"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="family-friendly"] h1,
+[data-vibe="family-friendly"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 700;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="family-friendly"] h2,
+[data-vibe="family-friendly"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(26px, 3.2vw, 42px);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="family-friendly"] h3,
+[data-vibe="family-friendly"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="family-friendly"] h4,
+[data-vibe="family-friendly"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="family-friendly"] p,
+[data-vibe="family-friendly"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="family-friendly"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="family-friendly"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="family-friendly"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 700;
+}
+[data-vibe="family-friendly"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   9. BOUTIQUE ROMANTIC — Cormorant Garamond + Karla
+   ────────────────────────────────────────────────────────── */
+[data-vibe="boutique-romantic"] {
+  --xx-font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Cormorant Garamond', Georgia, serif;
+  --xx-letter-spacing-heading: -0.005em;
+  --xx-letter-spacing-caption: 1.8px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.65;
+  --xx-line-height-loose: 1.9;
+}
+
+[data-vibe="boutique-romantic"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="boutique-romantic"] h1,
+[data-vibe="boutique-romantic"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  font-style: italic;
+  margin: 0 0 0.5em;
+}
+[data-vibe="boutique-romantic"] h2,
+[data-vibe="boutique-romantic"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="boutique-romantic"] h3,
+[data-vibe="boutique-romantic"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="boutique-romantic"] h4,
+[data-vibe="boutique-romantic"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="boutique-romantic"] p,
+[data-vibe="boutique-romantic"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="boutique-romantic"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+[data-vibe="boutique-romantic"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--xx-primary);
+}
+[data-vibe="boutique-romantic"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.85;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-style: italic;
+}
+[data-vibe="boutique-romantic"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.65;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   10. SCANDI CLEAN — Inter + Source Serif Pro
+   ────────────────────────────────────────────────────────── */
+[data-vibe="scandi-clean"] {
+  --xx-font-heading: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'Source Serif Pro', Georgia, 'Times New Roman', serif;
+  --xx-font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-letter-spacing-heading: -0.015em;
+  --xx-letter-spacing-caption: 1.5px;
+  --xx-line-height-tight: 1.1;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.75;
+}
+
+[data-vibe="scandi-clean"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="scandi-clean"] h1,
+[data-vibe="scandi-clean"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="scandi-clean"] h2,
+[data-vibe="scandi-clean"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+}
+[data-vibe="scandi-clean"] h3,
+[data-vibe="scandi-clean"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="scandi-clean"] h4,
+[data-vibe="scandi-clean"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="scandi-clean"] p,
+[data-vibe="scandi-clean"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="scandi-clean"] .xx-caption {
+  font-family: var(--xx-font-heading);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="scandi-clean"] .xx-eyebrow {
+  font-family: var(--xx-font-heading);
+  font-size: 13px;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="scandi-clean"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 600;
+}
+[data-vibe="scandi-clean"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   11. MOUNTAIN RUGGED — Roboto Slab + Inter
+   ────────────────────────────────────────────────────────── */
+[data-vibe="mountain-rugged"] {
+  --xx-font-heading: 'Roboto Slab', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Roboto Slab', Georgia, serif;
+  --xx-letter-spacing-heading: -0.015em;
+  --xx-letter-spacing-caption: 1.8px;
+  --xx-line-height-tight: 1.1;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.75;
+}
+
+[data-vibe="mountain-rugged"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="mountain-rugged"] h1,
+[data-vibe="mountain-rugged"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(40px, 5.6vw, 72px);
+  font-weight: 700;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="mountain-rugged"] h2,
+[data-vibe="mountain-rugged"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(30px, 3.8vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+}
+[data-vibe="mountain-rugged"] h3,
+[data-vibe="mountain-rugged"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 0.6em;
+}
+[data-vibe="mountain-rugged"] h4,
+[data-vibe="mountain-rugged"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 0.7em;
+}
+[data-vibe="mountain-rugged"] p,
+[data-vibe="mountain-rugged"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="mountain-rugged"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+[data-vibe="mountain-rugged"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--xx-primary);
+}
+[data-vibe="mountain-rugged"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 700;
+}
+[data-vibe="mountain-rugged"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   12. MEDITERRANEAN VILLA — Cormorant + Karla
+   ────────────────────────────────────────────────────────── */
+[data-vibe="mediterranean-villa"] {
+  --xx-font-heading: 'Cormorant', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Karla', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Cormorant', Georgia, serif;
+  --xx-letter-spacing-heading: -0.005em;
+  --xx-letter-spacing-caption: 1.8px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.65;
+  --xx-line-height-loose: 1.8;
+}
+
+[data-vibe="mediterranean-villa"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="mediterranean-villa"] h1,
+[data-vibe="mediterranean-villa"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(38px, 5.2vw, 68px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="mediterranean-villa"] h2,
+[data-vibe="mediterranean-villa"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.6vw, 50px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="mediterranean-villa"] h3,
+[data-vibe="mediterranean-villa"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 30px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="mediterranean-villa"] h4,
+[data-vibe="mediterranean-villa"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="mediterranean-villa"] p,
+[data-vibe="mediterranean-villa"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="mediterranean-villa"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="mediterranean-villa"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="mediterranean-villa"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.85;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+}
+[data-vibe="mediterranean-villa"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.65;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   13. ART DECO VINTAGE — Bodoni Moda + Playfair Display
+   ────────────────────────────────────────────────────────── */
+[data-vibe="art-deco-vintage"] {
+  --xx-font-heading: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Playfair Display', Georgia, 'Times New Roman', serif;
+  --xx-font-display: 'Bodoni Moda', Georgia, serif;
+  --xx-letter-spacing-heading: 0.02em;
+  --xx-letter-spacing-caption: 2.5px;
+  --xx-line-height-tight: 1.1;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.75;
+}
+
+[data-vibe="art-deco-vintage"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="art-deco-vintage"] h1,
+[data-vibe="art-deco-vintage"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  text-transform: uppercase;
+  margin: 0 0 0.5em;
+}
+[data-vibe="art-deco-vintage"] h2,
+[data-vibe="art-deco-vintage"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: var(--xx-letter-spacing-heading);
+  text-transform: uppercase;
+  margin: 0 0 0.6em;
+}
+[data-vibe="art-deco-vintage"] h3,
+[data-vibe="art-deco-vintage"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.015em;
+  margin: 0 0 0.6em;
+}
+[data-vibe="art-deco-vintage"] h4,
+[data-vibe="art-deco-vintage"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.015em;
+  margin: 0 0 0.7em;
+}
+[data-vibe="art-deco-vintage"] p,
+[data-vibe="art-deco-vintage"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="art-deco-vintage"] .xx-caption {
+  font-family: var(--xx-font-heading);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+[data-vibe="art-deco-vintage"] .xx-eyebrow {
+  font-family: var(--xx-font-heading);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--xx-primary);
+}
+[data-vibe="art-deco-vintage"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 500;
+}
+[data-vibe="art-deco-vintage"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+  font-style: italic;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   14. ECO GLAMPING — Lora + Source Sans Pro
+   ────────────────────────────────────────────────────────── */
+[data-vibe="eco-glamping"] {
+  --xx-font-heading: 'Lora', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Lora', Georgia, serif;
+  --xx-letter-spacing-heading: -0.005em;
+  --xx-letter-spacing-caption: 1.7px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.8;
+}
+
+[data-vibe="eco-glamping"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="eco-glamping"] h1,
+[data-vibe="eco-glamping"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="eco-glamping"] h2,
+[data-vibe="eco-glamping"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="eco-glamping"] h3,
+[data-vibe="eco-glamping"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="eco-glamping"] h4,
+[data-vibe="eco-glamping"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="eco-glamping"] p,
+[data-vibe="eco-glamping"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="eco-glamping"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="eco-glamping"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="eco-glamping"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+}
+[data-vibe="eco-glamping"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   15. BUSINESS CORPORATE — IBM Plex Sans (heading + body)
+   ────────────────────────────────────────────────────────── */
+[data-vibe="business-corporate"] {
+  --xx-font-heading: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-letter-spacing-heading: 0em;
+  --xx-letter-spacing-caption: 1.2px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.55;
+  --xx-line-height-loose: 1.7;
+}
+
+[data-vibe="business-corporate"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="business-corporate"] h1,
+[data-vibe="business-corporate"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(32px, 4.4vw, 52px);
+  font-weight: 600;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="business-corporate"] h2,
+[data-vibe="business-corporate"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="business-corporate"] h3,
+[data-vibe="business-corporate"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="business-corporate"] h4,
+[data-vibe="business-corporate"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(17px, 1.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="business-corporate"] p,
+[data-vibe="business-corporate"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="business-corporate"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="business-corporate"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="business-corporate"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 3.8em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 600;
+}
+[data-vibe="business-corporate"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.55;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   16. WINTER ALPINE — Roboto Slab + Lato
+   ────────────────────────────────────────────────────────── */
+[data-vibe="winter-alpine"] {
+  --xx-font-heading: 'Roboto Slab', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Roboto Slab', Georgia, serif;
+  --xx-letter-spacing-heading: -0.015em;
+  --xx-letter-spacing-caption: 1.8px;
+  --xx-line-height-tight: 1.1;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.75;
+}
+
+[data-vibe="winter-alpine"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="winter-alpine"] h1,
+[data-vibe="winter-alpine"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(40px, 5.6vw, 72px);
+  font-weight: 700;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="winter-alpine"] h2,
+[data-vibe="winter-alpine"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(30px, 3.8vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+}
+[data-vibe="winter-alpine"] h3,
+[data-vibe="winter-alpine"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 0.6em;
+}
+[data-vibe="winter-alpine"] h4,
+[data-vibe="winter-alpine"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 600;
+  line-height: 1.35;
+  margin: 0 0 0.7em;
+}
+[data-vibe="winter-alpine"] p,
+[data-vibe="winter-alpine"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="winter-alpine"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+[data-vibe="winter-alpine"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--xx-primary);
+}
+[data-vibe="winter-alpine"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 700;
+}
+[data-vibe="winter-alpine"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   17. ASIAN ZEN — Noto Serif JP + Noto Sans JP
+   ────────────────────────────────────────────────────────── */
+[data-vibe="asian-zen"] {
+  --xx-font-heading: 'Noto Serif JP', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Noto Serif JP', Georgia, serif;
+  --xx-letter-spacing-heading: 0em;
+  --xx-letter-spacing-caption: 2px;
+  --xx-line-height-tight: 1.25;
+  --xx-line-height-base: 1.7;
+  --xx-line-height-loose: 1.85;
+}
+
+[data-vibe="asian-zen"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="asian-zen"] h1,
+[data-vibe="asian-zen"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(32px, 4.4vw, 52px);
+  font-weight: 500;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.6em;
+}
+[data-vibe="asian-zen"] h2,
+[data-vibe="asian-zen"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(26px, 3.2vw, 42px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.7em;
+}
+[data-vibe="asian-zen"] h3,
+[data-vibe="asian-zen"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="asian-zen"] h4,
+[data-vibe="asian-zen"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(17px, 1.5vw, 22px);
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 0 0.8em;
+}
+[data-vibe="asian-zen"] p,
+[data-vibe="asian-zen"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1.1em;
+}
+[data-vibe="asian-zen"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+[data-vibe="asian-zen"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--xx-primary);
+}
+[data-vibe="asian-zen"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 3.8em;
+  float: left;
+  line-height: 0.95;
+  margin: 8px 14px 0 0;
+  color: var(--xx-primary);
+  font-weight: 500;
+}
+[data-vibe="asian-zen"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.75;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   18. INDUSTRIAL LOFT — Oswald + Roboto
+   ────────────────────────────────────────────────────────── */
+[data-vibe="industrial-loft"] {
+  --xx-font-heading: 'Oswald', Impact, -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Oswald', Impact, sans-serif;
+  --xx-letter-spacing-heading: -0.02em;
+  --xx-letter-spacing-caption: 2px;
+  --xx-line-height-tight: 1.0;
+  --xx-line-height-base: 1.5;
+  --xx-line-height-loose: 1.65;
+}
+
+[data-vibe="industrial-loft"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="industrial-loft"] h1,
+[data-vibe="industrial-loft"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(44px, 6.4vw, 88px);
+  font-weight: 700;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  text-transform: uppercase;
+  margin: 0 0 0.4em;
+}
+[data-vibe="industrial-loft"] h2,
+[data-vibe="industrial-loft"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(34px, 4.4vw, 64px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: var(--xx-letter-spacing-heading);
+  text-transform: uppercase;
+  margin: 0 0 0.5em;
+}
+[data-vibe="industrial-loft"] h3,
+[data-vibe="industrial-loft"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(22px, 2.4vw, 34px);
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+  margin: 0 0 0.5em;
+}
+[data-vibe="industrial-loft"] h4,
+[data-vibe="industrial-loft"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.7vw, 24px);
+  font-weight: 600;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 0.6em;
+}
+[data-vibe="industrial-loft"] p,
+[data-vibe="industrial-loft"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="industrial-loft"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+[data-vibe="industrial-loft"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--xx-primary);
+}
+[data-vibe="industrial-loft"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.6em;
+  float: left;
+  line-height: 0.9;
+  margin: 4px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 700;
+}
+[data-vibe="industrial-loft"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.5;
+  color: var(--xx-text-soft);
+  font-weight: 500;
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   19. GARDEN COTTAGE — Cormorant + Quicksand
+   ────────────────────────────────────────────────────────── */
+[data-vibe="garden-cottage"] {
+  --xx-font-heading: 'Cormorant', Georgia, 'Times New Roman', serif;
+  --xx-font-body:    'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Cormorant', Georgia, serif;
+  --xx-letter-spacing-heading: -0.005em;
+  --xx-letter-spacing-caption: 1.8px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.65;
+  --xx-line-height-loose: 1.9;
+}
+
+[data-vibe="garden-cottage"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="garden-cottage"] h1,
+[data-vibe="garden-cottage"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(38px, 5.2vw, 68px);
+  font-weight: 400;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  font-style: italic;
+  margin: 0 0 0.5em;
+}
+[data-vibe="garden-cottage"] h2,
+[data-vibe="garden-cottage"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(28px, 3.6vw, 50px);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="garden-cottage"] h3,
+[data-vibe="garden-cottage"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 30px);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="garden-cottage"] h4,
+[data-vibe="garden-cottage"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="garden-cottage"] p,
+[data-vibe="garden-cottage"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-loose);
+  margin: 0 0 1em;
+}
+[data-vibe="garden-cottage"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="garden-cottage"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="garden-cottage"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.85;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-style: italic;
+}
+[data-vibe="garden-cottage"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.65;
+  color: var(--xx-text-soft);
+}
+
+
+/* ──────────────────────────────────────────────────────────
+   20. TROPICAL RESORT — Poppins + Open Sans
+   ────────────────────────────────────────────────────────── */
+[data-vibe="tropical-resort"] {
+  --xx-font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-body:    'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-font-display: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --xx-letter-spacing-heading: -0.01em;
+  --xx-letter-spacing-caption: 1.5px;
+  --xx-line-height-tight: 1.15;
+  --xx-line-height-base: 1.6;
+  --xx-line-height-loose: 1.75;
+}
+
+[data-vibe="tropical-resort"] body {
+  font-family: var(--xx-font-body);
+  line-height: var(--xx-line-height-base);
+  color: var(--xx-text);
+}
+
+[data-vibe="tropical-resort"] h1,
+[data-vibe="tropical-resort"] .xx-h1 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(32px, 4.6vw, 56px);
+  font-weight: 700;
+  line-height: var(--xx-line-height-tight);
+  letter-spacing: var(--xx-letter-spacing-heading);
+  margin: 0 0 0.5em;
+}
+[data-vibe="tropical-resort"] h2,
+[data-vibe="tropical-resort"] .xx-h2 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(26px, 3.3vw, 44px);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+}
+[data-vibe="tropical-resort"] h3,
+[data-vibe="tropical-resort"] .xx-h3 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.6em;
+}
+[data-vibe="tropical-resort"] h4,
+[data-vibe="tropical-resort"] .xx-h4 {
+  font-family: var(--xx-font-heading);
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 0.7em;
+}
+[data-vibe="tropical-resort"] p,
+[data-vibe="tropical-resort"] .xx-p {
+  font-family: var(--xx-font-body);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: var(--xx-line-height-base);
+  margin: 0 0 1em;
+}
+[data-vibe="tropical-resort"] .xx-caption {
+  font-family: var(--xx-font-body);
+  font-size: 12px;
+  letter-spacing: var(--xx-letter-spacing-caption);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+[data-vibe="tropical-resort"] .xx-eyebrow {
+  font-family: var(--xx-font-body);
+  font-size: 13px;
+  letter-spacing: 2.8px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--xx-primary);
+}
+[data-vibe="tropical-resort"] .xx-drop-cap::first-letter {
+  font-family: var(--xx-font-heading);
+  font-size: 4em;
+  float: left;
+  line-height: 0.9;
+  margin: 6px 12px 0 0;
+  color: var(--xx-primary);
+  font-weight: 700;
+}
+[data-vibe="tropical-resort"] .xx-lead {
+  font-family: var(--xx-font-body);
+  font-size: clamp(17px, 1.3vw, 21px);
+  line-height: 1.6;
+  color: var(--xx-text-soft);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   END OF LAYER 6 — TYPOGRAPHY SYSTEMS
+   ═══════════════════════════════════════════════════════════════ */

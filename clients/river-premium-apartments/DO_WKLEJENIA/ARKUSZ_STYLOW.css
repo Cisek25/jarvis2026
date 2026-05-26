@@ -3933,23 +3933,76 @@ body.page-index .riv-hero {
   transform: none !important;
 }
 
-/* v2.8: SINGLE scroll container fix — html scrolls, body NIE.
-   Two scroll containers (html + body) wymagały 2x scroll. */
-html, body.page-index, html.fp-enabled {
+/* v3.0: SINGLE scroll container fix — APPLY TO ALL pages, nie tylko page-index */
+html, body, html.fp-enabled {
   height: auto !important;
 }
 html {
   overflow-y: auto !important;
   overflow-x: hidden !important;
 }
-body.page-index {
+body,
+body.page-index,
+body.page-offers,
+body.page-offer,
+body.page-txt,
+body.page-contact,
+body.page-kontakt {
   overflow: visible !important;
   overflow-y: visible !important;
 }
-body.page-index .fullpage-wrapper {
+.fullpage-wrapper {
   height: auto !important;
   transform: none !important;
   overflow: visible !important;
+}
+
+/* §55 — /offers sidebar hide (per Apartamenty Parkowe pattern — same obiekty, no filters) */
+body.page-offers aside,
+body.page-offers .aside,
+body.page-offers .col-12.col-md-3,
+body.page-offers .col-12.col-lg-3,
+body.page-offers aside.col-md-3,
+body.page-offers aside.col-lg-3,
+body.page-offers .filter_items,
+body.page-offers .filter_header,
+body.page-offers .filter_content {
+  display: none !important;
+}
+
+/* Expand main content to full width when sidebar hidden */
+body.page-offers .col-12.col-md-9,
+body.page-offers .col-12.col-lg-9,
+body.page-offers .col-md-9,
+body.page-offers .col-lg-9 {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* §56 — Restauracja paragraf widoczność (page-txt + .riv-restaurant-feature) */
+body.page-txt .riv-restaurant-feature,
+body.page-txt .riv-restaurant-feature * {
+  color: #FFFFFF !important;
+}
+body.page-txt .riv-restaurant-feature .riv-restaurant-feature__name {
+  color: #FFFFFF !important;
+}
+body.page-txt .riv-restaurant-feature .riv-restaurant-feature__eyebrow {
+  color: var(--riv-beige) !important;
+}
+body.page-txt .riv-restaurant-feature p {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* All paragraphs on page-txt with white bg parent — readable dark color */
+body.page-txt .riv-subpage-section p,
+body.page-txt .riv-subpage-section h2,
+body.page-txt .riv-subpage-section h3 {
+  color: var(--riv-navy-dark) !important;
+}
+body.page-txt .riv-subpage-section .riv-subpage-section__subtitle {
+  color: var(--riv-muted) !important;
 }
 
 body.page-index .riv-hero__content {

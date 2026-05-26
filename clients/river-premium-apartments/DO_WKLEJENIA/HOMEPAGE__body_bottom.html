@@ -35,12 +35,13 @@
         wrapper.style.height = 'auto';
         wrapper.style.overflow = 'visible';
       }
-      /* Block ALL wheel/touch intercepts from system fullpage.js — capture phase */
+      /* Block ALL wheel/touch intercepts from system fullpage.js — capture phase
+         v3.0: apply na WSZYSTKICH stronach (nie tylko page-index) */
       var stop = function(e) { e.stopImmediatePropagation(); };
-      window.addEventListener('wheel', stop, { capture: true, passive: false });
-      window.addEventListener('mousewheel', stop, { capture: true, passive: false });
-      window.addEventListener('DOMMouseScroll', stop, { capture: true, passive: false });
-      window.addEventListener('touchmove', stop, { capture: true, passive: false });
+      ['wheel', 'mousewheel', 'DOMMouseScroll', 'touchmove'].forEach(function(ev) {
+        window.addEventListener(ev, stop, { capture: true, passive: false });
+        document.addEventListener(ev, stop, { capture: true, passive: false });
+      });
     } catch(e) {}
 
     /* 2. Hide system .index-info content */

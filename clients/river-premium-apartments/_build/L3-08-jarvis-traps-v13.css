@@ -1747,6 +1747,40 @@ body.page-offer .offer-right.payment-info img {
   display: block !important;
 }
 
+/* §58b — Button text OPTICAL center compensation
+   Root cause: letter-spacing 1.12px on uppercase trailing → tekst wygląda
+   wizualnie przesunięty w lewo mimo że math gapL===gapR.
+   Fix: text-indent = letter-spacing value (kompensuje trailing tracking). */
+body.page-offer .btn,
+body.page-offer .btn-reverse,
+body.page-offer .accommodation-leftbutton,
+body.page-offer .room_rez .accommodation-reservation,
+body.page-offer .directions .btn,
+body.page-offer .directions .btn-reverse,
+body.page-offer .offer-prices .btn-reverse,
+body.page-offer .offer-prices .btn {
+  text-indent: 1.12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Cennik table — center reservation buttons w komórce */
+body.page-offer .offer-prices .season-cell_rezerwacja,
+body.page-offer .offer-prices td[class*="rezerw"],
+body.page-offer .season-row .reservation,
+body.page-offer .price-list .accommodation-reservation,
+body.page-offer .season-single-row a[href*="book-now"],
+body.page-offer .season-cell_rezerwacja * {
+  text-align: center !important;
+}
+body.page-offer .price-list a[class*="reserv"],
+body.page-offer .offer-prices a {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 /* ============================================================
    §59 — LITEPICKER CALENDAR UX (v3.3)
    Problem: dostępne daty mają słaby kontrast vs niedostępne (line-through gray)

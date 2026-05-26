@@ -3863,18 +3863,23 @@ body.page-index .riv-hero {
   transform: none !important;
 }
 
-/* Disable fullpage scroll snap on body level (smooth scroll) */
-body.page-index html.fp-enabled,
-html.fp-enabled body.page-index {
+/* v2.8: SINGLE scroll container fix — html scrolls, body NIE.
+   Two scroll containers (html + body) wymagały 2x scroll. */
+html, body.page-index, html.fp-enabled {
   height: auto !important;
 }
-body.page-index {
-  height: auto !important;
+html {
   overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+body.page-index {
+  overflow: visible !important;
+  overflow-y: visible !important;
 }
 body.page-index .fullpage-wrapper {
   height: auto !important;
   transform: none !important;
+  overflow: visible !important;
 }
 
 body.page-index .riv-hero__content {

@@ -7,21 +7,40 @@
 (function() {
   'use strict';
   function rivBootstrap() {
-    /* 1. Disable fullpage.js JS — force normal scroll */
+    /* 1. Disable fullpage.js — force normal scroll (v2.8 aggressive) */
     try {
       if (window.fullpage_api && typeof window.fullpage_api.setAutoScrolling === 'function') {
         window.fullpage_api.setAutoScrolling(false);
         window.fullpage_api.setFitToSection(false);
         window.fullpage_api.setAllowScrolling(true);
+        window.fullpage_api.setKeyboardScrolling(true);
+        window.fullpage_api.setMouseWheelScrolling(false);
       }
       if (window.fullpage_api && typeof window.fullpage_api.destroy === 'function') {
         try { window.fullpage_api.destroy('all'); } catch(e) {}
       }
       document.documentElement.classList.remove('fp-enabled');
-      document.body.style.height = 'auto';
+      document.body.classList.remove('fp-viewing-1', 'fp-viewing-2', 'fp-viewing-3');
+      Array.prototype.forEach.call(document.body.classList, function(c) {
+        if (c.indexOf('fp-viewing') === 0) document.body.classList.remove(c);
+      });
+      /* SINGLE scroll container: html scrolls, body does not */
       document.documentElement.style.height = 'auto';
-      document.documentElement.style.overflow = 'auto';
-      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflowY = 'auto';
+      document.body.style.height = 'auto';
+      document.body.style.overflow = 'visible';
+      var wrapper = document.querySelector('.fullpage-wrapper');
+      if (wrapper) {
+        wrapper.style.transform = 'none';
+        wrapper.style.height = 'auto';
+        wrapper.style.overflow = 'visible';
+      }
+      /* Block ALL wheel/touch intercepts from system fullpage.js — capture phase */
+      var stop = function(e) { e.stopImmediatePropagation(); };
+      window.addEventListener('wheel', stop, { capture: true, passive: false });
+      window.addEventListener('mousewheel', stop, { capture: true, passive: false });
+      window.addEventListener('DOMMouseScroll', stop, { capture: true, passive: false });
+      window.addEventListener('touchmove', stop, { capture: true, passive: false });
     } catch(e) {}
 
     /* 2. Hide system .index-info content */

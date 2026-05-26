@@ -1,15 +1,134 @@
 <script>
-/* Inline teleport — działa nawet gdy body_bottom nie wgrany */
+/* RPA v2.5 — INLINE bootstrap (działa bez body_bottom)
+   - Disable fullpage.js JS scroll handlers (smooth scroll)
+   - Init Litepicker dual-month range
+   - Submit handler
+   - Hide system .index-info content */
 (function() {
-  function tp() {
-    var h = document.querySelector('.riv-hero');
-    var t = document.querySelector('.section.parallax .fp-tableCell');
-    if (h && t && !t.contains(h)) t.appendChild(h);
+  'use strict';
+  function init() {
+    /* 1. Disable fullpage.js JS — force normal scroll */
+    try {
+      if (window.fullpage_api && typeof window.fullpage_api.setAutoScrolling === 'function') {
+        window.fullpage_api.setAutoScrolling(false);
+        window.fullpage_api.setFitToSection(false);
+        window.fullpage_api.setAllowScrolling(true);
+      }
+      if (window.fullpage_api && typeof window.fullpage_api.destroy === 'function') {
+        try { window.fullpage_api.destroy('all'); } catch(e) {}
+      }
+      document.documentElement.classList.remove('fp-enabled');
+      document.body.style.height = 'auto';
+      document.documentElement.style.height = 'auto';
+      document.documentElement.style.overflow = 'auto';
+      document.body.style.overflow = 'auto';
+    } catch(e) {}
+
+    /* 2. Hide system .index-info content */
+    var indexInfo = document.querySelector('.index-info');
+    if (indexInfo) {
+      Array.prototype.forEach.call(indexInfo.children, function(child) {
+        if (!child.classList.contains('riv-hero') &&
+            !child.classList.contains('riv-hero__content') &&
+            !child.classList.contains('riv-search')) {
+          child.style.display = 'none';
+        }
+      });
+    }
+
+    /* 3. Init Litepicker (dual-month, range mode) */
+    var triggerFrom = document.getElementById('riv-trigger-from');
+    var triggerTo = document.getElementById('riv-trigger-to');
+    var inputFrom = document.getElementById('riv-date-from');
+    var inputTo = document.getElementById('riv-date-to');
+    if (!triggerFrom || !triggerTo) return;
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+    function fmt(d) { return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear(); }
+    function updateDisplay(box, date) {
+      var which = box === 'from' ? triggerFrom : triggerTo;
+      var inp = box === 'from' ? inputFrom : inputTo;
+      if (which) {
+        var d = which.querySelector('[data-day-' + box + ']');
+        var m = which.querySelector('[data-month-' + box + ']');
+        var y = which.querySelector('[data-year-' + box + ']');
+        if (d) d.textContent = pad(date.getDate());
+        if (m) m.textContent = pad(date.getMonth() + 1);
+        if (y) y.textContent = String(date.getFullYear()).slice(2);
+      }
+      if (inp) inp.value = fmt(date);
+    }
+
+    var today = new Date();
+    var d1 = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    var d2 = new Date(today.getTime() + 48 * 60 * 60 * 1000);
+    updateDisplay('from', d1);
+    updateDisplay('to', d2);
+
+    var tries = 0;
+    function tryInit() {
+      if (typeof window.Litepicker === 'undefined') {
+        if (tries++ < 30) setTimeout(tryInit, 200);
+        return;
+      }
+      var picker = new window.Litepicker({
+        element: triggerFrom,
+        elementEnd: triggerTo,
+        singleMode: false,
+        numberOfMonths: 2,
+        numberOfColumns: 2,
+        minDate: today,
+        startDate: d1,
+        endDate: d2,
+        format: 'DD.MM.YYYY',
+        lang: 'pl-PL',
+        autoApply: true,
+        tooltipText: { one: 'noc', other: 'nocy' },
+        tooltipNumber: function(totalDays) { return totalDays - 1; },
+        setup: function(p) {
+          p.on('selected', function(startDate, endDate) {
+            if (startDate && startDate.dateInstance) updateDisplay('from', startDate.dateInstance);
+            if (endDate && endDate.dateInstance) updateDisplay('to', endDate.dateInstance);
+          });
+        }
+      });
+      window.__rivPicker = picker;
+      triggerFrom.addEventListener('click', function(e) { e.preventDefault(); picker.show(triggerFrom); });
+      triggerTo.addEventListener('click', function(e) { e.preventDefault(); picker.show(triggerTo); });
+    }
+    tryInit();
+
+    /* 4. Submit handler — engine fallback */
+    var form = document.getElementById('riv-search-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var sysForm = document.querySelector('#iai_book_form, form.book-form, form[action*="engine"]');
+        if (sysForm) {
+          var nameMap = {
+            checkin: inputFrom ? inputFrom.value : '',
+            checkout: inputTo ? inputTo.value : '',
+            persons: '2'
+          };
+          ['checkin','checkout','persons'].forEach(function(k) {
+            var el = sysForm.querySelector('[name="' + k + '"]');
+            if (el) el.value = nameMap[k];
+          });
+          sysForm.submit();
+          return;
+        }
+        var params = new URLSearchParams();
+        if (inputFrom && inputFrom.value) params.set('checkin', inputFrom.value);
+        if (inputTo && inputTo.value) params.set('checkout', inputTo.value);
+        params.set('persons', '2');
+        window.location.href = 'https://engine58463.idobooking.com/widget/index.php?' + params.toString();
+      });
+    }
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', tp);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    setTimeout(tp, 100);
+    init();
   }
 })();
 </script>

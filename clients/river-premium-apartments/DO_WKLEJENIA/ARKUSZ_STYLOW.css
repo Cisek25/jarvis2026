@@ -3467,6 +3467,276 @@ body.page-index [class*="payment-row"]:not(input):not(button) {
   background: #051B3D !important;
   background-color: #051B3D !important;
 }
+
+/* ============================================================
+   §46 — SYSTEM PAGES (page-offer, page-offers, page-contact)
+   Per JARVIS instinct 034: NIE TWORZYMY własnych CMS pages dla /oferty
+   /kontakt — IdoBooking generuje automatycznie. TYLKO CSS overrides.
+   Wzorzec z fairrentals (kompletny override system styles).
+   ============================================================ */
+
+/* Body font na system pages */
+body.page-offers,
+body.page-offer,
+body.page-contact,
+body.page-kontakt {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  background: #FFFFFF !important;
+}
+
+body.page-offers main,
+body.page-offer main,
+body.page-contact main,
+body.page-kontakt main {
+  background: #FFFFFF !important;
+}
+
+/* Headings */
+body.page-offers h1, body.page-offers h2, body.page-offers h3,
+body.page-offer h1, body.page-offer h2, body.page-offer h3,
+body.page-contact h1, body.page-contact h2, body.page-contact h3,
+body.page-kontakt h1, body.page-kontakt h2, body.page-kontakt h3 {
+  font-family: var(--riv-font-heading) !important;
+  color: var(--riv-navy-dark) !important;
+  font-weight: 500;
+}
+
+/* TRAP CRITICAL-FF: /offer/N .offer-price (150x150 circle z białym text invisible) */
+body.page-offer .offer-price {
+  background: var(--riv-navy-dark) !important;
+  color: #FFFFFF !important;
+  border-radius: 12px !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 80px !important;
+  padding: 16px 24px !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: var(--riv-font-body) !important;
+  box-shadow: 0 4px 16px rgba(5, 27, 61, 0.15) !important;
+}
+body.page-offer .offer-price small {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  margin-bottom: 4px !important;
+}
+body.page-offer .offer-price span {
+  color: #FFFFFF !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  font-family: var(--riv-font-heading) !important;
+}
+
+/* /offer/N buttons (Rezerwacja online, Zobacz cennik, Sprawdź dostępność) */
+body.page-offer .btn,
+body.page-offer .book-now,
+body.page-offer button.btn-primary,
+body.page-offer a.btn-primary,
+body.page-offer [class*="reservation-btn"]:not(form) {
+  background: var(--riv-navy-dark) !important;
+  background-color: var(--riv-navy-dark) !important;
+  color: #FFFFFF !important;
+  border: 1px solid var(--riv-navy-dark) !important;
+  border-radius: 4px !important;
+  padding: 14px 28px !important;
+  font-family: var(--riv-font-body) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  min-height: 48px !important;
+  transition: background 0.2s !important;
+}
+body.page-offer .btn:hover,
+body.page-offer .book-now:hover,
+body.page-offer button.btn-primary:hover,
+body.page-offer a.btn-primary:hover {
+  background: var(--riv-navy) !important;
+  background-color: var(--riv-navy) !important;
+}
+
+/* TRAP CRITICAL-EE: /offer/N tabs --fixed width 100vw */
+body.page-offer .tabs.--fixed,
+body.page-offer .tabs--fixed {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  left: 0 !important;
+  margin-left: 0 !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(5, 27, 61, 0.08) !important;
+  border-bottom: 1px solid rgba(151, 140, 113, 0.2) !important;
+}
+
+/* /offer/N tab buttons (Opis / Udogodnienia / Mapa) */
+body.page-offer .tabs .nav-link,
+body.page-offer .tabs a {
+  color: var(--riv-navy-dark) !important;
+  font-family: var(--riv-font-body) !important;
+  font-size: 14px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 16px 24px !important;
+  border-bottom: 2px solid transparent !important;
+}
+body.page-offer .tabs .nav-link.active,
+body.page-offer .tabs a.active {
+  color: var(--riv-beige) !important;
+  border-bottom-color: var(--riv-beige) !important;
+}
+
+/* /offers listing cards (apartamenty grid) */
+body.page-offers .offer,
+body.page-offers .offer-card,
+body.page-offers .offers-list .offer-card,
+body.page-offers .offer-tile {
+  background: #FFFFFF !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(151, 140, 113, 0.2) !important;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+body.page-offers .offer:hover,
+body.page-offers .offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(5, 27, 61, 0.1) !important;
+}
+
+body.page-offers .offer-name,
+body.page-offers .offer-title,
+body.page-offers .offer h3,
+body.page-offers .offer-card h3 {
+  font-family: var(--riv-font-heading) !important;
+  color: var(--riv-navy-dark) !important;
+  font-weight: 600;
+}
+
+/* TRAP CRITICAL-CC: /offers filters collapsed */
+body.page-offers .filter_content.collapse:not(.show) {
+  display: none !important;
+}
+body.page-offers .filter_content.collapse.show {
+  display: block !important;
+  height: auto !important;
+}
+
+/* /offers + /offer buttons + filter submit */
+body.page-offers .btn,
+body.page-offers #filters_submit,
+body.page-offers button[type="submit"]:not(form#riv-contact-form button) {
+  background: var(--riv-navy-dark) !important;
+  color: #FFFFFF !important;
+  border: 1px solid var(--riv-navy-dark) !important;
+  border-radius: 4px !important;
+  padding: 12px 24px !important;
+  min-height: 44px !important;
+  font-family: var(--riv-font-body) !important;
+  font-size: 13px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+body.page-offers .btn:hover { background: var(--riv-navy) !important; }
+
+/* /offers + /offer image fix */
+body.page-offers img,
+body.page-offer img {
+  max-width: 100% !important;
+}
+
+/* /kontakt + /contact — system formularz */
+body.page-contact form input,
+body.page-contact form textarea,
+body.page-kontakt form input,
+body.page-kontakt form textarea {
+  font-family: var(--riv-font-body) !important;
+  font-size: 16px !important;
+  padding: 12px 16px !important;
+  border: 1px solid rgba(151, 140, 113, 0.3) !important;
+  background: #FFFFFF !important;
+  color: var(--riv-navy-dark) !important;
+  min-height: 44px !important;
+  border-radius: 4px !important;
+}
+body.page-contact form input:focus,
+body.page-contact form textarea:focus {
+  outline: 2px solid var(--riv-beige) !important;
+  outline-offset: 0 !important;
+  border-color: var(--riv-beige) !important;
+}
+
+/* ============================================================
+   §47 — Smooth scroll (TRAP: user musi 2× scrollować w dół)
+   ============================================================ */
+html {
+  scroll-behavior: smooth !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+}
+
+/* ============================================================
+   §48 — Subpages full-width breakout (TRAP A dla CMS pages)
+   .riv-subhero + .riv-subpage-section muszą rozciągać się na 100vw
+   (CMS pages wrap content w .container max-width 1170px → breakout)
+   ============================================================ */
+.riv-subhero,
+.riv-subpage-section {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  box-sizing: border-box !important;
+}
+
+/* ============================================================
+   §49 — Restauracja feature visibility fix (kontrasty + full-width)
+   ============================================================ */
+.riv-restaurant-feature {
+  width: 100% !important;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  background: linear-gradient(135deg, #051B3D 0%, #12334C 100%) !important;
+  color: #FFFFFF !important;
+}
+.riv-restaurant-feature__name {
+  color: #FFFFFF !important;
+  font-style: italic !important;
+}
+.riv-restaurant-feature__desc {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+.riv-restaurant-feature__btn {
+  background: var(--riv-beige) !important;
+  color: var(--riv-navy-dark) !important;
+  border-color: var(--riv-beige) !important;
+}
+.riv-restaurant-feature__btn--outline {
+  background: transparent !important;
+  color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* ============================================================
+   §50 — Subpage section text contrast (Atrakcje, Restauracja widoczność)
+   ============================================================ */
+.riv-subpage-section h2,
+.riv-subpage-section h3,
+.riv-subpage-section__title {
+  color: var(--riv-navy-dark) !important;
+}
+.riv-subpage-section p,
+.riv-subpage-section__subtitle {
+  color: var(--riv-ink) !important;
+}
+.riv-attractions-card__name { color: var(--riv-navy-dark) !important; }
+.riv-attractions-card__desc { color: var(--riv-muted) !important; }
+.riv-subpage-section { color: var(--riv-ink) !important; }
 /* ============================================================
    §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)
    ============================================================ */

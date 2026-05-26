@@ -2690,17 +2690,17 @@ body.page-index .index-info > .navbar-reservation,
 body.page-index .index-info > form,
 body.page-index .index-info > .iai-search,
 body.page-index .index-info > div:not(.riv-hero):not(.riv-hero__content):not(.riv-search) {
-  display: none \!important;
+  display: none !important;
 }
 
 body.page-index .index-info {
-  position: relative \!important;
-  background: transparent \!important;
-  pointer-events: none \!important;
+  position: relative !important;
+  background: transparent !important;
+  pointer-events: none !important;
 }
 body.page-index .index-info .riv-hero,
 body.page-index .index-info .riv-hero * {
-  pointer-events: auto \!important;
+  pointer-events: auto !important;
 }
 
 /* §28 — riv-hero teleported fullscreen w .section.parallax .fp-tableCell
@@ -2709,20 +2709,20 @@ body.page-index .index-info .riv-hero * {
 body.page-index .section.parallax .fp-tableCell .riv-hero,
 body.page-index .fp-section .fp-tableCell .riv-hero,
 body.page-index .section.parallax .riv-hero {
-  position: relative \!important;
-  width: 100% \!important;
-  max-width: 100% \!important;
-  min-height: 100vh \!important;
-  margin: 0 \!important;
-  padding: 120px 24px 80px \!important;
-  left: auto \!important;
-  display: flex \!important;
-  flex-direction: column \!important;
-  align-items: center \!important;
-  justify-content: center \!important;
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 120px 24px 80px !important;
+  left: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
   gap: 40px;
-  z-index: 1 \!important;
-  background: transparent \!important;
+  z-index: 1 !important;
+  background: transparent !important;
 }
 
 body.page-index .riv-hero__content {
@@ -2735,25 +2735,25 @@ body.page-index .riv-hero__content {
 }
 
 body.page-index .riv-hero__title {
-  color: #FFFFFF \!important;
-  font-size: 56px \!important;
-  line-height: 1.1 \!important;
+  color: #FFFFFF !important;
+  font-size: 56px !important;
+  line-height: 1.1 !important;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   margin: 0 0 16px;
 }
 
 body.page-index .riv-hero__subtitle {
-  color: rgba(255, 255, 255, 0.95) \!important;
-  font-size: 18px \!important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-size: 18px !important;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
   margin: 0;
 }
 
 @media (max-width: 767px) {
-  body.page-index .riv-hero__title { font-size: 36px \!important; }
-  body.page-index .riv-hero__subtitle { font-size: 16px \!important; }
+  body.page-index .riv-hero__title { font-size: 36px !important; }
+  body.page-index .riv-hero__subtitle { font-size: 16px !important; }
   body.page-index .section.parallax .fp-tableCell .riv-hero {
-    padding: 100px 16px 40px \!important;
+    padding: 100px 16px 40px !important;
   }
 }
 
@@ -2774,20 +2774,20 @@ body.page-index .section.parallax > .fp-tableCell::before {
 }
 
 body.page-index .parallax-slider {
-  z-index: 1 \!important;
+  z-index: 1 !important;
 }
 
 /* §30 — Search form pozycja inline center w teleported hero (override §18 absolute removed) */
 
 body.page-index .riv-hero .riv-search,
 body.page-index .section.parallax .fp-tableCell .riv-search {
-  position: relative \!important;
-  bottom: auto \!important;
-  left: auto \!important;
-  transform: none \!important;
-  margin: 0 auto \!important;
-  width: 100% \!important;
-  max-width: 900px \!important;
+  position: relative !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  max-width: 900px !important;
   z-index: 7;
 }
 
@@ -2798,7 +2798,7 @@ body.page-index .section.parallax .fp-tableCell .riv-search {
 body.page-index h2.big-label.line-label,
 body.page-index .container-hotspot ~ h2.big-label,
 body.page-index .section_top h2.big-label.line-label {
-  display: none \!important;
+  display: none !important;
 }
 
 /* §32 — Override system `header { position: fixed }` na body_top section headers
@@ -2816,15 +2816,15 @@ section > header.ido-cards__header,
 section > header.ido-features__header,
 section > .ido-cards__header,
 section > .ido-features__header {
-  position: static \!important;
-  top: auto \!important;
-  left: auto \!important;
-  right: auto \!important;
-  bottom: auto \!important;
-  z-index: auto \!important;
-  width: auto \!important;
-  background: transparent \!important;
-  transform: none \!important;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: auto !important;
+  width: auto !important;
+  background: transparent !important;
+  transform: none !important;
 }
 
 /* Grid span — header pełna szerokość row */
@@ -2832,7 +2832,7 @@ section > .ido-features__header {
 .ido-cards--3-col > .ido-cards__header,
 .ido-cards--4-col > .ido-cards__header,
 .ido-cards > .ido-cards__header {
-  grid-column: 1 / -1 \!important;
+  grid-column: 1 / -1 !important;
   text-align: center;
   margin-bottom: 32px;
 }
@@ -2855,12 +2855,12 @@ body.page-index #iai_book_form,
 body.page-index #iai_book_se,
 body.page-index .index-info .iai-search,
 body.page-index .index-info #iai_book_form {
-  display: none \!important;
-  visibility: hidden \!important;
+  display: none !important;
+  visibility: hidden !important;
 }
 
 body.page-index .index-info > div:not(.riv-hero):not(.riv-hero__content) {
-  display: none \!important;
+  display: none !important;
 }
 
 /* §34 — Force riv-hero column layout (override default flex-direction: row from L2) */
@@ -2868,13 +2868,13 @@ body.page-index .index-info > div:not(.riv-hero):not(.riv-hero__content) {
 body.page-index .riv-hero,
 body.page-index .section.parallax .riv-hero,
 body.page-index .section.parallax .fp-tableCell .riv-hero {
-  display: flex \!important;
-  flex-direction: column \!important;
-  align-items: center \!important;
-  justify-content: center \!important;
-  flex-wrap: nowrap \!important;
-  width: 100% \!important;
-  max-width: 100% \!important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 /* §35 — riv-search inline center (kontekst teleported) */
@@ -2882,13 +2882,13 @@ body.page-index .section.parallax .fp-tableCell .riv-hero {
 body.page-index .riv-hero .riv-search,
 body.page-index .section.parallax .riv-search,
 body.page-index .section.parallax .fp-tableCell .riv-search {
-  position: relative \!important;
-  margin: 40px auto 0 \!important;
-  width: 100% \!important;
-  max-width: 900px \!important;
-  left: auto \!important;
-  right: auto \!important;
-  transform: none \!important;
+  position: relative !important;
+  margin: 40px auto 0 !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
 }
 
 /* §36 — z-index hierarchy (v1.8 corrected after live diagnoza nav nieklikalne):
@@ -2941,16 +2941,16 @@ body.page-index .riv-search {
    Fix: parallax-slider absolute w .section.parallax + opaque bg na każdej sekcji. */
 
 body.page-index .parallax-slider {
-  position: absolute \!important;
-  top: 0 \!important;
-  left: 0 \!important;
-  width: 100% \!important;
-  height: 100% \!important;
-  z-index: 1 \!important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
 }
 body.page-index .section.parallax {
-  overflow: hidden \!important;
-  position: relative \!important;
+  overflow: hidden !important;
+  position: relative !important;
 }
 
 body.page-index .ido-split,
@@ -2959,27 +2959,27 @@ body.page-index .ido-cards,
 body.page-index .riv-apartments-section,
 body.page-index .section.fp-auto-height,
 body.page-index .section.fp-auto-height > .fp-tableCell {
-  background: #FFFFFF \!important;
-  position: relative \!important;
-  z-index: 5 \!important;
+  background: #FFFFFF !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 body.page-index .riv-amenities {
-  background: #FAF8F4 \!important;
-  position: relative \!important;
-  z-index: 5 \!important;
+  background: #FAF8F4 !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 body.page-index .ido-testimonials {
-  background: rgba(151, 140, 113, 0.05) \!important;
-  position: relative \!important;
-  z-index: 5 \!important;
+  background: rgba(151, 140, 113, 0.05) !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 body.page-index .ido-cta-dark {
-  background: #051B3D \!important;
-  position: relative \!important;
-  z-index: 5 \!important;
+  background: #051B3D !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
 /* ============================================================
@@ -3013,7 +3013,7 @@ body.page-index .ido-cta-dark {
   font-size: 48px;
   line-height: 1.1;
   font-weight: 400;
-  color: #FFFFFF \!important;
+  color: #FFFFFF !important;
   margin: 0 0 16px;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
 }
@@ -3025,11 +3025,11 @@ body.page-index .ido-cta-dark {
   color: rgba(255, 255, 255, 0.75);
 }
 .riv-subhero__breadcrumb a {
-  color: rgba(255, 255, 255, 0.75) \!important;
+  color: rgba(255, 255, 255, 0.75) !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   padding-bottom: 1px;
 }
-.riv-subhero__breadcrumb a:hover { color: var(--riv-beige) \!important; border-color: var(--riv-beige); }
+.riv-subhero__breadcrumb a:hover { color: var(--riv-beige) !important; border-color: var(--riv-beige); }
 
 @media (max-width: 767px) {
   .riv-subhero { min-height: 30vh; padding: 60px 16px; }
@@ -3234,8 +3234,8 @@ body.page-index .ido-cta-dark {
   color: var(--riv-navy-dark);
   font-weight: 400;
 }
-.riv-contact-info__value a { color: var(--riv-navy-dark) \!important; }
-.riv-contact-info__value a:hover { color: var(--riv-beige) \!important; }
+.riv-contact-info__value a { color: var(--riv-navy-dark) !important; }
+.riv-contact-info__value a:hover { color: var(--riv-beige) !important; }
 
 .riv-contact-form {
   background: #FAF8F4;
@@ -3330,7 +3330,7 @@ body.page-index .ido-cta-dark {
   font-size: 48px;
   font-style: italic;
   font-weight: 400;
-  color: #FFFFFF \!important;
+  color: #FFFFFF !important;
   margin: 0 0 24px;
 }
 .riv-restaurant-feature__desc {
@@ -3361,7 +3361,7 @@ body.page-index .ido-cta-dark {
 }
 .riv-restaurant-feature__btn {
   background: var(--riv-beige);
-  color: var(--riv-navy-dark) \!important;
+  color: var(--riv-navy-dark) !important;
   padding: 14px 36px;
   font-size: 14px;
   font-weight: 500;
@@ -3372,13 +3372,13 @@ body.page-index .ido-cta-dark {
   min-height: 48px;
   transition: all 0.2s;
 }
-.riv-restaurant-feature__btn:hover { background: var(--riv-gold); border-color: var(--riv-gold); color: #FFFFFF \!important; }
+.riv-restaurant-feature__btn:hover { background: var(--riv-gold); border-color: var(--riv-gold); color: #FFFFFF !important; }
 .riv-restaurant-feature__btn--outline {
   background: transparent;
-  color: #FFFFFF \!important;
+  color: #FFFFFF !important;
   border-color: rgba(255, 255, 255, 0.4);
 }
-.riv-restaurant-feature__btn--outline:hover { background: rgba(255, 255, 255, 0.1); color: #FFFFFF \!important; }
+.riv-restaurant-feature__btn--outline:hover { background: rgba(255, 255, 255, 0.1); color: #FFFFFF !important; }
 
 @media (max-width: 767px) {
   .riv-restaurant-feature { padding: 56px 24px; }
@@ -4034,6 +4034,73 @@ body.page-index .riv-search {
   z-index: 7 !important;
   margin: 40px auto 0 !important;
   max-width: 900px !important;
+}
+
+/* ============================================================
+   §57 — page-txt SUBHERO CONTRAST FIX (v3.2)
+   Root cause: global h1,h2,h3 { color: var(--riv-navy-dark) !important }
+   wygrywa specificity (rule order + równa important) ze starszymi rules.
+   Plus system renderuje duplikat <h1 class="big-label"> z "Podpis" pola SEO.
+   Plus pre-existing bug: 92 escape'owanych "\!important" w L3-08 nie działały
+   (this commit fixes both).
+   ============================================================ */
+
+/* §57a — Kill system duplicate H1.big-label (page-txt)
+   System rendruje H1 z "Podpis" pola SEO, jest duplikatem naszego subhero title */
+body.page-txt h1.big-label,
+body.page-txt main h1.big-label,
+body.page-txt main > .container > h1.big-label {
+  display: none !important;
+}
+
+/* §57b — Force WHITE on subhero title even when global h1 rule has !important
+   Specificity 0,3,2 (body.page-txt + .riv-subhero + .riv-subhero__content + h1.riv-subhero__title)
+   beats global h1 { color: !important } which is 0,0,1 */
+body.page-txt .riv-subhero h1.riv-subhero__title,
+body.page-txt .riv-subhero .riv-subhero__content h1.riv-subhero__title,
+body.page-txt section.riv-subhero h1.riv-subhero__title {
+  color: #FFFFFF !important;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* §57c — Subhero breadcrumb visibility on dark gradient bg */
+body.page-txt .riv-subhero .riv-subhero__breadcrumb,
+body.page-txt .riv-subhero .riv-subhero__breadcrumb p,
+body.page-txt section.riv-subhero p.riv-subhero__breadcrumb {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+body.page-txt .riv-subhero .riv-subhero__breadcrumb a {
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.4) !important;
+}
+body.page-txt .riv-subhero .riv-subhero__breadcrumb a:hover {
+  color: var(--riv-beige) !important;
+  border-bottom-color: var(--riv-beige) !important;
+}
+
+/* §57d — Restaurant feature lead paragraph (dark navy bg = white text)
+   .riv-restaurant-feature__desc — main lead text after H2 */
+body.page-txt .riv-restaurant-feature p.riv-restaurant-feature__desc,
+body.page-txt .riv-restaurant-feature .riv-restaurant-feature__desc,
+body.page-txt .riv-restaurant-feature > p {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* §57e — Defensive: any direct paragraph inside restaurant feature on page-txt
+   that's not eyebrow / promo-box / cta — force readable white */
+body.page-txt .riv-restaurant-feature p:not(.riv-restaurant-feature__eyebrow):not([class*="promo"]):not([class*="cta"]) {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* §57f — Heading H2 inside restaurant feature stays white (override global h2 navy rule) */
+body.page-txt .riv-restaurant-feature h2.riv-restaurant-feature__name,
+body.page-txt .riv-restaurant-feature .riv-restaurant-feature__name {
+  color: #FFFFFF !important;
+}
+
+/* §57g — Eyebrow above H2 stays beige */
+body.page-txt .riv-restaurant-feature .riv-restaurant-feature__eyebrow {
+  color: var(--riv-beige) !important;
 }
 /* ============================================================
    §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)

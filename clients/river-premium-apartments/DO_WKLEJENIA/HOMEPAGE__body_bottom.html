@@ -691,11 +691,72 @@ body.page-index .ido-split:not(.ido-split-reverse) .ido-split__media img {
     });
   }
 
+  /* === 8b. Galeria auto-update z /offers (cover photo per obiekt) === */
+  function buildGalleryPhotosFromOffers() {
+    var grid = document.querySelector('.riv-gallery-photos[data-riv-gallery-source="offers"]');
+    if (!grid) return;
+
+    var cacheKey = 'riv_gallery_photos_v1';
+    var ttl = 3600000;
+    var now = Date.now();
+
+    try {
+      var cacheRaw = sessionStorage.getItem(cacheKey);
+      if (cacheRaw) {
+        var cache = JSON.parse(cacheRaw);
+        if (cache && cache.ts && (now - cache.ts) < ttl && cache.items && cache.items.length) {
+          renderGalleryPhotos(grid, cache.items);
+          return;
+        }
+      }
+    } catch (e) {}
+
+    fetch('/offers', { credentials: 'same-origin' })
+      .then(function(r) { return r.text(); })
+      .then(function(html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var anchors = doc.querySelectorAll('a.object-icon');
+        var items = [];
+        anchors.forEach(function(a) {
+          var img = a.querySelector('img');
+          if (!img) return;
+          var src = img.getAttribute('data-src') || img.getAttribute('src') || '';
+          if (!src || src.indexOf('data:') === 0) return;
+          if (src.indexOf('http') !== 0) {
+            src = window.location.origin + (src.charAt(0) === '/' ? src : '/' + src);
+          }
+          var alt = img.getAttribute('alt') || 'Apartament';
+          var href = a.getAttribute('href') || '#';
+          if (href && href.indexOf('http') !== 0 && href.charAt(0) === '/') {
+            href = window.location.origin + href;
+          }
+          items.push({ src: src, alt: alt, href: href });
+        });
+        if (items.length) {
+          try { sessionStorage.setItem(cacheKey, JSON.stringify({ ts: now, items: items })); } catch (e) {}
+          renderGalleryPhotos(grid, items);
+        }
+      })
+      .catch(function() { /* silent — skeleton stays as fallback */ });
+  }
+
+  function renderGalleryPhotos(grid, items) {
+    var html = items.map(function(it) {
+      var safeAlt = (it.alt || '').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+      return '<a class="riv-gallery-photos__item" href="' + it.href + '" data-auto="1">' +
+        '<img src="' + it.src + '" alt="' + safeAlt + '" loading="lazy">' +
+        '<span class="riv-gallery-photos__caption">' + safeAlt + '</span>' +
+      '</a>';
+    }).join('');
+    grid.innerHTML = html;
+  }
+
   /* === 9. Init === */
   function init() {
     setupFullpageHeader();
     teleportHero();
     buildRivCards('.riv-apartments-grid');
+    buildGalleryPhotosFromOffers();
     initLitepicker();
     setupSearchForm();
     initOffersFilters();

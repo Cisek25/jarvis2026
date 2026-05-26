@@ -1684,3 +1684,253 @@ body.page-txt .riv-restaurant-feature .riv-restaurant-feature__name {
 body.page-txt .riv-restaurant-feature .riv-restaurant-feature__eyebrow {
   color: var(--riv-beige) !important;
 }
+
+/* ============================================================
+   §58 — OFFER PAGE CENTERING (v3.3)
+   Root cause: system .offer-right-top / .room_rez / .directions
+   parents have text-align:left by default. Children (price chip,
+   "Zarezerwuj", "Zobacz na mapie", "Zobacz cennik") are inline-block
+   or block with no margin auto, so they hug left edge of sidebar col.
+   ============================================================ */
+body.page-offer .offer-right-wrapper,
+body.page-offer .offer-right-wrapper > .offer-right {
+  text-align: center !important;
+}
+body.page-offer .offer-right.offer-right-top {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+body.page-offer .offer-right.offer-right-top .offer-price {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* "Zarezerwuj teraz" + "Zobacz cennik" container */
+body.page-offer .room_rez {
+  text-align: center !important;
+}
+body.page-offer .room_rez .accommodation-reservation {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 320px !important;
+}
+body.page-offer .room_rez .to-offer-prices {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+/* "Zobacz na mapie" container */
+body.page-offer .directions,
+body.page-offer .offer-right .directions {
+  text-align: center !important;
+}
+body.page-offer .directions .btn,
+body.page-offer .directions .btn-reverse,
+body.page-offer .directions a[class*="btn"] {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: inline-block !important;
+}
+
+/* Payment info logos — also center for visual consistency */
+body.page-offer .offer-right.payment-info {
+  text-align: center !important;
+}
+body.page-offer .offer-right.payment-info img {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+/* ============================================================
+   §59 — LITEPICKER CALENDAR UX (v3.3)
+   Problem: dostępne daty mają słaby kontrast vs niedostępne (line-through gray)
+   Mobile: 2-column split overflows 375px viewport → "kawałek białego pola"
+   Fix: navy bold available, beige hover, strong locked contrast, single column mobile
+   ============================================================ */
+.litepicker {
+  --litepicker-day-color: #051B3D;
+  --litepicker-day-color-hover: #051B3D;
+  --litepicker-is-end-color: #FFFFFF;
+  --litepicker-is-end-color-bg: #051B3D;
+  --litepicker-is-start-color: #FFFFFF;
+  --litepicker-is-start-color-bg: #051B3D;
+  --litepicker-is-in-range-color: #051B3D;
+  --litepicker-is-in-range-color-bg: rgba(151, 140, 113, 0.18);
+  --litepicker-is-today-color: #978C71;
+  --litepicker-button-bg-color: #051B3D;
+  --litepicker-button-color: #FFFFFF;
+  --litepicker-day-color-locked: #BFC4CC;
+}
+.litepicker .container__days .day-item {
+  font-weight: 600 !important;
+  color: #051B3D !important;
+  border-radius: 6px !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+}
+.litepicker .container__days .day-item:not(.is-locked):not(.is-start-date):not(.is-end-date):hover {
+  background: rgba(151, 140, 113, 0.22) !important;
+  color: #051B3D !important;
+}
+.litepicker .container__days .day-item.is-locked {
+  color: #C5C5C5 !important;
+  font-weight: 400 !important;
+  cursor: not-allowed !important;
+  text-decoration: line-through !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+.litepicker .container__days .day-item.is-start-date,
+.litepicker .container__days .day-item.is-end-date {
+  background: #051B3D !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+.litepicker .container__days .day-item.is-in-range {
+  background: rgba(151, 140, 113, 0.18) !important;
+  color: #051B3D !important;
+}
+.litepicker .container__days .day-item.is-today {
+  background: rgba(151, 140, 113, 0.08) !important;
+  color: #978C71 !important;
+  font-weight: 700 !important;
+  outline: 1px solid rgba(151, 140, 113, 0.4);
+  outline-offset: -2px;
+}
+
+/* Header months — navy text */
+.litepicker .month-item-name,
+.litepicker .month-item-year {
+  color: #051B3D !important;
+  font-weight: 600 !important;
+}
+.litepicker .container__days .day-item.day-name,
+.litepicker .month-item-weekdays-row > div {
+  color: #6B6B6B !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  font-size: 11px !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Mobile single column calendar (no white overflow) */
+@media (max-width: 767px) {
+  .litepicker {
+    max-width: calc(100vw - 24px) !important;
+    width: calc(100vw - 24px) !important;
+    box-sizing: border-box !important;
+  }
+  .litepicker .container__months {
+    width: 100% !important;
+    display: block !important;
+  }
+  .litepicker .container__months.columns-2 .month-item {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  /* Hide second month on mobile to fit single viewport */
+  .litepicker .container__months.columns-2 .month-item:nth-child(2) {
+    display: none !important;
+  }
+  /* Show next-month button always on mobile (since 2nd hidden) */
+  .litepicker .month-item-header .button-next-month {
+    visibility: visible !important;
+    display: inline-block !important;
+  }
+}
+
+/* ============================================================
+   §60 — MOBILE HEADER TRANSPARENT OVERLAY (v3.3)
+   Mobile (≤991px) header shows white bg above hero — desktop is OK (transparent).
+   Force transparent + absolute positioning so hero sits behind nav.
+   ============================================================ */
+@media (max-width: 991px) {
+  body.page-index header.default13:not(.ap-header--scrolled),
+  body.page-index header.default13:not(.ap-header--scrolled) .menu-wrapper,
+  body.page-index header.default13:not(.ap-header--scrolled) .navbar,
+  body.page-index header.default13:not(.ap-header--scrolled) #navbar {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+  body.page-index header.default13.ap-header--scrolled,
+  body.page-index header.default13.ap-header--scrolled .menu-wrapper {
+    background: rgba(5, 27, 61, 0.95) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+}
+
+/* ============================================================
+   §61 — GALLERY PAGE — riv-gallery-photos grid (v3.3 — auto from /offers)
+   8 photos from /offers (cover per object). Responsive grid.
+   ============================================================ */
+.riv-gallery-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 32px auto 48px;
+  max-width: 1280px;
+  padding: 0 16px;
+}
+.riv-gallery-photos__item {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--riv-cream, #F5F2EA);
+  aspect-ratio: 4 / 3;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.riv-gallery-photos__item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(5, 27, 61, 0.18);
+}
+.riv-gallery-photos__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.riv-gallery-photos__item:hover img {
+  transform: scale(1.04);
+}
+.riv-gallery-photos__caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(5, 27, 61, 0.85), transparent);
+  color: #FFFFFF;
+  font-family: var(--riv-font-heading, serif);
+  font-size: 16px;
+  font-weight: 500;
+}
+.riv-gallery-photos__skeleton {
+  background: linear-gradient(90deg, #E8E8E8 0%, #F0F0F0 50%, #E8E8E8 100%);
+  background-size: 200% 100%;
+  animation: rivShimmer 1.4s ease-in-out infinite;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+}
+@keyframes rivShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (max-width: 767px) {
+  .riv-gallery-photos {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 12px;
+  }
+  .riv-gallery-photos__caption {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+}

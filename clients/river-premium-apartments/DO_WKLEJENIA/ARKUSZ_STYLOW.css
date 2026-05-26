@@ -3420,6 +3420,53 @@ body.page-index .ido-cta-dark {
   border-bottom: 1px solid var(--riv-beige);
   padding-bottom: 2px;
 }
+
+/* ============================================================
+   §45 — v2.1 ARCHITECTURE FIX (TRAP CRITICAL-Q + II)
+   Override §37 (white bg na .section.fp-auto-height = wrong because Bootstrap
+   pb-5 padding creates 30px+ white strip nad footer).
+   Architecture: transparent wrapper + body bg navy + per-section bgs.
+   ============================================================ */
+
+html, body, body.page-index {
+  background-color: #051B3D !important;
+}
+
+body.page-index .section.fp-auto-height,
+body.page-index .section.fp-auto-height.pb-5,
+body.page-index .section.fp-auto-height > .fp-tableCell,
+body.page-index .section.fp-section.fp-auto-height {
+  background: transparent !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+body.page-index .ido-split,
+body.page-index .ido-split-reverse,
+body.page-index .ido-cards,
+body.page-index .riv-apartments-section {
+  background: #FFFFFF !important;
+}
+body.page-index .riv-amenities { background: #FAF8F4 !important; }
+body.page-index .ido-testimonials { background: rgba(151, 140, 113, 0.05) !important; }
+body.page-index .ido-cta-dark {
+  background: #051B3D !important;
+  margin-bottom: 0 !important;
+}
+
+/* TRAP CRITICAL-II: catch-all defensive dla footer sub-containers (VISA/MC strip) */
+body.page-index .footer-contact-baner,
+body.page-index .footer-contact-add,
+body.page-index .footer-contact-help,
+body.page-index .footer__bottom,
+body.page-index .footer__strip,
+body.page-index .footer-payments,
+body.page-index .footer .row,
+body.page-index .footer .container,
+body.page-index [class*="payment-row"]:not(input):not(button) {
+  background: #051B3D !important;
+  background-color: #051B3D !important;
+}
 /* ============================================================
    §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)
    ============================================================ */

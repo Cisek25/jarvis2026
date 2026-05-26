@@ -96,13 +96,40 @@ body.page-index .ido-cta-dark {
   z-index: 5 !important;
   margin-bottom: 0 !important;
 }
-/* v2.0 TRAP CRITICAL-Q: remove padding-bottom causing white gap between CTA-dark and footer */
+/* v2.1 TRAP CRITICAL-Q (ARCHITECTURE FIX): transparent fp-auto-height wrapper +
+   body bg navy. Each individual section keeps its own bg. fp-auto-height padding-bottom
+   pb-5 (Bootstrap) eliminated. */
+html, body, body.page-index {
+  background-color: #051B3D !important;
+}
 body.page-index .section.fp-auto-height,
-body.page-index .section.fp-auto-height.pb-5 {
+body.page-index .section.fp-auto-height.pb-5,
+body.page-index .section.fp-auto-height > .fp-tableCell,
+body.page-index .section.fp-section.fp-auto-height {
+  background: transparent !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
-html, body, body.page-index {
+body.page-index .ido-split,
+body.page-index .ido-split-reverse,
+body.page-index .ido-cards,
+body.page-index .riv-apartments-section {
+  background: #FFFFFF !important;
+}
+body.page-index .riv-amenities { background: #FAF8F4 !important; }
+body.page-index .ido-testimonials { background: rgba(151, 140, 113, 0.05) !important; }
+body.page-index .ido-cta-dark,
+body.page-index footer,
+body.page-index footer * { /* footer text white maintained by §22 */ }
+/* TRAP CRITICAL-II: footer payment row (VISA/MC) sub-elements MUST be navy */
+body.page-index .footer-contact-baner,
+body.page-index .footer-contact-add,
+body.page-index .footer-contact-help,
+body.page-index .footer__bottom,
+body.page-index .footer__strip,
+body.page-index .payments,
+body.page-index [class*="payment"]:not(input):not(button) {
+  background: #051B3D !important;
   background-color: #051B3D !important;
 }
 body.page-index .riv-hero .riv-search,

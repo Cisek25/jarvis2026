@@ -3801,6 +3801,70 @@ body.page-index .index-info > button,
 body.page-index .index-info > .navbar-reservation {
   display: none !important;
 }
+
+/* ============================================================
+   §52 — v2.4 RADICAL FIX: hide section.parallax + hero in body_top
+   z own bg image. Smooth scroll natural (fullpage section snap WYŁĄCZONY).
+   User feedback: "nie ma wyszukiwarki, muszę 2x scrollować".
+   Root cause: section.parallax zajmowała 100vh przed hero (user widział pustkę),
+   plus fullpage.js intercepted scroll (section snap zamiast smooth).
+   ============================================================ */
+
+/* Hide system section.parallax (user widział tu pustkę bo parallax-slider z-index issue) */
+body.page-index .section.parallax {
+  display: none !important;
+}
+
+/* Disable fullpage scroll snap — normal continuous scroll */
+body.page-index .fullpage-wrapper {
+  transform: none !important;
+  height: auto !important;
+}
+body.page-index .fp-section,
+body.page-index .fp-section.fp-table {
+  height: auto !important;
+  min-height: 0 !important;
+  display: block !important;
+}
+body.page-index .fp-tableCell {
+  height: auto !important;
+  display: block !important;
+}
+
+/* Hero w body_top z OWN bg image (frontpageGallery 3.jpg verified loading) */
+body.page-index .riv-hero {
+  min-height: 100vh !important;
+  height: auto !important;
+  background-image:
+    linear-gradient(rgba(5, 27, 61, 0.40), rgba(5, 27, 61, 0.55)),
+    url('https://client58463.idobooking.com/images/frontpageGallery/pictures/large/0/0/3.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  position: relative !important;
+  z-index: 5 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 120px 24px 80px !important;
+  margin: 0 !important;
+}
+
+body.page-index .riv-hero__content {
+  position: relative;
+  z-index: 6;
+  max-width: 900px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+body.page-index .riv-search {
+  position: relative !important;
+  z-index: 7 !important;
+  margin: 40px auto 0 !important;
+  max-width: 900px !important;
+}
 /* ============================================================
    §16 — Featured Offers (MADERA pattern: hide system carousel, build custom cards)
    ============================================================ */

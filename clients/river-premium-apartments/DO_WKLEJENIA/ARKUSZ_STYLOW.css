@@ -3810,14 +3810,14 @@ body.page-index .index-info > .navbar-reservation {
    plus fullpage.js intercepted scroll (section snap zamiast smooth).
    ============================================================ */
 
-/* Hide system section.parallax — wyższa specificity niż fp-section.fp-table override */
-body.page-index .section.parallax,
-body.page-index .section.parallax.fp-section,
-body.page-index .section.parallax.fp-section.fp-table,
-body.page-index div.section.parallax {
-  display: none !important;
-  height: 0 !important;
-  min-height: 0 !important;
+/* Section.parallax visible (z parallax-slider system image jako hero bg) — teleport hero JS w body_bottom puts riv-hero into .section.parallax .fp-tableCell.
+   v2.7: NIE hide (poprzednio: hero hidden razem z parent).
+   Parallax-slider z §51 z-index 1 + hero content z-index 5 + gradient overlay z-index 3. */
+body.page-index .section.parallax {
+  display: block !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  position: relative !important;
   overflow: hidden !important;
 }
 
@@ -3838,28 +3838,22 @@ body.page-index .fp-tableCell {
   display: block !important;
 }
 
-/* Hero w body_top z OWN bg image (frontpageGallery 3.jpg verified loading)
-   FIX v2.4b: reset §19 TRAP A breakout (width 100vw + left 50% pchało hero
-   o 50vw w prawo). Hero w body_top NIE chce breakout — full container width OK. */
+/* Hero w section.parallax (po teleport JS) — overlay nad parallax-slider system image.
+   v2.7: NIE używamy own bg image. Parallax-slider już daje system hero image
+   (z-index 1 z §51). Hero z gradient overlay (z-index 3) + content (z-index 5). */
+body.page-index .section.parallax .riv-hero,
 body.page-index .riv-hero {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 100% !important;
   min-height: 100vh !important;
   height: auto !important;
-  width: 100vw !important;
-  max-width: 100vw !important;
   left: 0 !important;
   right: 0 !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  background-image:
-    linear-gradient(rgba(5, 27, 61, 0.40), rgba(5, 27, 61, 0.55)),
-    url('https://client58463.idobooking.com/images/frontpageGallery/pictures/large/0/0/3.jpg') !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-color: #051B3D !important;
-  position: relative !important;
+  margin: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
   z-index: 5 !important;
   display: flex !important;
   flex-direction: column !important;
@@ -3867,8 +3861,6 @@ body.page-index .riv-hero {
   justify-content: center !important;
   padding: 120px 24px 80px !important;
   transform: none !important;
-  /* If parent container max-width 1170, override to full bleed */
-  margin-left: calc(50% - 50vw) !important;
 }
 
 /* Disable fullpage scroll snap on body level (smooth scroll) */

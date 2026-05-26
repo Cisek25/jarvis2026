@@ -1319,3 +1319,67 @@ html {
 .riv-attractions-card__name { color: var(--riv-navy-dark) !important; }
 .riv-attractions-card__desc { color: var(--riv-muted) !important; }
 .riv-subpage-section { color: var(--riv-ink) !important; }
+
+/* ============================================================
+   §51 — v2.3 EMERGENCY HERO FIX (parallax-slider z-index -2 by system)
+   PHASE 4.5: My §45 ustawienie body bg navy zabiło parallax-slider który
+   ma system default z-index: -2 (pod body bg). Fix: force parallax-slider
+   z-index 1 (above body bg navy) + position absolute (in section.parallax).
+   Plus hide system .index-info content (H1 "Wynajem Apartamentów..." H2 IdoBooking).
+   ============================================================ */
+
+body.page-index .parallax-slider {
+  position: absolute !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+body.page-index .parallax-slider img,
+body.page-index .parallax-slider .slick-slide img,
+body.page-index .parallax-slider .slick-list img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+body.page-index .section.parallax {
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 100vh !important;
+}
+
+body.page-index .section.parallax > .fp-tableCell {
+  position: relative !important;
+  z-index: 4 !important;
+  min-height: 100vh !important;
+}
+
+body.page-index .section.parallax > .fp-tableCell::before {
+  z-index: 3 !important;
+  background: linear-gradient(rgba(5, 27, 61, 0.45), rgba(5, 27, 61, 0.55)) !important;
+}
+
+/* Hero content + search ABOVE parallax + gradient */
+body.page-index .riv-hero,
+body.page-index .section.parallax .riv-hero {
+  z-index: 5 !important;
+  position: relative !important;
+}
+body.page-index .riv-hero__content { z-index: 6 !important; }
+body.page-index .riv-search { z-index: 7 !important; }
+
+/* Hide system .index-info content (kolizja z naszym hero) */
+body.page-index .index-info > h1,
+body.page-index .index-info > h2,
+body.page-index .index-info > .iai-search,
+body.page-index .index-info > #iai_book_form,
+body.page-index .index-info > div:not(.riv-hero):not(.riv-hero__content):not(.riv-search),
+body.page-index .index-info > button,
+body.page-index .index-info > .navbar-reservation {
+  display: none !important;
+}

@@ -1,3 +1,18 @@
+<script>
+/* Inline teleport — działa nawet gdy body_bottom nie wgrany */
+(function() {
+  function tp() {
+    var h = document.querySelector('.riv-hero');
+    var t = document.querySelector('.section.parallax .fp-tableCell');
+    if (h && t && !t.contains(h)) t.appendChild(h);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tp);
+  } else {
+    setTimeout(tp, 100);
+  }
+})();
+</script>
 <section class="riv-hero riv-hero--system-bg" data-component-id="riv-hero">
   <div class="riv-hero__content">
     <h1 class="riv-hero__title">Wyjątkowe apartamenty</h1>

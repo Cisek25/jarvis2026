@@ -1050,6 +1050,76 @@ body.page-index [class*="payment-row"]:not(input):not(button) {
   background-color: #051B3D !important;
 }
 
+/* §53 — Footer payment strip FULL-WIDTH breakout (TRAP CRITICAL-Q v2 z KNOWN-FIXES)
+   .footer-contact-baner siedzi w .footer.container (1170px) — strip nie sięga
+   krawędzi viewport, widać body bg po lewej i prawej. Fix: 100vw breakout. */
+.footer-contact-baner,
+.footer__strip,
+.payments-bar,
+.payment-methods,
+.footer-bottom,
+[class*="footer-baner"] {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: 0 !important;
+  background: #051B3D !important;
+  padding: 16px 20px !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Payment icons inline SVG (NOT img) — subtle white tone */
+.footer-contact-baner svg,
+.footer__strip svg,
+.payments-bar svg {
+  height: 22px !important;
+  width: auto !important;
+  opacity: 0.6 !important;
+  margin: 0 8px !important;
+  vertical-align: middle;
+}
+.footer-contact-baner svg path,
+.footer-contact-baner svg g,
+.footer__strip svg path,
+.footer__strip svg g {
+  fill: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* §54 — Oferty pobytu: większe karty + obrazy + większy odstęp od poprzedniej sekcji */
+body.page-index .riv-offers-grid {
+  padding-top: 80px !important;  /* WAS 0 — większy odstęp od amenities */
+  margin-top: 24px !important;
+  gap: 32px !important;
+}
+body.page-index .riv-offers-grid .riv-offer-card {
+  min-height: 480px !important;
+}
+body.page-index .riv-offers-grid .riv-offer-card__media,
+body.page-index .riv-offers-grid .riv-offer-card__media--gradient {
+  aspect-ratio: 4/3 !important;
+  min-height: 280px !important;
+}
+body.page-index .riv-offers-grid .riv-offer-card__body {
+  padding: 28px 24px !important;
+}
+body.page-index .riv-offers-grid .riv-offer-card__name {
+  font-size: 24px !important;
+  margin-bottom: 12px !important;
+}
+body.page-index .riv-offers-grid .riv-offer-card__desc {
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+}
+body.page-index .riv-offers-grid .riv-offer-card__badge {
+  font-size: 14px !important;
+  padding: 8px 16px !important;
+  top: 20px !important;
+  left: 20px !important;
+}
+
 /* ============================================================
    §46 — SYSTEM PAGES (page-offer, page-offers, page-contact)
    Per JARVIS instinct 034: NIE TWORZYMY własnych CMS pages dla /oferty

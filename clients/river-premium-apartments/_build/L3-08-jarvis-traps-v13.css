@@ -1562,6 +1562,22 @@ body.page-offers .col-lg-9 {
   width: 100% !important;
 }
 
+/* §55b — System pages content offset (fixed header 128px) */
+body.page-offers main,
+body.page-offer main,
+body.page-txt main,
+body.page-contact main,
+body.page-kontakt main {
+  padding-top: 150px !important;
+}
+/* If main has padding, ensure inner row doesn't add more */
+body.page-offers main > .container > .row,
+body.page-offer main > .container > .row,
+body.page-txt main > .container > .row {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
 /* §56 — Restauracja paragraf widoczność (page-txt + .riv-restaurant-feature) */
 body.page-txt .riv-restaurant-feature,
 body.page-txt .riv-restaurant-feature * {

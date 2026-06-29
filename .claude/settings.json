@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/jarvis.js\" lint-hook",
+            "timeout": 20,
+            "statusMessage": "JARVIS lint (DO_WKLEJENIA)"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -71,6 +71,24 @@ Phase 6  INSTRUKCJA+DELIVERY
 
 Pełen workflow w [§2 niżej](#2-workflow-6-phase-nowy-klient-od-briefa-do-delivery).
 
+### Warstwa egzekucji: brief.yaml → BUILD_CONTRACT → lint (NOWE v4.1)
+
+Trapy nie są już tylko opisem w memory — są **wymuszane kodem**. Pętla:
+
+```
+clients/<klient>/brief.yaml           ← jedyny ręczny input (fakty, nie proza)
+   │  node scripts/jarvis.js contract <klient>
+clients/<klient>/BUILD_CONTRACT.md    ← AUTO: lista MUST-APPLY trapów dla TEGO klienta
+   │  (buduj wg kontraktu)
+clients/<klient>/DO_WKLEJENIA/*       ← pliki do panelu
+   │  node scripts/jarvis.js lint <klient>   ← BRAMKA: exit≠0 = blokery, NIE wydawaj
+   └  PostToolUse hook auto-linuje treść (emoji/placeholdery/sekrety/prefiks) po każdym zapisie
+```
+
+**Dlaczego błędy wracały**: wiedza była pasywna (markdown, który Claude *mógł* zignorować). Teraz `brief.yaml` deterministycznie mapuje fakty (default13/fullpage/hotspot/has_offer/języki) na konkretne trapy (`scripts/jarvis-rules.js`), a linter te trapy **sprawdza w plikach wyjściowych** i blokuje delivery. Tego nie da się „zapomnieć".
+
+**Obowiązkowo per klient**: (1) `brief.yaml` z faktami z Phase 0 (szablon: [templates/brief.template.yaml](templates/brief.template.yaml)), (2) `node scripts/jarvis.js contract <klient>`, (3) buduj wg `BUILD_CONTRACT.md`, (4) `node scripts/jarvis.js lint <klient>` ZIELONY przed wysłaniem. Nowy bloker bez reguły → dopisz do `scripts/jarvis-rules.js` + `feedback_*.md`. Design: [docs/plans/2026-06-29-jarvis-contract-lint-design.md](docs/plans/2026-06-29-jarvis-contract-lint-design.md).
+
 ### Trigger phrases user-frustracji → MCP NATYCHMIAST
 
 Gdy user pisze jedno z poniższych, ZAWSZE odpal Chrome DevTools MCP zanim odpowiesz:
@@ -740,6 +758,10 @@ Jeśli klient ma silny brand reason dla konkretnego variant — OK, ignoruj anti
 ## §8. Deployment Checklist
 
 > ZERO toleration na pominięcie. Pełna checklist przed wysłaniem klientowi.
+
+### Bramka automatyczna (NAJPIERW)
+
+- [ ] **`node scripts/jarvis.js lint <nazwa>` → ZIELONY (exit 0)** — 0 blokerów. Czerwony = STOP, napraw, NIE wysyłaj. Reszta checklisty poniżej to rzeczy, których linter nie łapie statycznie.
 
 ### Pre-flight
 

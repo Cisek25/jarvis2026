@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "contract": "node scripts/jarvis.js contract",
+    "lint": "node scripts/jarvis.js lint"
   },
   "author": "Damian Cisowski / IAISA",
   "license": "UNLICENSED",

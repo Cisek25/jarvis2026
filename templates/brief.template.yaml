@@ -1,0 +1,28 @@
+# JARVIS brief — maszynowy input. Skopiuj do clients/<klient>/brief.yaml i wypełnij.
+# Po wypełnieniu:  node scripts/jarvis.js contract <klient>   → wygeneruje BUILD_CONTRACT.md
+# Wartości boolean: true/false (lub tak/yes). Listy: [pl, en] lub blokiem (- pl / - en).
+
+# --- tożsamość ---
+klient:        ""           # slug folderu, kebab-case (np. pulaski-residence)
+nazwa:         ""           # nazwa wyświetlana (np. "Pulaski Residence")
+lokalizacja:   ""           # np. "Ełk, woj. warmińsko-mazurskie"
+engine_id:     0            # numer silnika (np. 58546)
+domena:        ""           # docelowa domena; puste = client<engine_id>.idobooking.com
+prefix:        ""           # 2-4 znaki, lowercase (np. pk) — zostanie --pk-/.pk-
+
+# --- fakty bramkujące trapy (z Phase 0 RECON) ---
+theme:         default13    # szablon panelu (default13 = najnowszy)
+fullpage:      false        # czy home używa fullpage.js (#fullpage / .fp-section)
+hotspot:       true         # czy są wyróżnione oferty (container-hotspot)
+has_offer:     true         # czy klient ma podstrony /offer/N
+shared_engine: false        # czy w panelu są obiekty innych właścicieli (broker)
+jezyki:        [pl]         # [pl] lub [pl, en] / [pl, en, de] ...
+
+# --- design ---
+vibe:          ""           # jeden z 20 vibes (np. luxury-heritage, scandi-clean)
+kolory:        { primary: "", secondary: "" }   # hex UPPERCASE; puste = z vibe-presets
+fonty:         { heading: "", body: "" }         # puste = z vibe-presets
+
+# --- treść (opcjonalnie; reszta z BRIEF_KLIENT.md) ---
+usp:           ""           # główny wyróżnik
+tone:          ""           # formalny / półformalny / luźny / storytelling

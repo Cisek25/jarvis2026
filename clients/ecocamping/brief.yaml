@@ -1,0 +1,16 @@
+# próbny brief do walidacji systemu (fakty z memory: client_ecocamping.md)
+klient:        ecocamping
+nazwa:         "EcoCamping Spytkowice"
+lokalizacja:   "Spytkowice"
+engine_id:     57820
+domena:        ""
+prefix:        ec
+theme:         default13
+fullpage:      false
+hotspot:       true
+has_offer:     true
+shared_engine: false
+jezyki:        [pl, en]
+vibe:          eco-glamping
+kolory:        { primary: "", secondary: "" }
+fonty:         { heading: "", body: "" }
